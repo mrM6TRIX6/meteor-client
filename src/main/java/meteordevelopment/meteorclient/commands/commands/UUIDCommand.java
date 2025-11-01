@@ -23,6 +23,7 @@ public class UUIDCommand extends Command {
             .executes(context -> {
                 PlayerListEntry player = PlayerListEntryArgumentType.get(context);
                 info("%s's UUID: %s.", player.getProfile().getName(), player.getProfile().getId());
+                
                 return SINGLE_SUCCESS;
             })
         );

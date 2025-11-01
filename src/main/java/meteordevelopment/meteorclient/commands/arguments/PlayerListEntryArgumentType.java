@@ -51,6 +51,7 @@ public class PlayerListEntryArgumentType implements ArgumentType<PlayerListEntry
                 break;
             }
         }
+        
         if (playerListEntry == null) {
             throw NO_SUCH_PLAYER.create(argument);
         }
