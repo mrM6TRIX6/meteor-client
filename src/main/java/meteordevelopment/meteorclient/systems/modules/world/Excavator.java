@@ -151,9 +151,11 @@ public class Excavator extends Module {
     }
     
     private enum Status {
+        
         SEL_START,
         SEL_END,
         WORKING
+        
     }
     
 }
