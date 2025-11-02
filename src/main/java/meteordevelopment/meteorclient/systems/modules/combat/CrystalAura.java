@@ -137,7 +137,7 @@ public class CrystalAura extends Module {
     private final Setting<YawStepMode> yawStepMode = sgGeneral.add(new EnumSetting.Builder<YawStepMode>()
         .name("yaw-steps-mode")
         .description("When to run the yaw steps check.")
-        .defaultValue(YawStepMode.Break)
+        .defaultValue(YawStepMode.BREAK)
         .visible(rotate::get)
         .build()
     );
@@ -164,7 +164,7 @@ public class CrystalAura extends Module {
     private final Setting<AutoSwitchMode> autoSwitch = sgSwitch.add(new EnumSetting.Builder<AutoSwitchMode>()
         .name("auto-switch")
         .description("Switches to crystals in your hotbar once a target is found.")
-        .defaultValue(AutoSwitchMode.Normal)
+        .defaultValue(AutoSwitchMode.NORMAL)
         .build()
     );
     
@@ -180,7 +180,7 @@ public class CrystalAura extends Module {
         .name("no-gap-switch")
         .description("Won't auto switch if you're holding a gapple.")
         .defaultValue(true)
-        .visible(() -> autoSwitch.get() == AutoSwitchMode.Normal)
+        .visible(() -> autoSwitch.get() == AutoSwitchMode.NORMAL)
         .build()
     );
     
@@ -244,7 +244,7 @@ public class CrystalAura extends Module {
     private final Setting<SupportMode> support = sgPlace.add(new EnumSetting.Builder<SupportMode>()
         .name("support")
         .description("Places a support block in air if no other position have been found.")
-        .defaultValue(SupportMode.Disabled)
+        .defaultValue(SupportMode.DISABLED)
         .build()
     );
     
@@ -253,7 +253,7 @@ public class CrystalAura extends Module {
         .description("Delay in ticks after placing support block.")
         .defaultValue(1)
         .min(0)
-        .visible(() -> support.get() != SupportMode.Disabled)
+        .visible(() -> support.get() != SupportMode.DISABLED)
         .build()
     );
     
@@ -391,14 +391,14 @@ public class CrystalAura extends Module {
     public final Setting<PauseMode> pauseOnUse = sgPause.add(new EnumSetting.Builder<PauseMode>()
         .name("pause-on-use")
         .description("Which processes should be paused while using an item.")
-        .defaultValue(PauseMode.Place)
+        .defaultValue(PauseMode.PLACE)
         .build()
     );
     
     public final Setting<PauseMode> pauseOnMine = sgPause.add(new EnumSetting.Builder<PauseMode>()
         .name("pause-on-mine")
         .description("Which processes should be paused while mining a block.")
-        .defaultValue(PauseMode.None)
+        .defaultValue(PauseMode.NONE)
         .build()
     );
     
@@ -430,14 +430,14 @@ public class CrystalAura extends Module {
     public final Setting<SwingMode> swingMode = sgRender.add(new EnumSetting.Builder<SwingMode>()
         .name("swing-mode")
         .description("How to swing when placing.")
-        .defaultValue(SwingMode.Both)
+        .defaultValue(SwingMode.BOTH)
         .build()
     );
     
     private final Setting<RenderMode> renderMode = sgRender.add(new EnumSetting.Builder<RenderMode>()
         .name("render-mode")
         .description("The mode to render in.")
-        .defaultValue(RenderMode.Normal)
+        .defaultValue(RenderMode.NORMAL)
         .build()
     );
     
@@ -445,7 +445,7 @@ public class CrystalAura extends Module {
         .name("render-place")
         .description("Renders a block overlay over the block the crystals are being placed on.")
         .defaultValue(true)
-        .visible(() -> renderMode.get() == RenderMode.Normal)
+        .visible(() -> renderMode.get() == RenderMode.NORMAL)
         .build()
     );
     
@@ -455,7 +455,7 @@ public class CrystalAura extends Module {
         .defaultValue(10)
         .min(0)
         .sliderMax(20)
-        .visible(() -> renderMode.get() == RenderMode.Normal && renderPlace.get())
+        .visible(() -> renderMode.get() == RenderMode.NORMAL && renderPlace.get())
         .build()
     );
     
@@ -463,7 +463,7 @@ public class CrystalAura extends Module {
         .name("render-break")
         .description("Renders a block overlay over the block the crystals are broken on.")
         .defaultValue(false)
-        .visible(() -> renderMode.get() == RenderMode.Normal)
+        .visible(() -> renderMode.get() == RenderMode.NORMAL)
         .build()
     );
     
@@ -473,7 +473,7 @@ public class CrystalAura extends Module {
         .defaultValue(13)
         .min(0)
         .sliderMax(20)
-        .visible(() -> renderMode.get() == RenderMode.Normal && renderBreak.get())
+        .visible(() -> renderMode.get() == RenderMode.NORMAL && renderBreak.get())
         .build()
     );
     
@@ -483,7 +483,7 @@ public class CrystalAura extends Module {
         .defaultValue(10)
         .min(0)
         .sliderMax(20)
-        .visible(() -> renderMode.get() == RenderMode.Smooth)
+        .visible(() -> renderMode.get() == RenderMode.SMOOTH)
         .build()
     );
     
@@ -493,7 +493,7 @@ public class CrystalAura extends Module {
         .defaultValue(0.7)
         .min(0)
         .sliderMax(1)
-        .visible(() -> renderMode.get() == RenderMode.Gradient)
+        .visible(() -> renderMode.get() == RenderMode.GRADIENT)
         .build()
     );
     
@@ -503,7 +503,7 @@ public class CrystalAura extends Module {
         .defaultValue(10)
         .min(0)
         .sliderMax(20)
-        .visible(() -> renderMode.get() == RenderMode.Smooth || renderMode.get() == RenderMode.Fading)
+        .visible(() -> renderMode.get() == RenderMode.SMOOTH || renderMode.get() == RenderMode.FADING)
         .build()
     );
     
@@ -511,7 +511,7 @@ public class CrystalAura extends Module {
         .name("shape-mode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.Both)
-        .visible(() -> renderMode.get() != RenderMode.None)
+        .visible(() -> renderMode.get() != RenderMode.NONE)
         .build()
     );
     
@@ -519,7 +519,7 @@ public class CrystalAura extends Module {
         .name("side-color")
         .description("The side color of the block overlay.")
         .defaultValue(new SettingColor(255, 255, 255, 45))
-        .visible(() -> shapeMode.get().sides() && renderMode.get() != RenderMode.None)
+        .visible(() -> shapeMode.get().sides() && renderMode.get() != RenderMode.NONE)
         .build()
     );
     
@@ -527,7 +527,7 @@ public class CrystalAura extends Module {
         .name("line-color")
         .description("The line color of the block overlay.")
         .defaultValue(new SettingColor(255, 255, 255))
-        .visible(() -> shapeMode.get().lines() && renderMode.get() != RenderMode.None)
+        .visible(() -> shapeMode.get().lines() && renderMode.get() != RenderMode.NONE)
         .build()
     );
     
@@ -535,7 +535,7 @@ public class CrystalAura extends Module {
         .name("damage")
         .description("Renders crystal damage text in the block overlay.")
         .defaultValue(true)
-        .visible(() -> renderMode.get() != RenderMode.None)
+        .visible(() -> renderMode.get() != RenderMode.NONE)
         .build()
     );
     
@@ -543,7 +543,7 @@ public class CrystalAura extends Module {
         .name("damage-color")
         .description("The color of the damage text.")
         .defaultValue(new SettingColor(255, 255, 255))
-        .visible(() -> renderMode.get() != RenderMode.None && renderDamageText.get())
+        .visible(() -> renderMode.get() != RenderMode.NONE && renderDamageText.get())
         .build()
     );
     
@@ -553,7 +553,7 @@ public class CrystalAura extends Module {
         .defaultValue(1.25)
         .min(1)
         .sliderMax(4)
-        .visible(() -> renderMode.get() != RenderMode.None && renderDamageText.get())
+        .visible(() -> renderMode.get() != RenderMode.NONE && renderDamageText.get())
         .build()
     );
     
@@ -790,7 +790,7 @@ public class CrystalAura extends Module {
         if (!doBreak.get() || breakTimer > 0 || switchTimer > 0 || attacks >= attackFrequency.get()) {
             return;
         }
-        if (shouldPause(PauseMode.Break)) {
+        if (shouldPause(PauseMode.BREAK)) {
             return;
         }
         
@@ -951,7 +951,7 @@ public class CrystalAura extends Module {
         if (!doPlace.get() || placeTimer > 0) {
             return;
         }
-        if (shouldPause(PauseMode.Place)) {
+        if (shouldPause(PauseMode.PLACE)) {
             return;
         }
         
@@ -961,8 +961,8 @@ public class CrystalAura extends Module {
         }
         
         // Return if there are no crystals in either hand and auto switch mode is none
-        if (autoSwitch.get() != AutoSwitchMode.None) {
-            if (noGapSwitch.get() && autoSwitch.get() == AutoSwitchMode.Normal && offItem != Items.END_CRYSTAL) {
+        if (autoSwitch.get() != AutoSwitchMode.NONE) {
+            if (noGapSwitch.get() && autoSwitch.get() == AutoSwitchMode.NORMAL && offItem != Items.END_CRYSTAL) {
                 if (mainItem == Items.ENCHANTED_GOLDEN_APPLE
                     || offItem == Items.ENCHANTED_GOLDEN_APPLE
                     || mainItem == Items.GOLDEN_APPLE
@@ -987,7 +987,7 @@ public class CrystalAura extends Module {
         // Setup variables
         AtomicDouble bestDamage = new AtomicDouble(0);
         AtomicReference<BlockPos.Mutable> bestBlockPos = new AtomicReference<>(new BlockPos.Mutable());
-        AtomicBoolean isSupport = new AtomicBoolean(support.get() != SupportMode.Disabled);
+        AtomicBoolean isSupport = new AtomicBoolean(support.get() != SupportMode.DISABLED);
         
         // Find best position to place the crystal on
         BlockIterator.register((int) Math.ceil(placeRange.get()), (int) Math.ceil(placeRange.get()), (bp, blockState) -> {
@@ -1024,7 +1024,7 @@ public class CrystalAura extends Module {
             }
             
             // Check damage to targets and face place
-            float damage = getDamageToTargets(vec3d, bp, false, !hasBlock && support.get() == SupportMode.Fast);
+            float damage = getDamageToTargets(vec3d, bp, false, !hasBlock && support.get() == SupportMode.FAST);
             
             boolean shouldFacePlace = shouldFacePlace();
             double minimumDamage = Math.min(minDamage.get(), shouldFacePlace ? 1.5 : minDamage.get());
@@ -1072,7 +1072,7 @@ public class CrystalAura extends Module {
                 double yaw = Rotations.getYaw(vec3d);
                 double pitch = Rotations.getPitch(vec3d);
                 
-                if (yawStepMode.get() == YawStepMode.Break || doYawSteps(yaw, pitch)) {
+                if (yawStepMode.get() == YawStepMode.BREAK || doYawSteps(yaw, pitch)) {
                     setRotation(true, vec3d, 0, 0);
                     Rotations.rotate(yaw, pitch, 50, () -> placeCrystal(result, bestDamage.get(), isSupport.get() ? bestBlockPos.get() : null));
                     
@@ -1118,7 +1118,7 @@ public class CrystalAura extends Module {
         
         int prevSlot = mc.player.getInventory().getSelectedSlot();
         
-        if (autoSwitch.get() != AutoSwitchMode.None && !item.isOffhand()) {
+        if (autoSwitch.get() != AutoSwitchMode.NONE && !item.isOffhand()) {
             InventoryUtils.swap(item.slot(), false);
         }
         
@@ -1147,11 +1147,11 @@ public class CrystalAura extends Module {
             placeRenderPos.set(result.getBlockPos());
             renderDamage = damage;
             
-            if (renderMode.get() == RenderMode.Normal) {
+            if (renderMode.get() == RenderMode.NORMAL) {
                 placeRenderTimer = placeRenderTime.get();
             } else {
                 placeRenderTimer = renderTime.get();
-                if (renderMode.get() == RenderMode.Fading) {
+                if (renderMode.get() == RenderMode.FADING) {
                     RenderUtils.renderTickingBlock(
                         placeRenderPos, sideColor.get(),
                         lineColor.get(), shapeMode.get(),
@@ -1171,7 +1171,7 @@ public class CrystalAura extends Module {
         }
         
         // Switch back
-        if (autoSwitch.get() == AutoSwitchMode.Silent) {
+        if (autoSwitch.get() == AutoSwitchMode.SILENT) {
             InventoryUtils.swap(prevSlot, false);
         }
     }
@@ -1395,12 +1395,12 @@ public class CrystalAura extends Module {
     
     @EventHandler
     private void onRender(Render3DEvent event) {
-        if (renderMode.get() == RenderMode.None) {
+        if (renderMode.get() == RenderMode.NONE) {
             return;
         }
         
         switch (renderMode.get()) {
-            case Normal -> {
+            case NORMAL -> {
                 if (renderPlace.get() && placeRenderTimer > 0) {
                     event.renderer.box(placeRenderPos, sideColor.get(), lineColor.get(), shapeMode.get(), 0);
                 }
@@ -1409,7 +1409,7 @@ public class CrystalAura extends Module {
                 }
             }
             
-            case Smooth -> {
+            case SMOOTH -> {
                 if (placeRenderTimer <= 0) {
                     return;
                 }
@@ -1439,7 +1439,7 @@ public class CrystalAura extends Module {
                 event.renderer.box(renderBoxOne, sideColor.get(), lineColor.get(), shapeMode.get(), 0);
             }
             
-            case Gradient -> {
+            case GRADIENT -> {
                 if (placeRenderTimer <= 0) {
                     return;
                 }
@@ -1475,14 +1475,14 @@ public class CrystalAura extends Module {
     
     @EventHandler
     private void onRender2D(Render2DEvent event) {
-        if (renderMode.get() == RenderMode.None || !renderDamageText.get()) {
+        if (renderMode.get() == RenderMode.NONE || !renderDamageText.get()) {
             return;
         }
         if (placeRenderTimer <= 0 && breakRenderTimer <= 0) {
             return;
         }
         
-        if (renderMode.get() == RenderMode.Smooth) {
+        if (renderMode.get() == RenderMode.SMOOTH) {
             if (renderBoxOne == null) {
                 return;
             }
@@ -1504,55 +1504,67 @@ public class CrystalAura extends Module {
         }
     }
     
-    public enum YawStepMode {
-        Break,
-        All,
+    private enum YawStepMode {
+        
+        BREAK,
+        ALL,
+        
     }
     
-    public enum AutoSwitchMode {
-        Normal,
-        Silent,
-        None
+    private enum AutoSwitchMode {
+        
+        NORMAL,
+        SILENT,
+        NONE
+        
     }
     
-    public enum SupportMode {
-        Disabled,
-        Accurate,
-        Fast
+    private enum SupportMode {
+        
+        DISABLED,
+        ACCURATE,
+        FAST
+        
     }
     
-    public enum PauseMode {
-        Both,
-        Place,
-        Break,
-        None;
+    private enum PauseMode {
+        
+        BOTH,
+        PLACE,
+        BREAK,
+        NONE;
         
         public boolean equals(PauseMode process) {
-            return this == process || this == PauseMode.Both;
+            return this == process || this == PauseMode.BOTH;
         }
+        
     }
     
-    public enum SwingMode {
-        Both,
-        Packet,
-        Client,
-        None;
+    private enum SwingMode {
+        
+        BOTH,
+        PACKET,
+        CLIENT,
+        NONE;
         
         public boolean packet() {
-            return this == Packet || this == Both;
+            return this == PACKET || this == BOTH;
         }
         
         public boolean client() {
-            return this == Client || this == Both;
+            return this == CLIENT || this == BOTH;
         }
+        
     }
     
-    public enum RenderMode {
-        Normal,
-        Smooth,
-        Fading,
-        Gradient,
-        None
+    private enum RenderMode {
+        
+        NORMAL,
+        SMOOTH,
+        FADING,
+        GRADIENT,
+        NONE
+        
     }
     
 }

@@ -42,7 +42,7 @@ public class RainbowArmor extends Module {
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("rainbow-mode")
         .description("RGB Method.")
-        .defaultValue(Mode.Default)
+        .defaultValue(Mode.DEFAULT)
         .build()
     );
     
@@ -201,8 +201,8 @@ public class RainbowArmor extends Module {
         }
         
         switch (mode.get()) {
-            case Default -> methodDefault();
-            case Linear -> methodLinear();
+            case DEFAULT -> methodDefault();
+            case LINEAR -> methodLinear();
         }
     }
     
@@ -330,8 +330,10 @@ public class RainbowArmor extends Module {
     }
     
     private enum Mode {
-        Default,
-        Linear
+        
+        DEFAULT,
+        LINEAR
+        
     }
     
 }

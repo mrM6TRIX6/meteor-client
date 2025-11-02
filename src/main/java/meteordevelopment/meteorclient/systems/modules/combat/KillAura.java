@@ -61,14 +61,14 @@ public class KillAura extends Module {
     private final Setting<Weapon> weapon = sgGeneral.add(new EnumSetting.Builder<Weapon>()
         .name("weapon")
         .description("Only attacks an entity when a specified weapon is in your hand.")
-        .defaultValue(Weapon.All)
+        .defaultValue(Weapon.ALL)
         .build()
     );
     
     private final Setting<RotationMode> rotation = sgGeneral.add(new EnumSetting.Builder<RotationMode>()
         .name("rotate")
         .description("Determines when you should rotate towards the target.")
-        .defaultValue(RotationMode.Always)
+        .defaultValue(RotationMode.ALWAYS)
         .build()
     );
     
@@ -111,8 +111,8 @@ public class KillAura extends Module {
     private final Setting<ShieldMode> shieldMode = sgGeneral.add(new EnumSetting.Builder<ShieldMode>()
         .name("shield-mode")
         .description("Will try and use an axe to break target shields.")
-        .defaultValue(ShieldMode.Break)
-        .visible(() -> autoSwitch.get() && weapon.get() != Weapon.Axe)
+        .defaultValue(ShieldMode.BREAK)
+        .visible(() -> autoSwitch.get() && weapon.get() != Weapon.AXE)
         .build()
     );
     
@@ -164,7 +164,7 @@ public class KillAura extends Module {
     private final Setting<EntityAge> mobAgeFilter = sgTargeting.add(new EnumSetting.Builder<EntityAge>()
         .name("mob-age-filter")
         .description("Determines the age of the mobs to target (baby, adult, or both).")
-        .defaultValue(EntityAge.Adult)
+        .defaultValue(EntityAge.ADULT)
         .build()
     );
     
@@ -314,11 +314,11 @@ public class KillAura extends Module {
         
         if (autoSwitch.get()) {
             Predicate<ItemStack> predicate = switch (weapon.get()) {
-                case Axe -> stack -> stack.getItem() instanceof AxeItem;
-                case Sword -> stack -> stack.isIn(ItemTags.SWORDS);
-                case Mace -> stack -> stack.getItem() instanceof MaceItem;
-                case Trident -> stack -> stack.getItem() instanceof TridentItem;
-                case All ->
+                case AXE -> stack -> stack.getItem() instanceof AxeItem;
+                case SWORD -> stack -> stack.isIn(ItemTags.SWORDS);
+                case MACE -> stack -> stack.getItem() instanceof MaceItem;
+                case TRIDENT -> stack -> stack.getItem() instanceof TridentItem;
+                case ALL ->
                     stack -> stack.getItem() instanceof AxeItem || stack.isIn(ItemTags.SWORDS) || stack.getItem() instanceof MaceItem || stack.getItem() instanceof TridentItem;
                 default -> o -> true;
             };
@@ -344,7 +344,7 @@ public class KillAura extends Module {
         }
         
         attacking = true;
-        if (rotation.get() == RotationMode.Always) {
+        if (rotation.get() == RotationMode.ALWAYS) {
             Rotations.rotate(Rotations.getYaw(primary), Rotations.getPitch(primary, Target.BODY));
         }
         if (pauseOnCombat.get() && PathManagers.get().isPathing() && !wasPathing) {
@@ -383,7 +383,7 @@ public class KillAura extends Module {
     private boolean shouldShieldBreak() {
         for (Entity target : targets) {
             if (target instanceof PlayerEntity player) {
-                if (player.isBlocking() && shieldMode.get() == ShieldMode.Break) {
+                if (player.isBlocking() && shieldMode.get() == ShieldMode.BREAK) {
                     return true;
                 }
             }
@@ -444,15 +444,15 @@ public class KillAura extends Module {
             if (!Friends.get().shouldAttack(player)) {
                 return false;
             }
-            if (shieldMode.get() == ShieldMode.Ignore && player.isBlocking()) {
+            if (shieldMode.get() == ShieldMode.IGNORE && player.isBlocking()) {
                 return false;
             }
         }
         if (entity instanceof AnimalEntity animal) {
             return switch (mobAgeFilter.get()) {
-                case Baby -> animal.isBaby();
-                case Adult -> !animal.isBaby();
-                case Both -> true;
+                case BABY -> animal.isBaby();
+                case ADULT -> !animal.isBaby();
+                case BOTH -> true;
             };
         }
         return true;
@@ -482,7 +482,7 @@ public class KillAura extends Module {
     }
     
     private void attack(Entity target) {
-        if (rotation.get() == RotationMode.OnHit) {
+        if (rotation.get() == RotationMode.ON_HIT) {
             Rotations.rotate(Rotations.getYaw(target), Rotations.getPitch(target, Target.BODY));
         }
         
@@ -498,11 +498,11 @@ public class KillAura extends Module {
         }
         
         return switch (weapon.get()) {
-            case Axe -> mc.player.getMainHandStack().getItem() instanceof AxeItem;
-            case Sword -> mc.player.getMainHandStack().isIn(ItemTags.SWORDS);
-            case Mace -> mc.player.getMainHandStack().getItem() instanceof MaceItem;
-            case Trident -> mc.player.getMainHandStack().getItem() instanceof TridentItem;
-            case All ->
+            case AXE -> mc.player.getMainHandStack().getItem() instanceof AxeItem;
+            case SWORD -> mc.player.getMainHandStack().isIn(ItemTags.SWORDS);
+            case MACE -> mc.player.getMainHandStack().getItem() instanceof MaceItem;
+            case TRIDENT -> mc.player.getMainHandStack().getItem() instanceof TridentItem;
+            case ALL ->
                 mc.player.getMainHandStack().getItem() instanceof AxeItem || mc.player.getMainHandStack().isIn(ItemTags.SWORDS) || mc.player.getMainHandStack().getItem() instanceof MaceItem || mc.player.getMainHandStack().getItem() instanceof TridentItem;
             default -> true;
         };
@@ -523,31 +523,39 @@ public class KillAura extends Module {
         return null;
     }
     
-    public enum Weapon {
-        Sword,
-        Axe,
-        Mace,
-        Trident,
-        All,
-        Any
+    private enum Weapon {
+        
+        SWORD,
+        AXE,
+        MACE,
+        TRIDENT,
+        ALL,
+        ANY
+        
     }
     
-    public enum RotationMode {
-        Always,
-        OnHit,
-        None
+    private enum RotationMode {
+        
+        ALWAYS,
+        ON_HIT,
+        NONE
+        
     }
     
-    public enum ShieldMode {
-        Ignore,
-        Break,
-        None
+    private enum ShieldMode {
+        
+        IGNORE,
+        BREAK,
+        NONE
+        
     }
     
-    public enum EntityAge {
-        Baby,
-        Adult,
-        Both
+    private enum EntityAge {
+        
+        BABY,
+        ADULT,
+        BOTH
+        
     }
     
 }

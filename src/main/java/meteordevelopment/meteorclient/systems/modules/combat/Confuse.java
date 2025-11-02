@@ -39,7 +39,7 @@ public class Confuse extends Module {
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
-        .defaultValue(Mode.RandomTP)
+        .defaultValue(Mode.RANDOM_TP)
         .description("Mode")
         .build()
     );
@@ -140,7 +140,7 @@ public class Confuse extends Module {
         int halfRange = range.get() / 2;
         
         switch (mode.get()) {
-            case RandomTP:
+            case RANDOM_TP:
                 double x = random.nextDouble() * range.get() - halfRange;
                 double y = 0;
                 double z = random.nextDouble() * range.get() - halfRange;
@@ -161,7 +161,7 @@ public class Confuse extends Module {
                 }
                 break;
             
-            case Switch:
+            case SWITCH:
                 Vec3d diff = entityPos.subtract(playerPos);
                 Vec3d diff1 = new Vec3d(MathHelper.clamp(diff.x, -halfRange, halfRange), MathHelper.clamp(diff.y, -halfRange, halfRange), MathHelper.clamp(diff.z, -halfRange, halfRange));
                 Vec3d goal2 = entityPos.add(diff1);
@@ -173,7 +173,7 @@ public class Confuse extends Module {
                 mc.player.updatePosition(goal2.x, goal2.y, goal2.z);
                 break;
             
-            case Circle:
+            case CIRCLE:
                 delay.set(0);
                 circleProgress += circleSpeed.get();
                 if (circleProgress > 360) {
@@ -230,9 +230,11 @@ public class Confuse extends Module {
     }
     
     private enum Mode {
-        RandomTP,
-        Switch,
-        Circle
+        
+        RANDOM_TP,
+        SWITCH,
+        CIRCLE
+        
     }
     
 }

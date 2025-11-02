@@ -442,9 +442,6 @@ public class Modules extends System<Modules> {
         add(new MaceKill());
         add(new Quiver());
         add(new SelfAnvil());
-        add(new SelfTrap());
-        add(new SelfWeb());
-        add(new Surround());
     }
     
     private void initPlayer() {

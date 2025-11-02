@@ -35,7 +35,7 @@ public class Criticals extends Module {
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("The mode on how Criticals will function.")
-        .defaultValue(Mode.Packet)
+        .defaultValue(Mode.PACKET)
         .build()
     );
     
@@ -43,7 +43,7 @@ public class Criticals extends Module {
         .name("only-killaura")
         .description("Only performs crits when using killaura.")
         .defaultValue(false)
-        .visible(() -> mode.get() != Mode.None)
+        .visible(() -> mode.get() != Mode.NONE)
         .build()
     );
     
@@ -108,21 +108,21 @@ public class Criticals extends Module {
                 }
                 
                 switch (mode.get()) {
-                    case Packet -> {
+                    case PACKET -> {
                         sendPacket(0.0625);
                         sendPacket(0);
                     }
-                    case Bypass -> {
+                    case BYPASS -> {
                         sendPacket(0.11);
                         sendPacket(0.1100013579);
                         sendPacket(0.0000013579);
                     }
-                    case Jump, MiniJump -> {
+                    case JUMP, MINI_JUMP -> {
                         if (!sendPackets) {
                             sendPackets = true;
                             attackPacket = (PlayerInteractEntityC2SPacket) event.packet;
                             
-                            if (mode.get() == Mode.Jump) {
+                            if (mode.get() == Mode.JUMP) {
                                 mc.player.jump();
                                 waitingForPeak = true;
                                 lastY = mc.player.getY();
@@ -135,7 +135,7 @@ public class Criticals extends Module {
                     }
                 }
             }
-        } else if (event.packet instanceof HandSwingC2SPacket && mode.get() != Mode.Packet) {
+        } else if (event.packet instanceof HandSwingC2SPacket && mode.get() != Mode.PACKET) {
             if (skipCrit()) {
                 return;
             }
@@ -150,7 +150,7 @@ public class Criticals extends Module {
     @EventHandler
     private void onTickPre(TickEvent.Pre event) {
         if (sendPackets) {
-            if (mode.get() == Mode.Jump && waitingForPeak) {
+            if (mode.get() == Mode.JUMP && waitingForPeak) {
                 double currentY = mc.player.getY();
                 if (currentY <= lastY) {
                     waitingForPeak = false;
@@ -198,11 +198,13 @@ public class Criticals extends Module {
     }
     
     private enum Mode {
-        None,
-        Packet,
-        Bypass,
-        Jump,
-        MiniJump
+        
+        NONE,
+        PACKET,
+        BYPASS,
+        JUMP,
+        MINI_JUMP
+        
     }
     
 }

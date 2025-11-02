@@ -56,7 +56,7 @@ public class SexAura extends Module {
     private final Setting<Mode> targetMode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("target-mode")
         .description("The mode at which to follow the player.")
-        .defaultValue(Mode.Automatic)
+        .defaultValue(Mode.AUTOMATIC)
         .onChanged(onChanged -> target = null)
         .build()
     );
@@ -98,7 +98,7 @@ public class SexAura extends Module {
     private final Setting<Style> sexStyle = sgPos.add(new EnumSetting.Builder<Style>()
         .name("style")
         .description("The style for sticking to player.")
-        .defaultValue(Style.GulpGulp)
+        .defaultValue(Style.GULP_GULP)
         .visible(sexPos::get)
         .build()
     );
@@ -185,7 +185,7 @@ public class SexAura extends Module {
     
     @Override
     public void onActivate() {
-        if (targetMode.get() == Mode.Automatic) {
+        if (targetMode.get() == Mode.AUTOMATIC) {
             setTarget();
         }
     }
@@ -193,7 +193,7 @@ public class SexAura extends Module {
     // Middle click mode
     @EventHandler
     private void onMouseButton(MouseButtonEvent event) {
-        if (targetMode.get() == Mode.MiddleClick) {
+        if (targetMode.get() == Mode.MIDDLE_CLICK) {
             if (event.action == KeyAction.PRESS && event.button == GLFW_MOUSE_BUTTON_MIDDLE && mc.currentScreen == null) {
                 if (mc.targetedEntity instanceof PlayerEntity) {
                     target = mc.targetedEntity;
@@ -231,7 +231,7 @@ public class SexAura extends Module {
             mc.player.getAbilities().flying = true;
             
             if (timerSex <= 0) {
-                if (sexStyle.get() == Style.GulpGulp) {
+                if (sexStyle.get() == Style.GULP_GULP) {
                     Rotations.rotate(Rotations.getYaw(target), 45);
                     if (sexI == 0) {
                         Position head = target.raycast(0.2, 1f / 20f, false).getPos();
@@ -243,7 +243,7 @@ public class SexAura extends Module {
                         sexI = 0;
                     }
                 }
-                if (sexStyle.get() == Style.Doggy) {
+                if (sexStyle.get() == Style.DOGGY) {
                     Rotations.rotate(Rotations.getYaw(target), 25);
                     if (sexI == 0) {
                         Position head = target.raycast(-0.2, 1f / 20f, false).getPos();
@@ -345,11 +345,11 @@ public class SexAura extends Module {
             .map(GameProfile::getName)
             .toList();
         
-        if (!playerNamesList.contains(EntityUtils.getName(target)) && targetMode.get() == Mode.Automatic) {
+        if (!playerNamesList.contains(EntityUtils.getName(target)) && targetMode.get() == Mode.AUTOMATIC) {
             target = null;
         }
         
-        if (target == null && targetMode.get() == Mode.Automatic) {
+        if (target == null && targetMode.get() == Mode.AUTOMATIC) {
             setTarget();
         }
     }
@@ -384,13 +384,17 @@ public class SexAura extends Module {
     }
     
     private enum Mode {
-        MiddleClick,
-        Automatic
+        
+        MIDDLE_CLICK,
+        AUTOMATIC
+        
     }
     
     private enum Style {
-        GulpGulp,
-        Doggy
+        
+        GULP_GULP,
+        DOGGY
+        
     }
     
 }
