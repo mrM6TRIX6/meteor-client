@@ -31,7 +31,7 @@ public class PingCommand extends Command {
                 color = Formatting.RED;
             }
             
-            info("Ping: %s%d.", color, ping);
+            info("Ping: %s%d(default).", color, ping);
             
             return SINGLE_SUCCESS;
         });
