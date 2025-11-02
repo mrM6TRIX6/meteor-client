@@ -4,7 +4,7 @@ import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.settings.Settings;
+import meteordevelopment.meteorclient.config.Settings;
 
 public abstract class EditSystemScreen<T> extends WindowScreen {
     

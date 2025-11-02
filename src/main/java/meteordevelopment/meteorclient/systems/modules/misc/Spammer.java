@@ -8,12 +8,12 @@ package meteordevelopment.meteorclient.systems.modules.misc;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.settings.impl.RangeSetting;
-import meteordevelopment.meteorclient.settings.impl.StringListSetting;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.types.BoolSetting;
+import meteordevelopment.meteorclient.config.types.IntSetting;
+import meteordevelopment.meteorclient.config.types.RangeSetting;
+import meteordevelopment.meteorclient.config.types.StringListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -133,7 +133,7 @@ public class Spammer extends Module {
     
     @Override
     public void onActivate() {
-        timer = delay.get().getRandomValue();
+        timer = delay.get().random();
         messageI = 0;
         splitNum = 0;
     }
@@ -192,9 +192,9 @@ public class Spammer extends Module {
                 ChatUtils.sendPlayerMsg(text.substring(start, end), saveChatHistory.get());
                 
                 splitNum = ++splitNum % splits;
-                timer = autoSplitDelay.get().getRandomValue();
+                timer = autoSplitDelay.get().random();
                 if (splitNum == 0) { // equals zero when all chunks are sent
-                    timer = delay.get().getRandomValue();
+                    timer = delay.get().random();
                     text = null;
                 }
             } else {
@@ -202,7 +202,7 @@ public class Spammer extends Module {
                     text = text.substring(0, 256); // prevent kick
                 }
                 ChatUtils.sendPlayerMsg(text, saveChatHistory.get());
-                timer = delay.get().getRandomValue();
+                timer = delay.get().random();
                 text = null;
             }
         } else {

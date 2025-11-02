@@ -7,11 +7,11 @@ package meteordevelopment.meteorclient.systems.modules.render.marker;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.BlockPosSetting;
-import meteordevelopment.meteorclient.settings.impl.ColorSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.types.BlockPosSetting;
+import meteordevelopment.meteorclient.config.types.ColorSetting;
+import meteordevelopment.meteorclient.config.types.EnumSetting;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.util.math.BlockPos;
 

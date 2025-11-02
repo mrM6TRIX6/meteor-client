@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.gui.screens.settings.impl;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.config.Setting;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 

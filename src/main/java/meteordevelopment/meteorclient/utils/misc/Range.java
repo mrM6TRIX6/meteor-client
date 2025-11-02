@@ -48,12 +48,8 @@ public class Range {
         return value >= min && value <= max;
     }
     
-    public int getRandomValue() {
+    public int random() {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
-    }
-    
-    public IntStream stream() {
-        return IntStream.rangeClosed(min, max);
     }
     
     @Override

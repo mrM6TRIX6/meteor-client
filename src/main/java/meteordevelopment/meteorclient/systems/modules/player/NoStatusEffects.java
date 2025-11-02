@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.systems.modules.player;
 
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.StatusEffectListSetting;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.types.StatusEffectListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import net.minecraft.entity.effect.StatusEffect;

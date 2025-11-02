@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.gui.screens.settings.impl;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
+import meteordevelopment.meteorclient.config.types.BlockListSetting;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;

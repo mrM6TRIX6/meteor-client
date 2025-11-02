@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPressable;
-import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.config.Setting;
 
 import java.util.Collection;
 import java.util.function.Consumer;

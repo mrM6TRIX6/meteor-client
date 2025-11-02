@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
-import meteordevelopment.meteorclient.settings.impl.GameModeListSetting;
+import meteordevelopment.meteorclient.config.types.GameModeListSetting;
 import meteordevelopment.meteorclient.utils.Utils;
 import net.minecraft.world.GameMode;
 

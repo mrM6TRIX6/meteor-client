@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.systems.hud.elements;
 
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.*;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.types.*;
 import meteordevelopment.meteorclient.systems.hud.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;

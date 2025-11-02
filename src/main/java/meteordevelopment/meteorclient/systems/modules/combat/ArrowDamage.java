@@ -6,10 +6,10 @@
 package meteordevelopment.meteorclient.systems.modules.combat;
 
 import meteordevelopment.meteorclient.events.entity.player.StopUsingItemEvent;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.IntSetting;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.types.BoolSetting;
+import meteordevelopment.meteorclient.config.types.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;

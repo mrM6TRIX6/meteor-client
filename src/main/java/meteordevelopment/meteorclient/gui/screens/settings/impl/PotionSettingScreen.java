@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.settings.impl.PotionSetting;
+import meteordevelopment.meteorclient.config.types.PotionSetting;
 import meteordevelopment.meteorclient.utils.misc.MyPotion;
 import net.minecraft.client.resource.language.I18n;
 

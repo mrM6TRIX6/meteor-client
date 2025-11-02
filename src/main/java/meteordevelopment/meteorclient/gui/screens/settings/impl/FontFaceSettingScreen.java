@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.renderer.Fonts;
 import meteordevelopment.meteorclient.renderer.text.FontFamily;
 import meteordevelopment.meteorclient.renderer.text.FontInfo;
-import meteordevelopment.meteorclient.settings.impl.FontFaceSetting;
+import meteordevelopment.meteorclient.config.types.FontFaceSetting;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;

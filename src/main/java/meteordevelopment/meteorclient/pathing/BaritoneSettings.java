@@ -7,10 +7,10 @@ package meteordevelopment.meteorclient.pathing;
 
 import baritone.api.BaritoneAPI;
 import baritone.api.utils.SettingsUtil;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.Settings;
-import meteordevelopment.meteorclient.settings.impl.*;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.Settings;
+import meteordevelopment.meteorclient.config.types.*;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

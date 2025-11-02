@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.settings.impl.BlockSetting;
+import meteordevelopment.meteorclient.config.types.BlockSetting;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;

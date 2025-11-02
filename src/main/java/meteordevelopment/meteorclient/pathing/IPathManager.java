@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.pathing;
 
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.Settings;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.Settings;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;

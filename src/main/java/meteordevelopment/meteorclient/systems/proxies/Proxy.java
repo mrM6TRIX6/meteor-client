@@ -5,12 +5,12 @@
 
 package meteordevelopment.meteorclient.systems.proxies;
 
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.Settings;
-import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.settings.impl.StringSetting;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.Settings;
+import meteordevelopment.meteorclient.config.types.BoolSetting;
+import meteordevelopment.meteorclient.config.types.IntSetting;
+import meteordevelopment.meteorclient.config.types.StringSetting;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import net.minecraft.nbt.NbtCompound;

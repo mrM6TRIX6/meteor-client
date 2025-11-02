@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
-import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.config.Setting;
 import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;

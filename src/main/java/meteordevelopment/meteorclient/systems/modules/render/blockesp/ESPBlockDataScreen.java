@@ -8,12 +8,12 @@ package meteordevelopment.meteorclient.systems.modules.render.blockesp;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.Settings;
-import meteordevelopment.meteorclient.settings.impl.BlockDataSetting;
-import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.ColorSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.Settings;
+import meteordevelopment.meteorclient.config.types.BlockDataSetting;
+import meteordevelopment.meteorclient.config.types.BoolSetting;
+import meteordevelopment.meteorclient.config.types.ColorSetting;
+import meteordevelopment.meteorclient.config.types.EnumSetting;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.block.Block;
 

@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.gui.screens.settings.impl;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
+import meteordevelopment.meteorclient.config.types.ItemListSetting;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;

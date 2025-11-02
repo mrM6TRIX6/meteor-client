@@ -7,12 +7,12 @@ package meteordevelopment.meteorclient.systems.modules.player;
 
 import meteordevelopment.meteorclient.events.entity.player.StartBreakingBlockEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
-import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.types.BoolSetting;
+import meteordevelopment.meteorclient.config.types.EnumSetting;
+import meteordevelopment.meteorclient.config.types.IntSetting;
+import meteordevelopment.meteorclient.config.types.ItemListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;

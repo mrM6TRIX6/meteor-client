@@ -7,10 +7,10 @@ package meteordevelopment.meteorclient.systems.modules.misc;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.MessageEvent;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.RangeSetting;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.types.BoolSetting;
+import meteordevelopment.meteorclient.config.types.RangeSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Range;
@@ -74,7 +74,7 @@ public class AutoChatGame extends Module {
                             ChatUtils.sendPlayerMsg(result.toString());
                         }
                     }
-                }, delay.get().getRandomValue() * 50L);
+                }, delay.get().random() * 50L);
             }
         }
     }

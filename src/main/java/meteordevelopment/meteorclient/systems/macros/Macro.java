@@ -6,12 +6,12 @@
 package meteordevelopment.meteorclient.systems.macros;
 
 import meteordevelopment.meteorclient.gui.utils.StarscriptTextBoxRenderer;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.Settings;
-import meteordevelopment.meteorclient.settings.impl.KeybindSetting;
-import meteordevelopment.meteorclient.settings.impl.StringListSetting;
-import meteordevelopment.meteorclient.settings.impl.StringSetting;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.SettingGroup;
+import meteordevelopment.meteorclient.config.Settings;
+import meteordevelopment.meteorclient.config.types.KeybindSetting;
+import meteordevelopment.meteorclient.config.types.StringListSetting;
+import meteordevelopment.meteorclient.config.types.StringSetting;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;

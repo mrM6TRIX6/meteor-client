@@ -8,8 +8,8 @@ package meteordevelopment.meteorclient.gui.screens.settings.impl;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.impl.PacketListSetting;
+import meteordevelopment.meteorclient.config.Setting;
+import meteordevelopment.meteorclient.config.types.PacketListSetting;
 import meteordevelopment.meteorclient.utils.network.PacketUtils;
 import net.minecraft.network.packet.Packet;
 
