@@ -74,7 +74,7 @@ public class AutoChatGame extends Module {
                             ChatUtils.sendPlayerMsg(result.toString());
                         }
                     }
-                }, delay.get().getRandomValue() * 50L);
+                }, delay.get().random() * 50L);
             }
         }
     }

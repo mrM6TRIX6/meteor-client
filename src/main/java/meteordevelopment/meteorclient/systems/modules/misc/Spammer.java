@@ -133,7 +133,7 @@ public class Spammer extends Module {
     
     @Override
     public void onActivate() {
-        timer = delay.get().getRandomValue();
+        timer = delay.get().random();
         messageI = 0;
         splitNum = 0;
     }
@@ -192,9 +192,9 @@ public class Spammer extends Module {
                 ChatUtils.sendPlayerMsg(text.substring(start, end), saveChatHistory.get());
                 
                 splitNum = ++splitNum % splits;
-                timer = autoSplitDelay.get().getRandomValue();
+                timer = autoSplitDelay.get().random();
                 if (splitNum == 0) { // equals zero when all chunks are sent
-                    timer = delay.get().getRandomValue();
+                    timer = delay.get().random();
                     text = null;
                 }
             } else {
@@ -202,7 +202,7 @@ public class Spammer extends Module {
                     text = text.substring(0, 256); // prevent kick
                 }
                 ChatUtils.sendPlayerMsg(text, saveChatHistory.get());
-                timer = delay.get().getRandomValue();
+                timer = delay.get().random();
                 text = null;
             }
         } else {

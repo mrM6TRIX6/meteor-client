@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.utils.misc;
 
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
 public class Range {
     
@@ -48,12 +47,8 @@ public class Range {
         return value >= min && value <= max;
     }
     
-    public int getRandomValue() {
+    public int random() {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
-    }
-    
-    public IntStream stream() {
-        return IntStream.rangeClosed(min, max);
     }
     
     @Override
