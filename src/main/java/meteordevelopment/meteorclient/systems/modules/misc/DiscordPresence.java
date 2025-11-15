@@ -10,7 +10,7 @@ package meteordevelopment.meteorclient.systems.modules.misc;
 import meteordevelopment.discordipc.DiscordIPC;
 import meteordevelopment.discordipc.RichPresence;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
+import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
@@ -319,7 +319,7 @@ public class DiscordPresence extends Module {
     }
     
     @EventHandler
-    private void onOpenScreen(OpenScreenEvent event) {
+    private void onOpenScreen(ScreenOpenEvent event) {
         if (!Utils.canUpdate()) {
             lastWasInMainMenu = false;
         }

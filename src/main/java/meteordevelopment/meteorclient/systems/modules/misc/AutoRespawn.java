@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.misc;
 
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
+import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
@@ -19,7 +19,7 @@ public class AutoRespawn extends Module {
     }
     
     @EventHandler(priority = EventPriority.HIGH)
-    private void onOpenScreen(OpenScreenEvent event) {
+    private void onOpenScreen(ScreenOpenEvent event) {
         if (!(event.screen instanceof DeathScreen)) {
             return;
         }

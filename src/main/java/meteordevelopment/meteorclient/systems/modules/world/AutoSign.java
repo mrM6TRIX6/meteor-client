@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.world;
 
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
+import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.mixin.AbstractSignEditScreenAccessor;
 import meteordevelopment.meteorclient.systems.modules.Categories;
@@ -38,7 +38,7 @@ public class AutoSign extends Module {
     }
     
     @EventHandler
-    private void onOpenScreen(OpenScreenEvent event) {
+    private void onOpenScreen(ScreenOpenEvent event) {
         if (!(event.screen instanceof AbstractSignEditScreen) || text == null) {
             return;
         }

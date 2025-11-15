@@ -9,7 +9,7 @@ import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
+import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.meteor.ActiveModulesChangedEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.ModuleBindChangedEvent;
@@ -311,7 +311,7 @@ public class Modules extends System<Modules> {
     // End of binding
     
     @EventHandler(priority = EventPriority.HIGHEST + 1)
-    private void onOpenScreen(OpenScreenEvent event) {
+    private void onOpenScreen(ScreenOpenEvent event) {
         if (!Utils.canUpdate()) {
             return;
         }

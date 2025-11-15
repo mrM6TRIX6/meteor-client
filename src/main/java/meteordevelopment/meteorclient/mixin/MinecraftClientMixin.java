@@ -13,7 +13,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.player.ItemUseCrosshairTargetEvent;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
+import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.game.ResolutionChangedEvent;
 import meteordevelopment.meteorclient.events.game.ResourcePacksReloadedEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -163,7 +163,7 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
             screen.mouseMoved(mouse.getX() * window.getScaleFactor(), mouse.getY() * window.getScaleFactor());
         }
         
-        OpenScreenEvent event = OpenScreenEvent.get(screen);
+        ScreenOpenEvent event = ScreenOpenEvent.get(screen);
         MeteorClient.EVENT_BUS.post(event);
         
         if (event.isCancelled()) {

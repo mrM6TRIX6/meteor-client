@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.misc;
 
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
+import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -14,6 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.RangeSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
+import meteordevelopment.meteorclient.systems.config.Config;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -139,7 +140,7 @@ public class Spammer extends Module {
     }
     
     @EventHandler
-    private void onScreenOpen(OpenScreenEvent event) {
+    private void onScreenOpen(ScreenOpenEvent event) {
         if (disableOnDisconnect.get() && event.screen instanceof DisconnectedScreen) {
             toggle();
         }
@@ -182,11 +183,11 @@ public class Spammer extends Module {
             }
             
             if (autoSplitMessages.get() && text.length() > splitLength.get()) {
-                // the number of individual messages the whole text needs to be broken into
+                // The number of individual messages the whole text needs to be broken into
                 double length = text.length();
                 int splits = (int) Math.ceil(length / splitLength.get());
                 
-                // determine which chunk we need to send
+                // Determine which chunk we need to send
                 int start = splitNum * splitLength.get();
                 int end = Math.min(start + splitLength.get(), text.length());
                 ChatUtils.sendPlayerMsg(text.substring(start, end), saveChatHistory.get());
@@ -198,7 +199,7 @@ public class Spammer extends Module {
                     text = null;
                 }
             } else {
-                if (text.length() > 256) {
+                if (text.length() > 256 && !text.startsWith(Config.get().prefix.get()) && !text.startsWith("/")) {
                     text = text.substring(0, 256); // prevent kick
                 }
                 ChatUtils.sendPlayerMsg(text, saveChatHistory.get());

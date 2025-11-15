@@ -24,7 +24,6 @@ import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
 import net.minecraft.util.Hand;
 
 public class CrossbowSpam extends Module {
@@ -32,6 +31,7 @@ public class CrossbowSpam extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgExtra = settings.createGroup("Extra");
     
+    // General
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
         .name("delay")
         .description("Delay in ticks.")
@@ -121,12 +121,7 @@ public class CrossbowSpam extends Module {
             mc.player.getInventory().setStack(mc.player.getInventory().getSelectedSlot(), itemStack);
             mc.interactionManager.clickCreativeStack(itemStack, mc.player.getInventory().getSelectedSlot() + 36);
             
-            mc.getNetworkHandler().sendPacket(new PlayerInteractItemC2SPacket(
-                Hand.MAIN_HAND,
-                0,
-                mc.player.getYaw(),
-                mc.player.getPitch()
-            ));
+            mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
             
             timer = 0;
         }

@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.utils.player;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
+import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.world.BlockActivateEvent;
 import meteordevelopment.meteorclient.utils.PreInit;
 import meteordevelopment.orbit.EventHandler;
@@ -42,7 +42,7 @@ public class EChestMemory {
     }
     
     @EventHandler
-    private static void onOpenScreenEvent(OpenScreenEvent event) {
+    private static void onOpenScreenEvent(ScreenOpenEvent event) {
         if (echestOpenedState == 1 && event.screen instanceof GenericContainerScreen) {
             echestOpenedState = 2;
             return;

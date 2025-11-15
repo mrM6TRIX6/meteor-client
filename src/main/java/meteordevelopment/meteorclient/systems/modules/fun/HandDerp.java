@@ -25,7 +25,7 @@ public class HandDerp extends Module {
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("When the hand switches.")
-        .defaultValue(Mode.Delay)
+        .defaultValue(Mode.DELAY)
         .build()
     );
     
@@ -36,12 +36,12 @@ public class HandDerp extends Module {
         .min(0)
         .sliderMin(0)
         .sliderMax(20)
-        .visible(() -> mode.get() == Mode.Delay)
+        .visible(() -> mode.get() == Mode.DELAY)
         .build()
     );
     
-    private final Setting<Boolean> ignoreChangesForFirstPerson = sgGeneral.add(new BoolSetting.Builder()
-        .name("ignore--changes-for-first-person")
+    private final Setting<Boolean> hideFirstPerson = sgGeneral.add(new BoolSetting.Builder()
+        .name("hide-first-person")
         .description("Ignore arm switching changes for first person.")
         .defaultValue(false)
         .build()
@@ -72,15 +72,17 @@ public class HandDerp extends Module {
     
     @EventHandler
     private void onTick(TickEvent.Post event) {
-        if (++timer > delay.get() && mode.get() == Mode.Delay) {
+        if (++timer > delay.get() && mode.get() == Mode.DELAY) {
             switchHand();
             timer = 0;
         }
+        
+        
     }
     
     @EventHandler
     private void onPacketSend(PacketEvent.Send event) {
-        if (event.packet instanceof HandSwingC2SPacket && mode.get() == Mode.Swing) {
+        if (event.packet instanceof HandSwingC2SPacket && mode.get() == Mode.SWING) {
             switchHand();
         }
     }
@@ -91,7 +93,7 @@ public class HandDerp extends Module {
     }
     
     public boolean ignoreChangesForFirstPerson() {
-        return mc.player != null && isActive() && ignoreChangesForFirstPerson.get();
+        return mc.player != null && isActive() && hideFirstPerson.get();
     }
     
     public Arm getOriginalHand() {
@@ -99,8 +101,10 @@ public class HandDerp extends Module {
     }
     
     private enum Mode {
-        Delay,
-        Swing
+        
+        DELAY,
+        SWING
+        
     }
     
 }

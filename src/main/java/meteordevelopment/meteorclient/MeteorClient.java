@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient;
 
 import meteordevelopment.meteorclient.addons.AddonManager;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
-import meteordevelopment.meteorclient.events.game.OpenScreenEvent;
+import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -180,7 +180,7 @@ public class MeteorClient implements ClientModInitializer {
     private boolean wasWidgetScreen, wasHudHiddenRoot;
     
     @EventHandler(priority = EventPriority.LOWEST)
-    private void onOpenScreen(OpenScreenEvent event) {
+    private void onOpenScreen(ScreenOpenEvent event) {
         if (event.screen instanceof WidgetScreen) {
             if (!wasWidgetScreen) {
                 wasHudHiddenRoot = mc.options.hudHidden;
