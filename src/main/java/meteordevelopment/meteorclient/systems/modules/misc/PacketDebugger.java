@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.misc;
 
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -53,17 +54,18 @@ public class PacketDebugger extends Module {
     );
     
     public PacketDebugger() {
-        super(Categories.Misc, "packet-debugger", "Logging network packets in a chat.");
+        super(Categories.Misc, "packet-debugger", "Logging network packets.");
+        runInMainMenu = true;
     }
     
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST + 2)
     private void onNativePacketSend(PacketEvent.Send event) {
         if (nativeC2SPackets.get().contains(event.packet.getClass())) {
             logPacket(event.packet);
         }
     }
     
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST + 2)
     private void onNativePacketReceive(PacketEvent.Receive event) {
         if (nativeS2CPackets.get().contains(event.packet.getClass())) {
             logPacket(event.packet);
@@ -91,7 +93,11 @@ public class PacketDebugger extends Module {
         String name = packetString.substring(0, bracketIndex);
         String params = packetString.substring(bracketIndex);
         
-        info("[(highlight)%s(default)] (highlight)%s(default)%s", packet.getPacketType().side(), name, params);
+        if (mc.world != null) {
+            info("[(highlight)%s(default)] (highlight)%s(default)%s", packet.getPacketType().side(), name, params);
+        } else {
+            MeteorClient.LOG.info("Packet Debugger | [{}] {}", packet.getPacketType().side(), name + params);
+        }
     }
     
 }
