@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.settings.impl;
 
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.utils.Utils;
 import net.minecraft.nbt.NbtCompound;
 
 import java.util.ArrayList;

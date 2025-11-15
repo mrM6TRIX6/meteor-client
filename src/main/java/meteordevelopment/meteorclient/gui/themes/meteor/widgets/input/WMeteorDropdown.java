@@ -9,7 +9,6 @@ import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.themes.meteor.MeteorGuiTheme;
 import meteordevelopment.meteorclient.gui.themes.meteor.MeteorWidget;
 import meteordevelopment.meteorclient.gui.widgets.input.WDropdown;
-import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 
 public class WMeteorDropdown<T> extends WDropdown<T> implements MeteorWidget {

@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.systems.modules.misc;
 
-import joptsimple.internal.Strings;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -16,14 +15,10 @@ import meteordevelopment.meteorclient.utils.network.PacketUtils;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
-import net.minecraft.network.packet.s2c.common.*;
-import net.minecraft.text.Text;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Set;
 
 public class PacketDebugger extends Module {
     
