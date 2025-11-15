@@ -599,7 +599,7 @@ public class Modules extends System<Modules> {
         add(new Notifier());
         add(new OnSightCommand());
         add(new PacketCanceller());
-        add(new PacketLogger());
+        add(new PacketDebugger());
         add(new SoundBlocker());
         add(new Spammer());
         add(new Swarm());

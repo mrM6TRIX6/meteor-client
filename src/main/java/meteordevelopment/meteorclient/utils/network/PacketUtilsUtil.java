@@ -23,8 +23,7 @@ import java.util.function.Predicate;
 
 public class PacketUtilsUtil {
     
-    private PacketUtilsUtil() {
-    }
+    private PacketUtilsUtil() {}
     
     public static void main(String[] args) {
         try {
@@ -50,7 +49,7 @@ public class PacketUtilsUtil {
             
             writer.write("package meteordevelopment.meteorclient.utils.network;\n\n");
             
-            //   Write imports
+            // Write imports
             writer.write("import com.google.common.collect.Sets;\n");
             writer.write("import it.unimi.dsi.fastutil.objects.Object2ReferenceOpenHashMap;\n");
             writer.write("import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;\n");
@@ -59,58 +58,63 @@ public class PacketUtilsUtil {
             writer.write("import java.util.Map;\n");
             writer.write("import java.util.Set;\n");
             
-            //   Write class
-            writer.write("\npublic class PacketUtils {\n");
+            // Write class
+            writer.write("\npublic class PacketUtils {\n\n");
             
-            //     Write fields
-            writer.write("    private static final Map<Class<? extends Packet<?>>, String> S2C_PACKETS = new Reference2ObjectOpenHashMap<>();\n");
-            writer.write("    private static final Map<Class<? extends Packet<?>>, String> C2S_PACKETS = new Reference2ObjectOpenHashMap<>();\n\n");
-            writer.write("    private static final Map<String, Class<? extends Packet<?>>> S2C_PACKETS_R = new Object2ReferenceOpenHashMap<>();\n");
-            writer.write("    private static final Map<String, Class<? extends Packet<?>>> C2S_PACKETS_R = new Object2ReferenceOpenHashMap<>();\n\n");
+            // Write fields
+            writer.write("    private static final Map<Class<? extends Packet<?>>, String> C2S_PACKETS = new Reference2ObjectOpenHashMap<>();\n");
+            writer.write("    private static final Map<Class<? extends Packet<?>>, String> S2C_PACKETS = new Reference2ObjectOpenHashMap<>();\n\n");
+            
+            writer.write("    private static final Map<String, Class<? extends Packet<?>>> C2S_PACKETS_REVERSE = new Object2ReferenceOpenHashMap<>();\n");
+            writer.write("    private static final Map<String, Class<? extends Packet<?>>> S2C_PACKETS_REVERSE = new Object2ReferenceOpenHashMap<>();\n\n");
+            
             writer.write("    public static final Set<Class<? extends Packet<?>>> PACKETS = Sets.union(getC2SPackets(), getS2CPackets());\n\n");
             
-            //     Write static block
+            // Write static block
             writer.write("    static {\n");
             
             // Process packets
-            processPackets(writer, "net.minecraft.network.packet.c2s", "C2S_PACKETS", "C2S_PACKETS_R",
+            processPackets(writer, "net.minecraft.network.packet.c2s", "C2S_PACKETS", "C2S_PACKETS_REVERSE",
                 packet -> false // No exclusions for C2S packets
             );
             writer.newLine();
             
-            processPackets(writer, "net.minecraft.network.packet.s2c", "S2C_PACKETS", "S2C_PACKETS_R",
+            processPackets(writer, "net.minecraft.network.packet.s2c", "S2C_PACKETS", "S2C_PACKETS_REVERSE",
                 packet -> BundlePacket.class.isAssignableFrom(packet) || BundleSplitterPacket.class.isAssignableFrom(packet)
             );
             writer.write("    }\n\n");
             
-            writer.write("    private PacketUtils() {\n");
-            writer.write("    }\n\n");
+            writer.write("    private PacketUtils() {}\n\n");
             
-            //     Write getName method
+            // Write getName method
             writer.write("    public static String getName(Class<? extends Packet<?>> packetClass) {\n");
-            writer.write("        String name = S2C_PACKETS.get(packetClass);\n");
-            writer.write("        if (name != null) return name;\n");
-            writer.write("        return C2S_PACKETS.get(packetClass);\n");
+            writer.write("        String name = C2S_PACKETS.get(packetClass);\n");
+            writer.write("        if (name != null) {\n");
+            writer.write("            return name;\n");
+            writer.write("        }\n");
+            writer.write("        return S2C_PACKETS.get(packetClass);\n");
             writer.write("    }\n\n");
             
-            //     Write getPacket method
+            // Write getPacket method
             writer.write("    public static Class<? extends Packet<?>> getPacket(String name) {\n");
-            writer.write("        Class<? extends Packet<?>> packet = S2C_PACKETS_R.get(name);\n");
-            writer.write("        if (packet != null) return packet;\n");
-            writer.write("        return C2S_PACKETS_R.get(name);\n");
+            writer.write("        Class<? extends Packet<?>> packet = C2S_PACKETS_REVERSE.get(name);\n");
+            writer.write("        if (packet != null) {\n");
+            writer.write("            return packet;\n");
+            writer.write("        }\n");
+            writer.write("        return S2C_PACKETS_REVERSE.get(name);\n");
             writer.write("    }\n\n");
             
-            //     Write getS2CPackets method
+            // Write getC2SPackets method
+            writer.write("    public static Set<Class<? extends Packet<?>>> getC2SPackets() {\n");
+            writer.write("        return C2S_PACKETS.keySet();\n");
+            writer.write("    }\n\n");
+            
+            // Write getS2CPackets method
             writer.write("    public static Set<Class<? extends Packet<?>>> getS2CPackets() {\n");
             writer.write("        return S2C_PACKETS.keySet();\n");
             writer.write("    }\n\n");
             
-            //     Write getC2SPackets method
-            writer.write("    public static Set<Class<? extends Packet<?>>> getC2SPackets() {\n");
-            writer.write("        return C2S_PACKETS.keySet();\n");
-            writer.write("    }\n");
-            
-            //   Write end class
+            // Write end class
             writer.write("}\n");
         }
     }
