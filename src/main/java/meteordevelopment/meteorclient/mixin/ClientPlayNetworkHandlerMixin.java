@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.mixin;
 
+import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.commands.Commands;
@@ -47,12 +49,6 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
     
     @Shadow
     private ClientWorld world;
-    
-    @Shadow
-    public abstract void sendChatMessage(String content);
-    
-    @Unique
-    private boolean ignoreChatMessage;
     
     @Unique
     private boolean worldNotNull;
@@ -142,20 +138,15 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
     }
     
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
-    private void onSendChatMessage(String message, CallbackInfo ci) {
-        if (ignoreChatMessage) {
-            return;
-        }
-        
+    private void onSendChatMessage(String message, CallbackInfo ci, @Local(argsOnly = true) LocalRef<String> messageRef) {
         if (!message.startsWith(Config.get().prefix.get()) && !(BaritoneUtils.IS_AVAILABLE && message.startsWith(BaritoneUtils.getPrefix()))) {
             MessageEvent.Send event = MeteorClient.EVENT_BUS.post(MessageEvent.Send.get(message));
             
             if (!event.isCancelled()) {
-                ignoreChatMessage = true;
-                sendChatMessage(event.message);
-                ignoreChatMessage = false;
+                messageRef.set(event.message);
+            } else {
+                ci.cancel();
             }
-            ci.cancel();
             return;
         }
         
