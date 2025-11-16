@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d;
 public class SetBlockCommand extends Command {
     
     public SetBlockCommand() {
-        super("setblock", "Sets client side blocks");
+        super("setblock", "Sets client side blocks.");
     }
     
     @Override
