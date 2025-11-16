@@ -6,53 +6,29 @@
 package meteordevelopment.meteorclient.systems.accounts;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.utils.network.Http;
-import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import net.minecraft.util.Util;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class MicrosoftLogin {
     
-    private MicrosoftLogin() {
-    }
-    
-    public static class LoginData {
-        
-        public String mcToken;
-        public String newRefreshToken;
-        public String uuid, username;
-        
-        public LoginData() {
-        }
-        
-        public LoginData(String mcToken, String newRefreshToken, String uuid, String username) {
-            this.mcToken = mcToken;
-            this.newRefreshToken = newRefreshToken;
-            this.uuid = uuid;
-            this.username = username;
-        }
-        
-        public boolean isGood() {
-            return mcToken != null;
-        }
-        
-    }
-    
     private static final String CLIENT_ID = "4673b348-3efa-4f6a-bbb6-34e141cdc638";
     private static final int PORT = 9675;
     
-    private static HttpServer server;
-    private static Consumer<String> callback;
+    private static volatile HttpServer server;
+    private static volatile Consumer<String> callback;
+    
+    public MicrosoftLogin() {}
     
     public static String getRefreshToken(Consumer<String> callback) {
         MicrosoftLogin.callback = callback;
@@ -133,11 +109,12 @@ public class MicrosoftLogin {
         try {
             server = HttpServer.create(new InetSocketAddress("127.0.0.1", PORT), 0);
             
-            server.createContext("/", new Handler());
-            server.setExecutor(MeteorExecutor.executor);
+            server.createContext("/", MicrosoftLogin::handleRequest);
+            server.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
             server.start();
         } catch (IOException e) {
-            e.printStackTrace();
+            MeteorClient.LOG.error("Error starting Microsoft login server", e);
+            stopServer();
         }
     }
     
@@ -152,56 +129,70 @@ public class MicrosoftLogin {
         callback = null;
     }
     
-    private static class Handler implements HttpHandler {
-        
-        @Override
-        public void handle(HttpExchange req) throws IOException {
-            if (req.getRequestMethod().equals("GET")) {
-                // Login
-                List<NameValuePair> query = URLEncodedUtils.parse(req.getRequestURI(), StandardCharsets.UTF_8);
-                
-                boolean ok = false;
-                
-                for (NameValuePair pair : query) {
-                    if (pair.getName().equals("code")) {
-                        handleCode(pair.getValue());
-                        
-                        ok = true;
-                        break;
-                    }
-                }
-                
-                if (!ok) {
-                    writeText(req, "Cannot authenticate.");
-                    callback.accept(null);
-                } else {
-                    writeText(req, "You may now close this page.");
+    private static void handleRequest(HttpExchange req) throws IOException {
+        if (req.getRequestMethod().equals("GET")) {
+            // Login
+            List<NameValuePair> query = URLEncodedUtils.parse(req.getRequestURI(), StandardCharsets.UTF_8);
+            
+            boolean ok = false;
+            
+            for (NameValuePair pair : query) {
+                if (pair.getName().equals("code")) {
+                    handleCode(pair.getValue());
+                    
+                    ok = true;
+                    break;
                 }
             }
             
-            stopServer();
-        }
-        
-        private void handleCode(String code) {
-            AuthTokenResponse res = Http.post("https://login.live.com/oauth20_token.srf")
-                .bodyForm("client_id=" + CLIENT_ID + "&code=" + code + "&grant_type=authorization_code&redirect_uri=http://127.0.0.1:" + PORT)
-                .sendJson(AuthTokenResponse.class);
-            
-            if (res == null) {
+            if (!ok) {
+                writeText(req, "Cannot authenticate.");
                 callback.accept(null);
             } else {
-                callback.accept(res.refresh_token);
+                writeText(req, "You may now close this page.");
             }
         }
         
-        private void writeText(HttpExchange req, String text) throws IOException {
-            OutputStream out = req.getResponseBody();
-            
-            req.sendResponseHeaders(200, text.length());
-            
-            out.write(text.getBytes(StandardCharsets.UTF_8));
-            out.flush();
-            out.close();
+        stopServer();
+    }
+    
+    private static void handleCode(String code) {
+        AuthTokenResponse res = Http.post("https://login.live.com/oauth20_token.srf")
+            .bodyForm("client_id=" + CLIENT_ID + "&code=" + code + "&grant_type=authorization_code&redirect_uri=http://127.0.0.1:" + PORT)
+            .sendJson(AuthTokenResponse.class);
+        
+        if (res == null) {
+            callback.accept(null);
+        } else {
+            callback.accept(res.refresh_token);
+        }
+    }
+    
+    private static void writeText(HttpExchange req, String text) throws IOException {
+        byte[] responseBody = text.getBytes(StandardCharsets.UTF_8);
+        req.sendResponseHeaders(200, responseBody.length);
+        try (var out = req.getResponseBody()) {
+            out.write(responseBody);
+        }
+    }
+    
+    public static class LoginData {
+        
+        public String mcToken;
+        public String newRefreshToken;
+        public String uuid, username;
+        
+        public LoginData() {}
+        
+        public LoginData(String mcToken, String newRefreshToken, String uuid, String username) {
+            this.mcToken = mcToken;
+            this.newRefreshToken = newRefreshToken;
+            this.uuid = uuid;
+            this.username = username;
+        }
+        
+        public boolean isGood() {
+            return mcToken != null;
         }
         
     }
@@ -242,12 +233,6 @@ public class MicrosoftLogin {
         
         private Item[] items;
         
-        private static class Item {
-            
-            private String name;
-            
-        }
-        
         private boolean hasGameOwnership() {
             boolean hasProduct = false;
             boolean hasGame = false;
@@ -261,6 +246,12 @@ public class MicrosoftLogin {
             }
             
             return hasProduct && hasGame;
+        }
+        
+        private static class Item {
+            
+            private String name;
+            
         }
         
     }
