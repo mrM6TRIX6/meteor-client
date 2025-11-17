@@ -129,7 +129,7 @@ public class Spammer extends Module {
     private String text;
     
     public Spammer() {
-        super(Categories.Misc, "spam", "Spams specified messages in chat.");
+        super(Categories.Misc, "spammer", "Spams specified messages in chat.");
     }
     
     @Override

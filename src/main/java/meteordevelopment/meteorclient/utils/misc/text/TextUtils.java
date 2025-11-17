@@ -146,4 +146,27 @@ public class TextUtils {
         stack.pop();
     }
     
+    /**
+     * Removes unpaired multibyte characters<br>
+     * Characters outside the BMP (Basic Multilingual Plane) are encoded as
+     * surrogate pairs, lone surrogates are invalid and can break encoders/IO<br>
+     */
+    public static String removeUnpairedMultibyte(String message) {
+        if (message.isBlank()) {
+            return message;
+        }
+        
+        StringBuilder builder = new StringBuilder(message.length());
+        int codePoint;
+        
+        for (int i = 0; i < message.length(); i += Character.charCount(codePoint)) {
+            codePoint = message.codePointAt(i);
+            if (Character.charCount(codePoint) == 2 || !Character.isSurrogate(message.charAt(i))) {
+                builder.appendCodePoint(codePoint);
+            }
+        }
+        
+        return builder.toString();
+    }
+    
 }

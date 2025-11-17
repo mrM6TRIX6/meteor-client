@@ -5,9 +5,13 @@
 
 package meteordevelopment.meteorclient.utils.misc;
 
+import com.mojang.datafixers.util.Pair;
+import com.mojang.serialization.DataResult;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.utils.render.prompts.OkPrompt;
+import meteordevelopment.meteorclient.utils.world.RegistryUtils;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 
@@ -19,8 +23,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class NbtUtils {
     
-    private NbtUtils() {
-    }
+    private NbtUtils() {}
     
     public static <T extends ISerializable<?>> NbtList listToTag(Iterable<T> list) {
         NbtList tag = new NbtList();
@@ -120,6 +123,14 @@ public class NbtUtils {
             
             return null;
         }
+    }
+    
+    public static DataResult<NbtElement> encodeToNbt(ItemStack stack) {
+        return ItemStack.CODEC.encodeStart(RegistryUtils.REGISTRY_ACCESS.getOps(NbtOps.INSTANCE), stack);
+    }
+    
+    public static DataResult<ItemStack> decodeFromNbt(NbtElement nbt) {
+        return ItemStack.CODEC.decode(RegistryUtils.REGISTRY_ACCESS.getOps(NbtOps.INSTANCE), nbt).map(Pair::getFirst);
     }
     
     public interface ToKey<T> {

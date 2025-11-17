@@ -8,10 +8,16 @@ package meteordevelopment.meteorclient.commands.commands;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.ComponentMapArgumentType;
+import meteordevelopment.meteorclient.utils.misc.NbtUtils;
 import meteordevelopment.meteorclient.utils.misc.text.MeteorClickEvent;
+import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
+import meteordevelopment.meteorclient.utils.player.InventoryUtils;
+import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import meteordevelopment.meteorclient.utils.world.RegistryUtils;
+import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.DataCommandObject;
 import net.minecraft.command.EntityDataObject;
@@ -19,6 +25,7 @@ import net.minecraft.command.argument.NbtPathArgumentType;
 import net.minecraft.command.argument.RegistryKeyArgumentType;
 import net.minecraft.component.*;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
@@ -31,21 +38,9 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 public class NbtCommand extends Command {
-    
-    private final Text copyButton = Text.literal("NBT").setStyle(Style.EMPTY
-        .withFormatting(Formatting.UNDERLINE)
-        .withClickEvent(new MeteorClickEvent(
-            this.toString("copy")
-        ))
-        .withHoverEvent(new HoverEvent.ShowText(
-            Text.literal("Copy the NBT data to your clipboard.")
-        ))
-    );
     
     public NbtCommand() {
         super("nbt", "Modifies NBT data for an item, example: .nbt add [minecraft:item_name=\"Test\"]");
@@ -64,7 +59,7 @@ public class NbtCommand extends Command {
                         ComponentMap testComponents = ComponentMap.of(itemComponents, newComponents);
                         
                         stack.applyComponentsFrom(testComponents);
-                        setStack(stack);
+                        InventoryUtils.clickCreativeStack(stack, mc.player.getInventory().getSelectedSlot());
                     }
                     
                     return SINGLE_SUCCESS;
@@ -96,7 +91,7 @@ public class NbtCommand extends Command {
                         }
                         
                         stackComponents.applyChanges(changesBuilder.build());
-                        setStack(stack);
+                        InventoryUtils.clickCreativeStack(stack, mc.player.getInventory().getSelectedSlot());
                     }
                     
                     return SINGLE_SUCCESS;
@@ -117,7 +112,7 @@ public class NbtCommand extends Command {
                         MergedComponentMap components = (MergedComponentMap) stack.getComponents();
                         components.applyChanges(ComponentChanges.builder().remove(componentType).build());
                         
-                        setStack(stack);
+                        InventoryUtils.clickCreativeStack(stack, mc.player.getInventory().getSelectedSlot());
                     }
                     
                     return SINGLE_SUCCESS;
@@ -155,71 +150,57 @@ public class NbtCommand extends Command {
         
         builder.then(literal("get")
             .executes(context -> {
-                DataCommandObject dataCommandObject = new EntityDataObject(mc.player);
-                NbtPathArgumentType.NbtPath handPath = NbtPathArgumentType.NbtPath.parse("SelectedItem");
+                ItemStack stack = mc.player.getInventory().getSelectedStack();
                 
-                MutableText text = Text.empty().append(copyButton);
-                
-                try {
-                    List<NbtElement> nbtElement = handPath.get(dataCommandObject.getNbt());
-                    if (!nbtElement.isEmpty()) {
-                        text.append(" ").append(NbtHelper.toPrettyPrintedText(nbtElement.getFirst()));
-                    }
-                } catch (CommandSyntaxException e) {
-                    text.append("[]");
+                Optional<NbtElement> stackNbtOptional = NbtUtils.encodeToNbt(stack).result();
+                // Is modified or has NBT
+                if (stack.getComponentChanges().isEmpty()
+                    || stackNbtOptional.isEmpty()
+                    || !(stackNbtOptional.get() instanceof NbtCompound nbt)
+                    || !nbt.contains("components")
+                ) {
+                    error("That item does not have NBT.");
+                    return SINGLE_SUCCESS;
                 }
                 
-                info(text);
+                final int MAX_HOVER_LENGTH = 15000;
+                String nbtString = toFormatedComponent(nbt.getCompoundOrEmpty("components"), false).getString();
+                String nbtStringHover = nbtString;
+                nbtString = TextUtils.removeUnpairedMultibyte(nbtString);
+                int nbtLength = nbtString.length();
+                
+                // If the hover text is too long it gives a lot of lag with cursor over it (and doesn't fit on the screen)
+                if (nbtLength > MAX_HOVER_LENGTH) {
+                    nbtStringHover = "..." + nbtStringHover.substring(nbtLength - MAX_HOVER_LENGTH, nbtLength);
+                }
+                
+                Text length = Text.literal(String.valueOf(nbtLength)).setStyle(Style.EMPTY.withColor(Formatting.WHITE));
+                MutableText lengthMessage = Text.literal("Length: ").setStyle(Style.EMPTY.withColor(Formatting.GRAY)).append(length);
+                
+                MutableText nbtText = nbtToText(nbt, nbtString);
+                MutableText message = nbtChatMessageOf(stack, nbtText, nbtString, nbtStringHover);
+                
+                info(message.append("\n").append(lengthMessage));
                 return SINGLE_SUCCESS;
             })
         );
         
-        builder.then(literal("copy")
-            .executes(context -> {
-                DataCommandObject dataCommandObject = new EntityDataObject(mc.player);
-                NbtPathArgumentType.NbtPath handPath = NbtPathArgumentType.NbtPath.parse("SelectedItem");
-                
-                MutableText text = Text.empty().append(copyButton);
-                String nbt = "[]";
-                
-                try {
-                    List<NbtElement> nbtElement = handPath.get(dataCommandObject.getNbt());
-                    if (!nbtElement.isEmpty()) {
-                        text.append(" ").append(NbtHelper.toPrettyPrintedText(nbtElement.getFirst()));
-                        nbt = nbtElement.getFirst().toString();
-                    }
-                } catch (CommandSyntaxException e) {
-                    text.append("[]");
-                }
-                
-                mc.keyboard.setClipboard(nbt);
-                text.append(" data copied!");
-                info(text);
-                
-                return SINGLE_SUCCESS;
-            })
-        );
-        
-        builder.then(literal("count")
-            .then(argument("count", IntegerArgumentType.integer(-127, 127))
+        builder.then(literal("amount")
+            .then(argument("amount", IntegerArgumentType.integer(-127, 127))
                 .executes(context -> {
                     ItemStack stack = mc.player.getInventory().getSelectedStack();
                     
                     if (validBasic(stack)) {
-                        int count = IntegerArgumentType.getInteger(context, "count");
+                        int count = IntegerArgumentType.getInteger(context, "amount");
                         stack.setCount(count);
-                        setStack(stack);
-                        info("Set mainhand stack count to %s.", count);
+                        InventoryUtils.clickCreativeStack(stack, mc.player.getInventory().getSelectedSlot());
+                        info("Set mainhand stack amount to %s.", count);
                     }
                     
                     return SINGLE_SUCCESS;
                 })
             )
         );
-    }
-    
-    private void setStack(ItemStack itemStack) {
-        mc.player.networkHandler.sendPacket(new CreativeInventoryActionC2SPacket(36 + mc.player.getInventory().getSelectedSlot(), itemStack));
     }
     
     private boolean validBasic(ItemStack stack) {
@@ -234,6 +215,70 @@ public class NbtCommand extends Command {
         }
         
         return true;
+    }
+    
+    /**
+     * Check if the message length fits within 90% of the maximum chat lines in vanilla
+     * in order to avoid writing a message too long which could cause crash with mods
+     * that increase the limit beyond vanilla (and lag spike in vanilla)
+     * <p>
+     * Note: the final result could be more than 90% due to formatting adding spaces.
+     */
+    private MutableText nbtToText(NbtCompound nbt, String nbtString) {
+        final int MAX_CHAT_LINES = 90; // vanilla chat lines = 100
+        if (mc.textRenderer.getWidth(nbtString) > ChatHud.getWidth(mc.options.getChatWidth().getValue()) * MAX_CHAT_LINES) {
+            String message = String.format("[%s]", Text.literal("Nbt too long for chat").getString());
+            return Text.literal(message).setStyle(Style.EMPTY.withColor(Formatting.WHITE));
+        } else {
+            return toFormatedComponent(nbt.getCompoundOrEmpty("components"), true);
+        }
+    }
+    
+    private MutableText nbtChatMessageOf(ItemStack stack, MutableText nbtMessage, String nbtString, String nbtStringHover) {
+        Text clickToCopyMessage = Text.literal(" (").append(Text.literal("Click to copy")).append(")")
+            .setStyle(Style.EMPTY.withColor(Formatting.GRAY));
+        
+        return Text.literal(stack.getItem().toString()).setStyle(Style.EMPTY.withColor(Formatting.WHITE))
+            .append(nbtMessage.copy().append(clickToCopyMessage)
+                .setStyle(nbtMessage.getStyle()
+                    .withClickEvent(new MeteorClickEvent.CopyToClipboard(nbtString))
+                    .withHoverEvent(new HoverEvent.ShowText(Text.literal(nbtStringHover)))
+                )
+            );
+    }
+    
+    public static MutableText toFormatedComponent(NbtCompound nbt, boolean prettyPrint) {
+        MutableText result = Text.literal("[");
+        List<Text> componentsText = new ArrayList<>(nbt.getKeys().size());
+        
+        for (var key : nbt.getKeys()) {
+            MutableText text = Text.empty();
+            NbtElement tag = nbt.get(key);
+            
+            if (tag == null) {
+                tag = new NbtCompound();
+            }
+            
+            text.append(Text.literal(key).setStyle(Style.EMPTY.withFormatting(Formatting.DARK_AQUA)));
+            text.append(Text.literal("="));
+            if (prettyPrint) {
+                text.append(NbtHelper.toPrettyPrintedText(tag));
+            } else {
+                text.append(tag.toString());
+            }
+            
+            componentsText.add(text);
+        }
+        
+        for (int i = 0; i != componentsText.size(); i++) {
+            result.append(componentsText.get(i));
+            
+            if (i != componentsText.size() - 1) {
+                result.append(", ");
+            }
+        }
+        
+        return result.append("]");
     }
     
 }
