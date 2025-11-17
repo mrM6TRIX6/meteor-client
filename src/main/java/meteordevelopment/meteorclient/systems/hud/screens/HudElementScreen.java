@@ -108,7 +108,7 @@ public class HudElementScreen extends WindowScreen {
         // Bottom
         WHorizontalList bottomList = add(theme.horizontalList()).expandX().widget();
         
-        //   Active
+        // Active
         bottomList.add(theme.label("Active:"));
         WCheckbox active = bottomList.add(theme.checkbox(element.isActive())).widget();
         active.action = () -> {
@@ -117,7 +117,7 @@ public class HudElementScreen extends WindowScreen {
             }
         };
         
-        //   Remove
+        // Remove
         WMinus remove = bottomList.add(theme.minus()).expandCellX().right().widget();
         remove.action = () -> {
             element.remove();

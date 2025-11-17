@@ -201,7 +201,7 @@ public class InventoryTweaks extends Module {
     private final Setting<ListMode> dumpFilter = sgStealDump.add(new EnumSetting.Builder<ListMode>()
         .name("dump-filter")
         .description("Dump mode.")
-        .defaultValue(ListMode.None)
+        .defaultValue(ListMode.NONE)
         .build()
     );
     
@@ -214,7 +214,7 @@ public class InventoryTweaks extends Module {
     private final Setting<ListMode> stealFilter = sgStealDump.add(new EnumSetting.Builder<ListMode>()
         .name("steal-filter")
         .description("Steal mode.")
-        .defaultValue(ListMode.None)
+        .defaultValue(ListMode.NONE)
         .build()
     );
     
@@ -479,17 +479,17 @@ public class InventoryTweaks extends Module {
             
             Item item = handler.getSlot(i).getStack().getItem();
             if (steal) {
-                if (stealFilter.get() == ListMode.Whitelist && !stealItems.get().contains(item)) {
+                if (stealFilter.get() == ListMode.WHITELIST && !stealItems.get().contains(item)) {
                     continue;
                 }
-                if (stealFilter.get() == ListMode.Blacklist && stealItems.get().contains(item)) {
+                if (stealFilter.get() == ListMode.BLACKLIST && stealItems.get().contains(item)) {
                     continue;
                 }
             } else {
-                if (dumpFilter.get() == ListMode.Whitelist && !dumpItems.get().contains(item)) {
+                if (dumpFilter.get() == ListMode.WHITELIST && !dumpItems.get().contains(item)) {
                     continue;
                 }
-                if (dumpFilter.get() == ListMode.Blacklist && dumpItems.get().contains(item)) {
+                if (dumpFilter.get() == ListMode.BLACKLIST && dumpItems.get().contains(item)) {
                     continue;
                 }
             }
@@ -552,9 +552,11 @@ public class InventoryTweaks extends Module {
     }
     
     private enum ListMode {
-        Whitelist,
-        Blacklist,
-        None
+        
+        WHITELIST,
+        BLACKLIST,
+        NONE
+        
     }
     
 }

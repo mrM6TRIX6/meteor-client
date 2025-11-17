@@ -94,9 +94,9 @@ public class PacketDebugger extends Module {
         String params = packetString.substring(bracketIndex);
         
         if (mc.world != null) {
-            info("[(highlight)%s(default)] (highlight)%s(default)%s", packet.getPacketType().side(), name, params);
+            info("[(highlight)%s(default)/(highlight)%s(default)] (highlight)%s(default)%s", packet.getPacketType().side(), packet.getPacketType().id(), name, params);
         } else {
-            MeteorClient.LOG.info("Packet Debugger | [{}] {}", packet.getPacketType().side(), name + params);
+            MeteorClient.LOG.info("Packet Debugger | [{}/{}] {}", packet.getPacketType().side(), packet.getPacketType().id(), name + params);
         }
     }
     

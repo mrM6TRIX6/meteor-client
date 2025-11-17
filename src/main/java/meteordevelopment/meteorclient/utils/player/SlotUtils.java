@@ -32,8 +32,7 @@ public class SlotUtils {
     public static final int ARMOR_START = 36;
     public static final int ARMOR_END = 39;
     
-    private SlotUtils() {
-    }
+    private SlotUtils() {}
     
     public static int indexToId(int i) {
         if (mc.player == null) {
@@ -108,7 +107,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int survivalInventory(int i) {
+    public static int survivalInventory(int i) {
         if (isHotbar(i)) {
             return 36 + i;
         }
@@ -118,14 +117,14 @@ public class SlotUtils {
         return i;
     }
     
-    private static int creativeInventory(int i) {
+    public static int creativeInventory(int i) {
         if (mc.currentScreen instanceof CreativeInventoryScreen) {
             Registries.ITEM_GROUP.get(ItemGroupsAccessor.meteor$getInventory());
         }
         return survivalInventory(i);
     }
     
-    private static int genericContainer(int i, int rows) {
+    public static int genericContainer(int i, int rows) {
         if (isHotbar(i)) {
             return (rows + 3) * 9 + i;
         }
@@ -135,7 +134,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int craftingTable(int i) {
+    public static int craftingTable(int i) {
         if (isHotbar(i)) {
             return 37 + i;
         }
@@ -145,7 +144,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int furnace(int i) {
+    public static int furnace(int i) {
         if (isHotbar(i)) {
             return 30 + i;
         }
@@ -155,7 +154,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int generic3x3(int i) {
+    public static int generic3x3(int i) {
         if (isHotbar(i)) {
             return 36 + i;
         }
@@ -165,7 +164,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int enchantmentTable(int i) {
+    public static int enchantmentTable(int i) {
         if (isHotbar(i)) {
             return 29 + i;
         }
@@ -175,7 +174,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int brewingStand(int i) {
+    public static int brewingStand(int i) {
         if (isHotbar(i)) {
             return 32 + i;
         }
@@ -185,7 +184,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int villager(int i) {
+    public static int villager(int i) {
         if (isHotbar(i)) {
             return 30 + i;
         }
@@ -195,7 +194,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int beacon(int i) {
+    public static int beacon(int i) {
         if (isHotbar(i)) {
             return 28 + i;
         }
@@ -205,7 +204,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int anvil(int i) {
+    public static int anvil(int i) {
         if (isHotbar(i)) {
             return 30 + i;
         }
@@ -215,7 +214,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int hopper(int i) {
+    public static int hopper(int i) {
         if (isHotbar(i)) {
             return 32 + i;
         }
@@ -225,7 +224,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int horse(ScreenHandler handler, int i) {
+    public static int horse(ScreenHandler handler, int i) {
         AbstractHorseEntity entity = ((HorseScreenHandlerAccessor) handler).meteor$getEntity();
         
         if (entity instanceof LlamaEntity llamaEntity) {
@@ -256,7 +255,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int cartographyTable(int i) {
+    public static int cartographyTable(int i) {
         if (isHotbar(i)) {
             return 30 + i;
         }
@@ -266,7 +265,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int grindstone(int i) {
+    public static int grindstone(int i) {
         if (isHotbar(i)) {
             return 30 + i;
         }
@@ -276,11 +275,11 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int lectern() {
+    public static int lectern() {
         return -1;
     }
     
-    private static int loom(int i) {
+    public static int loom(int i) {
         if (isHotbar(i)) {
             return 31 + i;
         }
@@ -290,7 +289,7 @@ public class SlotUtils {
         return -1;
     }
     
-    private static int stonecutter(int i) {
+    public static int stonecutter(int i) {
         if (isHotbar(i)) {
             return 29 + i;
         }
