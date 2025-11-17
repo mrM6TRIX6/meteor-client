@@ -254,7 +254,7 @@ public class ServerCommand extends Command {
             return;
         }
         if (++ticks >= 100) {
-            info("Timeout.");
+            error("Timeout for get plugins.");
             
             waitingPlugins = false;
             ticks = 0;

@@ -85,9 +85,7 @@ public class StealCommand extends Command {
             throw EMPTY_SLOT.create(slot.getName());
         }
         
-        int slotToGive = InventoryUtils.findEmptyGive();
-        mc.player.getInventory().setStack(slotToGive, itemStack);
-        mc.interactionManager.clickCreativeStack(itemStack, SlotUtils.creativeInventory(slotToGive));
+        InventoryUtils.clickCreativeStack(itemStack, InventoryUtils.findEmptyGive());
     }
     
 }

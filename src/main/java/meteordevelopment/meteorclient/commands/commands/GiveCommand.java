@@ -10,9 +10,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
-import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
-import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.ItemStackArgumentType;
@@ -60,9 +58,7 @@ public class GiveCommand extends Command {
         if (!mc.player.getAbilities().creativeMode) {
             throw NOT_IN_CREATIVE.create();
         }
-        
-        mc.player.getInventory().setStack(slot, itemStack);
-        mc.interactionManager.clickCreativeStack(itemStack, SlotUtils.creativeInventory(slot));
+        InventoryUtils.clickCreativeStack(itemStack, slot);
     }
     
 }

@@ -232,6 +232,7 @@ public class NbtCommand extends Command {
             error("You must hold an item in your main hand.");
             return false;
         }
+        
         return true;
     }
     

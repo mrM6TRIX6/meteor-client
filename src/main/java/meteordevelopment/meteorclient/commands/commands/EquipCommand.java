@@ -9,6 +9,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
+import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.EquipmentSlot;
@@ -60,20 +61,13 @@ public class EquipCommand extends Command {
             throw NOT_IN_CREATIVE.create();
         }
         
-        PlayerInventory inventory = mc.player.getInventory();
-        ItemStack handStack = mc.player.getMainHandStack();
-        ItemStack armorStack = mc.player.getEquippedStack(slot);
-        
         // I don't know why but at least with ClientPlayerInteractionManager#clickCreativeStack
         // they are placed in the reverse order
         // 5 = crafting slot + crafting result slot
         int armorSlotId = Math.abs(slot.getOffsetEntitySlotId(-3)) + 5;
         
-        inventory.setStack(slot.getOffsetEntitySlotId(SlotUtils.HEAD), handStack);
-        mc.interactionManager.clickCreativeStack(handStack, armorSlotId);
-        
-        inventory.setStack(inventory.getSelectedSlot(), armorStack);
-        mc.interactionManager.clickCreativeStack(armorStack, SlotUtils.creativeInventory(inventory.getSelectedSlot()));
+        InventoryUtils.clickCreativeStack(mc.player.getMainHandStack(), armorSlotId, true);
+        InventoryUtils.clickCreativeStack(mc.player.getEquippedStack(slot), mc.player.getInventory().getSelectedSlot());
     }
     
 }

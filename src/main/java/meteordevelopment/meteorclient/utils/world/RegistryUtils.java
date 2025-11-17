@@ -18,6 +18,25 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class RegistryUtils {
     
+    /**
+     * Static registry access for command argument types that rely on Minecraft registries.
+     * <p>
+     * Argument types requiring registry data (e.g., block, item, or entity types) use this
+     * {@link CommandRegistryAccess} object. Since dynamic registries are server-specific,
+     * this field must be updated with each server join to ensure proper registry access.
+     * <p>
+     * The command tree and {@link CommandDispatcher} require rebuilding when registries change because:
+     * <ol>
+     * <li>Registry-dependent argument types create and store registry wrapper objects during command tree building
+     * <li>Registry entries use referential equality - wrapper objects become stale after server changes
+     * <li>CommandDispatcher node merging cannot replace existing stale argument type objects
+     * </ol>
+     * <p>
+     * Initialized with built-in registries and updated in {@link #onGameJoin(GameJoinEvent)} with the
+     * current world's registry manager and enabled features.
+     *
+     * @see #onGameJoin(GameJoinEvent)
+     */
     public static CommandRegistryAccess REGISTRY_ACCESS = CommandManager.createRegistryAccess(BuiltinRegistries.createWrapperLookup());
     
     @PreInit
@@ -26,19 +45,8 @@ public class RegistryUtils {
     }
     
     /**
-     * Argument types that rely on Minecraft registries access those registries through a {@link CommandRegistryAccess}
-     * object. Since dynamic registries are specific to each server, we need to make a new CommandRegistryAccess object
-     * every time we join a server.
-     * <p>
-     * The command tree and by extension the {@link CommandDispatcher} also have to be rebuilt because:
-     * <ol>
-     * <li>Argument types that require registries use a registry wrapper object that is created and stored in the
-     *     argument type objects when the command tree is built.
-     * <li>Registry entries and keys are compared using referential equality. Even if the data encoded is the same,
-     *     registry wrapper objects' dynamic data becomes stale after joining another server.
-     * <li>The CommandDispatcher's node merging only adds missing children, it cannot replace stale argument type
-     *     objects.
-     * </ol>
+     * Updates {@link #REGISTRY_ACCESS} with the current world's registry manager when joining a new world/server.
+     * This ensures command argument types have access to the correct server-specific dynamic registries.
      */
     @EventHandler
     private static void onGameJoin(GameJoinEvent event) {

@@ -9,6 +9,7 @@ import meteordevelopment.meteorclient.mixininterface.IClientPlayerInteractionMan
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.SlotActionType;
 
@@ -95,6 +96,9 @@ public class InventoryUtils {
         return find(ItemStack::isEmpty);
     }
     
+    /**
+     * Find empty slot to give an item. If there are no empty slot, it returns the selected slot.
+     */
     public static int findEmptyGive() {
         int selectedSlot = mc.player.getInventory().getSelectedSlot();
         
@@ -263,6 +267,26 @@ public class InventoryUtils {
         if (!mc.player.currentScreenHandler.getCursorStack().isEmpty()) {
             mc.interactionManager.clickSlot(mc.player.currentScreenHandler.syncId, ScreenHandler.EMPTY_SPACE_SLOT_INDEX, 0, SlotActionType.PICKUP, mc.player);
         }
+    }
+    
+    // Creative inventory
+    
+    public static void clickCreativeStack(ItemStack itemStack, int slot) {
+        clickCreativeStack(itemStack, slot, false);
+    }
+    
+    /**
+     * In protocol versions 1.21.2 and higher, the server no longer sends a ScreenHandlerSlotUpdateS2CPacket after the
+     * CreativeInventoryActionC2SPacket is sent by the client, which leads to desync client and server inventories.
+     * <p>
+     * This can be solved by manually updating on the client side by forced setting the stack to the slot.
+     */
+    public static void clickCreativeStack(ItemStack itemStack, int slot, boolean isId) {
+        if (!isId) {
+            slot = SlotUtils.creativeInventory(slot);
+        }
+        mc.getNetworkHandler().sendPacket(new CreativeInventoryActionC2SPacket(slot, itemStack));
+        mc.player.playerScreenHandler.getSlot(slot).setStack(itemStack);
     }
     
     public static class Action {
