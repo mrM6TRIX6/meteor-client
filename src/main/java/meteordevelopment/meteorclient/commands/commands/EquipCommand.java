@@ -9,6 +9,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
+import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerInventory;
@@ -20,7 +21,7 @@ public class EquipCommand extends Command {
     private final static SimpleCommandExceptionType NOT_IN_CREATIVE = new SimpleCommandExceptionType(Text.literal("You must be in creative mode to use this."));
     
     public EquipCommand() {
-        super("equip", "Put any item in any armor slot. Creative mode only.");
+        super("equip", "Put any item in any armor slot.");
     }
     
     @Override
@@ -62,16 +63,17 @@ public class EquipCommand extends Command {
         PlayerInventory inventory = mc.player.getInventory();
         ItemStack handStack = mc.player.getMainHandStack();
         ItemStack armorStack = mc.player.getEquippedStack(slot);
+        
         // I don't know why but at least with ClientPlayerInteractionManager#clickCreativeStack
         // they are placed in the reverse order
         // 5 = crafting slot + crafting result slot
         int armorSlotId = Math.abs(slot.getOffsetEntitySlotId(-3)) + 5;
         
+        inventory.setStack(slot.getOffsetEntitySlotId(SlotUtils.HEAD), handStack);
         mc.interactionManager.clickCreativeStack(handStack, armorSlotId);
-        inventory.setStack(slot.getOffsetEntitySlotId(PlayerInventory.MAIN_SIZE), handStack);
         
-        mc.interactionManager.clickCreativeStack(armorStack, PlayerInventory.MAIN_SIZE + inventory.getSelectedSlot());
         inventory.setStack(inventory.getSelectedSlot(), armorStack);
+        mc.interactionManager.clickCreativeStack(armorStack, SlotUtils.creativeInventory(inventory.getSelectedSlot()));
     }
     
 }

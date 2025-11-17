@@ -32,6 +32,11 @@ public class SlotUtils {
     public static final int ARMOR_START = 36;
     public static final int ARMOR_END = 39;
     
+    public static final int HEAD = 39;
+    public static final int CHEST = 38;
+    public static final int LEGS = 37;
+    public static final int FEET = 36;
+    
     private SlotUtils() {}
     
     public static int indexToId(int i) {
