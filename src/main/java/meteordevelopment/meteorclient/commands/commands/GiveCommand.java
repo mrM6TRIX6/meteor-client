@@ -31,7 +31,6 @@ public class GiveCommand extends Command {
             .executes(context -> {
                 ItemStack itemStack = ItemStackArgumentType.getItemStackArgument(context, "item").createStack(1, false);
                 giveItem(itemStack, InventoryUtils.findEmptyGive());
-                
                 return SINGLE_SUCCESS;
             })
             .then(argument("number", IntegerArgumentType.integer(1, 99))

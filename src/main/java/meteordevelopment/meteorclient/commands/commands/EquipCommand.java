@@ -10,11 +10,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
-import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
 public class EquipCommand extends Command {

@@ -12,12 +12,10 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.PlayerArgumentType;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
-import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
 import net.minecraft.text.Text;
 
 public class StealCommand extends Command {

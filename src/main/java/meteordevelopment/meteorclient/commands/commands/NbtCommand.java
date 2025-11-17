@@ -5,30 +5,25 @@
 
 package meteordevelopment.meteorclient.commands.commands;
 
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.ComponentMapArgumentType;
 import meteordevelopment.meteorclient.utils.misc.NbtUtils;
 import meteordevelopment.meteorclient.utils.misc.text.MeteorClickEvent;
 import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
-import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.command.CommandSource;
-import net.minecraft.command.DataCommandObject;
-import net.minecraft.command.EntityDataObject;
-import net.minecraft.command.argument.NbtPathArgumentType;
 import net.minecraft.command.argument.RegistryKeyArgumentType;
 import net.minecraft.component.*;
+import net.minecraft.component.type.LoreComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
-import net.minecraft.network.packet.c2s.play.CreativeInventoryActionC2SPacket;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -201,6 +196,69 @@ public class NbtCommand extends Command {
                 })
             )
         );
+        
+        builder.then(literal("pastelore")
+            .executes(context -> {
+                pasteLore(
+                    16777215,
+                    false,
+                    false
+                );
+                return SINGLE_SUCCESS;
+            })
+            .then(argument("color", IntegerArgumentType.integer(0, 16777215))
+                .executes(context -> {
+                    pasteLore(
+                        IntegerArgumentType.getInteger(context, "color"),
+                        false,
+                        false
+                    );
+                    return SINGLE_SUCCESS;
+                })
+                .then(argument("bold", BoolArgumentType.bool())
+                    .executes(context -> {
+                        pasteLore(
+                            IntegerArgumentType.getInteger(context, "color"),
+                            BoolArgumentType.getBool(context, "bold"),
+                            false
+                        );
+                        return SINGLE_SUCCESS;
+                    })
+                    .then(argument("italic", BoolArgumentType.bool())
+                        .executes(context -> {
+                            pasteLore(
+                                IntegerArgumentType.getInteger(context, "color"),
+                                BoolArgumentType.getBool(context, "bold"),
+                                BoolArgumentType.getBool(context, "italic")
+                            );
+                            return SINGLE_SUCCESS;
+                        })
+                    )
+                )
+            )
+        );
+    }
+    
+    private void pasteLore(int color, boolean bold, boolean italic) {
+        ItemStack stack = mc.player.getInventory().getSelectedStack();
+        
+        String data = mc.keyboard.getClipboard().replace("\r", "");
+        String[] lines = data.split("\n");
+        
+        List<Text> lore = Arrays.stream(lines)
+            .map(Text::literal)
+            .map(line -> Text.of(line.setStyle(Style.EMPTY
+                .withColor(color)
+                .withBold(bold)
+                .withItalic(italic)
+            )))
+            .toList();
+        
+        stack.applyComponentsFrom(ComponentMap.builder()
+            .add(DataComponentTypes.LORE, new LoreComponent(lore))
+            .build());
+        
+        InventoryUtils.clickCreativeStack(stack, mc.player.getInventory().getSelectedSlot());
     }
     
     private boolean validBasic(ItemStack stack) {

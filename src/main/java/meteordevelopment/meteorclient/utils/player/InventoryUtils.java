@@ -299,8 +299,7 @@ public class InventoryUtils {
         
         private boolean isRecursive = false;
         
-        private Action() {
-        }
+        private Action() {}
         
         // From
         
