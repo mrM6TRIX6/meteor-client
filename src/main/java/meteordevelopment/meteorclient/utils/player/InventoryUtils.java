@@ -95,6 +95,17 @@ public class InventoryUtils {
         return find(ItemStack::isEmpty);
     }
     
+    public static int findEmptyGive() {
+        int selectedSlot = mc.player.getInventory().getSelectedSlot();
+        
+        if (mc.player.getInventory().getSelectedStack().isEmpty()) {
+            return selectedSlot;
+        }
+        
+        FindItemResult fir = find(ItemStack::isEmpty, 0, 35);
+        return fir.found() ? fir.slot() : selectedSlot;
+    }
+    
     public static FindItemResult findInHotbar(Item... items) {
         return findInHotbar(itemStack -> {
             for (Item item : items) {

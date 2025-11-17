@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.commands.commands;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
@@ -30,32 +31,20 @@ public class GiveCommand extends Command {
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("item", ItemStackArgumentType.itemStack(RegistryUtils.REGISTRY_ACCESS))
             .executes(context -> {
-                if (!mc.player.getAbilities().creativeMode) {
-                    throw NOT_IN_CREATIVE.create();
-                }
-                
                 ItemStack itemStack = ItemStackArgumentType.getItemStackArgument(context, "item").createStack(1, false);
-                giveItem(itemStack, findEmptySlot());
+                giveItem(itemStack, InventoryUtils.findEmptyGive());
                 
                 return SINGLE_SUCCESS;
             })
             .then(argument("number", IntegerArgumentType.integer(1, 99))
                 .executes(context -> {
-                    if (!mc.player.getAbilities().creativeMode) {
-                        throw NOT_IN_CREATIVE.create();
-                    }
-                    
                     ItemStack itemStack = ItemStackArgumentType.getItemStackArgument(context, "item").createStack(IntegerArgumentType.getInteger(context, "number"), true);
-                    giveItem(itemStack, findEmptySlot());
+                    giveItem(itemStack, InventoryUtils.findEmptyGive());
                     
                     return SINGLE_SUCCESS;
                 })
                 .then(argument("slot", IntegerArgumentType.integer(0, 40))
                     .executes(context -> {
-                        if (!mc.player.getAbilities().creativeMode) {
-                            throw NOT_IN_CREATIVE.create();
-                        }
-                        
                         ItemStack itemStack = ItemStackArgumentType.getItemStackArgument(context, "item").createStack(IntegerArgumentType.getInteger(context, "number"), true);
                         int slot = IntegerArgumentType.getInteger(context, "slot");
                         giveItem(itemStack, slot);
@@ -67,18 +56,11 @@ public class GiveCommand extends Command {
         );
     }
     
-    private int findEmptySlot() {
-        int selectedSlot = mc.player.getInventory().getSelectedSlot();
-        
-        if (mc.player.getInventory().getSelectedStack().isEmpty()) {
-            return selectedSlot;
+    private void giveItem(ItemStack itemStack, int slot) throws CommandSyntaxException {
+        if (!mc.player.getAbilities().creativeMode) {
+            throw NOT_IN_CREATIVE.create();
         }
         
-        FindItemResult fir = InventoryUtils.find(ItemStack::isEmpty, 0, 35);
-        return fir.found() ? fir.slot() : selectedSlot;
-    }
-    
-    private void giveItem(ItemStack itemStack, int slot) {
         mc.player.getInventory().setStack(slot, itemStack);
         mc.interactionManager.clickCreativeStack(itemStack, SlotUtils.creativeInventory(slot));
     }
