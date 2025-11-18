@@ -52,6 +52,7 @@ public class Commands {
         add(new InventoryCommand());
         add(new LocateCommand());
         add(new MacroCommand());
+        add(new MemoryCommand());
         add(new ModulesCommand());
         add(new NameHistoryCommand());
         add(new NbtCommand());
