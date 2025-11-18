@@ -39,77 +39,36 @@ public class SlotUtils {
     
     private SlotUtils() {}
     
-    public static int indexToId(int i) {
+    public static int indexToIdCurrentHandler(int i) {
         if (mc.player == null) {
             return -1;
         }
-        ScreenHandler handler = mc.player.currentScreenHandler;
         
-        if (handler instanceof PlayerScreenHandler) {
-            return survivalInventory(i);
-        }
-        if (handler instanceof CreativeInventoryScreen.CreativeScreenHandler) {
-            return creativeInventory(i);
-        }
-        if (handler instanceof GenericContainerScreenHandler genericContainerScreenHandler) {
-            return genericContainer(i, genericContainerScreenHandler.getRows());
-        }
-        if (handler instanceof CraftingScreenHandler) {
-            return craftingTable(i);
-        }
-        if (handler instanceof FurnaceScreenHandler) {
-            return furnace(i);
-        }
-        if (handler instanceof BlastFurnaceScreenHandler) {
-            return furnace(i);
-        }
-        if (handler instanceof SmokerScreenHandler) {
-            return furnace(i);
-        }
-        if (handler instanceof Generic3x3ContainerScreenHandler) {
-            return generic3x3(i);
-        }
-        if (handler instanceof EnchantmentScreenHandler) {
-            return enchantmentTable(i);
-        }
-        if (handler instanceof BrewingStandScreenHandler) {
-            return brewingStand(i);
-        }
-        if (handler instanceof MerchantScreenHandler) {
-            return villager(i);
-        }
-        if (handler instanceof BeaconScreenHandler) {
-            return beacon(i);
-        }
-        if (handler instanceof AnvilScreenHandler) {
-            return anvil(i);
-        }
-        if (handler instanceof HopperScreenHandler) {
-            return hopper(i);
-        }
-        if (handler instanceof ShulkerBoxScreenHandler) {
-            return genericContainer(i, 3);
-        }
-        if (handler instanceof HorseScreenHandler) {
-            return horse(handler, i);
-        }
-        if (handler instanceof CartographyTableScreenHandler) {
-            return cartographyTable(i);
-        }
-        if (handler instanceof GrindstoneScreenHandler) {
-            return grindstone(i);
-        }
-        if (handler instanceof LecternScreenHandler) {
-            return lectern();
-        }
-        if (handler instanceof LoomScreenHandler) {
-            return loom(i);
-        }
-        if (handler instanceof StonecutterScreenHandler) {
-            return stonecutter(i);
-        }
-        
-        return -1;
+        return switch(mc.player.currentScreenHandler) {
+            case PlayerScreenHandler ignored -> survivalInventory(i);
+            case CreativeInventoryScreen.CreativeScreenHandler ignored -> creativeInventory(i);
+            case GenericContainerScreenHandler handler -> genericContainer(i, handler.getRows());
+            case CraftingScreenHandler ignored -> craftingTable(i);
+            case FurnaceScreenHandler ignored -> furnace(i);
+            case BlastFurnaceScreenHandler ignored -> furnace(i);
+            case SmokerScreenHandler ignored -> furnace(i);
+            case Generic3x3ContainerScreenHandler ignored -> generic3x3(i);
+            case EnchantmentScreenHandler ignored -> enchantmentTable(i);
+            case BrewingStandScreenHandler ignored -> brewingStand(i);
+            case MerchantScreenHandler ignored -> villager(i);
+            case BeaconScreenHandler ignored -> beacon(i);
+            case AnvilScreenHandler ignored -> anvil(i);
+            case HopperScreenHandler ignored -> hopper(i);
+            case ShulkerBoxScreenHandler ignored -> genericContainer(i, 3);
+            case HorseScreenHandler handler -> horse(handler, i);
+            case CartographyTableScreenHandler ignored -> cartographyTable(i);
+            case GrindstoneScreenHandler ignored -> grindstone(i);
+            case LecternScreenHandler ignored -> lectern();
+            case LoomScreenHandler ignored -> loom(i);
+            case StonecutterScreenHandler ignored -> stonecutter(i);
+            
+            default -> -1;
+        };
     }
     
     public static int survivalInventory(int i) {

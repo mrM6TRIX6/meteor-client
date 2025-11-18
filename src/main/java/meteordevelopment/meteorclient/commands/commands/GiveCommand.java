@@ -40,7 +40,7 @@ public class GiveCommand extends Command {
                     
                     return SINGLE_SUCCESS;
                 })
-                .then(argument("slot", IntegerArgumentType.integer(0, 40))
+                .then(argument("slot", IntegerArgumentType.integer(0, mc.player.playerScreenHandler.slots.size() - 1))
                     .executes(context -> {
                         ItemStack itemStack = ItemStackArgumentType.getItemStackArgument(context, "item").createStack(IntegerArgumentType.getInteger(context, "number"), true);
                         int slot = IntegerArgumentType.getInteger(context, "slot");

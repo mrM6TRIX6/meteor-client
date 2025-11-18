@@ -506,11 +506,11 @@ public class InventoryTweaks extends Module {
     }
     
     public void steal(ScreenHandler handler) {
-        MeteorExecutor.execute(() -> moveSlots(handler, 0, SlotUtils.indexToId(SlotUtils.MAIN_START), true));
+        MeteorExecutor.execute(() -> moveSlots(handler, 0, SlotUtils.indexToIdCurrentHandler(SlotUtils.MAIN_START), true));
     }
     
     public void dump(ScreenHandler handler) {
-        int playerInvOffset = SlotUtils.indexToId(SlotUtils.MAIN_START);
+        int playerInvOffset = SlotUtils.indexToIdCurrentHandler(SlotUtils.MAIN_START);
         MeteorExecutor.execute(() -> moveSlots(handler, playerInvOffset, playerInvOffset + 4 * 9, false));
     }
     

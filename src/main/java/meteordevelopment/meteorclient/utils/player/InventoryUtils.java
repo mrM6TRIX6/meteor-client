@@ -276,10 +276,10 @@ public class InventoryUtils {
     }
     
     /**
-     * In protocol versions 1.21.2 and higher, the server no longer sends a ScreenHandlerSlotUpdateS2CPacket after the
+     * In protocol versions 1.21.2 and higher, the server not sends a ScreenHandlerSlotUpdateS2CPacket after the
      * CreativeInventoryActionC2SPacket is sent by the client, which leads to desync client and server inventories.
      * <p>
-     * This can be solved by manually updating on the client side by forced setting the stack to the slot.
+     * This can be solved by force updating on the client side by setting the stack to the slot in playerScreenHandler.
      */
     public static void clickCreativeStack(ItemStack itemStack, int slot, boolean isId) {
         if (!isId) {
@@ -309,7 +309,7 @@ public class InventoryUtils {
         }
         
         public Action from(int index) {
-            return fromId(SlotUtils.indexToId(index));
+            return fromId(SlotUtils.indexToIdCurrentHandler(index));
         }
         
         public Action fromHotbar(int i) {
@@ -336,7 +336,7 @@ public class InventoryUtils {
         }
         
         public void to(int index) {
-            toId(SlotUtils.indexToId(index));
+            toId(SlotUtils.indexToIdCurrentHandler(index));
         }
         
         public void toHotbar(int i) {
@@ -363,7 +363,7 @@ public class InventoryUtils {
         }
         
         public void slot(int index) {
-            slotId(SlotUtils.indexToId(index));
+            slotId(SlotUtils.indexToIdCurrentHandler(index));
         }
         
         public void slotHotbar(int i) {

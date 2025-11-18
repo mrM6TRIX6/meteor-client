@@ -42,14 +42,14 @@ public class ESP extends Module {
     public final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("Rendering mode.")
-        .defaultValue(Mode.Shader)
+        .defaultValue(Mode.SHADER)
         .build()
     );
     
     public final Setting<Integer> outlineWidth = sgGeneral.add(new IntSetting.Builder()
         .name("outline-width")
         .description("The width of the shader outline.")
-        .visible(() -> mode.get() == Mode.Shader)
+        .visible(() -> mode.get() == Mode.SHADER)
         .defaultValue(2)
         .range(1, 10)
         .sliderRange(1, 5)
@@ -59,7 +59,7 @@ public class ESP extends Module {
     public final Setting<Double> glowMultiplier = sgGeneral.add(new DoubleSetting.Builder()
         .name("glow-multiplier")
         .description("Multiplier for glow effect")
-        .visible(() -> mode.get() == Mode.Shader)
+        .visible(() -> mode.get() == Mode.SHADER)
         .decimalPlaces(3)
         .defaultValue(3.5)
         .min(0)
@@ -77,7 +77,7 @@ public class ESP extends Module {
     public final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
-        .visible(() -> mode.get() != Mode.Glow)
+        .visible(() -> mode.get() != Mode.GLOW)
         .defaultValue(ShapeMode.Both)
         .build()
     );
@@ -85,7 +85,7 @@ public class ESP extends Module {
     public final Setting<Double> fillOpacity = sgGeneral.add(new DoubleSetting.Builder()
         .name("fill-opacity")
         .description("The opacity of the shape fill.")
-        .visible(() -> shapeMode.get() != ShapeMode.Lines && mode.get() != Mode.Glow)
+        .visible(() -> shapeMode.get() != ShapeMode.Lines && mode.get() != Mode.GLOW)
         .defaultValue(0.3)
         .range(0, 1)
         .sliderMax(1)
@@ -202,7 +202,7 @@ public class ESP extends Module {
                 continue;
             }
             
-            if (mode.get() == Mode.Box || mode.get() == Mode.Wireframe) {
+            if (mode.get() == Mode.BOX || mode.get() == Mode.WIREFRAME) {
                 drawBoundingBox(event, entity);
             }
             count++;
@@ -216,7 +216,7 @@ public class ESP extends Module {
             sideColor.set(color).a((int) (sideColor.a * fillOpacity.get()));
         }
         
-        if (mode.get() == Mode.Box) {
+        if (mode.get() == Mode.BOX) {
             double x = MathHelper.lerp(event.tickDelta, entity.lastRenderX, entity.getX()) - entity.getX();
             double y = MathHelper.lerp(event.tickDelta, entity.lastRenderY, entity.getY()) - entity.getY();
             double z = MathHelper.lerp(event.tickDelta, entity.lastRenderZ, entity.getZ()) - entity.getZ();
@@ -254,7 +254,7 @@ public class ESP extends Module {
             pos1.set(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
             pos2.set(0, 0, 0);
             
-            //     Bottom
+            // Bottom
             if (checkCorner(box.minX + x, box.minY + y, box.minZ + z, pos1, pos2)) {
                 continue;
             }
@@ -268,7 +268,7 @@ public class ESP extends Module {
                 continue;
             }
             
-            //     Top
+            // Top
             if (checkCorner(box.minX + x, box.maxY + y, box.minZ + z, pos1, pos2)) {
                 continue;
             }
@@ -406,24 +406,26 @@ public class ESP extends Module {
     }
     
     public boolean isShader() {
-        return isActive() && mode.get() == Mode.Shader;
+        return isActive() && mode.get() == Mode.SHADER;
     }
     
     public boolean isGlow() {
-        return isActive() && mode.get() == Mode.Glow;
+        return isActive() && mode.get() == Mode.GLOW;
     }
     
     public enum Mode {
-        Box,
-        Wireframe,
+        
+        BOX,
+        WIREFRAME,
         _2D,
-        Shader,
-        Glow;
+        SHADER,
+        GLOW;
         
         @Override
         public String toString() {
             return this == _2D ? "2D" : super.toString();
         }
+        
     }
     
 }
