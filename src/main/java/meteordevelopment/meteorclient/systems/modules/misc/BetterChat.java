@@ -137,7 +137,7 @@ public class BetterChat extends Module {
     
     private final Setting<Boolean> antiClear = sgFilter.add(new BoolSetting.Builder()
         .name("anti-clear")
-        .description("Prevents servers from clearing chat.")
+        .description("Prevents servers from clearing chat using the essentials method.")
         .defaultValue(true)
         .build()
     );

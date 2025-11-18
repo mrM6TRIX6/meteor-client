@@ -269,8 +269,6 @@ public class InventoryUtils {
         }
     }
     
-    // Creative inventory
-    
     public static void clickCreativeStack(ItemStack itemStack, int slot) {
         clickCreativeStack(itemStack, slot, false);
     }

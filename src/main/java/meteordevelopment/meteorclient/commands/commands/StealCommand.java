@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.commands.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
@@ -21,10 +22,10 @@ import net.minecraft.text.Text;
 public class StealCommand extends Command {
     
     private final static SimpleCommandExceptionType NOT_IN_CREATIVE = new SimpleCommandExceptionType(Text.literal("You must be in creative mode to use this."));
-    private final static DynamicCommandExceptionType EMPTY_SLOT = new DynamicCommandExceptionType(slot -> Text.literal("Player doesn't have an item in " + slot + " slot."));
+    private final static Dynamic2CommandExceptionType EMPTY_SLOT = new Dynamic2CommandExceptionType((player, slot) -> Text.literal("%s doesn't have an item in %s slot.".formatted(player, slot)));
     
     public StealCommand() {
-        super("steal", "Steals an item from the player's equipment slot.");
+        super("steal", "Steals an item from the player equipment slot.");
     }
     
     @Override
@@ -80,7 +81,7 @@ public class StealCommand extends Command {
         
         ItemStack itemStack = player.getEquippedStack(slot).copy();
         if (itemStack.isEmpty()) {
-            throw EMPTY_SLOT.create(slot.getName());
+            throw EMPTY_SLOT.create(player.getName().getString(), slot.getName());
         }
         
         InventoryUtils.clickCreativeStack(itemStack, InventoryUtils.findEmptyGive());
