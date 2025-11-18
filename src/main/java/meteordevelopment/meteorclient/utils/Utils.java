@@ -76,7 +76,6 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Utils {
     
-    public static final Pattern PLAYER_NAME_VALID_CHARS_PATTERN = Pattern.compile("[A-Za-z0-9_]+");
     public static final Pattern FILE_NAME_INVALID_CHARS_PATTERN = Pattern.compile("[\\s\\\\/:*?\"<>|]");
     
     public static boolean isReleasingTrident;

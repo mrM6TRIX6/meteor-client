@@ -16,7 +16,6 @@ import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -25,8 +24,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.DeathMessageS2CPacket;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.regex.Pattern;
 
 public class CommandAura extends Module {
     
@@ -42,7 +39,7 @@ public class CommandAura extends Module {
     private final Setting<Target> targetMode = sgGeneral.add(new EnumSetting.Builder<Target>()
         .name("target")
         .description("Only targets selected target.")
-        .defaultValue(Target.Everyone)
+        .defaultValue(Target.EVERYONE)
         .build()
     );
     
@@ -73,10 +70,9 @@ public class CommandAura extends Module {
     
     @EventHandler
     private void onGameLeft(GameLeftEvent event) {
-        if (!toggleOnLog.get()) {
-            return;
+        if (toggleOnLog.get()) {
+            toggle();
         }
-        toggle();
     }
     
     @EventHandler
@@ -92,26 +88,24 @@ public class CommandAura extends Module {
     
     @EventHandler
     private void onEntityAdded(EntityAddedEvent event) {
-        if (!(event.entity instanceof PlayerEntity) || event.entity.getUuid().equals(Objects.requireNonNull(mc.player).getUuid())) {
+        if (!(event.entity instanceof PlayerEntity) || event.entity.getUuid().equals(mc.player.getUuid())) {
             return;
         }
-        if (!Pattern.matches(Utils.PLAYER_NAME_VALID_CHARS_PATTERN.pattern(), EntityUtils.getName(event.entity))) {
-            return;
-        }
+
         String targetName = event.entity.getName().getString();
         
         switch (targetMode.get()) {
             
-            case Everyone -> {
+            case EVERYONE -> {
                 for (String msg : messages.get()) {
                     ChatUtils.sendPlayerMsg(msg.replaceAll("%target%", targetName).replaceAll("%me%", EntityUtils.getName(mc.player)));
                 }
                 if (isLogs.get()) {
-                    info("Used command on §a" + targetName + "§7.");
+                    info("Used command on (highlight)%s(default).", targetName);
                 }
             }
             
-            case OnlyFriends -> {
+            case ONLY_FRIENDS -> {
                 if (!Friends.get().isFriend((PlayerEntity) event.entity)) {
                     return;
                 }
@@ -119,11 +113,11 @@ public class CommandAura extends Module {
                     ChatUtils.sendPlayerMsg(msg.replaceAll("%target%", targetName).replaceAll("%me%", EntityUtils.getName(mc.player)));
                 }
                 if (isLogs.get()) {
-                    info("Used command on §a" + targetName + "§7.");
+                    info("Used command on (highlight)%s(default).", targetName);
                 }
             }
             
-            case IgnoreFriends -> {
+            case IGNORE_FRIENDS -> {
                 if (Friends.get().isFriend((PlayerEntity) event.entity)) {
                     return;
                 }
@@ -131,16 +125,18 @@ public class CommandAura extends Module {
                     ChatUtils.sendPlayerMsg(msg.replaceAll("%target%", targetName).replaceAll("%me%", EntityUtils.getName(mc.player)));
                 }
                 if (isLogs.get()) {
-                    info("Used command on §a" + targetName + "§7.");
+                    info("Used command on (highlight)%s(default).", targetName);
                 }
             }
         }
     }
     
-    public enum Target {
-        Everyone,
-        OnlyFriends,
-        IgnoreFriends
+    private enum Target {
+        
+        EVERYONE,
+        ONLY_FRIENDS,
+        IGNORE_FRIENDS
+        
     }
     
 }

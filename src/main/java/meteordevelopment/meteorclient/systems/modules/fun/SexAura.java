@@ -332,10 +332,7 @@ public class SexAura extends Module {
         if (!PlayerUtils.canSeeEntity(entity) && !PlayerUtils.isWithin(entity, range.get())) {
             return false;
         }
-
-        if (Pattern.matches(Utils.PLAYER_NAME_VALID_CHARS_PATTERN.pattern(), EntityUtils.getName(entity))) {
-            return true;
-        }
+        
         return entity.isPlayer();
     }
     

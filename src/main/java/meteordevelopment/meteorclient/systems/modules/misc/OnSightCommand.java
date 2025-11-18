@@ -27,6 +27,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +115,7 @@ public class OnSightCommand extends Module {
     
     @EventHandler
     private void onKey(MouseButtonEvent event) {
-        if (event.action == KeyAction.PRESS) {
+        if (event.action == KeyAction.PRESS && event.button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE && mc.currentScreen == null) {
             targets.forEach(this::start);
         }
     }
@@ -132,9 +133,7 @@ public class OnSightCommand extends Module {
         if (!PlayerUtils.canSeeEntity(entity) && !PlayerUtils.isWithin(entity, wallsRange.get())) {
             return false;
         }
-        if (Pattern.matches(Utils.PLAYER_NAME_VALID_CHARS_PATTERN.pattern(), EntityUtils.getName(entity))) {
-            return true;
-        }
+        
         return entity.isPlayer();
     }
     
