@@ -21,7 +21,7 @@ public class UUIDCommand extends Command {
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("player", PlayerListEntryArgumentType.create())
             .executes(context -> {
-                PlayerListEntry player = PlayerListEntryArgumentType.get(context);
+                PlayerListEntry player = PlayerListEntryArgumentType.get(context, "player");
                 info("%s's UUID: %s.", player.getProfile().getName(), player.getProfile().getId());
                 
                 return SINGLE_SUCCESS;

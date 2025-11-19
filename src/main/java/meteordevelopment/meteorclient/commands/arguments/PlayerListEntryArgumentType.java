@@ -33,11 +33,8 @@ public class PlayerListEntryArgumentType implements ArgumentType<PlayerListEntry
         return INSTANCE;
     }
     
-    public static PlayerListEntry get(CommandContext<?> context) {
-        return context.getArgument("player", PlayerListEntry.class);
-    }
-    
-    private PlayerListEntryArgumentType() {
+    public static PlayerListEntry get(CommandContext<?> context, String name) {
+        return context.getArgument(name, PlayerListEntry.class);
     }
     
     @Override

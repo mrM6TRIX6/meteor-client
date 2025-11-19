@@ -35,7 +35,7 @@ public class NameHistoryCommand extends Command {
         builder.then(argument("player", PlayerListEntryArgumentType.create())
             .executes(context -> {
                 MeteorExecutor.execute(() -> {
-                    PlayerListEntry lookUpTarget = PlayerListEntryArgumentType.get(context);
+                    PlayerListEntry lookUpTarget = PlayerListEntryArgumentType.get(context, "player");
                     UUID uuid = lookUpTarget.getProfile().getId();
                     
                     NameHistory history = Http.get("https://laby.net/api/v2/user/" + uuid + "/get-profile")

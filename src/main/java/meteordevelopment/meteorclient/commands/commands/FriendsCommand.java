@@ -27,7 +27,7 @@ public class FriendsCommand extends Command {
         builder.then(literal("add")
             .then(argument("player", PlayerListEntryArgumentType.create())
                 .executes(context -> {
-                    GameProfile profile = PlayerListEntryArgumentType.get(context).getProfile();
+                    GameProfile profile = PlayerListEntryArgumentType.get(context, "player").getProfile();
                     Friend friend = new Friend(profile.getName(), profile.getId());
                     
                     if (Friends.get().add(friend)) {

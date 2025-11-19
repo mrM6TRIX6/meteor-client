@@ -32,7 +32,7 @@ public class SptpCommand extends Command {
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("player", PlayerListEntryArgumentType.create())
             .executes(context -> {
-                PlayerListEntry lookUpTarget = PlayerListEntryArgumentType.get(context);
+                PlayerListEntry lookUpTarget = PlayerListEntryArgumentType.get(context, "player");
                 UUID uuid = lookUpTarget.getProfile().getId();
                 sendTeleportPacket(uuid);
                 
