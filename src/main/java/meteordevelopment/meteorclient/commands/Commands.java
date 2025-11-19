@@ -41,6 +41,7 @@ public class Commands {
         add(new EnchantCommand());
         add(new EnderChestCommand());
         add(new EquipCommand());
+        add(new FakeMessageCommand());
         add(new FakePlayerCommand());
         add(new FovCommand());
         add(new FriendsCommand());

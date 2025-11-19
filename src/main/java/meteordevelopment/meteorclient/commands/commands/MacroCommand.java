@@ -33,48 +33,48 @@ public class MacroCommand extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(literal("clear")
-                .executes(context -> {
-                    if (scheduleQueue.isEmpty() && scheduledMacros.isEmpty()) {
-                        error("No macros are currently scheduled.");
-                        return SINGLE_SUCCESS;
-                    }
-                    
-                    clearAll();
-                    info("Cleared all scheduled macros.");
-                    
+            .executes(context -> {
+                if (scheduleQueue.isEmpty() && scheduledMacros.isEmpty()) {
+                    error("No macros are currently scheduled.");
                     return SINGLE_SUCCESS;
-                })
-                .then(argument("macro", MacroArgumentType.create())
-                    .executes(context -> {
-                        Macro macro = MacroArgumentType.get(context);
-                        
-                        if (!isScheduled(macro)) {
-                            error("This macro is not currently scheduled.");
-                            return SINGLE_SUCCESS;
-                        }
-                        
-                        clear(macro);
-                        info("Cleared scheduled macro.");
-                        return SINGLE_SUCCESS;
-                    })
-                )
-            )
+                }
+                
+                clearAll();
+                info("Cleared all scheduled macros.");
+                
+                return SINGLE_SUCCESS;
+            })
             .then(argument("macro", MacroArgumentType.create())
                 .executes(context -> {
                     Macro macro = MacroArgumentType.get(context);
-                    scheduleQueue.add(new ScheduledMacro(0, macro));
+                    
+                    if (!isScheduled(macro)) {
+                        error("This macro is not currently scheduled.");
+                        return SINGLE_SUCCESS;
+                    }
+                    
+                    clear(macro);
+                    info("Cleared scheduled macro.");
+                    return SINGLE_SUCCESS;
+                })
+            )
+        )
+        .then(argument("macro", MacroArgumentType.create())
+            .executes(context -> {
+                Macro macro = MacroArgumentType.get(context);
+                scheduleQueue.add(new ScheduledMacro(0, macro));
+                
+                return SINGLE_SUCCESS;
+            })
+            .then(argument("delay", TimeArgumentType.time())
+                .executes(context -> {
+                    Macro macro = MacroArgumentType.get(context);
+                    scheduleQueue.add(new ScheduledMacro(IntegerArgumentType.getInteger(context, "delay"), macro));
                     
                     return SINGLE_SUCCESS;
                 })
-                .then(argument("delay", TimeArgumentType.time())
-                    .executes(context -> {
-                        Macro macro = MacroArgumentType.get(context);
-                        scheduleQueue.add(new ScheduledMacro(IntegerArgumentType.getInteger(context, "delay"), macro));
-                        
-                        return SINGLE_SUCCESS;
-                    })
-                )
-            );
+            )
+        );
     }
     
     public void clearAll() {
