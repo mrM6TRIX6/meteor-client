@@ -8,8 +8,12 @@ package meteordevelopment.meteorclient.commands.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.PlayerListEntryArgumentType;
+import meteordevelopment.meteorclient.utils.misc.text.MeteorClickEvent;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.command.CommandSource;
+import net.minecraft.text.HoverEvent;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 public class UUIDCommand extends Command {
     
@@ -22,11 +26,28 @@ public class UUIDCommand extends Command {
         builder.then(argument("player", PlayerListEntryArgumentType.create())
             .executes(context -> {
                 PlayerListEntry player = PlayerListEntryArgumentType.get(context, "player");
-                info("%s's UUID: %s.", player.getProfile().getName(), player.getProfile().getId());
+                String playerName = player.getProfile().getName();
+                String uuid = player.getProfile().getId().toString();
+                
+                Text message = createUuidMessage(playerName, uuid);
+                info(message);
                 
                 return SINGLE_SUCCESS;
             })
         );
     }
     
+    private Text createUuidMessage(String playerName, String uuid) {
+        Text uuidText = Text.literal(uuid)
+            .styled(style -> style
+                .withColor(Formatting.WHITE)
+                .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to copy")))
+                .withClickEvent(new MeteorClickEvent.CopyToClipboard(uuid))
+            );
+        
+        return Text.literal(playerName + "'s UUID: ")
+            .styled(style -> style.withColor(Formatting.GRAY))
+            .append(uuidText)
+            .append(Text.literal(".").styled(style -> style.withColor(Formatting.GRAY)));
+    }
 }
