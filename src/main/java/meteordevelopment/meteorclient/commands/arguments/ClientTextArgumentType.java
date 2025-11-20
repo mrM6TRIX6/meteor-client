@@ -35,7 +35,7 @@ public class ClientTextArgumentType extends ParserBackedArgumentType<Text> {
         super(PARSER.withDecoding(registries.getOps(OPS), PARSER, TextCodecs.CODEC, INVALID_COMPONENT_EXCEPTION));
     }
     
-    public static Text get(CommandContext<CommandSource> context, String name) {
+    public static Text get(CommandContext<?> context, String name) {
         return context.getArgument(name, Text.class);
     }
     

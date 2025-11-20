@@ -28,15 +28,14 @@ public class GameModeArgumentType implements ArgumentType<GameMode> {
     
     private static final Collection<String> EXAMPLES = List.of("creative", "1");
     
+    private GameModeArgumentType() {}
+    
     public static GameModeArgumentType create() {
         return INSTANCE;
     }
     
-    public static GameMode get(CommandContext<?> context) {
-        return context.getArgument("gameMode", GameMode.class);
-    }
-    
-    private GameModeArgumentType() {
+    public static GameMode get(CommandContext<?> context, String name) {
+        return context.getArgument(name, GameMode.class);
     }
     
     @Override
