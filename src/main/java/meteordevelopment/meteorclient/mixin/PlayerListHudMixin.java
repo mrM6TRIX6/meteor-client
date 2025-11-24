@@ -26,6 +26,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.Objects;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 @Mixin(PlayerListHud.class)
 public abstract class PlayerListHudMixin {
     
@@ -34,32 +36,32 @@ public abstract class PlayerListHudMixin {
     
     @ModifyConstant(constant = @Constant(longValue = 80L), method = "collectPlayerEntries")
     private long modifyCount(long count) {
-        BetterTab module = Modules.get().get(BetterTab.class);
+        BetterTab betterTab = Modules.get().get(BetterTab.class);
         
-        if (module.isActive()) {
-            return (module.tabMode.get() == BetterTab.TabMode.Static) ? module.tabSize.get() : MinecraftClient.getInstance().player.networkHandler.getListedPlayerListEntries().size();
+        if (betterTab.isActive()) {
+            return (!betterTab.autoTabSize.get()) ? betterTab.tabSize.get() : mc.getNetworkHandler().getListedPlayerListEntries().size();
         }
+        
         return count;
     }
     
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(II)I"), index = 0)
     private int modifyWidth(int width) {
-        BetterTab module = Modules.get().get(BetterTab.class);
-        
-        return module.isActive() && module.pingNumbers.get() ? width + 30 : width;
+        BetterTab betterTab = Modules.get().get(BetterTab.class);
+        return betterTab.isActive() && betterTab.pingNumbers.get() ? width + 30 : width;
     }
     
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(II)I", shift = At.Shift.BEFORE))
     private void modifyHeight(CallbackInfo ci, @Local(ordinal = 5) LocalIntRef o, @Local(ordinal = 6) LocalIntRef p) {
-        BetterTab module = Modules.get().get(BetterTab.class);
-        if (!module.isActive()) {
+        BetterTab betterTab = Modules.get().get(BetterTab.class);
+        if (!betterTab.isActive()) {
             return;
         }
         
         int newO;
         int newP = 1;
         int totalPlayers = newO = this.collectPlayerEntries().size();
-        while (newO > (module.tabMode.get() == BetterTab.TabMode.Static ? module.tabHeight.get() : (totalPlayers <= 100 ? 20 : 20 + totalPlayers / 10))) {
+        while (newO > (!betterTab.autoTabSize.get() ? betterTab.columnHeight.get() : (totalPlayers <= 100 ? 20 : 20 + totalPlayers / 10))) {
             newO = (totalPlayers + ++newP - 1) / newP;
         }
         
@@ -76,7 +78,7 @@ public abstract class PlayerListHudMixin {
             TextRenderer textRenderer = mc.textRenderer;
             
             int latency = MathHelper.clamp(entry.getLatency(), 0, 9999);
-            int color = latency < 150 ? 0x00FF00 : latency < 300 ? 0xFFFF00 : 0xFF0000;
+            int color = latency < 150 ? 0xFF00E970 : latency < 300 ? 0xFFE7D020 : 0xFFD74238;
             context.drawTextWithShadow(textRenderer, String.valueOf(latency), x + width - textRenderer.getWidth(String.valueOf(latency)), y, color);
             ci.cancel();
         }
@@ -84,11 +86,11 @@ public abstract class PlayerListHudMixin {
     
     @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V", ordinal = 2))
     private void onRenderPlayerBackground(DrawContext instance, int x1, int y1, int x2, int y2, int color, Operation<Void> original, @Local(ordinal = 13) int w, @Local(ordinal = 0) List<PlayerListEntry> entries) {
-        var drawColor = color;
         BetterTab betterTab = Modules.get().get(BetterTab.class);
+        int drawColor = color;
         
         if (betterTab.isActive() && (betterTab.highlightSelf.get() || betterTab.highlightFriends.get()) && w < entries.size()) {
-            var entry = entries.get(w);
+            PlayerListEntry entry = entries.get(w);
             
             if (betterTab.highlightSelf.get() && Objects.equals(entry.getProfile().getName(), MinecraftClient.getInstance().player.getGameProfile().getName())) {
                 drawColor = betterTab.selfColor.get().getPacked();

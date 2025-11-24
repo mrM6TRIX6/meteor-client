@@ -9,7 +9,6 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -19,10 +18,10 @@ public class BetterTab extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    public final Setting<TabMode> tabMode = sgGeneral.add(new EnumSetting.Builder<TabMode>()
-        .name("tab-mode")
-        .description("Static - fixed tab size. Dynamic - the tab size adapts to the count of players.")
-        .defaultValue(TabMode.Dynamic)
+    public final Setting<Boolean> autoTabSize = sgGeneral.add(new BoolSetting.Builder()
+        .name("auto-tab-size")
+        .description("Tab size will automatically adjust to the count of players.")
+        .defaultValue(true)
         .build()
     );
     
@@ -32,17 +31,17 @@ public class BetterTab extends Module {
         .defaultValue(80)
         .min(1)
         .sliderRange(1, 1000)
-        .visible(() -> tabMode.get() == TabMode.Static)
+        .visible(() -> !autoTabSize.get())
         .build()
     );
     
-    public final Setting<Integer> tabHeight = sgGeneral.add(new IntSetting.Builder()
+    public final Setting<Integer> columnHeight = sgGeneral.add(new IntSetting.Builder()
         .name("column-height")
-        .description("How many players to display in each column.")
+        .description("How many players to display in one column.")
         .defaultValue(20)
         .min(1)
         .sliderRange(1, 1000)
-        .visible(() -> tabMode.get() == TabMode.Static)
+        .visible(() -> !autoTabSize.get())
         .build()
     );
     
@@ -85,11 +84,6 @@ public class BetterTab extends Module {
     
     public BetterTab() {
         super(Categories.Render, "better-tab", "Various improvements to the tab.");
-    }
-    
-    public enum TabMode {
-        Static,
-        Dynamic
     }
     
 }
