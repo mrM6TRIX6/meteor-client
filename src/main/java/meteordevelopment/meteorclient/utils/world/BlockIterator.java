@@ -34,8 +34,7 @@ public class BlockIterator {
     
     private static boolean disableCurrent;
     
-    private BlockIterator() {
-    }
+    private BlockIterator() {}
     
     @PreInit
     public static void init() {
@@ -58,7 +57,6 @@ public class BlockIterator {
                     if (y > mc.world.getHeight()) {
                         break;
                     }
-                    
                     blockPos.set(x, y, z);
                     BlockState blockState = mc.world.getBlockState(blockPos);
                     

@@ -508,6 +508,7 @@ public class Modules extends System<Modules> {
         add(new NoJumpDelay());
         add(new NoSlow());
         add(new Parkour());
+        add(new ParkourBot());
         add(new ReverseStep());
         add(new SafeWalk());
         add(new Scaffold());

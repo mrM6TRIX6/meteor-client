@@ -46,8 +46,7 @@ public class BlockUtils {
     public static boolean breaking;
     private static boolean breakingThisTick;
     
-    private BlockUtils() {
-    }
+    private BlockUtils() {}
     
     @PreInit
     public static void init() {

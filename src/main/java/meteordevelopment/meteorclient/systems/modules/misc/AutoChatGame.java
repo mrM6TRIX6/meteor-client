@@ -46,13 +46,13 @@ public class AutoChatGame extends Module {
     private final Timer timer = new Timer();
     
     public AutoChatGame() {
-        super(Categories.Misc, "auto-chat-game", "Automatically solves the chat games on MineBlaze/DexLand.");
+        super(Categories.Misc, "auto-chat-game", "Automatically solves chat games on MineBlaze.");
     }
     
     @EventHandler
     private void onMessageReceive(MessageEvent.Receive event) {
         String message = event.getMessage().getString();
-        if (message.startsWith("Chat Game » Решите пример")) {
+        if (message.startsWith("Chat Game »")) {
             Matcher matcher = pattern.matcher(message);
             
             if (matcher.find()) {
@@ -70,7 +70,6 @@ public class AutoChatGame extends Module {
                     @Override
                     public void run() {
                         if (mc.player != null) {
-                            MeteorClient.LOG.info("Message sent");
                             ChatUtils.sendPlayerMsg(result.toString());
                         }
                     }
