@@ -12,6 +12,7 @@ import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 
 public class EquipCommand extends Command {
@@ -63,8 +64,11 @@ public class EquipCommand extends Command {
         // 5 = crafting slot + crafting result slot
         int armorSlotId = Math.abs(slot.getOffsetEntitySlotId(-3)) + 5;
         
-        InventoryUtils.clickCreativeStack(mc.player.getMainHandStack().copy(), armorSlotId, true);
-        InventoryUtils.clickCreativeStack(mc.player.getEquippedStack(slot).copy(), mc.player.getInventory().getSelectedSlot());
+        ItemStack armorStack = mc.player.getEquippedStack(slot).copy();
+        ItemStack mainHandStack = mc.player.getMainHandStack().copy();
+        
+        InventoryUtils.clickCreativeStack(mainHandStack, armorSlotId, true);
+        InventoryUtils.clickCreativeStack(armorStack, mc.player.getInventory().getSelectedSlot());
     }
     
 }
