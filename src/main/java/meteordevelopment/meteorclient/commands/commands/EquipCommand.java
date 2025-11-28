@@ -63,8 +63,8 @@ public class EquipCommand extends Command {
         // 5 = crafting slot + crafting result slot
         int armorSlotId = Math.abs(slot.getOffsetEntitySlotId(-3)) + 5;
         
-        InventoryUtils.clickCreativeStack(mc.player.getMainHandStack(), armorSlotId, true);
-        InventoryUtils.clickCreativeStack(mc.player.getEquippedStack(slot), mc.player.getInventory().getSelectedSlot());
+        InventoryUtils.clickCreativeStack(mc.player.getMainHandStack().copy(), armorSlotId, true);
+        InventoryUtils.clickCreativeStack(mc.player.getEquippedStack(slot).copy(), mc.player.getInventory().getSelectedSlot());
     }
     
 }
