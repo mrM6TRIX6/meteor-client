@@ -156,7 +156,6 @@
     "RenderPipelineMixin",
     "RenderSystemMixin",
     "RenderTickCounterDynamicMixin",
-    "ResourcePackCompatibilityMixin",
     "ResourceReloadLoggerAccessor",
     "ScreenMixin",
     "SectionedEntityCacheAccessor",

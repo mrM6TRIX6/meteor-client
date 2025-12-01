@@ -29,13 +29,6 @@ public class BetterMinecraft extends Module {
         .build()
     );
     
-    private final Setting<Boolean> noResourcePacksWarnings = sgGeneral.add(new BoolSetting.Builder()
-        .name("no-resource-packs-warnings")
-        .description("Disable warnings for outdated resource packs.")
-        .defaultValue(true)
-        .build()
-    );
-    
     public BetterMinecraft() {
         super(Categories.Misc, "better-minecraft", "Various simple improvements to enhance your gaming experience.");
     }
@@ -46,10 +39,6 @@ public class BetterMinecraft extends Module {
     
     public boolean unicodeArguments() {
         return isActive() && unicodeArguments.get();
-    }
-    
-    public boolean noResourcePacksWarnings() {
-        return isActive() && noResourcePacksWarnings.get();
     }
     
 }
