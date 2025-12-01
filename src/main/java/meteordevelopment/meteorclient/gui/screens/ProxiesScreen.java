@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.proxies.Proxies;
 import meteordevelopment.meteorclient.systems.proxies.Proxy;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.system.MemoryUtil;
@@ -120,12 +120,12 @@ public class ProxiesScreen extends WindowScreen {
     
     @Override
     public boolean toClipboard() {
-        return NbtUtils.toClipboard(Proxies.get());
+        return JsonUtils.toClipboard(Proxies.get());
     }
     
     @Override
     public boolean fromClipboard() {
-        return NbtUtils.fromClipboard(Proxies.get());
+        return JsonUtils.fromClipboard(Proxies.get());
     }
     
     protected static class EditProxyScreen extends EditSystemScreen<Proxy> {

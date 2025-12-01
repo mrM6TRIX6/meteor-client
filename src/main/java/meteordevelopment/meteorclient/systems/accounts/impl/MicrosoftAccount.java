@@ -19,7 +19,7 @@ public class MicrosoftAccount extends Account<MicrosoftAccount> {
     private @Nullable String token;
     
     public MicrosoftAccount(String refreshToken) {
-        super(AccountType.Microsoft, refreshToken);
+        super(AccountType.MICROSOFT, refreshToken);
     }
     
     @Override

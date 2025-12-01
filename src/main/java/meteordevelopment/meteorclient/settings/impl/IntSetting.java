@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.function.Consumer;
 
@@ -42,15 +42,15 @@ public class IntSetting extends Setting<Integer> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        tag.putInt("value", get());
+    public JsonObject save(JsonObject jsonObject) {
+        jsonObject.addProperty("value", get());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Integer load(NbtCompound tag) {
-        set(tag.getInt("value", 0));
+    public Integer load(JsonObject jsonObject) {
+        set(jsonObject.get("value").getAsInt());
         
         return get();
     }

@@ -10,9 +10,8 @@ import meteordevelopment.meteorclient.events.entity.player.InteractBlockEvent;
 import meteordevelopment.meteorclient.events.entity.player.StartBreakingBlockEvent;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.render.marker.Marker;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.hit.HitResult;
@@ -45,8 +44,7 @@ public class WBlockPosEdit extends WHorizontalList {
         if (Utils.canUpdate()) {
             WButton click = add(theme.button("Click")).expandX().widget();
             click.action = () -> {
-                String sb = "Click!\nRight click to pick a new position.\nLeft click to cancel.";
-                Modules.get().get(Marker.class).info(sb);
+                ChatUtils.info("Click!\nRight click to pick a new position.\nLeft click to cancel.");
                 
                 clicking = true;
                 MeteorClient.EVENT_BUS.subscribe(this);

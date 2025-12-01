@@ -5,16 +5,17 @@
 
 package meteordevelopment.meteorclient.systems;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.utils.files.StreamUtils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtIo;
 import net.minecraft.util.crash.CrashException;
 import org.apache.commons.io.FilenameUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -28,19 +29,23 @@ public abstract class System<T> implements ISerializable<T> {
     private File file;
     
     protected boolean isFirstInit;
+    
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH.mm.ss", Locale.ROOT);
+    private static final Gson GSON = new GsonBuilder()
+        .setPrettyPrinting()
+        .serializeNulls()
+        .create();
     
     public System(String name) {
         this.name = name;
         
         if (name != null) {
-            this.file = new File(MeteorClient.FOLDER, name + ".nbt");
+            this.file = new File(MeteorClient.FOLDER, name + ".json");
             this.isFirstInit = !file.exists();
         }
     }
     
-    public void init() {
-    }
+    public void init() {}
     
     public void save(File folder) {
         File file = getFile();
@@ -48,14 +53,17 @@ public abstract class System<T> implements ISerializable<T> {
             return;
         }
         
-        NbtCompound tag = toTag();
-        if (tag == null) {
+        JsonObject jsonObject = toJson();
+        if (jsonObject == null) {
             return;
         }
         
         try {
             File tempFile = File.createTempFile(MeteorClient.MOD_ID, file.getName());
-            NbtIo.write(tag, tempFile.toPath());
+            
+            try (FileWriter writer = new FileWriter(tempFile)) {
+                GSON.toJson(jsonObject, writer);
+            }
             
             if (folder != null) {
                 file = new File(folder, file.getName());
@@ -90,10 +98,13 @@ public abstract class System<T> implements ISerializable<T> {
             }
             
             if (file.exists()) {
-                try {
-                    fromTag(NbtIo.read(file.toPath()));
-                } catch (CrashException e) {
-                    String backupName = FilenameUtils.removeExtension(file.getName()) + "-" + ZonedDateTime.now().format(DATE_TIME_FORMATTER) + ".backup.nbt";
+                try (FileReader reader = new FileReader(file)) {
+                    JsonObject jsonObject = GSON.fromJson(reader, JsonObject.class);
+                    if (jsonObject != null) {
+                        fromJson(jsonObject);
+                    }
+                } catch (Exception e) {
+                    String backupName = FilenameUtils.removeExtension(file.getName()) + "-" + ZonedDateTime.now().format(DATE_TIME_FORMATTER) + ".backup.json";
                     File backup = new File(file.getParentFile(), backupName);
                     
                     try {
@@ -107,7 +118,7 @@ public abstract class System<T> implements ISerializable<T> {
                 }
             }
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error loading {}. Possibly corrupted?", this.name, e);
+            MeteorClient.LOG.error("Error loading {}.", this.name, e);
         }
     }
     
@@ -124,12 +135,12 @@ public abstract class System<T> implements ISerializable<T> {
     }
     
     @Override
-    public NbtCompound toTag() {
+    public JsonObject toJson() {
         return null;
     }
     
     @Override
-    public T fromTag(NbtCompound tag) {
+    public T fromJson(JsonObject jsonObject) {
         return null;
     }
     

@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.utils.render.color;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Style;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
@@ -336,23 +336,23 @@ public class Color implements ICopyable<Color>, ISerializable<Color> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putInt("r", r);
-        tag.putInt("g", g);
-        tag.putInt("b", b);
-        tag.putInt("a", a);
+        jsonObject.addProperty("r", r);
+        jsonObject.addProperty("g", g);
+        jsonObject.addProperty("b", b);
+        jsonObject.addProperty("a", a);
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Color fromTag(NbtCompound tag) {
-        r = tag.getInt("r", 0);
-        g = tag.getInt("g", 0);
-        b = tag.getInt("b", 0);
-        a = tag.getInt("a", 0);
+    public Color fromJson(JsonObject jsonObject) {
+        r = jsonObject.get("r").getAsInt();
+        g = jsonObject.get("g").getAsInt();
+        b = jsonObject.get("b").getAsInt();
+        a = jsonObject.get("a").getAsInt();
         
         validate();
         return this;

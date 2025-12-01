@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.systems.config.Config;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.item.Items;
 
 import java.util.ArrayList;
@@ -188,17 +188,16 @@ public class ModulesScreen extends TabScreen {
     
     @Override
     public boolean toClipboard() {
-        return NbtUtils.toClipboard(Modules.get());
+        return JsonUtils.toClipboard(Modules.get());
     }
     
     @Override
     public boolean fromClipboard() {
-        return NbtUtils.fromClipboard(Modules.get());
+        return JsonUtils.fromClipboard(Modules.get());
     }
     
     @Override
-    public void reload() {
-    }
+    public void reload() {}
     
     // Stuff
     

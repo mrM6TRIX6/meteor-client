@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPlus;
 import meteordevelopment.meteorclient.systems.friends.Friend;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import net.minecraft.client.gui.screen.Screen;
 
@@ -112,12 +112,12 @@ public class FriendsTab extends Tab {
         
         @Override
         public boolean toClipboard() {
-            return NbtUtils.toClipboard(Friends.get());
+            return JsonUtils.toClipboard(Friends.get());
         }
         
         @Override
         public boolean fromClipboard() {
-            return NbtUtils.fromClipboard(Friends.get());
+            return JsonUtils.fromClipboard(Friends.get());
         }
         
     }

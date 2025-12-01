@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.screens;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.ActiveModulesChangedEvent;
 import meteordevelopment.meteorclient.events.meteor.ModuleBindChangedEvent;
@@ -22,9 +23,8 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WFavorite;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.nbt.NbtCompound;
 
 import static meteordevelopment.meteorclient.utils.Utils.getWindowWidth;
 
@@ -137,17 +137,18 @@ public class ModuleScreen extends WindowScreen {
     
     @Override
     public boolean toClipboard() {
-        return NbtUtils.toClipboard(module.title, module.toTag());
+        return JsonUtils.toClipboard(module.title, module.toJson());
     }
     
     @Override
     public boolean fromClipboard() {
-        NbtCompound clipboard = NbtUtils.fromClipboard(module.toTag());
+        JsonObject clipboard = JsonUtils.fromClipboard(module.toJson());
         
         if (clipboard != null) {
-            module.fromTag(clipboard);
+            module.fromJson(clipboard);
             return true;
         }
+        
         return false;
     }
     

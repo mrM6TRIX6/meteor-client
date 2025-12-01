@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.proxies;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
@@ -13,8 +15,6 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 
 import java.util.Objects;
 
@@ -69,11 +69,10 @@ public class Proxy implements ISerializable<Proxy> {
         .build()
     );
     
-    private Proxy() {
-    }
+    private Proxy() {}
     
-    public Proxy(NbtElement tag) {
-        fromTag((NbtCompound) tag);
+    public Proxy(JsonElement jsonElement) {
+        fromJson((JsonObject) jsonElement);
     }
     
     public boolean resolveAddress() {
@@ -147,15 +146,17 @@ public class Proxy implements ISerializable<Proxy> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
-        tag.put("settings", settings.toTag());
-        return tag;
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("settings", settings.toJson());
+        return jsonObject;
     }
     
     @Override
-    public Proxy fromTag(NbtCompound tag) {
-        tag.getCompound("settings").ifPresent(settings::fromTag);
+    public Proxy fromJson(JsonObject jsonObject) {
+        if (jsonObject.has("settings")) {
+            settings.fromJson(jsonObject.get("settings").getAsJsonObject());
+        }
         return this;
     }
     

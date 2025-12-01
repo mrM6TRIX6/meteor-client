@@ -5,13 +5,13 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.Reference2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
 import it.unimi.dsi.fastutil.objects.Reference2IntOpenHashMap;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -56,17 +56,34 @@ public class StatusEffectAmplifierMapSetting extends Setting<Reference2IntMap<St
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtCompound valueTag = new NbtCompound();
+    public JsonObject save(JsonObject jsonObject) {
+        JsonObject valueJson = new JsonObject();
+        
         for (StatusEffect statusEffect : get().keySet()) {
             Identifier id = Registries.STATUS_EFFECT.getId(statusEffect);
             if (id != null) {
-                valueTag.putInt(id.toString(), get().getInt(statusEffect));
+                valueJson.addProperty(id.toString(), get().getInt(statusEffect));
             }
         }
-        tag.put("value", valueTag);
         
-        return tag;
+        jsonObject.add("value", valueJson);
+        
+        return jsonObject;
+    }
+    
+    @Override
+    public Reference2IntMap<StatusEffect> load(JsonObject jsonObject) {
+        get().clear();
+        
+        JsonObject valueJson = jsonObject.get("value").getAsJsonObject();
+        for (String key : valueJson.keySet()) {
+            StatusEffect statusEffect = Registries.STATUS_EFFECT.get(Identifier.of(key));
+            if (statusEffect != null) {
+                get().put(statusEffect, valueJson.get(key).getAsInt());
+            }
+        }
+        
+        return get();
     }
     
     private static Reference2IntMap<StatusEffect> createStatusEffectMap() {
@@ -75,21 +92,6 @@ public class StatusEffectAmplifierMapSetting extends Setting<Reference2IntMap<St
         Registries.STATUS_EFFECT.forEach(potion -> map.put(potion, 0));
         
         return map;
-    }
-    
-    @Override
-    public Reference2IntMap<StatusEffect> load(NbtCompound tag) {
-        get().clear();
-        
-        NbtCompound valueTag = tag.getCompoundOrEmpty("value");
-        for (String key : valueTag.getKeys()) {
-            StatusEffect statusEffect = Registries.STATUS_EFFECT.get(Identifier.of(key));
-            if (statusEffect != null) {
-                get().put(statusEffect, valueTag.getInt(key, 0));
-            }
-        }
-        
-        return get();
     }
     
     public static class Builder extends SettingBuilder<Builder, Reference2IntMap<StatusEffect>, StatusEffectAmplifierMapSetting> {

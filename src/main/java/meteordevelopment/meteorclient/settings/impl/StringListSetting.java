@@ -5,6 +5,9 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.utils.CharFilter;
@@ -14,10 +17,6 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,23 +46,25 @@ public class StringListSetting extends Setting<List<String>> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
-        for (int i = 0; i < this.value.size(); i++) {
-            valueTag.add(i, NbtString.of(get().get(i)));
-        }
-        tag.put("value", valueTag);
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
         
-        return tag;
+        for (int i = 0; i < this.value.size(); i++) {
+            valueArray.add(get().get(i));
+        }
+        
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public List<String> load(NbtCompound tag) {
+    public List<String> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtList valueTag = tag.getListOrEmpty("value");
-        for (NbtElement tagI : valueTag) {
-            get().add(tagI.asString().orElse(""));
+        JsonArray valueArray = jsonObject.get("value").getAsJsonArray();
+        for (JsonElement element : valueArray) {
+            get().add(element.getAsString());
         }
         
         return get();

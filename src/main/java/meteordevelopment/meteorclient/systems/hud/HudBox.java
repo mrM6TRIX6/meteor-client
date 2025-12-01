@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.systems.hud;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.nbt.NbtCompound;
 
 public class HudBox implements ISerializable<HudBox> {
     
@@ -158,31 +158,23 @@ public class HudBox implements ISerializable<HudBox> {
     // Serialization
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("x-anchor", xAnchor.name());
-        tag.putString("y-anchor", yAnchor.name());
-        tag.putInt("x", x);
-        tag.putInt("y", y);
+        jsonObject.addProperty("x-anchor", xAnchor.name());
+        jsonObject.addProperty("y-anchor", yAnchor.name());
+        jsonObject.addProperty("x", x);
+        jsonObject.addProperty("y", y);
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public HudBox fromTag(NbtCompound tag) {
-        if (tag.getString("x-anchor").isPresent()) {
-            xAnchor = XAnchor.valueOf(tag.getString("x-anchor").get());
-        }
-        if (tag.getString("y-anchor").isPresent()) {
-            yAnchor = YAnchor.valueOf(tag.getString("y-anchor").get());
-        }
-        if (tag.getInt("x").isPresent()) {
-            x = tag.getInt("x").get();
-        }
-        if (tag.getInt("y").isPresent()) {
-            y = tag.getInt("y").get();
-        }
+    public HudBox fromJson(JsonObject jsonObject) {
+        xAnchor = XAnchor.valueOf(jsonObject.get("x-anchor").getAsString());
+        yAnchor = YAnchor.valueOf(jsonObject.get("y-anchor").getAsString());
+        x = jsonObject.get("x").getAsInt();
+        y = jsonObject.get("y").getAsInt();
         
         return this;
     }

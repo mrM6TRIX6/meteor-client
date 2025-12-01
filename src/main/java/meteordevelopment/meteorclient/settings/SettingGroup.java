@@ -5,10 +5,10 @@
 
 package meteordevelopment.meteorclient.settings;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -53,34 +53,34 @@ public class SettingGroup implements ISerializable<SettingGroup>, Iterable<Setti
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("name", name);
-        tag.putBoolean("sectionExpanded", sectionExpanded);
+        jsonObject.addProperty("name", name);
+        jsonObject.addProperty("sectionExpanded", sectionExpanded);
         
-        NbtList settingsTag = new NbtList();
+        JsonArray settingsArray = new JsonArray();
         for (Setting<?> setting : this) {
             if (setting.wasChanged()) {
-                settingsTag.add(setting.toTag());
+                settingsArray.add(setting.toJson());
             }
         }
-        tag.put("settings", settingsTag);
+        jsonObject.add("settings", settingsArray);
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public SettingGroup fromTag(NbtCompound tag) {
-        sectionExpanded = tag.getBoolean("sectionExpanded", false);
+    public SettingGroup fromJson(JsonObject jsonObject) {
+        sectionExpanded = jsonObject.get("sectionExpanded").getAsBoolean();
         
-        NbtList settingsTag = tag.getListOrEmpty("settings");
-        for (NbtElement t : settingsTag) {
-            NbtCompound settingTag = (NbtCompound) t;
+        JsonArray settingsArray = jsonObject.get("settings").getAsJsonArray();
+        for (JsonElement element : settingsArray) {
+            JsonObject settingJson = element.getAsJsonObject();
             
-            Setting<?> setting = get(settingTag.getString("name", ""));
+            Setting<?> setting = get(settingJson.get("name").getAsString());
             if (setting != null) {
-                setting.fromTag(settingTag);
+                setting.fromJson(settingJson);
             }
         }
         

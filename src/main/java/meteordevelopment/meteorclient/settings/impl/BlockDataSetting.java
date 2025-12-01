@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IBlockData;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -13,7 +14,6 @@ import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.IGetter;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import net.minecraft.block.Block;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -47,23 +47,24 @@ public class BlockDataSetting<T extends ICopyable<T> & ISerializable<T> & IChang
     }
     
     @Override
-    protected NbtCompound save(NbtCompound tag) {
-        NbtCompound valueTag = new NbtCompound();
-        for (Block block : get().keySet()) {
-            valueTag.put(Registries.BLOCK.getId(block).toString(), get().get(block).toTag());
-        }
-        tag.put("value", valueTag);
+    protected JsonObject save(JsonObject jsonObject) {
+        JsonObject valueJson = new JsonObject();
         
-        return tag;
+        for (Block block : get().keySet()) {
+            valueJson.add(Registries.BLOCK.getId(block).toString(), get().get(block).toJson());
+        }
+        jsonObject.add("value", valueJson);
+        
+        return jsonObject;
     }
     
     @Override
-    protected Map<Block, T> load(NbtCompound tag) {
+    protected Map<Block, T> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtCompound valueTag = tag.getCompoundOrEmpty("value");
-        for (String key : valueTag.getKeys()) {
-            get().put(Registries.BLOCK.get(Identifier.of(key)), defaultData.get().copy().fromTag(valueTag.getCompoundOrEmpty(key)));
+        JsonObject valueJson = jsonObject.get("value").getAsJsonObject();
+        for (String key : valueJson.keySet()) {
+            get().put(Registries.BLOCK.get(Identifier.of(key)), defaultData.get().copy().fromJson(valueJson.get(key).getAsJsonObject()));
         }
         
         return get();

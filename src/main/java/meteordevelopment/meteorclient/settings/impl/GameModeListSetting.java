@@ -5,12 +5,11 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.world.GameMode;
 
 import java.util.ArrayList;
@@ -47,23 +46,25 @@ public class GameModeListSetting extends Setting<List<GameMode>> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
-        for (GameMode mode : get()) {
-            valueTag.add(NbtString.of(mode.getId()));
-        }
-        tag.put("value", valueTag);
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
         
-        return tag;
+        for (GameMode mode : get()) {
+            valueArray.add(mode.getId());
+        }
+        
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public List<GameMode> load(NbtCompound tag) {
+    public List<GameMode> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtList valueTag = tag.getListOrEmpty("value");
-        for (NbtElement tagI : valueTag) {
-            GameMode mode = GameMode.byId(tagI.asString().orElse(""));
+        JsonArray valueArray = jsonObject.get("value").getAsJsonArray();
+        for (JsonElement element : valueArray) {
+            GameMode mode = GameMode.byId(element.getAsString());
             if (mode != null) {
                 get().add(mode);
             }

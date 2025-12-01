@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.profiles;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
@@ -16,8 +18,6 @@ import meteordevelopment.meteorclient.systems.macros.Macros;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -67,11 +67,10 @@ public class Profile implements ISerializable<Profile> {
         .build()
     );
     
-    public Profile() {
-    }
+    public Profile() {}
     
-    public Profile(NbtElement tag) {
-        fromTag((NbtCompound) tag);
+    public Profile(JsonElement jsonElement) {
+        fromJson((JsonObject) jsonElement);
     }
     
     public void load() {
@@ -115,18 +114,18 @@ public class Profile implements ISerializable<Profile> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.put("settings", settings.toTag());
+        jsonObject.add("settings", settings.toJson());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Profile fromTag(NbtCompound tag) {
-        if (tag.contains("settings")) {
-            settings.fromTag(tag.getCompoundOrEmpty("settings"));
+    public Profile fromJson(JsonObject jsonObject) {
+        if (jsonObject.has("settings")) {
+            settings.fromJson(jsonObject.get("settings").getAsJsonObject());
         }
         
         return this;

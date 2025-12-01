@@ -5,6 +5,9 @@
 
 package meteordevelopment.meteorclient.systems.modules;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
@@ -31,7 +34,6 @@ import meteordevelopment.meteorclient.systems.modules.movement.speed.Speed;
 import meteordevelopment.meteorclient.systems.modules.player.*;
 import meteordevelopment.meteorclient.systems.modules.render.*;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.BlockESP;
-import meteordevelopment.meteorclient.systems.modules.render.marker.Marker;
 import meteordevelopment.meteorclient.systems.modules.world.*;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -41,9 +43,6 @@ import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
@@ -359,32 +358,34 @@ public class Modules extends System<Modules> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
-        NbtList modulesTag = new NbtList();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+        JsonArray modulesArray = new JsonArray();
         
         for (Module module : getAll()) {
-            NbtCompound moduleTag = module.toTag();
-            if (moduleTag != null) {
-                modulesTag.add(moduleTag);
+            JsonObject moduleJson = module.toJson();
+            if (moduleJson != null) {
+                modulesArray.add(moduleJson);
             }
         }
-        tag.put("modules", modulesTag);
-        return tag;
+        
+        jsonObject.add("modules", modulesArray);
+        return jsonObject;
     }
     
     @Override
-    public Modules fromTag(NbtCompound tag) {
+    public Modules fromJson(JsonObject jsonObject) {
         disableAll();
-        NbtList modulesTag = tag.getListOrEmpty("modules");
+        JsonArray modulesArray = jsonObject.get("modules").getAsJsonArray();
         
-        for (NbtElement moduleTagI : modulesTag) {
-            NbtCompound moduleTag = (NbtCompound) moduleTagI;
-            Module module = get(moduleTag.getString("name", ""));
+        for (JsonElement moduleJsonElement : modulesArray) {
+            JsonObject moduleJson = moduleJsonElement.getAsJsonObject();
+            Module module = get(moduleJson.get("name").getAsString());
             if (module != null) {
-                module.fromTag(moduleTag);
+                module.fromJson(moduleJson);
             }
         }
+        
         return this;
     }
     
@@ -396,6 +397,7 @@ public class Modules extends System<Modules> {
             throw new RuntimeException("Modules.addModule - Module's category was not registered.");
         }
         
+        // TODO: Бросать исключение при одинаковых или неподдерживаемых именах
         // Remove the previous module with the same name
         AtomicReference<Module> removedModule = new AtomicReference<>();
         if (moduleInstances.values().removeIf(module1 -> {
@@ -540,7 +542,6 @@ public class Modules extends System<Modules> {
         add(new ItemPhysics());
         add(new ItemHighlight());
         add(new LogoutSpots());
-        add(new Marker());
         add(new NameProtect());
         add(new Nametags());
         add(new NoFOV());

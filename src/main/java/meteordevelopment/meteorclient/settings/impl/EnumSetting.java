@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,15 +50,15 @@ public class EnumSetting<T extends Enum<?>> extends Setting<T> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        tag.putString("value", get().toString());
+    public JsonObject save(JsonObject jsonObject) {
+        jsonObject.addProperty("value", get().toString());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public T load(NbtCompound tag) {
-        parse(tag.getString("value", ""));
+    public T load(JsonObject jsonObject) {
+        parse(jsonObject.get("value").getAsString());
         
         return get();
     }

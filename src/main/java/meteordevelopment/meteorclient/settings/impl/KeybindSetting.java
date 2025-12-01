@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
@@ -15,7 +16,6 @@ import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
-import net.minecraft.nbt.NbtCompound;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.function.Consumer;
@@ -93,15 +93,15 @@ public class KeybindSetting extends Setting<Keybind> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        tag.put("value", get().toTag());
+    public JsonObject save(JsonObject jsonObject) {
+        jsonObject.add("value", get().toJson());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Keybind load(NbtCompound tag) {
-        get().fromTag(tag.getCompoundOrEmpty("value"));
+    public Keybind load(JsonObject jsonObject) {
+        get().fromJson(jsonObject.get("value").getAsJsonObject());
         
         return get();
     }

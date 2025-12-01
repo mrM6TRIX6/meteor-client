@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.macros.Macro;
 import meteordevelopment.meteorclient.systems.macros.Macros;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.screen.Screen;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
@@ -90,12 +90,12 @@ public class MacrosTab extends Tab {
         
         @Override
         public boolean toClipboard() {
-            return NbtUtils.toClipboard(Macros.get());
+            return JsonUtils.toClipboard(Macros.get());
         }
         
         @Override
         public boolean fromClipboard() {
-            return NbtUtils.fromClipboard(Macros.get());
+            return JsonUtils.fromClipboard(Macros.get());
         }
         
     }

@@ -5,16 +5,15 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.serialization.Lifecycle;
 import it.unimi.dsi.fastutil.objects.ObjectIterators;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
@@ -90,26 +89,28 @@ public class StorageBlockListSetting extends Setting<List<BlockEntityType<?>>> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
+        
         for (BlockEntityType<?> type : get()) {
             Identifier id = Registries.BLOCK_ENTITY_TYPE.getId(type);
             if (id != null) {
-                valueTag.add(NbtString.of(id.toString()));
+                valueArray.add(id.toString());
             }
         }
-        tag.put("value", valueTag);
         
-        return tag;
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public List<BlockEntityType<?>> load(NbtCompound tag) {
+    public List<BlockEntityType<?>> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtList valueTag = tag.getListOrEmpty("value");
-        for (NbtElement tagI : valueTag) {
-            BlockEntityType<?> type = Registries.BLOCK_ENTITY_TYPE.get(Identifier.of(tagI.asString().orElse("")));
+        JsonArray valueArray = jsonObject.get("value").getAsJsonArray();
+        for (JsonElement element : valueArray) {
+            BlockEntityType<?> type = Registries.BLOCK_ENTITY_TYPE.get(Identifier.of(element.getAsString()));
             if (type != null) {
                 get().add(type);
             }

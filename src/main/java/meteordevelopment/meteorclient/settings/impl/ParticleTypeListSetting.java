@@ -5,12 +5,11 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.Registries;
@@ -61,26 +60,28 @@ public class ParticleTypeListSetting extends Setting<List<ParticleType<?>>> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
+        
         for (ParticleType<?> particleType : get()) {
             Identifier id = Registries.PARTICLE_TYPE.getId(particleType);
             if (id != null) {
-                valueTag.add(NbtString.of(id.toString()));
+                valueArray.add(id.toString());
             }
         }
-        tag.put("value", valueTag);
         
-        return tag;
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public List<ParticleType<?>> load(NbtCompound tag) {
+    public List<ParticleType<?>> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtList valueTag = tag.getListOrEmpty("value");
-        for (NbtElement tagI : valueTag) {
-            ParticleType<?> particleType = Registries.PARTICLE_TYPE.get(Identifier.of(tagI.asString().orElse("")));
+        JsonArray valueArray = jsonObject.get("value").getAsJsonArray();
+        for (JsonElement element : valueArray) {
+            ParticleType<?> particleType = Registries.PARTICLE_TYPE.get(Identifier.of(element.getAsString()));
             if (particleType != null) {
                 get().add(particleType);
             }

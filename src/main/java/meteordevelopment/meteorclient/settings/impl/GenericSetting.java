@@ -5,12 +5,12 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.utils.IScreenFactory;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.function.Consumer;
 
@@ -39,15 +39,15 @@ public class GenericSetting<T extends ICopyable<T> & ISerializable<T> & IScreenF
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        tag.put("value", get().toTag());
+    public JsonObject save(JsonObject jsonObject) {
+        jsonObject.add("value", get().toJson());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public T load(NbtCompound tag) {
-        get().fromTag(tag.getCompoundOrEmpty("value"));
+    public T load(JsonObject jsonObject) {
+        get().fromJson(jsonObject.get("value").getAsJsonObject());
         
         return get();
     }

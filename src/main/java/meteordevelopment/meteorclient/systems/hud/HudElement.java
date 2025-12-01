@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.hud;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Settings;
@@ -12,7 +13,8 @@ import meteordevelopment.meteorclient.systems.hud.screens.HudEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.other.Snapper;
-import net.minecraft.nbt.NbtCompound;
+
+import java.util.Optional;
 
 public abstract class HudElement implements Snapper.Element, ISerializable<HudElement> {
     
@@ -115,30 +117,28 @@ public abstract class HudElement implements Snapper.Element, ISerializable<HudEl
     // Serialization
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("name", info.name);
-        tag.putBoolean("active", active);
+        jsonObject.addProperty("name", info.name);
+        jsonObject.addProperty("active", active);
+        jsonObject.add("settings", settings.toJson());
+        jsonObject.add("box", box.toJson());
+        jsonObject.addProperty("autoAnchors", autoAnchors);
         
-        tag.put("settings", settings.toTag());
-        tag.put("box", box.toTag());
-        
-        tag.putBoolean("autoAnchors", autoAnchors);
-        
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public HudElement fromTag(NbtCompound tag) {
+    public HudElement fromJson(JsonObject jsonObject) {
         settings.reset();
         
-        tag.getBoolean("active").ifPresent(active1 -> active = active1);
+        Optional.of(jsonObject.get("active").getAsBoolean()).ifPresent(active1 -> active = active1);
         
-        settings.fromTag(tag.getCompoundOrEmpty("settings"));
-        box.fromTag(tag.getCompoundOrEmpty("box"));
+        settings.fromJson(jsonObject.get("settings").getAsJsonObject());
+        box.fromJson(jsonObject.get("box").getAsJsonObject());
         
-        tag.getBoolean("autoAnchors").ifPresent(autoAnchors1 -> autoAnchors = autoAnchors1);
+        Optional.of(jsonObject.get("autoAnchors").getAsBoolean()).ifPresent(autoAnchors1 -> autoAnchors = autoAnchors1);
         
         x = box.getRenderX();
         y = box.getRenderY();

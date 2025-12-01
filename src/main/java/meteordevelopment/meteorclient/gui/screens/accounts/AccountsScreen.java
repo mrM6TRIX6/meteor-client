@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import org.jetbrains.annotations.Nullable;
 
@@ -85,12 +85,12 @@ public class AccountsScreen extends WindowScreen {
     
     @Override
     public boolean toClipboard() {
-        return NbtUtils.toClipboard(Accounts.get());
+        return JsonUtils.toClipboard(Accounts.get());
     }
     
     @Override
     public boolean fromClipboard() {
-        return NbtUtils.fromClipboard(Accounts.get());
+        return JsonUtils.fromClipboard(Accounts.get());
     }
     
 }

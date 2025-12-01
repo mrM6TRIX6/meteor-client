@@ -5,6 +5,9 @@
 
 package meteordevelopment.meteorclient.systems.hud;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -18,12 +21,10 @@ import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.hud.elements.*;
 import meteordevelopment.meteorclient.systems.hud.screens.HudEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -296,44 +297,44 @@ public class Hud extends System<Hud> implements Iterable<HudElement> {
     // Serialization
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putInt("__version__", 1);
+        jsonObject.addProperty("__version__", MeteorClient.VERSION.toString());
+        jsonObject.addProperty("active", active);
+        jsonObject.add("settings", settings.toJson());
+        jsonObject.add("elements", JsonUtils.listToJson(elements));
         
-        tag.putBoolean("active", active);
-        tag.put("settings", settings.toTag());
-        tag.put("elements", NbtUtils.listToTag(elements));
-        
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Hud fromTag(NbtCompound tag) {
-        if (!tag.contains("__version__")) {
+    public Hud fromJson(JsonObject jsonObject) {
+        if (!jsonObject.has("__version__")) {
             reset();
             return this;
         }
         
-        tag.getBoolean("active").ifPresent(active1 -> active = active1);
-        settings.fromTag(tag.getCompoundOrEmpty("settings"));
+        Optional.of(jsonObject.get("active").getAsBoolean()).ifPresent(active1 -> active = active1);
+        settings.fromJson(jsonObject.get("settings").getAsJsonObject());
         
         // Elements
         elements.clear();
         
-        for (NbtElement nbtElement : tag.getListOrEmpty("elements")) {
-            NbtCompound compound = (NbtCompound) nbtElement;
-            if (compound.getString("name").isEmpty()) {
+        for (JsonElement element : jsonObject.get("elements").getAsJsonArray()) {
+            JsonObject jsonObject1 = (JsonObject) element;
+            if (jsonObject1.get("name").getAsString().isEmpty()) {
                 continue;
             }
             
-            HudElementInfo<?> info = infos.get(compound.getString("name").get());
+            HudElementInfo<?> info = infos.get(jsonObject1.get("name").getAsString());
             if (info != null) {
-                HudElement element = info.create();
-                element.fromTag(compound);
-                elements.add(element);
+                HudElement hudElement = info.create();
+                hudElement.fromJson(jsonObject1);
+                elements.add(hudElement);
             }
         }
+        
         return this;
     }
     

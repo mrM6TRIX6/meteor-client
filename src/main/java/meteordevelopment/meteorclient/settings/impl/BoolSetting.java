@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -43,15 +43,15 @@ public class BoolSetting extends Setting<Boolean> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        tag.putBoolean("value", get());
+    public JsonObject save(JsonObject jsonObject) {
+        jsonObject.addProperty("value", get());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Boolean load(NbtCompound tag) {
-        set(tag.getBoolean("value", false));
+    public Boolean load(JsonObject jsonObject) {
+        set(jsonObject.get("value").getAsBoolean());
         
         return get();
     }

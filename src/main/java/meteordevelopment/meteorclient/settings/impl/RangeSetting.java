@@ -5,10 +5,10 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.misc.Range;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.function.Consumer;
 
@@ -43,17 +43,20 @@ public class RangeSetting extends Setting<Range> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        tag.putInt("min", get().min);
-        tag.putInt("max", get().max);
-        return tag;
+    public JsonObject save(JsonObject jsonObject) {
+        jsonObject.addProperty("min", get().min);
+        jsonObject.addProperty("max", get().max);
+        
+        return jsonObject;
     }
     
     @Override
-    public Range load(NbtCompound tag) {
-        int min = tag.getInt("min", 0);
-        int max = tag.getInt("max", 0);
+    public Range load(JsonObject jsonObject) {
+        int min = jsonObject.get("min").getAsInt();
+        int max = jsonObject.get("max").getAsInt();
+        
         set(Range.of(min, max));
+        
         return get();
     }
     

@@ -5,11 +5,11 @@
 
 package meteordevelopment.meteorclient.settings;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IGetter;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -119,23 +119,23 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
         return NO_SUGGESTIONS;
     }
     
-    protected abstract NbtCompound save(NbtCompound tag);
+    protected abstract JsonObject save(JsonObject jsonObject);
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("name", name);
-        save(tag);
+        jsonObject.addProperty("name", name);
+        save(jsonObject);
         
-        return tag;
+        return jsonObject;
     }
     
-    protected abstract T load(NbtCompound tag);
+    protected abstract T load(JsonObject jsonObject);
     
     @Override
-    public T fromTag(NbtCompound tag) {
-        T value = load(tag);
+    public T fromJson(JsonObject jsonObject) {
+        T value = load(jsonObject);
         onChanged();
         
         return value;
@@ -180,6 +180,7 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
         return null;
     }
     
+    @SuppressWarnings("unchecked")
     public abstract static class SettingBuilder<B, V, S> {
         
         protected String name = "undefined", description = "";

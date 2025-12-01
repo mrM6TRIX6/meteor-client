@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.render.color;
 
-import net.minecraft.nbt.NbtCompound;
+import com.google.gson.JsonObject;
 import net.minecraft.text.Style;
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;
@@ -91,16 +91,20 @@ public class SettingColor extends Color {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = super.toTag();
-        tag.putBoolean("rainbow", rainbow);
-        return tag;
+    public JsonObject toJson() {
+        JsonObject jsonObject = super.toJson();
+        
+        jsonObject.addProperty("rainbow", rainbow);
+        
+        return jsonObject;
     }
     
     @Override
-    public SettingColor fromTag(NbtCompound tag) {
-        super.fromTag(tag);
-        rainbow = tag.getBoolean("rainbow", false);
+    public SettingColor fromJson(JsonObject jsonObject) {
+        super.fromJson(jsonObject);
+        
+        rainbow = jsonObject.get("rainbow").getAsBoolean();
+        
         return this;
     }
     

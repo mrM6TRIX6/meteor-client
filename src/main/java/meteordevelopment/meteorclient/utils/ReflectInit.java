@@ -20,8 +20,7 @@ public class ReflectInit {
     
     private static final List<Reflections> reflections = new ArrayList<>();
     
-    private ReflectInit() {
-    }
+    private ReflectInit() {}
     
     public static void registerPackages() {
         for (MeteorAddon addon : AddonManager.ADDONS) {
@@ -35,9 +34,11 @@ public class ReflectInit {
     
     private static void add(MeteorAddon addon) {
         String pkg = addon.getPackage();
+        
         if (pkg == null || pkg.isBlank()) {
             return;
         }
+        
         reflections.add(new Reflections(pkg, Scanners.MethodsAnnotated));
     }
     

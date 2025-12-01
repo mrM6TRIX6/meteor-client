@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.macros;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.utils.StarscriptTextBoxRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -16,8 +18,6 @@ import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import org.meteordev.starscript.Script;
 
 import java.util.ArrayList;
@@ -55,11 +55,10 @@ public class Macro implements ISerializable<Macro> {
     private final List<Script> scripts = new ArrayList<>(1);
     private boolean dirty;
     
-    public Macro() {
-    }
+    public Macro() {}
     
-    public Macro(NbtElement tag) {
-        fromTag((NbtCompound) tag);
+    public Macro(JsonElement jsonElement) {
+        fromJson((JsonObject) jsonElement);
     }
     
     public boolean onAction(boolean isKey, int value, int modifiers) {
@@ -95,18 +94,18 @@ public class Macro implements ISerializable<Macro> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.put("settings", settings.toTag());
+        jsonObject.add("settings", settings.toJson());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Macro fromTag(NbtCompound tag) {
-        if (tag.contains("settings")) {
-            settings.fromTag(tag.getCompoundOrEmpty("settings"));
+    public Macro fromJson(JsonObject jsonObject) {
+        if (jsonObject.has("settings")) {
+            settings.fromJson(jsonObject.get("settings").getAsJsonObject());
         }
         
         return this;

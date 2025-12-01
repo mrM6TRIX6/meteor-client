@@ -5,16 +5,15 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
@@ -75,22 +74,24 @@ public class EnchantmentListSetting extends Setting<Set<RegistryKey<Enchantment>
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
-        for (RegistryKey<Enchantment> ench : get()) {
-            valueTag.add(NbtString.of(ench.getValue().toString()));
-        }
-        tag.put("value", valueTag);
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
         
-        return tag;
+        for (RegistryKey<Enchantment> enchantment : get()) {
+            valueArray.add(enchantment.getValue().toString());
+        }
+        
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public Set<RegistryKey<Enchantment>> load(NbtCompound tag) {
+    public Set<RegistryKey<Enchantment>> load(JsonObject jsonObject) {
         get().clear();
         
-        for (NbtElement tagI : tag.getListOrEmpty("value")) {
-            get().add(RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(tagI.asString().orElse(""))));
+        for (JsonElement element : jsonObject.get("value").getAsJsonArray()) {
+            get().add(RegistryKey.of(RegistryKeys.ENCHANTMENT, Identifier.of(element.getAsString())));
         }
         
         return get();

@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.modules;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.addons.AddonManager;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
@@ -18,8 +20,6 @@ import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
@@ -83,11 +83,9 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         return null;
     }
     
-    public void onActivate() {
-    }
+    public void onActivate() {}
     
-    public void onDeactivate() {
-    }
+    public void onDeactivate() {}
     
     public void toggle() {
         if (!active) {
@@ -151,38 +149,38 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     }
     
     @Override
-    public NbtCompound toTag() {
+    public JsonObject toJson() {
         if (!serialize) {
             return null;
         }
-        NbtCompound tag = new NbtCompound();
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("name", name);
-        tag.put("keybind", keybind.toTag());
-        tag.putBoolean("toggleOnKeyRelease", toggleOnBindRelease);
-        tag.putBoolean("chatFeedback", chatFeedback);
-        tag.putBoolean("favorite", favorite);
-        tag.put("settings", settings.toTag());
-        tag.putBoolean("active", active);
+        jsonObject.addProperty("name", name);
+        jsonObject.add("keybind", keybind.toJson());
+        jsonObject.addProperty("toggleOnKeyRelease", toggleOnBindRelease);
+        jsonObject.addProperty("chatFeedback", chatFeedback);
+        jsonObject.addProperty("favorite", favorite);
+        jsonObject.add("settings", settings.toJson());
+        jsonObject.addProperty("active", active);
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Module fromTag(NbtCompound tag) {
+    public Module fromJson(JsonObject jsonObject) {
         // General
-        keybind.fromTag(tag.getCompoundOrEmpty("keybind"));
-        toggleOnBindRelease = tag.getBoolean("toggleOnKeyRelease", false);
-        chatFeedback = !tag.contains("chatFeedback") || tag.getBoolean("chatFeedback", false);
-        favorite = tag.getBoolean("favorite", false);
+        keybind.fromJson(jsonObject.get("keybind").getAsJsonObject());
+        toggleOnBindRelease = jsonObject.get("toggleOnKeyRelease").getAsBoolean();
+        chatFeedback = !jsonObject.has("chatFeedback") || jsonObject.get("chatFeedback").getAsBoolean();
+        favorite = jsonObject.get("favorite").getAsBoolean();
         
         // Settings
-        NbtElement settingsTag = tag.get("settings");
-        if (settingsTag instanceof NbtCompound) {
-            settings.fromTag((NbtCompound) settingsTag);
+        JsonElement settingsJson = jsonObject.get("settings");
+        if (settingsJson instanceof JsonObject) {
+            settings.fromJson((JsonObject) settingsJson);
         }
         
-        boolean active = tag.getBoolean("active", false);
+        boolean active = jsonObject.get("active").getAsBoolean();
         if (active != isActive()) {
             toggle();
         }

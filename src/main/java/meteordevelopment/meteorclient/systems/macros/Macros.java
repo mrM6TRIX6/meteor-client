@@ -5,16 +5,16 @@
 
 package meteordevelopment.meteorclient.systems.macros;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
-import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -105,23 +105,26 @@ public class Macros extends System<Macros> implements Iterable<Macro> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
-        tag.put("macros", NbtUtils.listToTag(macros));
-        return tag;
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+        
+        jsonObject.add("macros", JsonUtils.listToJson(macros));
+        
+        return jsonObject;
     }
     
     @Override
-    public Macros fromTag(NbtCompound tag) {
+    public Macros fromJson(JsonObject jsonObject) {
         for (Macro macro : macros) {
             MeteorClient.EVENT_BUS.unsubscribe(macro);
         }
         
-        macros = NbtUtils.listFromTag(tag.getListOrEmpty("macros"), Macro::new);
+        macros = JsonUtils.listFromJson(jsonObject.get("macros").getAsJsonArray(), Macro::new);
         
         for (Macro macro : macros) {
             MeteorClient.EVENT_BUS.subscribe(macro);
         }
+        
         return this;
     }
     

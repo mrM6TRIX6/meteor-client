@@ -5,14 +5,14 @@
 
 package meteordevelopment.meteorclient.systems.profiles;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -73,7 +73,7 @@ public class Profiles extends System<Profiles> implements Iterable<Profile> {
     
     @Override
     public File getFile() {
-        return new File(FOLDER, "profiles.nbt");
+        return new File(FOLDER, "profiles.json");
     }
     
     @EventHandler
@@ -95,15 +95,15 @@ public class Profiles extends System<Profiles> implements Iterable<Profile> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
-        tag.put("profiles", NbtUtils.listToTag(profiles));
-        return tag;
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.add("profiles", JsonUtils.listToJson(profiles));
+        return jsonObject;
     }
     
     @Override
-    public Profiles fromTag(NbtCompound tag) {
-        profiles = NbtUtils.listFromTag(tag.getListOrEmpty("profiles"), Profile::new);
+    public Profiles fromJson(JsonObject jsonObject) {
+        profiles = JsonUtils.listFromJson(jsonObject.get("profiles").getAsJsonArray(), Profile::new);
         return this;
     }
     

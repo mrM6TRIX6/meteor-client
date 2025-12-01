@@ -5,15 +5,16 @@
 
 package meteordevelopment.meteorclient.systems.accounts;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.accounts.impl.CrackedAccount;
 import meteordevelopment.meteorclient.systems.accounts.impl.MicrosoftAccount;
 import meteordevelopment.meteorclient.systems.accounts.impl.TheAlteningAccount;
-import meteordevelopment.meteorclient.utils.misc.NbtException;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
-import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -62,31 +63,31 @@ public class Accounts extends System<Accounts> implements Iterable<Account<?>> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.put("accounts", NbtUtils.listToTag(accounts));
+        jsonObject.add("accounts", JsonUtils.listToJson(accounts));
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Accounts fromTag(NbtCompound tag) {
-        MeteorExecutor.execute(() -> accounts = NbtUtils.listFromTag(tag.getListOrEmpty("accounts"), tag1 -> {
-            NbtCompound t = (NbtCompound) tag1;
-            if (!t.contains("type")) {
+    public Accounts fromJson(JsonObject jsonObject) {
+        MeteorExecutor.execute(() -> accounts = JsonUtils.listFromJson(jsonObject.get("accounts").getAsJsonArray(), accountElement -> {
+            JsonObject account = (JsonObject) accountElement;
+            if (!account.has("type")) {
                 return null;
             }
             
-            AccountType type = AccountType.valueOf(t.getString("type", ""));
+            AccountType type = AccountType.valueOf(account.get("type").getAsString());
             
             try {
                 return switch (type) {
-                    case Cracked -> new CrackedAccount(null).fromTag(t);
-                    case Microsoft -> new MicrosoftAccount(null).fromTag(t);
-                    case TheAltening -> new TheAlteningAccount(null).fromTag(t);
+                    case CRACKED -> new CrackedAccount(null).fromJson(account);
+                    case MICROSOFT -> new MicrosoftAccount(null).fromJson(account);
+                    case THE_ALTENING -> new TheAlteningAccount(null).fromJson(account);
                 };
-            } catch (NbtException e) {
+            } catch (JsonParseException e) {
                 return null;
             }
         }));

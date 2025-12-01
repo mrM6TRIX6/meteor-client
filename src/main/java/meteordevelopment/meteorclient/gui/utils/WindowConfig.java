@@ -5,8 +5,10 @@
 
 package meteordevelopment.meteorclient.gui.utils;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import net.minecraft.nbt.NbtCompound;
+
+import java.util.Optional;
 
 public class WindowConfig implements ISerializable<WindowConfig> {
     
@@ -17,21 +19,21 @@ public class WindowConfig implements ISerializable<WindowConfig> {
     // Saving
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putBoolean("expanded", expanded);
-        tag.putDouble("x", x);
-        tag.putDouble("y", y);
+        jsonObject.addProperty("expanded", expanded);
+        jsonObject.addProperty("x", x);
+        jsonObject.addProperty("y", y);
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public WindowConfig fromTag(NbtCompound tag) {
-        tag.getBoolean("expanded").ifPresent(bool -> expanded = bool);
-        tag.getDouble("x").ifPresent(x1 -> x = x1);
-        tag.getDouble("y").ifPresent(y1 -> y = y1);
+    public WindowConfig fromJson(JsonObject jsonObject) {
+        Optional.of(jsonObject.get("expanded").getAsBoolean()).ifPresent(bool -> expanded = bool);
+        Optional.of(jsonObject.get("x").getAsDouble()).ifPresent(x1 -> x = x1);
+        Optional.of(jsonObject.get("y").getAsDouble()).ifPresent(y1 -> y = y1);
         
         return this;
     }

@@ -20,8 +20,7 @@ import java.util.*;
  */
 public class TextUtils {
     
-    private TextUtils() {
-    }
+    private TextUtils() {}
     
     public static List<ColoredText> toColoredTextList(Text text) {
         Deque<ColoredText> stack = new ArrayDeque<>();

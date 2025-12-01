@@ -5,11 +5,11 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.utils.CharFilter;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.function.Consumer;
 
@@ -40,15 +40,15 @@ public class StringSetting extends Setting<String> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        tag.putString("value", get());
+    public JsonObject save(JsonObject jsonObject) {
+        jsonObject.addProperty("value", get());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public String load(NbtCompound tag) {
-        set(tag.getString("value", ""));
+    public String load(JsonObject jsonObject) {
+        set(jsonObject.get("value").getAsString());
         
         return get();
     }

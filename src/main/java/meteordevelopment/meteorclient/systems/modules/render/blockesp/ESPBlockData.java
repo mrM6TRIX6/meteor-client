@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.blockesp;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.gui.utils.IScreenFactory;
@@ -16,7 +17,6 @@ import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.block.Block;
-import net.minecraft.nbt.NbtCompound;
 
 public class ESPBlockData implements ICopyable<ESPBlockData>, ISerializable<ESPBlockData>, IChangeable, IBlockData<ESPBlockData>, IScreenFactory {
     
@@ -83,31 +83,31 @@ public class ESPBlockData implements ICopyable<ESPBlockData>, ISerializable<ESPB
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("shapeMode", shapeMode.name());
-        tag.put("lineColor", lineColor.toTag());
-        tag.put("sideColor", sideColor.toTag());
+        jsonObject.addProperty("shapeMode", shapeMode.name());
+        jsonObject.add("lineColor", lineColor.toJson());
+        jsonObject.add("sideColor", sideColor.toJson());
         
-        tag.putBoolean("tracer", tracer);
-        tag.put("tracerColor", tracerColor.toTag());
+        jsonObject.addProperty("tracer", tracer);
+        jsonObject.add("tracerColor", tracerColor.toJson());
         
-        tag.putBoolean("changed", changed);
+        jsonObject.addProperty("changed", changed);
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public ESPBlockData fromTag(NbtCompound tag) {
-        shapeMode = ShapeMode.valueOf(tag.getString("shapeMode", ""));
-        lineColor.fromTag(tag.getCompoundOrEmpty("lineColor"));
-        sideColor.fromTag(tag.getCompoundOrEmpty("sideColor"));
+    public ESPBlockData fromJson(JsonObject jsonObject) {
+        shapeMode = ShapeMode.valueOf(jsonObject.get("shapeMode").getAsString());
+        lineColor.fromJson(jsonObject.get("lineColor").getAsJsonObject());
+        sideColor.fromJson(jsonObject.get("sideColor").getAsJsonObject());
         
-        tracer = tag.getBoolean("tracer", false);
-        tracerColor.fromTag(tag.getCompoundOrEmpty("tracerColor"));
+        tracer = jsonObject.get("tracer").getAsBoolean();
+        tracerColor.fromJson(jsonObject.get("tracerColor").getAsJsonObject());
         
-        changed = tag.getBoolean("changed", false);
+        changed = jsonObject.get("changed").getAsBoolean();
         
         return this;
     }

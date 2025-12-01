@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.tabs.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.tabs.Tab;
@@ -13,9 +14,8 @@ import meteordevelopment.meteorclient.gui.tabs.WindowTabScreen;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WDropdown;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.nbt.NbtCompound;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -64,15 +64,15 @@ public class GuiTab extends Tab {
         
         @Override
         public boolean toClipboard() {
-            return NbtUtils.toClipboard(theme.name + " GUI Theme", theme.toTag());
+            return JsonUtils.toClipboard(theme.name + " GUI Theme", theme.toJson());
         }
         
         @Override
         public boolean fromClipboard() {
-            NbtCompound clipboard = NbtUtils.fromClipboard(theme.toTag());
+            JsonObject clipboard = JsonUtils.fromClipboard(theme.toJson());
             
             if (clipboard != null) {
-                theme.fromTag(clipboard);
+                theme.fromJson(clipboard);
                 return true;
             }
             

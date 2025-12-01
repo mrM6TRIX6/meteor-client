@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.hud.screens;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.utils.Cell;
@@ -20,9 +21,8 @@ import meteordevelopment.meteorclient.settings.impl.EnumSetting;
 import meteordevelopment.meteorclient.systems.hud.HudElement;
 import meteordevelopment.meteorclient.systems.hud.XAnchor;
 import meteordevelopment.meteorclient.systems.hud.YAnchor;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.nbt.NbtCompound;
 
 import static meteordevelopment.meteorclient.utils.Utils.getWindowWidth;
 
@@ -143,15 +143,15 @@ public class HudElementScreen extends WindowScreen {
     
     @Override
     public boolean toClipboard() {
-        return NbtUtils.toClipboard(element.info.title, element.toTag());
+        return JsonUtils.toClipboard(element.info.title, element.toJson());
     }
     
     @Override
     public boolean fromClipboard() {
-        NbtCompound clipboard = NbtUtils.fromClipboard(element.toTag());
+        JsonObject clipboard = JsonUtils.fromClipboard(element.toJson());
         
         if (clipboard != null) {
-            element.fromTag(clipboard);
+            element.fromJson(clipboard);
             return true;
         }
         

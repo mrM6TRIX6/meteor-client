@@ -12,8 +12,7 @@ import java.io.*;
 
 public class StreamUtils {
     
-    private StreamUtils() {
-    }
+    private StreamUtils() {}
     
     public static void copy(File from, File to) {
         try (InputStream in = new FileInputStream(from);

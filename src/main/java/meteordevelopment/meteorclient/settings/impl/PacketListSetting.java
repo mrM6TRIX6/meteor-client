@@ -5,14 +5,13 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.network.PacketUtils;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.network.packet.Packet;
 
 import java.util.ArrayList;
@@ -78,24 +77,26 @@ public class PacketListSetting extends Setting<Set<Class<? extends Packet<?>>>> 
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
-        for (Class<? extends Packet<?>> packet : get()) {
-            valueTag.add(NbtString.of(PacketUtils.getName(packet)));
-        }
-        tag.put("value", valueTag);
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
         
-        return tag;
+        for (Class<? extends Packet<?>> packet : get()) {
+            valueArray.add(PacketUtils.getName(packet));
+        }
+        
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public Set<Class<? extends Packet<?>>> load(NbtCompound tag) {
+    public Set<Class<? extends Packet<?>>> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtElement valueTag = tag.get("value");
-        if (valueTag instanceof NbtList) {
-            for (NbtElement t : (NbtList) valueTag) {
-                Class<? extends Packet<?>> packet = PacketUtils.getPacket(t.asString().orElse(""));
+        JsonElement valueElement = jsonObject.get("value");
+        if (valueElement instanceof JsonArray) {
+            for (JsonElement element : (JsonArray) valueElement) {
+                Class<? extends Packet<?>> packet = PacketUtils.getPacket(element.getAsString());
                 if (packet != null && (filter == null || filter.test(packet))) {
                     get().add(packet);
                 }

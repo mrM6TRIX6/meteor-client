@@ -5,10 +5,10 @@
 
 package meteordevelopment.meteorclient.systems.proxies;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
-import net.minecraft.nbt.NbtCompound;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -92,15 +92,17 @@ public class Proxies extends System<Proxies> implements Iterable<Proxy> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
-        tag.put("proxies", NbtUtils.listToTag(proxies));
-        return tag;
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+        
+        jsonObject.add("proxies", JsonUtils.listToJson(proxies));
+        
+        return jsonObject;
     }
     
     @Override
-    public Proxies fromTag(NbtCompound tag) {
-        proxies = NbtUtils.listFromTag(tag.getListOrEmpty("proxies"), Proxy::new);
+    public Proxies fromJson(JsonObject jsonObject) {
+        proxies = JsonUtils.listFromJson(jsonObject.get("proxies").getAsJsonArray(), Proxy::new);
         return this;
     }
     

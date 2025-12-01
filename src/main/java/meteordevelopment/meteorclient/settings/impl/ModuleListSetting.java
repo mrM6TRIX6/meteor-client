@@ -5,14 +5,13 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,23 +66,25 @@ public class ModuleListSetting extends Setting<List<Module>> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList modulesTag = new NbtList();
-        for (Module module : get()) {
-            modulesTag.add(NbtString.of(module.name));
-        }
-        tag.put("modules", modulesTag);
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray modulesArray = new JsonArray();
         
-        return tag;
+        for (Module module : get()) {
+            modulesArray.add(module.name);
+        }
+        
+        jsonObject.add("modules", modulesArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public List<Module> load(NbtCompound tag) {
+    public List<Module> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtList valueTag = tag.getListOrEmpty("modules");
-        for (NbtElement tagI : valueTag) {
-            Module module = Modules.get().get(tagI.asString().orElse(""));
+        JsonArray valueArray = jsonObject.get("modules").getAsJsonArray();
+        for (JsonElement element : valueArray) {
+            Module module = Modules.get().get(element.getAsString());
             if (module != null) {
                 get().add(module);
             }

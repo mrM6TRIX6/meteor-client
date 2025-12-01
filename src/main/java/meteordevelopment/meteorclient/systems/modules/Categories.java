@@ -35,6 +35,7 @@ public class Categories {
         Modules.registerCategory(Exploit);
         Modules.registerCategory(Fun);
         
+        // TODO: Delete it
         // Addons
         AddonManager.ADDONS.forEach(MeteorAddon::onRegisterCategories);
         

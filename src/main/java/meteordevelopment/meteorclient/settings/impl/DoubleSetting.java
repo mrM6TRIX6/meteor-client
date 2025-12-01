@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.function.Consumer;
 
@@ -46,15 +46,15 @@ public class DoubleSetting extends Setting<Double> {
     }
     
     @Override
-    protected NbtCompound save(NbtCompound tag) {
-        tag.putDouble("value", get());
+    protected JsonObject save(JsonObject jsonObject) {
+        jsonObject.addProperty("value", get());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Double load(NbtCompound tag) {
-        set(tag.getDouble("value", 0.0));
+    public Double load(JsonObject jsonObject) {
+        set(jsonObject.get("value").getAsDouble());
         
         return get();
     }

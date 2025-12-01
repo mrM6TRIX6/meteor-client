@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.tabs.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.tabs.Tab;
@@ -15,10 +16,9 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.hud.screens.HudEditorScreen;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.nbt.NbtCompound;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -82,15 +82,15 @@ public class HudTab extends Tab {
         
         @Override
         public boolean toClipboard() {
-            return NbtUtils.toClipboard("hud-settings", hud.settings.toTag());
+            return JsonUtils.toClipboard("hud-settings", hud.settings.toJson());
         }
         
         @Override
         public boolean fromClipboard() {
-            NbtCompound clipboard = NbtUtils.fromClipboard(hud.settings.toTag());
+            JsonObject clipboard = JsonUtils.fromClipboard(hud.settings.toJson());
             
             if (clipboard != null) {
-                hud.settings.fromTag(clipboard);
+                hud.settings.fromJson(clipboard);
                 return true;
             }
             

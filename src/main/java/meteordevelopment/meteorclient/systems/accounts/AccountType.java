@@ -6,7 +6,9 @@
 package meteordevelopment.meteorclient.systems.accounts;
 
 public enum AccountType {
-    Cracked,
-    Microsoft,
-    TheAltening
+    
+    CRACKED,
+    MICROSOFT,
+    THE_ALTENING
+    
 }

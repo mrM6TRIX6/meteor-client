@@ -5,13 +5,12 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -43,8 +42,7 @@ public class StatusEffectListSetting extends Setting<List<StatusEffect>> {
                     effects.add(effect);
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return effects;
     }
@@ -60,26 +58,27 @@ public class StatusEffectListSetting extends Setting<List<StatusEffect>> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
         
         for (StatusEffect effect : get()) {
             Identifier id = Registries.STATUS_EFFECT.getId(effect);
             if (id != null) {
-                valueTag.add(NbtString.of(id.toString()));
+                valueArray.add(id.toString());
             }
         }
-        tag.put("value", valueTag);
         
-        return tag;
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public List<StatusEffect> load(NbtCompound tag) {
+    public List<StatusEffect> load(JsonObject jsonObject) {
         get().clear();
         
-        for (NbtElement tagI : tag.getListOrEmpty("value")) {
-            StatusEffect effect = Registries.STATUS_EFFECT.get(Identifier.of(tagI.asString().orElse("")));
+        for (JsonElement element : jsonObject.get("value").getAsJsonArray()) {
+            StatusEffect effect = Registries.STATUS_EFFECT.get(Identifier.of(element.getAsString()));
             if (effect != null) {
                 get().add(effect);
             }

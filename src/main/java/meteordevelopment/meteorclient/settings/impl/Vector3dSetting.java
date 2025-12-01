@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
 import org.joml.Vector3d;
 
 import java.util.function.Consumer;
@@ -61,25 +61,26 @@ public class Vector3dSetting extends Setting<Vector3d> {
     }
     
     @Override
-    protected NbtCompound save(NbtCompound tag) {
-        NbtCompound valueTag = new NbtCompound();
-        valueTag.putDouble("x", get().x);
-        valueTag.putDouble("y", get().y);
-        valueTag.putDouble("z", get().z);
+    protected JsonObject save(JsonObject jsonObject) {
+        JsonObject valueJson = new JsonObject();
         
-        tag.put("value", valueTag);
+        valueJson.addProperty("x", get().x);
+        valueJson.addProperty("y", get().y);
+        valueJson.addProperty("z", get().z);
         
-        return tag;
+        jsonObject.add("value", valueJson);
+        
+        return jsonObject;
     }
     
     @Override
-    protected Vector3d load(NbtCompound tag) {
-        if (tag.getCompound("value").isEmpty()) {
+    protected Vector3d load(JsonObject jsonObject) {
+        if (!jsonObject.has("value") || jsonObject.get("value").isJsonNull()) {
             return get();
         }
         
-        NbtCompound valueTag = tag.getCompound("value").get();
-        set(valueTag.getDouble("x", 0.0), valueTag.getDouble("y", 0.0), valueTag.getDouble("z", 0.0));
+        JsonObject valueJson = jsonObject.get("value").getAsJsonObject();
+        set(valueJson.get("x").getAsDouble(), valueJson.get("y").getAsDouble(), valueJson.get("z").getAsDouble());
         
         return get();
     }

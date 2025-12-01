@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.accounts;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.minecraft.UserApiService;
 import com.mojang.authlib.yggdrasil.ServicesKeyType;
@@ -13,14 +15,12 @@ import meteordevelopment.meteorclient.mixin.FileCacheAccessor;
 import meteordevelopment.meteorclient.mixin.MinecraftClientAccessor;
 import meteordevelopment.meteorclient.mixin.PlayerSkinProviderAccessor;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import meteordevelopment.meteorclient.utils.misc.NbtException;
 import net.minecraft.client.network.SocialInteractionsManager;
 import net.minecraft.client.session.ProfileKeys;
 import net.minecraft.client.session.Session;
 import net.minecraft.client.session.report.AbuseReportContext;
 import net.minecraft.client.session.report.ReporterEnvironment;
 import net.minecraft.client.texture.PlayerSkinProvider;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.encryption.SignatureVerifier;
 import net.minecraft.util.Util;
 
@@ -89,24 +89,25 @@ public abstract class Account<T extends Account<?>> implements ISerializable<T> 
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("type", type.name());
-        tag.putString("name", name);
-        tag.put("cache", cache.toTag());
+        jsonObject.addProperty("type", type.name());
+        jsonObject.addProperty("name", name);
+        jsonObject.add("cache", cache.toJson());
         
-        return tag;
+        return jsonObject;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
-    public T fromTag(NbtCompound tag) {
-        if (tag.getString("name").isEmpty() || tag.getCompound("cache").isEmpty()) {
-            throw new NbtException();
+    public T fromJson(JsonObject jsonObject) {
+        if (jsonObject.get("name").getAsString().isEmpty() || jsonObject.get("cache").isJsonNull()) {
+            throw new JsonSyntaxException("Invalid account data");
         }
         
-        name = tag.getString("name").get();
-        cache.fromTag(tag.getCompound("cache").get());
+        name = jsonObject.get("name").getAsString();
+        cache.fromJson(jsonObject.get("cache").getAsJsonObject());
         
         return (T) this;
     }

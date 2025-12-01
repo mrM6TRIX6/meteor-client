@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.accounts.impl;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import com.mojang.authlib.Environment;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import de.florianmichael.waybackauthlib.InvalidCredentialsException;
@@ -15,9 +17,7 @@ import meteordevelopment.meteorclient.mixin.YggdrasilMinecraftSessionServiceAcce
 import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.accounts.AccountType;
 import meteordevelopment.meteorclient.systems.accounts.TokenAccount;
-import meteordevelopment.meteorclient.utils.misc.NbtException;
 import net.minecraft.client.session.Session;
-import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
@@ -32,7 +32,7 @@ public class TheAlteningAccount extends Account<TheAlteningAccount> implements T
     private @Nullable WaybackAuthLib auth;
     
     public TheAlteningAccount(String token) {
-        super(AccountType.TheAltening, token);
+        super(AccountType.THE_ALTENING, token);
         this.token = token;
     }
     
@@ -88,26 +88,26 @@ public class TheAlteningAccount extends Account<TheAlteningAccount> implements T
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("type", type.name());
-        tag.putString("name", name);
-        tag.putString("token", token);
-        tag.put("cache", cache.toTag());
+        jsonObject.addProperty("type", type.name());
+        jsonObject.addProperty("name", name);
+        jsonObject.addProperty("token", token);
+        jsonObject.add("cache", cache.toJson());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public TheAlteningAccount fromTag(NbtCompound tag) {
-        if (tag.getString("name").isEmpty() || tag.getCompound("cache").isEmpty() || tag.getString("token").isEmpty()) {
-            throw new NbtException();
+    public TheAlteningAccount fromJson(JsonObject jsonObject) {
+        if (jsonObject.get("name").getAsString().isEmpty() || jsonObject.get("cache").isJsonNull() || jsonObject.get("token").getAsString().isEmpty()) {
+            throw new JsonSyntaxException("Invalid account data");
         }
         
-        name = tag.getString("name").get();
-        token = tag.getString("token").get();
-        cache.fromTag(tag.getCompound("cache").get());
+        name = jsonObject.get("name").getAsString();
+        token = jsonObject.get("token").getAsString();
+        cache.fromJson(jsonObject.get("cache").getAsJsonObject());
         
         return this;
     }

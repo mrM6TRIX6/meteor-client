@@ -10,7 +10,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.ComponentMapArgumentType;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.text.MeteorClickEvent;
 import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -147,7 +147,7 @@ public class NbtCommand extends Command {
             .executes(context -> {
                 ItemStack stack = mc.player.getInventory().getSelectedStack();
                 
-                Optional<NbtElement> stackNbtOptional = NbtUtils.encodeToNbt(stack).result();
+                Optional<NbtElement> stackNbtOptional = Utils.encodeToNbt(stack).result();
                 // Is modified or has NBT
                 if (stack.getComponentChanges().isEmpty()
                     || stackNbtOptional.isEmpty()

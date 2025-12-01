@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.utils;
 
 import com.mojang.blaze3d.systems.ProjectionType;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import it.unimi.dsi.fastutil.objects.*;
 import meteordevelopment.meteorclient.MeteorClient;
@@ -48,6 +49,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.inventory.StackWithSlot;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.RegistryKey;
@@ -88,8 +90,7 @@ public class Utils {
     
     private static final ProjectionMatrix2 MATRIX = new ProjectionMatrix2("meteor-projection-matrix", -10, 100, true);
     
-    private Utils() {
-    }
+    private Utils() {}
     
     @PreInit
     public static void init() {
@@ -572,6 +573,14 @@ public class Utils {
         } finally {
             IOUtils.closeQuietly(in);
         }
+    }
+    
+    public static DataResult<NbtElement> encodeToNbt(ItemStack stack) {
+        return ItemStack.CODEC.encodeStart(RegistryUtils.REGISTRY_ACCESS.getOps(NbtOps.INSTANCE), stack);
+    }
+    
+    public static DataResult<ItemStack> decodeFromNbt(NbtElement nbt) {
+        return ItemStack.CODEC.decode(RegistryUtils.REGISTRY_ACCESS.getOps(NbtOps.INSTANCE), nbt).map(Pair::getFirst);
     }
     
     public static boolean canUpdate() {

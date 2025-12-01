@@ -5,13 +5,12 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -67,25 +66,27 @@ public class ItemListSetting extends Setting<List<Item>> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
+        
         for (Item item : get()) {
             if (bypassFilterWhenSavingAndLoading || (filter == null || filter.test(item))) {
-                valueTag.add(NbtString.of(Registries.ITEM.getId(item).toString()));
+                valueArray.add(Registries.ITEM.getId(item).toString());
             }
         }
-        tag.put("value", valueTag);
         
-        return tag;
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public List<Item> load(NbtCompound tag) {
+    public List<Item> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtList valueTag = tag.getListOrEmpty("value");
-        for (NbtElement tagI : valueTag) {
-            Item item = Registries.ITEM.get(Identifier.of(tagI.asString().orElse("")));
+        JsonArray valueArray = jsonObject.get("value").getAsJsonArray();
+        for (JsonElement element : valueArray) {
+            Item item = Registries.ITEM.get(Identifier.of(element.getAsString()));
             
             if (bypassFilterWhenSavingAndLoading || (filter == null || filter.test(item))) {
                 get().add(item);

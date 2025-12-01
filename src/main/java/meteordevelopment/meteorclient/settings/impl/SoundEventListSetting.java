@@ -5,12 +5,11 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
@@ -60,25 +59,30 @@ public class SoundEventListSetting extends Setting<List<SoundEvent>> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
+        
         for (SoundEvent sound : get()) {
             Identifier id = Registries.SOUND_EVENT.getId(sound);
             if (id != null) {
-                valueTag.add(NbtString.of(id.toString()));
+                valueArray.add(id.toString());
             }
         }
-        tag.put("value", valueTag);
         
-        return tag;
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public List<SoundEvent> load(NbtCompound tag) {
+    public List<SoundEvent> load(JsonObject jsonObject) {
         get().clear();
         
-        for (NbtElement tagI : tag.getListOrEmpty("value")) {
-            SoundEvent soundEvent = Registries.SOUND_EVENT.get(Identifier.of(tagI.asString().orElse("")));
+        for (JsonElement element : jsonObject.get("value").getAsJsonArray()) {
+            SoundEvent soundEvent = Registries.SOUND_EVENT.get(Identifier.of(element.getAsString()));
+            if (soundEvent != null) {
+                get().add(soundEvent);
+            }
         }
         
         return get();

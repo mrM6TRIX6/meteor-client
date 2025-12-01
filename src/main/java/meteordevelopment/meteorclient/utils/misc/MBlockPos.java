@@ -17,8 +17,7 @@ public class MBlockPos {
     
     public int x, y, z;
     
-    public MBlockPos() {
-    }
+    public MBlockPos() {}
     
     public MBlockPos(Entity entity) {
         set(entity);

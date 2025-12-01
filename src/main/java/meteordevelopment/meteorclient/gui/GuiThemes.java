@@ -5,15 +5,18 @@
 
 package meteordevelopment.meteorclient.gui;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.gui.themes.meteor.MeteorGuiTheme;
 import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.PreInit;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtIo;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,34 +25,51 @@ public class GuiThemes {
     
     private static final File FOLDER = new File(MeteorClient.FOLDER, "gui");
     private static final File THEMES_FOLDER = new File(FOLDER, "themes");
-    private static final File FILE = new File(FOLDER, "gui.nbt");
+    private static final File FILE = new File(FOLDER, "gui.json");
+    private static final Gson GSON = new GsonBuilder()
+        .setPrettyPrinting()
+        .serializeNulls()
+        .create();
     
     private static final List<GuiTheme> themes = new ArrayList<>();
     private static GuiTheme theme;
     
-    private GuiThemes() {
-    }
+    private GuiThemes() {}
     
     @PreInit
     public static void init() {
         add(new MeteorGuiTheme());
     }
     
+    @SuppressWarnings("unused")
     @PostInit
     public static void postInit() {
         if (FILE.exists()) {
-            try {
-                NbtCompound tag = NbtIo.read(FILE.toPath());
+            try (Reader reader = Files.newBufferedReader(FILE.toPath())) {
+                JsonObject jsonObject = GSON.fromJson(reader, JsonObject.class);
                 
-                if (tag != null) {
-                    select(tag.getString("currentTheme", ""));
+                if (jsonObject != null && jsonObject.has("currentTheme")) {
+                    select(jsonObject.get("currentTheme").getAsString());
+                } else {
+                    MeteorClient.LOG.warn("Theme config file is missing 'currentTheme' field, using default");
+                    select("Meteor");
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                MeteorClient.LOG.error("Failed to load theme configuration", e);
+                select("Meteor");
+            } catch (JsonSyntaxException e) {
+                MeteorClient.LOG.error("Theme config file contains invalid JSON", e);
+                select("Meteor");
+            } catch (Exception e) {
+                MeteorClient.LOG.error("Unexpected error while loading theme configuration", e);
+                select("Meteor");
             }
+        } else {
+            select("Meteor");
         }
         
         if (theme == null) {
+            MeteorClient.LOG.warn("Theme was not initialized, forcing default theme");
             select("Meteor");
         }
     }
@@ -69,38 +89,51 @@ public class GuiThemes {
     
     public static void select(String name) {
         // Find theme with the provided name
-        GuiTheme theme = null;
+        GuiTheme selectedTheme = null;
         
         for (GuiTheme t : themes) {
             if (t.name.equals(name)) {
-                theme = t;
+                selectedTheme = t;
                 break;
             }
         }
         
-        if (theme != null) {
-            // Save current theme
+        if (selectedTheme != null) {
+            // Save current theme before switching
             saveTheme();
             
             // Select new theme
-            GuiThemes.theme = theme;
+            GuiThemes.theme = selectedTheme;
             
-            // Load new theme
+            // Load new theme configuration
             try {
-                File file = new File(THEMES_FOLDER, get().name + ".nbt");
+                File file = new File(THEMES_FOLDER, get().name + ".json");
                 
                 if (file.exists()) {
-                    NbtCompound tag = NbtIo.read(file.toPath());
-                    if (tag != null) {
-                        get().fromTag(tag);
+                    try (Reader reader = Files.newBufferedReader(file.toPath())) {
+                        JsonObject jsonObject = GSON.fromJson(reader, JsonObject.class);
+                        
+                        if (jsonObject != null) {
+                            get().fromJson(jsonObject);
+                        } else {
+                            MeteorClient.LOG.warn("Theme config file is empty or invalid: {}", file.getName());
+                        }
                     }
+                } else {
+                    MeteorClient.LOG.info("Theme config file not found, using default settings: {}", file.getName());
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                MeteorClient.LOG.error("Failed to load theme configuration for: {}", get().name, e);
+            } catch (JsonSyntaxException e) {
+                MeteorClient.LOG.error("Theme config file contains invalid JSON: {}", get().name, e);
+            } catch (Exception e) {
+                MeteorClient.LOG.error("Unexpected error while loading theme: {}", get().name, e);
             }
             
             // Save global gui settings with the new theme
             saveGlobal();
+        } else {
+            MeteorClient.LOG.warn("Theme not found: {}", name);
         }
     }
     
@@ -123,25 +156,61 @@ public class GuiThemes {
     private static void saveTheme() {
         if (get() != null) {
             try {
-                NbtCompound tag = get().toTag();
+                JsonObject jsonObject = get().toJson();
+                if (jsonObject == null) {
+                    MeteorClient.LOG.warn("Failed to serialize theme to JSON: {}", get().name);
+                    return;
+                }
                 
                 THEMES_FOLDER.mkdirs();
-                NbtIo.write(tag, new File(THEMES_FOLDER, get().name + ".nbt").toPath());
+                
+                File themeFile = new File(THEMES_FOLDER, get().name + ".json");
+                
+                try (Writer writer = new FileWriter(themeFile)) {
+                    GSON.toJson(jsonObject, writer);
+                }
+                
+                MeteorClient.LOG.debug("Successfully saved theme: {}", get().name);
             } catch (IOException e) {
-                e.printStackTrace();
+                MeteorClient.LOG.error("Failed to save theme configuration: {}", get().name, e);
+            } catch (Exception e) {
+                MeteorClient.LOG.error("Unexpected error while saving theme: {}", get().name, e);
             }
         }
     }
     
     private static void saveGlobal() {
         try {
-            NbtCompound tag = new NbtCompound();
-            tag.putString("currentTheme", get().name);
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("currentTheme", get().name);
             
             FOLDER.mkdirs();
-            NbtIo.write(tag, FILE.toPath());
+            
+            File tempFile = new File(FILE.getParentFile(), FILE.getName() + ".tmp");
+            
+            try (Writer writer = new FileWriter(tempFile)) {
+                GSON.toJson(jsonObject, writer);
+            }
+            
+            if (FILE.exists()) {
+                Files.move(tempFile.toPath(), FILE.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } else {
+                Files.move(tempFile.toPath(), FILE.toPath());
+            }
+            
+            MeteorClient.LOG.debug("Successfully saved global theme settings");
         } catch (IOException e) {
-            e.printStackTrace();
+            MeteorClient.LOG.error("Failed to save global theme settings", e);
+            
+            try {
+                File tempFile = new File(FILE.getParentFile(), FILE.getName() + ".tmp");
+                if (tempFile.exists()) {
+                    tempFile.delete();
+                }
+            } catch (Exception ex) {
+            }
+        } catch (Exception e) {
+            MeteorClient.LOG.error("Unexpected error while saving global theme settings", e);
         }
     }
     

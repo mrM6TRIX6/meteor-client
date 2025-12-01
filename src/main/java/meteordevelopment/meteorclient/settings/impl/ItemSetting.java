@@ -5,10 +5,10 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -41,15 +41,15 @@ public class ItemSetting extends Setting<Item> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        tag.putString("value", Registries.ITEM.getId(get()).toString());
+    public JsonObject save(JsonObject jsonObject) {
+        jsonObject.addProperty("value", Registries.ITEM.getId(get()).toString());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Item load(NbtCompound tag) {
-        value = Registries.ITEM.get(Identifier.of(tag.getString("value", "")));
+    public Item load(JsonObject jsonObject) {
+        value = Registries.ITEM.get(Identifier.of(jsonObject.get("value").getAsString()));
         
         if (filter != null && !filter.test(value)) {
             for (Item item : Registries.ITEM) {

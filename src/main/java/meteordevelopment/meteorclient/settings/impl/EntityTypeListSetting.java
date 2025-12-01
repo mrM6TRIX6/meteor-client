@@ -5,16 +5,15 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -121,23 +120,23 @@ public class EntityTypeListSetting extends Setting<Set<EntityType<?>>> {
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
         for (EntityType<?> entityType : get()) {
-            valueTag.add(NbtString.of(Registries.ENTITY_TYPE.getId(entityType).toString()));
+            valueArray.add(Registries.ENTITY_TYPE.getId(entityType).toString());
         }
-        tag.put("value", valueTag);
+        jsonObject.add("value", valueArray);
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Set<EntityType<?>> load(NbtCompound tag) {
+    public Set<EntityType<?>> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtList valueTag = tag.getListOrEmpty("value");
-        for (NbtElement tagI : valueTag) {
-            EntityType<?> type = Registries.ENTITY_TYPE.get(Identifier.of(tagI.asString().orElse("")));
+        JsonArray valueArray = jsonObject.get("value").getAsJsonArray();
+        for (JsonElement element : valueArray) {
+            EntityType<?> type = Registries.ENTITY_TYPE.get(Identifier.of(element.getAsString()));
             if (filter == null || filter.test(type)) {
                 get().add(type);
             }

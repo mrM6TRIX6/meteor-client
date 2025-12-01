@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.utils.misc;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.Objects;
 
@@ -198,21 +198,21 @@ public class Keybind implements ISerializable<Keybind>, ICopyable<Keybind> {
     // Serialization
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putBoolean("isKey", isKey);
-        tag.putInt("value", value);
-        tag.putInt("modifiers", modifiers);
+        jsonObject.addProperty("isKey", isKey);
+        jsonObject.addProperty("value", value);
+        jsonObject.addProperty("modifiers", modifiers);
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Keybind fromTag(NbtCompound tag) {
-        isKey = tag.getBoolean("isKey", false);
-        value = tag.getInt("value", 0);
-        modifiers = tag.getInt("modifiers", 0);
+    public Keybind fromJson(JsonObject jsonObject) {
+        isKey = jsonObject.get("isKey").getAsBoolean();
+        value = jsonObject.get("value").getAsInt();
+        modifiers = jsonObject.get("modifiers").getAsInt();
         
         return this;
     }

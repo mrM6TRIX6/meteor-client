@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.misc;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.GuiTheme;
@@ -30,7 +31,6 @@ import net.minecraft.component.type.WritableBookContentComponent;
 import net.minecraft.component.type.WrittenBookContentComponent;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.c2s.play.BookUpdateC2SPacket;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
@@ -57,7 +57,7 @@ public class BookBot extends Module {
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("What kind of text to write.")
-        .defaultValue(Mode.Random)
+        .defaultValue(Mode.RANDOM)
         .build()
     );
     
@@ -67,7 +67,7 @@ public class BookBot extends Module {
         .defaultValue(50)
         .range(1, 100)
         .sliderRange(1, 100)
-        .visible(() -> mode.get() != Mode.File)
+        .visible(() -> mode.get() != Mode.FILE)
         .build()
     );
     
@@ -75,7 +75,7 @@ public class BookBot extends Module {
         .name("ascii-only")
         .description("Only uses the characters in the ASCII charset.")
         .defaultValue(false)
-        .visible(() -> mode.get() == Mode.Random)
+        .visible(() -> mode.get() == Mode.RANDOM)
         .build()
     );
     
@@ -160,7 +160,7 @@ public class BookBot extends Module {
     
     @Override
     public void onActivate() {
-        if ((file == null || !file.exists()) && mode.get() == Mode.File) {
+        if ((file == null || !file.exists()) && mode.get() == Mode.FILE) {
             info("No file selected, please select a file in the GUI.");
             toggle();
             return;
@@ -202,7 +202,7 @@ public class BookBot extends Module {
         
         // Write book
         
-        if (mode.get() == Mode.Random) {
+        if (mode.get() == Mode.RANDOM) {
             int origin = onlyAscii.get() ? 0x21 : 0x0800;
             int bound = onlyAscii.get() ? 0x7E : 0x10FFFF;
             
@@ -212,9 +212,9 @@ public class BookBot extends Module {
                     .filter(i -> !Character.isWhitespace(i) && i != '\r' && i != '\n')
                     .iterator()
             );
-        } else if (mode.get() == Mode.File) {
+        } else if (mode.get() == Mode.FILE) {
             // Ignore if somehow the file got deleted
-            if ((file == null || !file.exists()) && mode.get() == Mode.File) {
+            if ((file == null || !file.exists()) && mode.get() == Mode.FILE) {
                 info("No file selected, please select a file in the GUI.");
                 toggle();
                 return;
@@ -259,7 +259,7 @@ public class BookBot extends Module {
         ArrayList<RawFilteredPair<Text>> filteredPages = new ArrayList<>();
         TextHandler.WidthRetriever widthRetriever = ((TextHandlerAccessor) mc.textRenderer.getTextHandler()).meteor$getWidthRetriever();
         
-        int maxPages = mode.get() == Mode.File ? 100 : this.pages.get();
+        int maxPages = mode.get() == Mode.FILE ? 100 : this.pages.get();
         
         int pageIndex = 0;
         int lineIndex = 0;
@@ -337,28 +337,30 @@ public class BookBot extends Module {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = super.toTag();
+    public JsonObject toJson() {
+        JsonObject jsonObject = super.toJson();
         
         if (file != null && file.exists()) {
-            tag.putString("file", file.getAbsolutePath());
+            jsonObject.addProperty("file", file.getAbsolutePath());
         }
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Module fromTag(NbtCompound tag) {
-        if (tag.contains("file")) {
-            file = new File(tag.getString("file", ""));
+    public Module fromJson(JsonObject jsonObject) {
+        if (jsonObject.has("file")) {
+            file = new File(jsonObject.get("file").getAsString());
         }
         
-        return super.fromTag(tag);
+        return super.fromJson(jsonObject);
     }
     
-    public enum Mode {
-        File,
-        Random
+    private enum Mode {
+        
+        FILE,
+        RANDOM
+        
     }
     
 }

@@ -5,15 +5,15 @@
 
 package meteordevelopment.meteorclient.systems.friends;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.mojang.util.UndashedUuid;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -103,30 +103,30 @@ public class Friends extends System<Friends> implements Iterable<Friend> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.put("friends", NbtUtils.listToTag(friends));
+        jsonObject.add("friends", JsonUtils.listToJson(friends));
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Friends fromTag(NbtCompound tag) {
+    public Friends fromJson(JsonObject jsonObject) {
         friends.clear();
         
-        for (NbtElement itemTag : tag.getListOrEmpty("friends")) {
-            NbtCompound friendTag = (NbtCompound) itemTag;
-            if (!friendTag.contains("name")) {
+        for (JsonElement element : jsonObject.get("friends").getAsJsonArray()) {
+            JsonObject friendJson = (JsonObject) element;
+            if (!friendJson.has("name")) {
                 continue;
             }
             
-            String name = friendTag.getString("name", "");
+            String name = friendJson.get("name").getAsString();
             if (get(name) != null) {
                 continue;
             }
             
-            String uuid = friendTag.getString("id", "");
+            String uuid = friendJson.get("id").getAsString();
             Friend friend = !uuid.isBlank()
                 ? new Friend(name, UndashedUuid.fromStringLenient(uuid))
                 : new Friend(name);

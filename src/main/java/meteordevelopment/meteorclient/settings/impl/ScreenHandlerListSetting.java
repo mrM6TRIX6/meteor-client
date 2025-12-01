@@ -5,12 +5,11 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.util.Identifier;
@@ -60,26 +59,28 @@ public class ScreenHandlerListSetting extends Setting<List<ScreenHandlerType<?>>
     }
     
     @Override
-    public NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
+    public JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
+        
         for (ScreenHandlerType<?> type : get()) {
             Identifier id = Registries.SCREEN_HANDLER.getId(type);
             if (id != null) {
-                valueTag.add(NbtString.of(id.toString()));
+                valueArray.add(id.toString());
             }
         }
-        tag.put("value", valueTag);
         
-        return tag;
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    public List<ScreenHandlerType<?>> load(NbtCompound tag) {
+    public List<ScreenHandlerType<?>> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtList valueTag = tag.getListOrEmpty("value");
-        for (NbtElement tagI : valueTag) {
-            ScreenHandlerType<?> type = Registries.SCREEN_HANDLER.get(Identifier.of(tagI.asString().orElse("")));
+        JsonArray valueArray = jsonObject.get("value").getAsJsonArray();
+        for (JsonElement element : valueArray) {
+            ScreenHandlerType<?> type = Registries.SCREEN_HANDLER.get(Identifier.of(element.getAsString()));
             if (type != null) {
                 get().add(type);
             }

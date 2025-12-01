@@ -5,9 +5,10 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
@@ -40,17 +41,21 @@ public class BlockPosSetting extends Setting<BlockPos> {
     }
     
     @Override
-    protected NbtCompound save(NbtCompound tag) {
-        tag.putIntArray("value", new int[] { value.getX(), value.getY(), value.getZ() });
+    protected JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
+        valueArray.add(value.getX());
+        valueArray.add(value.getY());
+        valueArray.add(value.getZ());
+        jsonObject.add("value", valueArray);
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    protected BlockPos load(NbtCompound tag) {
-        if (tag.getIntArray("value").isPresent()) {
-            int[] value = tag.getIntArray("value").get();
-            set(new BlockPos(value[0], value[1], value[2]));
+    protected BlockPos load(JsonObject jsonObject) {
+        if (jsonObject.has("value")) {
+            JsonArray valueArray = jsonObject.get("value").getAsJsonArray();
+            set(new BlockPos(valueArray.get(0).getAsInt(), valueArray.get(1).getAsInt(), valueArray.get(2).getAsInt()));
         }
         
         return get();

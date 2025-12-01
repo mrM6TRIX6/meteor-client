@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.renderer.packer.GuiTexture;
 import meteordevelopment.meteorclient.gui.screens.ModuleScreen;
 import meteordevelopment.meteorclient.gui.screens.ModulesScreen;
@@ -31,7 +32,6 @@ import meteordevelopment.meteorclient.utils.misc.Range;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.HashMap;
@@ -355,29 +355,34 @@ public abstract class GuiTheme implements ISerializable<GuiTheme> {
     // Saving / Loading
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("name", name);
-        tag.put("settings", settings.toTag());
+        jsonObject.addProperty("name", name);
+        jsonObject.add("settings", settings.toJson());
         
-        NbtCompound configs = new NbtCompound();
+        JsonObject configs = new JsonObject();
+        
         for (String id : windowConfigs.keySet()) {
-            configs.put(id, windowConfigs.get(id).toTag());
+            configs.add(id, windowConfigs.get(id).toJson());
         }
-        tag.put("windowConfigs", configs);
-        return tag;
+        
+        jsonObject.add("windowConfigs", configs);
+        return jsonObject;
     }
     
     @Override
-    public GuiTheme fromTag(NbtCompound tag) {
-        tag.getCompound("settings").ifPresent(settings::fromTag);
+    public GuiTheme fromJson(JsonObject jsonObject) {
+        if (jsonObject.has("settings")) {
+            settings.fromJson(jsonObject.get("settings").getAsJsonObject());
+        }
         
-        tag.getCompound("windowConfigs").ifPresent(configs -> {
-            for (String id : configs.getKeys()) {
-                windowConfigs.put(id, new WindowConfig().fromTag(configs.getCompound(id).get()));
+        if (jsonObject.has("windowConfigs")) {
+            JsonObject configs = jsonObject.get("windowConfigs").getAsJsonObject();
+            for (String id : configs.keySet()) {
+                windowConfigs.put(id, new WindowConfig().fromJson(configs.get(id).getAsJsonObject()));
             }
-        });
+        }
         
         return this;
     }

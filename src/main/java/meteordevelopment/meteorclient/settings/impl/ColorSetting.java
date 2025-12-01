@@ -5,11 +5,11 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -54,15 +54,15 @@ public class ColorSetting extends Setting<SettingColor> {
     }
     
     @Override
-    protected NbtCompound save(NbtCompound tag) {
-        tag.put("value", get().toTag());
+    protected JsonObject save(JsonObject jsonObject) {
+        jsonObject.add("value", get().toJson());
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public SettingColor load(NbtCompound tag) {
-        get().fromTag(tag.getCompoundOrEmpty("value"));
+    public SettingColor load(JsonObject jsonObject) {
+        get().fromJson(jsonObject.get("value").getAsJsonObject());
         
         return get();
     }

@@ -5,13 +5,12 @@
 
 package meteordevelopment.meteorclient.settings.impl;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import net.minecraft.block.Block;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.nbt.NbtString;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 
@@ -65,23 +64,26 @@ public class BlockListSetting extends Setting<List<Block>> {
     }
     
     @Override
-    protected NbtCompound save(NbtCompound tag) {
-        NbtList valueTag = new NbtList();
-        for (Block block : get()) {
-            valueTag.add(NbtString.of(Registries.BLOCK.getId(block).toString()));
-        }
-        tag.put("value", valueTag);
+    protected JsonObject save(JsonObject jsonObject) {
+        JsonArray valueArray = new JsonArray();
         
-        return tag;
+        for (Block block : get()) {
+            valueArray.add(Registries.BLOCK.getId(block).toString());
+        }
+        
+        jsonObject.add("value", valueArray);
+        
+        return jsonObject;
     }
     
     @Override
-    protected List<Block> load(NbtCompound tag) {
+    protected List<Block> load(JsonObject jsonObject) {
         get().clear();
         
-        NbtList valueTag = tag.getListOrEmpty("value");
-        for (NbtElement tagI : valueTag) {
-            Block block = Registries.BLOCK.get(Identifier.of(tagI.asString().orElse("")));
+        JsonArray valueArray = jsonObject.get("value").getAsJsonArray();
+        
+        for (JsonElement element : valueArray) {
+            Block block = Registries.BLOCK.get(Identifier.of(element.getAsString()));
             
             if (filter == null || filter.test(block)) {
                 get().add(block);

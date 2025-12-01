@@ -5,12 +5,12 @@
 
 package meteordevelopment.meteorclient.utils.misc;
 
-import net.minecraft.nbt.NbtCompound;
+import com.google.gson.JsonObject;
 
 public interface ISerializable<T> {
     
-    NbtCompound toTag();
+    JsonObject toJson();
     
-    T fromTag(NbtCompound tag);
+    T fromJson(JsonObject jsonObject);
     
 }

@@ -5,18 +5,18 @@
 
 package meteordevelopment.meteorclient.settings;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.settings.impl.ColorListSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.render.color.RainbowColors;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -147,24 +147,24 @@ public class Settings implements ISerializable<Settings>, Iterable<SettingGroup>
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.put("groups", NbtUtils.listToTag(groups));
+        jsonObject.add("groups", JsonUtils.listToJson(groups));
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Settings fromTag(NbtCompound tag) {
-        NbtList groupsTag = tag.getListOrEmpty("groups");
+    public Settings fromJson(JsonObject jsonObject) {
+        JsonArray groupsArray = jsonObject.get("groups").getAsJsonArray();
         
-        for (NbtElement t : groupsTag) {
-            NbtCompound groupTag = (NbtCompound) t;
+        for (JsonElement element : groupsArray) {
+            JsonObject groupJson = element.getAsJsonObject();
             
-            SettingGroup sg = getGroup(groupTag.getString("name", ""));
+            SettingGroup sg = getGroup(groupJson.get("name").getAsString());
             if (sg != null) {
-                sg.fromTag(groupTag);
+                sg.fromJson(groupJson);
             }
         }
         

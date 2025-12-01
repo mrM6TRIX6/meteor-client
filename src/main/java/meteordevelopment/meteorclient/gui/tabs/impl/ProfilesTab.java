@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.systems.profiles.Profile;
 import meteordevelopment.meteorclient.systems.profiles.Profiles;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.NbtUtils;
+import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.screen.Screen;
 
 import java.util.ArrayList;
@@ -100,12 +100,12 @@ public class ProfilesTab extends Tab {
         
         @Override
         public boolean toClipboard() {
-            return NbtUtils.toClipboard(Profiles.get());
+            return JsonUtils.toClipboard(Profiles.get());
         }
         
         @Override
         public boolean fromClipboard() {
-            return NbtUtils.fromClipboard(Profiles.get());
+            return JsonUtils.fromClipboard(Profiles.get());
         }
         
     }

@@ -5,13 +5,13 @@
 
 package meteordevelopment.meteorclient.systems.friends;
 
+import com.google.gson.JsonObject;
 import com.mojang.util.UndashedUuid;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.network.Http;
 import meteordevelopment.meteorclient.utils.render.PlayerHeadTexture;
 import meteordevelopment.meteorclient.utils.render.PlayerHeadUtils;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -66,19 +66,19 @@ public class Friend implements ISerializable<Friend>, Comparable<Friend> {
     }
     
     @Override
-    public NbtCompound toTag() {
-        NbtCompound tag = new NbtCompound();
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
         
-        tag.putString("name", name);
+        jsonObject.addProperty("name", name);
         if (id != null) {
-            tag.putString("id", UndashedUuid.toString(id));
+            jsonObject.addProperty("id", UndashedUuid.toString(id));
         }
         
-        return tag;
+        return jsonObject;
     }
     
     @Override
-    public Friend fromTag(NbtCompound tag) {
+    public Friend fromJson(JsonObject jsonObject) {
         return this;
     }
     
