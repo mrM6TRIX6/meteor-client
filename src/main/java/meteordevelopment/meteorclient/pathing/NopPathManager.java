@@ -29,32 +29,25 @@ public class NopPathManager implements IPathManager {
     }
     
     @Override
-    public void pause() {
-    }
+    public void pause() {}
     
     @Override
-    public void resume() {
-    }
+    public void resume() {}
     
     @Override
-    public void stop() {
-    }
+    public void stop() {}
     
     @Override
-    public void moveTo(BlockPos pos, boolean ignoreY) {
-    }
+    public void moveTo(BlockPos pos, boolean ignoreY) {}
     
     @Override
-    public void moveInDirection(float yaw) {
-    }
+    public void moveInDirection(float yaw) {}
     
     @Override
-    public void mine(Block... blocks) {
-    }
+    public void mine(Block... blocks) {}
     
     @Override
-    public void follow(Predicate<Entity> entity) {
-    }
+    public void follow(Predicate<Entity> entity) {}
     
     @Override
     public float getTargetYaw() {
@@ -106,8 +99,7 @@ public class NopPathManager implements IPathManager {
         }
         
         @Override
-        public void save() {
-        }
+        public void save() {}
         
     }
     

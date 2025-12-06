@@ -45,9 +45,7 @@ public class AddMicrosoftAccountScreen extends AddAccountScreen {
     }
     
     @Override
-    public void tick() {
-    
-    }
+    public void tick() {}
     
     @Override
     public boolean shouldCloseOnEsc() {

@@ -15,8 +15,6 @@ public class RandomAccountSettingsScreen extends WindowScreen {
     }
     
     @Override
-    public void initWidgets() {
-    
-    }
+    public void initWidgets() {}
     
 }

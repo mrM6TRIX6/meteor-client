@@ -30,8 +30,7 @@ public class CompoundNbtTagArgumentType implements ArgumentType<NbtCompound> {
         return context.getArgument("nbt", NbtCompound.class);
     }
     
-    private CompoundNbtTagArgumentType() {
-    }
+    private CompoundNbtTagArgumentType() {}
     
     @Override
     public NbtCompound parse(StringReader reader) throws CommandSyntaxException {

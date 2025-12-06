@@ -34,11 +34,9 @@ public abstract class PostProcessShader {
     
     public abstract boolean shouldDraw(Entity entity);
     
-    protected void preDraw() {
-    }
+    protected void preDraw() {}
     
-    protected void postDraw() {
-    }
+    protected void postDraw() {}
     
     protected abstract void setupPass(MeshRenderer renderer);
     

@@ -135,8 +135,7 @@ public class WBlockPosEdit extends WHorizontalList {
             } else {
                 try {
                     set(new BlockPos(Integer.parseInt(textBoxX.get()), value.getY(), value.getZ()));
-                } catch (NumberFormatException ignored) {
-                }
+                } catch (NumberFormatException ignored) {}
             }
             newValueCheck();
         };
@@ -148,8 +147,7 @@ public class WBlockPosEdit extends WHorizontalList {
             } else {
                 try {
                     set(new BlockPos(value.getX(), Integer.parseInt(textBoxY.get()), value.getZ()));
-                } catch (NumberFormatException ignored) {
-                }
+                } catch (NumberFormatException ignored) {}
             }
             newValueCheck();
         };
@@ -161,8 +159,7 @@ public class WBlockPosEdit extends WHorizontalList {
             } else {
                 try {
                     set(new BlockPos(value.getX(), value.getY(), Integer.parseInt(textBoxZ.get())));
-                } catch (NumberFormatException ignored) {
-                }
+                } catch (NumberFormatException ignored) {}
             }
             newValueCheck();
         };

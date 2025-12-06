@@ -42,8 +42,7 @@ public class MeshRenderer {
     private final HashMap<String, GpuBufferSlice> uniforms = new HashMap<>();
     private final HashMap<String, GpuTextureView> samplers = new HashMap<>();
     
-    private MeshRenderer() {
-    }
+    private MeshRenderer() {}
     
     public static MeshRenderer begin() {
         if (taken) {

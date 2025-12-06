@@ -623,8 +623,7 @@ public abstract class WTextBox extends WWidget {
         }
     }
     
-    protected void onCursorChanged() {
-    }
+    protected void onCursorChanged() {}
     
     private void createCompletions(int selected) {
         completionsW = createCompletionsRootWidget();

@@ -34,8 +34,7 @@ public class FriendArgumentType implements ArgumentType<String> {
         return Friends.get().get(context.getArgument("friend", String.class));
     }
     
-    private FriendArgumentType() {
-    }
+    private FriendArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {

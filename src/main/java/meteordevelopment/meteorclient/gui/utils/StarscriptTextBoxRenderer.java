@@ -107,8 +107,7 @@ public class StarscriptTextBoxRenderer implements WTextBox.Renderer {
                 
                 try {
                     yield TextHud.getSectionColor(Integer.parseInt(text));
-                } catch (NumberFormatException ignored) {
-                }
+                } catch (NumberFormatException ignored) {}
                 
                 yield theme.starscriptTextColor();
             }

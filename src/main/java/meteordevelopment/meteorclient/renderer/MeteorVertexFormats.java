@@ -25,7 +25,6 @@ public abstract class MeteorVertexFormats {
         .add("Color", VertexFormatElement.COLOR)
         .build();
     
-    private MeteorVertexFormats() {
-    }
+    private MeteorVertexFormats() {}
     
 }

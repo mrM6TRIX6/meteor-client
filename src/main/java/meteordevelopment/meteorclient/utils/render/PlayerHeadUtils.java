@@ -14,8 +14,7 @@ public class PlayerHeadUtils {
     
     public static PlayerHeadTexture STEVE_HEAD;
     
-    private PlayerHeadUtils() {
-    }
+    private PlayerHeadUtils() {}
     
     @PostInit
     public static void init() {

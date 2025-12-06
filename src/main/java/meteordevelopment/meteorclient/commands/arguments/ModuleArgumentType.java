@@ -40,8 +40,7 @@ public class ModuleArgumentType implements ArgumentType<Module> {
         return context.getArgument("module", Module.class);
     }
     
-    private ModuleArgumentType() {
-    }
+    private ModuleArgumentType() {}
     
     @Override
     public Module parse(StringReader reader) throws CommandSyntaxException {

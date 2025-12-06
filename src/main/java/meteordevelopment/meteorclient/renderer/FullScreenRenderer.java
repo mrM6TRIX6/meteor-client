@@ -12,8 +12,7 @@ public class FullScreenRenderer {
     
     public static MeshBuilder mesh;
     
-    private FullScreenRenderer() {
-    }
+    private FullScreenRenderer() {}
     
     @PreInit
     public static void init() {

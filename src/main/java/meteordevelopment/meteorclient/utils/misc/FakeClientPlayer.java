@@ -31,8 +31,7 @@ public class FakeClientPlayer {
     private static UUID lastId;
     private static boolean needsNewEntry;
     
-    private FakeClientPlayer() {
-    }
+    private FakeClientPlayer() {}
     
     @PreInit
     public static void init() {

@@ -68,8 +68,7 @@ public class ComponentMapReader {
         
         try {
             reader.read();
-        } catch (CommandSyntaxException ignored) {
-        }
+        } catch (CommandSyntaxException ignored) {}
         
         return reader.suggestor.apply(builder.createOffset(stringReader.getCursor()));
     }

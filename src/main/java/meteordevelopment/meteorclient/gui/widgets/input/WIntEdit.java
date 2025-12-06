@@ -55,8 +55,7 @@ public class WIntEdit extends WHorizontalList {
             } else {
                 try {
                     value = Integer.parseInt(textBox.get());
-                } catch (NumberFormatException ignored) {
-                }
+                } catch (NumberFormatException ignored) {}
             }
             
             if (slider != null) {

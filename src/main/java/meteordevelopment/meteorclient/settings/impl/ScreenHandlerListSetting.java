@@ -42,8 +42,7 @@ public class ScreenHandlerListSetting extends Setting<List<ScreenHandlerType<?>>
                     handlers.add(handler);
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return handlers;
     }

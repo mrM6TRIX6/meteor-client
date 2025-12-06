@@ -50,8 +50,7 @@ public abstract class DynamicRegistryListSettingScreen<T> extends CollectionList
             try {
                 Identifier id = entry.contains(":") ? Identifier.of(entry) : Identifier.ofVanilla(entry);
                 addValue(RegistryKey.of(registryKey, id));
-            } catch (InvalidIdentifierException ignored) {
-            }
+            } catch (InvalidIdentifierException ignored) {}
         };
     }
     

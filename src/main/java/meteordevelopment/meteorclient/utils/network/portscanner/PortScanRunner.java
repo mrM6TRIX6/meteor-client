@@ -30,8 +30,7 @@ public class PortScanRunner {
             });
             try {
                 es.awaitTermination(200L, TimeUnit.MILLISECONDS);
-            } catch (InterruptedException ignored) {
-            }
+            } catch (InterruptedException ignored) {}
             List<PortScannerManager.ScanResult> results = new ArrayList<>();
             for (Future<PortScannerManager.ScanResult> fsc : futures) {
                 try {

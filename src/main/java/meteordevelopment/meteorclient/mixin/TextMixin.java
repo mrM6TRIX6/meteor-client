@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.Mixin;
 public interface TextMixin extends IText {
     
     @Override
-    default void meteor$invalidateCache() {
-    }
+    default void meteor$invalidateCache() {}
     
 }

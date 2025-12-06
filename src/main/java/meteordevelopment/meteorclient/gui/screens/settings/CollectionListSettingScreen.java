@@ -129,8 +129,7 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
         }
     }
     
-    protected void postWidgets(WTable left, WTable right) {
-    }
+    protected void postWidgets(WTable left, WTable right) {}
     
     protected boolean includeValue(T value) {
         return true;

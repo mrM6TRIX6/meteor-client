@@ -63,8 +63,7 @@ public class HudEditorScreen extends WidgetScreen implements Snapper.Container {
     }
     
     @Override
-    public void initWidgets() {
-    }
+    public void initWidgets() {}
     
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {

@@ -44,8 +44,7 @@ public class StatusEffectAmplifierMapSetting extends Setting<Reference2IntMap<St
                 
                 effects.put(effect, level);
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return effects;
     }

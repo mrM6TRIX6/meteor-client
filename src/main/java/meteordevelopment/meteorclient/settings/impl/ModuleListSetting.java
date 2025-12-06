@@ -42,8 +42,7 @@ public class ModuleListSetting extends Setting<List<Module>> {
                     modules.add(module);
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return modules;
     }

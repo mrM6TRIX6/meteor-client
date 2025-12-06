@@ -29,8 +29,7 @@ public class Pitch40 extends ElytraFlyMode {
     }
     
     @Override
-    public void onDeactivate() {
-    }
+    public void onDeactivate() {}
     
     @Override
     public void onTick() {
@@ -62,8 +61,7 @@ public class Pitch40 extends ElytraFlyMode {
     }
     
     @Override
-    public void autoTakeoff() {
-    }
+    public void autoTakeoff() {}
     
     @Override
     public void handleHorizontalSpeed(PlayerMoveEvent event) {
@@ -72,15 +70,12 @@ public class Pitch40 extends ElytraFlyMode {
     }
     
     @Override
-    public void handleVerticalSpeed(PlayerMoveEvent event) {
-    }
+    public void handleVerticalSpeed(PlayerMoveEvent event) {}
     
     @Override
-    public void handleFallMultiplier() {
-    }
+    public void handleFallMultiplier() {}
     
     @Override
-    public void handleAutopilot() {
-    }
+    public void handleAutopilot() {}
     
 }

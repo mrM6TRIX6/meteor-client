@@ -39,8 +39,7 @@ public class Rotations {
     private static boolean sentLastRotation;
     public static boolean rotating = false;
     
-    private Rotations() {
-    }
+    private Rotations() {}
     
     @PreInit
     public static void init() {

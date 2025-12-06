@@ -29,8 +29,7 @@ public class SettingValueArgumentType implements ArgumentType<String> {
         return context.getArgument("value", String.class);
     }
     
-    private SettingValueArgumentType() {
-    }
+    private SettingValueArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {

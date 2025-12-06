@@ -319,8 +319,7 @@ public abstract class WidgetScreen extends Screen {
         }
     }
     
-    protected void onRenderBefore(DrawContext drawContext, float delta) {
-    }
+    protected void onRenderBefore(DrawContext drawContext, float delta) {}
     
     @Override
     public void resize(MinecraftClient client, int width, int height) {
@@ -382,8 +381,7 @@ public abstract class WidgetScreen extends Screen {
         }
     }
     
-    protected void onClosed() {
-    }
+    protected void onClosed() {}
     
     public boolean toClipboard() {
         return false;

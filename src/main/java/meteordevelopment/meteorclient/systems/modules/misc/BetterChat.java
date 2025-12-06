@@ -482,8 +482,7 @@ public class BetterChat extends Module {
             if (m.find()) {
                 startOffset = m.end() + 1;
             }
-        } catch (IllegalStateException ignored) {
-        }
+        } catch (IllegalStateException ignored) {}
         
         for (CustomHeadEntry entry : CUSTOM_HEAD_ENTRIES) {
             // Check prefix

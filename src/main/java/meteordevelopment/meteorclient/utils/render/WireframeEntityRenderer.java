@@ -38,8 +38,7 @@ public class WireframeEntityRenderer {
     private static double offsetY;
     private static double offsetZ;
     
-    private WireframeEntityRenderer() {
-    }
+    private WireframeEntityRenderer() {}
     
     @SuppressWarnings("unchecked")
     public static void render(Render3DEvent event, Entity entity, double scale, Color sideColor, Color lineColor, ShapeMode shapeMode) {

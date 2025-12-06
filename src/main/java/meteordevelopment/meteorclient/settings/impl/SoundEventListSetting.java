@@ -42,8 +42,7 @@ public class SoundEventListSetting extends Setting<List<SoundEvent>> {
                     sounds.add(sound);
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return sounds;
     }

@@ -88,8 +88,7 @@ public class AutoClicker extends Module {
         }
         
         switch (leftClickMode.get()) {
-            case Disabled -> {
-            }
+            case Disabled -> {}
             case Hold -> mc.options.attackKey.setPressed(true);
             case Press -> {
                 leftClickTimer++;
@@ -101,8 +100,7 @@ public class AutoClicker extends Module {
         }
         
         switch (rightClickMode.get()) {
-            case Disabled -> {
-            }
+            case Disabled -> {}
             case Hold -> mc.options.useKey.setPressed(true);
             case Press -> {
                 rightClickTimer++;

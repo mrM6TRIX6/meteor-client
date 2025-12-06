@@ -52,8 +52,7 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class DamageUtils {
     
-    private DamageUtils() {
-    }
+    private DamageUtils() {}
     
     // Explosion damage
     

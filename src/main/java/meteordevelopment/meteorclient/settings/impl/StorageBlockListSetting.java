@@ -72,8 +72,7 @@ public class StorageBlockListSetting extends Setting<List<BlockEntityType<?>>> {
                     blocks.add(block);
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return blocks;
     }

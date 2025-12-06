@@ -11,8 +11,7 @@ public abstract class MeteorVertexFormatElements {
     
     public static final VertexFormatElement POS2 = VertexFormatElement.register(getNextVertexFormatElementId(), 0, VertexFormatElement.Type.FLOAT, VertexFormatElement.Usage.POSITION, 2);
     
-    private MeteorVertexFormatElements() {
-    }
+    private MeteorVertexFormatElements() {}
     
     private static int getNextVertexFormatElementId() {
         int id = 0;

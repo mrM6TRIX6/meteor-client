@@ -26,8 +26,7 @@ public class EChestMemory {
     private static int echestOpenedState;
     private static boolean isKnown = false;
     
-    private EChestMemory() {
-    }
+    private EChestMemory() {}
     
     @PreInit
     public static void init() {

@@ -232,8 +232,7 @@ public class Jesus extends Module {
         boolean waterLogger = false;
         try {
             waterLogger = blockBelowState.get(Properties.WATERLOGGED);
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         
         // Simulate jumping out of water

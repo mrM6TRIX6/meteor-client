@@ -24,8 +24,7 @@ public abstract class WWidget implements BaseWidget {
     public boolean mouseOver;
     protected double mouseOverTimer;
     
-    public void init() {
-    }
+    public void init() {}
     
     public void move(double deltaX, double deltaY) {
         x = Math.round(x + deltaX);
@@ -55,9 +54,7 @@ public abstract class WWidget implements BaseWidget {
         height = Math.round(height);
     }
     
-    protected void onCalculateSize() {
-    
-    }
+    protected void onCalculateSize() {}
     
     public void calculateWidgetPositions() {
         x = Math.round(x);
@@ -66,9 +63,7 @@ public abstract class WWidget implements BaseWidget {
         onCalculateWidgetPositions();
     }
     
-    protected void onCalculateWidgetPositions() {
-    
-    }
+    protected void onCalculateWidgetPositions() {}
     
     // Rendering
     
@@ -90,8 +85,7 @@ public abstract class WWidget implements BaseWidget {
         return false;
     }
     
-    protected void onRender(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
-    }
+    protected void onRender(GuiRenderer renderer, double mouseX, double mouseY, double delta) {}
     
     // Events
     
@@ -116,8 +110,7 @@ public abstract class WWidget implements BaseWidget {
         onMouseMoved(mouseX, mouseY, lastMouseX, lastMouseY);
     }
     
-    public void onMouseMoved(double mouseX, double mouseY, double lastMouseX, double lastMouseY) {
-    }
+    public void onMouseMoved(double mouseX, double mouseY, double lastMouseX, double lastMouseY) {}
     
     public boolean mouseScrolled(double amount) {
         return onMouseScrolled(amount);

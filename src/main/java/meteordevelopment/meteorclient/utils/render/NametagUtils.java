@@ -26,8 +26,7 @@ public class NametagUtils {
     
     public static double scale;
     
-    private NametagUtils() {
-    }
+    private NametagUtils() {}
     
     public static void onRender(Matrix4f modelView) {
         model.set(modelView);

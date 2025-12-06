@@ -989,8 +989,7 @@ public class Notebot extends Module {
         }
         try {
             mc.player.networkHandler.sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, pos, Direction.DOWN, 0));
-        } catch (NullPointerException ignored) {
-        }
+        } catch (NullPointerException ignored) {}
     }
     
     private boolean isValidScanSpot(BlockPos pos) {

@@ -38,8 +38,7 @@ public class ProfileArgumentType implements ArgumentType<String> {
         return Profiles.get().get(context.getArgument("profile", String.class));
     }
     
-    private ProfileArgumentType() {
-    }
+    private ProfileArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {

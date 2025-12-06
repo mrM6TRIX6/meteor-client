@@ -32,8 +32,7 @@ public class TitleScreenCredits {
     
     private static final List<Credit> credits = new ArrayList<>();
     
-    private TitleScreenCredits() {
-    }
+    private TitleScreenCredits() {}
     
     private static void init() {
         // Add addons

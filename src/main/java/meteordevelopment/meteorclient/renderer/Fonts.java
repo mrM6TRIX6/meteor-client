@@ -32,8 +32,7 @@ public class Fonts {
     public static final List<FontFamily> FONT_FAMILIES = new ArrayList<>();
     public static CustomTextRenderer RENDERER;
     
-    private Fonts() {
-    }
+    private Fonts() {}
     
     @PreInit
     public static void refresh() {

@@ -44,8 +44,7 @@ public class ItemListSetting extends Setting<List<Item>> {
                     items.add(item);
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return items;
     }

@@ -404,8 +404,7 @@ public class Notifier extends Module {
                     }
                 }
             }
-            default -> {
-            }
+            default -> {}
         }
     }
     

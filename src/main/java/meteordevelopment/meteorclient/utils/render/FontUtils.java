@@ -25,8 +25,7 @@ import java.util.List;
 
 public class FontUtils {
     
-    private FontUtils() {
-    }
+    private FontUtils() {}
     
     public static FontInfo getFontInfo(InputStream stream) {
         if (stream == null) {

@@ -32,8 +32,7 @@ public abstract class SimpleBlockRenderer {
     private static final Direction[] DIRECTIONS = Direction.values();
     private static final Random RANDOM = Random.create();
     
-    private SimpleBlockRenderer() {
-    }
+    private SimpleBlockRenderer() {}
     
     public static void renderWithBlockEntity(BlockEntity blockEntity, float tickDelta, IVertexConsumerProvider vertexConsumerProvider) {
         vertexConsumerProvider.setOffset(blockEntity.getPos().getX(), blockEntity.getPos().getY(), blockEntity.getPos().getZ());

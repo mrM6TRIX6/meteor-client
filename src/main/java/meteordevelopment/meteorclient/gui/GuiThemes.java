@@ -207,8 +207,7 @@ public class GuiThemes {
                 if (tempFile.exists()) {
                     tempFile.delete();
                 }
-            } catch (Exception ex) {
-            }
+            } catch (Exception ex) {}
         } catch (Exception e) {
             MeteorClient.LOG.error("Unexpected error while saving global theme settings", e);
         }

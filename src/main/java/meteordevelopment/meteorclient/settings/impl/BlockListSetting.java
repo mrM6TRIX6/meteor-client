@@ -47,8 +47,7 @@ public class BlockListSetting extends Setting<List<Block>> {
                     blocks.add(block);
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return blocks;
     }

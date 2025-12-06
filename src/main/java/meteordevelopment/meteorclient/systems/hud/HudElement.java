@@ -101,14 +101,11 @@ public abstract class HudElement implements Snapper.Element, ISerializable<HudEl
         Hud.get().remove(this);
     }
     
-    public void tick(HudRenderer renderer) {
-    }
+    public void tick(HudRenderer renderer) {}
     
-    public void render(HudRenderer renderer) {
-    }
+    public void render(HudRenderer renderer) {}
     
-    public void onFontChanged() {
-    }
+    public void onFontChanged() {}
     
     public WWidget getWidget(GuiTheme theme) {
         return null;

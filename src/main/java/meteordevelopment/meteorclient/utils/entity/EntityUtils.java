@@ -40,8 +40,7 @@ public class EntityUtils {
     
     private static final BlockPos.Mutable testPos = new BlockPos.Mutable();
     
-    private EntityUtils() {
-    }
+    private EntityUtils() {}
     
     public static boolean isAttackable(EntityType<?> type) {
         return type != EntityType.AREA_EFFECT_CLOUD

@@ -42,8 +42,7 @@ public class SettingArgumentType implements ArgumentType<String> {
         return setting;
     }
     
-    private SettingArgumentType() {
-    }
+    private SettingArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {

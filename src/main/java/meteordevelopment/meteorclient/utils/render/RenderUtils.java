@@ -36,8 +36,7 @@ public class RenderUtils {
     
     public static Vec3d center;
     
-    private RenderUtils() {
-    }
+    private RenderUtils() {}
     
     @PostInit
     public static void init() {

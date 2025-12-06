@@ -23,8 +23,7 @@ public class AddonManager {
         {
             MeteorClient.ADDON = new MeteorAddon() {
                 @Override
-                public void onInitialize() {
-                }
+                public void onInitialize() {}
                 
                 @Override
                 public String getPackage() {

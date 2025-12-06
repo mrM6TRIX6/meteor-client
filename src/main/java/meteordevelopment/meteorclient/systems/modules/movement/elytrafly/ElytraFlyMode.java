@@ -62,17 +62,13 @@ public class ElytraFlyMode {
         }
     }
     
-    public void onTickPre() {
-    }
+    public void onTickPre() {}
     
-    public void onPacketSend(PacketEvent.Send event) {
-    }
+    public void onPacketSend(PacketEvent.Send event) {}
     
-    public void onPacketReceive(PacketEvent.Receive event) {
-    }
+    public void onPacketReceive(PacketEvent.Receive event) {}
     
-    public void onPlayerMove() {
-    }
+    public void onPlayerMove() {}
     
     public void onActivate() {
         lastJumpPressed = false;
@@ -81,8 +77,7 @@ public class ElytraFlyMode {
         acceleration = 0;
     }
     
-    public void onDeactivate() {
-    }
+    public void onDeactivate() {}
     
     public void autoTakeoff() {
         if (incrementJumpTimer) {

@@ -16,8 +16,7 @@ public class Dir {
     public static final byte WEST = 1 << 5;
     public static final byte EAST = 1 << 6;
     
-    private Dir() {
-    }
+    private Dir() {}
     
     public static byte get(Direction dir) {
         return switch (dir) {

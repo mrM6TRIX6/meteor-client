@@ -27,21 +27,17 @@ public class SpeedMode {
         reset();
     }
     
-    public void onTick() {
-    }
+    public void onTick() {}
     
-    public void onMove(PlayerMoveEvent event) {
-    }
+    public void onMove(PlayerMoveEvent event) {}
     
     public void onRubberband() {
         reset();
     }
     
-    public void onActivate() {
-    }
+    public void onActivate() {}
     
-    public void onDeactivate() {
-    }
+    public void onDeactivate() {}
     
     protected double getDefaultSpeed() {
         double defaultSpeed = 0.2873;

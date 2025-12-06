@@ -19,8 +19,7 @@ public class KeyBinds {
     public static KeyBinding OPEN_GUI = new KeyBinding("key.meteor-client.open-gui", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_RIGHT_SHIFT, CATEGORY);
     public static KeyBinding OPEN_COMMANDS = new KeyBinding("key.meteor-client.open-commands", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_PERIOD, CATEGORY);
     
-    private KeyBinds() {
-    }
+    private KeyBinds() {}
     
     public static KeyBinding[] apply(KeyBinding[] binds) {
         // Add category

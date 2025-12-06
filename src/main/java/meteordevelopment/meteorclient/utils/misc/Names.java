@@ -49,8 +49,7 @@ public class Names {
     private static final Map<ParticleType<?>, String> particleTypesNames = new Reference2ObjectOpenHashMap<>(64);
     private static final Map<Identifier, String> soundNames = new HashMap<>(64);
     
-    private Names() {
-    }
+    private Names() {}
     
     @PreInit
     public static void init() {

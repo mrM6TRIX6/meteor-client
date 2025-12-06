@@ -204,8 +204,7 @@ public abstract class WDropdown<T> extends WPressable {
     protected abstract static class WDropdownRoot extends WVerticalList implements WRoot {
         
         @Override
-        public void invalidate() {
-        }
+        public void invalidate() {}
         
     }
     

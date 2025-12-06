@@ -23,8 +23,7 @@ public final class SortingHelper {
     
     private static final Comparator<Entry<?>> FILTER_COMPARATOR = Comparator.comparingInt(Entry::distance);
     
-    private SortingHelper() {
-    }
+    private SortingHelper() {}
     
     public static <T> Iterable<T> sort(Iterable<T> registry, Predicate<T> filter, Function<T, String[]> nameFunction, String filterText) {
         return sortInternal(registry, filter, nameFunction, filterText, null);

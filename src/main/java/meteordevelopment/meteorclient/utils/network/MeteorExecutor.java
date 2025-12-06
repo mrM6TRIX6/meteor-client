@@ -15,8 +15,7 @@ public class MeteorExecutor {
     
     public static ExecutorService executor;
     
-    private MeteorExecutor() {
-    }
+    private MeteorExecutor() {}
     
     @PreInit
     public static void init() {

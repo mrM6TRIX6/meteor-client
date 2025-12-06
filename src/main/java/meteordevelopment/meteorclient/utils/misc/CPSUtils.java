@@ -18,8 +18,7 @@ public class CPSUtils {
     private static int secondsClicking;
     private static long lastTime;
     
-    private CPSUtils() {
-    }
+    private CPSUtils() {}
     
     @PreInit
     public static void init() {

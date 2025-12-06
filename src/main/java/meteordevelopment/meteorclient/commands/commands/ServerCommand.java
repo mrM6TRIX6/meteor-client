@@ -161,8 +161,7 @@ public class ServerCommand extends Command {
         String ipv4 = "";
         try {
             ipv4 = InetAddress.getByName(server.address).getHostAddress();
-        } catch (UnknownHostException ignored) {
-        }
+        } catch (UnknownHostException ignored) {}
         
         MutableText ipText;
         

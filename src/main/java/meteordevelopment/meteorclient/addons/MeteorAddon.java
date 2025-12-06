@@ -26,8 +26,7 @@ public abstract class MeteorAddon {
     
     public abstract void onInitialize();
     
-    public void onRegisterCategories() {
-    }
+    public void onRegisterCategories() {}
     
     public abstract String getPackage();
     

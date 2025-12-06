@@ -72,7 +72,7 @@ public class DiscordPresence extends Module {
     private final Setting<SelectMode> line1SelectMode = sgLine1.add(new EnumSetting.Builder<SelectMode>()
         .name("line-1-select-mode")
         .description("How to select messages for the first line.")
-        .defaultValue(SelectMode.Sequential)
+        .defaultValue(SelectMode.SEQUENTIAL)
         .build()
     );
     
@@ -99,7 +99,7 @@ public class DiscordPresence extends Module {
     private final Setting<SelectMode> line2SelectMode = sgLine2.add(new EnumSetting.Builder<SelectMode>()
         .name("line-2-select-mode")
         .description("How to select messages for the second line.")
-        .defaultValue(SelectMode.Sequential)
+        .defaultValue(SelectMode.SEQUENTIAL)
         .build()
     );
     
@@ -160,7 +160,7 @@ public class DiscordPresence extends Module {
         }
         rpc.setLargeImage("meteor_client", largeText);
         
-        currentSmallImage = SmallImage.Snail;
+        currentSmallImage = SmallImage.SNAIL;
         
         recompileLine1();
         recompileLine2();
@@ -220,7 +220,7 @@ public class DiscordPresence extends Module {
             if (line1Ticks >= line1UpdateDelay.get() || forceUpdate) {
                 if (!line1Scripts.isEmpty()) {
                     int i = Utils.random(0, line1Scripts.size());
-                    if (line1SelectMode.get() == SelectMode.Sequential) {
+                    if (line1SelectMode.get() == SelectMode.SEQUENTIAL) {
                         if (line1I >= line1Scripts.size()) {
                             line1I = 0;
                         }
@@ -243,7 +243,7 @@ public class DiscordPresence extends Module {
             if (line2Ticks >= line2UpdateDelay.get() || forceUpdate) {
                 if (!line2Scripts.isEmpty()) {
                     int i = Utils.random(0, line2Scripts.size());
-                    if (line2SelectMode.get() == SelectMode.Sequential) {
+                    if (line2SelectMode.get() == SelectMode.SEQUENTIAL) {
                         if (line2I >= line2Scripts.size()) {
                             line2I = 0;
                         }
@@ -335,8 +335,8 @@ public class DiscordPresence extends Module {
     
     private enum SmallImage {
         
-        MineGame("minegame", "MineGame159"),
-        Snail("seasnail", "seasnail8169");
+        MINEGAME("minegame", "MineGame159"),
+        SNAIL("seasnail", "seasnail8169");
         
         private final String key, text;
         
@@ -350,16 +350,18 @@ public class DiscordPresence extends Module {
         }
         
         SmallImage next() {
-            if (this == MineGame) {
-                return Snail;
+            if (this == MINEGAME) {
+                return SNAIL;
             }
-            return MineGame;
+            return MINEGAME;
         }
     }
     
-    public enum SelectMode {
-        Random,
-        Sequential
+    private enum SelectMode {
+        
+        RANDOM,
+        SEQUENTIAL
+        
     }
     
 }

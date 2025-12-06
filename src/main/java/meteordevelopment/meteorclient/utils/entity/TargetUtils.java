@@ -25,8 +25,7 @@ public class TargetUtils {
     
     private static final List<Entity> ENTITIES = new ArrayList<>();
     
-    private TargetUtils() {
-    }
+    private TargetUtils() {}
     
     @Nullable
     public static Entity get(Predicate<Entity> isGood, SortPriority sortPriority) {

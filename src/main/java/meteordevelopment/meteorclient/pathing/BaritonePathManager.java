@@ -214,8 +214,7 @@ public class BaritonePathManager implements IPathManager {
         }
         
         @Override
-        public void onLostControl() {
-        }
+        public void onLostControl() {}
         
         @Override
         public double priority() {

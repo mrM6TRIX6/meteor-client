@@ -28,8 +28,7 @@ public class NotebotSongArgumentType implements ArgumentType<Path> {
         return INSTANCE;
     }
     
-    private NotebotSongArgumentType() {
-    }
+    private NotebotSongArgumentType() {}
     
     @Override
     public Path parse(StringReader reader) throws CommandSyntaxException {

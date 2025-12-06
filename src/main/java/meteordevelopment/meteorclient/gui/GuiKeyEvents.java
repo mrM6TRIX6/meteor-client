@@ -9,7 +9,6 @@ public class GuiKeyEvents {
     
     public static boolean canUseKeys = true;
     
-    private GuiKeyEvents() {
-    }
+    private GuiKeyEvents() {}
     
 }

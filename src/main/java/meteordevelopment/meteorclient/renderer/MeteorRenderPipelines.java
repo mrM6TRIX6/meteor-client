@@ -235,7 +235,6 @@ public abstract class MeteorRenderPipelines {
         }
     }
     
-    private MeteorRenderPipelines() {
-    }
+    private MeteorRenderPipelines() {}
     
 }

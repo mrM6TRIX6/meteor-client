@@ -43,8 +43,7 @@ public class ParticleTypeListSetting extends Setting<List<ParticleType<?>>> {
                     particleTypes.add(particleType);
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return particleTypes;
     }

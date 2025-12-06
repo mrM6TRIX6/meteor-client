@@ -33,8 +33,7 @@ public class FakePlayerArgumentType implements ArgumentType<String> {
         return FakePlayerManager.get(context.getArgument("fp", String.class));
     }
     
-    private FakePlayerArgumentType() {
-    }
+    private FakePlayerArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {

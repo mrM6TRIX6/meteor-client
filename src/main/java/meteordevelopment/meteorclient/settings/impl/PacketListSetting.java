@@ -48,8 +48,7 @@ public class PacketListSetting extends Setting<Set<Class<? extends Packet<?>>>> 
                     packets.add(packet);
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         
         return packets;
     }

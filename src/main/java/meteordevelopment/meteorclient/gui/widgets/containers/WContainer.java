@@ -146,8 +146,7 @@ public abstract class WContainer extends WWidget {
                     used = true;
                 }
             }
-        } catch (ConcurrentModificationException ignored) {
-        }
+        } catch (ConcurrentModificationException ignored) {}
         
         return super.mouseClicked(mouseX, mouseY, button, used) || used;
     }
@@ -160,8 +159,7 @@ public abstract class WContainer extends WWidget {
                     return true;
                 }
             }
-        } catch (ConcurrentModificationException ignored) {
-        }
+        } catch (ConcurrentModificationException ignored) {}
         
         return super.mouseReleased(mouseX, mouseY, button);
     }
@@ -174,8 +172,7 @@ public abstract class WContainer extends WWidget {
                     cell.widget().mouseMoved(mouseX, mouseY, lastMouseX, lastMouseY);
                 }
             }
-        } catch (ConcurrentModificationException ignored) {
-        }
+        } catch (ConcurrentModificationException ignored) {}
         
         super.mouseMoved(mouseX, mouseY, lastMouseX, lastMouseY);
     }
@@ -188,8 +185,7 @@ public abstract class WContainer extends WWidget {
                     return true;
                 }
             }
-        } catch (ConcurrentModificationException ignored) {
-        }
+        } catch (ConcurrentModificationException ignored) {}
         
         return super.mouseScrolled(amount);
     }
@@ -202,8 +198,7 @@ public abstract class WContainer extends WWidget {
                     return true;
                 }
             }
-        } catch (ConcurrentModificationException ignored) {
-        }
+        } catch (ConcurrentModificationException ignored) {}
         
         return onKeyPressed(key, modifiers);
     }
@@ -216,8 +211,7 @@ public abstract class WContainer extends WWidget {
                     return true;
                 }
             }
-        } catch (ConcurrentModificationException ignored) {
-        }
+        } catch (ConcurrentModificationException ignored) {}
         
         return onKeyRepeated(key, modifiers);
     }
@@ -230,8 +224,7 @@ public abstract class WContainer extends WWidget {
                     return true;
                 }
             }
-        } catch (ConcurrentModificationException ignored) {
-        }
+        } catch (ConcurrentModificationException ignored) {}
         
         return super.charTyped(c);
     }

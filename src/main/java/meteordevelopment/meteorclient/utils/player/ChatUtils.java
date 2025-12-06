@@ -31,8 +31,7 @@ public class ChatUtils {
     private static String forcedPrefixClassName;
     private static Text prefix;
     
-    private ChatUtils() {
-    }
+    private ChatUtils() {}
     
     @PostInit
     public static void init() {

@@ -38,7 +38,6 @@ public abstract class WPressable extends WWidget {
         return false;
     }
     
-    protected void onPressed(int button) {
-    }
+    protected void onPressed(int button) {}
     
 }
