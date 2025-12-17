@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.resource.SplashTextResourceSupplier;
 import org.spongepowered.asm.mixin.Mixin;
@@ -31,7 +31,7 @@ public abstract class SplashTextResourceSupplierMixin {
     
     @Inject(method = "get", at = @At("HEAD"), cancellable = true)
     private void onApply(CallbackInfoReturnable<SplashTextRenderer> cir) {
-        if (Config.get() == null || !Config.get().titleScreenSplashes.get()) {
+        if (ClientSettings.get() == null || !ClientSettings.get().titleScreenSplashes.get()) {
             return;
         }
         

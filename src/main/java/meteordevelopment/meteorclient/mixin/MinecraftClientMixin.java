@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.GUIMove;
 import meteordevelopment.meteorclient.systems.modules.player.FastUse;
@@ -232,11 +232,11 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
     
     @ModifyArg(method = "updateWindowTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setTitle(Ljava/lang/String;)V"))
     private String setTitle(String original) {
-        if (Config.get() == null || !Config.get().customWindowTitle.get()) {
+        if (ClientSettings.get() == null || !ClientSettings.get().customWindowTitle.get()) {
             return original;
         }
         
-        String customTitle = Config.get().customWindowTitleText.get();
+        String customTitle = ClientSettings.get().customWindowTitleText.get();
         Script script = MeteorStarscript.compile(customTitle);
         
         if (script != null) {

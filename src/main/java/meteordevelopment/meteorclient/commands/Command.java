@@ -10,7 +10,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.MinecraftClient;
@@ -73,7 +73,7 @@ public abstract class Command {
     }
     
     public String toString() {
-        return Config.get().prefix.get() + name;
+        return ClientSettings.get().prefix.get() + name;
     }
     
     public String toString(String... args) {

@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.utils.player;
 
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.pathing.PathManagers;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.NoFall;
@@ -48,10 +48,10 @@ public class PlayerUtils {
     
     public static Color getPlayerColor(PlayerEntity entity, Color defaultColor) {
         if (Friends.get().isFriend(entity)) {
-            return color.set(Config.get().friendColor.get()).a(defaultColor.a);
+            return color.set(ClientSettings.get().friendColor.get()).a(defaultColor.a);
         }
         
-        if (Config.get().useTeamColor.get() && !color.set(TextUtils.getMostPopularColor(entity.getDisplayName())).equals(new Color())) {
+        if (ClientSettings.get().useTeamColor.get() && !color.set(TextUtils.getMostPopularColor(entity.getDisplayName())).equals(new Color())) {
             return color.a(defaultColor.a);
         }
         

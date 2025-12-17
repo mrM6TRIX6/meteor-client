@@ -9,7 +9,7 @@ import com.mojang.brigadier.StringReader;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.mixininterface.IChatHud;
 import meteordevelopment.meteorclient.pathing.BaritoneUtils;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.misc.text.MeteorClickEvent;
 import net.minecraft.text.*;
@@ -172,7 +172,7 @@ public class ChatUtils {
         }
         message.append(msg);
         
-        if (!Config.get().deleteChatFeedback.get()) {
+        if (!ClientSettings.get().deleteChatFeedback.get()) {
             id = 0;
         }
         

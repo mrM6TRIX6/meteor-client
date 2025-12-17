@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.systems.accounts;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.accounts.impl.CrackedAccount;

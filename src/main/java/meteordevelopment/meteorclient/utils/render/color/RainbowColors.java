@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.misc.UnorderedArrayList;
 import meteordevelopment.orbit.EventHandler;
@@ -64,7 +64,7 @@ public class RainbowColors {
     
     @EventHandler
     private static void onTick(TickEvent.Post event) {
-        GLOBAL.setSpeed(Config.get().rainbowSpeed.get() / 100);
+        GLOBAL.setSpeed(ClientSettings.get().rainbowSpeed.get() / 100);
         GLOBAL.getNext();
         
         for (Setting<SettingColor> setting : colorSettings) {

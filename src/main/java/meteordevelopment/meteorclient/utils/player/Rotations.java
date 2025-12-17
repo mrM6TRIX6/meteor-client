@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.utils.player;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.player.SendMovementPacketsEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.PreInit;
 import meteordevelopment.meteorclient.utils.entity.Target;
 import meteordevelopment.meteorclient.utils.misc.Pool;
@@ -105,7 +105,7 @@ public class Rotations {
             
             i++;
         } else if (lastRotation != null) {
-            if (lastRotationTimer >= Config.get().rotationHoldTicks.get()) {
+            if (lastRotationTimer >= ClientSettings.get().rotationHoldTicks.get()) {
                 resetLastRotation();
                 rotating = false;
             } else {

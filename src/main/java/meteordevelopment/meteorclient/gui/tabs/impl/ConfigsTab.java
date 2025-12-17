@@ -16,8 +16,8 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
-import meteordevelopment.meteorclient.systems.profiles.Profile;
-import meteordevelopment.meteorclient.systems.profiles.Profiles;
+import meteordevelopment.meteorclient.systems.configs.Config;
+import meteordevelopment.meteorclient.systems.configs.Configs;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.screen.Screen;
@@ -27,25 +27,25 @@ import java.util.List;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public class ProfilesTab extends Tab {
+public class ConfigsTab extends Tab {
     
-    public ProfilesTab() {
-        super("Profiles");
+    public ConfigsTab() {
+        super("Configs");
     }
     
     @Override
     public TabScreen createScreen(GuiTheme theme) {
-        return new ProfilesScreen(theme, this);
+        return new ConfigsScreen(theme, this);
     }
     
     @Override
     public boolean isScreen(Screen screen) {
-        return screen instanceof ProfilesScreen;
+        return screen instanceof ConfigsScreen;
     }
     
-    private static class ProfilesScreen extends WindowTabScreen {
+    private static class ConfigsScreen extends WindowTabScreen {
         
-        public ProfilesScreen(GuiTheme theme, Tab tab) {
+        public ConfigsScreen(GuiTheme theme, Tab tab) {
             super(theme, tab);
         }
         
@@ -60,37 +60,37 @@ public class ProfilesTab extends Tab {
             
             // Create
             WButton create = list.add(theme.button("Create")).expandX().widget();
-            create.action = () -> mc.setScreen(new EditProfileScreen(theme, null, this::reload));
+            create.action = () -> mc.setScreen(new EditConfigScreen(theme, null, this::reload));
             
             // Clear
             WButton clearBtn = list.add(theme.button("Clear")).expandX().widget();
             clearBtn.action = () -> {
-                Profiles.get().clear();
+                Configs.get().clear();
                 reload();
             };
         }
         
         private void initTable(WTable table) {
             table.clear();
-            if (Profiles.get().isEmpty()) {
+            if (Configs.get().isEmpty()) {
                 return;
             }
             
-            for (Profile profile : Profiles.get()) {
-                table.add(theme.label(profile.name.get())).expandCellX();
+            for (Config config : Configs.get()) {
+                table.add(theme.label(config.name.get())).expandCellX();
                 
                 WButton save = table.add(theme.button("Save")).widget();
-                save.action = profile::save;
+                save.action = config::save;
                 
                 WButton load = table.add(theme.button("Load")).widget();
-                load.action = profile::load;
+                load.action = config::load;
                 
                 WButton edit = table.add(theme.button(GuiRenderer.EDIT)).widget();
-                edit.action = () -> mc.setScreen(new EditProfileScreen(theme, profile, this::reload));
+                edit.action = () -> mc.setScreen(new EditConfigScreen(theme, config, this::reload));
                 
                 WMinus remove = table.add(theme.minus()).widget();
                 remove.action = () -> {
-                    Profiles.get().remove(profile);
+                    Configs.get().remove(config);
                     reload();
                 };
                 
@@ -100,65 +100,65 @@ public class ProfilesTab extends Tab {
         
         @Override
         public boolean toClipboard() {
-            return JsonUtils.toClipboard(Profiles.get());
+            return JsonUtils.toClipboard(Configs.get());
         }
         
         @Override
         public boolean fromClipboard() {
-            return JsonUtils.fromClipboard(Profiles.get());
+            return JsonUtils.fromClipboard(Configs.get());
         }
         
     }
     
-    private static class EditProfileScreen extends WindowScreen {
+    private static class EditConfigScreen extends WindowScreen {
         
         private WContainer settingsContainer;
-        private final Profile profile;
+        private final Config config;
         private final boolean isNew;
         private final Runnable action;
         
-        public EditProfileScreen(GuiTheme theme, Profile profile, Runnable action) {
-            super(theme, profile == null ? "New Profile" : "Edit Profile");
+        public EditConfigScreen(GuiTheme theme, Config config, Runnable action) {
+            super(theme, config == null ? "New Config" : "Edit Config");
             
-            this.isNew = profile == null;
-            this.profile = isNew ? new Profile() : profile;
+            this.isNew = config == null;
+            this.config = isNew ? new Config() : config;
             this.action = action;
         }
         
         @Override
         public void initWidgets() {
             settingsContainer = add(theme.verticalList()).expandX().minWidth(400).widget();
-            settingsContainer.add(theme.settings(profile.settings)).expandX();
+            settingsContainer.add(theme.settings(config.settings)).expandX();
             
             add(theme.horizontalSeparator()).expandX();
             
             WButton save = add(theme.button(isNew ? "Create" : "Save")).expandX().widget();
             save.action = () -> {
-                if (profile.name.get().isEmpty()) {
+                if (config.name.get().isEmpty()) {
                     return;
                 }
                 
                 if (isNew) {
-                    for (Profile p : Profiles.get()) {
-                        if (profile.equals(p)) {
+                    for (Config p : Configs.get()) {
+                        if (config.equals(p)) {
                             return;
                         }
                     }
                 }
                 
                 List<String> valid = new ArrayList<>();
-                for (String address : profile.loadOnJoin.get()) {
+                for (String address : config.loadOnJoin.get()) {
                     if (Utils.resolveAddress(address)) {
                         valid.add(address);
                     }
                 }
                 
-                profile.loadOnJoin.set(valid);
+                config.loadOnJoin.set(valid);
                 
                 if (isNew) {
-                    Profiles.get().add(profile);
+                    Configs.get().add(config);
                 } else {
-                    Profiles.get().save();
+                    Configs.get().save();
                 }
                 
                 close();
@@ -169,7 +169,7 @@ public class ProfilesTab extends Tab {
         
         @Override
         public void tick() {
-            profile.settings.tick(settingsContainer, theme);
+            config.settings.tick(settingsContainer, theme);
         }
         
         @Override

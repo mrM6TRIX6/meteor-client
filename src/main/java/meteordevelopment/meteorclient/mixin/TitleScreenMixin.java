@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.player.TitleScreenCredits;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -27,14 +27,14 @@ public abstract class TitleScreenMixin extends Screen {
     
     @Inject(method = "render", at = @At("TAIL"))
     private void onRender(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (Config.get().titleScreenCredits.get()) {
+        if (ClientSettings.get().titleScreenCredits.get()) {
             TitleScreenCredits.render(context);
         }
     }
     
     @Inject(method = "mouseClicked", at = @At("HEAD"), cancellable = true)
     private void onMouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> info) {
-        if (Config.get().titleScreenCredits.get() && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
+        if (ClientSettings.get().titleScreenCredits.get() && button == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             if (TitleScreenCredits.onClicked(mouseX, mouseY)) {
                 info.setReturnValue(true);
             }

@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.commands.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.Commands;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.command.CommandSource;
@@ -43,14 +43,14 @@ public class CommandsCommand extends Command {
         
         tooltip.append(Text.literal(Utils.nameToTitle(command.getName())).formatted(Formatting.BLUE, Formatting.BOLD)).append("\n");
         
-        MutableText aliases = Text.literal(Config.get().prefix.get() + command.getName());
+        MutableText aliases = Text.literal(ClientSettings.get().prefix.get() + command.getName());
         if (!command.getAliases().isEmpty()) {
             aliases.append(", ");
             for (String alias : command.getAliases()) {
                 if (alias.isEmpty()) {
                     continue;
                 }
-                aliases.append(Config.get().prefix.get() + alias);
+                aliases.append(ClientSettings.get().prefix.get() + alias);
                 if (!alias.equals(command.getAliases().getLast())) {
                     aliases.append(", ");
                 }
@@ -68,7 +68,7 @@ public class CommandsCommand extends Command {
         text.setStyle(text
             .getStyle()
             .withHoverEvent(new HoverEvent.ShowText(tooltip))
-            .withClickEvent(new ClickEvent.SuggestCommand(Config.get().prefix.get() + command.getName()))
+            .withClickEvent(new ClickEvent.SuggestCommand(ClientSettings.get().prefix.get() + command.getName()))
         );
         
         return text;

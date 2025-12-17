@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.RangeSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -199,7 +199,7 @@ public class Spammer extends Module {
                     text = null;
                 }
             } else {
-                if (text.length() > 256 && !text.startsWith(Config.get().prefix.get()) && !text.startsWith("/")) {
+                if (text.length() > 256 && !text.startsWith(ClientSettings.get().prefix.get()) && !text.startsWith("/")) {
                     text = text.substring(0, 256); // prevent kick
                 }
                 ChatUtils.sendPlayerMsg(text, saveChatHistory.get());

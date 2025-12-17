@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.mixin.ClientPlayerInteractionManagerAccess
 import meteordevelopment.meteorclient.mixin.MinecraftClientAccessor;
 import meteordevelopment.meteorclient.pathing.BaritoneUtils;
 import meteordevelopment.meteorclient.pathing.PathManagers;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.PreInit;
@@ -466,10 +466,10 @@ public class MeteorStarscript {
     }
     
     private static Value getMeteorPrefix() {
-        if (Config.get() == null) {
+        if (ClientSettings.get() == null) {
             return Value.null_();
         }
-        return Value.string(Config.get().prefix.get());
+        return Value.string(ClientSettings.get().prefix.get());
     }
     
     // Other

@@ -21,12 +21,12 @@ public class Tabs {
     @PreInit(dependencies = PathManagers.class)
     public static void init() {
         add(new ModulesTab());
-        add(new ConfigTab());
+        add(new ClientSettingsTab());
+        add(new ConfigsTab());
         add(new GuiTab());
         add(new HudTab());
         add(new FriendsTab());
         add(new MacrosTab());
-        add(new ProfilesTab());
         
         if (PathManagers.get().getSettings().get().sizeGroups() > 0) {
             add(new PathManagerTab());

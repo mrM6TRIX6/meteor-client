@@ -10,7 +10,7 @@ import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.suggestion.Suggestions;
 import meteordevelopment.meteorclient.commands.Commands;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.command.CommandSource;
@@ -52,7 +52,7 @@ public abstract class ChatInputSuggestorMixin {
         cancellable = true
     )
     public void onRefresh(CallbackInfo ci, @Local StringReader reader) {
-        String prefix = Config.get().prefix.get();
+        String prefix = ClientSettings.get().prefix.get();
         int length = prefix.length();
         
         if (reader.canRead(length) && reader.getString().startsWith(prefix, reader.getCursor())) {

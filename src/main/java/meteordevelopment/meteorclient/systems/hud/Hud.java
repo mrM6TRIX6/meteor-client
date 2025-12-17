@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.systems.hud;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -300,7 +299,6 @@ public class Hud extends System<Hud> implements Iterable<HudElement> {
     public JsonObject toJson() {
         JsonObject jsonObject = new JsonObject();
         
-        jsonObject.addProperty("__version__", MeteorClient.VERSION.toString());
         jsonObject.addProperty("active", active);
         jsonObject.add("settings", settings.toJson());
         jsonObject.add("elements", JsonUtils.listToJson(elements));
@@ -310,11 +308,6 @@ public class Hud extends System<Hud> implements Iterable<HudElement> {
     
     @Override
     public Hud fromJson(JsonObject jsonObject) {
-        if (!jsonObject.has("__version__")) {
-            reset();
-            return this;
-        }
-        
         Optional.of(jsonObject.get("active").getAsBoolean()).ifPresent(active1 -> active = active1);
         settings.fromJson(jsonObject.get("settings").getAsJsonObject());
         

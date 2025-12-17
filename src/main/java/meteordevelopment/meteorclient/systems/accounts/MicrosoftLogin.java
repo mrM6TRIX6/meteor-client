@@ -89,7 +89,7 @@ public class MicrosoftLogin {
             return new LoginData();
         }
         
-        // Profile
+        // Config
         ProfileResponse profileRes = Http.get("https://api.minecraftservices.com/minecraft/profile")
             .bearer(mcRes.access_token)
             .sendJson(ProfileResponse.class);

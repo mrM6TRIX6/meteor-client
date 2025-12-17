@@ -9,12 +9,12 @@ import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
+import meteordevelopment.meteorclient.systems.configs.Configs;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.macros.Macros;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.profiles.Profiles;
 import meteordevelopment.meteorclient.systems.proxies.Proxies;
 import meteordevelopment.orbit.EventHandler;
 
@@ -34,21 +34,21 @@ public class Systems {
     }
     
     public static void init() {
-        // Has to be loaded first so the hidden modules list in config tab can load modules
+        // Has to be loaded first so the hidden modules list in Client Settings tab can load modules
         add(new Modules());
         
-        Config config = new Config();
-        System<?> configSystem = add(config);
-        configSystem.init();
-        configSystem.load();
+        ClientSettings clientSettings = new ClientSettings();
+        System<?> clientSettingsSystem = add(clientSettings);
+        clientSettingsSystem.init();
+        clientSettingsSystem.load();
         
-        // Registers the colors from config tab. This allows rainbow colours to work for friends.
-        config.settings.registerColorSettings(null);
+        // Registers the colors from Client Settings tab. This allows rainbow colours to work for friends.
+        clientSettings.settings.registerColorSettings(null);
         
         add(new Macros());
         add(new Friends());
         add(new Accounts());
-        add(new Profiles());
+        add(new Configs());
         add(new Proxies());
         add(new Hud());
         

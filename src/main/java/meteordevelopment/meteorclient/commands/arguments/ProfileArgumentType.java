@@ -13,8 +13,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import meteordevelopment.meteorclient.systems.profiles.Profile;
-import meteordevelopment.meteorclient.systems.profiles.Profiles;
+import meteordevelopment.meteorclient.systems.configs.Config;
+import meteordevelopment.meteorclient.systems.configs.Configs;
 import net.minecraft.text.Text;
 
 import java.util.Collection;
@@ -26,7 +26,7 @@ import static net.minecraft.command.CommandSource.suggestMatching;
 public class ProfileArgumentType implements ArgumentType<String> {
     
     private static final ProfileArgumentType INSTANCE = new ProfileArgumentType();
-    private static final DynamicCommandExceptionType NO_SUCH_PROFILE = new DynamicCommandExceptionType(name -> Text.literal("Profile with name " + name + " doesn't exist."));
+    private static final DynamicCommandExceptionType NO_SUCH_PROFILE = new DynamicCommandExceptionType(name -> Text.literal("Config with name " + name + " doesn't exist."));
     
     private static final Collection<String> EXAMPLES = List.of("pvp.meteorclient.com", "anarchy");
     
@@ -34,8 +34,8 @@ public class ProfileArgumentType implements ArgumentType<String> {
         return INSTANCE;
     }
     
-    public static Profile get(CommandContext<?> context) {
-        return Profiles.get().get(context.getArgument("profile", String.class));
+    public static Config get(CommandContext<?> context) {
+        return Configs.get().get(context.getArgument("profile", String.class));
     }
     
     private ProfileArgumentType() {}
@@ -44,7 +44,7 @@ public class ProfileArgumentType implements ArgumentType<String> {
     public String parse(StringReader reader) throws CommandSyntaxException {
         String argument = reader.getRemaining();
         reader.setCursor(reader.getTotalLength());
-        if (Profiles.get().get(argument) == null) {
+        if (Configs.get().get(argument) == null) {
             throw NO_SUCH_PROFILE.create(argument);
         }
         
@@ -53,7 +53,7 @@ public class ProfileArgumentType implements ArgumentType<String> {
     
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        return suggestMatching(Streams.stream(Profiles.get()).map(profile -> profile.name.get()), builder);
+        return suggestMatching(Streams.stream(Configs.get()).map(profile -> profile.name.get()), builder);
     }
     
     @Override

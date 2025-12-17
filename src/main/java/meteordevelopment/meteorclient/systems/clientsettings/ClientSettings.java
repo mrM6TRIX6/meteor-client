@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.systems.config;
+package meteordevelopment.meteorclient.systems.clientsettings;
 
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.renderer.Fonts;
@@ -23,7 +23,7 @@ import java.util.List;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public class Config extends System<Config> {
+public class ClientSettings extends System<ClientSettings> {
     
     public final Settings settings = new Settings();
     
@@ -154,12 +154,12 @@ public class Config extends System<Config> {
     
     public List<String> dontShowAgainPrompts = new ArrayList<>();
     
-    public Config() {
-        super("config");
+    public ClientSettings() {
+        super("client-settings");
     }
     
-    public static Config get() {
-        return Systems.get(Config.class);
+    public static ClientSettings get() {
+        return Systems.get(ClientSettings.class);
     }
     
     @Override
@@ -173,7 +173,7 @@ public class Config extends System<Config> {
     }
     
     @Override
-    public Config fromJson(JsonObject jsonObject) {
+    public ClientSettings fromJson(JsonObject jsonObject) {
         if (jsonObject.has("settings")) {
             settings.fromJson(jsonObject.get("settings").getAsJsonObject());
         }

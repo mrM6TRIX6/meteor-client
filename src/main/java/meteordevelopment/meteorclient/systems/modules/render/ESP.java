@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -383,7 +383,7 @@ public class ESP extends Module {
     public Color getEntityTypeColor(Entity entity) {
         if (distance.get()) {
             if (friendOverride.get() && entity instanceof PlayerEntity && Friends.get().isFriend((PlayerEntity) entity)) {
-                return Config.get().friendColor.get();
+                return ClientSettings.get().friendColor.get();
             } else {
                 return EntityUtils.getColorFromDistance(entity);
             }

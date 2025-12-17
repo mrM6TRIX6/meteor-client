@@ -21,7 +21,7 @@ import meteordevelopment.meteorclient.events.packets.PlaySoundPacketEvent;
 import meteordevelopment.meteorclient.events.world.ChunkDataEvent;
 import meteordevelopment.meteorclient.mixininterface.IExplosionS2CPacket;
 import meteordevelopment.meteorclient.pathing.BaritoneUtils;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.Velocity;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
@@ -139,7 +139,7 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
     
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void onSendChatMessage(String message, CallbackInfo ci, @Local(argsOnly = true) LocalRef<String> messageRef) {
-        if (!message.startsWith(Config.get().prefix.get()) && !(BaritoneUtils.IS_AVAILABLE && message.startsWith(BaritoneUtils.getPrefix()))) {
+        if (!message.startsWith(ClientSettings.get().prefix.get()) && !(BaritoneUtils.IS_AVAILABLE && message.startsWith(BaritoneUtils.getPrefix()))) {
             MessageEvent.Send event = MeteorClient.EVENT_BUS.post(MessageEvent.Send.get(message));
             
             if (!event.isCancelled()) {
@@ -150,9 +150,9 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
             return;
         }
         
-        if (message.startsWith(Config.get().prefix.get())) {
+        if (message.startsWith(ClientSettings.get().prefix.get())) {
             try {
-                Commands.dispatch(message.substring(Config.get().prefix.get().length()));
+                Commands.dispatch(message.substring(ClientSettings.get().prefix.get().length()));
             } catch (CommandSyntaxException e) {
                 ChatUtils.error(e.getMessage());
             }

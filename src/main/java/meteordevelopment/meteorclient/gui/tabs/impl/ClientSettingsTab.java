@@ -10,39 +10,39 @@ import meteordevelopment.meteorclient.gui.tabs.Tab;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.tabs.WindowTabScreen;
 import meteordevelopment.meteorclient.settings.Settings;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.render.prompts.YesNoPrompt;
 import net.minecraft.client.gui.screen.Screen;
 
-public class ConfigTab extends Tab {
+public class ClientSettingsTab extends Tab {
     
-    public ConfigTab() {
-        super("Config");
+    public ClientSettingsTab() {
+        super("Client Settings");
     }
     
     @Override
     public TabScreen createScreen(GuiTheme theme) {
-        return new ConfigScreen(theme, this);
+        return new ClientSettingsScreen(theme, this);
     }
     
     @Override
     public boolean isScreen(Screen screen) {
-        return screen instanceof ConfigScreen;
+        return screen instanceof ClientSettingsScreen;
     }
     
-    public static class ConfigScreen extends WindowTabScreen {
+    public static class ClientSettingsScreen extends WindowTabScreen {
         
         private final Settings settings;
         
-        public ConfigScreen(GuiTheme theme, Tab tab) {
+        public ClientSettingsScreen(GuiTheme theme, Tab tab) {
             super(theme, tab);
             
-            settings = Config.get().settings;
+            settings = ClientSettings.get().settings;
             settings.onActivated();
             
             onClosed(() -> {
-                String prefix = Config.get().prefix.get();
+                String prefix = ClientSettings.get().prefix.get();
                 
                 if (prefix.isBlank()) {
                     YesNoPrompt.create(theme, this.parent)
@@ -50,7 +50,7 @@ public class ConfigTab extends Tab {
                         .message("You have set your command prefix to nothing.")
                         .message("This WILL prevent you from sending chat messages.")
                         .message("Do you want to reset your prefix back to '.'?")
-                        .onYes(() -> Config.get().prefix.set("."))
+                        .onYes(() -> ClientSettings.get().prefix.set("."))
                         .id("empty-command-prefix")
                         .show();
                 } else if (prefix.equals("/")) {
@@ -59,7 +59,7 @@ public class ConfigTab extends Tab {
                         .message("You have set your command prefix to '/', which is used by minecraft.")
                         .message("This can cause conflict issues between meteor and minecraft commands.")
                         .message("Do you want to reset your prefix to '.'?")
-                        .onYes(() -> Config.get().prefix.set("."))
+                        .onYes(() -> ClientSettings.get().prefix.set("."))
                         .id("minecraft-prefix-conflict")
                         .show();
                 } else if (prefix.length() > 7) {
@@ -68,7 +68,7 @@ public class ConfigTab extends Tab {
                         .message("You have set your command prefix to a very long string.")
                         .message("This means that in order to execute any command, you will need to type %s followed by the command you want to run.", prefix)
                         .message("Do you want to reset your prefix back to '.'?")
-                        .onYes(() -> Config.get().prefix.set("."))
+                        .onYes(() -> ClientSettings.get().prefix.set("."))
                         .id("long-command-prefix")
                         .show();
                 }
@@ -89,12 +89,12 @@ public class ConfigTab extends Tab {
         
         @Override
         public boolean toClipboard() {
-            return JsonUtils.toClipboard(Config.get());
+            return JsonUtils.toClipboard(ClientSettings.get());
         }
         
         @Override
         public boolean fromClipboard() {
-            return JsonUtils.fromClipboard(Config.get());
+            return JsonUtils.fromClipboard(ClientSettings.get());
         }
         
     }

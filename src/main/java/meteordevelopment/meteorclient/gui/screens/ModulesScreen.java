@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WSection;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WWindow;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -85,7 +85,7 @@ public class ModulesScreen extends TabScreen {
                 
                 int count = 0;
                 for (Module module : modules) {
-                    if (count >= Config.get().moduleSearchCount.get() || count >= modules.size()) {
+                    if (count >= ClientSettings.get().moduleSearchCount.get() || count >= modules.size()) {
                         break;
                     }
                     section.add(theme.module(module)).expandX();
@@ -102,7 +102,7 @@ public class ModulesScreen extends TabScreen {
                 
                 int count = 0;
                 for (Module module : modules) {
-                    if (count >= Config.get().moduleSearchCount.get() || count >= modules.size()) {
+                    if (count >= ClientSettings.get().moduleSearchCount.get() || count >= modules.size()) {
                         break;
                     }
                     section.add(theme.module(module)).expandX();
@@ -211,7 +211,7 @@ public class ModulesScreen extends TabScreen {
             List<Module> moduleList = new ArrayList<>();
             for (Category category : Modules.loopCategories()) {
                 for (Module module : Modules.get().getGroup(category)) {
-                    if (!Config.get().hiddenModules.get().contains(module)) {
+                    if (!ClientSettings.get().hiddenModules.get().contains(module)) {
                         moduleList.add(module);
                     }
                 }

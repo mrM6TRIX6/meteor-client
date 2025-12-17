@@ -5,7 +5,7 @@ import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import net.minecraft.client.gui.screen.Screen;
 
 import java.util.ArrayList;
@@ -55,7 +55,7 @@ public abstract class Prompt<T> {
     }
     
     public boolean show() {
-        if (id != null && Config.get().dontShowAgainPrompts.contains(id)) {
+        if (id != null && ClientSettings.get().dontShowAgainPrompts.contains(id)) {
             return false;
         }
         
@@ -70,7 +70,7 @@ public abstract class Prompt<T> {
     
     protected void dontShowAgain(PromptScreen screen) {
         if (screen.dontShowAgainCheckbox != null && screen.dontShowAgainCheckbox.checked && id != null) {
-            Config.get().dontShowAgainPrompts.add(id);
+            ClientSettings.get().dontShowAgainPrompts.add(id);
         }
     }
     

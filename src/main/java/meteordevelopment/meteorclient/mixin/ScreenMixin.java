@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.mixin;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.commands.Commands;
-import meteordevelopment.meteorclient.systems.config.Config;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.GUIMove;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
@@ -53,9 +53,9 @@ public abstract class ScreenMixin {
     
     @Inject(method = "handleBasicClickEvent", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;error(Ljava/lang/String;Ljava/lang/Object;)V", remap = false))
     private static void onHandleBasicClickEvent(ClickEvent clickEvent, MinecraftClient client, Screen screen, CallbackInfo ci) {
-        if (clickEvent instanceof MeteorClickEvent meteorClickEvent && meteorClickEvent.value.startsWith(Config.get().prefix.get())) {
+        if (clickEvent instanceof MeteorClickEvent meteorClickEvent && meteorClickEvent.value.startsWith(ClientSettings.get().prefix.get())) {
             try {
-                Commands.dispatch(meteorClickEvent.value.substring(Config.get().prefix.get().length()));
+                Commands.dispatch(meteorClickEvent.value.substring(ClientSettings.get().prefix.get().length()));
             } catch (CommandSyntaxException e) {
                 MeteorClient.LOG.error("Failed to run command", e);
             }
