@@ -53,8 +53,11 @@ public abstract class EntityRenderDispatcherMixin {
     @Inject(method = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;render(Lnet/minecraft/client/render/entity/state/EntityRenderState;DDDLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/client/render/entity/EntityRenderer;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V", ordinal = 0, shift = At.Shift.AFTER), cancellable = true, remap = true)
     private <S extends EntityRenderState> void afterTranslate(S state, double x, double y, double z, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, EntityRenderer<?, S> renderer, CallbackInfo ci) {
         BadTrip badTrip = Modules.get().get(BadTrip.class);
-        if (badTrip.isActive() && state instanceof PlayerEntityRenderState) {
-            badTrip.applyWobbleEffect((PlayerEntityRenderState) state, matrices);
+        if (badTrip.isActive() && state instanceof PlayerEntityRenderState playerState) {
+            float wobble = ((System.currentTimeMillis() + playerState.id * 100) % 400) / 400F;
+            wobble = (wobble > 0.5F ? 1 - wobble : wobble) * 2F;
+            wobble = Math.max(0, Math.min(1, wobble));
+            matrices.scale(wobble * 2F + 1, 1 - 0.5F * wobble, wobble * 2F + 1);
         }
     }
     
