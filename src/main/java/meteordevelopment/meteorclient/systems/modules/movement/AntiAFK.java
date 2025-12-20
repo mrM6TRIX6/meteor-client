@@ -86,7 +86,7 @@ public class AntiAFK extends Module {
     private final Setting<SpinMode> spinMode = sgActions.add(new EnumSetting.Builder<SpinMode>()
         .name("spin-mode")
         .description("The method of rotating.")
-        .defaultValue(SpinMode.Server)
+        .defaultValue(SpinMode.SERVER)
         .visible(spin::get)
         .build()
     );
@@ -105,7 +105,7 @@ public class AntiAFK extends Module {
         .defaultValue(0)
         .range(-90, 90)
         .sliderRange(-90, 90)
-        .visible(() -> spin.get() && spinMode.get() == SpinMode.Server)
+        .visible(() -> spin.get() && spinMode.get() == SpinMode.SERVER)
         .build()
     );
     
@@ -223,8 +223,8 @@ public class AntiAFK extends Module {
         if (spin.get()) {
             lastYaw += spinSpeed.get();
             switch (spinMode.get()) {
-                case Client -> mc.player.setYaw(lastYaw);
-                case Server -> Rotations.rotate(lastYaw, pitch.get(), -15);
+                case CLIENT -> mc.player.setYaw(lastYaw);
+                case SERVER -> Rotations.rotate(lastYaw, pitch.get(), -15);
             }
         }
         
@@ -241,9 +241,11 @@ public class AntiAFK extends Module {
         }
     }
     
-    public enum SpinMode {
-        Server,
-        Client
+    private enum SpinMode {
+        
+        SERVER,
+        CLIENT
+        
     }
     
 }
