@@ -31,31 +31,40 @@ public class RangeSetting extends Setting<Range> {
     @Override
     protected Range parseImpl(String str) {
         try {
-            return Range.parse(str);
-        } catch (Exception e) {
-            return null;
-        }
+            String[] parts = str.split("\\Q..\\E");
+            
+            if (parts.length == 2) {
+                int from = Integer.parseInt(parts[0].trim());
+                int to = Integer.parseInt(parts[1].trim());
+                return Range.of(from, to);
+            } else if (parts.length == 1) {
+                int value = Integer.parseInt(parts[0].trim());
+                return Range.of(value);
+            }
+        } catch (Exception ignored) {}
+        
+        return null;
     }
     
     @Override
     protected boolean isValueValid(Range value) {
-        return value.min >= min && value.max <= max && value.min <= value.max;
+        return value.from >= min && value.to <= max && value.from <= value.to;
     }
     
     @Override
     public JsonObject save(JsonObject jsonObject) {
-        jsonObject.addProperty("min", get().min);
-        jsonObject.addProperty("max", get().max);
+        jsonObject.addProperty("from", get().from);
+        jsonObject.addProperty("to", get().to);
         
         return jsonObject;
     }
     
     @Override
     public Range load(JsonObject jsonObject) {
-        int min = jsonObject.get("min").getAsInt();
-        int max = jsonObject.get("max").getAsInt();
+        int from = jsonObject.get("from").getAsInt();
+        int to = jsonObject.get("to").getAsInt();
         
-        set(Range.of(min, max));
+        set(Range.of(from, to));
         
         return get();
     }

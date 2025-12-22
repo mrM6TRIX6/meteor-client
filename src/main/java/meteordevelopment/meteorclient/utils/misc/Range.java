@@ -8,52 +8,44 @@ package meteordevelopment.meteorclient.utils.misc;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * Represents an inclusive integer range with a lower and upper bound.
+ */
 public class Range {
     
-    public final int min;
-    public final int max;
+    public final int from;
+    public final int to;
     
-    public Range(int min, int max) {
-        this.min = Math.min(min, max);
-        this.max = Math.max(min, max);
+    public Range(int from, int to) {
+        this.from = Math.min(from, to);
+        this.to = Math.max(from, to);
     }
     
-    public static Range of(int min, int max) {
-        return new Range(min, max);
+    public static Range of(int from, int to) {
+        return new Range(from, to);
     }
     
-    public static Range of(int singleValue) {
-        return new Range(singleValue, singleValue);
+    public static Range of(int value) {
+        return new Range(value, value);
     }
     
-    public static Range parse(String rangeStr) {
-        try {
-            String[] parts = rangeStr.split("-");
-            if (parts.length == 2) {
-                int min = Integer.parseInt(parts[0].trim());
-                int max = Integer.parseInt(parts[1].trim());
-                return of(min, max);
-            } else if (parts.length == 1) {
-                int value = Integer.parseInt(parts[0].trim());
-                return of(value);
-            }
-            throw new IllegalArgumentException("Invalid range format: " + rangeStr);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid number in range: " + rangeStr, e);
-        }
-    }
-    
+    /**
+     * Checks if the number is in the range.
+     */
     public boolean contains(int value) {
-        return value >= min && value <= max;
+        return value >= from && value <= to;
     }
     
+    /**
+     * Returns a random number from the specified range, inclusive.
+     */
     public int random() {
-        return ThreadLocalRandom.current().nextInt(min, max + 1);
+        return ThreadLocalRandom.current().nextInt(from, to + 1);
     }
     
     @Override
     public String toString() {
-        return min + "-" + max;
+        return from + ".." + to;
     }
     
     @Override
@@ -65,12 +57,12 @@ public class Range {
             return false;
         }
         Range range = (Range) obj;
-        return min == range.min && max == range.max;
+        return from == range.from && to == range.to;
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(min, max);
+        return Objects.hash(from, to);
     }
     
 }

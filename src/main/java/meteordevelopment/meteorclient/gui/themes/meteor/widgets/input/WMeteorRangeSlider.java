@@ -20,20 +20,19 @@ public class WMeteorRangeSlider extends WRangeSlider implements MeteorWidget {
     @Override
     protected void onRender(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
         MeteorGuiTheme theme = theme();
-        double s = handleSize();
         
-        handleMinX = calculateMinHandleX();
-        handleMaxX = calculateMaxHandleX();
+        handleFromX = calculateFromHandleX();
+        handleToX = calculateToHandleX();
         double trackWidth = calculateTrackWidth();
         double trackX = calculateTrackX();
         double trackY = calculateTrackY();
         
         renderTrack(renderer, theme, trackX, trackY, trackWidth);
         
-        renderActiveRange(renderer, theme, trackX, trackY, handleMinX, handleMaxX);
+        renderActiveRange(renderer, theme, trackX, trackY, handleFromX, handleToX);
         
-        renderHandle(renderer, theme, handleMinX, draggingMin || handleMinMouseOver, true);
-        renderHandle(renderer, theme, handleMaxX, draggingMax || handleMaxMouseOver, false);
+        renderHandle(renderer, theme, handleFromX, draggingFrom || handleFromMouseOver, true);
+        renderHandle(renderer, theme, handleToX, draggingTo || handleToMouseOver, false);
     }
     
     private void renderTrack(GuiRenderer renderer, MeteorGuiTheme theme, double trackX, double trackY, double trackWidth) {
@@ -48,11 +47,10 @@ public class WMeteorRangeSlider extends WRangeSlider implements MeteorWidget {
     
     private void renderHandle(GuiRenderer renderer, MeteorGuiTheme theme, double handleX, boolean active, boolean isMinHandle) {
         double s = handleSize();
-        boolean dragging = isMinHandle ? draggingMin : draggingMax;
-        boolean mouseOver = isMinHandle ? handleMinMouseOver : handleMaxMouseOver;
+        boolean dragging = isMinHandle ? draggingFrom : draggingTo;
+        boolean mouseOver = isMinHandle ? handleFromMouseOver : handleToMouseOver;
         
-        renderer.quad(handleX - s / 2, y, s, s, GuiRenderer.CIRCLE,
-            theme.sliderHandle.get(dragging, mouseOver || active));
+        renderer.quad(handleX - s / 2, y, s, s, GuiRenderer.CIRCLE, theme.sliderHandle.get(dragging, mouseOver || active));
     }
     
 }

@@ -13,15 +13,15 @@ public abstract class WRangeSlider extends WWidget {
     protected Range value;
     protected final int min, max;
     
-    protected double handleMinX, handleMaxX;
-    protected boolean draggingMin, draggingMax;
-    protected double valueMinAtDragStart, valueMaxAtDragStart;
+    protected double handleFromX, handleToX;
+    protected boolean draggingFrom, draggingTo;
+    protected double valueFromAtDragStart, valueToAtDragStart;
     
-    protected double scrollHandleMinX, scrollHandleMinY, scrollHandleMinH;
-    protected double scrollHandleMaxX, scrollHandleMaxY, scrollHandleMaxH;
-    protected boolean scrollHandleMinMouseOver, scrollHandleMaxMouseOver;
+    protected double scrollHandleFromX, scrollHandleFromY, scrollHandleFromH;
+    protected double scrollHandleToX, scrollHandleToY, scrollHandleToH;
+    protected boolean scrollHandleFromMouseOver, scrollHandleToMouseOver;
     
-    protected boolean handleMinMouseOver, handleMaxMouseOver;
+    protected boolean handleFromMouseOver, handleToMouseOver;
     
     public Runnable action;
     public Runnable actionOnRelease;
@@ -34,8 +34,8 @@ public abstract class WRangeSlider extends WWidget {
     
     private Range validateRange(Range range, int min, int max) {
         return Range.of(
-            Math.max(min, Math.min(range.min, max)),
-            Math.max(min, Math.min(range.max, max))
+            Math.max(min, Math.min(range.from, max)),
+            Math.max(min, Math.min(range.to, max))
         );
     }
     
@@ -65,24 +65,24 @@ public abstract class WRangeSlider extends WWidget {
         mouseOver = mouseOverX && mouseOverY;
         
         if (mouseOver) {
-            handleMinX = calculateMinHandleX();
-            handleMaxX = calculateMaxHandleX();
+            handleFromX = calculateFromHandleX();
+            handleToX = calculateToHandleX();
             
-            boolean isOverMin = isMouseOverHandle(mouseX, mouseY, handleMinX, y, s);
-            boolean isOverMax = isMouseOverHandle(mouseX, mouseY, handleMaxX, y, s);
+            boolean isOverMin = isMouseOverHandle(mouseX, mouseY, handleFromX, y, s);
+            boolean isOverMax = isMouseOverHandle(mouseX, mouseY, handleToX, y, s);
             
             if (isOverMin && isOverMax) {
-                double mouseDeltaX = mouseX - (handleMinX + handleMaxX) / 2;
+                double mouseDeltaX = mouseX - (handleFromX + handleToX) / 2;
                 
                 if (mouseDeltaX > 0) {
                     isOverMin = false;
-                    if (value.max >= max) {
+                    if (value.to >= max) {
                         isOverMin = true;
                         isOverMax = false;
                     }
                 } else {
                     isOverMax = false;
-                    if (value.min <= min) {
+                    if (value.from <= min) {
                         isOverMin = false;
                         isOverMax = true;
                     }
@@ -90,14 +90,14 @@ public abstract class WRangeSlider extends WWidget {
             }
             
             if (isOverMin) {
-                draggingMin = true;
-                valueMinAtDragStart = value.min;
+                draggingFrom = true;
+                valueFromAtDragStart = value.from;
                 return true;
             }
             
             if (isOverMax) {
-                draggingMax = true;
-                valueMaxAtDragStart = value.max;
+                draggingTo = true;
+                valueToAtDragStart = value.to;
                 return true;
             }
             
@@ -105,14 +105,14 @@ public abstract class WRangeSlider extends WWidget {
             int newValue = (int) Math.round(min + percent * (max - min));
             newValue = Math.max(min, Math.min(newValue, max));
             
-            if (Math.abs(newValue - value.min) <= Math.abs(newValue - value.max)) {
-                setValue(Range.of(Math.min(newValue, value.max), value.max));
-                draggingMin = true;
-                valueMinAtDragStart = value.min;
+            if (Math.abs(newValue - value.from) <= Math.abs(newValue - value.to)) {
+                setValue(Range.of(Math.min(newValue, value.to), value.to));
+                draggingFrom = true;
+                valueFromAtDragStart = value.from;
             } else {
-                setValue(Range.of(value.min, Math.max(newValue, value.min)));
-                draggingMax = true;
-                valueMaxAtDragStart = value.max;
+                setValue(Range.of(value.from, Math.max(newValue, value.from)));
+                draggingTo = true;
+                valueToAtDragStart = value.to;
             }
             return true;
         }
@@ -130,68 +130,68 @@ public abstract class WRangeSlider extends WWidget {
         boolean mouseOverY = mouseY >= y && mouseY <= y + height;
         mouseOver = mouseOverX && mouseOverY;
         
-        handleMinX = calculateMinHandleX();
-        handleMaxX = calculateMaxHandleX();
+        handleFromX = calculateFromHandleX();
+        handleToX = calculateToHandleX();
         
-        boolean isOverMin = isMouseOverHandle(mouseX, mouseY, handleMinX, y, s);
-        boolean isOverMax = isMouseOverHandle(mouseX, mouseY, handleMaxX, y, s);
+        boolean isOverMin = isMouseOverHandle(mouseX, mouseY, handleFromX, y, s);
+        boolean isOverMax = isMouseOverHandle(mouseX, mouseY, handleToX, y, s);
         
         if (isOverMin && isOverMax) {
-            double mouseDeltaX = mouseX - (handleMinX + handleMaxX) / 2;
+            double mouseDeltaX = mouseX - (handleFromX + handleToX) / 2;
             
             if (mouseDeltaX > 0) {
                 isOverMin = false;
-                if (value.max >= max) {
+                if (value.to >= max) {
                     isOverMin = true;
                     isOverMax = false;
                 }
             } else {
                 isOverMax = false;
-                if (value.min <= min) {
+                if (value.from <= min) {
                     isOverMin = false;
                     isOverMax = true;
                 }
             }
         }
         
-        handleMinMouseOver = isOverMin;
-        handleMaxMouseOver = isOverMax;
+        handleFromMouseOver = isOverMin;
+        handleToMouseOver = isOverMax;
         
-        scrollHandleMinX = handleMinX - s / 2;
-        scrollHandleMinY = y;
-        scrollHandleMinH = s;
+        scrollHandleFromX = handleFromX - s / 2;
+        scrollHandleFromY = y;
+        scrollHandleFromH = s;
         
-        scrollHandleMaxX = handleMaxX - s / 2;
-        scrollHandleMaxY = y;
-        scrollHandleMaxH = s;
+        scrollHandleToX = handleToX - s / 2;
+        scrollHandleToY = y;
+        scrollHandleToH = s;
         
-        scrollHandleMinMouseOver = isOverMin;
-        scrollHandleMaxMouseOver = isOverMax;
+        scrollHandleFromMouseOver = isOverMin;
+        scrollHandleToMouseOver = isOverMax;
         
-        if (draggingMin || draggingMax) {
+        if (draggingFrom || draggingTo) {
             double percent = Math.max(0, Math.min(1, (mouseX - trackX) / trackWidth));
             int newValue = (int) Math.round(min + percent * (max - min));
             newValue = Math.max(min, Math.min(newValue, max));
             
-            if (draggingMin) {
-                setValue(Range.of(Math.min(newValue, value.max), value.max));
+            if (draggingFrom) {
+                setValue(Range.of(Math.min(newValue, value.to), value.to));
             } else {
-                setValue(Range.of(value.min, Math.max(newValue, value.min)));
+                setValue(Range.of(value.from, Math.max(newValue, value.from)));
             }
         }
     }
     
     @Override
     public boolean onMouseReleased(double mouseX, double mouseY, int button) {
-        if (draggingMin || draggingMax) {
-            if ((draggingMin && value.min != valueMinAtDragStart) ||
-                (draggingMax && value.max != valueMaxAtDragStart)) {
+        if (draggingFrom || draggingTo) {
+            if ((draggingFrom && value.from != valueFromAtDragStart) ||
+                (draggingTo && value.to != valueToAtDragStart)) {
                 if (actionOnRelease != null) {
                     actionOnRelease.run();
                 }
             }
-            draggingMin = false;
-            draggingMax = false;
+            draggingFrom = false;
+            draggingTo = false;
             return true;
         }
         return false;
@@ -199,10 +199,10 @@ public abstract class WRangeSlider extends WWidget {
     
     @Override
     public boolean onMouseScrolled(double amount) {
-        if (scrollHandleMinMouseOver) {
-            int newMin = Math.max(min, Math.min(value.min + (int) amount, value.max));
-            if (newMin != value.min) {
-                setValue(Range.of(newMin, value.max));
+        if (scrollHandleFromMouseOver) {
+            int newFrom = Math.max(min, Math.min(value.from + (int) amount, value.to));
+            if (newFrom != value.from) {
+                setValue(Range.of(newFrom, value.to));
                 if (action != null) {
                     action.run();
                 }
@@ -210,10 +210,10 @@ public abstract class WRangeSlider extends WWidget {
             return true;
         }
         
-        if (scrollHandleMaxMouseOver) {
-            int newMax = Math.max(value.min, Math.min(value.max + (int) amount, max));
-            if (newMax != value.max) {
-                setValue(Range.of(value.min, newMax));
+        if (scrollHandleToMouseOver) {
+            int newTo = Math.max(value.from, Math.min(value.to + (int) amount, max));
+            if (newTo != value.to) {
+                setValue(Range.of(value.from, newTo));
                 if (action != null) {
                     action.run();
                 }
@@ -234,19 +234,19 @@ public abstract class WRangeSlider extends WWidget {
         }
     }
     
-    protected double calculateMinHandleX() {
+    protected double calculateFromHandleX() {
         double s = handleSize();
         double trackWidth = width - s;
         double trackX = x + s / 2;
-        double minPercent = (double) (value.min - min) / (max - min);
+        double minPercent = (double) (value.from - min) / (max - min);
         return trackX + Math.max(0, Math.min(minPercent, 1)) * trackWidth;
     }
     
-    protected double calculateMaxHandleX() {
+    protected double calculateToHandleX() {
         double s = handleSize();
         double trackWidth = width - s;
         double trackX = x + s / 2;
-        double maxPercent = (double) (value.max - min) / (max - min);
+        double maxPercent = (double) (value.to - min) / (max - min);
         return trackX + Math.max(0, Math.min(maxPercent, 1)) * trackWidth;
     }
     
@@ -275,10 +275,10 @@ public abstract class WRangeSlider extends WWidget {
         double handleRight = handleX + handleSize / 2;
         double handleBottom = handleY + handleSize;
         
-        return mouseX >= handleLeft &&
-            mouseX <= handleRight &&
-            mouseY >= handleY &&
-            mouseY <= handleBottom;
+        return mouseX >= handleLeft
+            && mouseX <= handleRight
+            && mouseY >= handleY
+            && mouseY <= handleBottom;
     }
     
 }

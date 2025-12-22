@@ -35,9 +35,9 @@ import net.minecraft.util.Formatting;
 
 import java.util.*;
 
-public class NbtCommand extends Command {
+public class NBTCommand extends Command {
     
-    public NbtCommand() {
+    public NBTCommand() {
         super("NBT", "Modifies NBT data for an item, example: .nbt add [minecraft:item_name=\"Test\"]");
     }
     
@@ -45,12 +45,12 @@ public class NbtCommand extends Command {
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(literal("add")
             .then(argument("component", ComponentMapArgumentType.componentMap(RegistryUtils.REGISTRY_ACCESS))
-                .executes(ctx -> {
+                .executes(context -> {
                     ItemStack stack = mc.player.getInventory().getSelectedStack();
                     
                     if (validBasic(stack)) {
                         ComponentMap itemComponents = stack.getComponents();
-                        ComponentMap newComponents = ComponentMapArgumentType.get(ctx, "component");
+                        ComponentMap newComponents = ComponentMapArgumentType.get(context, "component");
                         ComponentMap testComponents = ComponentMap.of(itemComponents, newComponents);
                         
                         stack.applyComponentsFrom(testComponents);
@@ -64,11 +64,11 @@ public class NbtCommand extends Command {
         
         builder.then(literal("set")
             .then(argument("component", ComponentMapArgumentType.componentMap(RegistryUtils.REGISTRY_ACCESS))
-                .executes(ctx -> {
+                .executes(context -> {
                     ItemStack stack = mc.player.getInventory().getSelectedStack();
                     
                     if (validBasic(stack)) {
-                        ComponentMap components = ComponentMapArgumentType.get(ctx, "component");
+                        ComponentMap components = ComponentMapArgumentType.get(context, "component");
                         MergedComponentMap stackComponents = (MergedComponentMap) stack.getComponents();
                         
                         ComponentChanges.Builder changesBuilder = ComponentChanges.builder();
@@ -96,12 +96,12 @@ public class NbtCommand extends Command {
         
         builder.then(literal("remove")
             .then(argument("component", RegistryKeyArgumentType.registryKey(RegistryKeys.DATA_COMPONENT_TYPE))
-                .executes(ctx -> {
+                .executes(context -> {
                     ItemStack stack = mc.player.getInventory().getSelectedStack();
                     
                     if (validBasic(stack)) {
                         @SuppressWarnings("unchecked")
-                        RegistryKey<ComponentType<?>> componentTypeKey = (RegistryKey<ComponentType<?>>) ctx.getArgument("component", RegistryKey.class);
+                        RegistryKey<ComponentType<?>> componentTypeKey = (RegistryKey<ComponentType<?>>) context.getArgument("component", RegistryKey.class);
                         ComponentType<?> componentType = Registries.DATA_COMPONENT_TYPE.get(componentTypeKey);
                         
                         MergedComponentMap components = (MergedComponentMap) stack.getComponents();
@@ -112,7 +112,7 @@ public class NbtCommand extends Command {
                     
                     return SINGLE_SUCCESS;
                 })
-                .suggests((ctx, suggestionsBuilder) -> {
+                .suggests((context, suggestionsBuilder) -> {
                     ItemStack stack = mc.player.getInventory().getSelectedStack();
                     if (stack != ItemStack.EMPTY) {
                         ComponentMap components = stack.getComponents();

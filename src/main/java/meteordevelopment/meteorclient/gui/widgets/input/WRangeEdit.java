@@ -19,8 +19,8 @@ public class WRangeEdit extends WHorizontalList {
     public Runnable action;
     public Runnable actionOnRelease;
     
-    private WTextBox minTextBox;
-    private WTextBox maxTextBox;
+    private WTextBox fromTextBox;
+    private WTextBox toTextBox;
     private WRangeSlider rangeSlider;
     
     public WRangeEdit(Range value, int min, int max, int sliderMin, int sliderMax, boolean noSlider) {
@@ -34,16 +34,16 @@ public class WRangeEdit extends WHorizontalList {
     
     private Range validateRange(Range range, int min, int max) {
         return Range.of(
-            Math.max(min, Math.min(range.min, max)),
-            Math.max(min, Math.min(range.max, max))
+            Math.max(min, Math.min(range.from, max)),
+            Math.max(min, Math.min(range.to, max))
         );
     }
     
     @Override
     public void init() {
-        minTextBox = add(theme.textBox(Integer.toString(value.min), this::filter)).minWidth(75).widget();
+        fromTextBox = add(theme.textBox(Integer.toString(value.from), this::filter)).minWidth(75).widget();
         add(theme.label("-")).centerY();
-        maxTextBox = add(theme.textBox(Integer.toString(value.max), this::filter)).minWidth(75).widget();
+        toTextBox = add(theme.textBox(Integer.toString(value.to), this::filter)).minWidth(75).widget();
         
         if (!noSlider) {
             rangeSlider = add(theme.rangeSlider(value, sliderMin, sliderMax)).minWidth(200).centerY().expandX().widget();
@@ -74,27 +74,27 @@ public class WRangeEdit extends WHorizontalList {
     }
     
     private void setupTextBoxActions() {
-        minTextBox.actionOnUnfocused = () -> {
+        fromTextBox.actionOnUnfocused = () -> {
             Range lastValue = value;
             
-            if (minTextBox.get().isEmpty()) {
-                minTextBox.set(Integer.toString(value.min));
+            if (fromTextBox.get().isEmpty()) {
+                fromTextBox.set(Integer.toString(value.from));
                 return;
             }
             
             try {
-                int newMin = Integer.parseInt(minTextBox.get());
-                newMin = Math.max(min, Math.min(newMin, max));
+                int newFrom = Integer.parseInt(fromTextBox.get());
+                newFrom = Math.max(min, Math.min(newFrom, max));
                 
-                if (newMin > value.max) {
-                    minTextBox.set(Integer.toString(value.min));
+                if (newFrom > value.to) {
+                    fromTextBox.set(Integer.toString(value.from));
                     return;
                 }
                 
-                value = Range.of(newMin, value.max);
+                value = Range.of(newFrom, value.to);
                 updateSliderFromValue();
             } catch (NumberFormatException ignored) {
-                minTextBox.set(Integer.toString(value.min));
+                fromTextBox.set(Integer.toString(value.from));
             }
             
             if (!value.equals(lastValue) && action != null) {
@@ -102,27 +102,27 @@ public class WRangeEdit extends WHorizontalList {
             }
         };
         
-        maxTextBox.actionOnUnfocused = () -> {
+        toTextBox.actionOnUnfocused = () -> {
             Range lastValue = value;
             
-            if (maxTextBox.get().isEmpty()) {
-                maxTextBox.set(Integer.toString(value.max));
+            if (toTextBox.get().isEmpty()) {
+                toTextBox.set(Integer.toString(value.to));
                 return;
             }
             
             try {
-                int newMax = Integer.parseInt(maxTextBox.get());
-                newMax = Math.max(min, Math.min(newMax, max));
+                int newTo = Integer.parseInt(toTextBox.get());
+                newTo = Math.max(min, Math.min(newTo, max));
                 
-                if (newMax < value.min) {
-                    maxTextBox.set(Integer.toString(value.max));
+                if (newTo < value.from) {
+                    toTextBox.set(Integer.toString(value.to));
                     return;
                 }
                 
-                value = Range.of(value.min, newMax);
+                value = Range.of(value.from, newTo);
                 updateSliderFromValue();
             } catch (NumberFormatException ignored) {
-                maxTextBox.set(Integer.toString(value.max));
+                toTextBox.set(Integer.toString(value.to));
             }
             
             if (!value.equals(lastValue) && action != null) {
@@ -130,8 +130,8 @@ public class WRangeEdit extends WHorizontalList {
             }
         };
         
-        minTextBox.action = null;
-        maxTextBox.action = null;
+        fromTextBox.action = null;
+        toTextBox.action = null;
     }
     
     private void setupSliderActions() {
@@ -139,8 +139,8 @@ public class WRangeEdit extends WHorizontalList {
             Range newValue = rangeSlider.get();
             if (!newValue.equals(value)) {
                 value = newValue;
-                minTextBox.set(Integer.toString(value.min));
-                maxTextBox.set(Integer.toString(value.max));
+                fromTextBox.set(Integer.toString(value.from));
+                toTextBox.set(Integer.toString(value.to));
                 if (action != null) {
                     action.run();
                 }
@@ -170,8 +170,8 @@ public class WRangeEdit extends WHorizontalList {
         }
         
         this.value = validateRange(value, min, max);
-        minTextBox.set(Integer.toString(this.value.min));
-        maxTextBox.set(Integer.toString(this.value.max));
+        fromTextBox.set(Integer.toString(this.value.from));
+        toTextBox.set(Integer.toString(this.value.to));
         updateSliderFromValue();
     }
     

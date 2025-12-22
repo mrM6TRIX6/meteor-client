@@ -56,7 +56,7 @@ public class Commands {
         add(new MemoryCommand());
         add(new ModulesCommand());
         add(new NameHistoryCommand());
-        add(new NbtCommand());
+        add(new NBTCommand());
         add(new NotebotCommand());
         add(new PeekCommand());
         add(new PingCommand());
