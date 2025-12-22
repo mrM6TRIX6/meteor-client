@@ -15,13 +15,13 @@ import net.minecraft.command.CommandSource;
 public class InventoryCommand extends Command {
     
     public InventoryCommand() {
-        super("inventory", "Allows you to see parts of another player's inventory.", "inv", "invsee");
+        super("Inventory", "Allows you to see parts of another player's inventory.", "Inv", "InvSee");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("player", PlayerArgumentType.create()).executes(context -> {
-            Utils.screenToOpen = new InventoryScreen(PlayerArgumentType.get(context));
+            Utils.screenToOpen = new InventoryScreen(PlayerArgumentType.get(context, "player"));
             return SINGLE_SUCCESS;
         }));
     }

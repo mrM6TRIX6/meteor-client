@@ -209,7 +209,7 @@ public class BetterTooltips extends Module {
     private static final ItemStack[] ITEMS = new ItemStack[27];
     
     public BetterTooltips() {
-        super(Categories.Render, "better-tooltips", "Displays more useful tooltips for certain items.");
+        super(Categories.Render, "BetterTooltips", "Displays more useful tooltips for certain items.");
     }
     
     @EventHandler

@@ -25,7 +25,6 @@ public class GameModeArgumentType implements ArgumentType<GameMode> {
     
     private static final GameModeArgumentType INSTANCE = new GameModeArgumentType();
     private static final DynamicCommandExceptionType INVALID_GAMEMODE = new DynamicCommandExceptionType(gameMode -> Text.literal("Invalid game mode '" + gameMode + "'."));
-    
     private static final Collection<String> EXAMPLES = List.of("creative", "1");
     
     private GameModeArgumentType() {}
@@ -53,7 +52,11 @@ public class GameModeArgumentType implements ArgumentType<GameMode> {
     
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        return CommandSource.suggestMatching(Arrays.stream(GameMode.values()).toList().stream().map(gameMode -> gameMode.getId()), builder);
+        return CommandSource.suggestMatching(Arrays.stream(GameMode.values())
+            .toList()
+            .stream()
+            .map(gameMode -> gameMode.getId()), builder
+        );
     }
     
     @Override

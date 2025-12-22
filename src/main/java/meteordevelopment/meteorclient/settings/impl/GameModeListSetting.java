@@ -18,8 +18,8 @@ import java.util.function.Consumer;
 
 public class GameModeListSetting extends Setting<List<GameMode>> {
     
-    public GameModeListSetting(String name, String description, List<GameMode> defaultValue, Consumer<List<GameMode>> onChanged, Consumer<Setting<List<GameMode>>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public GameModeListSetting(String name, String title, String description, List<GameMode> defaultValue, Consumer<List<GameMode>> onChanged, Consumer<Setting<List<GameMode>>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     @Override
@@ -86,7 +86,7 @@ public class GameModeListSetting extends Setting<List<GameMode>> {
         
         @Override
         public GameModeListSetting build() {
-            return new GameModeListSetting(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new GameModeListSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

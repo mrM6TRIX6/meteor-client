@@ -226,7 +226,7 @@ public class CrystalAura extends Module {
     );
     
     private final Setting<Double> placeWallsRange = sgPlace.add(new DoubleSetting.Builder()
-        .name("walls-range")
+        .name("place-walls-range")
         .description("Range in which to place crystals when behind blocks.")
         .defaultValue(4.5)
         .min(0)
@@ -338,7 +338,7 @@ public class CrystalAura extends Module {
     );
     
     private final Setting<Double> breakWallsRange = sgBreak.add(new DoubleSetting.Builder()
-        .name("walls-range")
+        .name("break-walls-range")
         .description("Range in which to break crystals when behind blocks.")
         .defaultValue(4.5)
         .min(0)
@@ -604,7 +604,7 @@ public class CrystalAura extends Module {
     private double renderDamage;
     
     public CrystalAura() {
-        super(Categories.Combat, "crystal-aura", "Automatically places and attacks crystals.");
+        super(Categories.Combat, "CrystalAura", "Automatically places and attacks crystals.");
     }
     
     @Override

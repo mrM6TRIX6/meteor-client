@@ -6,8 +6,10 @@
 package meteordevelopment.meteorclient.systems.modules.movement.elytrafly;
 
 public enum ElytraFlyModes {
-    Vanilla,
-    Packet,
-    Pitch40,
-    Bounce
+    
+    VANILLA,
+    PACKET,
+    PITCH40,
+    BOUNCE
+    
 }

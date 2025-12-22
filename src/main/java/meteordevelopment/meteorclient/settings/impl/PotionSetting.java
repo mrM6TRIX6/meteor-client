@@ -13,15 +13,15 @@ import java.util.function.Consumer;
 
 public class PotionSetting extends EnumSetting<MyPotion> {
     
-    public PotionSetting(String name, String description, MyPotion defaultValue, Consumer<MyPotion> onChanged, Consumer<Setting<MyPotion>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public PotionSetting(String name, String title, String description, MyPotion defaultValue, Consumer<MyPotion> onChanged, Consumer<Setting<MyPotion>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     public static class Builder extends EnumSetting.Builder<MyPotion> {
         
         @Override
         public EnumSetting<MyPotion> build() {
-            return new PotionSetting(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new PotionSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

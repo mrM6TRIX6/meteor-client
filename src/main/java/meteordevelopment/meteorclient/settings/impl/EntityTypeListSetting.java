@@ -29,8 +29,8 @@ public class EntityTypeListSetting extends Setting<Set<EntityType<?>>> {
     private List<String> suggestions;
     private final static List<String> groups = List.of("animal", "wateranimal", "monster", "ambient", "misc");
     
-    public EntityTypeListSetting(String name, String description, Set<EntityType<?>> defaultValue, Consumer<Set<EntityType<?>>> onChanged, Consumer<Setting<Set<EntityType<?>>>> onModuleActivated, IVisible visible, Predicate<EntityType<?>> filter) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public EntityTypeListSetting(String name, String title, String description, Set<EntityType<?>> defaultValue, Consumer<Set<EntityType<?>>> onChanged, Consumer<Setting<Set<EntityType<?>>>> onModuleActivated, IVisible visible, Predicate<EntityType<?>> filter) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
         this.filter = filter;
     }
@@ -168,7 +168,7 @@ public class EntityTypeListSetting extends Setting<Set<EntityType<?>>> {
         
         @Override
         public EntityTypeListSetting build() {
-            return new EntityTypeListSetting(name, description, defaultValue, onChanged, onModuleActivated, visible, filter);
+            return new EntityTypeListSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible, filter);
         }
         
     }

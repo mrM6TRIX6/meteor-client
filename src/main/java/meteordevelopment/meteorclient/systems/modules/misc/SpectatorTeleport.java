@@ -64,12 +64,12 @@ public class SpectatorTeleport extends Module {
     );
     
     public SpectatorTeleport() {
-        super(Categories.Misc, "spectator-teleport", "Settings for sptp command. Remove the messages if you don't need them.");
+        super(Categories.Misc, "SpectatorTeleport", "Settings for sptp command. Remove the messages if you don't need them.");
     }
     
     @Override
     public void onActivate() {
-        error("This is not a module. this is only for sptp command config.");
+        error("This is not a module. This is only for SPTP command config.");
         toggle();
     }
     

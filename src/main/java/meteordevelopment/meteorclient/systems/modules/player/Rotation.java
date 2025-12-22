@@ -58,7 +58,7 @@ public class Rotation extends Module {
     );
     
     public Rotation() {
-        super(Categories.Player, "rotation", "Changes/locks your yaw and pitch.");
+        super(Categories.Player, "Rotation", "Changes/locks your yaw and pitch.");
     }
     
     @Override

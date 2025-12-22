@@ -19,7 +19,7 @@ import net.minecraft.util.Formatting;
 public class ModulesCommand extends Command {
     
     public ModulesCommand() {
-        super("modules", "Displays a list of all modules.", "features");
+        super("Modules", "Displays a list of all modules.", "Features");
     }
     
     @Override
@@ -41,11 +41,11 @@ public class ModulesCommand extends Command {
         // Hover tooltip
         MutableText tooltip = Text.literal("");
         
-        tooltip.append(Text.literal(module.title).formatted(Formatting.BLUE, Formatting.BOLD)).append("\n");
+        tooltip.append(Text.literal(module.name).formatted(Formatting.BLUE, Formatting.BOLD)).append("\n");
         tooltip.append(Text.literal(module.name).formatted(Formatting.GRAY)).append("\n\n");
         tooltip.append(Text.literal(module.description).formatted(Formatting.WHITE));
         
-        MutableText finalModule = Text.literal(module.title);
+        MutableText finalModule = Text.literal(module.name);
         if (!module.isActive()) {
             finalModule.formatted(Formatting.GRAY);
         }

@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 
 public class EnchantmentListSetting extends Setting<Set<RegistryKey<Enchantment>>> {
     
-    public EnchantmentListSetting(String name, String description, Set<RegistryKey<Enchantment>> defaultValue, Consumer<Set<RegistryKey<Enchantment>>> onChanged, Consumer<Setting<Set<RegistryKey<Enchantment>>>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public EnchantmentListSetting(String name, String title, String description, Set<RegistryKey<Enchantment>> defaultValue, Consumer<Set<RegistryKey<Enchantment>>> onChanged, Consumer<Setting<Set<RegistryKey<Enchantment>>>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     @Override
@@ -116,11 +116,11 @@ public class EnchantmentListSetting extends Setting<Set<RegistryKey<Enchantment>
         
         @Override
         public EnchantmentListSetting build() {
-            return new EnchantmentListSetting(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new EnchantmentListSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
         static {
-            //noinspection unchecked,rawtypes
+            // noinspection unchecked, rawtypes
             VANILLA_DEFAULTS = (Set) Arrays.stream(Enchantments.class.getDeclaredFields())
                 .filter(field -> field.accessFlags().containsAll(List.of(AccessFlag.PUBLIC, AccessFlag.STATIC, AccessFlag.FINAL)))
                 .filter(field -> field.getType() == RegistryKey.class)

@@ -41,7 +41,7 @@ public class Twerk extends Module {
     private boolean sneaking;
     
     public Twerk() {
-        super(Categories.Fun, "twerk", "Automatically sneaks and stands.");
+        super(Categories.Fun, "Twerk", "Automatically sneaks and stands.");
     }
     
     @Override

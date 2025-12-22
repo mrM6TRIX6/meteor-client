@@ -20,8 +20,8 @@ public class StringSetting extends Setting<String> {
     public final CharFilter filter;
     public final boolean wide;
     
-    public StringSetting(String name, String description, String defaultValue, Consumer<String> onChanged, Consumer<Setting<String>> onModuleActivated, IVisible visible, String placeholder, Class<? extends WTextBox.Renderer> renderer, CharFilter filter, boolean wide) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public StringSetting(String name, String title, String description, String defaultValue, Consumer<String> onChanged, Consumer<Setting<String>> onModuleActivated, IVisible visible, String placeholder, Class<? extends WTextBox.Renderer> renderer, CharFilter filter, boolean wide) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
         this.placeholder = placeholder;
         this.renderer = renderer;
@@ -86,7 +86,7 @@ public class StringSetting extends Setting<String> {
         
         @Override
         public StringSetting build() {
-            return new StringSetting(name, description, defaultValue, onChanged, onModuleActivated, visible, placeholder, renderer, filter, wide);
+            return new StringSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible, placeholder, renderer, filter, wide);
         }
         
     }

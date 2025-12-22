@@ -23,27 +23,27 @@ import java.util.concurrent.CompletableFuture;
 
 import static net.minecraft.command.CommandSource.suggestMatching;
 
-public class ProfileArgumentType implements ArgumentType<String> {
+public class ConfigArgumentTYpe implements ArgumentType<String> {
     
-    private static final ProfileArgumentType INSTANCE = new ProfileArgumentType();
+    private static final ConfigArgumentTYpe INSTANCE = new ConfigArgumentTYpe();
     private static final DynamicCommandExceptionType NO_SUCH_PROFILE = new DynamicCommandExceptionType(name -> Text.literal("Config with name " + name + " doesn't exist."));
-    
     private static final Collection<String> EXAMPLES = List.of("pvp.meteorclient.com", "anarchy");
     
-    public static ProfileArgumentType create() {
+    private ConfigArgumentTYpe() {}
+    
+    public static ConfigArgumentTYpe create() {
         return INSTANCE;
     }
     
-    public static Config get(CommandContext<?> context) {
-        return Configs.get().get(context.getArgument("profile", String.class));
+    public static Config get(CommandContext<?> context, String name) {
+        return Configs.get().get(context.getArgument(name, String.class));
     }
-    
-    private ProfileArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {
         String argument = reader.getRemaining();
         reader.setCursor(reader.getTotalLength());
+        
         if (Configs.get().get(argument) == null) {
             throw NO_SUCH_PROFILE.create(argument);
         }

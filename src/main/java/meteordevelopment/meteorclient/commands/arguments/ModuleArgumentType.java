@@ -25,22 +25,21 @@ public class ModuleArgumentType implements ArgumentType<Module> {
     
     private static final ModuleArgumentType INSTANCE = new ModuleArgumentType();
     private static final DynamicCommandExceptionType NO_SUCH_MODULE = new DynamicCommandExceptionType(name -> Text.literal("Module with name " + name + " doesn't exist."));
-    
     private static final Collection<String> EXAMPLES = Modules.get().getAll()
         .stream()
         .limit(3)
         .map(module -> module.name)
         .collect(Collectors.toList());
     
+    private ModuleArgumentType() {}
+    
     public static ModuleArgumentType create() {
         return INSTANCE;
     }
     
-    public static Module get(CommandContext<?> context) {
-        return context.getArgument("module", Module.class);
+    public static Module get(CommandContext<?> context, String name) {
+        return context.getArgument(name, Module.class);
     }
-    
-    private ModuleArgumentType() {}
     
     @Override
     public Module parse(StringReader reader) throws CommandSyntaxException {

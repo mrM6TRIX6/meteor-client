@@ -19,7 +19,7 @@ import net.minecraft.util.Formatting;
 public class FriendsCommand extends Command {
     
     public FriendsCommand() {
-        super("friends", "Manages friends.");
+        super("Friends", "Manages friends.");
     }
     
     @Override
@@ -44,7 +44,7 @@ public class FriendsCommand extends Command {
         builder.then(literal("remove")
             .then(argument("friend", FriendArgumentType.create())
                 .executes(context -> {
-                    Friend friend = FriendArgumentType.get(context);
+                    Friend friend = FriendArgumentType.get(context, "friend");
                     if (friend == null) {
                         error("Not friends with that player.");
                         return SINGLE_SUCCESS;

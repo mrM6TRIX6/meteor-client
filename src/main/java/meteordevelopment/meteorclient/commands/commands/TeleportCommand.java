@@ -16,7 +16,7 @@ public class TeleportCommand extends Command {
     
     
     public TeleportCommand() {
-        super("teleport", "Sends a packet to the server with new position. Allows to teleport small distances.", "tp");
+        super("Teleport", "Sends a packet to the server with new position. Allows to teleport small distances.", "TP");
     }
     
     @Override

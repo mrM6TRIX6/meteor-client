@@ -26,15 +26,15 @@ public class FriendArgumentType implements ArgumentType<String> {
     private static final FriendArgumentType INSTANCE = new FriendArgumentType();
     private static final Collection<String> EXAMPLES = List.of("seasnail8169", "MineGame159");
     
+    private FriendArgumentType() {}
+    
     public static FriendArgumentType create() {
         return INSTANCE;
     }
     
-    public static Friend get(CommandContext<?> context) {
-        return Friends.get().get(context.getArgument("friend", String.class));
+    public static Friend get(CommandContext<?> context, String name) {
+        return Friends.get().get(context.getArgument(name, String.class));
     }
-    
-    private FriendArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {

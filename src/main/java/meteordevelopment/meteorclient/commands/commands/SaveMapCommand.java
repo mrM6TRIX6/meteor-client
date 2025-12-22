@@ -40,7 +40,7 @@ public class SaveMapCommand extends Command {
     private final PointerBuffer filters;
     
     public SaveMapCommand() {
-        super("save-map", "Saves a map to an image.", "sm");
+        super("SaveMap", "Saves a map to an image.", "SM");
         
         filters = BufferUtils.createPointerBuffer(1);
         
@@ -54,13 +54,15 @@ public class SaveMapCommand extends Command {
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.executes(context -> {
             saveMap(128);
-            
             return SINGLE_SUCCESS;
-        }).then(argument("scale", IntegerArgumentType.integer(1)).executes(context -> {
-            saveMap(IntegerArgumentType.getInteger(context, "scale"));
-            
-            return SINGLE_SUCCESS;
-        }));
+        });
+        
+        builder.then(argument("scale", IntegerArgumentType.integer(1))
+            .executes(context -> {
+                saveMap(IntegerArgumentType.getInteger(context, "scale"));
+                return SINGLE_SUCCESS;
+            })
+        );
     }
     
     private void saveMap(int scale) throws CommandSyntaxException {

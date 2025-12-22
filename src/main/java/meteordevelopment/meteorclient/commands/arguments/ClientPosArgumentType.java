@@ -28,6 +28,10 @@ public class ClientPosArgumentType implements ArgumentType<Vec3d> {
         return new ClientPosArgumentType();
     }
     
+    public static Vec3d getPos(CommandContext<?> context, String name) {
+        return context.getArgument(name, Vec3d.class);
+    }
+    
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
         if (!(context.getSource() instanceof CommandSource)) {
             return Suggestions.empty();
@@ -37,10 +41,6 @@ public class ClientPosArgumentType implements ArgumentType<Vec3d> {
             
             return CommandSource.suggestPositions(string, collection2, builder, CommandManager.getCommandValidator(this::parse));
         }
-    }
-    
-    public static Vec3d getPos(final CommandContext<?> context, final String name) {
-        return context.getArgument(name, Vec3d.class);
     }
     
     public Vec3d parse(StringReader reader) throws CommandSyntaxException {

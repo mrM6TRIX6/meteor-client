@@ -50,7 +50,7 @@ public class WMeteorModule extends WPressable implements MeteorWidget {
         double pad = pad();
         
         if (titleWidth == 0) {
-            titleWidth = theme.textWidth(module.title);
+            titleWidth = theme.textWidth(module.name);
         }
         
         width = pad + titleWidth + pad;
@@ -93,7 +93,7 @@ public class WMeteorModule extends WPressable implements MeteorWidget {
             x += w - titleWidth;
         }
         
-        renderer.text(module.title, x, y + pad, theme.textColor.get(), false);
+        renderer.text(module.name, x, y + pad, theme.textColor.get(), false);
     }
     
 }

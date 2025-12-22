@@ -28,7 +28,7 @@ public class DropCommand extends Command {
     private static final SimpleCommandExceptionType NO_SUCH_ITEM = new SimpleCommandExceptionType(Text.literal("Could not find an item with that name!"));
     
     public DropCommand() {
-        super("drop", "Automatically drops specified items.");
+        super("Drop", "Automatically drops specified items.");
     }
     
     @Override
@@ -98,14 +98,17 @@ public class DropCommand extends Command {
         
         // Specific item
         builder.then(argument("item", ItemStackArgumentType.itemStack(RegistryUtils.REGISTRY_ACCESS))
-            .executes(context -> drop(player -> {
-                dropItem(player, context, Integer.MAX_VALUE);
-            }))
+            .executes(context -> drop(
+                player -> dropItem(player, context, Integer.MAX_VALUE)
+            ))
             .then(argument("amount", IntegerArgumentType.integer(1))
-                .executes(context -> drop(player -> {
-                    int amount = IntegerArgumentType.getInteger(context, "amount");
-                    dropItem(player, context, amount);
-                })))
+                .executes(context -> drop(
+                    player -> {
+                        int amount = IntegerArgumentType.getInteger(context, "amount");
+                        dropItem(player, context, amount);
+                    })
+                )
+            )
         );
     }
     

@@ -105,7 +105,7 @@ public class Aimbot extends Module {
     private Entity target;
     
     public Aimbot() {
-        super(Categories.Combat, "aimbot", "Automatically aims at entities.");
+        super(Categories.Combat, "Aimbot", "Automatically aims at entities.");
     }
     
     @EventHandler

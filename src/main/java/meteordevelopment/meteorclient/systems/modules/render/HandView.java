@@ -93,7 +93,7 @@ public class HandView extends Module {
     // Main Hand
     
     private final Setting<Vector3d> scaleMain = sgMainHand.add(new Vector3dSetting.Builder()
-        .name("scale")
+        .name("scale-main")
         .description("The scale of your main hand.")
         .defaultValue(1, 1, 1)
         .sliderMax(5)
@@ -102,7 +102,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> posMain = sgMainHand.add(new Vector3dSetting.Builder()
-        .name("position")
+        .name("position-main")
         .description("The position of your main hand.")
         .defaultValue(0, 0, 0)
         .sliderRange(-3, 3)
@@ -111,7 +111,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> rotMain = sgMainHand.add(new Vector3dSetting.Builder()
-        .name("rotation")
+        .name("rotation-main")
         .description("The rotation of your main hand.")
         .defaultValue(0, 0, 0)
         .sliderRange(-180, 180)
@@ -122,7 +122,7 @@ public class HandView extends Module {
     // Offhand
     
     private final Setting<Vector3d> scaleOff = sgOffHand.add(new Vector3dSetting.Builder()
-        .name("scale")
+        .name("scale-off")
         .description("The scale of your off hand.")
         .defaultValue(1, 1, 1)
         .sliderMax(5)
@@ -131,7 +131,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> posOff = sgOffHand.add(new Vector3dSetting.Builder()
-        .name("position")
+        .name("position-off")
         .description("The position of your off hand.")
         .defaultValue(0, 0, 0)
         .sliderRange(-3, 3)
@@ -140,7 +140,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> rotOff = sgOffHand.add(new Vector3dSetting.Builder()
-        .name("rotation")
+        .name("rotation-off")
         .description("The rotation of your off hand.")
         .defaultValue(0, 0, 0)
         .sliderRange(-180, 180)
@@ -151,7 +151,7 @@ public class HandView extends Module {
     // Arm
     
     private final Setting<Vector3d> scaleArm = sgArm.add(new Vector3dSetting.Builder()
-        .name("scale")
+        .name("scale-arm")
         .defaultValue(1, 1, 1)
         .sliderMax(5)
         .decimalPlaces(1)
@@ -159,7 +159,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> posArm = sgArm.add(new Vector3dSetting.Builder()
-        .name("position")
+        .name("position-arm")
         .defaultValue(0, 0, 0)
         .sliderRange(-3, 3)
         .decimalPlaces(1)
@@ -167,7 +167,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> rotArm = sgArm.add(new Vector3dSetting.Builder()
-        .name("rotation")
+        .name("rotation-arm")
         .defaultValue(0, 0, 0)
         .sliderRange(-180, 180)
         .decimalPlaces(0)
@@ -175,7 +175,7 @@ public class HandView extends Module {
     );
     
     public HandView() {
-        super(Categories.Render, "hand-view", "Alters the way items are rendered in your hands.");
+        super(Categories.Render, "HandView", "Alters the way items are rendered in your hands.");
     }
     
     @EventHandler

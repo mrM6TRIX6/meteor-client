@@ -20,8 +20,8 @@ public class Vector3dSetting extends Setting<Vector3d> {
     public final int decimalPlaces;
     public final boolean noSlider;
     
-    public Vector3dSetting(String name, String description, Vector3d defaultValue, Consumer<Vector3d> onChanged, Consumer<Setting<Vector3d>> onModuleActivated, IVisible visible, double min, double max, double sliderMin, double sliderMax, boolean onSliderRelease, int decimalPlaces, boolean noSlider) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public Vector3dSetting(String name, String title, String description, Vector3d defaultValue, Consumer<Vector3d> onChanged, Consumer<Setting<Vector3d>> onModuleActivated, IVisible visible, double min, double max, double sliderMin, double sliderMax, boolean onSliderRelease, int decimalPlaces, boolean noSlider) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
         this.min = min;
         this.max = max;
@@ -157,7 +157,7 @@ public class Vector3dSetting extends Setting<Vector3d> {
         
         @Override
         public Vector3dSetting build() {
-            return new Vector3dSetting(name, description, defaultValue, onChanged, onModuleActivated, visible, min, max, sliderMin, sliderMax, onSliderRelease, decimalPlaces, noSlider);
+            return new Vector3dSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible, min, max, sliderMin, sliderMax, onSliderRelease, decimalPlaces, noSlider);
         }
         
     }

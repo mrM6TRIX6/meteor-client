@@ -20,21 +20,22 @@ public class AirWalk extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> allowJumping = sgGeneral.add(new BoolSetting.Builder()
-        .name("Ease Jumping (Buggy)")
-        .description("Makes getting up easier")
+        .name("allow-jumping")
+        .title("Ease Jumping (Buggy)")
+        .description("Makes getting up easier.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> allowSneaking = sgGeneral.add(new BoolSetting.Builder()
-        .name("Allow Sneaking")
-        .description("Allows sneaking while in the air")
+        .name("allow-sneaking")
+        .description("Allows sneaking while in the air.")
         .defaultValue(false)
         .build()
     );
     
     public AirWalk() {
-        super(Categories.Movement, "air-walk", "Lets you walk on air");
+        super(Categories.Movement, "AirWalk", "Lets you walk on air.");
     }
     
     @EventHandler

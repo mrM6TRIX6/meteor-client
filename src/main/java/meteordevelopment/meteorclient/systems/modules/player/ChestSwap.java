@@ -27,7 +27,7 @@ public class ChestSwap extends Module {
     private final Setting<Chestplate> chestplate = sgGeneral.add(new EnumSetting.Builder<Chestplate>()
         .name("chestplate")
         .description("Which type of chestplate to swap to.")
-        .defaultValue(Chestplate.PreferNetherite)
+        .defaultValue(Chestplate.PREFER_NETHERITE)
         .build()
     );
     
@@ -46,7 +46,7 @@ public class ChestSwap extends Module {
     );
     
     public ChestSwap() {
-        super(Categories.Player, "chest-swap", "Automatically swaps between a chestplate and an elytra.");
+        super(Categories.Player, "ChestSwap", "Automatically swaps between a chestplate and an elytra.");
     }
     
     @Override
@@ -86,19 +86,19 @@ public class ChestSwap extends Module {
             Item item = mc.player.getInventory().getMainStacks().get(i).getItem();
             
             switch (chestplate.get()) {
-                case Diamond:
+                case DIAMOND:
                     if (item == Items.DIAMOND_CHESTPLATE) {
                         bestSlot = i;
                         breakLoop = true;
                     }
                     break;
-                case Netherite:
+                case NETHERITE:
                     if (item == Items.NETHERITE_CHESTPLATE) {
                         bestSlot = i;
                         breakLoop = true;
                     }
                     break;
-                case PreferDiamond:
+                case PREFER_DIAMOND:
                     if (item == Items.DIAMOND_CHESTPLATE) {
                         bestSlot = i;
                         breakLoop = true;
@@ -106,7 +106,7 @@ public class ChestSwap extends Module {
                         bestSlot = i;
                     }
                     break;
-                case PreferNetherite:
+                case PREFER_NETHERITE:
                     if (item == Items.DIAMOND_CHESTPLATE) {
                         bestSlot = i;
                     } else if (item == Items.NETHERITE_CHESTPLATE) {
@@ -151,15 +151,17 @@ public class ChestSwap extends Module {
         if (stayOn.get()) {
             super.sendToggledMsg();
         } else if (ClientSettings.get().chatFeedback.get() && chatFeedback) {
-            info("Triggered (highlight)%s(default).", title);
+            info("Triggered (highlight)%s(default).", name);
         }
     }
     
     private enum Chestplate {
-        Diamond,
-        Netherite,
-        PreferDiamond,
-        PreferNetherite
+        
+        DIAMOND,
+        NETHERITE,
+        PREFER_DIAMOND,
+        PREFER_NETHERITE
+        
     }
     
 }

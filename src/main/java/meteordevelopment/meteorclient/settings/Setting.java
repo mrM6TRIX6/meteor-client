@@ -6,6 +6,7 @@
 package meteordevelopment.meteorclient.settings;
 
 import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IGetter;
@@ -35,9 +36,13 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
     public Module module;
     public boolean lastWasVisible;
     
-    public Setting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
+    public Setting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
+        if (name.contains(" ")) {
+            throw new IllegalArgumentException("Setting '%s' contains invalid characters in name.".formatted(name));
+        }
+        
         this.name = name;
-        this.title = Utils.nameToTitle(name);
+        this.title = title != null ? title : Utils.nameToTitle(name);
         this.description = description;
         this.defaultValue = defaultValue;
         this.onChanged = onChanged;
@@ -126,8 +131,8 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
         JsonObject jsonObject = new JsonObject();
         
         jsonObject.addProperty("name", name);
-        save(jsonObject);
         
+        save(jsonObject);
         return jsonObject;
     }
     
@@ -183,7 +188,7 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
     @SuppressWarnings("unchecked")
     public abstract static class SettingBuilder<B, V, S> {
         
-        protected String name = "undefined", description = "";
+        protected String name = "undefined-" + String.valueOf(hashCode()).substring(0, 5), title, description = "";
         protected V defaultValue;
         protected IVisible visible;
         protected Consumer<V> onChanged;
@@ -195,6 +200,11 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
         
         public B name(String name) {
             this.name = name;
+            return (B) this;
+        }
+        
+        public B title(String title) {
+            this.title = title;
             return (B) this;
         }
         

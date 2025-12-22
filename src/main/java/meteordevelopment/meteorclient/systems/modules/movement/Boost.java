@@ -47,7 +47,7 @@ public class Boost extends Module {
     private int timer = 0;
     
     public Boost() {
-        super(Categories.Movement, "boost", "Works like a dash move.");
+        super(Categories.Movement, "Boost", "Works like a dash move.");
     }
     
     @Override

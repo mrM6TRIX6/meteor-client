@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.ElytraF
 public class Vanilla extends ElytraFlyMode {
     
     public Vanilla() {
-        super(ElytraFlyModes.Vanilla);
+        super(ElytraFlyModes.VANILLA);
     }
     
 }

@@ -66,8 +66,10 @@ public class Flight extends Module {
         .build()
     );
     
+    // Anti Kick
+    
     private final Setting<AntiKickMode> antiKickMode = sgAntiKick.add(new EnumSetting.Builder<AntiKickMode>()
-        .name("mode")
+        .name("anti-kick-mode")
         .description("The mode for anti kick.")
         .defaultValue(AntiKickMode.Packet)
         .build()
@@ -82,7 +84,6 @@ public class Flight extends Module {
         .build()
     );
     
-    // Anti Kick
     private final Setting<Integer> offTime = sgAntiKick.add(new IntSetting.Builder()
         .name("off-time")
         .description("The amount of delay, in milliseconds, to fly down a bit to reset floating ticks.")
@@ -99,7 +100,7 @@ public class Flight extends Module {
     private double lastPacketY = Double.MAX_VALUE;
     
     public Flight() {
-        super(Categories.Movement, "flight", "FLYYYY! No Fall is recommended with this module.");
+        super(Categories.Movement, "Flight", "FLYYYY! NoFall is recommended with this module.");
     }
     
     @Override

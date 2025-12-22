@@ -32,31 +32,33 @@ public class Slippy extends Module {
     public final Setting<ListMode> listMode = sgGeneral.add(new EnumSetting.Builder<ListMode>()
         .name("list-mode")
         .description("The mode to select blocks.")
-        .defaultValue(ListMode.Blacklist)
+        .defaultValue(ListMode.BLACKLIST)
         .build()
     );
     
     public final Setting<List<Block>> ignoredBlocks = sgGeneral.add(new BlockListSetting.Builder()
         .name("ignored-blocks")
         .description("Decide which blocks not to slip on")
-        .visible(() -> listMode.get() == ListMode.Blacklist)
+        .visible(() -> listMode.get() == ListMode.BLACKLIST)
         .build()
     );
     
     public final Setting<List<Block>> allowedBlocks = sgGeneral.add(new BlockListSetting.Builder()
         .name("allowed-blocks")
         .description("Decide which blocks to slip on")
-        .visible(() -> listMode.get() == ListMode.Whitelist)
+        .visible(() -> listMode.get() == ListMode.WHITELIST)
         .build()
     );
     
     public Slippy() {
-        super(Categories.Movement, "slippy", "Changes the base friction level of blocks.");
+        super(Categories.Movement, "Slippy", "Changes the base friction level of blocks.");
     }
     
     public enum ListMode {
-        Whitelist,
-        Blacklist
+        
+        WHITELIST,
+        BLACKLIST
+        
     }
     
 }

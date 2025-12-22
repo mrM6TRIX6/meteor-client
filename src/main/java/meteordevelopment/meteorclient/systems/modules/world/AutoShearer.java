@@ -52,7 +52,7 @@ public class AutoShearer extends Module {
     private Hand hand;
     
     public AutoShearer() {
-        super(Categories.World, "auto-shearer", "Automatically shears sheep.");
+        super(Categories.World, "AutoShearer", "Automatically shears sheep.");
     }
     
     @Override

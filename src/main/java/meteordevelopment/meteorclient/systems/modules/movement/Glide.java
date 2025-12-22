@@ -49,7 +49,7 @@ public class Glide extends Module {
     );
     
     public Glide() {
-        super(Categories.Movement, "glide", "Yeehaw!");
+        super(Categories.Movement, "Glide", "Yeehaw!");
     }
     
     @EventHandler

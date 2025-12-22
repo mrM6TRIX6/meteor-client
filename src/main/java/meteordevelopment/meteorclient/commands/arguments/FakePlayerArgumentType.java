@@ -25,15 +25,15 @@ public class FakePlayerArgumentType implements ArgumentType<String> {
     private static final FakePlayerArgumentType INSTANCE = new FakePlayerArgumentType();
     private static final Collection<String> EXAMPLES = List.of("seasnail8169", "MineGame159");
     
+    private FakePlayerArgumentType() {}
+    
     public static FakePlayerArgumentType create() {
         return INSTANCE;
     }
     
-    public static FakePlayerEntity get(CommandContext<?> context) {
-        return FakePlayerManager.get(context.getArgument("fp", String.class));
+    public static FakePlayerEntity get(CommandContext<?> context, String name) {
+        return FakePlayerManager.get(context.getArgument(name, String.class));
     }
-    
-    private FakePlayerArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {

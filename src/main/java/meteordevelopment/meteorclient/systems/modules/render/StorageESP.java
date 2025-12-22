@@ -185,7 +185,7 @@ public class StorageESP extends Module {
     private final MeshBuilderVertexConsumerProvider vertexConsumerProvider;
     
     public StorageESP() {
-        super(Categories.Render, "storage-esp", "Renders all specified storage blocks.");
+        super(Categories.Render, "StorageESP", "Renders all specified storage blocks.");
         
         mesh = new MeshBuilder(MeteorRenderPipelines.WORLD_COLORED);
         vertexConsumerProvider = new MeshBuilderVertexConsumerProvider(mesh);

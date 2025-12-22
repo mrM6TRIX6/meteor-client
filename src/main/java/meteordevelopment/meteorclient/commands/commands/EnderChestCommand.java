@@ -15,7 +15,7 @@ import net.minecraft.item.Items;
 public class EnderChestCommand extends Command {
     
     public EnderChestCommand() {
-        super("ender-chest", "Allows you to preview memory of your ender chest.", "ec", "echest");
+        super("EnderChest", "Allows you to preview memory of your ender chest.", "EC", "EChest");
     }
     
     @Override

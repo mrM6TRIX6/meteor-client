@@ -22,7 +22,7 @@ import java.util.List;
 public class BindsCommand extends Command {
     
     public BindsCommand() {
-        super("binds", "List of all bound modules.");
+        super("Binds", "List of all bound modules.");
     }
     
     @Override
@@ -38,7 +38,7 @@ public class BindsCommand extends Command {
             for (Module module : modules) {
                 HoverEvent hoverEvent = new HoverEvent.ShowText(getTooltip(module));
                 
-                MutableText text = Text.literal(module.title).formatted(Formatting.WHITE);
+                MutableText text = Text.literal(module.name).formatted(Formatting.WHITE);
                 text.setStyle(text.getStyle().withHoverEvent(hoverEvent));
                 
                 MutableText sep = Text.literal(" - ");
@@ -57,7 +57,7 @@ public class BindsCommand extends Command {
     }
     
     private MutableText getTooltip(Module module) {
-        MutableText tooltip = Text.literal(Utils.nameToTitle(module.title)).formatted(Formatting.BLUE, Formatting.BOLD).append("\n\n");
+        MutableText tooltip = Text.literal(Utils.nameToTitle(module.name)).formatted(Formatting.BLUE, Formatting.BOLD).append("\n\n");
         tooltip.append(Text.literal(module.description).formatted(Formatting.WHITE));
         return tooltip;
     }

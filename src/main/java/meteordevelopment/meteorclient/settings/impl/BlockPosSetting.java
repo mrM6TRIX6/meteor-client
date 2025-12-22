@@ -16,8 +16,8 @@ import java.util.function.Consumer;
 
 public class BlockPosSetting extends Setting<BlockPos> {
     
-    public BlockPosSetting(String name, String description, BlockPos defaultValue, Consumer<BlockPos> onChanged, Consumer<Setting<BlockPos>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public BlockPosSetting(String name, String title, String description, BlockPos defaultValue, Consumer<BlockPos> onChanged, Consumer<Setting<BlockPos>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     @Override
@@ -68,7 +68,7 @@ public class BlockPosSetting extends Setting<BlockPos> {
         
         @Override
         public BlockPosSetting build() {
-            return new BlockPosSetting(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new BlockPosSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

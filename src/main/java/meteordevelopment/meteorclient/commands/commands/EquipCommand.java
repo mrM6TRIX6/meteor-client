@@ -20,7 +20,7 @@ public class EquipCommand extends Command {
     private final static SimpleCommandExceptionType NOT_IN_CREATIVE = new SimpleCommandExceptionType(Text.literal("You must be in creative mode to use this."));
     
     public EquipCommand() {
-        super("equip", "Put any item in any armor slot.");
+        super("Equip", "Put any item in any armor slot.");
     }
     
     @Override

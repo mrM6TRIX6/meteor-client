@@ -96,7 +96,7 @@ public class Flamethrower extends Module {
     private Hand hand;
     
     public Flamethrower() {
-        super(Categories.World, "flamethrower", "Ignites every alive piece of food.");
+        super(Categories.World, "Flamethrower", "Ignites every alive piece of food.");
     }
     
     @Override

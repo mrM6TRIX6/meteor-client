@@ -18,8 +18,8 @@ import java.util.function.Consumer;
 
 public class FontFaceSetting extends Setting<FontFace> {
     
-    public FontFaceSetting(String name, String description, FontFace defaultValue, Consumer<FontFace> onChanged, Consumer<Setting<FontFace>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public FontFaceSetting(String name, String title, String description, FontFace defaultValue, Consumer<FontFace> onChanged, Consumer<Setting<FontFace>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     @Override
@@ -102,7 +102,7 @@ public class FontFaceSetting extends Setting<FontFace> {
         
         @Override
         public FontFaceSetting build() {
-            return new FontFaceSetting(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new FontFaceSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

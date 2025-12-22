@@ -49,7 +49,7 @@ public class BossStack extends Module {
     public static final Map<ClientBossBar, Integer> barMap = new WeakHashMap<>();
     
     public BossStack() {
-        super(Categories.Render, "boss-stack", "Stacks boss bars to make your HUD less cluttered.");
+        super(Categories.Render, "BossStack", "Stacks boss bars to make your HUD less cluttered.");
     }
     
     @EventHandler

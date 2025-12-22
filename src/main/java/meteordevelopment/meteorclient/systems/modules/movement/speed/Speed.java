@@ -31,7 +31,7 @@ public class Speed extends Module {
     public final Setting<SpeedModes> speedMode = sgGeneral.add(new EnumSetting.Builder<SpeedModes>()
         .name("mode")
         .description("The method of applying speed.")
-        .defaultValue(SpeedModes.Vanilla)
+        .defaultValue(SpeedModes.VANILLA)
         .onModuleActivated(speedModesSetting -> onSpeedModeChanged(speedModesSetting.get()))
         .onChanged(this::onSpeedModeChanged)
         .build()
@@ -43,14 +43,14 @@ public class Speed extends Module {
         .defaultValue(5.6)
         .min(0)
         .sliderMax(20)
-        .visible(() -> speedMode.get() == SpeedModes.Vanilla)
+        .visible(() -> speedMode.get() == SpeedModes.VANILLA)
         .build()
     );
     
     public final Setting<Double> ncpSpeed = sgGeneral.add(new DoubleSetting.Builder()
         .name("strafe-speed")
         .description("The speed.")
-        .visible(() -> speedMode.get() == SpeedModes.Strafe)
+        .visible(() -> speedMode.get() == SpeedModes.STRAFE)
         .defaultValue(1.6)
         .min(0)
         .sliderMax(3)
@@ -60,7 +60,7 @@ public class Speed extends Module {
     public final Setting<Boolean> ncpSpeedLimit = sgGeneral.add(new BoolSetting.Builder()
         .name("speed-limit")
         .description("Limits your speed on servers with very strict anticheats.")
-        .visible(() -> speedMode.get() == SpeedModes.Strafe)
+        .visible(() -> speedMode.get() == SpeedModes.STRAFE)
         .defaultValue(false)
         .build()
     );
@@ -92,7 +92,7 @@ public class Speed extends Module {
     public final Setting<Boolean> vanillaOnGround = sgGeneral.add(new BoolSetting.Builder()
         .name("only-on-ground")
         .description("Uses speed only when standing on a block.")
-        .visible(() -> speedMode.get() == SpeedModes.Vanilla)
+        .visible(() -> speedMode.get() == SpeedModes.VANILLA)
         .defaultValue(false)
         .build()
     );
@@ -100,7 +100,7 @@ public class Speed extends Module {
     private SpeedMode currentMode;
     
     public Speed() {
-        super(Categories.Movement, "speed", "Modifies your movement speed when moving on the ground.");
+        super(Categories.Movement, "Speed", "Modifies your movement speed when moving on the ground.");
         
         onSpeedModeChanged(speedMode.get());
     }
@@ -147,8 +147,8 @@ public class Speed extends Module {
     
     private void onSpeedModeChanged(SpeedModes mode) {
         switch (mode) {
-            case Vanilla -> currentMode = new Vanilla();
-            case Strafe -> currentMode = new Strafe();
+            case VANILLA -> currentMode = new Vanilla();
+            case STRAFE -> currentMode = new Strafe();
         }
     }
     
@@ -159,7 +159,7 @@ public class Speed extends Module {
         if (!whenSneaking.get() && mc.player.isSneaking()) {
             return true;
         }
-        if (vanillaOnGround.get() && !mc.player.isOnGround() && speedMode.get() == SpeedModes.Vanilla) {
+        if (vanillaOnGround.get() && !mc.player.isOnGround() && speedMode.get() == SpeedModes.VANILLA) {
             return true;
         }
         return !inLiquids.get() && (mc.player.isTouchingWater() || mc.player.isInLava());

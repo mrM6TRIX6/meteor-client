@@ -26,7 +26,7 @@ public class CheckCMDCommand extends Command {
     private int checking = 0;
     
     public CheckCMDCommand() {
-        super("checkcmd", "Checks if command blocks are active.");
+        super("CheckCMD", "Checks if command blocks are active.");
     }
     
     public void build(LiteralArgumentBuilder<CommandSource> builder) {

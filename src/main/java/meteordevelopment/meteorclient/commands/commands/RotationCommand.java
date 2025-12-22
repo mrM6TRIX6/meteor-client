@@ -16,7 +16,7 @@ import net.minecraft.util.math.MathHelper;
 public class RotationCommand extends Command {
     
     public RotationCommand() {
-        super("rotation", "Modifies your rotation.");
+        super("Rotation", "Modifies your rotation.");
     }
     
     @Override

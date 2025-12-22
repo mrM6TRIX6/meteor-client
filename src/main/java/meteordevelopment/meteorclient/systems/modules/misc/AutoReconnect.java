@@ -42,7 +42,7 @@ public class AutoReconnect extends Module {
     public Pair<ServerAddress, ServerInfo> lastServerConnection;
     
     public AutoReconnect() {
-        super(Categories.Misc, "auto-reconnect", "Automatically reconnects when disconnected from a server.");
+        super(Categories.Misc, "AutoReconnect", "Automatically reconnects when disconnected from a server.");
         MeteorClient.EVENT_BUS.subscribe(new StaticListener());
     }
     

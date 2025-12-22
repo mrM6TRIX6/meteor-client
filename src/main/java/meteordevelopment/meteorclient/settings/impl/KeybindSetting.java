@@ -25,8 +25,8 @@ public class KeybindSetting extends Setting<Keybind> {
     private final Runnable action;
     public WKeybind widget;
     
-    public KeybindSetting(String name, String description, Keybind defaultValue, Consumer<Keybind> onChanged, Consumer<Setting<Keybind>> onModuleActivated, IVisible visible, Runnable action) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public KeybindSetting(String name, String title, String description, Keybind defaultValue, Consumer<Keybind> onChanged, Consumer<Setting<Keybind>> onModuleActivated, IVisible visible, Runnable action) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
         this.action = action;
         MeteorClient.EVENT_BUS.subscribe(this);
@@ -121,7 +121,7 @@ public class KeybindSetting extends Setting<Keybind> {
         
         @Override
         public KeybindSetting build() {
-            return new KeybindSetting(name, description, defaultValue, onChanged, onModuleActivated, visible, action);
+            return new KeybindSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible, action);
         }
         
     }

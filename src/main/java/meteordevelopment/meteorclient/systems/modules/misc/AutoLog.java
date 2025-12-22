@@ -152,7 +152,7 @@ public class AutoLog extends Module {
     private int pops;
     
     public AutoLog() {
-        super(Categories.Combat, "auto-log", "Automatically disconnects you when certain requirements are met.");
+        super(Categories.Combat, "AutoLog", "Automatically disconnects you when certain requirements are met.");
     }
     
     @Override

@@ -33,7 +33,7 @@ public class ComponentMapArgumentType implements ArgumentType<ComponentMap> {
         return new ComponentMapArgumentType(commandRegistryAccess);
     }
     
-    public static <S extends CommandSource> ComponentMap getComponentMap(CommandContext<S> context, String name) {
+    public static <S extends CommandSource> ComponentMap get(CommandContext<S> context, String name) {
         return context.getArgument(name, ComponentMap.class);
     }
     

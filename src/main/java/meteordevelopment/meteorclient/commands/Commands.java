@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.commands.commands.*;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
@@ -15,16 +16,15 @@ import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.command.CommandSource;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class Commands {
     
-    public static final List<Command> COMMANDS = new ArrayList<>();
-    public static CommandDispatcher<CommandSource> DISPATCHER = new CommandDispatcher<>();
+    private static final List<Command> commands = new ArrayList<>();
+    private static final Map<Class<? extends Command>, Command> commandInstances = new Reference2ReferenceOpenHashMap<>();
+    private static CommandDispatcher<CommandSource> dispatcher = new CommandDispatcher<>();
     
     @PostInit(dependencies = PathManagers.class)
     public static void init() {
@@ -43,7 +43,7 @@ public class Commands {
         add(new EquipCommand());
         add(new FakeMessageCommand());
         add(new FakePlayerCommand());
-        add(new FovCommand());
+        add(new FOVCommand());
         add(new FriendsCommand());
         add(new GamemodeCommand());
         add(new GiveCommand());
@@ -61,6 +61,7 @@ public class Commands {
         add(new PeekCommand());
         add(new PingCommand());
         add(new ProfilesCommand());
+        add(new ReconnectCommand());
         add(new ReloadCommand());
         add(new ResetCommand());
         add(new RotationCommand());
@@ -70,7 +71,7 @@ public class Commands {
         add(new SetBlockCommand());
         add(new SettingCommand());
         add(new SpectateCommand());
-        add(new SptpCommand());
+        add(new SPTPCommand());
         add(new StealCommand());
         add(new SwarmCommand());
         add(new TeleportCommand());
@@ -79,34 +80,57 @@ public class Commands {
         add(new VClipCommand());
         add(new WaspCommand());
         
-        COMMANDS.sort(Comparator.comparing(Command::getName));
+        commands.sort(Comparator.comparing(Command::getName));
         
         MeteorClient.EVENT_BUS.subscribe(Commands.class);
     }
     
     public static void add(Command command) {
-        COMMANDS.removeIf(existing -> existing.getName().equals(command.getName()));
-        COMMANDS.add(command);
+        commands.forEach(existing -> {
+            if (existing.getName().equalsIgnoreCase(command.getName())) {
+                throw new IllegalArgumentException("Command with name '%s' already exists".formatted(command.getName()));
+            }
+        });
+        
+        commandInstances.put(command.getClass(), command);
+        commands.add(command);
+    }
+    
+    public static CommandDispatcher<CommandSource> getDispatcher() {
+        return dispatcher;
     }
     
     public static void dispatch(String message) throws CommandSyntaxException {
-        DISPATCHER.execute(message, mc.getNetworkHandler().getCommandSource());
+        dispatcher.execute(message, mc.getNetworkHandler().getCommandSource());
+    }
+    
+    @SuppressWarnings("unchecked")
+    public static <T extends Command> T get(Class<T> klass) {
+        return (T) commandInstances.get(klass);
     }
     
     public static Command get(String name) {
-        for (Command command : COMMANDS) {
-            if (command.getName().equals(name)) {
+        for (Command command : commands) {
+            if (command.getName().equalsIgnoreCase(name)) {
                 return command;
             }
         }
         return null;
     }
     
+    public static List<Command> getAll() {
+        return commands;
+    }
+    
+    public static int getCount() {
+        return commands.size();
+    }
+    
     @EventHandler
     private static void onGameJoin(GameJoinEvent event) {
-        DISPATCHER = new CommandDispatcher<>();
-        for (Command command : COMMANDS) {
-            command.registerTo(DISPATCHER);
+        dispatcher = new CommandDispatcher<>();
+        for (Command command : commands) {
+            command.registerTo(dispatcher);
         }
     }
     

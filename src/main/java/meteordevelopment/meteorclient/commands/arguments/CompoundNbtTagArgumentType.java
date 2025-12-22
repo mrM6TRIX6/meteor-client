@@ -22,15 +22,15 @@ public class CompoundNbtTagArgumentType implements ArgumentType<NbtCompound> {
     private static final CompoundNbtTagArgumentType INSTANCE = new CompoundNbtTagArgumentType();
     private static final Collection<String> EXAMPLES = List.of("{foo:bar}", "{foo:[aa, bb],bar:15}");
     
+    private CompoundNbtTagArgumentType() {}
+    
     public static CompoundNbtTagArgumentType create() {
         return INSTANCE;
     }
     
-    public static NbtCompound get(CommandContext<?> context) {
-        return context.getArgument("nbt", NbtCompound.class);
+    public static NbtCompound get(CommandContext<?> context, String name) {
+        return context.getArgument(name, NbtCompound.class);
     }
-    
-    private CompoundNbtTagArgumentType() {}
     
     @Override
     public NbtCompound parse(StringReader reader) throws CommandSyntaxException {

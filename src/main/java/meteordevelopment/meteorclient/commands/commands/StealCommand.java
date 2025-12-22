@@ -24,49 +24,49 @@ public class StealCommand extends Command {
     private final static Dynamic2CommandExceptionType EMPTY_SLOT = new Dynamic2CommandExceptionType((player, slot) -> Text.literal("%s doesn't have an item in %s slot.".formatted(player, slot)));
     
     public StealCommand() {
-        super("steal", "Steals an item from the player equipment slot.");
+        super("Steal", "Steals an item from the player equipment slot.");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("player", PlayerArgumentType.create())
             .executes(context -> {
-                steal(PlayerArgumentType.get(context), EquipmentSlot.MAINHAND);
+                steal(PlayerArgumentType.get(context, "player"), EquipmentSlot.MAINHAND);
                 return SINGLE_SUCCESS;
             })
             .then(literal("mainhand")
                 .executes(context -> {
-                    steal(PlayerArgumentType.get(context), EquipmentSlot.MAINHAND);
+                    steal(PlayerArgumentType.get(context, "player"), EquipmentSlot.MAINHAND);
                     return SINGLE_SUCCESS;
                 })
             )
             .then(literal("offhand")
                 .executes(context -> {
-                    steal(PlayerArgumentType.get(context), EquipmentSlot.OFFHAND);
+                    steal(PlayerArgumentType.get(context, "player"), EquipmentSlot.OFFHAND);
                     return SINGLE_SUCCESS;
                 })
             )
             .then(literal("head")
                 .executes(context -> {
-                    steal(PlayerArgumentType.get(context), EquipmentSlot.HEAD);
+                    steal(PlayerArgumentType.get(context, "player"), EquipmentSlot.HEAD);
                     return SINGLE_SUCCESS;
                 })
             )
             .then(literal("chest")
                 .executes(context -> {
-                    steal(PlayerArgumentType.get(context), EquipmentSlot.CHEST);
+                    steal(PlayerArgumentType.get(context, "player"), EquipmentSlot.CHEST);
                     return SINGLE_SUCCESS;
                 })
             )
             .then(literal("legs")
                 .executes(context -> {
-                    steal(PlayerArgumentType.get(context), EquipmentSlot.LEGS);
+                    steal(PlayerArgumentType.get(context, "player"), EquipmentSlot.LEGS);
                     return SINGLE_SUCCESS;
                 })
             )
             .then(literal("feet")
                 .executes(context -> {
-                    steal(PlayerArgumentType.get(context), EquipmentSlot.FEET);
+                    steal(PlayerArgumentType.get(context, "player"), EquipmentSlot.FEET);
                     return SINGLE_SUCCESS;
                 })
             )

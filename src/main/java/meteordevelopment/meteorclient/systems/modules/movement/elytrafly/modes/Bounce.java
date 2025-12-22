@@ -24,7 +24,7 @@ import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 public class Bounce extends ElytraFlyMode {
     
     public Bounce() {
-        super(ElytraFlyModes.Bounce);
+        super(ElytraFlyModes.BOUNCE);
     }
     
     boolean rubberbanded = false;

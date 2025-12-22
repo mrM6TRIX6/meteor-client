@@ -194,14 +194,14 @@ public class BetterChat extends Module {
     );
     
     private final Setting<Boolean> prefixRandom = sgPrefix.add(new BoolSetting.Builder()
-        .name("random")
+        .name("prefix-random")
         .description("Uses a random number as your prefix.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<String> prefixText = sgPrefix.add(new StringSetting.Builder()
-        .name("text")
+        .name("prefix-text")
         .description("The text to add as your prefix.")
         .defaultValue("> ")
         .visible(() -> !prefixRandom.get())
@@ -209,7 +209,7 @@ public class BetterChat extends Module {
     );
     
     private final Setting<Boolean> prefixSmallCaps = sgPrefix.add(new BoolSetting.Builder()
-        .name("small-caps")
+        .name("prefix-small-caps")
         .description("Uses small caps in the prefix.")
         .defaultValue(false)
         .visible(() -> !prefixRandom.get())
@@ -226,22 +226,22 @@ public class BetterChat extends Module {
     );
     
     private final Setting<Boolean> suffixRandom = sgSuffix.add(new BoolSetting.Builder()
-        .name("random")
+        .name("suffix-random")
         .description("Uses a random number as your suffix.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<String> suffixText = sgSuffix.add(new StringSetting.Builder()
-        .name("text")
+        .name("suffix-text")
         .description("The text to add as your suffix.")
-        .defaultValue(" | meteor on crack!")
+        .defaultValue(" <")
         .visible(() -> !suffixRandom.get())
         .build()
     );
     
     private final Setting<Boolean> suffixSmallCaps = sgSuffix.add(new BoolSetting.Builder()
-        .name("small-caps")
+        .name("suffix-small-caps")
         .description("Uses small caps in the suffix.")
         .defaultValue(true)
         .visible(() -> !suffixRandom.get())
@@ -257,7 +257,7 @@ public class BetterChat extends Module {
     public final IntList lines = new IntArrayList();
     
     public BetterChat() {
-        super(Categories.Misc, "better-chat", "Improves your chat experience in various ways.");
+        super(Categories.Misc, "BetterChat", "Improves your chat experience in various ways.");
         
         String[] a = "abcdefghijklmnopqrstuvwxyz".split("");
         String[] b = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴩqʀꜱᴛᴜᴠᴡxyᴢ".split("");

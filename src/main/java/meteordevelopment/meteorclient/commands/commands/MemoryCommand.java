@@ -12,7 +12,7 @@ import net.minecraft.command.CommandSource;
 public class MemoryCommand extends Command {
     
     public MemoryCommand() {
-        super("memory", "Call System.gc().", "gc");
+        super("Memory", "Call System.gc().", "GC");
     }
     
     public void build(LiteralArgumentBuilder<CommandSource> builder) {

@@ -21,8 +21,8 @@ public class StatusEffectAmplifierMapSetting extends Setting<Reference2IntMap<St
     
     public static final Reference2IntMap<StatusEffect> EMPTY_STATUS_EFFECT_MAP = createStatusEffectMap();
     
-    public StatusEffectAmplifierMapSetting(String name, String description, Reference2IntMap<StatusEffect> defaultValue, Consumer<Reference2IntMap<StatusEffect>> onChanged, Consumer<Setting<Reference2IntMap<StatusEffect>>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public StatusEffectAmplifierMapSetting(String name, String title, String description, Reference2IntMap<StatusEffect> defaultValue, Consumer<Reference2IntMap<StatusEffect>> onChanged, Consumer<Setting<Reference2IntMap<StatusEffect>>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     @Override
@@ -101,7 +101,7 @@ public class StatusEffectAmplifierMapSetting extends Setting<Reference2IntMap<St
         
         @Override
         public StatusEffectAmplifierMapSetting build() {
-            return new StatusEffectAmplifierMapSetting(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new StatusEffectAmplifierMapSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

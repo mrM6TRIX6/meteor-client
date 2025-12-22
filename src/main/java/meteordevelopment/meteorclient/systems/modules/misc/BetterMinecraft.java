@@ -30,7 +30,7 @@ public class BetterMinecraft extends Module {
     );
     
     public BetterMinecraft() {
-        super(Categories.Misc, "better-minecraft", "Various simple improvements to enhance your gaming experience.");
+        super(Categories.Misc, "BetterMinecraft", "Various simple improvements to enhance your gaming experience.");
     }
     
     public boolean paragraphs() {

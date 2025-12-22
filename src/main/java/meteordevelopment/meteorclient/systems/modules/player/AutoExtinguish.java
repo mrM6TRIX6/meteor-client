@@ -97,7 +97,7 @@ public class AutoExtinguish extends Module {
     private static final StatusEffect FIRE_RESISTANCE = Registries.STATUS_EFFECT.get(Identifier.of("fire_resistance"));
     
     public AutoExtinguish() {
-        super(Categories.Player, "auto-extinguish", "Automatically extinguishes fire around you.");
+        super(Categories.Player, "AutoExtinguish", "Automatically extinguishes fire around you.");
     }
     
     @EventHandler

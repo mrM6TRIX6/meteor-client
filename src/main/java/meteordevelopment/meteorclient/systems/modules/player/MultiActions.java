@@ -23,7 +23,7 @@ public class MultiActions extends Module {
     );
     
     public MultiActions() {
-        super(Categories.Player, "multi-actions", "Lets you use items and attack at the same time.");
+        super(Categories.Player, "MultiActions", "Lets you use items and attack at the same time.");
     }
     
     public boolean attackingEntities() {

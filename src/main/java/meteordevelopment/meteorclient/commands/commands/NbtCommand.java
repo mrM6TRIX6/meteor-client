@@ -38,7 +38,7 @@ import java.util.*;
 public class NbtCommand extends Command {
     
     public NbtCommand() {
-        super("nbt", "Modifies NBT data for an item, example: .nbt add [minecraft:item_name=\"Test\"]");
+        super("NBT", "Modifies NBT data for an item, example: .nbt add [minecraft:item_name=\"Test\"]");
     }
     
     @Override
@@ -50,7 +50,7 @@ public class NbtCommand extends Command {
                     
                     if (validBasic(stack)) {
                         ComponentMap itemComponents = stack.getComponents();
-                        ComponentMap newComponents = ComponentMapArgumentType.getComponentMap(ctx, "component");
+                        ComponentMap newComponents = ComponentMapArgumentType.get(ctx, "component");
                         ComponentMap testComponents = ComponentMap.of(itemComponents, newComponents);
                         
                         stack.applyComponentsFrom(testComponents);
@@ -68,7 +68,7 @@ public class NbtCommand extends Command {
                     ItemStack stack = mc.player.getInventory().getSelectedStack();
                     
                     if (validBasic(stack)) {
-                        ComponentMap components = ComponentMapArgumentType.getComponentMap(ctx, "component");
+                        ComponentMap components = ComponentMapArgumentType.get(ctx, "component");
                         MergedComponentMap stackComponents = (MergedComponentMap) stack.getComponents();
                         
                         ComponentChanges.Builder changesBuilder = ComponentChanges.builder();

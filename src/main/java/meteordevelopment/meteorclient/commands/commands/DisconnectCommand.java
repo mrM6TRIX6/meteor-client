@@ -26,7 +26,7 @@ public class DisconnectCommand extends Command {
     private final static SimpleCommandExceptionType NOT_IN_MULTIPLAYER = new SimpleCommandExceptionType(Text.literal("You must be in multiplayer to use this."));
     
     public DisconnectCommand() {
-        super("disconnect", "Disconnect from the server.", "kick", "quit");
+        super("Disconnect", "Disconnect from the server.", "Kick", "Quit");
     }
     
     @Override

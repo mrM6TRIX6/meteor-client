@@ -46,7 +46,7 @@ public class Chams extends Module {
     );
     
     public final Setting<SettingColor> shaderColor = sgThroughWalls.add(new ColorSetting.Builder()
-        .name("color")
+        .name("shader-color")
         .description("The color that the shader is drawn with.")
         .defaultValue(new SettingColor(255, 255, 255, 150))
         .visible(() -> shader.get() != Shader.None)
@@ -54,7 +54,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Boolean> ignoreSelfDepth = sgThroughWalls.add(new BoolSetting.Builder()
-        .name("ignore-self")
+        .name("ignore-self-depth")
         .description("Ignores yourself drawing the player.")
         .defaultValue(true)
         .build()
@@ -78,7 +78,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Boolean> playersTexture = sgPlayers.add(new BoolSetting.Builder()
-        .name("texture")
+        .name("players-texture")
         .description("Enables player model textures.")
         .defaultValue(false)
         .visible(players::get)
@@ -86,7 +86,7 @@ public class Chams extends Module {
     );
     
     public final Setting<SettingColor> playersColor = sgPlayers.add(new ColorSetting.Builder()
-        .name("color")
+        .name("players-color")
         .description("The color of player models.")
         .defaultValue(new SettingColor(198, 135, 254, 150))
         .visible(players::get)
@@ -94,7 +94,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Double> playersScale = sgPlayers.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("players-scale")
         .description("Players scale.")
         .defaultValue(1.0)
         .min(0.0)
@@ -112,7 +112,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Double> crystalsScale = sgCrystals.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("crystals-scale")
         .description("Crystal scale.")
         .defaultValue(0.6)
         .min(0)
@@ -139,7 +139,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Boolean> crystalsTexture = sgCrystals.add(new BoolSetting.Builder()
-        .name("texture")
+        .name("crystal-texture")
         .description("Whether to render crystal model textures.")
         .defaultValue(true)
         .visible(crystals::get)
@@ -164,7 +164,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Boolean> handTexture = sgHand.add(new BoolSetting.Builder()
-        .name("texture")
+        .name("hand-texture")
         .description("Whether to render hand textures.")
         .defaultValue(false)
         .visible(hand::get)
@@ -182,7 +182,7 @@ public class Chams extends Module {
     public static final Identifier BLANK = MeteorClient.identifier("textures/blank.png");
     
     public Chams() {
-        super(Categories.Render, "chams", "Tweaks rendering of entities.");
+        super(Categories.Render, "Chams", "Tweaks rendering of entities.");
     }
     
     public boolean shouldRender(Entity entity) {

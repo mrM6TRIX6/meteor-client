@@ -18,8 +18,8 @@ public class ColorSetting extends Setting<SettingColor> {
     
     private static final List<String> SUGGESTIONS = List.of("0 0 0 255", "225 25 25 255", "25 225 25 255", "25 25 225 255", "255 255 255 255");
     
-    public ColorSetting(String name, String description, SettingColor defaultValue, Consumer<SettingColor> onChanged, Consumer<Setting<SettingColor>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public ColorSetting(String name, String title, String description, SettingColor defaultValue, Consumer<SettingColor> onChanged, Consumer<Setting<SettingColor>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     @Override
@@ -75,7 +75,7 @@ public class ColorSetting extends Setting<SettingColor> {
         
         @Override
         public ColorSetting build() {
-            return new ColorSetting(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new ColorSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
         @Override

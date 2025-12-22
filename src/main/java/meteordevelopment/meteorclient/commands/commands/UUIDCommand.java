@@ -18,7 +18,7 @@ import net.minecraft.util.Formatting;
 public class UUIDCommand extends Command {
     
     public UUIDCommand() {
-        super("uuid", "Shows the UUID of the player.");
+        super("UUID", "Shows the UUID of the player.");
     }
     
     @Override
@@ -29,7 +29,7 @@ public class UUIDCommand extends Command {
                 String playerName = player.getProfile().getName();
                 String uuid = player.getProfile().getId().toString();
                 
-                Text message = createUuidMessage(playerName, uuid);
+                Text message = createUUIDMessage(playerName, uuid);
                 info(message);
                 
                 return SINGLE_SUCCESS;
@@ -37,7 +37,7 @@ public class UUIDCommand extends Command {
         );
     }
     
-    private Text createUuidMessage(String playerName, String uuid) {
+    private Text createUUIDMessage(String playerName, String uuid) {
         Text uuidText = Text.literal(uuid)
             .styled(style -> style
                 .withColor(Formatting.WHITE)

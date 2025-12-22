@@ -29,7 +29,7 @@ public class ParkourBot extends Module {
     );
     
     public ParkourBot() {
-        super(Categories.Movement, "parkour-bot", "Powerful parkour bot for MineBlaze parkour.");
+        super(Categories.Movement, "ParkourBot", "Powerful parkour bot for MineBlaze parkour.");
     }
     
     private int ticks = 0;

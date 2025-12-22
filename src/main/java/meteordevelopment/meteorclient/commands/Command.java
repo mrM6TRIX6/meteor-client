@@ -18,6 +18,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.text.Text;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class Command {
     
@@ -25,15 +26,20 @@ public abstract class Command {
     protected static final MinecraftClient mc = MeteorClient.mc;
     
     private final String name;
-    private final String title;
     private final String description;
     private final List<String> aliases;
     
     public Command(String name, String description, String... aliases) {
+        if (name.contains(" ")) {
+            throw new IllegalArgumentException("Command '%s' contains invalid characters in name.".formatted(name));
+        }
+        
         this.name = name;
-        this.title = Utils.nameToTitle(name);
         this.description = description;
-        this.aliases = List.of(aliases);
+        this.aliases = Stream.of(aliases)
+            .map(String::toLowerCase)
+            .distinct()
+            .toList();
     }
     
     // Helper methods to painlessly infer the CommandSource generic type argument
@@ -46,7 +52,7 @@ public abstract class Command {
     }
     
     public final void registerTo(CommandDispatcher<CommandSource> dispatcher) {
-        register(dispatcher, name);
+        register(dispatcher, name.toLowerCase());
         for (String alias : aliases) {
             register(dispatcher, alias);
         }
@@ -73,7 +79,7 @@ public abstract class Command {
     }
     
     public String toString() {
-        return ClientSettings.get().prefix.get() + name;
+        return ClientSettings.get().prefix.get() + name.toLowerCase();
     }
     
     public String toString(String... args) {
@@ -86,22 +92,22 @@ public abstract class Command {
     
     public void info(Text message) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.sendMsg(title, message);
+        ChatUtils.sendMsg(name, message);
     }
     
     public void info(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.infoPrefix(title, message, args);
+        ChatUtils.infoPrefix(name, message, args);
     }
     
     public void warning(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.warningPrefix(title, message, args);
+        ChatUtils.warningPrefix(name, message, args);
     }
     
     public void error(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.errorPrefix(title, message, args);
+        ChatUtils.errorPrefix(name, message, args);
     }
     
 }

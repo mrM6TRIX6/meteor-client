@@ -17,13 +17,27 @@ import java.util.List;
 
 public class SettingGroup implements ISerializable<SettingGroup>, Iterable<Setting<?>> {
     
-    public final String name;
-    public boolean sectionExpanded;
+    private final Settings parent;
+    private final String name;
+    private boolean sectionExpanded;
     
     final List<Setting<?>> settings = new ArrayList<>(1);
     
-    SettingGroup(String name, boolean sectionExpanded) {
+    SettingGroup(Settings parent, String name, boolean sectionExpanded) {
+        this.parent = parent;
         this.name = name;
+        this.sectionExpanded = sectionExpanded;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public boolean isSectionExpanded() {
+        return sectionExpanded;
+    }
+    
+    public void setSectionExpanded(boolean sectionExpanded) {
         this.sectionExpanded = sectionExpanded;
     }
     
@@ -38,6 +52,14 @@ public class SettingGroup implements ISerializable<SettingGroup>, Iterable<Setti
     }
     
     public <T> Setting<T> add(Setting<T> setting) {
+        parent.forEach(group ->
+            group.forEach(existing -> {
+                if (existing.name.equalsIgnoreCase(setting.name)) {
+                    throw new IllegalArgumentException("Setting with name '%s' already exists".formatted(setting.name));
+                }
+            })
+        );
+        
         settings.add(setting);
         
         return setting;

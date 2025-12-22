@@ -71,7 +71,7 @@ public class Settings implements ISerializable<Settings>, Iterable<SettingGroup>
     
     public SettingGroup getGroup(String name) {
         for (SettingGroup sg : this) {
-            if (sg.name.equals(name)) {
+            if (sg.getName().equals(name)) {
                 return sg;
             }
         }
@@ -91,7 +91,13 @@ public class Settings implements ISerializable<Settings>, Iterable<SettingGroup>
     }
     
     public SettingGroup createGroup(String name, boolean expanded) {
-        SettingGroup group = new SettingGroup(name, expanded);
+        groups.forEach(existing -> {
+            if (existing.getName().equalsIgnoreCase(name)) {
+                throw new IllegalArgumentException("Setting group with name '%s' already exists".formatted(name));
+            }
+        });
+        
+        SettingGroup group = new SettingGroup(this, name, expanded);
         groups.add(group);
         return group;
     }

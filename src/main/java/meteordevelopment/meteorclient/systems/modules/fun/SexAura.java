@@ -39,10 +39,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_MIDDLE;
 
 public class SexAura extends Module {
+    
+    private static double renderY;
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgPos = settings.createGroup("Sex Position");
@@ -85,7 +88,7 @@ public class SexAura extends Module {
     );
     
     private final Setting<Integer> sexDelay = sgPos.add(new IntSetting.Builder()
-        .name("delay")
+        .name("sex-delay")
         .description("Delay for sex movements in ticks")
         .defaultValue(3)
         .sliderRange(0, 20)
@@ -168,9 +171,7 @@ public class SexAura extends Module {
         .build()
     );
     
-    private static double renderY;
-    private static final Random random = new Random();
-    
+    private final Random random = new Random();
     private final List<Entity> targets = new ArrayList<>();
     
     private int messageI, timer, timerSex, sexI;
@@ -178,7 +179,7 @@ public class SexAura extends Module {
     private Entity target = null;
     
     public SexAura() {
-        super(Categories.Fun, "sex-aura", "Automatic Minecraft Sex RP.");
+        super(Categories.Fun, "SexAura", "Automatic Minecraft Sex RP.");
     }
     
     @Override
@@ -359,7 +360,7 @@ public class SexAura extends Module {
     }
     
     private static double getRenderY() {
-        double randomValue = 0.2 + (0.0 - 0.05) * random.nextDouble();
+        double randomValue = 0.2 + (0.0 - 0.05) * ThreadLocalRandom.current().nextDouble();
         if (renderY >= 0.3) {
             renderY = 0;
         }

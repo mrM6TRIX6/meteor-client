@@ -59,12 +59,12 @@ public abstract class ChatInputSuggestorMixin {
             reader.setCursor(reader.getCursor() + length);
             
             if (this.parse == null) {
-                this.parse = Commands.DISPATCHER.parse(reader, mc.getNetworkHandler().getCommandSource());
+                this.parse = Commands.getDispatcher().parse(reader, mc.getNetworkHandler().getCommandSource());
             }
             
             int cursor = textField.getCursor();
             if (cursor >= length && (this.window == null || !this.completingSuggestions)) {
-                this.pendingSuggestions = Commands.DISPATCHER.getCompletionSuggestions(this.parse, cursor);
+                this.pendingSuggestions = Commands.getDispatcher().getCompletionSuggestions(this.parse, cursor);
                 this.pendingSuggestions.thenRun(() -> {
                     if (this.pendingSuggestions.isDone()) {
                         this.showCommandSuggestions();

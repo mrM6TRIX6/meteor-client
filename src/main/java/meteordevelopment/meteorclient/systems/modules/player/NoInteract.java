@@ -130,7 +130,7 @@ public class NoInteract extends Module {
     );
     
     public NoInteract() {
-        super(Categories.Player, "no-interact", "Blocks interactions with certain types of inputs.");
+        super(Categories.Player, "NoInteract", "Blocks interactions with certain types of inputs.");
     }
     
     @EventHandler(priority = EventPriority.HIGH)

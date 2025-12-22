@@ -20,12 +20,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class SptpCommand extends Command {
+public class SPTPCommand extends Command {
     
     SpectatorTeleport spectatorTeleport = Modules.get().get(SpectatorTeleport.class);
     
-    public SptpCommand() {
-        super("sptp", "Teleports you with spectator mode teleport packet.");
+    public SPTPCommand() {
+        super("SPTP", "Teleports you with spectator mode teleport packet.");
     }
     
     @Override

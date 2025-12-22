@@ -21,15 +21,15 @@ public class SettingValueArgumentType implements ArgumentType<String> {
     
     private static final SettingValueArgumentType INSTANCE = new SettingValueArgumentType();
     
+    private SettingValueArgumentType() {}
+    
     public static SettingValueArgumentType create() {
         return INSTANCE;
     }
     
-    public static String get(CommandContext<?> context) {
-        return context.getArgument("value", String.class);
+    public static String get(CommandContext<?> context, String name) {
+        return context.getArgument(name, String.class);
     }
-    
-    private SettingValueArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {

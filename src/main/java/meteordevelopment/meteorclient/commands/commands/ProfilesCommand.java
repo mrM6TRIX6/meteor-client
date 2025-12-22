@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.commands.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
-import meteordevelopment.meteorclient.commands.arguments.ProfileArgumentType;
+import meteordevelopment.meteorclient.commands.arguments.ConfigArgumentTYpe;
 import meteordevelopment.meteorclient.systems.configs.Config;
 import meteordevelopment.meteorclient.systems.configs.Configs;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
@@ -16,15 +16,15 @@ import net.minecraft.command.CommandSource;
 public class ProfilesCommand extends Command {
     
     public ProfilesCommand() {
-        super("profiles", "Manages profiles.");
+        super("Configs", "Manages configs.", "Cfg");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(literal("load")
-            .then(argument("profile", ProfileArgumentType.create())
+            .then(argument("config", ConfigArgumentTYpe.create())
                 .executes(context -> {
-                    Config config = ProfileArgumentType.get(context);
+                    Config config = ConfigArgumentTYpe.get(context, "config");
                     if (config != null) {
                         config.load();
                         info("Loaded config (highlight)%s(default).", config.name.get());
@@ -36,9 +36,9 @@ public class ProfilesCommand extends Command {
         );
         
         builder.then(literal("save")
-            .then(argument("profile", ProfileArgumentType.create())
+            .then(argument("config", ConfigArgumentTYpe.create())
                 .executes(context -> {
-                    Config config = ProfileArgumentType.get(context);
+                    Config config = ConfigArgumentTYpe.get(context, "config");
                     if (config != null) {
                         config.save();
                         info("Saved config (highlight)%s(default).", config.name.get());
@@ -50,9 +50,9 @@ public class ProfilesCommand extends Command {
         );
         
         builder.then(literal("remove")
-            .then(argument("profile", ProfileArgumentType.create())
+            .then(argument("config", ConfigArgumentTYpe.create())
                 .executes(context -> {
-                    Config config = ProfileArgumentType.get(context);
+                    Config config = ConfigArgumentTYpe.get(context, "config");
                     if (config != null) {
                         Configs.get().remove(config);
                         info("Deleted config (highlight)%s(default).", config.name.get());

@@ -22,7 +22,7 @@ import java.util.List;
 public class MacroCommand extends Command {
     
     public MacroCommand() {
-        super("macro", "Allows you to execute macros.");
+        super("Macro", "Allows you to execute macros.");
         
         MeteorClient.EVENT_BUS.subscribe(this);
     }
@@ -46,7 +46,7 @@ public class MacroCommand extends Command {
             })
             .then(argument("macro", MacroArgumentType.create())
                 .executes(context -> {
-                    Macro macro = MacroArgumentType.get(context);
+                    Macro macro = MacroArgumentType.get(context, "macro");
                     
                     if (!isScheduled(macro)) {
                         error("This macro is not currently scheduled.");
@@ -61,14 +61,14 @@ public class MacroCommand extends Command {
         )
         .then(argument("macro", MacroArgumentType.create())
             .executes(context -> {
-                Macro macro = MacroArgumentType.get(context);
+                Macro macro = MacroArgumentType.get(context, "macro");
                 scheduleQueue.add(new ScheduledMacro(0, macro));
                 
                 return SINGLE_SUCCESS;
             })
             .then(argument("delay", TimeArgumentType.time())
                 .executes(context -> {
-                    Macro macro = MacroArgumentType.get(context);
+                    Macro macro = MacroArgumentType.get(context, "macro");
                     scheduleQueue.add(new ScheduledMacro(IntegerArgumentType.getInteger(context, "delay"), macro));
                     
                     return SINGLE_SUCCESS;

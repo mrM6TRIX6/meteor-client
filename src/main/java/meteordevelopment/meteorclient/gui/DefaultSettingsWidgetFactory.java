@@ -108,8 +108,8 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
     }
     
     private void group(WVerticalList list, SettingGroup group, String filter, List<RemoveInfo> removeInfoList) {
-        WSection section = list.add(theme.section(group.name, group.sectionExpanded)).expandX().widget();
-        section.action = () -> group.sectionExpanded = section.isExpanded();
+        WSection section = list.add(theme.section(group.getName(), group.isSectionExpanded())).expandX().widget();
+        section.action = () -> group.setSectionExpanded(section.isExpanded());
         
         WTable table = section.add(theme.table()).expandX().widget();
         
@@ -456,7 +456,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
                     defaultValue = setting.getDefaultValue().get(_i);
                 }
                 
-                ColorSetting set = new ColorSetting(setting.name, setting.description, defaultValue, settingColor -> {
+                ColorSetting set = new ColorSetting(setting.name, setting.title, setting.description, defaultValue, settingColor -> {
                     setting.get().get(_i).set(settingColor);
                     setting.onChanged();
                 }, null, null);

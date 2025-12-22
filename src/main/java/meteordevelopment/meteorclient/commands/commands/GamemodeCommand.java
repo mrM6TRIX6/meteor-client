@@ -14,7 +14,7 @@ import net.minecraft.world.GameMode;
 public class GamemodeCommand extends Command {
     
     public GamemodeCommand() {
-        super("gamemode", "Changes your gamemode client-side.", "gm");
+        super("GameMode", "Changes your gamemode client-side.", "GM");
     }
     
     @Override

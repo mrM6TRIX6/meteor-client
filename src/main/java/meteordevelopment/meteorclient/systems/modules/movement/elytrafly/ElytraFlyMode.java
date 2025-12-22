@@ -110,7 +110,7 @@ public class ElytraFlyMode {
             return;
         }
         
-        if (elytraFly.autoPilot.get() && mc.player.getY() > elytraFly.autoPilotMinimumHeight.get() && elytraFly.flightMode.get() != ElytraFlyModes.Bounce) {
+        if (elytraFly.autoPilot.get() && mc.player.getY() > elytraFly.autoPilotMinimumHeight.get() && elytraFly.flightMode.get() != ElytraFlyModes.BOUNCE) {
             mc.options.forwardKey.setPressed(true);
             lastForwardPressed = true;
         }

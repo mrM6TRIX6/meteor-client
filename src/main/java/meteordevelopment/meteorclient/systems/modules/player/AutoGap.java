@@ -125,7 +125,7 @@ public class AutoGap extends Module {
     private boolean wasBaritone;
     
     public AutoGap() {
-        super(Categories.Player, "auto-gap", "Automatically eats Gaps or E-Gaps.");
+        super(Categories.Player, "AutoGap", "Automatically eats Gaps or E-Gaps.");
     }
     
     @Override

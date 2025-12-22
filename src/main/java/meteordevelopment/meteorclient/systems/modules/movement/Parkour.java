@@ -31,7 +31,7 @@ public class Parkour extends Module {
     );
     
     public Parkour() {
-        super(Categories.Movement, "parkour", "Automatically jumps at the edges of blocks.");
+        super(Categories.Movement, "Parkour", "Automatically jumps at the edges of blocks.");
     }
     
     @EventHandler

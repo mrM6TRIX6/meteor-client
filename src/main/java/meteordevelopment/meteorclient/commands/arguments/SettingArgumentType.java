@@ -14,6 +14,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import net.minecraft.command.CommandSource;
 import net.minecraft.text.Text;
@@ -25,6 +26,8 @@ public class SettingArgumentType implements ArgumentType<String> {
     
     private static final SettingArgumentType INSTANCE = new SettingArgumentType();
     private static final DynamicCommandExceptionType NO_SUCH_SETTING = new DynamicCommandExceptionType(name -> Text.literal("No such setting '" + name + "'."));
+    
+    private SettingArgumentType() {}
     
     public static SettingArgumentType create() {
         return INSTANCE;
@@ -41,8 +44,6 @@ public class SettingArgumentType implements ArgumentType<String> {
         
         return setting;
     }
-    
-    private SettingArgumentType() {}
     
     @Override
     public String parse(StringReader reader) throws CommandSyntaxException {

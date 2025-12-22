@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 public class Fullbright extends Module {
     
     public Fullbright() {
-        super(Categories.Render, "fullbright", "Lights up your world!");
+        super(Categories.Render, "Fullbright", "Lights up your world!");
     }
     
 }

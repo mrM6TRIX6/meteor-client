@@ -18,8 +18,8 @@ public class RangeSetting extends Setting<Range> {
     public final int sliderMin, sliderMax;
     public final boolean noSlider;
     
-    private RangeSetting(String name, String description, Range defaultValue, Consumer<Range> onChanged, Consumer<Setting<Range>> onModuleActivated, IVisible visible, int min, int max, int sliderMin, int sliderMax, boolean noSlider) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    private RangeSetting(String name, String title, String description, Range defaultValue, Consumer<Range> onChanged, Consumer<Setting<Range>> onModuleActivated, IVisible visible, int min, int max, int sliderMin, int sliderMax, boolean noSlider) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
         this.min = min;
         this.max = max;
@@ -109,7 +109,7 @@ public class RangeSetting extends Setting<Range> {
         
         @Override
         public RangeSetting build() {
-            return new RangeSetting(name, description, defaultValue, onChanged, onModuleActivated, visible, min, max, Math.max(sliderMin, min), Math.min(sliderMax, max), noSlider);
+            return new RangeSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible, min, max, Math.max(sliderMin, min), Math.min(sliderMax, max), noSlider);
         }
         
     }

@@ -18,8 +18,8 @@ import java.util.function.Consumer;
 
 public class ColorListSetting extends Setting<List<SettingColor>> {
     
-    public ColorListSetting(String name, String description, List<SettingColor> defaultValue, Consumer<List<SettingColor>> onChanged, Consumer<Setting<List<SettingColor>>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public ColorListSetting(String name, String title, String description, List<SettingColor> defaultValue, Consumer<List<SettingColor>> onChanged, Consumer<Setting<List<SettingColor>>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     @Override
@@ -75,7 +75,7 @@ public class ColorListSetting extends Setting<List<SettingColor>> {
         
         @Override
         public ColorListSetting build() {
-            return new ColorListSetting(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new ColorListSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

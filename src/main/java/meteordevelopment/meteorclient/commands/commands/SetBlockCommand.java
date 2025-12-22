@@ -19,16 +19,16 @@ import net.minecraft.util.math.Vec3d;
 public class SetBlockCommand extends Command {
     
     public SetBlockCommand() {
-        super("setblock", "Sets client side blocks.");
+        super("SetBlock", "Sets client side blocks.");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(argument("pos", ClientPosArgumentType.pos())
             .then(argument("block", BlockStateArgumentType.blockState(RegistryUtils.REGISTRY_ACCESS))
-                .executes(ctx -> {
-                    Vec3d pos = ClientPosArgumentType.getPos(ctx, "pos");
-                    BlockState blockState = ctx.getArgument("block", BlockStateArgument.class).getBlockState();
+                .executes(context -> {
+                    Vec3d pos = ClientPosArgumentType.getPos(context, "pos");
+                    BlockState blockState = context.getArgument("block", BlockStateArgument.class).getBlockState();
                     
                     mc.world.setBlockState(new BlockPos((int) pos.getX(), (int) pos.getY(), (int) pos.getZ()), blockState);
                     

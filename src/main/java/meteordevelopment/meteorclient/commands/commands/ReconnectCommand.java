@@ -18,7 +18,7 @@ import net.minecraft.text.Text;
 public class ReconnectCommand extends Command {
     
     public ReconnectCommand() {
-        super("reconnect", "Reconnects server.");
+        super("Reconnect", "Reconnects server.");
     }
     
     @Override

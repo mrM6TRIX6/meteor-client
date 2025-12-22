@@ -45,7 +45,7 @@ public class SwarmCommand extends Command {
     private @Nullable ObjectIntPair<String> pendingConnection;
     
     public SwarmCommand() {
-        super("swarm", "Sends commands to connected swarm workers.");
+        super("Swarm", "Sends commands to connected swarm workers.");
     }
     
     @Override
@@ -158,7 +158,7 @@ public class SwarmCommand extends Command {
             })
             .then(argument("player", PlayerArgumentType.create())
                 .executes(context -> {
-                    PlayerEntity playerEntity = PlayerArgumentType.get(context);
+                    PlayerEntity playerEntity = PlayerArgumentType.get(context, "player");
                     
                     Swarm swarm = Modules.get().get(Swarm.class);
                     if (swarm.isActive()) {
@@ -314,7 +314,7 @@ public class SwarmCommand extends Command {
                         if (swarm.isHost()) {
                             swarm.host.sendMessage(context.getInput());
                         } else if (swarm.isWorker()) {
-                            Module module = ModuleArgumentType.get(context);
+                            Module module = ModuleArgumentType.get(context, "module");
                             module.toggle();
                         }
                     } else {
@@ -330,7 +330,7 @@ public class SwarmCommand extends Command {
                             if (swarm.isHost()) {
                                 swarm.host.sendMessage(context.getInput());
                             } else if (swarm.isWorker()) {
-                                Module m = ModuleArgumentType.get(context);
+                                Module m = ModuleArgumentType.get(context, "module");
                                 if (!m.isActive()) {
                                     m.toggle();
                                 }
@@ -349,7 +349,7 @@ public class SwarmCommand extends Command {
                             if (swarm.isHost()) {
                                 swarm.host.sendMessage(context.getInput());
                             } else if (swarm.isWorker()) {
-                                Module m = ModuleArgumentType.get(context);
+                                Module m = ModuleArgumentType.get(context, "module");
                                 if (m.isActive()) {
                                     m.toggle();
                                 }

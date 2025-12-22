@@ -24,11 +24,11 @@ public class NotebotSongArgumentType implements ArgumentType<Path> {
     
     private static final NotebotSongArgumentType INSTANCE = new NotebotSongArgumentType();
     
+    private NotebotSongArgumentType() {}
+    
     public static NotebotSongArgumentType create() {
         return INSTANCE;
     }
-    
-    private NotebotSongArgumentType() {}
     
     @Override
     public Path parse(StringReader reader) throws CommandSyntaxException {

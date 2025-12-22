@@ -81,21 +81,21 @@ public class Notifier extends Module {
     );
     
     private final Setting<Boolean> totemsIgnoreOwn = sgTotemPops.add(new BoolSetting.Builder()
-        .name("ignore-own")
+        .name("totems-ignore-own")
         .description("Ignores your own totem pops.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> totemsIgnoreFriends = sgTotemPops.add(new BoolSetting.Builder()
-        .name("ignore-friends")
+        .name("totems-ignore-friends")
         .description("Ignores friends totem pops.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> totemsIgnoreOthers = sgTotemPops.add(new BoolSetting.Builder()
-        .name("ignore-others")
+        .name("totems-ignore-others")
         .description("Ignores other players totem pops.")
         .defaultValue(false)
         .build()
@@ -125,14 +125,14 @@ public class Notifier extends Module {
     );
     
     private final Setting<Boolean> visualRangeIgnoreFriends = sgVisualRange.add(new BoolSetting.Builder()
-        .name("ignore-friends")
+        .name("vr-ignore-friends")
         .description("Ignores friends.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> visualRangeIgnoreFakes = sgVisualRange.add(new BoolSetting.Builder()
-        .name("ignore-fake-players")
+        .name("vr-ignore-fake-players")
         .description("Ignores fake players.")
         .defaultValue(true)
         .build()
@@ -155,14 +155,14 @@ public class Notifier extends Module {
     );
     
     private final Setting<Boolean> pearlIgnoreOwn = sgPearl.add(new BoolSetting.Builder()
-        .name("ignore-own")
+        .name("pearl-ignore-own")
         .description("Ignores your own pearls.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> pearlIgnoreFriends = sgPearl.add(new BoolSetting.Builder()
-        .name("ignore-friends")
+        .name("pearl-ignore-friends")
         .description("Ignores friends pearls.")
         .defaultValue(false)
         .build()
@@ -222,14 +222,14 @@ public class Notifier extends Module {
     );
     
     private final Setting<Boolean> gamemodesIgnoreOwn = sgGamemodeChanges.add(new BoolSetting.Builder()
-        .name("ignore-own")
+        .name("gms-ignore-own")
         .description("Ignores your own gamemode changes.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> gamemodesIgnoreFriends = sgGamemodeChanges.add(new BoolSetting.Builder()
-        .name("ignore-friends")
+        .name("gms-ignore-friends")
         .description("Ignores friends gamemode changes.")
         .defaultValue(false)
         .build()
@@ -245,7 +245,7 @@ public class Notifier extends Module {
     private final Random random = new Random();
     
     public Notifier() {
-        super(Categories.Misc, "notifier", "Notifies you of different events.");
+        super(Categories.Misc, "Notifier", "Notifies you of different events.");
     }
     
     // Visual Range

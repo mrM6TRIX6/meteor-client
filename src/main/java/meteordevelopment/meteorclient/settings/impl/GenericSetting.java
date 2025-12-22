@@ -16,8 +16,8 @@ import java.util.function.Consumer;
 
 public class GenericSetting<T extends ICopyable<T> & ISerializable<T> & IScreenFactory> extends Setting<T> {
     
-    public GenericSetting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public GenericSetting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     @Override
@@ -60,7 +60,7 @@ public class GenericSetting<T extends ICopyable<T> & ISerializable<T> & IScreenF
         
         @Override
         public GenericSetting<T> build() {
-            return new GenericSetting<>(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new GenericSetting<>(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

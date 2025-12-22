@@ -232,7 +232,7 @@ public class AnchorAura extends Module {
     private final BlockPos.Mutable mutable = new BlockPos.Mutable();
     
     public AnchorAura() {
-        super(Categories.Combat, "anchor-aura", "Automatically places and breaks Respawn Anchors to harm entities.");
+        super(Categories.Combat, "AnchorAura", "Automatically places and breaks Respawn Anchors to harm entities.");
     }
     
     @Override

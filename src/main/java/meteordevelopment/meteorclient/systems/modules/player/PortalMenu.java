@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 public class PortalMenu extends Module {
     
     public PortalMenu() {
-        super(Categories.Player, "portal-menu", "Allows you to use GUIs normally while in a Nether Portal.");
+        super(Categories.Player, "PortalMenu", "Allows you to use GUIs normally while in a Nether Portal.");
     }
     
 }

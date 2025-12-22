@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 public class NoFOV extends Module {
     
     public NoFOV() {
-        super(Categories.Render, "no-fov", "Does not allow your movement speed to affect your FOV.");
+        super(Categories.Render, "NoFOV", "Does not allow your movement speed to affect your FOV.");
     }
     
 }

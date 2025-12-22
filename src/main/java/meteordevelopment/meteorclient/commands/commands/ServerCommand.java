@@ -54,7 +54,7 @@ public class ServerCommand extends Command {
     private int completionId;
     
     public ServerCommand() {
-        super("server", "Prints server information.");
+        super("Server", "Prints server information.");
         
         ports.put(20, "FTP");
         ports.put(22, "SSH");

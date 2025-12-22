@@ -9,7 +9,7 @@ import meteordevelopment.orbit.EventHandler;
 public class NoJumpDelay extends Module {
     
     public NoJumpDelay() {
-        super(Categories.Movement, "no-jump-delay", "NoJumpDelay.");
+        super(Categories.Movement, "NoJumpDelay", "NoJumpDelay.");
     }
     
     @EventHandler

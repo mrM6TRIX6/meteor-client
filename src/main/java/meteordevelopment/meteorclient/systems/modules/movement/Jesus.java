@@ -64,7 +64,7 @@ public class Jesus extends Module {
     // Water
     
     private final Setting<Mode> waterMode = sgWater.add(new EnumSetting.Builder<Mode>()
-        .name("mode")
+        .name("water-mode")
         .description("How to treat the water.")
         .defaultValue(Mode.Solid)
         .build()
@@ -79,7 +79,7 @@ public class Jesus extends Module {
     );
     
     private final Setting<Boolean> dipOnSneakWater = sgWater.add(new BoolSetting.Builder()
-        .name("dip-on-sneak")
+        .name("dip-on-sneak-water")
         .description("Lets you go into the water when your sneak key is held.")
         .defaultValue(true)
         .visible(() -> waterMode.get() == Mode.Solid)
@@ -87,7 +87,7 @@ public class Jesus extends Module {
     );
     
     private final Setting<Boolean> dipOnFallWater = sgWater.add(new BoolSetting.Builder()
-        .name("dip-on-fall")
+        .name("dip-on-fall-water")
         .description("Lets you go into the water when you fall over a certain height.")
         .defaultValue(true)
         .visible(() -> waterMode.get() == Mode.Solid)
@@ -95,7 +95,7 @@ public class Jesus extends Module {
     );
     
     private final Setting<Integer> dipFallHeightWater = sgWater.add(new IntSetting.Builder()
-        .name("dip-fall-height")
+        .name("dip-fall-height-water")
         .description("The fall height at which you will go into the water.")
         .defaultValue(4)
         .range(1, 255)
@@ -107,7 +107,7 @@ public class Jesus extends Module {
     // Lava
     
     private final Setting<Mode> lavaMode = sgLava.add(new EnumSetting.Builder<Mode>()
-        .name("mode")
+        .name("lava-mode")
         .description("How to treat the lava.")
         .defaultValue(Mode.Solid)
         .build()
@@ -122,7 +122,7 @@ public class Jesus extends Module {
     );
     
     private final Setting<Boolean> dipOnSneakLava = sgLava.add(new BoolSetting.Builder()
-        .name("dip-on-sneak")
+        .name("dip-on-sneak-lava")
         .description("Lets you go into the lava when your sneak key is held.")
         .defaultValue(true)
         .visible(() -> lavaMode.get() == Mode.Solid)
@@ -130,7 +130,7 @@ public class Jesus extends Module {
     );
     
     private final Setting<Boolean> dipOnFallLava = sgLava.add(new BoolSetting.Builder()
-        .name("dip-on-fall")
+        .name("dip-on-fall-lava")
         .description("Lets you go into the lava when you fall over a certain height.")
         .defaultValue(true)
         .visible(() -> lavaMode.get() == Mode.Solid)
@@ -138,7 +138,7 @@ public class Jesus extends Module {
     );
     
     private final Setting<Integer> dipFallHeightLava = sgLava.add(new IntSetting.Builder()
-        .name("dip-fall-height")
+        .name("dip-fall-height-lava")
         .description("The fall height at which you will go into the lava.")
         .defaultValue(4)
         .range(1, 255)
@@ -160,7 +160,7 @@ public class Jesus extends Module {
     public boolean isInBubbleColumn = false;
     
     public Jesus() {
-        super(Categories.Movement, "jesus", "Walk on liquids and powder snow like Jesus.");
+        super(Categories.Movement, "Jesus", "Walk on liquids and powder snow like Jesus.");
     }
     
     @Override

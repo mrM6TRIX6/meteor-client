@@ -24,38 +24,42 @@ public class MaceKill extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> maxPower = sgGeneral.add(new BoolSetting.Builder()
-        .name("Maximum Mace Power (Paper/Spigot servers only)")
+        .name("max-power")
+        .title("Maximum Mace Power (Paper/Spigot servers only)")
         .description("Simulates a fall from the highest air gap within 170 blocks")
         .defaultValue(false)
-        .build());
+        .build()
+    );
     
     private final Setting<Integer> fallHeight = sgGeneral.add(new IntSetting.Builder()
-        .name("Fall height")
+        .name("fall-height")
         .description("Simulates a fall from this distance.")
         .defaultValue(22)
         .sliderRange(1, 170)
         .min(1)
         .max(170)
         .visible(() -> !maxPower.get())
-        .build());
+        .build()
+    );
     
     private final Setting<Boolean> preventDeath = sgGeneral.add(new BoolSetting.Builder()
-        .name("Prevent Fall damage")
+        .name("prevent-fall-damage")
         .description("Attempts to prevent fall damage even on packet hiccups.")
         .defaultValue(true)
-        .build());
+        .build()
+    );
     
     private final Setting<Boolean> packetDisable = sgGeneral.add(new BoolSetting.Builder()
-        .name("Disable When Blocked")
+        .name("disable-when-blocked")
         .description("Does not send movement packets if the attack was blocked. (prevents death)")
         .defaultValue(true)
-        .build());
-    
+        .build()
+    );
     
     private Vec3d previousPos;
     
     public MaceKill() {
-        super(Categories.Combat, "mace-kill", "Makes the mace powerful by faking fall height.");
+        super(Categories.Combat, "MaceKill", "Makes the mace powerful by faking fall height.");
     }
     
     @EventHandler

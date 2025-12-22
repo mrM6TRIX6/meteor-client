@@ -22,21 +22,23 @@ public class DamageCommand extends Command {
     private final static SimpleCommandExceptionType INVULNERABLE = new SimpleCommandExceptionType(Text.literal("You are invulnerable."));
     
     public DamageCommand() {
-        super("damage", "Damages self", "dmg");
+        super("Damage", "Damages self", "DMG");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(argument("damage", IntegerArgumentType.integer(1, 7)).executes(context -> {
-            int amount = IntegerArgumentType.getInteger(context, "damage");
-            
-            if (mc.player.getAbilities().invulnerable) {
-                throw INVULNERABLE.create();
-            }
-            
-            damagePlayer(amount);
-            return SINGLE_SUCCESS;
-        }));
+        builder.then(argument("damage", IntegerArgumentType.integer(1, 7))
+            .executes(context -> {
+                int amount = IntegerArgumentType.getInteger(context, "damage");
+                
+                if (mc.player.getAbilities().invulnerable) {
+                    throw INVULNERABLE.create();
+                }
+                
+                damagePlayer(amount);
+                return SINGLE_SUCCESS;
+            })
+        );
         
     }
     
@@ -69,7 +71,15 @@ public class DamageCommand extends Command {
     }
     
     private void sendPositionPacket(double x, double y, double z, boolean onGround) {
-        mc.player.networkHandler.sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(x, y, z, onGround, mc.player.horizontalCollision));
+        mc.player.networkHandler.sendPacket(
+            new PlayerMoveC2SPacket.PositionAndOnGround(
+                x,
+                y,
+                z,
+                onGround,
+                mc.player.horizontalCollision
+            )
+        );
     }
     
 }

@@ -185,7 +185,7 @@ public class Scaffold extends Module {
     private final BlockPos.Mutable bp = new BlockPos.Mutable();
     
     public Scaffold() {
-        super(Categories.Movement, "scaffold", "Automatically places blocks under you.");
+        super(Categories.Movement, "Scaffold", "Automatically places blocks under you.");
     }
     
     @EventHandler

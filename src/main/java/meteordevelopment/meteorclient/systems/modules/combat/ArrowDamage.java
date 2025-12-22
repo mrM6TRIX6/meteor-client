@@ -40,7 +40,7 @@ public class ArrowDamage extends Module {
     
     
     public ArrowDamage() {
-        super(Categories.Combat, "arrow-damage", "Massively increases arrow damage, but also consumes a lot of hunger and reduces accuracy. Does not work with crossbows and seems to be patched on Paper servers.");
+        super(Categories.Combat, "ArrowDamage", "Massively increases arrow damage, but also consumes a lot of hunger and reduces accuracy. Does not work with crossbows and seems to be patched on Paper servers.");
     }
     
     @EventHandler

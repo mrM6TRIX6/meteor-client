@@ -110,7 +110,7 @@ public class AutoEat extends Module {
     private boolean wasBaritone = false;
     
     public AutoEat() {
-        super(Categories.Player, "auto-eat", "Automatically eats food.");
+        super(Categories.Player, "AutoEat", "Automatically eats food.");
     }
     
     @Override

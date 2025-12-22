@@ -12,7 +12,7 @@ import net.minecraft.command.CommandSource;
 public class GodbridgeAngleCommand extends Command {
     
     public GodbridgeAngleCommand() {
-        super("godbridge-angle", "Rotates your camera to the perfect angle for godbridge.");
+        super("GodbridgeAngle", "Rotates your camera to the perfect angle for godbridge.");
     }
     
     @Override

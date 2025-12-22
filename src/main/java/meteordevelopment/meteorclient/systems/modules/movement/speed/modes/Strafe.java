@@ -17,7 +17,7 @@ import org.joml.Vector2d;
 public class Strafe extends SpeedMode {
     
     public Strafe() {
-        super(SpeedModes.Strafe);
+        super(SpeedModes.STRAFE);
     }
     
     private long timer = 0L;

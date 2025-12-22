@@ -24,30 +24,32 @@ import java.time.Instant;
 public class SayCommand extends Command {
     
     public SayCommand() {
-        super("say", "Sends messages in chat.");
+        super("Say", "Sends messages in chat.");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(argument("message", StringArgumentType.greedyString()).executes(context -> {
-            String msg = context.getArgument("message", String.class);
-            Script script = MeteorStarscript.compile(msg);
-            
-            if (script != null) {
-                String message = MeteorStarscript.run(script);
+        builder.then(argument("message", StringArgumentType.greedyString())
+            .executes(context -> {
+                String msg = context.getArgument("message", String.class);
+                Script script = MeteorStarscript.compile(msg);
                 
-                if (message != null) {
-                    Instant instant = Instant.now();
-                    long l = NetworkEncryptionUtils.SecureRandomUtil.nextLong();
-                    ClientPlayNetworkHandler handler = mc.getNetworkHandler();
-                    LastSeenMessagesCollector.LastSeenMessages lastSeenMessages = ((ClientPlayNetworkHandlerAccessor) handler).meteor$getLastSeenMessagesCollector().collect();
-                    MessageSignatureData messageSignatureData = ((ClientPlayNetworkHandlerAccessor) handler).meteor$getMessagePacker().pack(new MessageBody(message, instant, l, lastSeenMessages.lastSeen()));
-                    handler.sendPacket(new ChatMessageC2SPacket(message, instant, l, messageSignatureData, lastSeenMessages.update()));
+                if (script != null) {
+                    String message = MeteorStarscript.run(script);
+                    
+                    if (message != null) {
+                        Instant instant = Instant.now();
+                        long l = NetworkEncryptionUtils.SecureRandomUtil.nextLong();
+                        ClientPlayNetworkHandler handler = mc.getNetworkHandler();
+                        LastSeenMessagesCollector.LastSeenMessages lastSeenMessages = ((ClientPlayNetworkHandlerAccessor) handler).meteor$getLastSeenMessagesCollector().collect();
+                        MessageSignatureData messageSignatureData = ((ClientPlayNetworkHandlerAccessor) handler).meteor$getMessagePacker().pack(new MessageBody(message, instant, l, lastSeenMessages.lastSeen()));
+                        handler.sendPacket(new ChatMessageC2SPacket(message, instant, l, messageSignatureData, lastSeenMessages.update()));
+                    }
                 }
-            }
-            
-            return SINGLE_SUCCESS;
-        }));
+                
+                return SINGLE_SUCCESS;
+            })
+        );
     }
     
 }

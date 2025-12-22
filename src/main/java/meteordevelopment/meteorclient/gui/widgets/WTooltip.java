@@ -30,14 +30,18 @@ public abstract class WTooltip extends WContainer implements WRoot {
     
     @Override
     public boolean render(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
-        if (!valid) {
-            calculateSize();
-            calculateWidgetPositions();
+        if (!text.isEmpty()) {
+            if (!valid) {
+                calculateSize();
+                calculateWidgetPositions();
+                
+                valid = true;
+            }
             
-            valid = true;
+            return super.render(renderer, mouseX, mouseY, delta);
         }
         
-        return super.render(renderer, mouseX, mouseY, delta);
+        return false;
     }
     
 }

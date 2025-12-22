@@ -14,7 +14,7 @@ import net.minecraft.util.PlayerInput;
 public class DismountCommand extends Command {
     
     public DismountCommand() {
-        super("dismount", "Dismounts you from entity you are riding.");
+        super("Dismount", "Dismounts you from entity you are riding.");
     }
     
     @Override

@@ -19,8 +19,8 @@ public class ItemSetting extends Setting<Item> {
     
     public final Predicate<Item> filter;
     
-    public ItemSetting(String name, String description, Item defaultValue, Consumer<Item> onChanged, Consumer<Setting<Item>> onModuleActivated, IVisible visible, Predicate<Item> filter) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public ItemSetting(String name, String title, String description, Item defaultValue, Consumer<Item> onChanged, Consumer<Setting<Item>> onModuleActivated, IVisible visible, Predicate<Item> filter) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
         this.filter = filter;
     }
@@ -78,7 +78,7 @@ public class ItemSetting extends Setting<Item> {
         
         @Override
         public ItemSetting build() {
-            return new ItemSetting(name, description, defaultValue, onChanged, onModuleActivated, visible, filter);
+            return new ItemSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible, filter);
         }
         
     }

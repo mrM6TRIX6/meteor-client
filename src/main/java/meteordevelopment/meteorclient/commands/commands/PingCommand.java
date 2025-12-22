@@ -14,7 +14,7 @@ import net.minecraft.util.Formatting;
 public class PingCommand extends Command {
     
     public PingCommand() {
-        super("ping", "Check your ping.");
+        super("Ping", "Check your ping.");
     }
     
     @Override

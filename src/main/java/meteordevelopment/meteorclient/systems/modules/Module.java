@@ -32,7 +32,6 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     public final Category category;
     public final String name;
-    public final String title;
     public final String description;
     public final String[] aliases;
     public final Color color;
@@ -53,13 +52,12 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     public Module(Category category, String name, String description, String... aliases) {
         if (name.contains(" ")) {
-            MeteorClient.LOG.warn("Module '{}' contains invalid characters in its name making it incompatible with Meteor Client commands.", name);
+            throw new IllegalArgumentException("Module '%s' contains invalid characters in name.".formatted(name));
         }
         
         this.mc = MinecraftClient.getInstance();
         this.category = category;
         this.name = name;
-        this.title = Utils.nameToTitle(name);
         this.description = description;
         this.aliases = aliases;
         this.color = Color.fromHsv(Utils.random(0.0, 360.0), 0.35, 1);
@@ -116,28 +114,28 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     public void sendToggledMsg() {
         if (ClientSettings.get().chatFeedback.get() && chatFeedback) {
             ChatUtils.forceNextPrefixClass(getClass());
-            ChatUtils.sendMsg(this.hashCode(), Formatting.GRAY, "Toggled (highlight)%s(default) %s(default).", title, isActive() ? Formatting.GREEN + "on" : Formatting.RED + "off");
+            ChatUtils.sendMsg(this.hashCode(), Formatting.GRAY, "Toggled (highlight)%s(default) %s(default).", name, isActive() ? Formatting.GREEN + "on" : Formatting.RED + "off");
         }
     }
     
     public void info(Text message) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.sendMsg(title, message);
+        ChatUtils.sendMsg(name, message);
     }
     
     public void info(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.infoPrefix(title, message, args);
+        ChatUtils.infoPrefix(name, message, args);
     }
     
     public void warning(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.warningPrefix(title, message, args);
+        ChatUtils.warningPrefix(name, message, args);
     }
     
     public void error(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.errorPrefix(title, message, args);
+        ChatUtils.errorPrefix(name, message, args);
     }
     
     public boolean isActive() {
@@ -190,24 +188,24 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        
         Module module = (Module) o;
-        return Objects.equals(name, module.name);
+        if (name == null && module.name == null) return true;
+        if (name == null || module.name == null) return false;
+        
+        return name.equalsIgnoreCase(module.name);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(name.toLowerCase());
     }
     
     @Override
     public int compareTo(@NotNull Module o) {
-        return name.compareTo(o.name);
+        return name.compareToIgnoreCase(o.name);
     }
     
 }

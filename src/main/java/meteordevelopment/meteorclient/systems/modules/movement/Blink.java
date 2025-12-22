@@ -50,7 +50,7 @@ public class Blink extends Module {
     private boolean sendingPackets;
     
     public Blink() {
-        super(Categories.Movement, "blink", "Allows you to essentially teleport while suspending motion updates.");
+        super(Categories.Movement, "Blink", "Allows you to essentially teleport while suspending motion updates.");
     }
     
     @Override

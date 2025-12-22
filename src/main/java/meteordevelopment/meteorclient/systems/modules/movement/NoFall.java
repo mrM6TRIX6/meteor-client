@@ -96,7 +96,7 @@ public class NoFall extends Module {
     private boolean prePathManagerNoFall;
     
     public NoFall() {
-        super(Categories.Movement, "no-fall", "Attempts to prevent you from taking fall damage.");
+        super(Categories.Movement, "NoFall", "Attempts to prevent you from taking fall damage.");
     }
     
     @Override

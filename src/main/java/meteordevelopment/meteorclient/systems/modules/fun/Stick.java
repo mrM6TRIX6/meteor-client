@@ -75,7 +75,7 @@ public class Stick extends Module {
     private Entity target;
     
     public Stick() {
-        super(Categories.Fun, "stick", "Stick to a player.");
+        super(Categories.Fun, "Stick", "Stick to a player.");
     }
     
     @Override

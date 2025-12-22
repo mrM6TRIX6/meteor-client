@@ -18,8 +18,8 @@ public class EnumSetting<T extends Enum<?>> extends Setting<T> {
     private final T[] values;
     private final List<String> suggestions;
     
-    public EnumSetting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public EnumSetting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
         values = (T[]) defaultValue.getDeclaringClass().getEnumConstants();
         suggestions = new ArrayList<>(values.length);
@@ -71,7 +71,7 @@ public class EnumSetting<T extends Enum<?>> extends Setting<T> {
         
         @Override
         public EnumSetting<T> build() {
-            return new EnumSetting<>(name, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new EnumSetting<>(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

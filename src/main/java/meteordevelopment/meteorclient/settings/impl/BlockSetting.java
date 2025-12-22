@@ -19,8 +19,8 @@ public class BlockSetting extends Setting<Block> {
     
     public final Predicate<Block> filter;
     
-    public BlockSetting(String name, String description, Block defaultValue, Consumer<Block> onChanged, Consumer<Setting<Block>> onModuleActivated, IVisible visible, Predicate<Block> filter) {
-        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
+    public BlockSetting(String name, String title, String description, Block defaultValue, Consumer<Block> onChanged, Consumer<Setting<Block>> onModuleActivated, IVisible visible, Predicate<Block> filter) {
+        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
         this.filter = filter;
     }
@@ -78,7 +78,7 @@ public class BlockSetting extends Setting<Block> {
         
         @Override
         public BlockSetting build() {
-            return new BlockSetting(name, description, defaultValue, onChanged, onModuleActivated, visible, filter);
+            return new BlockSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible, filter);
         }
         
     }

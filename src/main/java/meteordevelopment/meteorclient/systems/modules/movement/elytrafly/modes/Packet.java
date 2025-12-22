@@ -19,7 +19,7 @@ public class Packet extends ElytraFlyMode {
     private final Vec3d vec3d = new Vec3d(0, 0, 0);
     
     public Packet() {
-        super(ElytraFlyModes.Packet);
+        super(ElytraFlyModes.PACKET);
     }
     
     @Override

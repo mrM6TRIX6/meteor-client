@@ -476,16 +476,6 @@ public class Utils {
             .collect(Collectors.joining(" "));
     }
     
-    public static String titleToName(String title) {
-        return titleToName(title, false);
-    }
-    
-    public static String titleToName(String title, boolean isEnumConst) {
-        return isEnumConst
-            ? title.replace(" ", "_").toUpperCase(Locale.ROOT)
-            : title.replace(" ", "-").toLowerCase(Locale.ROOT);
-    }
-    
     public static String getKeyName(int key) {
         return switch (key) {
             case GLFW_KEY_UNKNOWN -> "Unknown";

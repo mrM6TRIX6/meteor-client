@@ -15,7 +15,7 @@ public class Pitch40 extends ElytraFlyMode {
     private int pitch;
     
     public Pitch40() {
-        super(ElytraFlyModes.Pitch40);
+        super(ElytraFlyModes.PITCH40);
     }
     
     @Override

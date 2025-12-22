@@ -245,14 +245,14 @@ public class Nuker extends Module {
     );
     
     private final Setting<SettingColor> sideColorBox = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("side-color-box")
         .description("The side color of the bounding box.")
         .defaultValue(new SettingColor(16, 106, 144, 100))
         .build()
     );
     
     private final Setting<SettingColor> lineColorBox = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("line-color-box")
         .description("The line color of the bounding box.")
         .defaultValue(new SettingColor(16, 106, 144, 255))
         .build()
@@ -304,7 +304,7 @@ public class Nuker extends Module {
     int maxV = 0;
     
     public Nuker() {
-        super(Categories.World, "nuker", "Breaks blocks around you.");
+        super(Categories.World, "Nuker", "Breaks blocks around you.");
     }
     
     @Override

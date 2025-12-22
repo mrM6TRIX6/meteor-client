@@ -50,7 +50,7 @@ public class FakePlayer extends Module {
     private WTable table;
     
     public FakePlayer() {
-        super(Categories.Player, "fake-player", "Spawns a client-side fake player for testing usages. No need to be active.");
+        super(Categories.Player, "FakePlayer", "Spawns a client-side fake player for testing usages. No need to be active.");
     }
     
     @Override

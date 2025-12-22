@@ -19,22 +19,26 @@ public class SpectateCommand extends Command {
     private final StaticListener shiftListener = new StaticListener();
     
     public SpectateCommand() {
-        super("spectate", "Allows you to spectate nearby players");
+        super("Spectate", "Allows you to spectate nearby players");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(literal("reset").executes(context -> {
-            mc.setCameraEntity(mc.player);
-            return SINGLE_SUCCESS;
-        }));
+        builder.then(literal("reset")
+            .executes(context -> {
+                mc.setCameraEntity(mc.player);
+                return SINGLE_SUCCESS;
+            })
+        );
         
-        builder.then(argument("player", PlayerArgumentType.create()).executes(context -> {
-            mc.setCameraEntity(PlayerArgumentType.get(context));
-            mc.player.sendMessage(Text.literal("Sneak to un-spectate."), true);
-            MeteorClient.EVENT_BUS.subscribe(shiftListener);
-            return SINGLE_SUCCESS;
-        }));
+        builder.then(argument("player", PlayerArgumentType.create())
+            .executes(context -> {
+                mc.setCameraEntity(PlayerArgumentType.get(context, "player"));
+                mc.player.sendMessage(Text.literal("Sneak to un-spectate."), true);
+                MeteorClient.EVENT_BUS.subscribe(shiftListener);
+                return SINGLE_SUCCESS;
+            })
+        );
     }
     
     private static class StaticListener {

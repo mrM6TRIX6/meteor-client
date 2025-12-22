@@ -21,16 +21,16 @@ import net.minecraft.util.Formatting;
 public class CommandsCommand extends Command {
     
     public CommandsCommand() {
-        super("commands", "List of all commands.", "help");
+        super("Commands", "List of all commands.", "Help");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.executes(context -> {
-            ChatUtils.info("--- Commands ((highlight)%d(default)) ---", Commands.COMMANDS.size());
+            ChatUtils.info("--- Commands ((highlight)%d(default)) ---", Commands.getCount());
             
             MutableText commands = Text.literal("");
-            Commands.COMMANDS.forEach(command -> commands.append(getCommandText(command)));
+            Commands.getAll().forEach(command -> commands.append(getCommandText(command)));
             ChatUtils.sendMsg(commands);
             
             return SINGLE_SUCCESS;
@@ -41,9 +41,9 @@ public class CommandsCommand extends Command {
         // Hover tooltip
         MutableText tooltip = Text.literal("");
         
-        tooltip.append(Text.literal(Utils.nameToTitle(command.getName())).formatted(Formatting.BLUE, Formatting.BOLD)).append("\n");
+        tooltip.append(Text.literal(command.getName()).formatted(Formatting.BLUE, Formatting.BOLD)).append("\n");
         
-        MutableText aliases = Text.literal(ClientSettings.get().prefix.get() + command.getName());
+        MutableText aliases = Text.literal(command.toString());
         if (!command.getAliases().isEmpty()) {
             aliases.append(", ");
             for (String alias : command.getAliases()) {
@@ -51,7 +51,7 @@ public class CommandsCommand extends Command {
                     continue;
                 }
                 aliases.append(ClientSettings.get().prefix.get() + alias);
-                if (!alias.equals(command.getAliases().getLast())) {
+                if (!alias.equalsIgnoreCase(command.getAliases().getLast())) {
                     aliases.append(", ");
                 }
             }
@@ -61,14 +61,14 @@ public class CommandsCommand extends Command {
         tooltip.append(Text.literal(command.getDescription()).formatted(Formatting.WHITE));
         
         // Text
-        MutableText text = Text.literal(Utils.nameToTitle(command.getName()));
-        if (command != Commands.COMMANDS.getLast()) {
+        MutableText text = Text.literal(command.getName());
+        if (command != Commands.getAll().getLast()) {
             text.append(Text.literal(", ").formatted(Formatting.GRAY));
         }
         text.setStyle(text
             .getStyle()
             .withHoverEvent(new HoverEvent.ShowText(tooltip))
-            .withClickEvent(new ClickEvent.SuggestCommand(ClientSettings.get().prefix.get() + command.getName()))
+            .withClickEvent(new ClickEvent.SuggestCommand(command.toString()))
         );
         
         return text;

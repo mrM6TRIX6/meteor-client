@@ -18,7 +18,7 @@ import net.minecraft.util.math.Vec3d;
 public class Vanilla extends SpeedMode {
     
     public Vanilla() {
-        super(SpeedModes.Vanilla);
+        super(SpeedModes.VANILLA);
     }
     
     @Override

@@ -19,7 +19,7 @@ import net.minecraft.command.CommandSource;
 public class FakePlayerCommand extends Command {
     
     public FakePlayerCommand() {
-        super("fake-player", "Manages fake players that you can use for testing.");
+        super("FakePlayer", "Manages fake players that you can use for testing.");
     }
     
     @Override
@@ -42,7 +42,7 @@ public class FakePlayerCommand extends Command {
         builder.then(literal("remove")
             .then(argument("fp", FakePlayerArgumentType.create())
                 .executes(context -> {
-                    FakePlayerEntity fp = FakePlayerArgumentType.get(context);
+                    FakePlayerEntity fp = FakePlayerArgumentType.get(context, "fp");
                     if (fp == null || !FakePlayerManager.contains(fp)) {
                         error("Couldn't find a Fake Player with that name.");
                         return SINGLE_SUCCESS;

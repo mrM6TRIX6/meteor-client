@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 public class FakeMessageCommand extends Command {
     
     public FakeMessageCommand() {
-        super("fake-message", "Sends a fake message in your chat.", "fm");
+        super("FakeMessage", "Sends a fake message in your chat.", "FM");
     }
     
     @Override

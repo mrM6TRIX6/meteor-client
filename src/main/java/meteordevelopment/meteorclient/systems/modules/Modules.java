@@ -98,9 +98,9 @@ public class Modules extends System<Modules> {
     
     public void sortModules() {
         for (List<Module> modules : groups.values()) {
-            modules.sort(Comparator.comparing(o -> o.title));
+            modules.sort(Comparator.comparing(o -> o.name));
         }
-        modules.sort(Comparator.comparing(o -> o.title));
+        modules.sort(Comparator.comparing(o -> o.name));
     }
     
     public static void registerCategory(Category category) {
@@ -161,11 +161,11 @@ public class Modules extends System<Modules> {
         }
     }
     
-    public Set<Module> searchTitles(String text) {
+    public Set<Module> searchNames(String text) {
         Map<Module, Integer> modules = new ValueComparableMap<>(Comparator.naturalOrder());
         
         for (Module module : this.moduleInstances.values()) {
-            int score = Utils.searchLevenshteinDefault(module.title, text, false);
+            int score = Utils.searchLevenshteinDefault(module.name, text, false);
             if (ClientSettings.get().moduleAliases.get()) {
                 for (String alias : module.aliases) {
                     int aliasScore = Utils.searchLevenshteinDefault(alias, text, false);
@@ -394,22 +394,15 @@ public class Modules extends System<Modules> {
     public void add(Module module) {
         // Check if the module's category is registered
         if (!CATEGORIES.contains(module.category)) {
-            throw new RuntimeException("Modules.addModule - Module's category was not registered.");
+            throw new RuntimeException("Modules.add - Module's category was not registered.");
         }
         
-        // TODO: Бросать исключение при одинаковых или неподдерживаемых именах
-        // Remove the previous module with the same name
-        AtomicReference<Module> removedModule = new AtomicReference<>();
-        if (moduleInstances.values().removeIf(module1 -> {
-            if (module1.name.equals(module.name)) {
-                removedModule.set(module1);
-                module1.settings.unregisterColorSettings();
-                return true;
+        // Check if the module with that name not exists
+        modules.forEach(existing -> {
+            if (existing.name.equalsIgnoreCase(module.name)) {
+                throw new IllegalArgumentException("Module with name '%s' already exists".formatted(module.name));
             }
-            return false;
-        })) {
-            getGroup(removedModule.get().category).remove(removedModule.get());
-        }
+        });
         
         // Add the module
         moduleInstances.put(module.getClass(), module);

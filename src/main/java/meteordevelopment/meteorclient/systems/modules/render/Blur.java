@@ -121,7 +121,7 @@ public class Blur extends Module {
     private long fadeEndAt;
     
     public Blur() {
-        super(Categories.Render, "blur", "Blurs background when in GUI screens.");
+        super(Categories.Render, "Blur", "Blurs background when in GUI screens.");
         
         // The listeners need to run even when the module is not enabled
         MeteorClient.EVENT_BUS.subscribe(new ConsumerListener<>(ResolutionChangedEvent.class, event -> {
