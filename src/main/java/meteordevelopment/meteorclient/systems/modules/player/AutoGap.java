@@ -191,11 +191,11 @@ public class AutoGap extends Module {
         // Pause auras
         wasAura.clear();
         if (pauseAuras.get()) {
-            for (Class<? extends Module> klass : AURAS) {
-                Module module = Modules.get().get(klass);
+            for (Class<? extends Module> clazz : AURAS) {
+                Module module = Modules.get().get(clazz);
                 
                 if (module.isActive()) {
-                    wasAura.add(klass);
+                    wasAura.add(clazz);
                     module.toggle();
                 }
             }
@@ -227,10 +227,10 @@ public class AutoGap extends Module {
         
         // Resume auras
         if (pauseAuras.get()) {
-            for (Class<? extends Module> klass : AURAS) {
-                Module module = Modules.get().get(klass);
+            for (Class<? extends Module> clazz : AURAS) {
+                Module module = Modules.get().get(clazz);
                 
-                if (wasAura.contains(klass) && !module.isActive()) {
+                if (wasAura.contains(clazz) && !module.isActive()) {
                     module.toggle();
                 }
             }

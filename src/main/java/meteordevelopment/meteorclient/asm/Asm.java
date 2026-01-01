@@ -55,14 +55,14 @@ public class Asm {
         AsmTransformer transformer = transformers.get(name);
         
         if (transformer != null) {
-            ClassNode klass = new ClassNode();
+            ClassNode clazz = new ClassNode();
             ClassReader reader = new ClassReader(bytes);
-            reader.accept(klass, ClassReader.EXPAND_FRAMES);
+            reader.accept(clazz, ClassReader.EXPAND_FRAMES);
             
-            transformer.transform(klass);
+            transformer.transform(clazz);
             
             ClassWriter writer = new MixinClassWriter(reader, ClassWriter.COMPUTE_FRAMES);
-            klass.accept(writer);
+            clazz.accept(writer);
             bytes = writer.toByteArray();
             
             export(name, bytes);

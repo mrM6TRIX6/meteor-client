@@ -105,8 +105,8 @@ public class Commands {
     }
     
     @SuppressWarnings("unchecked")
-    public static <T extends Command> T get(Class<T> klass) {
-        return (T) commandInstances.get(klass);
+    public static <T extends Command> T get(Class<T> clazz) {
+        return (T) commandInstances.get(clazz);
     }
     
     public static Command get(String name) {

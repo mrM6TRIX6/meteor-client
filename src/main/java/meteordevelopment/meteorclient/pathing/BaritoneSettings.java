@@ -85,9 +85,9 @@ public class BaritoneSettings implements IPathManager.ISettings {
         SettingGroup sgItemLists = settings.createGroup("Item Lists");
         
         try {
-            Class<? extends baritone.api.Settings> klass = BaritoneAPI.getSettings().getClass();
+            Class<? extends baritone.api.Settings> clazz = BaritoneAPI.getSettings().getClass();
             
-            for (Field field : klass.getDeclaredFields()) {
+            for (Field field : clazz.getDeclaredFields()) {
                 if (Modifier.isStatic(field.getModifiers())) {
                     continue;
                 }

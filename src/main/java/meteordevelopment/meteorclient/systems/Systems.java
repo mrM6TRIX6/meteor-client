@@ -104,8 +104,8 @@ public class Systems {
     }
     
     @SuppressWarnings("unchecked")
-    public static <T extends System<?>> T get(Class<T> klass) {
-        return (T) systems.get(klass);
+    public static <T extends System<?>> T get(Class<T> clazz) {
+        return (T) systems.get(clazz);
     }
     
 }

@@ -102,9 +102,9 @@ public class ModuleListSetting extends Setting<List<Module>> {
         public final Builder defaultValue(Class<? extends Module>... defaults) {
             List<Module> modules = new ArrayList<>();
             
-            for (Class<? extends Module> klass : defaults) {
-                if (Modules.get().get(klass) != null) {
-                    modules.add(Modules.get().get(klass));
+            for (Class<? extends Module> clazz : defaults) {
+                if (Modules.get().get(clazz) != null) {
+                    modules.add(Modules.get().get(clazz));
                 }
             }
             

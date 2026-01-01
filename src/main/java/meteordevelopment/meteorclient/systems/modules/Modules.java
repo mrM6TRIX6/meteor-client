@@ -116,8 +116,8 @@ public class Modules extends System<Modules> {
     }
     
     @SuppressWarnings("unchecked")
-    public <T extends Module> T get(Class<T> klass) {
-        return (T) moduleInstances.get(klass);
+    public <T extends Module> T get(Class<T> clazz) {
+        return (T) moduleInstances.get(clazz);
     }
     
     public Module get(String name) {
@@ -130,8 +130,8 @@ public class Modules extends System<Modules> {
         return null;
     }
     
-    public boolean isActive(Class<? extends Module> klass) {
-        Module module = get(klass);
+    public boolean isActive(Class<? extends Module> clazz) {
+        Module module = get(clazz);
         return module != null && module.isActive();
     }
     

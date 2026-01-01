@@ -17,10 +17,10 @@ public abstract class AsmTransformer {
         this.targetName = targetName;
     }
     
-    public abstract void transform(ClassNode klass);
+    public abstract void transform(ClassNode clazz);
     
-    protected MethodNode getMethod(ClassNode klass, MethodInfo methodInfo) {
-        for (MethodNode method : klass.methods) {
+    protected MethodNode getMethod(ClassNode clazz, MethodInfo methodInfo) {
+        for (MethodNode method : clazz.methods) {
             if (methodInfo.equals(method)) {
                 return method;
             }

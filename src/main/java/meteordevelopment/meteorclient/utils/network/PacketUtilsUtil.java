@@ -122,7 +122,7 @@ public class PacketUtilsUtil {
     @SuppressWarnings("rawtypes")
     private static void processPackets(BufferedWriter writer, String packageName, String packetMapName, String reverseMapName, Predicate<Class<?>> exclusionFilter) throws IOException {
         Comparator<Class<?>> packetsComparator = Comparator.comparing(
-            (Class<?> cls) -> cls.getName().substring(cls.getName().lastIndexOf('.') + 1)
+            (Class<?> clazz) -> clazz.getName().substring(clazz.getName().lastIndexOf('.') + 1)
         ).thenComparing(Class::getName);
         
         Reflections reflections = new Reflections(packageName, Scanners.SubTypes);

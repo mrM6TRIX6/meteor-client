@@ -70,8 +70,8 @@ public class ChatUtils {
         CUSTOM_PREFIXES.removeIf(pair -> pair.getLeft().equals(packageName));
     }
     
-    public static void forceNextPrefixClass(Class<?> klass) {
-        forcedPrefixClassName = klass.getName();
+    public static void forceNextPrefixClass(Class<?> clazz) {
+        forcedPrefixClassName = clazz.getName();
     }
     
     // Player
