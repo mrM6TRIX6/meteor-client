@@ -20,6 +20,8 @@ import net.minecraft.world.CollisionView;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 @Mixin(BlockCollisionSpliterator.class)
 public abstract class BlockCollisionSpliteratorMixin {
     
@@ -32,7 +34,7 @@ public abstract class BlockCollisionSpliteratorMixin {
     private VoxelShape onComputeNextCollisionBox(ShapeContext instance, BlockState blockState, CollisionView collisionView, BlockPos blockPos, Operation<VoxelShape> original) {
         VoxelShape shape = original.call(instance, blockState, collisionView, blockPos);
         
-        if (collisionView != MinecraftClient.getInstance().world) {
+        if (collisionView != mc.world) {
             return shape;
         }
         

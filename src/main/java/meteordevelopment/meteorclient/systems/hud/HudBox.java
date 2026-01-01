@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.systems.hud;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 
 public class HudBox implements ISerializable<HudBox> {
     
@@ -43,8 +44,8 @@ public class HudBox implements ISerializable<HudBox> {
             
             switch (anchor) {
                 case LEFT -> x = renderX;
-                case CENTER -> x = renderX + width / 2 - Utils.getWindowWidth() / 2;
-                case RIGHT -> x = renderX + width - Utils.getWindowWidth();
+                case CENTER -> x = renderX + width / 2 - RenderUtils.getWindowWidth() / 2;
+                case RIGHT -> x = renderX + width - RenderUtils.getWindowWidth();
             }
             
             xAnchor = anchor;
@@ -57,8 +58,8 @@ public class HudBox implements ISerializable<HudBox> {
             
             switch (anchor) {
                 case TOP -> y = renderY;
-                case CENTER -> y = renderY + height / 2 - Utils.getWindowHeight() / 2;
-                case BOTTOM -> y = renderY + height - Utils.getWindowHeight();
+                case CENTER -> y = renderY + height / 2 - RenderUtils.getWindowHeight() / 2;
+                case BOTTOM -> y = renderY + height - RenderUtils.getWindowHeight();
             }
             
             yAnchor = anchor;
@@ -96,7 +97,7 @@ public class HudBox implements ISerializable<HudBox> {
     }
     
     public XAnchor getXAnchor(double x) {
-        double splitLeft = Utils.getWindowWidth() / 3.0;
+        double splitLeft = RenderUtils.getWindowWidth() / 3.0;
         double splitRight = splitLeft * 2;
         
         boolean left = x <= splitLeft;
@@ -109,7 +110,7 @@ public class HudBox implements ISerializable<HudBox> {
     }
     
     public YAnchor getYAnchor(double y) {
-        double splitTop = Utils.getWindowHeight() / 3.0;
+        double splitTop = RenderUtils.getWindowHeight() / 3.0;
         double splitBottom = splitTop * 2;
         
         boolean top = y <= splitTop;
@@ -124,16 +125,16 @@ public class HudBox implements ISerializable<HudBox> {
     public int getRenderX() {
         return switch (xAnchor) {
             case LEFT -> x;
-            case CENTER -> Utils.getWindowWidth() / 2 - width / 2 + x;
-            case RIGHT -> Utils.getWindowWidth() - width + x;
+            case CENTER -> RenderUtils.getWindowWidth() / 2 - width / 2 + x;
+            case RIGHT -> RenderUtils.getWindowWidth() - width + x;
         };
     }
     
     public int getRenderY() {
         return switch (yAnchor) {
             case TOP -> y;
-            case CENTER -> Utils.getWindowHeight() / 2 - height / 2 + y;
-            case BOTTOM -> Utils.getWindowHeight() - height + y;
+            case CENTER -> RenderUtils.getWindowHeight() / 2 - height / 2 + y;
+            case BOTTOM -> RenderUtils.getWindowHeight() - height + y;
         };
     }
     

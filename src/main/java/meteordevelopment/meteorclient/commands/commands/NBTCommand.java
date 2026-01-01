@@ -14,7 +14,6 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.text.MeteorClickEvent;
 import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.RegistryKeyArgumentType;
@@ -44,7 +43,7 @@ public class NBTCommand extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(literal("add")
-            .then(argument("component", ComponentMapArgumentType.componentMap(RegistryUtils.REGISTRY_ACCESS))
+            .then(argument("component", ComponentMapArgumentType.componentMap(REGISTRY_ACCESS))
                 .executes(context -> {
                     ItemStack stack = mc.player.getInventory().getSelectedStack();
                     
@@ -63,7 +62,7 @@ public class NBTCommand extends Command {
         );
         
         builder.then(literal("set")
-            .then(argument("component", ComponentMapArgumentType.componentMap(RegistryUtils.REGISTRY_ACCESS))
+            .then(argument("component", ComponentMapArgumentType.componentMap(REGISTRY_ACCESS))
                 .executes(context -> {
                     ItemStack stack = mc.player.getInventory().getSelectedStack();
                     

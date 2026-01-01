@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.events.render;
 
 import meteordevelopment.meteorclient.renderer.Renderer3D;
-import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class Render3DEvent {
@@ -24,7 +24,7 @@ public class Render3DEvent {
         INSTANCE.matrices = matrices;
         INSTANCE.renderer = renderer;
         INSTANCE.depthRenderer = depthRenderer;
-        INSTANCE.frameTime = Utils.frameTime;
+        INSTANCE.frameTime = RenderUtils.frameTime;
         INSTANCE.tickDelta = tickDelta;
         
         INSTANCE.offsetX = offsetX;

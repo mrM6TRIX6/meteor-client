@@ -5,15 +5,19 @@
 
 package meteordevelopment.meteorclient.utils.render;
 
+import com.mojang.blaze3d.systems.ProjectionType;
+import com.mojang.blaze3d.systems.RenderSystem;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.mixin.ProjectionMatrix2Accessor;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.render.ProjectionMatrix2;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -31,9 +35,12 @@ public class RenderUtils {
     
     private static final Pool<RenderBlock> RENDER_BLOCK_POOL = new Pool<>(RenderBlock::new);
     private static final List<RenderBlock> RENDER_BLOCKS = new ArrayList<>();
+    private static final ProjectionMatrix2 MATRIX = new ProjectionMatrix2(MeteorClient.MOD_ID + "-projection-matrix", -10, 100, true);
     
     public static final Matrix4f PROJECTION = new Matrix4f();
     
+    public static boolean rendering3D = true;
+    public static double frameTime;
     public static Vec3d center;
     
     private RenderUtils() {}
@@ -41,6 +48,34 @@ public class RenderUtils {
     @PostInit
     public static void init() {
         MeteorClient.EVENT_BUS.subscribe(RenderUtils.class);
+    }
+    
+    public static int getWindowWidth() {
+        return mc.getWindow().getFramebufferWidth();
+    }
+    
+    public static int getWindowHeight() {
+        return mc.getWindow().getFramebufferHeight();
+    }
+    
+    public static void unscaledProjection() {
+        float width = mc.getWindow().getFramebufferWidth();
+        float height = mc.getWindow().getFramebufferHeight();
+        
+        RenderSystem.setProjectionMatrix(MATRIX.set(width, height), ProjectionType.ORTHOGRAPHIC);
+        RenderUtils.PROJECTION.set(((ProjectionMatrix2Accessor) MATRIX).meteor$callGetMatrix(width, height));
+        
+        rendering3D = true;
+    }
+    
+    public static void scaledProjection() {
+        float width = (float) (mc.getWindow().getFramebufferWidth() / mc.getWindow().getScaleFactor());
+        float height = (float) (mc.getWindow().getFramebufferHeight() / mc.getWindow().getScaleFactor());
+        
+        RenderSystem.setProjectionMatrix(MATRIX.set(width, height), ProjectionType.PERSPECTIVE);
+        RenderUtils.PROJECTION.set(((ProjectionMatrix2Accessor) MATRIX).meteor$callGetMatrix(width, height));
+        
+        rendering3D = true;
     }
     
     // Items

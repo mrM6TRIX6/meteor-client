@@ -15,7 +15,7 @@ import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static meteordevelopment.meteorclient.utils.Utils.getWindowHeight;
+import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowHeight;
 
 public abstract class WContainer extends WWidget {
     

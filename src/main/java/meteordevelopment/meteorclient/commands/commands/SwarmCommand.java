@@ -24,7 +24,7 @@ import meteordevelopment.meteorclient.systems.modules.misc.swarm.SwarmWorker;
 import meteordevelopment.meteorclient.systems.modules.world.InfinityMiner;
 import meteordevelopment.meteorclient.utils.misc.text.MeteorClickEvent;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.BlockStateArgument;
 import net.minecraft.command.argument.BlockStateArgumentType;
@@ -215,7 +215,7 @@ public class SwarmCommand extends Command {
                 
                 return SINGLE_SUCCESS;
             })
-            .then(argument("target", BlockStateArgumentType.blockState(RegistryUtils.REGISTRY_ACCESS))
+            .then(argument("target", BlockStateArgumentType.blockState(REGISTRY_ACCESS))
                 .executes(context -> {
                     Swarm swarm = Modules.get().get(Swarm.class);
                     if (swarm.isActive()) {
@@ -231,7 +231,7 @@ public class SwarmCommand extends Command {
                     
                     return SINGLE_SUCCESS;
                 })
-                .then(argument("repair", BlockStateArgumentType.blockState(RegistryUtils.REGISTRY_ACCESS))
+                .then(argument("repair", BlockStateArgumentType.blockState(REGISTRY_ACCESS))
                     .executes(context -> {
                         Swarm swarm = Modules.get().get(Swarm.class);
                         if (swarm.isActive()) {
@@ -288,7 +288,7 @@ public class SwarmCommand extends Command {
         );
         
         builder.then(literal("mine")
-            .then(argument("block", BlockStateArgumentType.blockState(RegistryUtils.REGISTRY_ACCESS))
+            .then(argument("block", BlockStateArgumentType.blockState(REGISTRY_ACCESS))
                 .executes(context -> {
                     Swarm swarm = Modules.get().get(Swarm.class);
                     if (swarm.isActive()) {

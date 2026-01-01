@@ -69,7 +69,7 @@ public class HudRenderer {
         Renderer2D.COLOR.begin();
         
         this.drawContext = drawContext;
-        this.delta = Utils.frameTime;
+        this.delta = RenderUtils.frameTime;
         
         drawContext.createNewRootLayer();
         

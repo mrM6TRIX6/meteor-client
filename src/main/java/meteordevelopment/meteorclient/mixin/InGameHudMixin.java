@@ -13,6 +13,7 @@ import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.RenderTickCounter;
@@ -37,14 +38,14 @@ public abstract class InGameHudMixin {
     private void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
         context.createNewRootLayer();
         
-        Profilers.get().push(MeteorClient.MOD_ID + "_render_2d");
+        Profilers.get().push(MeteorClient.MOD_ID + "-render-2d");
         
-        Utils.unscaledProjection();
+        RenderUtils.unscaledProjection();
         
         MeteorClient.EVENT_BUS.post(Render2DEvent.get(context, context.getScaledWindowWidth(), context.getScaledWindowWidth(), tickCounter.getTickProgress(true)));
         
         context.createNewRootLayer();
-        Utils.scaledProjection();
+        RenderUtils.scaledProjection();
         
         Profilers.get().pop();
     }

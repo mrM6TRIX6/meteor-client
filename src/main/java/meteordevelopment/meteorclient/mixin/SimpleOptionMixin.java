@@ -15,6 +15,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 @Mixin(SimpleOption.class)
 public abstract class SimpleOptionMixin implements ISimpleOption {
     
@@ -27,7 +29,7 @@ public abstract class SimpleOptionMixin implements ISimpleOption {
     
     @Override
     public void meteor$set(Object value) {
-        if (!MinecraftClient.getInstance().isRunning()) {
+        if (!mc.isRunning()) {
             this.value = value;
         } else {
             if (!Objects.equals(this.value, value)) {

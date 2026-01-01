@@ -11,7 +11,6 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.ClientTextArgumentType;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.client.util.GlfwUtil;
 import net.minecraft.command.CommandSource;
 import net.minecraft.network.packet.c2s.play.PlayerInteractEntityC2SPacket;
@@ -37,7 +36,7 @@ public class DisconnectCommand extends Command {
                 mc.player.networkHandler.onDisconnect(new DisconnectS2CPacket(Text.translatable("multiplayer.disconnect.generic")));
                 return SINGLE_SUCCESS;
             })
-            .then(argument("reason", ClientTextArgumentType.text(RegistryUtils.REGISTRY_ACCESS))
+            .then(argument("reason", ClientTextArgumentType.text(REGISTRY_ACCESS))
                 .executes(context -> {
                     checkMultiplayer();
                     mc.player.networkHandler.onDisconnect(new DisconnectS2CPacket(ClientTextArgumentType.get(context, "reason")));

@@ -11,14 +11,18 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
+import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
+
+import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public abstract class DynamicRegistryListSettingScreen<T> extends CollectionListSettingScreen<RegistryKey<T>> {
     
@@ -32,9 +36,16 @@ public abstract class DynamicRegistryListSettingScreen<T> extends CollectionList
     
     private static <T> Iterable<RegistryKey<T>> createUniverse(Collection<RegistryKey<T>> collection, RegistryKey<Registry<T>> registryKey) {
         Set<RegistryKey<T>> set = new ReferenceOpenHashSet<>(collection);
-        RegistryUtils.REGISTRY_ACCESS.getOptional(registryKey).ifPresent(registry -> registry.streamKeys().forEach(set::add));
+        
+        Optional.ofNullable(mc.getNetworkHandler())
+            .map(networkHandler -> (RegistryWrapper.WrapperLookup) networkHandler.getRegistryManager())
+            .orElseGet(BuiltinRegistries::createWrapperLookup)
+            .getOptional(registryKey)
+            .ifPresent(registry -> registry.streamKeys().forEach(set::add));
+        
         return set;
     }
+    
     
     @Override
     protected void postWidgets(WTable left, WTable right) {

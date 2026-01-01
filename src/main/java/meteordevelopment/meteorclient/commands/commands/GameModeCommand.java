@@ -11,17 +11,17 @@ import meteordevelopment.meteorclient.commands.arguments.GameModeArgumentType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.world.GameMode;
 
-public class GamemodeCommand extends Command {
+public class GameModeCommand extends Command {
     
-    public GamemodeCommand() {
-        super("GameMode", "Changes your gamemode client-side.", "GM");
+    public GameModeCommand() {
+        super("GameMode", "Changes your game mode client-side.", "GM");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(argument("game_mode", GameModeArgumentType.create())
+        builder.then(argument("gamemode", GameModeArgumentType.create())
             .executes(context -> {
-                GameMode gameMode = GameModeArgumentType.get(context, "game_mode");
+                GameMode gameMode = GameModeArgumentType.get(context, "gamemode");
                 mc.interactionManager.setGameMode(gameMode);
                 
                 return SINGLE_SUCCESS;

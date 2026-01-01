@@ -14,6 +14,8 @@ import meteordevelopment.meteorclient.events.game.GameJoinEvent;
 import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.CommandSource;
 
 import java.util.*;
@@ -45,7 +47,7 @@ public class Commands {
         add(new FakePlayerCommand());
         add(new FOVCommand());
         add(new FriendsCommand());
-        add(new GamemodeCommand());
+        add(new GameModeCommand());
         add(new GiveCommand());
         add(new GodbridgeAngleCommand());
         add(new HClipCommand());
@@ -126,8 +128,28 @@ public class Commands {
         return commands.size();
     }
     
+    /**
+     * Argument types that rely on Minecraft registries access those registries through a {@link CommandRegistryAccess}
+     * object. Since dynamic registries are specific to each server, we need to make a new CommandRegistryAccess object
+     * every time we join a server.
+     * <p>
+     * The command tree and by extension the {@link CommandDispatcher} also have to be rebuilt because:
+     * <ol>
+     * <li>Argument types that require registries use a registry wrapper object that is created and stored in the
+     *     argument type objects when the command tree is built.
+     * <li>Registry entries and keys are compared using referential equality. Even if the data encoded is the same,
+     *     registry wrapper objects' dynamic data becomes stale after joining another server.
+     * <li>The CommandDispatcher's node merging only adds missing children, it cannot replace stale argument type
+     *     objects.
+     * </ol>
+     *
+     * @author Crosby
+     */
     @EventHandler
     private static void onGameJoin(GameJoinEvent event) {
+        ClientPlayNetworkHandler networkHandler = mc.getNetworkHandler();
+        Command.REGISTRY_ACCESS = CommandRegistryAccess.of(networkHandler.getRegistryManager(), networkHandler.getEnabledFeatures());
+        
         dispatcher = new CommandDispatcher<>();
         for (Command command : commands) {
             command.registerTo(dispatcher);

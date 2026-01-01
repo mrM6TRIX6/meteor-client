@@ -13,7 +13,6 @@ import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType;
 import com.mojang.brigadier.exceptions.Dynamic3CommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityType;
@@ -31,6 +30,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
+
+import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class RegistryEntryReferenceArgumentType<T> implements ArgumentType<RegistryEntry.Reference<T>> {
     
@@ -107,7 +108,8 @@ public class RegistryEntryReferenceArgumentType<T> implements ArgumentType<Regis
     public RegistryEntry.Reference<T> parse(StringReader reader) throws CommandSyntaxException {
         Identifier identifier = Identifier.fromCommandInput(reader);
         RegistryKey<T> registryKey = RegistryKey.of(this.registryRef, identifier);
-        return RegistryUtils.REGISTRY_ACCESS.getOrThrow(this.registryRef)
+        return mc.getNetworkHandler().getRegistryManager()
+            .getOrThrow(this.registryRef)
             .getOptional(registryKey)
             .orElseThrow(() -> NOT_FOUND_EXCEPTION.createWithContext(reader, identifier, this.registryRef.getValue()));
     }
@@ -115,11 +117,10 @@ public class RegistryEntryReferenceArgumentType<T> implements ArgumentType<Regis
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
         return CommandSource.suggestIdentifiers(
-            RegistryUtils.REGISTRY_ACCESS.getOptional(this.registryRef)
-                .map(registryEntryLookup -> registryEntryLookup.streamKeys()
-                    .map(RegistryKey::getValue)
-                )
-                .orElse(Stream.empty()),
+            mc.getNetworkHandler().getRegistryManager()
+                .getOrThrow(this.registryRef)
+                .streamKeys()
+                .map(RegistryKey::getValue),
             builder
         );
     }

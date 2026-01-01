@@ -12,7 +12,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.ItemStackArgumentType;
@@ -97,7 +96,7 @@ public class DropCommand extends Command {
         );
         
         // Specific item
-        builder.then(argument("item", ItemStackArgumentType.itemStack(RegistryUtils.REGISTRY_ACCESS))
+        builder.then(argument("item", ItemStackArgumentType.itemStack(REGISTRY_ACCESS))
             .executes(context -> drop(
                 player -> dropItem(player, context, Integer.MAX_VALUE)
             ))

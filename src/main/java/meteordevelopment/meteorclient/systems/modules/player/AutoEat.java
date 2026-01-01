@@ -20,6 +20,7 @@ import meteordevelopment.meteorclient.systems.modules.combat.CrystalAura;
 import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
+import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.SlotUtils;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
@@ -202,7 +203,7 @@ public class AutoEat extends Module {
         changeSlot(slot);
         setPressed(true);
         if (!mc.player.isUsingItem()) {
-            Utils.rightClick();
+            PlayerUtils.rightClick();
         }
         
         eating = true;

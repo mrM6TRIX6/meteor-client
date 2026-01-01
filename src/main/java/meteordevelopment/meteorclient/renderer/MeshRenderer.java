@@ -110,7 +110,7 @@ public class MeshRenderer {
         }
         
         if (mesh.getIndicesCount() > 0) {
-            if (Utils.rendering3D || matrix != null) {
+            if (RenderUtils.rendering3D || matrix != null) {
                 RenderSystem.getModelViewStack().pushMatrix();
             }
             
@@ -118,7 +118,7 @@ public class MeshRenderer {
                 RenderSystem.getModelViewStack().mul(matrix);
             }
             
-            if (Utils.rendering3D
+            if (RenderUtils.rendering3D
                 && pipeline != MeteorRenderPipelines.UI_COLORED
                 && pipeline != MeteorRenderPipelines.UI_COLORED_LINES
                 && pipeline != MeteorRenderPipelines.UI_TEXTURED
@@ -159,7 +159,7 @@ public class MeshRenderer {
                 pass.close();
             }
             
-            if (Utils.rendering3D || matrix != null) {
+            if (RenderUtils.rendering3D || matrix != null) {
                 RenderSystem.getModelViewStack().popMatrix();
             }
         }

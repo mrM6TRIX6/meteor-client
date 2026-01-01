@@ -11,20 +11,19 @@ import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 
 import java.lang.reflect.AccessFlag;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+
+import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class EnchantmentListSetting extends Setting<Set<RegistryKey<Enchantment>>> {
     
@@ -65,12 +64,9 @@ public class EnchantmentListSetting extends Setting<Set<RegistryKey<Enchantment>
     
     @Override
     public Iterable<Identifier> getIdentifierSuggestions() {
-        return RegistryUtils.REGISTRY_ACCESS.getOptional(RegistryKeys.ENCHANTMENT)
-            .map(registryEntryLookup -> registryEntryLookup.streamEntries()
-                .map(entry -> entry.registryKey().getValue())
-                .collect(Collectors.toSet())
-            )
-            .orElse(Set.of());
+        return Optional.ofNullable(mc.getNetworkHandler())
+            .flatMap(networkHandler -> networkHandler.getRegistryManager().getOptional(RegistryKeys.ENCHANTMENT))
+            .map(Registry::getIds).orElse(Set.of());
     }
     
     @Override

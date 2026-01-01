@@ -15,6 +15,7 @@ import meteordevelopment.meteorclient.systems.hud.HudRenderer;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.meteorclient.utils.other.Snapper;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -312,7 +313,7 @@ public class HudEditorScreen extends WidgetScreen implements Snapper.Container {
         mouseX *= s;
         mouseY *= s;
         
-        Utils.unscaledProjection();
+        RenderUtils.unscaledProjection();
         
         boolean renderSplitLines = pressed && !selection.isEmpty() && moved;
         if (renderSplitLines || splitLinesAnimation > 0) {
@@ -324,7 +325,7 @@ public class HudEditorScreen extends WidgetScreen implements Snapper.Container {
         onRender(mouseX, mouseY);
         Renderer2D.COLOR.render();
         
-        Utils.scaledProjection();
+        RenderUtils.scaledProjection();
         runAfterRenderTasks();
     }
     
@@ -360,8 +361,8 @@ public class HudEditorScreen extends WidgetScreen implements Snapper.Container {
         Renderer2D renderer = Renderer2D.COLOR;
         renderer.begin();
         
-        double w = Utils.getWindowWidth();
-        double h = Utils.getWindowHeight();
+        double w = RenderUtils.getWindowWidth();
+        double h = RenderUtils.getWindowHeight();
         double w3 = w / 3.0;
         double h3 = h / 3.0;
         
@@ -384,9 +385,9 @@ public class HudEditorScreen extends WidgetScreen implements Snapper.Container {
         double incY = 0;
         
         if (x == destX) {
-            incY = Utils.getWindowWidth() / 25.0;
+            incY = RenderUtils.getWindowWidth() / 25.0;
         } else {
-            incX = Utils.getWindowWidth() / 25.0;
+            incX = RenderUtils.getWindowWidth() / 25.0;
         }
         
         do {
@@ -483,8 +484,8 @@ public class HudEditorScreen extends WidgetScreen implements Snapper.Container {
             int lastY = y;
             
             int border = Hud.get().border.get();
-            x = MathHelper.clamp(x + deltaX, border, Utils.getWindowWidth() - width - border);
-            y = MathHelper.clamp(y + deltaY, border, Utils.getWindowHeight() - height - border);
+            x = MathHelper.clamp(x + deltaX, border, RenderUtils.getWindowWidth() - width - border);
+            y = MathHelper.clamp(y + deltaY, border, RenderUtils.getWindowHeight() - height - border);
             
             for (HudElement element : selection) {
                 element.move(x - lastX, y - lastY);

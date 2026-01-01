@@ -11,7 +11,6 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.ItemStackArgumentType;
 import net.minecraft.item.ItemStack;
@@ -27,7 +26,7 @@ public class GiveCommand extends Command {
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(argument("item", ItemStackArgumentType.itemStack(RegistryUtils.REGISTRY_ACCESS))
+        builder.then(argument("item", ItemStackArgumentType.itemStack(REGISTRY_ACCESS))
             .executes(context -> {
                 ItemStack itemStack = ItemStackArgumentType.getItemStackArgument(context, "item").createStack(1, false);
                 giveItem(itemStack, InventoryUtils.findEmptyGive());

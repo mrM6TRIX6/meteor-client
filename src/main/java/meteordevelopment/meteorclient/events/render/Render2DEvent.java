@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.events.render;
 
-import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import net.minecraft.client.gui.DrawContext;
 
 public class Render2DEvent {
@@ -21,7 +21,7 @@ public class Render2DEvent {
         INSTANCE.drawContext = drawContext;
         INSTANCE.screenWidth = screenWidth;
         INSTANCE.screenHeight = screenHeight;
-        INSTANCE.frameTime = Utils.frameTime;
+        INSTANCE.frameTime = RenderUtils.frameTime;
         INSTANCE.tickDelta = tickDelta;
         return INSTANCE;
     }

@@ -24,7 +24,7 @@ import meteordevelopment.meteorclient.systems.hud.YAnchor;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.DrawContext;
 
-import static meteordevelopment.meteorclient.utils.Utils.getWindowWidth;
+import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowWidth;
 
 public class HudElementScreen extends WindowScreen {
     

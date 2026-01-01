@@ -74,7 +74,6 @@ public abstract class PlayerListHudMixin {
         BetterTab betterTab = Modules.get().get(BetterTab.class);
         
         if (betterTab.isActive() && betterTab.pingNumbers.get()) {
-            MinecraftClient mc = MinecraftClient.getInstance();
             TextRenderer textRenderer = mc.textRenderer;
             
             int latency = MathHelper.clamp(entry.getLatency(), 0, 9999);
@@ -92,7 +91,7 @@ public abstract class PlayerListHudMixin {
         if (betterTab.isActive() && (betterTab.highlightSelf.get() || betterTab.highlightFriends.get()) && w < entries.size()) {
             PlayerListEntry entry = entries.get(w);
             
-            if (betterTab.highlightSelf.get() && Objects.equals(entry.getProfile().getName(), MinecraftClient.getInstance().player.getGameProfile().getName())) {
+            if (betterTab.highlightSelf.get() && Objects.equals(entry.getProfile().getName(), mc.player.getGameProfile().getName())) {
                 drawColor = betterTab.selfColor.get().getPacked();
             } else if (betterTab.highlightFriends.get() && Friends.get().isFriend(entry)) {
                 drawColor = betterTab.friendsColor.get().getPacked();

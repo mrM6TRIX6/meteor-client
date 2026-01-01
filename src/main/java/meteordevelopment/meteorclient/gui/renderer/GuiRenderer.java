@@ -28,12 +28,10 @@ import java.util.List;
 import java.util.Stack;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static meteordevelopment.meteorclient.utils.Utils.getWindowHeight;
-import static meteordevelopment.meteorclient.utils.Utils.getWindowWidth;
+import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowWidth;
+import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowHeight;
 
 public class GuiRenderer {
-    
-    private static final Color WHITE = new Color(255, 255, 255);
     
     private static final TexturePacker TEXTURE_PACKER = new TexturePacker();
     private static Texture TEXTURE;
@@ -273,7 +271,7 @@ public class GuiRenderer {
     public void texture(double x, double y, double width, double height, double rotation, Texture texture) {
         post(() -> {
             renderTexture.begin();
-            renderTexture.texQuad(x, y, width, height, rotation, 0, 0, 1, 1, WHITE);
+            renderTexture.texQuad(x, y, width, height, rotation, 0, 0, 1, 1, Color.WHITE);
             renderTexture.end();
             
             renderTexture.render(texture.getGlTextureView());

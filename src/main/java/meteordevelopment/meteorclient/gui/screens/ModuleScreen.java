@@ -26,7 +26,7 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.orbit.EventHandler;
 
-import static meteordevelopment.meteorclient.utils.Utils.getWindowWidth;
+import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowWidth;
 
 public class ModuleScreen extends WindowScreen {
     

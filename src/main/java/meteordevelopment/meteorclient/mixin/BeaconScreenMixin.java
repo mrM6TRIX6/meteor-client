@@ -25,6 +25,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Collection;
 import java.util.List;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 @Mixin(BeaconScreen.class)
 public abstract class BeaconScreenMixin extends HandledScreen<BeaconScreenHandler> {
     
@@ -38,7 +40,7 @@ public abstract class BeaconScreenMixin extends HandledScreen<BeaconScreenHandle
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/BeaconScreen;addButton(Lnet/minecraft/client/gui/widget/ClickableWidget;)V", ordinal = 1, shift = At.Shift.AFTER), cancellable = true)
     private void changeButtons(CallbackInfo ci) {
         List<RegistryEntry<StatusEffect>> effects = BeaconBlockEntity.EFFECTS_BY_LEVEL.stream().flatMap(Collection::stream).toList();
-        if (MinecraftClient.getInstance().currentScreen instanceof BeaconScreen beaconScreen) {
+        if (mc.currentScreen instanceof BeaconScreen beaconScreen) {
             for (int x = 0; x < 3; x++) {
                 for (int y = 0; y < 2; y++) {
                     RegistryEntry<StatusEffect> effect = effects.get(x * 2 + y);

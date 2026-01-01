@@ -23,6 +23,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 public abstract class MeteorRenderPipelines {
     
     private static final List<RenderPipeline> PIPELINES = new ArrayList<>();
@@ -220,7 +222,7 @@ public abstract class MeteorRenderPipelines {
     
     public static void precompile() {
         GpuDevice device = RenderSystem.getDevice();
-        ResourceManager resources = MinecraftClient.getInstance().getResourceManager();
+        ResourceManager resources = mc.getResourceManager();
         
         for (RenderPipeline pipeline : PIPELINES) {
             device.precompilePipeline(pipeline, (identifier, shaderType) -> {

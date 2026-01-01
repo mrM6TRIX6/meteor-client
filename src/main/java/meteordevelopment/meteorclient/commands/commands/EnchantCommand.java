@@ -13,7 +13,6 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.RegistryEntryReferenceArgumentType;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.command.CommandSource;
 import net.minecraft.enchantment.Enchantment;
@@ -124,7 +123,7 @@ public class EnchantCommand extends Command {
     private void all(boolean onlyPossible, ToIntFunction<Enchantment> level) throws CommandSyntaxException {
         ItemStack itemStack = tryGetItemStack();
         
-        RegistryUtils.REGISTRY_ACCESS.getOptional(RegistryKeys.ENCHANTMENT).ifPresent(registry -> {
+        REGISTRY_ACCESS.getOptional(RegistryKeys.ENCHANTMENT).ifPresent(registry -> {
             registry.streamEntries().forEach(enchantment -> {
                 if (!onlyPossible || enchantment.value().isAcceptableItem(itemStack)) {
                     Utils.addEnchantment(itemStack, enchantment, level.applyAsInt(enchantment.value()));

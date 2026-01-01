@@ -17,6 +17,7 @@ import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.CursorStyle;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -30,8 +31,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static meteordevelopment.meteorclient.utils.Utils.getWindowHeight;
-import static meteordevelopment.meteorclient.utils.Utils.getWindowWidth;
+import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowHeight;
+import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowWidth;
 import static org.lwjgl.glfw.GLFW.*;
 
 public abstract class WidgetScreen extends Screen {
@@ -285,7 +286,7 @@ public abstract class WidgetScreen extends Screen {
         GuiKeyEvents.canUseKeys = true;
         
         // Apply projection without scaling
-        Utils.unscaledProjection();
+        RenderUtils.unscaledProjection();
         
         onRenderBefore(context, delta);
         
@@ -307,7 +308,7 @@ public abstract class WidgetScreen extends Screen {
             }
         }
         
-        Utils.scaledProjection();
+        RenderUtils.scaledProjection();
         
         runAfterRenderTasks();
     }

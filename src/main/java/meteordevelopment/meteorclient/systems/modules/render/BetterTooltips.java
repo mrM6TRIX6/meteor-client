@@ -26,7 +26,6 @@ import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.EChestMemory;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.tooltip.*;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.*;
@@ -245,7 +244,7 @@ public class BetterTooltips extends Module {
         
         // Item size tooltip
         if (byteSize.get()) {
-            switch (ItemStack.CODEC.encodeStart(RegistryUtils.REGISTRY_ACCESS.getOps(NbtOps.INSTANCE), event.itemStack())) {
+            switch (ItemStack.CODEC.encodeStart(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), event.itemStack())) {
                 case DataResult.Success<NbtElement> success -> {
                     try {
                         success.value().write(ByteCountDataOutput.INSTANCE);
@@ -424,12 +423,15 @@ public class BetterTooltips extends Module {
     private BannerTooltipComponent createBannerFromBannerPatternItem(ItemStack item) {
         // I can't imagine getting the banner pattern from a banner pattern item would fail without some serious messing around
         BannerPatternsComponent component = new BannerPatternsComponent.Builder()
-            .add(RegistryUtils.REGISTRY_ACCESS.getOrThrow(RegistryKeys.BANNER_PATTERN)
+            .add(
+                mc.player.getRegistryManager()
+                    .getOrThrow(RegistryKeys.BANNER_PATTERN)
                     .getOrThrow(item.get(DataComponentTypes.PROVIDES_BANNER_PATTERNS))
                     .get(0),
                 DyeColor.WHITE
             )
             .build();
+        
         return new BannerTooltipComponent(DyeColor.GRAY, component);
     }
     

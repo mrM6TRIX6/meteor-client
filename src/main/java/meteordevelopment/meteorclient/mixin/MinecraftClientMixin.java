@@ -25,10 +25,10 @@ import meteordevelopment.meteorclient.systems.modules.movement.GUIMove;
 import meteordevelopment.meteorclient.systems.modules.player.FastUse;
 import meteordevelopment.meteorclient.systems.modules.player.MultiActions;
 import meteordevelopment.meteorclient.systems.modules.render.ESP;
-import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.CPSUtils;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.meteorclient.utils.network.OnlinePlayers;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.gl.Framebuffer;
@@ -265,7 +265,7 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
             firstFrame = false;
         }
         
-        Utils.frameTime = (time - lastTime) / 1000.0;
+        RenderUtils.frameTime = (time - lastTime) / 1000.0;
         lastTime = time;
     }
     

@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.TridentBoost;
-import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.TridentItem;
@@ -28,14 +28,14 @@ public abstract class TridentItemMixin {
     @Inject(method = "onStoppedUsing", at = @At("HEAD"))
     private void onStoppedUsingHead(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfoReturnable<Boolean> info) {
         if (user == mc.player) {
-            Utils.isReleasingTrident = true;
+            PlayerUtils.isReleasingTrident = true;
         }
     }
     
     @Inject(method = "onStoppedUsing", at = @At("TAIL"))
     private void onStoppedUsingTail(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfoReturnable<Boolean> info) {
         if (user == mc.player) {
-            Utils.isReleasingTrident = false;
+            PlayerUtils.isReleasingTrident = false;
         }
     }
     

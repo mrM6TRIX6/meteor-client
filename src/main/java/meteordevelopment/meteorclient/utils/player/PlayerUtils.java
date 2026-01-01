@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
+import meteordevelopment.meteorclient.mixin.MinecraftClientAccessor;
+import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
@@ -39,12 +41,31 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class PlayerUtils {
     
+    public static boolean isReleasingTrident;
+    
     private static final double diagonal = 1 / Math.sqrt(2);
     private static final Vec3d horizontalVelocity = new Vec3d(0, 0, 0);
-    
     private static final Color color = new Color();
     
     private PlayerUtils() {}
+    
+    public static void leftClick() {
+        // Check if a screen is open
+        // see net.minecraft.client.Mouse.lockCursor
+        // see net.minecraft.client.MinecraftClient.tick
+        int attackCooldown = ((MinecraftClientAccessor) mc).meteor$getAttackCooldown();
+        if (attackCooldown == 10000) {
+            ((MinecraftClientAccessor) mc).meteor$setAttackCooldown(0);
+        }
+        
+        mc.options.attackKey.setPressed(true);
+        ((MinecraftClientAccessor) mc).meteor$leftClick();
+        mc.options.attackKey.setPressed(false);
+    }
+    
+    public static void rightClick() {
+        ((IMinecraftClient) mc).meteor$rightClick();
+    }
     
     public static Color getPlayerColor(PlayerEntity entity, Color defaultColor) {
         if (Friends.get().isFriend(entity)) {

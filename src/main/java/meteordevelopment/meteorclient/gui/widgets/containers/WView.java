@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.gui.widgets.containers;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import net.minecraft.util.math.MathHelper;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
@@ -30,7 +31,7 @@ public abstract class WView extends WVerticalList {
     
     @Override
     public void init() {
-        maxHeight = Utils.getWindowHeight() - theme.scale(128);
+        maxHeight = RenderUtils.getWindowHeight() - theme.scale(128);
     }
     
     @Override

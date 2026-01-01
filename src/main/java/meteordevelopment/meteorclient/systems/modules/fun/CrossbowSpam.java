@@ -18,12 +18,13 @@ import meteordevelopment.meteorclient.settings.impl.StringSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ComponentMapReader;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.util.Hand;
 
 public class CrossbowSpam extends Module {
@@ -77,7 +78,7 @@ public class CrossbowSpam extends Module {
             toggle();
         }
         
-        reader = new ComponentMapReader(RegistryUtils.REGISTRY_ACCESS);
+        reader = new ComponentMapReader(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE));
         timer = 0;
     }
     

@@ -5,8 +5,6 @@
 
 package meteordevelopment.meteorclient.utils;
 
-import com.mojang.blaze3d.systems.ProjectionType;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import it.unimi.dsi.fastutil.objects.*;
@@ -14,7 +12,6 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.mixin.*;
-import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
 import meteordevelopment.meteorclient.settings.impl.StatusEffectAmplifierMapSetting;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.BetterTooltips;
@@ -22,11 +19,9 @@ import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.player.EChestMemory;
 import meteordevelopment.meteorclient.utils.render.PeekScreen;
-import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.BlockEntityIterator;
 import meteordevelopment.meteorclient.utils.world.ChunkIterator;
-import meteordevelopment.meteorclient.utils.world.RegistryUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -36,7 +31,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
-import net.minecraft.client.render.ProjectionMatrix2;
 import net.minecraft.client.resource.ResourceReloadLogger;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
@@ -70,6 +64,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -80,15 +75,7 @@ public class Utils {
     
     public static final Pattern FILE_NAME_INVALID_CHARS_PATTERN = Pattern.compile("[\\s\\\\/:*?\"<>|]");
     
-    public static boolean isReleasingTrident;
-    public static boolean rendering3D = true;
-    public static double frameTime;
     public static Screen screenToOpen;
-    
-    private static final Color white = new Color(255, 255, 255);
-    private static final Random random = new Random();
-    
-    private static final ProjectionMatrix2 MATRIX = new ProjectionMatrix2("meteor-projection-matrix", -10, 100, true);
     
     private Utils() {}
     
@@ -224,34 +211,6 @@ public class Utils {
         return Math.max(mc.options.getViewDistance().getValue(), ((ClientPlayNetworkHandlerAccessor) mc.getNetworkHandler()).meteor$getChunkLoadDistance());
     }
     
-    public static int getWindowWidth() {
-        return mc.getWindow().getFramebufferWidth();
-    }
-    
-    public static int getWindowHeight() {
-        return mc.getWindow().getFramebufferHeight();
-    }
-    
-    public static void unscaledProjection() {
-        float width = mc.getWindow().getFramebufferWidth();
-        float height = mc.getWindow().getFramebufferHeight();
-        
-        RenderSystem.setProjectionMatrix(MATRIX.set(width, height), ProjectionType.ORTHOGRAPHIC);
-        RenderUtils.PROJECTION.set(((ProjectionMatrix2Accessor) MATRIX).meteor$callGetMatrix(width, height));
-        
-        rendering3D = true;
-    }
-    
-    public static void scaledProjection() {
-        float width = (float) (mc.getWindow().getFramebufferWidth() / mc.getWindow().getScaleFactor());
-        float height = (float) (mc.getWindow().getFramebufferHeight() / mc.getWindow().getScaleFactor());
-        
-        RenderSystem.setProjectionMatrix(MATRIX.set(width, height), ProjectionType.PERSPECTIVE);
-        RenderUtils.PROJECTION.set(((ProjectionMatrix2Accessor) MATRIX).meteor$callGetMatrix(width, height));
-        
-        rendering3D = true;
-    }
-    
     public static Vec3d vec3d(BlockPos pos) {
         return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
     }
@@ -311,7 +270,7 @@ public class Utils {
                 
                 // Now NPEs when mc.world == null
                 if (slot.get() >= 0 && slot.get() < items.length) {
-                    switch (StackWithSlot.CODEC.parse(RegistryUtils.REGISTRY_ACCESS.getOps(NbtOps.INSTANCE), compound.get())) {
+                    switch (StackWithSlot.CODEC.parse(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), compound.get())) {
                         case DataResult.Success<StackWithSlot> success -> items[slot.get()] = success.value().stack();
                         case DataResult.Error<StackWithSlot> ignored -> items[slot.get()] = ItemStack.EMPTY;
                         default -> throw new MatchException(null, null);
@@ -331,7 +290,7 @@ public class Utils {
             if (block instanceof ShulkerBoxBlock shulkerBlock) {
                 DyeColor dye = shulkerBlock.getColor();
                 if (dye == null) {
-                    return white;
+                    return Color.WHITE;
                 }
                 
                 final int color = dye.getEntityColor();
@@ -339,7 +298,7 @@ public class Utils {
             }
         }
         
-        return white;
+        return Color.WHITE;
     }
     
     public static boolean hasItems(ItemStack itemStack) {
@@ -566,11 +525,11 @@ public class Utils {
     }
     
     public static DataResult<NbtElement> encodeToNbt(ItemStack stack) {
-        return ItemStack.CODEC.encodeStart(RegistryUtils.REGISTRY_ACCESS.getOps(NbtOps.INSTANCE), stack);
+        return ItemStack.CODEC.encodeStart(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), stack);
     }
     
     public static DataResult<ItemStack> decodeFromNbt(NbtElement nbt) {
-        return ItemStack.CODEC.decode(RegistryUtils.REGISTRY_ACCESS.getOps(NbtOps.INSTANCE), nbt).map(Pair::getFirst);
+        return ItemStack.CODEC.decode(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), nbt).map(Pair::getFirst);
     }
     
     public static boolean canUpdate() {
@@ -590,29 +549,11 @@ public class Utils {
     }
     
     public static int random(int min, int max) {
-        return random.nextInt(max - min) + min;
+        return ThreadLocalRandom.current().nextInt(max - min) + min;
     }
     
     public static double random(double min, double max) {
-        return min + (max - min) * random.nextDouble();
-    }
-    
-    public static void leftClick() {
-        // check if a screen is open
-        // see net.minecraft.client.Mouse.lockCursor
-        // see net.minecraft.client.MinecraftClient.tick
-        int attackCooldown = ((MinecraftClientAccessor) mc).meteor$getAttackCooldown();
-        if (attackCooldown == 10000) {
-            ((MinecraftClientAccessor) mc).meteor$setAttackCooldown(0);
-        }
-        
-        mc.options.attackKey.setPressed(true);
-        ((MinecraftClientAccessor) mc).meteor$leftClick();
-        mc.options.attackKey.setPressed(false);
-    }
-    
-    public static void rightClick() {
-        ((IMinecraftClient) mc).meteor$rightClick();
+        return min + (max - min) * ThreadLocalRandom.current().nextDouble();
     }
     
     public static boolean isShulker(Item item) {

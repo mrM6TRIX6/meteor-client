@@ -9,6 +9,7 @@ import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.math.Vec3d;
@@ -67,7 +68,7 @@ public class MeshBuilder {
         
         building = true;
         
-        if (Utils.rendering3D) {
+        if (RenderUtils.rendering3D) {
             Vec3d camera = mc.gameRenderer.getCamera().getPos();
             
             cameraX = camera.x;

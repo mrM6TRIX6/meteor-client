@@ -17,6 +17,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
+import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.entity.projectile.FishingBobberEntity;
@@ -141,18 +142,18 @@ public class AutoFish extends Module {
             
             if (autoCastTimer > ticksAutoCast.get()) {
                 autoCastEnabled = false;
-                Utils.rightClick();
+                PlayerUtils.rightClick();
             }
         }
         
         // Handle logic
         if (ticksEnabled && ticksToRightClick <= 0) {
             if (ticksData == 0) {
-                Utils.rightClick();
+                PlayerUtils.rightClick();
                 ticksToRightClick = ticksThrow.get();
                 ticksData = 1;
             } else if (ticksData == 1) {
-                Utils.rightClick();
+                PlayerUtils.rightClick();
                 ticksEnabled = false;
             }
         }

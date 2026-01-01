@@ -13,6 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 
 public class Reach extends Module {
     
@@ -39,7 +40,7 @@ public class Reach extends Module {
     @Override
     public WWidget getWidget(GuiTheme theme) {
         return theme.label("Note: on vanilla servers you may give yourself up to 4 blocks of additional reach for specific actions - " +
-            "interacting with block entities (chests, furnaces, etc.) or with vehicles. This does not work on paper servers.", Utils.getWindowWidth() / 3.0);
+            "interacting with block entities (chests, furnaces, etc.) or with vehicles. This does not work on paper servers.", RenderUtils.getWindowWidth() / 3.0);
     }
     
     public double blockReach() {

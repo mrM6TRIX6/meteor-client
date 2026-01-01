@@ -15,6 +15,8 @@ import org.lwjgl.BufferUtils;
 
 import java.nio.ByteBuffer;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 public class CustomTextRenderer implements TextRenderer {
     
     public static final Color SHADOW_COLOR = new Color(60, 60, 60, 180);
@@ -143,7 +145,7 @@ public class CustomTextRenderer implements TextRenderer {
             mesh.end();
             
             MeshRenderer.begin()
-                .attachments(MinecraftClient.getInstance().getFramebuffer())
+                .attachments(mc.getFramebuffer())
                 .pipeline(MeteorRenderPipelines.UI_TEXT)
                 .mesh(mesh)
                 .sampler("u_Texture", font.texture.getGlTextureView())

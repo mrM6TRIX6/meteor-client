@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.EnumSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 
 public class AutoClicker extends Module {
@@ -93,7 +93,7 @@ public class AutoClicker extends Module {
             case Press -> {
                 leftClickTimer++;
                 if (leftClickTimer > leftClickDelay.get()) {
-                    Utils.leftClick();
+                    PlayerUtils.leftClick();
                     leftClickTimer = 0;
                 }
             }
@@ -105,7 +105,7 @@ public class AutoClicker extends Module {
             case Press -> {
                 rightClickTimer++;
                 if (rightClickTimer > rightClickDelay.get()) {
-                    Utils.rightClick();
+                    PlayerUtils.rightClick();
                     rightClickTimer = 0;
                 }
             }

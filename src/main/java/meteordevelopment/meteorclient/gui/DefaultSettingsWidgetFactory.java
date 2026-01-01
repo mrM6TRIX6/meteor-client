@@ -26,6 +26,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.client.resource.language.I18n;
 import org.apache.commons.lang3.StringUtils;
@@ -227,7 +228,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         CharFilter filter = setting.filter == null ? (text, c) -> true : setting.filter;
         Cell<WTextBox> cell = table.add(theme.textBox(setting.get(), setting.placeholder, filter, setting.renderer));
         if (setting.wide) {
-            cell.minWidth(Utils.getWindowWidth() - Utils.getWindowWidth() / 4.0);
+            cell.minWidth(RenderUtils.getWindowWidth() - RenderUtils.getWindowWidth() / 4.0);
         }
         
         WTextBox textBox = cell.expandX().widget();

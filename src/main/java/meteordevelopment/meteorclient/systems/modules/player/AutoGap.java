@@ -21,6 +21,7 @@ import meteordevelopment.meteorclient.systems.modules.combat.CrystalAura;
 import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
+import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -213,7 +214,7 @@ public class AutoGap extends Module {
         changeSlot(slot);
         setPressed(true);
         if (!mc.player.isUsingItem()) {
-            Utils.rightClick();
+            PlayerUtils.rightClick();
         }
         
         eating = true;
