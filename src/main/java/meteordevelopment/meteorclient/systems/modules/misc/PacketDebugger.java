@@ -12,11 +12,15 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.PacketListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.network.PacketUtils;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.packet.Packet;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import java.util.Set;
@@ -27,29 +31,33 @@ public class PacketDebugger extends Module {
     
     private final Setting<Set<Class<? extends Packet<?>>>> nativeC2SPackets = sgGeneral.add(new PacketListSetting.Builder()
         .name("native-C2S-packets")
+        .title("Native C2S Packets")
         .description("The original client-to-server packets have not been hooked and modified.")
-        .filter(aClass -> PacketUtils.getC2SPackets().contains(aClass))
+        .filter(p -> PacketUtils.getC2SPackets().contains(p))
         .build()
     );
     
     private final Setting<Set<Class<? extends Packet<?>>>> nativeS2CPackets = sgGeneral.add(new PacketListSetting.Builder()
         .name("native-S2C-packets")
+        .title("Native S2C Packets")
         .description("The original server-to-client packets have not been hooked and modified.")
-        .filter(aClass -> PacketUtils.getS2CPackets().contains(aClass))
+        .filter(p -> PacketUtils.getS2CPackets().contains(p))
         .build()
     );
     
     private final Setting<Set<Class<? extends Packet<?>>>> finalC2SPackets = sgGeneral.add(new PacketListSetting.Builder()
         .name("final-C2S-packets")
+        .title("Final C2S Packets")
         .description("The final server-to-client packets, which can be hooked and modified.")
-        .filter(aClass -> PacketUtils.getC2SPackets().contains(aClass))
+        .filter(p -> PacketUtils.getC2SPackets().contains(p))
         .build()
     );
     
     private final Setting<Set<Class<? extends Packet<?>>>> finalS2CPackets = sgGeneral.add(new PacketListSetting.Builder()
         .name("final-S2C-packets")
+        .title("Final S2C Packets")
         .description("The final server-to-client packets, which can be hooked and modified.")
-        .filter(aClass -> PacketUtils.getS2CPackets().contains(aClass))
+        .filter(p -> PacketUtils.getS2CPackets().contains(p))
         .build()
     );
     
@@ -86,17 +94,28 @@ public class PacketDebugger extends Module {
         }
     }
     
+    @SuppressWarnings("unchecked")
     private void logPacket(Packet<?> packet) {
-        String packetString = packet.getClass().isRecord() ? packet.toString() : ToStringBuilder.reflectionToString(packet, ToStringStyle.SHORT_PREFIX_STYLE);
+        String name = PacketUtils.getName((Class<? extends Packet<?>>) packet.getClass());
+        // Outside a dev environment, field names are obfuscated and hard to retrieve.
+        // Thus, the module runs in a limited mode here (skipping packet parameters).
+        String params = FabricLoader.getInstance().isDevelopmentEnvironment()
+            ? ReflectionToStringBuilder.toString(packet, ToStringStyle.NO_CLASS_NAME_STYLE)
+            : StringUtils.EMPTY;
         
-        int bracketIndex = packetString.indexOf('[');
-        String name = packetString.substring(0, bracketIndex);
-        String params = packetString.substring(bracketIndex);
-        
-        if (mc.world != null) {
-            info("[(highlight)%s(default)/(highlight)%s(default)] (highlight)%s(default)%s", packet.getPacketType().side(), packet.getPacketType().id(), name, params);
+        if (Utils.canUpdate()) {
+            info("[(highlight)%s(default)/(highlight)%s(default)] (highlight)%s(default)%s",
+                packet.getPacketType().side(),
+                packet.getPacketType().id(),
+                name,
+                params
+            );
         } else {
-            MeteorClient.LOG.info("Packet Debugger | [{}/{}] {}", packet.getPacketType().side(), packet.getPacketType().id(), name + params);
+            MeteorClient.LOG.info("[PacketDebugger] [{}/{}] {}",
+                packet.getPacketType().side(),
+                packet.getPacketType().id(),
+                name + params
+            );
         }
     }
     

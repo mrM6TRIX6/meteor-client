@@ -24,15 +24,17 @@ public class PacketCanceller extends Module {
     
     private final Setting<Set<Class<? extends Packet<?>>>> c2sPackets = sgGeneral.add(new PacketListSetting.Builder()
         .name("C2S-packets")
+        .title("C2S Packets")
         .description("Client-to-server packets to cancel.")
-        .filter(aClass -> PacketUtils.getC2SPackets().contains(aClass))
+        .filter(p -> PacketUtils.getC2SPackets().contains(p))
         .build()
     );
     
     private final Setting<Set<Class<? extends Packet<?>>>> s2cPackets = sgGeneral.add(new PacketListSetting.Builder()
         .name("S2C-packets")
+        .title("S2C Packets")
         .description("Server-to-client packets to cancel.")
-        .filter(aClass -> PacketUtils.getS2CPackets().contains(aClass))
+        .filter(p -> PacketUtils.getS2CPackets().contains(p))
         .build()
     );
     
