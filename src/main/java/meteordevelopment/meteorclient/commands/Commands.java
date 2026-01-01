@@ -94,8 +94,8 @@ public class Commands {
             }
         });
         
-        commandInstances.put(command.getClass(), command);
         commands.add(command);
+        commandInstances.put(command.getClass(), command);
     }
     
     public static CommandDispatcher<CommandSource> getDispatcher() {

@@ -405,8 +405,8 @@ public class Modules extends System<Modules> {
         });
         
         // Add the module
-        moduleInstances.put(module.getClass(), module);
         modules.add(module);
+        moduleInstances.put(module.getClass(), module);
         getGroup(module.category).add(module);
         
         // Register color settings for the module

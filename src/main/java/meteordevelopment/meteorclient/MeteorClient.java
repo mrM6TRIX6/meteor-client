@@ -14,6 +14,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.gui.tabs.Tabs;
+import meteordevelopment.meteorclient.gui.tabs.impl.ModulesTab;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.hud.screens.HudEditorScreen;
@@ -171,7 +172,7 @@ public class MeteorClient implements ClientModInitializer {
         if (Utils.canCloseGui()) {
             mc.currentScreen.close();
         } else if (Utils.canOpenGui()) {
-            Tabs.get().getFirst().openScreen(GuiThemes.get());
+            Tabs.get(ModulesTab.class).openScreen(GuiThemes.get());
         }
     }
     

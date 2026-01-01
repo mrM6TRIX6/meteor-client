@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.tabs;
 
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.gui.tabs.impl.*;
 import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.utils.PreInit;
@@ -15,6 +16,7 @@ import java.util.List;
 public class Tabs {
     
     private static final List<Tab> tabs = new ArrayList<>();
+    private static final Reference2ReferenceOpenHashMap<Class<? extends Tab>, Tab> tabInstances = new Reference2ReferenceOpenHashMap<>();
     
     private Tabs() {}
     
@@ -35,9 +37,14 @@ public class Tabs {
     
     public static void add(Tab tab) {
         tabs.add(tab);
+        tabInstances.put(tab.getClass(), tab);
     }
     
-    public static List<Tab> get() {
+    public static Tab get(Class<? extends Tab> klass) {
+        return tabInstances.get(klass);
+    }
+    
+    public static List<Tab> getAll() {
         return tabs;
     }
     

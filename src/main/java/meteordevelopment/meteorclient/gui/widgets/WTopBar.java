@@ -29,7 +29,7 @@ public abstract class WTopBar extends WHorizontalList {
     
     @Override
     public void init() {
-        for (Tab tab : Tabs.get()) {
+        for (Tab tab : Tabs.getAll()) {
             add(new WTopBarButton(tab));
         }
     }

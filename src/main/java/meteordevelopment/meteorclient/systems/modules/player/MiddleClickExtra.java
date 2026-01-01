@@ -39,7 +39,7 @@ public class MiddleClickExtra extends Module {
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("Which item to use when you middle click.")
-        .defaultValue(Mode.Pearl)
+        .defaultValue(Mode.PEARL)
         .build()
     );
     
@@ -47,7 +47,7 @@ public class MiddleClickExtra extends Module {
         .name("message")
         .description("Sends a message to the player when you add them as a friend.")
         .defaultValue(false)
-        .visible(() -> mode.get() == Mode.AddFriend)
+        .visible(() -> mode.get() == Mode.ADD_FRIEND)
         .build()
     );
     
@@ -55,7 +55,7 @@ public class MiddleClickExtra extends Module {
         .name("quick-swap")
         .description("Allows you to use items in your inventory by simulating hotbar key presses. May get flagged by anticheats.")
         .defaultValue(false)
-        .visible(() -> mode.get() != Mode.AddFriend)
+        .visible(() -> mode.get() != Mode.ADD_FRIEND)
         .build()
     );
     
@@ -63,7 +63,7 @@ public class MiddleClickExtra extends Module {
         .name("swap-back")
         .description("Swap back to your original slot when you finish using an item.")
         .defaultValue(false)
-        .visible(() -> mode.get() != Mode.AddFriend && !quickSwap.get())
+        .visible(() -> mode.get() != Mode.ADD_FRIEND && !quickSwap.get())
         .build()
     );
     
@@ -71,18 +71,17 @@ public class MiddleClickExtra extends Module {
         .name("notify")
         .description("Notifies you when you do not have the specified item in your hotbar.")
         .defaultValue(true)
-        .visible(() -> mode.get() != Mode.AddFriend)
+        .visible(() -> mode.get() != Mode.ADD_FRIEND)
         .build()
     );
-    
-    public MiddleClickExtra() {
-        super(Categories.Player, "MiddleClickExtra", "Perform various actions when you middle click.");
-    }
-    
     private boolean isUsing;
     private boolean wasHeld;
     private int itemSlot;
     private int selectedSlot;
+    
+    public MiddleClickExtra() {
+        super(Categories.Player, "MiddleClickExtra", "Perform various actions when you middle click.");
+    }
     
     @Override
     public void onDeactivate() {
@@ -95,7 +94,7 @@ public class MiddleClickExtra extends Module {
             return;
         }
         
-        if (mode.get() == Mode.AddFriend) {
+        if (mode.get() == Mode.ADD_FRIEND) {
             if (mc.targetedEntity == null) {
                 return;
             }
@@ -201,17 +200,18 @@ public class MiddleClickExtra extends Module {
     }
     
     private enum Mode {
-        Pearl(Items.ENDER_PEARL, true),
+        
+        PEARL(Items.ENDER_PEARL, true),
         XP(Items.EXPERIENCE_BOTTLE, true),
-        Rocket(Items.FIREWORK_ROCKET, true),
-        WindCharge(Items.WIND_CHARGE, true),
+        ROCKET(Items.FIREWORK_ROCKET, true),
+        WIND_CHARGE(Items.WIND_CHARGE, true),
         
-        Bow(Items.BOW, false),
-        Gap(Items.GOLDEN_APPLE, false),
-        EGap(Items.ENCHANTED_GOLDEN_APPLE, false),
-        Chorus(Items.CHORUS_FRUIT, false),
+        BOW(Items.BOW, false),
+        GAP(Items.GOLDEN_APPLE, false),
+        E_GAP(Items.ENCHANTED_GOLDEN_APPLE, false),
+        CHORUS(Items.CHORUS_FRUIT, false),
         
-        AddFriend(null, true);
+        ADD_FRIEND(null, true);
         
         private final Item item;
         private final boolean immediate;
@@ -220,6 +220,7 @@ public class MiddleClickExtra extends Module {
             this.item = item;
             this.immediate = immediate;
         }
+        
     }
     
 }

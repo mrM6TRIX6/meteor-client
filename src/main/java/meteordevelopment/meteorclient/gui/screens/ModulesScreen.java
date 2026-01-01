@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.gui.screens;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.tabs.Tabs;
+import meteordevelopment.meteorclient.gui.tabs.impl.ModulesTab;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.containers.WSection;
@@ -33,7 +34,7 @@ public class ModulesScreen extends TabScreen {
     private WCategoryController controller;
     
     public ModulesScreen(GuiTheme theme) {
-        super(theme, Tabs.get().getFirst());
+        super(theme, Tabs.get(ModulesTab.class));
     }
     
     @Override
