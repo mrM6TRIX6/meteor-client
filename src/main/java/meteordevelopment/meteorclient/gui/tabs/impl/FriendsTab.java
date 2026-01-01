@@ -21,6 +21,8 @@ import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import net.minecraft.client.gui.screen.Screen;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 public class FriendsTab extends Tab {
     
     public FriendsTab() {
@@ -67,7 +69,7 @@ public class FriendsTab extends Tab {
                     
                     MeteorExecutor.execute(() -> {
                         friend.updateInfo();
-                        reload();
+                        mc.execute(this::reload);
                     });
                 }
             };
@@ -91,7 +93,6 @@ public class FriendsTab extends Tab {
                 MeteorExecutor.execute(() -> {
                     if (friend.headTextureNeedsUpdate()) {
                         friend.updateInfo();
-                        reload();
                     }
                 })
             );
