@@ -55,7 +55,6 @@ public class Modules extends System<Modules> {
     
     private static final List<Category> CATEGORIES = new ArrayList<>();
     
-    private final List<Module> modules = new ArrayList<>();
     private final Map<Class<? extends Module>, Module> moduleInstances = new Reference2ReferenceOpenHashMap<>();
     private final Map<Category, List<Module>> groups = new Reference2ReferenceOpenHashMap<>();
     
@@ -100,7 +99,6 @@ public class Modules extends System<Modules> {
         for (List<Module> modules : groups.values()) {
             modules.sort(Comparator.comparing(o -> o.name));
         }
-        modules.sort(Comparator.comparing(o -> o.name));
     }
     
     public static void registerCategory(Category category) {
@@ -141,14 +139,6 @@ public class Modules extends System<Modules> {
     
     public Collection<Module> getAll() {
         return moduleInstances.values();
-    }
-    
-    /**
-     * @deprecated Use {@link Modules#getAll()} instead.
-     */
-    @Deprecated(forRemoval = true)
-    public List<Module> getList() {
-        return modules;
     }
     
     public int getCount() {
@@ -398,14 +388,13 @@ public class Modules extends System<Modules> {
         }
         
         // Check if the module with that name not exists
-        modules.forEach(existing -> {
+        moduleInstances.values().forEach(existing -> {
             if (existing.name.equalsIgnoreCase(module.name)) {
                 throw new IllegalArgumentException("Module with name '%s' already exists".formatted(module.name));
             }
         });
         
         // Add the module
-        modules.add(module);
         moduleInstances.put(module.getClass(), module);
         getGroup(module.category).add(module);
         
