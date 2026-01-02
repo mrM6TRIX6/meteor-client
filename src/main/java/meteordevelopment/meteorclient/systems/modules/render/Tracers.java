@@ -76,7 +76,7 @@ public class Tracers extends Module {
     private final Setting<TracerStyle> style = sgAppearance.add(new EnumSetting.Builder<TracerStyle>()
         .name("style")
         .description("What display mode should be used")
-        .defaultValue(TracerStyle.Lines)
+        .defaultValue(TracerStyle.LINES)
         .build()
     );
     
@@ -84,7 +84,7 @@ public class Tracers extends Module {
         .name("target")
         .description("What part of the entity to target.")
         .defaultValue(Target.BODY)
-        .visible(() -> style.get() == TracerStyle.Lines)
+        .visible(() -> style.get() == TracerStyle.LINES)
         .build()
     );
     
@@ -92,7 +92,7 @@ public class Tracers extends Module {
         .name("stem")
         .description("Draw a line through the center of the tracer target.")
         .defaultValue(true)
-        .visible(() -> style.get() == TracerStyle.Lines)
+        .visible(() -> style.get() == TracerStyle.LINES)
         .build()
     );
     
@@ -111,7 +111,7 @@ public class Tracers extends Module {
         .defaultValue(200)
         .min(0)
         .sliderMax(500)
-        .visible(() -> style.get() == TracerStyle.Offscreen)
+        .visible(() -> style.get() == TracerStyle.OFFSCREEN)
         .build()
     );
     
@@ -121,7 +121,7 @@ public class Tracers extends Module {
         .defaultValue(10)
         .min(2)
         .sliderMax(50)
-        .visible(() -> style.get() == TracerStyle.Offscreen)
+        .visible(() -> style.get() == TracerStyle.OFFSCREEN)
         .build()
     );
     
@@ -129,7 +129,7 @@ public class Tracers extends Module {
         .name("blink-offscreen")
         .description("Make offscreen Blink.")
         .defaultValue(true)
-        .visible(() -> style.get() == TracerStyle.Offscreen)
+        .visible(() -> style.get() == TracerStyle.OFFSCREEN)
         .build()
     );
     
@@ -139,7 +139,7 @@ public class Tracers extends Module {
         .defaultValue(4)
         .min(1)
         .sliderMax(15)
-        .visible(() -> style.get() == TracerStyle.Offscreen && blinkOffscreen.get())
+        .visible(() -> style.get() == TracerStyle.OFFSCREEN && blinkOffscreen.get())
         .build()
     );
     
@@ -216,7 +216,13 @@ public class Tracers extends Module {
     }
     
     private boolean shouldBeIgnored(Entity entity) {
-        return !PlayerUtils.isWithin(entity, maxDist.get()) || (!Modules.get().isActive(Freecam.class) && entity == mc.player) || !entities.get().contains(entity.getType()) || (ignoreSelf.get() && entity == mc.player) || (ignoreFriends.get() && entity instanceof PlayerEntity && Friends.get().isFriend((PlayerEntity) entity)) || (!showInvis.get() && entity.isInvisible()) | !EntityUtils.isInRenderDistance(entity);
+        return !PlayerUtils.isWithin(entity, maxDist.get())
+            || (!Modules.get().isActive(Freecam.class) && entity == mc.player)
+            || !entities.get().contains(entity.getType())
+            || (ignoreSelf.get() && entity == mc.player)
+            || (ignoreFriends.get()&& entity instanceof PlayerEntity && Friends.get().isFriend((PlayerEntity) entity))
+            || (!showInvis.get() && entity.isInvisible())
+            || !EntityUtils.isInRenderDistance(entity);
     }
     
     private Color getEntityColor(Entity entity) {
@@ -245,7 +251,7 @@ public class Tracers extends Module {
     
     @EventHandler
     private void onRender(Render3DEvent event) {
-        if (mc.options.hudHidden || style.get() == TracerStyle.Offscreen) {
+        if (mc.options.hudHidden || style.get() == TracerStyle.OFFSCREEN) {
             return;
         }
         count = 0;
@@ -279,7 +285,7 @@ public class Tracers extends Module {
     
     @EventHandler
     public void onRender2D(Render2DEvent event) {
-        if (mc.options.hudHidden || style.get() != TracerStyle.Offscreen) {
+        if (mc.options.hudHidden || style.get() != TracerStyle.OFFSCREEN) {
             return;
         }
         count = 0;
@@ -294,7 +300,7 @@ public class Tracers extends Module {
             Color color = getEntityColor(entity);
             
             if (blinkOffscreen.get()) {
-                color.a *= getAlpha();
+                color.a = (int) (color.a * getAlpha());
             }
             
             Vec2f screenCenter = new Vec2f(mc.getWindow().getFramebufferWidth() / 2.f, mc.getWindow().getFramebufferHeight() / 2.f);
@@ -314,8 +320,10 @@ public class Tracers extends Module {
             
             float angleYawRad = (float) Math.toRadians(angle.y);
             
-            Vector2f newPoint = new Vector2f(screenCenter.x + distanceOffscreen.get() * (float) Math.cos(angleYawRad),
-                screenCenter.y + distanceOffscreen.get() * (float) Math.sin(angleYawRad));
+            Vector2f newPoint = new Vector2f(
+                screenCenter.x + distanceOffscreen.get() * (float) Math.cos(angleYawRad),
+                screenCenter.y + distanceOffscreen.get() * (float) Math.sin(angleYawRad)
+            );
             
             Vector2f[] trianglePoints = {
                 new Vector2f(newPoint.x - sizeOffscreen.get(), newPoint.y - sizeOffscreen.get()),
@@ -325,8 +333,12 @@ public class Tracers extends Module {
             
             rotateTriangle(trianglePoints, angle.y);
             
-            Renderer2D.COLOR.triangle(trianglePoints[0].x, trianglePoints[0].y, trianglePoints[1].x, trianglePoints[1].y, trianglePoints[2].x,
-                trianglePoints[2].y, color);
+            Renderer2D.COLOR.triangle(
+                trianglePoints[2].x, trianglePoints[2].y,
+                trianglePoints[1].x, trianglePoints[1].y,
+                trianglePoints[0].x, trianglePoints[0].y,
+                color
+            );
             
             count++;
         }
@@ -389,8 +401,10 @@ public class Tracers extends Module {
     }
     
     private enum TracerStyle {
-        Lines,
-        Offscreen
+        
+        LINES,
+        OFFSCREEN
+        
     }
     
 }
