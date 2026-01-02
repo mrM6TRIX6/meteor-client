@@ -145,9 +145,15 @@ public class Trajectories extends Module {
     }
     
     private boolean itemFilter(Item item) {
-        return item instanceof RangedWeaponItem || item instanceof FishingRodItem || item instanceof TridentItem ||
-            item instanceof SnowballItem || item instanceof EggItem || item instanceof EnderPearlItem ||
-            item instanceof ExperienceBottleItem || item instanceof ThrowablePotionItem || item instanceof WindChargeItem;
+        return item instanceof RangedWeaponItem
+            || item instanceof FishingRodItem
+            || item instanceof TridentItem
+            || item instanceof SnowballItem
+            || item instanceof EggItem
+            || item instanceof EnderPearlItem
+            || item instanceof ExperienceBottleItem
+            || item instanceof ThrowablePotionItem
+            || item instanceof WindChargeItem;
     }
     
     private List<Item> getDefaultItems() {
@@ -258,9 +264,7 @@ public class Trajectories extends Module {
         public Vector3d lastPoint;
         
         public void clear() {
-            for (Vector3d point : points) {
-                vec3s.free(point);
-            }
+            vec3s.freeAll(points);
             points.clear();
             
             hitQuad = false;

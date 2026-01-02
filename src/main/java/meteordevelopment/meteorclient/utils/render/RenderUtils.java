@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.utils.render;
 
 import com.mojang.blaze3d.systems.ProjectionType;
 import com.mojang.blaze3d.systems.RenderSystem;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -25,17 +26,15 @@ import org.joml.Matrix3x2fStack;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class RenderUtils {
     
-    private static final Pool<RenderBlock> RENDER_BLOCK_POOL = new Pool<>(RenderBlock::new);
-    private static final List<RenderBlock> RENDER_BLOCKS = new ArrayList<>();
-    private static final ProjectionMatrix2 MATRIX = new ProjectionMatrix2(MeteorClient.MOD_ID + "-projection-matrix", -10, 100, true);
+    private static final Pool<RenderBlock> renderBlockPool = new Pool<>(RenderBlock::new);
+    private static final List<RenderBlock> renderBlocks = new ObjectArrayList<>();
+    private static final ProjectionMatrix2 matrix = new ProjectionMatrix2(MeteorClient.MOD_ID + "-projection-matrix", -10, 100, true);
     
     public static final Matrix4f PROJECTION = new Matrix4f();
     
@@ -62,8 +61,8 @@ public class RenderUtils {
         float width = mc.getWindow().getFramebufferWidth();
         float height = mc.getWindow().getFramebufferHeight();
         
-        RenderSystem.setProjectionMatrix(MATRIX.set(width, height), ProjectionType.ORTHOGRAPHIC);
-        RenderUtils.PROJECTION.set(((ProjectionMatrix2Accessor) MATRIX).meteor$callGetMatrix(width, height));
+        RenderSystem.setProjectionMatrix(matrix.set(width, height), ProjectionType.ORTHOGRAPHIC);
+        PROJECTION.set(((ProjectionMatrix2Accessor) matrix).meteor$callGetMatrix(width, height));
         
         rendering3D = true;
     }
@@ -72,8 +71,8 @@ public class RenderUtils {
         float width = (float) (mc.getWindow().getFramebufferWidth() / mc.getWindow().getScaleFactor());
         float height = (float) (mc.getWindow().getFramebufferHeight() / mc.getWindow().getScaleFactor());
         
-        RenderSystem.setProjectionMatrix(MATRIX.set(width, height), ProjectionType.PERSPECTIVE);
-        RenderUtils.PROJECTION.set(((ProjectionMatrix2Accessor) MATRIX).meteor$callGetMatrix(width, height));
+        RenderSystem.setProjectionMatrix(matrix.set(width, height), ProjectionType.PERSPECTIVE);
+        PROJECTION.set(((ProjectionMatrix2Accessor) matrix).meteor$callGetMatrix(width, height));
         
         rendering3D = true;
     }
@@ -105,7 +104,7 @@ public class RenderUtils {
     }
     
     public static void updateScreenCenter(Matrix4f projection, Matrix4f view) {
-        RenderUtils.PROJECTION.set(projection);
+        PROJECTION.set(projection);
         
         Matrix4f invProjection = new Matrix4f(projection).invert();
         Matrix4f invView = new Matrix4f(view).invert();
@@ -119,39 +118,37 @@ public class RenderUtils {
     
     public static void renderTickingBlock(BlockPos blockPos, Color sideColor, Color lineColor, ShapeMode shapeMode, int excludeDir, int duration, boolean fade, boolean shrink) {
         // Ensure there aren't multiple fading blocks in one pos
-        Iterator<RenderBlock> iterator = RENDER_BLOCKS.iterator();
-        while (iterator.hasNext()) {
-            RenderBlock next = iterator.next();
+        renderBlocks.removeIf(next -> {
             if (next.pos.equals(blockPos)) {
-                iterator.remove();
-                RENDER_BLOCK_POOL.free(next);
+                renderBlockPool.free(next);
+                return true;
             }
-        }
+            return false;
+        });
         
-        RENDER_BLOCKS.add(RENDER_BLOCK_POOL.get().set(blockPos, sideColor, lineColor, shapeMode, excludeDir, duration, fade, shrink));
+        renderBlocks.add(renderBlockPool.get().set(blockPos, sideColor, lineColor, shapeMode, excludeDir, duration, fade, shrink));
     }
     
     @EventHandler
     private static void onTickPre(TickEvent.Pre event) {
-        if (RENDER_BLOCKS.isEmpty()) {
+        if (renderBlocks.isEmpty()) {
             return;
         }
         
-        RENDER_BLOCKS.forEach(RenderBlock::tick);
-        
-        Iterator<RenderBlock> iterator = RENDER_BLOCKS.iterator();
-        while (iterator.hasNext()) {
-            RenderBlock next = iterator.next();
+        renderBlocks.removeIf(next -> {
+            next.tick();
+            
             if (next.ticks <= 0) {
-                iterator.remove();
-                RENDER_BLOCK_POOL.free(next);
+                renderBlockPool.free(next);
+                return true;
             }
-        }
+            return false;
+        });
     }
     
     @EventHandler
     private static void onRender(Render3DEvent event) {
-        RENDER_BLOCKS.forEach(block -> block.render(event));
+        renderBlocks.forEach(block -> block.render(event));
     }
     
     public static class RenderBlock {

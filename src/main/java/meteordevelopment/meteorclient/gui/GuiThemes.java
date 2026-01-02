@@ -18,8 +18,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class GuiThemes {
     
@@ -75,12 +75,13 @@ public class GuiThemes {
     }
     
     public static void add(GuiTheme theme) {
-        for (Iterator<GuiTheme> it = themes.iterator(); it.hasNext(); ) {
+        for (ListIterator<GuiTheme> it = themes.listIterator(); it.hasNext(); ) {
             if (it.next().name.equals(theme.name)) {
-                it.remove();
+                // Replace the old one with same name
+                it.set(theme);
                 
                 MeteorClient.LOG.error("Theme with the name '{}' has already been added.", theme.name);
-                break;
+                return;
             }
         }
         

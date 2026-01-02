@@ -117,9 +117,7 @@ public class ArrowDodge extends Module {
     
     @EventHandler
     private void onTickPre(TickEvent.Pre event) {
-        for (Vector3d point : points) {
-            vec3s.free(point);
-        }
+        vec3s.freeAll(points);
         points.clear();
         
         for (Entity e : mc.world.getEntities()) {
