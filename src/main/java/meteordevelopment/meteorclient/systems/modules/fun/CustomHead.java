@@ -20,7 +20,6 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ComponentMapReader;
 import meteordevelopment.orbit.EventHandler;
-import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

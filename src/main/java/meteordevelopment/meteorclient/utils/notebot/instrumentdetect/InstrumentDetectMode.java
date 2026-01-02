@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.utils.notebot.instrumentdetect;
 
 import net.minecraft.block.NoteBlock;
-import net.minecraft.client.MinecraftClient;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 

@@ -23,7 +23,6 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.registry.Registries;
-import net.minecraft.registry.RegistryOps;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 

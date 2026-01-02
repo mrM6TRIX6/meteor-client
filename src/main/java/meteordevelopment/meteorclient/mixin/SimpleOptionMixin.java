@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.mixin;
 
 import meteordevelopment.meteorclient.mixininterface.ISimpleOption;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.SimpleOption;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

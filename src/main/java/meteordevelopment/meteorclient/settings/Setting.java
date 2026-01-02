@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.settings;
 
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IGetter;

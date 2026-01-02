@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.mixin;
 
 import net.minecraft.block.entity.BeaconBlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.BeaconScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;

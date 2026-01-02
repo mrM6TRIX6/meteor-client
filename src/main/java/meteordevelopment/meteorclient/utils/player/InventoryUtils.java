@@ -269,10 +269,6 @@ public class InventoryUtils {
         }
     }
     
-    public static void clickCreativeStack(ItemStack itemStack, int slot) {
-        clickCreativeStack(itemStack, slot, false);
-    }
-    
     /**
      * In protocol versions 1.21.2 and higher, the server not sends a ScreenHandlerSlotUpdateS2CPacket after the
      * CreativeInventoryActionC2SPacket is sent by the client, which leads to desync client and server inventories.
@@ -285,6 +281,10 @@ public class InventoryUtils {
         }
         mc.getNetworkHandler().sendPacket(new CreativeInventoryActionC2SPacket(slot, itemStack));
         mc.player.playerScreenHandler.getSlot(slot).setStack(itemStack);
+    }
+    
+    public static void clickCreativeStack(ItemStack itemStack, int slot) {
+        clickCreativeStack(itemStack, slot, false);
     }
     
     public static class Action {

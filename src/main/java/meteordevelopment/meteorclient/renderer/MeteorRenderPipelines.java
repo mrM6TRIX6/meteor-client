@@ -12,7 +12,6 @@ import com.mojang.blaze3d.systems.GpuDevice;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import meteordevelopment.meteorclient.MeteorClient;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.UniformType;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.resource.ResourceManager;

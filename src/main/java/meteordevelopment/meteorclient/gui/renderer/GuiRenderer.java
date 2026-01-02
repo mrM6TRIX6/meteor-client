@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Stack;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowWidth;
 import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowHeight;
+import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowWidth;
 
 public class GuiRenderer {
     

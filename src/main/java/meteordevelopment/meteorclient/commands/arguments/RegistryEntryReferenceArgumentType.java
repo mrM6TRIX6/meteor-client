@@ -29,7 +29,6 @@ import net.minecraft.world.gen.structure.Structure;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Stream;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 

@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.systems.hud;
 
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 

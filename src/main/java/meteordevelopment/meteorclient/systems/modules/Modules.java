@@ -47,7 +47,6 @@ import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
