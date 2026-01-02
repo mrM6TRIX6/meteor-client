@@ -19,7 +19,9 @@ import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.hit.EntityHitResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,7 @@ public class AutoBreed extends Module {
     private final Setting<EntityAge> mobAgeFilter = sgGeneral.add(new EnumSetting.Builder<EntityAge>()
         .name("mob-age-filter")
         .description("Determines the age of the mobs to target (baby, adult, or both).")
-        .defaultValue(EntityAge.Adult)
+        .defaultValue(EntityAge.ADULT)
         .build()
     );
     
@@ -80,22 +82,25 @@ public class AutoBreed extends Module {
                 continue;
             }
             
-            if (!entities.get().contains(animal.getType())
-                || !switch (mobAgeFilter.get()) {
-                case Baby -> animal.isBaby();
-                case Adult -> !animal.isBaby();
-                case Both -> true;
-            }
-                || animalsFed.contains(animal)
-                || !PlayerUtils.isWithin(animal, range.get())
-                || !animal.isBreedingItem(hand.get() == Hand.MAIN_HAND ? mc.player.getMainHandStack() : mc.player.getOffHandStack())
-            ) {
+            boolean isAllowedType = entities.get().contains(animal.getType());
+            boolean isRightAge = checkAgeRequirement(animal, mobAgeFilter.get());
+            boolean isNotFedYet = !animalsFed.contains(animal);
+            boolean isInRange = PlayerUtils.isWithin(animal, range.get());
+            boolean hasCorrectFood = checkHeldFood(animal, hand.get());
+            
+            boolean shouldSkipAnimal = !isAllowedType
+                || !isRightAge
+                || !isNotFedYet
+                || !isInRange
+                || !hasCorrectFood;
+            
+            if (shouldSkipAnimal) {
                 continue;
             }
             
             Rotations.rotate(Rotations.getYaw(entity), Rotations.getPitch(entity), -100, () -> {
-                mc.interactionManager.interactEntity(mc.player, animal, hand.get());
-                mc.player.swingHand(hand.get());
+                EntityHitResult location = new EntityHitResult(animal, animal.getBoundingBox().getCenter());
+                mc.interactionManager.interactEntityAtLocation(mc.player, animal, location, hand.get());
                 animalsFed.add(animal);
             });
             
@@ -103,10 +108,27 @@ public class AutoBreed extends Module {
         }
     }
     
+    private boolean checkAgeRequirement(AnimalEntity animal, EntityAge filter) {
+        return switch (filter) {
+            case BABY -> animal.isBaby();
+            case ADULT -> !animal.isBaby();
+            case BOTH -> true;
+        };
+    }
+    
+    private boolean checkHeldFood(AnimalEntity animal, Hand hand) {
+        ItemStack itemStack = hand == Hand.MAIN_HAND
+            ? mc.player.getMainHandStack()
+            : mc.player.getOffHandStack();
+        return animal.isBreedingItem(itemStack);
+    }
+    
     private enum EntityAge {
-        Baby,
-        Adult,
-        Both
+        
+        BABY,
+        ADULT,
+        BOTH
+        
     }
     
 }
