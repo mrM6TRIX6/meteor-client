@@ -266,7 +266,7 @@ public class Utils {
                     continue;
                 }
                 
-                Optional<Byte> slot = compound.get().getByte("Slot"); // Apparently shulker boxes can store more than 27 items, good job Mojang
+                Optional<Byte> slot = compound.get().getByte("Slot"); // apparently shulker boxes can store more than 27 items, good job Mojang
                 if (slot.isEmpty()) {
                     continue;
                 }

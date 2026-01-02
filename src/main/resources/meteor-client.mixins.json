@@ -35,6 +35,8 @@
     "BossBarHudMixin",
     "BoxMixin",
     "BrewingStandScreenMixin",
+    "BundleItemMixin",
+    "BundleTooltipSubmenuHandlerMixin",
     "CameraMixin",
     "CapabilityTrackerMixin",
     "CapeFeatureRendererMixin",

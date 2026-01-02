@@ -117,6 +117,13 @@ public class InventoryTweaks extends Module {
         .build()
     );
     
+    private final Setting<Boolean> uncapBundleScrolling = sgGeneral.add(new BoolSetting.Builder()
+        .name("uncap-bundle-scrolling")
+        .description("Whether to uncap the bundle scrolling feature to let you select any item.")
+        .defaultValue(true)
+        .build()
+    );
+    
     // Anti drop
     
     private final Setting<List<Item>> antiDropItems = sgAntiDrop.add(new ItemListSetting.Builder()
@@ -529,6 +536,10 @@ public class InventoryTweaks extends Module {
     
     public boolean mouseDragItemMove() {
         return isActive() && mouseDragItemMove.get();
+    }
+    
+    public boolean uncapBundleScrolling() {
+        return isActive() && uncapBundleScrolling.get();
     }
     
     public boolean canSteal(ScreenHandler handler) {
