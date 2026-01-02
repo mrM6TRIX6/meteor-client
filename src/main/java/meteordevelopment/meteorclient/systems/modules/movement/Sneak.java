@@ -18,7 +18,7 @@ public class Sneak extends Module {
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("Which method to sneak.")
-        .defaultValue(Mode.Vanilla)
+        .defaultValue(Mode.VANILLA)
         .build()
     );
     
@@ -27,16 +27,18 @@ public class Sneak extends Module {
     }
     
     public boolean doPacket() {
-        return isActive() && !mc.player.getAbilities().flying && mode.get() == Mode.Packet;
+        return isActive() && !mc.player.getAbilities().flying && mode.get() == Mode.PACKET;
     }
     
     public boolean doVanilla() {
-        return isActive() && !mc.player.getAbilities().flying && mode.get() == Mode.Vanilla;
+        return isActive() && !mc.player.getAbilities().flying && mode.get() == Mode.VANILLA;
     }
     
-    public enum Mode {
-        Packet,
-        Vanilla
+    private enum Mode {
+        
+        PACKET,
+        VANILLA
+        
     }
     
 }
