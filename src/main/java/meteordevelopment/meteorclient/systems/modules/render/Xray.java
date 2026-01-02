@@ -28,14 +28,35 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
 
 import java.util.List;
 
 public class Xray extends Module {
     
-    private final SettingGroup sgGeneral = settings.getDefaultGroup();
+    public static final List<Block> ORES = List.of(
+        Blocks.COAL_ORE,
+        Blocks.DEEPSLATE_COAL_ORE,
+        Blocks.IRON_ORE,
+        Blocks.DEEPSLATE_IRON_ORE,
+        Blocks.GOLD_ORE,
+        Blocks.DEEPSLATE_GOLD_ORE,
+        Blocks.LAPIS_ORE,
+        Blocks.DEEPSLATE_LAPIS_ORE,
+        Blocks.REDSTONE_ORE,
+        Blocks.DEEPSLATE_REDSTONE_ORE,
+        Blocks.DIAMOND_ORE,
+        Blocks.DEEPSLATE_DIAMOND_ORE,
+        Blocks.EMERALD_ORE,
+        Blocks.DEEPSLATE_EMERALD_ORE,
+        Blocks.COPPER_ORE,
+        Blocks.DEEPSLATE_COPPER_ORE,
+        Blocks.NETHER_GOLD_ORE,
+        Blocks.NETHER_QUARTZ_ORE,
+        Blocks.ANCIENT_DEBRIS
+    );
     
-    public static final List<Block> ORES = List.of(Blocks.COAL_ORE, Blocks.DEEPSLATE_COAL_ORE, Blocks.IRON_ORE, Blocks.DEEPSLATE_IRON_ORE, Blocks.GOLD_ORE, Blocks.DEEPSLATE_GOLD_ORE, Blocks.LAPIS_ORE, Blocks.DEEPSLATE_LAPIS_ORE, Blocks.REDSTONE_ORE, Blocks.DEEPSLATE_REDSTONE_ORE, Blocks.DIAMOND_ORE, Blocks.DEEPSLATE_DIAMOND_ORE, Blocks.EMERALD_ORE, Blocks.DEEPSLATE_EMERALD_ORE, Blocks.COPPER_ORE, Blocks.DEEPSLATE_COPPER_ORE, Blocks.NETHER_GOLD_ORE, Blocks.NETHER_QUARTZ_ORE, Blocks.ANCIENT_DEBRIS);
+    private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<List<Block>> blocks = sgGeneral.add(new BlockListSetting.Builder()
         .name("whitelist")
@@ -117,16 +138,14 @@ public class Xray extends Module {
         event.lightLevel = 1;
     }
     
-    public boolean modifyDrawSide(BlockState state, BlockState otherState, Direction facing, boolean returns) {
-        if (!returns && !isBlocked(state, otherState)) {
-            return otherState.getCullingFace(facing.getOpposite()) != VoxelShapes.fullCube() || otherState.getBlock() != state.getBlock() || !otherState.isOpaque();
+    public boolean modifyDrawSide(BlockState state, BlockView view, BlockPos pos, Direction facing, boolean returns) {
+        if (!returns && !isBlocked(state.getBlock(), pos)) {
+            BlockPos adjPos = pos.offset(facing);
+            BlockState adjState = view.getBlockState(adjPos);
+            return adjState.getCullingFace(facing.getOpposite()) != VoxelShapes.fullCube() || adjState.getBlock() != state.getBlock() || !adjState.isOpaqueFullCube() || isBlocked(adjState.getBlock(), adjPos);
         }
         
         return returns;
-    }
-    
-    public boolean isBlocked(BlockState state, BlockState otherState) {
-        return !(blocks.get().contains(state.getBlock()) && (!exposedOnly.get() || !otherState.isOpaque()));
     }
     
     public boolean isBlocked(Block block, BlockPos blockPos) {

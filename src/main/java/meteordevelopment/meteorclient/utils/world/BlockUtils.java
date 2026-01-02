@@ -43,6 +43,8 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 @SuppressWarnings("ConstantConditions")
 public class BlockUtils {
     
+    private static final ThreadLocal<BlockPos.Mutable> EXPOSED_POS = ThreadLocal.withInitial(BlockPos.Mutable::new);
+    
     public static boolean breaking;
     private static boolean breakingThisTick;
     
@@ -401,11 +403,9 @@ public class BlockUtils {
         return Direction.UP;
     }
     
-    private static final ThreadLocal<BlockPos.Mutable> EXPOSED_POS = ThreadLocal.withInitial(BlockPos.Mutable::new);
-    
     public static boolean isExposed(BlockPos blockPos) {
         for (Direction direction : Direction.values()) {
-            if (!mc.world.getBlockState(EXPOSED_POS.get().set(blockPos, direction)).isOpaque()) {
+            if (!mc.world.getBlockState(EXPOSED_POS.get().set(blockPos, direction)).isOpaqueFullCube()) {
                 return true;
             }
         }
