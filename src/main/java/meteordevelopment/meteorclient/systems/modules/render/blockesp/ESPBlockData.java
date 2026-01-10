@@ -8,17 +8,16 @@ package meteordevelopment.meteorclient.systems.modules.render.blockesp;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.gui.utils.IScreenFactory;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.IBlockData;
+import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.settings.impl.BlockDataSetting;
+import meteordevelopment.meteorclient.settings.impl.GenericSetting;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
-import meteordevelopment.meteorclient.utils.misc.ICopyable;
-import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.block.Block;
 
-public class ESPBlockData implements ICopyable<ESPBlockData>, ISerializable<ESPBlockData>, IChangeable, IBlockData<ESPBlockData>, IScreenFactory {
+public class ESPBlockData implements IGeneric<ESPBlockData>, IChangeable, IBlockData<ESPBlockData> {
     
     public ShapeMode shapeMode;
     public SettingColor lineColor;
@@ -44,8 +43,8 @@ public class ESPBlockData implements ICopyable<ESPBlockData>, ISerializable<ESPB
     }
     
     @Override
-    public WidgetScreen createScreen(GuiTheme theme) {
-        return new ESPBlockDataScreen(theme, this, null, null);
+    public WidgetScreen createScreen(GuiTheme theme, GenericSetting<ESPBlockData> setting) {
+        return new ESPBlockDataScreen(theme, this, setting);
     }
     
     @Override
