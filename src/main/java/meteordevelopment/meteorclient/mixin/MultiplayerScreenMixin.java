@@ -37,13 +37,19 @@ public abstract class MultiplayerScreenMixin extends Screen {
     private String loggedInAs;
     
     @Unique
+    private ButtonWidget accounts;
+    
+    @Unique
+    private ButtonWidget proxies;
+    
+    @Unique
     private int loggedInAsLength;
     
     public MultiplayerScreenMixin(Text title) {
         super(title);
     }
     
-    @Inject(method = "init", at = @At("TAIL"))
+    @Inject(method = "refreshWidgetPositions", at = @At("TAIL"))
     private void onInit(CallbackInfo ci) {
         textColor1 = Color.fromRGBA(255, 255, 255, 255);
         textColor2 = Color.fromRGBA(175, 175, 175, 255);
@@ -51,22 +57,31 @@ public abstract class MultiplayerScreenMixin extends Screen {
         loggedInAs = "Logged in as ";
         loggedInAsLength = textRenderer.getWidth(loggedInAs);
         
-        addDrawableChild(
-            new ButtonWidget.Builder(Text.literal("Accounts"), button -> client.setScreen(GuiThemes.get().accountsScreen()))
-                .position(this.width - 75 - 3, 3)
+        if (accounts == null) {
+            accounts = addDrawableChild(
+                new ButtonWidget.Builder(
+                    Text.literal("Accounts"),
+                    button -> client.setScreen(GuiThemes.get().accountsScreen())
+                )
                 .size(75, 20)
                 .build()
-        );
+            );
+        }
+        accounts.setPosition(this.width - 75 - 3, 3);
         
-        addDrawableChild(
-            new ButtonWidget.Builder(Text.literal("Proxies"), button -> client.setScreen(GuiThemes.get().proxiesScreen()))
-                .position(this.width - 75 - 3 - 75 - 2, 3)
+        if (proxies == null) {
+            proxies = addDrawableChild(
+                new ButtonWidget.Builder(
+                    Text.literal("Proxies"),
+                    button -> client.setScreen(GuiThemes.get().proxiesScreen())
+                )
                 .size(75, 20)
                 .build()
-        );
+            );
+        }
+        proxies.setPosition(this.width - 75 - 3 - 75 - 2, 3);
     }
     
-    // TODO: This is probably an extremely bad way of doing it but it works for now
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
         super.render(context, mouseX, mouseY, deltaTicks);
