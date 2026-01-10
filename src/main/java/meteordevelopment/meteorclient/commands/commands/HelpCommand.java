@@ -17,10 +17,10 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-public class CommandsCommand extends Command {
+public class HelpCommand extends Command {
     
-    public CommandsCommand() {
-        super("Commands", "List of all commands.", "Help");
+    public HelpCommand() {
+        super("Help", "List of all commands.");
     }
     
     @Override

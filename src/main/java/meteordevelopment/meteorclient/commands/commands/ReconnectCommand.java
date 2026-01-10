@@ -18,7 +18,7 @@ import net.minecraft.text.Text;
 public class ReconnectCommand extends Command {
     
     public ReconnectCommand() {
-        super("Reconnect", "Reconnects server.");
+        super("Reconnect", "Reconnects server.", "rct");
     }
     
     @Override
@@ -26,7 +26,7 @@ public class ReconnectCommand extends Command {
         builder.executes(context -> {
             ServerInfo info = mc.isInSingleplayer() ? null : mc.getCurrentServerEntry();
             if (info != null) {
-                mc.world.disconnect(Text.literal("Disconnected by reconnect command."));
+                mc.world.disconnect(Text.literal("Disconnected by Reconnect command."));
                 ConnectScreen.connect(new MultiplayerScreen(new TitleScreen()), mc,
                     ServerAddress.parse(info.address), info, false, null);
             }

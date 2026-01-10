@@ -27,7 +27,7 @@ import java.util.UUID;
 public class NameHistoryCommand extends Command {
     
     public NameHistoryCommand() {
-        super("NameHistory", "Provides a list of a players previous names from the laby.net api.", "History", "Names");
+        super("NameHistory", "Provides a list of a players previous names from the laby.net api.");
     }
     
     @Override
@@ -36,7 +36,7 @@ public class NameHistoryCommand extends Command {
             .executes(context -> {
                 MeteorExecutor.execute(() -> {
                     PlayerListEntry lookUpTarget = PlayerListEntryArgumentType.get(context, "player");
-                    UUID uuid = lookUpTarget.getProfile().getId();
+                    UUID uuid = lookUpTarget.getProfile().id();
                     
                     NameHistory history = Http.get("https://laby.net/api/v2/user/" + uuid + "/get-profile")
                         .exceptionHandler(e -> error("There was an error fetching that users name history."))
@@ -48,7 +48,7 @@ public class NameHistoryCommand extends Command {
                         error("There was an error fetching that users name history.");
                     }
                     
-                    String name = lookUpTarget.getProfile().getName();
+                    String name = lookUpTarget.getProfile().name();
                     MutableText initial = Text.literal(name);
                     initial.append(Text.literal(name.endsWith("s") ? "'" : "'s"));
                     

@@ -32,11 +32,11 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class RenderUtils {
     
+    public static final Matrix4f PROJECTION = new Matrix4f();
+    
     private static final Pool<RenderBlock> renderBlockPool = new Pool<>(RenderBlock::new);
     private static final List<RenderBlock> renderBlocks = new ObjectArrayList<>();
     private static final ProjectionMatrix2 matrix = new ProjectionMatrix2(MeteorClient.MOD_ID + "-projection-matrix", -10, 100, true);
-    
-    public static final Matrix4f PROJECTION = new Matrix4f();
     
     public static boolean rendering3D = true;
     public static double frameTime;

@@ -21,9 +21,9 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 
-public class PacketUtilsUtil {
+public class PacketUtilsGenerator {
     
-    private PacketUtilsUtil() {}
+    private PacketUtilsGenerator() {}
     
     public static void main(String[] args) {
         try {
@@ -35,7 +35,7 @@ public class PacketUtilsUtil {
     
     public static void init() throws IOException {
         // Generate PacketUtils.java
-        File file = new File("src/main/java/%s/PacketUtils.java".formatted(PacketUtilsUtil.class.getPackageName().replace('.', '/')));
+        File file = new File("src/main/java/%s/PacketUtils.java".formatted(PacketUtilsGenerator.class.getPackageName().replace('.', '/')));
         if (!file.exists()) {
             file.getParentFile().mkdirs();
             file.createNewFile();

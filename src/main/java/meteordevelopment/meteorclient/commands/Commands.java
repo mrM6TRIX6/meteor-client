@@ -38,7 +38,7 @@ public class Commands {
         add(new CenterCommand());
         add(new CheckCMDCommand());
         add(new ClearInventoryCommand());
-        add(new CommandsCommand());
+        add(new ConfigsCommand());
         add(new DamageCommand());
         add(new DismountCommand());
         add(new DisconnectCommand());
@@ -54,6 +54,7 @@ public class Commands {
         add(new GiveCommand());
         add(new GodbridgeAngleCommand());
         add(new HClipCommand());
+        add(new HelpCommand());
         add(new InputCommand());
         add(new InventoryCommand());
         add(new LocateCommand());
@@ -65,7 +66,6 @@ public class Commands {
         add(new NotebotCommand());
         add(new PeekCommand());
         add(new PingCommand());
-        add(new ProfilesCommand());
         add(new ReconnectCommand());
         add(new ReloadCommand());
         add(new ResetCommand());

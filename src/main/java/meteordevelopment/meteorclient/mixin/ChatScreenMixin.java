@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.mixin;
 import meteordevelopment.meteorclient.mixininterface.IChatHud;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -43,13 +44,13 @@ public abstract class ChatScreenMixin {
     }
     
     @Inject(method = "mouseClicked", at = @At("HEAD"))
-    private void hookMouseClicked(double mouseX, double mouseY, int button, CallbackInfoReturnable<Boolean> cir) {
+    private void onMouseClicked(Click click, boolean doubled, CallbackInfoReturnable<Boolean> cir) {
         BetterChat betterChat = Modules.get().get(BetterChat.class);
-        if (!(betterChat.isActive() && betterChat.copyingMessages())) {
+        if (!betterChat.copyingMessages()) {
             return;
         }
         
-        int[] activeMessage = getActiveMessage((int) mouseX, (int) mouseY);
+        int[] activeMessage = getActiveMessage((int) click.x(), (int) click.y());
         
         if (activeMessage == null) {
             return;
@@ -75,7 +76,7 @@ public abstract class ChatScreenMixin {
             return;
         }
         
-        copyMessage(messageParts, button);
+        copyMessage(messageParts, click.button());
     }
     
     @Unique

@@ -37,7 +37,7 @@ import java.util.*;
 public class NBTCommand extends Command {
     
     public NBTCommand() {
-        super("NBT", "Modifies NBT data for an item, example: .nbt add [minecraft:item_name=\"Test\"]");
+        super("NBT", "NBT data tools for an item, example: .nbt add [minecraft:item_name=\"Test\"]'");
     }
     
     @Override

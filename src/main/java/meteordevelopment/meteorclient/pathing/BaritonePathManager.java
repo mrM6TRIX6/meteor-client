@@ -161,7 +161,7 @@ public class BaritonePathManager implements IPathManager {
             if (timer <= 0) {
                 timer = 20;
                 
-                Vec3d pos = mc.player.getPos();
+                Vec3d pos = mc.player.getEntityPos();
                 float theta = (float) Math.toRadians(yaw);
                 
                 x = (int) Math.floor(pos.x - (double) MathHelper.sin(theta) * 100);

@@ -17,6 +17,7 @@ public class ScreenOpenEvent extends Cancellable {
     public static ScreenOpenEvent get(Screen screen) {
         INSTANCE.setCancelled(false);
         INSTANCE.screen = screen;
+        
         return INSTANCE;
     }
     

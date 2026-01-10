@@ -51,7 +51,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     
     @Inject(method = "clipAtLedge", at = @At("HEAD"), cancellable = true)
     protected void clipAtLedge(CallbackInfoReturnable<Boolean> ci) {
-        if (!getWorld().isClient) {
+        if (!getEntityWorld().isClient()) {
             return;
         }
         
@@ -63,7 +63,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     
     @Inject(method = "dropItem", at = @At("HEAD"), cancellable = true)
     private void onDropItem(ItemStack stack, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
-        if (getWorld().isClient && !stack.isEmpty()) {
+        if (getEntityWorld().isClient() && !stack.isEmpty()) {
             if (MeteorClient.EVENT_BUS.post(DropItemEvent.get(stack)).isCancelled()) {
                 cir.setReturnValue(null);
             }
@@ -86,7 +86,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     
     @ModifyReturnValue(method = "getBlockBreakingSpeed", at = @At(value = "RETURN"))
     public float onGetBlockBreakingSpeed(float breakSpeed, BlockState block) {
-        if (!getWorld().isClient) {
+        if (!getEntityWorld().isClient()) {
             return breakSpeed;
         }
         
@@ -111,7 +111,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     
     @ModifyReturnValue(method = "getMovementSpeed", at = @At("RETURN"))
     private float onGetMovementSpeed(float original) {
-        if (!getWorld().isClient) {
+        if (!getEntityWorld().isClient()) {
             return original;
         }
         if (!Modules.get().get(NoSlow.class).slowness()) {
@@ -133,7 +133,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
     
     @Inject(method = "getOffGroundSpeed", at = @At("HEAD"), cancellable = true)
     private void onGetOffGroundSpeedHEAD(CallbackInfoReturnable<Float> ci) {
-        if (!getWorld().isClient) {
+        if (!getEntityWorld().isClient()) {
             return;
         }
         

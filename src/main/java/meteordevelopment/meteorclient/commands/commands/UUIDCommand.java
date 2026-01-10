@@ -26,8 +26,8 @@ public class UUIDCommand extends Command {
         builder.then(argument("player", PlayerListEntryArgumentType.create())
             .executes(context -> {
                 PlayerListEntry player = PlayerListEntryArgumentType.get(context, "player");
-                String playerName = player.getProfile().getName();
-                String uuid = player.getProfile().getId().toString();
+                String playerName = player.getProfile().name();
+                String uuid = player.getProfile().id().toString();
                 
                 Text message = createUUIDMessage(playerName, uuid);
                 info(message);

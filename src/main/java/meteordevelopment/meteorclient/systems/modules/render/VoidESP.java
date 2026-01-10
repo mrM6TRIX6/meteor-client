@@ -17,9 +17,7 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Pool;
-import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import meteordevelopment.meteorclient.utils.world.Dimension;
 import meteordevelopment.meteorclient.utils.world.Dir;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
@@ -28,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
+import net.minecraft.world.dimension.DimensionTypes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +107,7 @@ public class VoidESP extends Module {
     @EventHandler
     private void onTick(TickEvent.Post event) {
         voidHoles.clear();
-        if (PlayerUtils.getDimension() == Dimension.END) {
+        if (mc.world.getDimensionEntry() == DimensionTypes.THE_END) {
             return;
         }
         
@@ -124,7 +123,7 @@ public class VoidESP extends Module {
                 }
                 
                 // Check for nether roof
-                if (netherRoof.get() && PlayerUtils.getDimension() == Dimension.NETHER) {
+                if (netherRoof.get() && mc.world.getDimensionEntry() == DimensionTypes.THE_NETHER) {
                     blockPos.set(x, 127, z);
                     if (isHole(blockPos, true)) {
                         voidHoles.add(voidHolePool.get().set(blockPos.set(x, 127, z), true));

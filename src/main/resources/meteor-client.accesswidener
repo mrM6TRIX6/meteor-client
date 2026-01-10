@@ -7,10 +7,15 @@ accessible   class   net/minecraft/network/packet/c2s/play/PlayerInteractEntityC
 accessible   class   net/minecraft/network/packet/c2s/play/PlayerInteractEntityC2SPacket$InteractTypeHandler
 accessible   class   net/minecraft/client/world/ClientChunkManager$ClientChunkMap
 
+accessible   class   net/minecraft/entity/projectile/FishingBobberEntity$State
+accessible   field   net/minecraft/entity/projectile/FishingBobberEntity state Lnet/minecraft/entity/projectile/FishingBobberEntity$State;
+
 accessible   class   net/minecraft/client/texture/MapTextureManager$MapTexture
 accessible   field   net/minecraft/client/texture/MapTextureManager$MapTexture texture Lnet/minecraft/client/texture/NativeImageBackedTexture;
 
 accessible   class   net/minecraft/client/gui/screen/ingame/BeaconScreen$EffectButtonWidget
+accessible   class   net/minecraft/client/gui/screen/ingame/BeaconScreen$DoneButtonWidget
+accessible   class   net/minecraft/client/gui/screen/ingame/BeaconScreen$CancelButtonWidget
 
 accessible   class   net/minecraft/client/resource/ResourceReloadLogger$ReloadState
 
@@ -20,17 +25,11 @@ accessible   method  com/mojang/blaze3d/pipeline/RenderPipeline$Builder withSnip
 
 accessible   field   net/minecraft/client/render/RenderPhase ITEM_ENTITY_TARGET Lnet/minecraft/client/render/RenderPhase$Target;
 
-accessible field net/minecraft/client/option/GameOptions enabledPlayerModelParts Ljava/util/Set;
+accessible   field net/minecraft/client/option/GameOptions enabledPlayerModelParts Ljava/util/Set;
 
-mutable field net/minecraft/util/math/Vec3d x D
-mutable field net/minecraft/util/math/Vec3d y D
-mutable field net/minecraft/util/math/Vec3d z D
+accessible   field   net/minecraft/client/gui/screen/ingame/HandledScreen backgroundWidth I
+accessible   field   net/minecraft/client/gui/screen/ingame/HandledScreen backgroundHeight I
 
-accessible field net/minecraft/client/option/GameOptions enabledPlayerModelParts Ljava/util/Set;
+accessible   method   net/minecraft/client/network/ClientPlayerInteractionManager sendSequencedPacket (Lnet/minecraft/client/world/ClientWorld;Lnet/minecraft/client/network/SequencedPacketCreator;)V
 
-accessible field net/minecraft/client/gui/screen/ingame/HandledScreen backgroundWidth I
-accessible field net/minecraft/client/gui/screen/ingame/HandledScreen backgroundHeight I
-
-# Auto Fish
-accessible class net/minecraft/entity/projectile/FishingBobberEntity$State
-accessible field net/minecraft/entity/projectile/FishingBobberEntity state Lnet/minecraft/entity/projectile/FishingBobberEntity$State;
+accessible   field   net/minecraft/client/render/command/OrderedRenderCommandQueueImpl batchingQueues Lit/unimi/dsi/fastutil/ints/Int2ObjectAVLTreeMap;

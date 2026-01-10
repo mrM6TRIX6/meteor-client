@@ -92,7 +92,7 @@ public class EntityUtils {
         return playerListEntry.getGameMode();
     }
     
-    @SuppressWarnings("deprecation") // Use of AbstractBlock.AbstractBlockState#blocksMovement
+    @SuppressWarnings("deprecation") // use of AbstractBlock.AbstractBlockState#blocksMovement
     public static boolean isAboveWater(Entity entity) {
         BlockPos.Mutable blockPos = entity.getBlockPos().mutableCopy();
         
@@ -121,11 +121,11 @@ public class EntityUtils {
         return isInRenderDistance(entity.getX(), entity.getZ());
     }
     
-    public static boolean isInRenderDistance(BlockEntity entity) {
-        if (entity == null) {
+    public static boolean isInRenderDistance(BlockEntity blockEntity) {
+        if (blockEntity == null) {
             return false;
         }
-        return isInRenderDistance(entity.getPos().getX(), entity.getPos().getZ());
+        return isInRenderDistance(blockEntity.getPos().getX(), blockEntity.getPos().getZ());
     }
     
     public static boolean isInRenderDistance(BlockPos pos) {

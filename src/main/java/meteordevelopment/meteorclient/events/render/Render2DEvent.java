@@ -23,6 +23,7 @@ public class Render2DEvent {
         INSTANCE.screenHeight = screenHeight;
         INSTANCE.frameTime = RenderUtils.frameTime;
         INSTANCE.tickDelta = tickDelta;
+        
         return INSTANCE;
     }
     

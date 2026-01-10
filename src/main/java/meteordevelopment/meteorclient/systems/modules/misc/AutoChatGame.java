@@ -36,7 +36,7 @@ public class AutoChatGame extends Module {
     
     private final Setting<Boolean> globalChat = sgGeneral.add(new BoolSetting.Builder()
         .name("global-chat")
-        .description("Send answers to the global chat using the prefix \"!\".")
+        .description("Send answers to the global chat using the prefix '!'.")
         .defaultValue(false)
         .build()
     );

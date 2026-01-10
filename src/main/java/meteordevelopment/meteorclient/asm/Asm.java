@@ -119,8 +119,8 @@ public class Asm {
         }
         
         @Override
-        public boolean couldTransformClass(MixinEnvironment mixinEnvironment, String s) {
-            return delegate.couldTransformClass(mixinEnvironment, s);
+        public boolean couldTransformClass(MixinEnvironment mixinEnvironment, String name) {
+            return delegate.couldTransformClass(mixinEnvironment, name);
         }
         
         @Override

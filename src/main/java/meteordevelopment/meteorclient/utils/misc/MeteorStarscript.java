@@ -639,7 +639,7 @@ public class MeteorStarscript {
         if (camera) {
             pos = mc.gameRenderer.getCamera().getPos();
         } else {
-            pos = mc.player != null ? mc.player.getPos() : Vec3d.ZERO;
+            pos = mc.player != null ? mc.player.getEntityPos() : Vec3d.ZERO;
         }
         
         double x = pos.x;

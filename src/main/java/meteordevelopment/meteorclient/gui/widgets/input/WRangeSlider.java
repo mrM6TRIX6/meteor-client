@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.gui.widgets.input;
 
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.utils.misc.Range;
+import net.minecraft.client.gui.Click;
 
 public abstract class WRangeSlider extends WWidget {
     
@@ -50,7 +51,7 @@ public abstract class WRangeSlider extends WWidget {
     }
     
     @Override
-    public boolean onMouseClicked(double mouseX, double mouseY, int button, boolean used) {
+    public boolean onMouseClicked(Click click, boolean used) {
         if (used) {
             return false;
         }
@@ -60,19 +61,19 @@ public abstract class WRangeSlider extends WWidget {
         double trackWidth = width - s;
         double trackX = x + s2;
         
-        boolean mouseOverX = mouseX >= trackX && mouseX <= trackX + trackWidth;
-        boolean mouseOverY = mouseY >= y && mouseY <= y + height;
+        boolean mouseOverX = click.x() >= trackX && click.x() <= trackX + trackWidth;
+        boolean mouseOverY = click.y() >= y && click.y() <= y + height;
         mouseOver = mouseOverX && mouseOverY;
         
         if (mouseOver) {
             handleFromX = calculateFromHandleX();
             handleToX = calculateToHandleX();
             
-            boolean isOverMin = isMouseOverHandle(mouseX, mouseY, handleFromX, y, s);
-            boolean isOverMax = isMouseOverHandle(mouseX, mouseY, handleToX, y, s);
+            boolean isOverMin = isMouseOverHandle(click.x(), click.y(), handleFromX, y, s);
+            boolean isOverMax = isMouseOverHandle(click.x(), click.y(), handleToX, y, s);
             
             if (isOverMin && isOverMax) {
-                double mouseDeltaX = mouseX - (handleFromX + handleToX) / 2;
+                double mouseDeltaX = click.x() - (handleFromX + handleToX) / 2;
                 
                 if (mouseDeltaX > 0) {
                     isOverMin = false;
@@ -101,7 +102,7 @@ public abstract class WRangeSlider extends WWidget {
                 return true;
             }
             
-            double percent = (mouseX - trackX) / trackWidth;
+            double percent = (click.x() - trackX) / trackWidth;
             int newValue = (int) Math.round(min + percent * (max - min));
             newValue = Math.max(min, Math.min(newValue, max));
             
@@ -182,7 +183,7 @@ public abstract class WRangeSlider extends WWidget {
     }
     
     @Override
-    public boolean onMouseReleased(double mouseX, double mouseY, int button) {
+    public boolean onMouseReleased(Click click) {
         if (draggingFrom || draggingTo) {
             if ((draggingFrom && value.from != valueFromAtDragStart) ||
                 (draggingTo && value.to != valueToAtDragStart)) {

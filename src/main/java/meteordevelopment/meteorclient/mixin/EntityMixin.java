@@ -21,8 +21,6 @@ import meteordevelopment.meteorclient.systems.modules.render.Freecam;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
-import meteordevelopment.meteorclient.utils.render.color.Color;
-import meteordevelopment.meteorclient.utils.render.postprocess.PostProcessShaders;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -158,16 +156,6 @@ public abstract class EntityMixin {
             MeteorClient.EVENT_BUS.post(PlayerMoveEvent.get(type, movement));
         } else if ((Object) this instanceof LivingEntity) {
             MeteorClient.EVENT_BUS.post(LivingEntityMoveEvent.get((LivingEntity) (Object) this, movement));
-        }
-    }
-    
-    @Inject(method = "getTeamColorValue", at = @At("HEAD"), cancellable = true)
-    private void onGetTeamColorValue(CallbackInfoReturnable<Integer> info) {
-        if (PostProcessShaders.rendering) {
-            Color color = Modules.get().get(ESP.class).getColor((Entity) (Object) this);
-            if (color != null) {
-                info.setReturnValue(color.getPacked());
-            }
         }
     }
     

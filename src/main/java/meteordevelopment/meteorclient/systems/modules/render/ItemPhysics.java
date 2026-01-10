@@ -22,7 +22,6 @@ import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.render.model.json.Transformation;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.random.Random;
 import org.joml.Vector3f;
@@ -31,7 +30,6 @@ import java.util.List;
 
 public class ItemPhysics extends Module {
     
-    private static final Direction[] FACES = { null, Direction.UP, Direction.DOWN, Direction.EAST, Direction.NORTH, Direction.SOUTH, Direction.WEST };
     private static final float PIXEL_SIZE = 1f / 16f;
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
@@ -60,7 +58,7 @@ public class ItemPhysics extends Module {
         
         MatrixStack matrices = event.matrixStack;
         
-        random.setSeed(event.renderState.seed);
+        random.setSeed(event.itemEntity.getId() * 89748956L);
         
         for (int i = 0; i < ((ItemRenderStateAccessor) event.renderState.itemRenderState).meteor$getLayerCount(); i++) {
             ItemRenderState.LayerRenderState layer = ((ItemRenderStateAccessor) event.renderState.itemRenderState).meteor$getLayers()[i];
@@ -78,12 +76,21 @@ public class ItemPhysics extends Module {
             
             if (randomRotation.get()) {
                 RotationAxis axis = RotationAxis.POSITIVE_Y;
+                float x = 0.5f;
+                float y = 0.0f;
+                float z = 0.5f;
+                
                 if (info.flat) {
                     axis = RotationAxis.POSITIVE_Z;
+                    y = 0.5f;
+                    z = 0.0f;
                 }
                 
                 float degrees = (random.nextFloat() * 2 - 1) * 90;
+                
+                matrices.translate(x, y, z);
                 matrices.multiply(axis.rotationDegrees(degrees));
+                
             }
             
             renderLayer(event, info);
@@ -112,7 +119,13 @@ public class ItemPhysics extends Module {
                 translate(matrices, info, x, 0, z);
             }
             
-            event.renderState.itemRenderState.render(matrices, event.vertexConsumerProvider, event.light, OverlayTexture.DEFAULT_UV);
+            event.renderState.itemRenderState.render(
+                matrices,
+                event.renderCommandQueue,
+                event.light,
+                OverlayTexture.DEFAULT_UV,
+                event.renderState.outlineColor
+            );
             
             matrices.pop();
             
@@ -158,14 +171,12 @@ public class ItemPhysics extends Module {
             IBakedQuad quad = (IBakedQuad) (Object) _quad;
             
             for (int i = 0; i < 4; i++) {
-                switch (_quad.face()) {
-                    case DOWN -> minY = Math.min(minY, quad.meteor$getY(i));
-                    case UP -> maxY = Math.max(maxY, quad.meteor$getY(i));
-                    case NORTH -> minZ = Math.min(minZ, quad.meteor$getZ(i));
-                    case SOUTH -> maxZ = Math.max(maxZ, quad.meteor$getZ(i));
-                    case WEST -> minX = Math.min(minX, quad.meteor$getX(i));
-                    case EAST -> maxX = Math.max(maxX, quad.meteor$getX(i));
-                }
+                minY = Math.min(minY, quad.meteor$getY(i));
+                maxY = Math.max(maxY, quad.meteor$getY(i));
+                minZ = Math.min(minZ, quad.meteor$getZ(i));
+                maxZ = Math.max(maxZ, quad.meteor$getZ(i));
+                minX = Math.min(minX, quad.meteor$getX(i));
+                maxX = Math.max(maxX, quad.meteor$getX(i));
             }
         }
         
@@ -195,7 +206,7 @@ public class ItemPhysics extends Module {
         
         boolean flat = (x > PIXEL_SIZE && y > PIXEL_SIZE && z <= PIXEL_SIZE);
         
-        return new ModelInfo(flat, 0.5f - minY, minZ - minY);
+        return new ModelInfo(flat, 0.5f - minY, -maxZ);
     }
     
     private record ModelInfo(boolean flat, float offsetY, float offsetZ) {}

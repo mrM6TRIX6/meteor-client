@@ -73,8 +73,8 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         this.addon = null;
     }
     
-    public Module(Category category, String name, String desc) {
-        this(category, name, desc, new String[0]);
+    public Module(Category category, String name, String description) {
+        this(category, name, description, new String[0]);
     }
     
     public WWidget getWidget(GuiTheme theme) {

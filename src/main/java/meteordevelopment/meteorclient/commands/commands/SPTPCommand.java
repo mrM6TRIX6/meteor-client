@@ -33,7 +33,7 @@ public class SPTPCommand extends Command {
         builder.then(argument("player", PlayerListEntryArgumentType.create())
             .executes(context -> {
                 PlayerListEntry lookUpTarget = PlayerListEntryArgumentType.get(context, "player");
-                UUID uuid = lookUpTarget.getProfile().getId();
+                UUID uuid = lookUpTarget.getProfile().id();
                 sendTeleportPacket(uuid);
                 
                 return SINGLE_SUCCESS;

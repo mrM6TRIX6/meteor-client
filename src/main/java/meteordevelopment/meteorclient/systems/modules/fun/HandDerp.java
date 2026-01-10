@@ -32,9 +32,8 @@ public class HandDerp extends Module {
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
         .name("delay")
         .description("Delay in ticks.")
-        .defaultValue(0)
+        .defaultValue(2)
         .min(0)
-        .sliderMin(0)
         .sliderMax(20)
         .visible(() -> mode.get() == Mode.DELAY)
         .build()
@@ -76,8 +75,6 @@ public class HandDerp extends Module {
             switchHand();
             timer = 0;
         }
-        
-        
     }
     
     @EventHandler
@@ -92,8 +89,8 @@ public class HandDerp extends Module {
         mc.player.setMainArm(currentHand);
     }
     
-    public boolean ignoreChangesForFirstPerson() {
-        return mc.player != null && isActive() && hideFirstPerson.get();
+    public boolean hideFirstPerson() {
+        return isActive() && hideFirstPerson.get();
     }
     
     public Arm getOriginalHand() {

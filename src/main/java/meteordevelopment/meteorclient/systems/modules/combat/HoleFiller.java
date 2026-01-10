@@ -427,7 +427,7 @@ public class HoleFiller extends Module {
     }
     
     private double distance(PlayerEntity player, BlockPos pos, boolean feet) {
-        Vec3d testVec = player.getPos();
+        Vec3d testVec = player.getEntityPos();
         if (!feet) {
             testVec.add(0, player.getEyeHeight(mc.player.getPose()), 0);
         } else if (predict.get()) {

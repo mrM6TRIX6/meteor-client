@@ -249,7 +249,7 @@ public class Hud extends System<Hud> implements Iterable<HudElement> {
         if (!active || shouldHideHud()) {
             return;
         }
-        if ((mc.options.hudHidden || mc.inGameHud.getDebugHud().shouldShowDebugHud()) && !HudEditorScreen.isOpen()) {
+        if ((mc.options.hudHidden || mc.debugHudEntryList.isF3Enabled()) && !HudEditorScreen.isOpen()) {
             return;
         }
         

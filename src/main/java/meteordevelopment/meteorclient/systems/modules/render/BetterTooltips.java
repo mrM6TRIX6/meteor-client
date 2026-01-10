@@ -28,8 +28,11 @@ import meteordevelopment.meteorclient.utils.render.ContainerInventoryScreen;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.tooltip.*;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.input.AbstractInput;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.*;
 import net.minecraft.component.type.SuspiciousStewEffectsComponent.StewEffect;
@@ -92,7 +95,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Keybind> openContentsKey = sgGeneral.add(new KeybindSetting.Builder()
-        .name("keybind")
+        .name("open-contents-keybind")
         .description("Key to open contents (containers, books, etc.) when pressed on items.")
         .defaultValue(Keybind.fromButton(GLFW_MOUSE_BUTTON_MIDDLE))
         .visible(openContents::get)
@@ -515,8 +518,15 @@ public class BetterTooltips extends Module {
         return (isActive() && openContents.get()) && (!pauseInCreative.get() || !mc.player.isInCreativeMode());
     }
     
-    public boolean shouldOpenContents(boolean isKey, int keycode, int modifiers) {
-        return openContents() && openContentsKey.get().matches(isKey, keycode, modifiers);
+    public boolean shouldOpenContents(AbstractInput input) {
+        if (input instanceof Click click) {
+            return openContents() && openContentsKey.get().matches(click.buttonInfo());
+        }
+        if (input instanceof KeyInput keyInput) {
+            return openContents() && openContentsKey.get().matches(keyInput);
+        }
+        
+        return false;
     }
     
     public boolean openContent(ItemStack itemStack) {

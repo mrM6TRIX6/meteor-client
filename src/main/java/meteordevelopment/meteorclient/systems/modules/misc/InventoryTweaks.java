@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.events.entity.player.InteractBlockEvent;
 import meteordevelopment.meteorclient.events.entity.player.InteractEntityEvent;
 import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.packets.InventoryEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -303,7 +303,7 @@ public class InventoryTweaks extends Module {
             return;
         }
         
-        if (sortingKey.get().matches(true, event.key, event.modifiers)) {
+        if (sortingKey.get().matches(event.input)) {
             if (sort()) {
                 event.cancel();
             }
@@ -311,12 +311,12 @@ public class InventoryTweaks extends Module {
     }
     
     @EventHandler
-    private void onMouseButton(MouseButtonEvent event) {
+    private void onMouseClick(MouseClickEvent event) {
         if (event.action != KeyAction.PRESS) {
             return;
         }
         
-        if (sortingKey.get().matches(false, event.button, 0)) {
+        if (sortingKey.get().matches(event.input)) {
             if (sort()) {
                 event.cancel();
             }

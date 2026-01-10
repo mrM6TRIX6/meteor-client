@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(BundleTooltipSubmenuHandler.class)
-public class BundleTooltipSubmenuHandlerMixin {
+public abstract class BundleTooltipSubmenuHandlerMixin {
     
     @ModifyExpressionValue(method = "sendPacket", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/BundleItem;getNumberOfStacksShown(Lnet/minecraft/item/ItemStack;)I"))
     private int uncapBundleScrolling1(int original, ItemStack item, int slotId, int selectedItemIndex) {

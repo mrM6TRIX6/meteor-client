@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.systems.macros;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
@@ -76,20 +76,20 @@ public class Macros extends System<Macros> implements Iterable<Macro> {
         }
         
         for (Macro macro : macros) {
-            if (macro.onAction(true, event.key, event.modifiers)) {
+            if (macro.onAction(true, event.key(), event.modifiers())) {
                 return;
             }
         }
     }
     
     @EventHandler(priority = EventPriority.HIGH)
-    private void onButton(MouseButtonEvent event) {
+    private void onButton(MouseClickEvent event) {
         if (event.action == KeyAction.RELEASE) {
             return;
         }
         
         for (Macro macro : macros) {
-            if (macro.onAction(false, event.button, 0)) {
+            if (macro.onAction(false, event.button(), 0)) {
                 return;
             }
         }

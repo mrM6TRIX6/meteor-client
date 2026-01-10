@@ -44,7 +44,7 @@ public class PlayerListEntryArgumentType implements ArgumentType<PlayerListEntry
         PlayerListEntry playerListEntry = null;
         
         for (PlayerListEntry entry : mc.getNetworkHandler().getPlayerList()) {
-            if (entry.getProfile().getName().equalsIgnoreCase(argument)) {
+            if (entry.getProfile().name().equalsIgnoreCase(argument)) {
                 playerListEntry = entry;
                 break;
             }
@@ -59,7 +59,7 @@ public class PlayerListEntryArgumentType implements ArgumentType<PlayerListEntry
     
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        return CommandSource.suggestMatching(mc.getNetworkHandler().getPlayerList().stream().map(playerListEntry -> playerListEntry.getProfile().getName()), builder);
+        return CommandSource.suggestMatching(mc.getNetworkHandler().getPlayerList().stream().map(playerListEntry -> playerListEntry.getProfile().name()), builder);
     }
     
     @Override

@@ -9,8 +9,10 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.BetterTooltips;
 import meteordevelopment.meteorclient.utils.Utils;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.BundleContentsComponent;
 import net.minecraft.entity.player.PlayerInventory;
@@ -60,6 +62,13 @@ public class ContainerInventoryScreen extends Screen {
         }
         
         this.containerRows = Math.max(1, MathHelper.ceilDiv(containerItems.size(), 9));
+    }
+    
+    @Override
+    protected void init() {
+        super.init();
+        this.x = (this.width - SCREEN_WIDTH) / 2;
+        this.y = (this.height - (114 + containerRows * SLOT_SIZE + 20)) / 2;
     }
     
     @Override
@@ -120,36 +129,29 @@ public class ContainerInventoryScreen extends Screen {
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean mouseClicked(Click click, boolean doubled) {
         BetterTooltips tooltips = Modules.get().get(BetterTooltips.class);
         
-        ItemStack stack = getSelectedItem((int) mc.mouse.getScaledX(mc.getWindow()), (int) mc.mouse.getScaledY(mc.getWindow()));
-        if (tooltips.shouldOpenContents(true, keyCode, modifiers)) {
+        ItemStack stack = getSelectedItem((int) click.x(), (int) click.y());
+        if (tooltips.shouldOpenContents(click)) {
             return tooltips.openContent(stack);
-        }
-        
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE || mc.options.inventoryKey.matchesKey(keyCode, scanCode)) {
-            close();
-            return true;
         }
         
         return false;
     }
     
     @Override
-    protected void init() {
-        super.init();
-        this.x = (this.width - SCREEN_WIDTH) / 2;
-        this.y = (this.height - (114 + containerRows * SLOT_SIZE + 20)) / 2;
-    }
-    
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean keyPressed(KeyInput input) {
         BetterTooltips tooltips = Modules.get().get(BetterTooltips.class);
         
-        ItemStack stack = getSelectedItem((int) mouseX, (int) mouseY);
-        if (tooltips.shouldOpenContents(false, button, 0)) {
+        ItemStack stack = getSelectedItem((int) mc.mouse.getScaledX(mc.getWindow()), (int) mc.mouse.getScaledY(mc.getWindow()));
+        if (tooltips.shouldOpenContents(input)) {
             return tooltips.openContent(stack);
+        }
+        
+        if (input.key() == GLFW.GLFW_KEY_ESCAPE || mc.options.inventoryKey.matchesKey(input)) {
+            close();
+            return true;
         }
         
         return false;

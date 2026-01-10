@@ -23,12 +23,15 @@ import meteordevelopment.meteorclient.systems.modules.render.Freecam;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
+import meteordevelopment.meteorclient.utils.render.CustomBannerGuiElementRenderer;
 import meteordevelopment.meteorclient.utils.render.NametagUtils;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.render.GuiRenderer;
+import net.minecraft.client.gui.render.SpecialGuiElementRenderer;
 import net.minecraft.client.gui.render.state.GuiRenderState;
+import net.minecraft.client.render.BufferBuilderStorage;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderTickCounter;
@@ -47,20 +50,21 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin {
     
+    @Unique
+    private final MatrixStack matrices = new MatrixStack();
+    
     @Shadow
     @Final
     private MinecraftClient client;
-    
-    @Shadow
-    public abstract void updateCrosshairTarget(float tickDelta);
-    
-    @Shadow
-    public abstract void reset();
     
     @Shadow
     @Final
@@ -72,14 +76,9 @@ public abstract class GameRendererMixin {
     @Unique
     private Renderer3D depthRenderer;
     
-    @Unique
-    private final MatrixStack matrices = new MatrixStack();
-    
     @Shadow
-    protected abstract void bobView(MatrixStack matrices, float tickDelta);
-    
-    @Shadow
-    protected abstract void tiltViewWhenHurt(MatrixStack matrices, float tickDelta);
+    @Final
+    private BufferBuilderStorage buffers;
     
     @Shadow
     @Final
@@ -93,13 +92,36 @@ public abstract class GameRendererMixin {
     @Final
     private GuiRenderState guiState;
     
+    @Unique
+    private boolean freecamSet = false;
+    
+    @Shadow
+    public abstract void updateCrosshairTarget(float tickDelta);
+    
+    @Shadow
+    public abstract void reset();
+    
+    @Shadow
+    protected abstract void bobView(MatrixStack matrices, float tickDelta);
+    
+    @Shadow
+    protected abstract void tiltViewWhenHurt(MatrixStack matrices, float tickDelta);
+    
+    @ModifyArg(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/render/GuiRenderer;<init>(Lnet/minecraft/client/gui/render/state/GuiRenderState;Lnet/minecraft/client/render/VertexConsumerProvider$Immediate;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/command/RenderDispatcher;Ljava/util/List;)V"))
+    private List<SpecialGuiElementRenderer<?>> meteor$addSpecialRenderers(List<SpecialGuiElementRenderer<?>> list) {
+        list = new ArrayList<>(list);
+        list.add(new CustomBannerGuiElementRenderer(buffers.getEntityVertexConsumers(), client.getAtlasManager()));
+        
+        return List.of(list.toArray(new SpecialGuiElementRenderer<?>[0]));
+    }
+    
     @Inject(method = "renderWorld", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = { "ldc=hand" }))
-    private void onRenderWorld(RenderTickCounter tickCounter, CallbackInfo ci, @Local(ordinal = 0) Matrix4f projection, @Local(ordinal = 2) Matrix4f view, @Local(ordinal = 1) float tickDelta, @Local MatrixStack matrixStack) {
+    private void onRenderWorld(RenderTickCounter tickCounter, CallbackInfo ci, @Local(ordinal = 0) Matrix4f projection, @Local(ordinal = 1) Matrix4f position, @Local(ordinal = 1) float tickDelta, @Local MatrixStack matrixStack) {
         if (!Utils.canUpdate()) {
             return;
         }
         
-        Profilers.get().push(MeteorClient.MOD_ID + "_render");
+        Profilers.get().push(MeteorClient.MOD_ID + "-render");
         
         // Create renderer and event
         
@@ -113,22 +135,22 @@ public abstract class GameRendererMixin {
         
         // Call utility classes
         
-        RenderUtils.updateScreenCenter(projection, view);
-        NametagUtils.onRender(view);
+        RenderUtils.updateScreenCenter(projection, position);
+        NametagUtils.onRender(position);
         
         // Update model view matrix
         
-        RenderSystem.getModelViewStack().pushMatrix().mul(view);
+        RenderSystem.getModelViewStack().pushMatrix().mul(position);
         
-        matrices.push();
+        this.matrices.push();
         
-        tiltViewWhenHurt(matrices, camera.getLastTickProgress());
+        tiltViewWhenHurt(this.matrices, camera.getLastTickProgress());
         if (client.options.getBobView().getValue()) {
-            bobView(matrices, camera.getLastTickProgress());
+            bobView(this.matrices, camera.getLastTickProgress());
         }
         
-        RenderSystem.getModelViewStack().mul(matrices.peek().getPositionMatrix().invert());
-        matrices.pop();
+        RenderSystem.getModelViewStack().mul(this.matrices.peek().getPositionMatrix().invert());
+        this.matrices.pop();
         
         // Render
         
@@ -195,15 +217,12 @@ public abstract class GameRendererMixin {
         }
     }
     
+    // Freecam
+    
     @ModifyExpressionValue(method = "renderWorld", at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F", ordinal = 0))
     private float applyCameraTransformationsMathHelperLerpProxy(float original) {
         return Modules.get().get(NoRender.class).noNausea() ? 0 : original;
     }
-    
-    // Freecam
-    
-    @Unique
-    private boolean freecamSet = false;
     
     @Inject(method = "updateCrosshairTarget", at = @At("HEAD"), cancellable = true)
     private void updateTargetedEntityInvoke(float tickDelta, CallbackInfo ci) {
@@ -224,7 +243,7 @@ public abstract class GameRendererMixin {
             float lastYaw = cameraE.lastYaw;
             float lastPitch = cameraE.lastPitch;
             
-            ((IVec3d) cameraE.getPos()).meteor$set(freecam.pos.x, freecam.pos.y - cameraE.getEyeHeight(cameraE.getPose()), freecam.pos.z);
+            ((IVec3d) cameraE.getEntityPos()).meteor$set(freecam.pos.x, freecam.pos.y - cameraE.getEyeHeight(cameraE.getPose()), freecam.pos.z);
             cameraE.lastX = freecam.prevPos.x;
             cameraE.lastY = freecam.prevPos.y - cameraE.getEyeHeight(cameraE.getPose());
             cameraE.lastZ = freecam.prevPos.z;
@@ -237,7 +256,7 @@ public abstract class GameRendererMixin {
             updateCrosshairTarget(tickDelta);
             freecamSet = false;
             
-            ((IVec3d) cameraE.getPos()).meteor$set(x, y, z);
+            ((IVec3d) cameraE.getEntityPos()).meteor$set(x, y, z);
             cameraE.lastX = lastX;
             cameraE.lastY = lastY;
             cameraE.lastZ = lastZ;

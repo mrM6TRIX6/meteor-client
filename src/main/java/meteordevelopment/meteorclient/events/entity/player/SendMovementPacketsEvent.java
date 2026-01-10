@@ -11,7 +11,7 @@ public class SendMovementPacketsEvent {
         
         private static final Pre INSTANCE = new Pre();
         
-        public static SendMovementPacketsEvent.Pre get() {
+        public static Pre get() {
             return INSTANCE;
         }
         
@@ -21,7 +21,7 @@ public class SendMovementPacketsEvent {
         
         private static final Post INSTANCE = new Post();
         
-        public static SendMovementPacketsEvent.Post get() {
+        public static Post get() {
             return INSTANCE;
         }
         

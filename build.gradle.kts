@@ -1,7 +1,6 @@
 plugins {
-    id("fabric-loom") version "1.10-SNAPSHOT"
+    id("fabric-loom") version "1.11-SNAPSHOT"
     id("maven-publish")
-    id("com.gradleup.shadow") version "9.0.0-beta11"
 }
 
 base {
@@ -51,7 +50,7 @@ repositories {
 }
 
 val modInclude: Configuration by configurations.creating
-val library: Configuration by configurations.creating
+val jij: Configuration by configurations.creating
 
 configurations {
     // include mods
@@ -62,12 +61,12 @@ configurations {
         extendsFrom(modInclude)
     }
 
-    // include libraries
+    // include libraries (jar-in-jar)
     implementation.configure {
-        extendsFrom(library)
+        extendsFrom(jij)
     }
-    shadow.configure {
-        extendsFrom(library)
+    include.configure {
+        extendsFrom(jij)
     }
 }
 
@@ -79,6 +78,7 @@ dependencies {
 
     modInclude(fabricApi.module("fabric-api-base", properties["fapi_version"] as String))
     modInclude(fabricApi.module("fabric-resource-loader-v0", properties["fapi_version"] as String))
+    modInclude(fabricApi.module("fabric-resource-loader-v1", properties["fapi_version"] as String))
 
     // Compat fixes
     modCompileOnly(fabricApi.module("fabric-renderer-indigo", properties["fapi_version"] as String))
@@ -94,20 +94,47 @@ dependencies {
     modCompileOnly("com.terraformersmc:modmenu:${properties["modmenu_version"] as String}")
 
     // Libraries
-    library("meteordevelopment:orbit:${properties["orbit_version"] as String}")
-    library("org.meteordev:starscript:${properties["starscript_version"] as String}")
-    library("meteordevelopment:discord-ipc:${properties["discordipc_version"] as String}")
-    library("org.reflections:reflections:${properties["reflections_version"] as String}")
-    library("io.netty:netty-handler-proxy:${properties["netty_version"] as String}") { isTransitive = false }
-    library("io.netty:netty-codec-socks:${properties["netty_version"] as String}") { isTransitive = false }
-    library("de.florianmichael:WaybackAuthLib:${properties["waybackauthlib_version"] as String}")
+    jij("meteordevelopment:orbit:${properties["orbit_version"] as String}")
+    jij("org.meteordev:starscript:${properties["starscript_version"] as String}")
+    jij("meteordevelopment:discord-ipc:${properties["discordipc_version"] as String}")
+    jij("org.reflections:reflections:${properties["reflections_version"] as String}")
+    jij("io.netty:netty-handler-proxy:${properties["netty_version"] as String}") { isTransitive = false }
+    jij("io.netty:netty-codec-socks:${properties["netty_version"] as String}") { isTransitive = false }
+    jij("de.florianmichael:WaybackAuthLib:${properties["waybackauthlib_version"] as String}")
 
     // Workaround for J2ObjC annotation warnings during compilation
     // Prevents "unknown enum constant Level.FULL" warnings from Google libraries
     implementation("com.google.j2objc:j2objc-annotations:2.8")
+}
 
-    // Launch sub project
-    shadow(project(":launch"))
+// Handle transitive dependencies for jar-in-jar
+// Based on implementation from BaseProject by FlorianMichael/EnZaXD
+// Source: https://github.com/FlorianMichael/BaseProject/blob/main/src/main/kotlin/de/florianmichael/baseproject/Fabric.kt
+// Licensed under Apache License 2.0
+afterEvaluate {
+    val jijConfig = configurations.findByName("jij") ?: return@afterEvaluate
+
+    // Dependencies to exclude from jar-in-jar
+    val excluded = setOf(
+        "org.slf4j",    // logging provided by Minecraft
+        "jsr305"        // compile time annotations only
+    )
+
+    jijConfig.incoming.resolutionResult.allDependencies.forEach { dep ->
+        val requested = dep.requested.displayName
+
+        if (excluded.any { requested.contains(it) }) return@forEach
+
+        val compileOnlyDep = dependencies.create(requested) {
+            isTransitive = false
+        }
+
+        val implDep = dependencies.create(compileOnlyDep)
+
+        dependencies.add("compileOnlyApi", compileOnlyDep)
+        dependencies.add("implementation", implDep)
+        dependencies.add("include", compileOnlyDep)
+    }
 }
 
 loom {
@@ -146,6 +173,10 @@ tasks {
             rename { "${it}_${inputs.properties["archivesName"]}" }
         }
 
+        // Launch sub project
+        dependsOn(":launch:compileJava")
+        from(project(":launch").layout.buildDirectory.dir("classes/java/main"))
+
         manifest {
             attributes["Main-Class"] = "meteordevelopment.meteorclient.Main"
         }
@@ -164,27 +195,6 @@ tasks {
     withType<JavaCompile> {
         options.release = 21
         options.compilerArgs.add("-Xlint:options")
-    }
-
-    shadowJar {
-        configurations = listOf(project.configurations.shadow.get())
-
-        inputs.property("archivesName", project.base.archivesName.get())
-
-        from("LICENSE") {
-            rename { "${it}_${inputs.properties["archivesName"]}" }
-        }
-
-        dependencies {
-            exclude {
-                it.moduleGroup == "org.slf4j"
-            }
-        }
-    }
-
-    remapJar {
-        dependsOn(shadowJar)
-        inputFile.set(shadowJar.get().archiveFile)
     }
 
     javadoc {

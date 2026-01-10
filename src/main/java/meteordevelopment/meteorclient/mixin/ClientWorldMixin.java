@@ -11,10 +11,13 @@ import meteordevelopment.meteorclient.events.entity.EntityRemovedEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
 import meteordevelopment.meteorclient.systems.modules.world.Ambience;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.render.DimensionEffects;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -54,21 +57,15 @@ public abstract class ClientWorldMixin {
         }
     }
     
-    /**
-     *
-     */
     @Inject(method = "getDimensionEffects", at = @At("HEAD"), cancellable = true)
-    private void onGetSkyProperties(CallbackInfoReturnable<DimensionEffects> info) {
+    private void onGetSkyProperties(CallbackInfoReturnable<DimensionEffects> cir) {
         Ambience ambience = Modules.get().get(Ambience.class);
         
         if (ambience.isActive() && ambience.endSky.get()) {
-            info.setReturnValue(ambience.customSkyColor.get() ? customSky : endSky);
+            cir.setReturnValue(ambience.customSkyColor.get() ? customSky : endSky);
         }
     }
     
-    /**
-     *
-     */
     @Inject(method = "getSkyColor", at = @At("HEAD"), cancellable = true)
     private void onGetSkyColor(Vec3d cameraPos, float tickDelta, CallbackInfoReturnable<Integer> cir) {
         Ambience ambience = Modules.get().get(Ambience.class);
@@ -78,15 +75,12 @@ public abstract class ClientWorldMixin {
         }
     }
     
-    /**
-     *
-     */
     @Inject(method = "getCloudsColor", at = @At("HEAD"), cancellable = true)
-    private void onGetCloudsColor(float tickDelta, CallbackInfoReturnable<Integer> info) {
+    private void onGetCloudsColor(float tickDelta, CallbackInfoReturnable<Integer> cir) {
         Ambience ambience = Modules.get().get(Ambience.class);
         
         if (ambience.isActive() && ambience.customCloudColor.get()) {
-            info.setReturnValue(ambience.cloudColor.get().getPacked());
+            cir.setReturnValue(ambience.cloudColor.get().getPacked());
         }
     }
     
@@ -94,6 +88,20 @@ public abstract class ClientWorldMixin {
     private void doRandomBlockDisplayTicks(Args args) {
         if (Modules.get().get(NoRender.class).noBarrierInvis()) {
             args.set(5, Blocks.BARRIER);
+        }
+    }
+    
+    @Inject(method = "addBlockBreakParticles", at = @At("HEAD"), cancellable = true)
+    private void onAddBlockBreakParticles(BlockPos blockPos, BlockState state, CallbackInfo ci) {
+        if (Modules.get().get(NoRender.class).noBlockBreakParticles()) {
+            ci.cancel();
+        }
+    }
+    
+    @Inject(method = "spawnBlockBreakingParticle", at = @At("HEAD"), cancellable = true)
+    private void onAddBlockBreakingParticles(BlockPos blockPos, Direction direction, CallbackInfo ci) {
+        if (Modules.get().get(NoRender.class).noBlockBreakParticles()) {
+            ci.cancel();
         }
     }
     

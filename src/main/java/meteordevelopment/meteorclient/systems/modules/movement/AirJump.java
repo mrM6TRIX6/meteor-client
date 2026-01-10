@@ -49,10 +49,10 @@ public class AirJump extends Module {
             return;
         }
         
-        if (mc.options.jumpKey.matchesKey(event.key, 0)) {
+        if (mc.options.jumpKey.matchesKey(event.input)) {
             level = mc.player.getBlockPos().getY();
             mc.player.jump();
-        } else if (mc.options.sneakKey.matchesKey(event.key, 0)) {
+        } else if (mc.options.sneakKey.matchesKey(event.input)) {
             level--;
         }
     }

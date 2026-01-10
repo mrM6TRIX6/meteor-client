@@ -78,6 +78,10 @@ public class Breadcrumbs extends Module {
     
     @EventHandler
     private void onTick(TickEvent.Post event) {
+        if (!mc.player.isLoaded()) {
+            return;
+        }
+        
         if (lastDimension != mc.world.getDimension()) {
             sectionPool.freeAll(sections);
             sections.clear();
@@ -137,10 +141,6 @@ public class Breadcrumbs extends Module {
             x2 = (float) mc.player.getX();
             y2 = (float) mc.player.getY();
             z2 = (float) mc.player.getZ();
-        }
-        
-        public void render(Render3DEvent event) {
-            event.renderer.line(x1, y1, z1, x2, y2, z2, color.get());
         }
         
     }

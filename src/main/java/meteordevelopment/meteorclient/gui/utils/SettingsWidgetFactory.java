@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 public abstract class SettingsWidgetFactory {
     
-    private static final Map<Class<?>, Function<GuiTheme, SettingsWidgetFactory.Factory>> customFactories = new HashMap<>();
+    private static final Map<Class<?>, Function<GuiTheme, Factory>> customFactories = new HashMap<>();
     
     protected final GuiTheme theme;
     protected final Map<Class<?>, Factory> factories = new HashMap<>();

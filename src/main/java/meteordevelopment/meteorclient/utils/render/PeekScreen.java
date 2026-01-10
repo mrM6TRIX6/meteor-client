@@ -10,8 +10,10 @@ import meteordevelopment.meteorclient.systems.modules.render.BetterTooltips;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.ShulkerBoxScreen;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ShulkerBoxScreenHandler;
@@ -36,9 +38,9 @@ public class PeekScreen extends ShulkerBoxScreen {
     }
     
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(Click click, boolean doubled) {
         BetterTooltips tooltips = Modules.get().get(BetterTooltips.class);
-        boolean condition = tooltips.shouldOpenContents(false, button, 0)
+        boolean condition = tooltips.shouldOpenContents(click)
             && focusedSlot != null
             && !focusedSlot.getStack().isEmpty()
             && mc.player.currentScreenHandler.getCursorStack().isEmpty();
@@ -52,14 +54,14 @@ public class PeekScreen extends ShulkerBoxScreen {
     }
     
     @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+    public boolean mouseReleased(Click click) {
         return false;
     }
     
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyInput input) {
         BetterTooltips tooltips = Modules.get().get(BetterTooltips.class);
-        boolean condition = tooltips.shouldOpenContents(true, keyCode, modifiers)
+        boolean condition = tooltips.shouldOpenContents(input)
             && focusedSlot != null
             && !focusedSlot.getStack().isEmpty()
             && mc.player.currentScreenHandler.getCursorStack().isEmpty();
@@ -71,7 +73,7 @@ public class PeekScreen extends ShulkerBoxScreen {
             }
         }
         
-        if (keyCode == GLFW.GLFW_KEY_ESCAPE || mc.options.inventoryKey.matchesKey(keyCode, scanCode)) {
+        if (input.key() == GLFW.GLFW_KEY_ESCAPE || mc.options.inventoryKey.matchesKey(input)) {
             close();
             return true;
         }

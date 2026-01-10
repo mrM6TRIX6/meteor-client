@@ -22,6 +22,7 @@ public class RenderBossBarEvent {
         public static BossText get(ClientBossBar bossBar, Text name) {
             INSTANCE.bossBar = bossBar;
             INSTANCE.name = name;
+            
             return INSTANCE;
         }
         

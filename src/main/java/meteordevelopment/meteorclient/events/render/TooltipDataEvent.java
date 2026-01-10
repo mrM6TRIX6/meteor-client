@@ -19,6 +19,7 @@ public class TooltipDataEvent {
     public static TooltipDataEvent get(ItemStack itemStack) {
         INSTANCE.tooltipData = null;
         INSTANCE.itemStack = itemStack;
+        
         return INSTANCE;
     }
     

@@ -21,7 +21,7 @@ public abstract class FishingBobberEntityMixin {
     
     @WrapOperation(method = "handleStatus", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/FishingBobberEntity;pullHookedEntity(Lnet/minecraft/entity/Entity;)V"))
     private void preventFishingRodPull(FishingBobberEntity instance, Entity entity, Operation<Void> original) {
-        if (!instance.getWorld().isClient || entity != mc.player) {
+        if (!instance.getEntityWorld().isClient() || entity != mc.player) {
             original.call(instance, entity);
         }
         

@@ -7,24 +7,24 @@ package meteordevelopment.meteorclient.commands.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
-import meteordevelopment.meteorclient.commands.arguments.ConfigArgumentTYpe;
+import meteordevelopment.meteorclient.commands.arguments.ConfigArgumentType;
 import meteordevelopment.meteorclient.systems.configs.Config;
 import meteordevelopment.meteorclient.systems.configs.Configs;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.command.CommandSource;
 
-public class ProfilesCommand extends Command {
+public class ConfigsCommand extends Command {
     
-    public ProfilesCommand() {
-        super("Configs", "Manages configs.", "Cfg");
+    public ConfigsCommand() {
+        super("Configs", "Manages configs.", "cfg");
     }
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.then(literal("load")
-            .then(argument("config", ConfigArgumentTYpe.create())
+            .then(argument("config", ConfigArgumentType.create())
                 .executes(context -> {
-                    Config config = ConfigArgumentTYpe.get(context, "config");
+                    Config config = ConfigArgumentType.get(context, "config");
                     if (config != null) {
                         config.load();
                         info("Loaded config (highlight)%s(default).", config.name.get());
@@ -36,9 +36,9 @@ public class ProfilesCommand extends Command {
         );
         
         builder.then(literal("save")
-            .then(argument("config", ConfigArgumentTYpe.create())
+            .then(argument("config", ConfigArgumentType.create())
                 .executes(context -> {
-                    Config config = ConfigArgumentTYpe.get(context, "config");
+                    Config config = ConfigArgumentType.get(context, "config");
                     if (config != null) {
                         config.save();
                         info("Saved config (highlight)%s(default).", config.name.get());
@@ -50,9 +50,9 @@ public class ProfilesCommand extends Command {
         );
         
         builder.then(literal("remove")
-            .then(argument("config", ConfigArgumentTYpe.create())
+            .then(argument("config", ConfigArgumentType.create())
                 .executes(context -> {
-                    Config config = ConfigArgumentTYpe.get(context, "config");
+                    Config config = ConfigArgumentType.get(context, "config");
                     if (config != null) {
                         Configs.get().remove(config);
                         info("Deleted config (highlight)%s(default).", config.name.get());
@@ -75,7 +75,7 @@ public class ProfilesCommand extends Command {
         builder.then(literal("list")
             .executes(context -> {
                 ChatUtils.info("--- Configs ((highlight)%s(default)) ---", Configs.get().getCount());
-                Configs.get().forEach(profile -> ChatUtils.info("(highlight)%s".formatted(profile.name)));
+                Configs.get().forEach(cfg -> ChatUtils.info("(highlight)%s".formatted(cfg.name)));
                 
                 return SINGLE_SUCCESS;
             })

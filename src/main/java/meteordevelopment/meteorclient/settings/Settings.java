@@ -48,11 +48,11 @@ public class Settings implements ISerializable<Settings>, Iterable<SettingGroup>
         return null;
     }
     
-    public <T> Setting<T> get(String name, Class<T> tClass) {
+    public <T> Setting<T> get(String name, Class<T> clazz) {
         for (SettingGroup sg : this) {
             for (Setting<?> setting : sg) {
-                Class<?> sClass = setting.getDefaultValue().getClass();
-                if (name.equalsIgnoreCase(setting.name) && tClass.equals(sClass)) {
+                Class<?> settingClass = setting.getDefaultValue().getClass();
+                if (name.equalsIgnoreCase(setting.name) && clazz.equals(settingClass)) {
                     return (Setting<T>) setting;
                 }
             }

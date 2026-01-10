@@ -61,9 +61,9 @@ public class PathFinder {
     public Vec3d getNextStraightPos() {
         Vec3d nextPos = new Vec3d(mc.player.getX(), mc.player.getY(), mc.player.getZ());
         double multiplier = 1.0;
-        while (nextPos == mc.player.getPos()) {
+        while (nextPos == mc.player.getEntityPos()) {
             nextPos = new Vec3d((int) (mc.player.getX() + multiplier * Math.cos(Math.toRadians(mc.player.getYaw()))), (int) (mc.player.getY()), (int) (mc.player.getZ() + multiplier * Math.sin(Math.toRadians(mc.player.getYaw()))));
-            multiplier += .1;
+            multiplier += 0.1;
         }
         return nextPos;
     }
@@ -72,9 +72,9 @@ public class PathFinder {
         if (target == null || mc.player == null) {
             return Integer.MAX_VALUE;
         }
-        Vec3d tPos = target.getPos();
-        Vec3d pPos = mc.player.getPos();
-        int yaw = 0;
+        Vec3d tPos = target.getEntityPos();
+        Vec3d pPos = mc.player.getEntityPos();
+        int yaw;
         int direction = getDirection();
         double tan = (tPos.z - pPos.z) / (tPos.x - pPos.x);
         if (direction == QUAD_1) {
@@ -91,8 +91,8 @@ public class PathFinder {
         if (target == null || mc.player == null) {
             return 0;
         }
-        Vec3d targetPos = target.getPos();
-        Vec3d playerPos = mc.player.getPos();
+        Vec3d targetPos = target.getEntityPos();
+        Vec3d playerPos = mc.player.getEntityPos();
         if (targetPos.x == playerPos.x && targetPos.z > playerPos.z) {
             return SOUTH;
         }
@@ -154,7 +154,7 @@ public class PathFinder {
                 if (currentPathBlock == null) {
                     currentPathBlock = getNextPathBlock();
                 }
-                if (mc.player.getPos().squaredDistanceTo(new Vec3d(currentPathBlock.blockPos.getX(), currentPathBlock.blockPos.getY(), currentPathBlock.blockPos.getZ())) < .01) {
+                if (mc.player.getEntityPos().squaredDistanceTo(new Vec3d(currentPathBlock.blockPos.getX(), currentPathBlock.blockPos.getY(), currentPathBlock.blockPos.getZ())) < .01) {
                     currentPathBlock = getNextPathBlock();
                 }
                 lookAtDestination(currentPathBlock);

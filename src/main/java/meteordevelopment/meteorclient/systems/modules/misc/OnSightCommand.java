@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.misc;
 
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
@@ -112,14 +112,14 @@ public class OnSightCommand extends Module {
     }
     
     @EventHandler
-    private void onKey(MouseButtonEvent event) {
-        if (event.action == KeyAction.PRESS && event.button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE && mc.currentScreen == null) {
+    private void onKey(MouseClickEvent event) {
+        if (event.action == KeyAction.PRESS && event.button() == GLFW.GLFW_MOUSE_BUTTON_MIDDLE && mc.currentScreen == null) {
             targets.forEach(this::start);
         }
     }
     
     private boolean entityCheck(Entity entity) {
-        if (entity.equals(mc.player) || entity.equals(mc.cameraEntity)) {
+        if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) {
             return false;
         }
         if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) {

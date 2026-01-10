@@ -17,7 +17,7 @@ public class ClearInventoryCommand extends Command {
     private final static SimpleCommandExceptionType NOT_IN_CREATIVE = new SimpleCommandExceptionType(Text.literal("You must be in creative mode to use this."));
     
     public ClearInventoryCommand() {
-        super("ClearInventory", "Clears inventory in creative mode.", "Clear", "CI");
+        super("ClearInventory", "Clears inventory in creative mode.", "ci");
     }
     
     @Override

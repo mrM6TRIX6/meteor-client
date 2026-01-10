@@ -26,7 +26,7 @@ public abstract class ServerPlayerEntityMixin extends LivingEntity {
     
     @Inject(method = "jump", at = @At("HEAD"), cancellable = true)
     public void dontJump(CallbackInfo ci) {
-        if (!getWorld().isClient) {
+        if (!getEntityWorld().isClient()) {
             return;
         }
         

@@ -28,7 +28,7 @@ public class FriendsCommand extends Command {
             .then(argument("player", PlayerListEntryArgumentType.create())
                 .executes(context -> {
                     GameProfile profile = PlayerListEntryArgumentType.get(context, "player").getProfile();
-                    Friend friend = new Friend(profile.getName(), profile.getId());
+                    Friend friend = new Friend(profile.name(), profile.id());
                     
                     if (Friends.get().add(friend)) {
                         ChatUtils.sendMsg(friend.hashCode(), Formatting.GRAY, "Added (highlight)%s (default)to friends.".formatted(friend.getName()));

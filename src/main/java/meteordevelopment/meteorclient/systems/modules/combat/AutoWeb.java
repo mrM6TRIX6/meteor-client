@@ -171,7 +171,7 @@ public class AutoWeb extends Module {
             return;
         }
         
-        Vec3d pos = target.getPos();
+        Vec3d pos = target.getEntityPos();
         
         // Prediction mode via target's movement delta
         if (predictMovement.get()) {

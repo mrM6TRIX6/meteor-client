@@ -718,7 +718,11 @@ public class CrystalAura extends Module {
         }
         
         // Set player eye pos
-        ((IVec3d) playerEyePos).meteor$set(mc.player.getPos().x, mc.player.getPos().y + mc.player.getEyeHeight(mc.player.getPose()), mc.player.getPos().z);
+        ((IVec3d) playerEyePos).meteor$set(
+            mc.player.getEntityPos().x,
+            mc.player.getEntityPos().y + mc.player.getEyeHeight(mc.player.getPose()),
+            mc.player.getEntityPos().z
+        );
         
         // Find targets, break and place
         findTargets();
@@ -797,7 +801,7 @@ public class CrystalAura extends Module {
         float bestDamage = 0;
         Entity crystal = null;
         
-        // Find best crystal to break
+        // Find the best crystal to break
         for (Entity entity : mc.world.getEntities()) {
             float damage = getBreakDamage(entity, true);
             
@@ -839,21 +843,21 @@ public class CrystalAura extends Module {
         }
         
         // Check range
-        if (isOutOfRange(entity.getPos(), entity.getBlockPos(), false)) {
+        if (isOutOfRange(entity.getEntityPos(), entity.getBlockPos(), false)) {
             return 0;
         }
         
         // Check damage to self and anti suicide
         blockPos.set(entity.getBlockPos()).move(0, -1, 0);
-        float selfDamage = DamageUtils.crystalDamage(mc.player, entity.getPos(), predictMovement.get(), blockPos);
+        float selfDamage = DamageUtils.crystalDamage(mc.player, entity.getEntityPos(), predictMovement.get(), blockPos);
         if (selfDamage > maxDamage.get() || (antiSuicide.get() && selfDamage >= EntityUtils.getTotalHealth(mc.player))) {
             return 0;
         }
         
         // Check damage to targets and face place
-        float damage = getDamageToTargets(entity.getPos(), blockPos, true, false);
+        float damage = getDamageToTargets(entity.getEntityPos(), blockPos, true, false);
         boolean shouldFacePlace = shouldFacePlace();
-        double minimumDamage = shouldFacePlace ? Math.min(minDamage.get(), 1.5d) : minDamage.get();
+        double minimumDamage = shouldFacePlace ? Math.min(minDamage.get(), 1.5) : minDamage.get();
         
         if (damage < minimumDamage) {
             return 0f;
@@ -891,7 +895,7 @@ public class CrystalAura extends Module {
             double pitch = Rotations.getPitch(crystal, Target.FEET);
             
             if (doYawSteps(yaw, pitch)) {
-                setRotation(true, crystal.getPos(), 0, 0);
+                setRotation(true, crystal.getEntityPos(), 0, 0);
                 Rotations.rotate(yaw, pitch, 50, () -> attackCrystal(crystal));
                 
                 breakTimer = breakDelay.get();
@@ -1130,7 +1134,14 @@ public class CrystalAura extends Module {
         // Place
         if (supportBlock == null) {
             // Place crystal
-            mc.player.networkHandler.sendPacket(new PlayerInteractBlockC2SPacket(hand, result, 0));
+            mc.interactionManager.sendSequencedPacket(mc.world, (sequence) ->
+                new PlayerInteractBlockC2SPacket(
+                    hand,
+                    result,
+                    sequence
+                )
+            );
+            
             
             if (swingMode.get().client()) {
                 mc.player.swingHand(hand);

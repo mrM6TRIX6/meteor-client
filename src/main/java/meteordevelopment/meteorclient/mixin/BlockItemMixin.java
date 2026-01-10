@@ -27,7 +27,7 @@ public abstract class BlockItemMixin {
     
     @Inject(method = "place(Lnet/minecraft/item/ItemPlacementContext;Lnet/minecraft/block/BlockState;)Z", at = @At("HEAD"), cancellable = true)
     private void onPlace(ItemPlacementContext context, BlockState state, CallbackInfoReturnable<Boolean> info) {
-        if (!context.getWorld().isClient) {
+        if (!context.getWorld().isClient()) {
             return;
         }
         
@@ -36,16 +36,9 @@ public abstract class BlockItemMixin {
         }
     }
     
-    @ModifyVariable(
-        method = "place(Lnet/minecraft/item/ItemPlacementContext;)Lnet/minecraft/util/ActionResult;",
-        ordinal = 1,
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"
-        )
-    )
+    @ModifyVariable(method = "place(Lnet/minecraft/item/ItemPlacementContext;)Lnet/minecraft/util/ActionResult;", ordinal = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;isOf(Lnet/minecraft/block/Block;)Z"))
     private BlockState modifyState(BlockState state, ItemPlacementContext context) {
-        var noGhostBlocks = Modules.get().get(NoGhostBlocks.class);
+        NoGhostBlocks noGhostBlocks = Modules.get().get(NoGhostBlocks.class);
         
         if (noGhostBlocks.isActive() && noGhostBlocks.placing.get()) {
             return getPlacementState(context);

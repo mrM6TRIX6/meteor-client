@@ -22,7 +22,7 @@ public class DamageCommand extends Command {
     private final static SimpleCommandExceptionType INVULNERABLE = new SimpleCommandExceptionType(Text.literal("You are invulnerable."));
     
     public DamageCommand() {
-        super("Damage", "Damages self", "DMG");
+        super("Damage", "Damages self.");
     }
     
     @Override
@@ -53,7 +53,7 @@ public class DamageCommand extends Command {
             Modules.get().get(AntiHunger.class).toggle();
         }
         
-        Vec3d pos = mc.player.getPos();
+        Vec3d pos = mc.player.getEntityPos();
         
         for (int i = 0; i < 80; i++) {
             sendPositionPacket(pos.x, pos.y + amount + 2.1, pos.z, false);

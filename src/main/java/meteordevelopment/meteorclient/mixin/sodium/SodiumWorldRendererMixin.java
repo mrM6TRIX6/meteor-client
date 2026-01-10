@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(SodiumWorldRenderer.class)
-public class SodiumWorldRendererMixin {
+public abstract class SodiumWorldRendererMixin {
     
     @ModifyVariable(method = "setupTerrain", at = @At("HEAD"), argsOnly = true)
     private FogParameters modifyFogParameters(FogParameters fogParameters) {

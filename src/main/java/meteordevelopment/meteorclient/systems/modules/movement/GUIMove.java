@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.movement;
 
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.mixin.CreativeInventoryScreenAccessor;
@@ -40,7 +40,7 @@ public class GUIMove extends Module {
     private final Setting<Screens> screens = sgGeneral.add(new EnumSetting.Builder<Screens>()
         .name("guis")
         .description("Which GUIs to move in.")
-        .defaultValue(Screens.Inventory)
+        .defaultValue(Screens.INVENTORY)
         .build()
     );
     
@@ -125,52 +125,19 @@ public class GUIMove extends Module {
         return isActive() && arrowsRotate.get();
     }
     
-    private void onInput(int key, KeyAction action, boolean mouse) {
-        if (skip()) {
-            return;
-        }
-        if (screens.get() == Screens.GUI && !(mc.currentScreen instanceof WidgetScreen)) {
-            return;
-        }
-        if (screens.get() == Screens.Inventory && mc.currentScreen instanceof WidgetScreen) {
-            return;
-        }
-        
-        pass(mc.options.forwardKey, key, action, mouse);
-        pass(mc.options.backKey, key, action, mouse);
-        pass(mc.options.leftKey, key, action, mouse);
-        pass(mc.options.rightKey, key, action, mouse);
-        
-        if (jump.get()) {
-            pass(mc.options.jumpKey, key, action, mouse);
-        }
-        if (sneak.get()) {
-            pass(mc.options.sneakKey, key, action, mouse);
-        }
-        if (sprint.get()) {
-            pass(mc.options.sprintKey, key, action, mouse);
-        }
-    }
-    
     @EventHandler
     private void onKey(KeyEvent event) {
-        onInput(event.key, event.action, false);
+        onInput(event.key(), event.action);
     }
     
     @EventHandler
-    private void onButton(MouseButtonEvent event) {
-        onInput(event.button, event.action, true);
+    private void onButton(MouseClickEvent event) {
+        onInput(event.button(), event.action);
     }
     
     @EventHandler
     private void onRender3D(Render3DEvent event) {
         if (skip()) {
-            return;
-        }
-        if (screens.get() == Screens.GUI && !(mc.currentScreen instanceof WidgetScreen)) {
-            return;
-        }
-        if (screens.get() == Screens.Inventory && mc.currentScreen instanceof WidgetScreen) {
             return;
         }
         
@@ -221,11 +188,29 @@ public class GUIMove extends Module {
         }
     }
     
-    private void pass(KeyBinding bind, int key, KeyAction action, boolean mouse) {
-        if (!mouse && !bind.matchesKey(key, 0)) {
+    private void onInput(int key, KeyAction action) {
+        if (skip()) {
             return;
         }
-        if (mouse && !bind.matchesMouse(key)) {
+        
+        pass(mc.options.forwardKey, key, action);
+        pass(mc.options.backKey, key, action);
+        pass(mc.options.leftKey, key, action);
+        pass(mc.options.rightKey, key, action);
+        
+        if (jump.get()) {
+            pass(mc.options.jumpKey, key, action);
+        }
+        if (sneak.get()) {
+            pass(mc.options.sneakKey, key, action);
+        }
+        if (sprint.get()) {
+            pass(mc.options.sprintKey, key, action);
+        }
+    }
+    
+    private void pass(KeyBinding bind, int key, KeyAction action) {
+        if (Input.getKey(bind) != key) {
             return;
         }
         if (action == KeyAction.PRESS) {
@@ -237,7 +222,19 @@ public class GUIMove extends Module {
     }
     
     public boolean skip() {
-        return mc.currentScreen == null || (mc.currentScreen instanceof CreativeInventoryScreen && CreativeInventoryScreenAccessor.meteor$getSelectedTab() == ItemGroups.getSearchGroup()) || mc.currentScreen instanceof ChatScreen || mc.currentScreen instanceof SignEditScreen || mc.currentScreen instanceof AnvilScreen || mc.currentScreen instanceof AbstractCommandBlockScreen || mc.currentScreen instanceof StructureBlockScreen;
+        if (mc.currentScreen == null ||
+            (mc.currentScreen instanceof CreativeInventoryScreen && CreativeInventoryScreenAccessor.meteor$getSelectedTab() == ItemGroups.getSearchGroup())
+            || mc.currentScreen instanceof ChatScreen
+            || mc.currentScreen instanceof SignEditScreen
+            || mc.currentScreen instanceof AnvilScreen
+            || mc.currentScreen instanceof AbstractCommandBlockScreen
+            || mc.currentScreen instanceof StructureBlockScreen) {
+            return true;
+        }
+        if (screens.get() == Screens.GUI && !(mc.currentScreen instanceof WidgetScreen)) {
+            return true;
+        }
+        return screens.get() == Screens.INVENTORY && mc.currentScreen instanceof WidgetScreen;
     }
     
     public boolean sneak() {
@@ -253,9 +250,11 @@ public class GUIMove extends Module {
     }
     
     private enum Screens {
+        
         GUI,
-        Inventory,
-        Both
+        INVENTORY,
+        BOTH
+        
     }
     
 }

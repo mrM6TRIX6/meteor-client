@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.fun;
 
 import com.mojang.authlib.GameProfile;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -93,9 +93,9 @@ public class Stick extends Module {
     
     // Middle click mode
     @EventHandler
-    private void onMouseButton(MouseButtonEvent event) {
+    private void onMouseClick(MouseClickEvent event) {
         if (targetMode.get() == Mode.MiddleClick) {
-            if (event.action == KeyAction.PRESS && event.button == GLFW_MOUSE_BUTTON_MIDDLE && mc.currentScreen == null) {
+            if (event.action == KeyAction.PRESS && event.button() == GLFW_MOUSE_BUTTON_MIDDLE && mc.currentScreen == null) {
                 if (mc.targetedEntity instanceof PlayerEntity) {
                     target = mc.targetedEntity;
                 } else {
@@ -128,7 +128,7 @@ public class Stick extends Module {
     }
     
     private boolean entityCheck(Entity entity) {
-        if (entity.equals(mc.player) || entity.equals(mc.cameraEntity)) {
+        if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) {
             return false;
         }
         if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) {
@@ -147,7 +147,7 @@ public class Stick extends Module {
     private void checkEntity() {
         List<String> playerNamesList = mc.player.networkHandler.getPlayerList().stream()
             .map(PlayerListEntry::getProfile)
-            .map(GameProfile::getName)
+            .map(GameProfile::name)
             .toList();
         
         if (!playerNamesList.contains(EntityUtils.getName(target)) && targetMode.get() == Mode.Automatic) {

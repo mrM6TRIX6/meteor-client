@@ -40,7 +40,7 @@ public class SaveMapCommand extends Command {
     private final PointerBuffer filters;
     
     public SaveMapCommand() {
-        super("SaveMap", "Saves a map to an image.", "SM");
+        super("SaveMap", "Saves a map to an image.");
         
         filters = BufferUtils.createPointerBuffer(1);
         

@@ -19,6 +19,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.misc.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
+import net.minecraft.client.gui.Click;
 import net.minecraft.util.math.MathHelper;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
@@ -363,7 +364,7 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         @Override
-        public boolean onMouseClicked(double mouseX, double mouseY, int button, boolean used) {
+        public boolean onMouseClicked(Click click, boolean used) {
             if (used) {
                 return false;
             }
@@ -382,7 +383,7 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         @Override
-        public boolean onMouseReleased(double mouseX, double mouseY, int button) {
+        public boolean onMouseReleased(Click click) {
             if (dragging) {
                 dragging = false;
             }
@@ -590,7 +591,7 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         @Override
-        public boolean onMouseClicked(double mouseX, double mouseY, int button, boolean used) {
+        public boolean onMouseClicked(Click click, boolean used) {
             if (used) {
                 return false;
             }
@@ -609,7 +610,7 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         @Override
-        public boolean onMouseReleased(double mouseX, double mouseY, int button) {
+        public boolean onMouseReleased(Click click) {
             if (dragging) {
                 dragging = false;
             }

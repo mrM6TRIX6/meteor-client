@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(StringReader.class)
-public class StringReaderMixin {
+public abstract class StringReaderMixin {
     
     @Inject(method = "isAllowedInUnquotedString", at = @At("RETURN"), remap = false, cancellable = true)
     private static void onIsAllowedInUnquotedString(char c, CallbackInfoReturnable<Boolean> cir) {

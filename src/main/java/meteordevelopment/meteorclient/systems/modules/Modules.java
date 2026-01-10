@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.meteor.ActiveModulesChangedEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.ModuleBindChangedEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.pathing.BaritoneUtils;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -225,14 +225,14 @@ public class Modules extends System<Modules> {
     
     @EventHandler(priority = EventPriority.HIGHEST)
     private void onKeyBinding(KeyEvent event) {
-        if (event.action == KeyAction.RELEASE && onBinding(true, event.key, event.modifiers)) {
+        if (event.action == KeyAction.RELEASE && onBinding(true, event.key(), event.modifiers())) {
             event.cancel();
         }
     }
     
     @EventHandler(priority = EventPriority.HIGHEST)
-    private void onButtonBinding(MouseButtonEvent event) {
-        if (event.action == KeyAction.RELEASE && onBinding(false, event.button, 0)) {
+    private void onButtonBinding(MouseClickEvent event) {
+        if (event.action == KeyAction.RELEASE && onBinding(false, event.button(), 0)) {
             event.cancel();
         }
     }
@@ -272,15 +272,15 @@ public class Modules extends System<Modules> {
         if (event.action == KeyAction.REPEAT) {
             return;
         }
-        onAction(true, event.key, event.modifiers, event.action == KeyAction.PRESS);
+        onAction(true, event.key(), event.modifiers(), event.action == KeyAction.PRESS);
     }
     
     @EventHandler(priority = EventPriority.HIGH)
-    private void onMouseButton(MouseButtonEvent event) {
+    private void onMouseClick(MouseClickEvent event) {
         if (event.action == KeyAction.REPEAT) {
             return;
         }
-        onAction(false, event.button, 0, event.action == KeyAction.PRESS);
+        onAction(false, event.button(), 0, event.action == KeyAction.PRESS);
     }
     
     private void onAction(boolean isKey, int value, int modifiers, boolean isPress) {

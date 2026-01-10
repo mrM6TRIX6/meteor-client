@@ -51,8 +51,8 @@ public class ESP extends Module {
         .description("The width of the shader outline.")
         .visible(() -> mode.get() == Mode.SHADER)
         .defaultValue(2)
-        .range(1, 10)
-        .sliderRange(1, 5)
+        .min(0)
+        .sliderRange(1, 10)
         .build()
     );
     
@@ -63,7 +63,6 @@ public class ESP extends Module {
         .decimalPlaces(3)
         .defaultValue(3.5)
         .min(0)
-        .sliderMax(10)
         .build()
     );
     
@@ -347,7 +346,7 @@ public class ESP extends Module {
         if (entity == mc.player && ignoreSelf.get()) {
             return true;
         }
-        if (entity == mc.cameraEntity && mc.options.getPerspective().isFirstPerson()) {
+        if (entity == mc.getCameraEntity() && mc.options.getPerspective().isFirstPerson()) {
             return true;
         }
         return !EntityUtils.isInRenderDistance(entity);

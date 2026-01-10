@@ -88,7 +88,7 @@ public class MaceKill extends Module {
             return;
         }
         
-        previousPos = mc.player.getPos();
+        previousPos = mc.player.getEntityPos();
         int blocks = getMaxHeightAbovePlayer();
         int packetsRequired = (int) Math.ceil(Math.abs(blocks / 10.0));
         if (packetsRequired > 20) {

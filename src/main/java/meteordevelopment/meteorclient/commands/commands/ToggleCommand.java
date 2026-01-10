@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class ToggleCommand extends Command {
     
     public ToggleCommand() {
-        super("Toggle", "Toggles a module.", "T");
+        super("Toggle", "Toggles a module.", "t");
     }
     
     @Override

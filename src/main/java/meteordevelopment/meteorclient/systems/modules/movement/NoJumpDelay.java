@@ -9,7 +9,7 @@ import meteordevelopment.orbit.EventHandler;
 public class NoJumpDelay extends Module {
     
     public NoJumpDelay() {
-        super(Categories.Movement, "NoJumpDelay", "NoJumpDelay.");
+        super(Categories.Movement, "NoJumpDelay", "Removes the cooldown for jumps.");
     }
     
     @EventHandler

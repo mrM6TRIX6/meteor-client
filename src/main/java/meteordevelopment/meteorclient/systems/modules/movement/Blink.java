@@ -57,7 +57,7 @@ public class Blink extends Module {
     public void onActivate() {
         timer = 0;
         createModel();
-        Utils.set(start, mc.player.getPos());
+        Utils.set(start, mc.player.getEntityPos());
     }
     
     @Override
@@ -75,7 +75,7 @@ public class Blink extends Module {
         if (++timer > delay.get()) {
             dumpPackets(true);
             createModel();
-            Utils.set(start, mc.player.getPos());
+            Utils.set(start, mc.player.getEntityPos());
             
             timer = 0;
         }
@@ -129,7 +129,7 @@ public class Blink extends Module {
         }
         
         if (renderOriginal.get()) {
-            model = new FakePlayerEntity(mc.player, mc.player.getGameProfile().getName(), 20, true);
+            model = new FakePlayerEntity(mc.player, mc.player.getGameProfile().name(), 20, true);
             model.doNotPush = true;
             model.hideWhenInsideCamera = true;
             model.noHit = true;

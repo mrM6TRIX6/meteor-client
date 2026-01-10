@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.world;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import meteordevelopment.meteorclient.events.entity.player.BlockBreakingCooldownEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
@@ -61,10 +61,10 @@ public class Nuker extends Module {
         .build()
     );
     
-    private final Setting<Nuker.Mode> mode = sgGeneral.add(new EnumSetting.Builder<Nuker.Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("The way the blocks are broken.")
-        .defaultValue(Nuker.Mode.FLATTEN)
+        .defaultValue(Mode.FLATTEN)
         .build()
     );
     
@@ -156,10 +156,10 @@ public class Nuker extends Module {
         .build()
     );
     
-    private final Setting<Nuker.SortMode> sortMode = sgGeneral.add(new EnumSetting.Builder<Nuker.SortMode>()
+    private final Setting<SortMode> sortMode = sgGeneral.add(new EnumSetting.Builder<SortMode>()
         .name("sort-mode")
         .description("The blocks you want to mine first.")
-        .defaultValue(Nuker.SortMode.CLOSEST)
+        .defaultValue(SortMode.CLOSEST)
         .build()
     );
     
@@ -332,7 +332,7 @@ public class Nuker extends Module {
     }
     
     @EventHandler
-    private void onMouseButton(MouseButtonEvent event) {
+    private void onMouseClick(MouseClickEvent event) {
         if (event.action == KeyAction.PRESS) {
             addTargetedBlockToList();
         }
@@ -548,7 +548,14 @@ public class Nuker extends Module {
             interacted.add(blockPos);
         } else if (packetMine.get()) {
             // Packet mine mode
-            mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.START_DESTROY_BLOCK, blockPos, BlockUtils.getDirection(blockPos)));
+            mc.interactionManager.sendSequencedPacket(mc.world, (sequence) ->
+                new PlayerActionC2SPacket(
+                    PlayerActionC2SPacket.Action.START_DESTROY_BLOCK,
+                    blockPos,
+                    BlockUtils.getDirection(blockPos),
+                    sequence
+                )
+            );
             
             if (swing.get()) {
                 mc.player.swingHand(Hand.MAIN_HAND);
@@ -556,7 +563,14 @@ public class Nuker extends Module {
                 mc.getNetworkHandler().sendPacket(new HandSwingC2SPacket(Hand.MAIN_HAND));
             }
             
-            mc.getNetworkHandler().sendPacket(new PlayerActionC2SPacket(PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK, blockPos, BlockUtils.getDirection(blockPos)));
+            mc.interactionManager.sendSequencedPacket(mc.world, (sequence) ->
+                new PlayerActionC2SPacket(
+                    PlayerActionC2SPacket.Action.STOP_DESTROY_BLOCK,
+                    blockPos,
+                    BlockUtils.getDirection(blockPos),
+                    sequence
+                )
+            );
         } else {
             // Legit mine mode
             BlockUtils.breakBlock(blockPos, swing.get());

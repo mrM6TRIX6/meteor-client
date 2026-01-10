@@ -90,7 +90,7 @@ public abstract class PlayerListHudMixin {
         if (betterTab.isActive() && (betterTab.highlightSelf.get() || betterTab.highlightFriends.get()) && w < entries.size()) {
             PlayerListEntry entry = entries.get(w);
             
-            if (betterTab.highlightSelf.get() && Objects.equals(entry.getProfile().getName(), mc.player.getGameProfile().getName())) {
+            if (betterTab.highlightSelf.get() && Objects.equals(entry.getProfile().name(), mc.player.getGameProfile().name())) {
                 drawColor = betterTab.selfColor.get().getPacked();
             } else if (betterTab.highlightFriends.get() && Friends.get().isFriend(entry)) {
                 drawColor = betterTab.friendsColor.get().getPacked();

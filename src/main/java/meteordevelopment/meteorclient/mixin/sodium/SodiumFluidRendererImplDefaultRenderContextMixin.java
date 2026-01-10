@@ -44,9 +44,9 @@ public abstract class SodiumFluidRendererImplDefaultRenderContextMixin {
     }
     
     @Unique
-    private void lavaColorProvider(LevelSlice level, BlockPos pos, BlockPos.Mutable posMutable, FluidState state, ModelQuadView quads, int[] colors) {
+    private void lavaColorProvider(LevelSlice slice, BlockPos pos, BlockPos.Mutable scratchPos, FluidState state, ModelQuadView quad, int[] output, boolean smooth) {
         Color color = ambience.lavaColor.get();
-        Arrays.fill(colors, ColorABGR.pack(color.r, color.g, color.b, color.a));
+        Arrays.fill(output, ColorABGR.pack(color.r, color.g, color.b, color.a));
     }
     
 }

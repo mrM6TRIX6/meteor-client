@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.fun;
 
 import com.mojang.authlib.GameProfile;
-import meteordevelopment.meteorclient.events.meteor.MouseButtonEvent;
+import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -191,9 +191,9 @@ public class SexAura extends Module {
     
     // Middle click mode
     @EventHandler
-    private void onMouseButton(MouseButtonEvent event) {
+    private void onMouseClick(MouseClickEvent event) {
         if (targetMode.get() == Mode.MIDDLE_CLICK) {
-            if (event.action == KeyAction.PRESS && event.button == GLFW_MOUSE_BUTTON_MIDDLE && mc.currentScreen == null) {
+            if (event.action == KeyAction.PRESS && event.button() == GLFW_MOUSE_BUTTON_MIDDLE && mc.currentScreen == null) {
                 if (mc.targetedEntity instanceof PlayerEntity) {
                     target = mc.targetedEntity;
                     
@@ -299,7 +299,7 @@ public class SexAura extends Module {
         for (int i = 0; i < 360; i++) {
             Color c1 = new Color(255, 0, 255, 255);
             ;
-            Vec3d tp = target.getPos();
+            Vec3d tp = target.getEntityPos();
             
             double rad = Math.toRadians(i);
             double sin = Math.sin(rad);
@@ -319,7 +319,7 @@ public class SexAura extends Module {
     }
     
     private boolean entityCheck(Entity entity) {
-        if (entity.equals(mc.player) || entity.equals(mc.cameraEntity)) {
+        if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) {
             return false;
         }
         if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) {
@@ -338,7 +338,7 @@ public class SexAura extends Module {
     private void checkEntity() {
         List<String> playerNamesList = mc.player.networkHandler.getPlayerList().stream()
             .map(PlayerListEntry::getProfile)
-            .map(GameProfile::getName)
+            .map(GameProfile::name)
             .toList();
         
         if (!playerNamesList.contains(EntityUtils.getName(target)) && targetMode.get() == Mode.AUTOMATIC) {

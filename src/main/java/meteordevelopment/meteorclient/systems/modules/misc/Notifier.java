@@ -113,7 +113,7 @@ public class Notifier extends Module {
     private final Setting<Event> event = sgVisualRange.add(new EnumSetting.Builder<Event>()
         .name("event")
         .description("When to log the entities.")
-        .defaultValue(Event.Both)
+        .defaultValue(Event.BOTH)
         .build()
     );
     
@@ -173,7 +173,7 @@ public class Notifier extends Module {
     private final Setting<JoinLeaveModes> joinsLeavesMode = sgJoinsLeaves.add(new EnumSetting.Builder<JoinLeaveModes>()
         .name("player-joins-leaves")
         .description("How to handle player join/leave notifications.")
-        .defaultValue(JoinLeaveModes.None)
+        .defaultValue(JoinLeaveModes.NONE)
         .build()
     );
     
@@ -217,7 +217,7 @@ public class Notifier extends Module {
     private final Setting<PlayersListMode> gamemodesPlayersListMode = sgGamemodeChanges.add(new EnumSetting.Builder<PlayersListMode>()
         .name("players-list-mode")
         .description("Mode for filtering players.")
-        .defaultValue(PlayersListMode.Blacklist)
+        .defaultValue(PlayersListMode.BLACKLIST)
         .build()
     );
     
@@ -252,7 +252,7 @@ public class Notifier extends Module {
     
     @EventHandler
     private void onEntityAdded(EntityAddedEvent event) {
-        if (!event.entity.getUuid().equals(mc.player.getUuid()) && entities.get().contains(event.entity.getType()) && visualRange.get() && this.event.get() != Event.Despawn) {
+        if (!event.entity.getUuid().equals(mc.player.getUuid()) && entities.get().contains(event.entity.getType()) && visualRange.get() && this.event.get() != Event.DESPAWN) {
             if (event.entity instanceof PlayerEntity) {
                 if ((!visualRangeIgnoreFriends.get() || !Friends.get().isFriend(((PlayerEntity) event.entity))) && (!visualRangeIgnoreFakes.get() || !(event.entity instanceof FakePlayerEntity))) {
                     ChatUtils.sendMsg(event.entity.getId() + 100, Formatting.GRAY, "(highlight)%s(default) has entered your visual range!", event.entity.getName().getString());
@@ -264,7 +264,7 @@ public class Notifier extends Module {
             } else {
                 MutableText text = Text.literal(event.entity.getType().getName().getString()).formatted(Formatting.WHITE);
                 text.append(Text.literal(" has spawned at ").formatted(Formatting.GRAY));
-                text.append(formatCoords(event.entity.getPos()));
+                text.append(formatCoords(event.entity.getEntityPos()));
                 text.append(Text.literal(".").formatted(Formatting.GRAY));
                 info(text);
             }
@@ -277,7 +277,7 @@ public class Notifier extends Module {
     
     @EventHandler
     private void onEntityRemoved(EntityRemovedEvent event) {
-        if (!event.entity.getUuid().equals(mc.player.getUuid()) && entities.get().contains(event.entity.getType()) && visualRange.get() && this.event.get() != Event.Spawn) {
+        if (!event.entity.getUuid().equals(mc.player.getUuid()) && entities.get().contains(event.entity.getType()) && visualRange.get() && this.event.get() != Event.SPAWN) {
             if (event.entity instanceof PlayerEntity) {
                 if ((!visualRangeIgnoreFriends.get() || !Friends.get().isFriend(((PlayerEntity) event.entity))) && (!visualRangeIgnoreFakes.get() || !(event.entity instanceof FakePlayerEntity))) {
                     ChatUtils.sendMsg(event.entity.getId() + 100, Formatting.GRAY, "(highlight)%s(default) has left your visual range!", event.entity.getName().getString());
@@ -289,7 +289,7 @@ public class Notifier extends Module {
             } else {
                 MutableText text = Text.literal(event.entity.getType().getName().getString()).formatted(Formatting.WHITE);
                 text.append(Text.literal(" has despawned at ").formatted(Formatting.GRAY));
-                text.append(formatCoords(event.entity.getPos()));
+                text.append(formatCoords(event.entity.getEntityPos()));
                 text.append(Text.literal(".").formatted(Formatting.GRAY));
                 info(text);
             }
@@ -301,7 +301,7 @@ public class Notifier extends Module {
             if (pearlStartPosMap.containsKey(i)) {
                 EnderPearlEntity pearl = (EnderPearlEntity) e;
                 if (pearl.getOwner() != null && pearl.getOwner() instanceof PlayerEntity p) {
-                    double d = pearlStartPosMap.get(i).distanceTo(e.getPos());
+                    double d = pearlStartPosMap.get(i).distanceTo(e.getEntityPos());
                     if ((!Friends.get().isFriend(p) || !pearlIgnoreFriends.get()) && (!p.equals(mc.player) || !pearlIgnoreOwn.get())) {
                         info("(highlight)%s's(default) pearl landed at %d, %d, %d (highlight)(%.1fm away, travelled %.1fm)(default).", pearl.getOwner().getName().getString(), pearl.getBlockPos().getX(), pearl.getBlockPos().getY(), pearl.getBlockPos().getZ(), pearl.distanceTo(mc.player), d);
                     }
@@ -343,7 +343,7 @@ public class Notifier extends Module {
     @EventHandler
     private void onPacketReceive(PacketEvent.Receive event) {
         switch (event.packet) {
-            case PlayerListS2CPacket packet when joinsLeavesMode.get() == JoinLeaveModes.Both || joinsLeavesMode.get() == JoinLeaveModes.Joins -> {
+            case PlayerListS2CPacket packet when joinsLeavesMode.get() == JoinLeaveModes.BOTH || joinsLeavesMode.get() == JoinLeaveModes.JOINS -> {
                 if (loginPacket) {
                     loginPacket = false;
                     return;
@@ -353,7 +353,7 @@ public class Notifier extends Module {
                     createJoinNotifications(packet);
                 }
             }
-            case PlayerRemoveS2CPacket packet when joinsLeavesMode.get() == JoinLeaveModes.Both || joinsLeavesMode.get() == JoinLeaveModes.Leaves ->
+            case PlayerRemoveS2CPacket packet when joinsLeavesMode.get() == JoinLeaveModes.BOTH || joinsLeavesMode.get() == JoinLeaveModes.LEAVES ->
                 createLeaveNotification(packet);
             
             case EntityStatusS2CPacket packet when totemPops.get() && packet.getStatus() == EntityStatuses.USE_TOTEM_OF_UNDYING && packet.getEntity(mc.world) instanceof PlayerEntity entity -> {
@@ -388,8 +388,8 @@ public class Notifier extends Module {
                     }
                     
                     if ((entry1.equals(mc.getNetworkHandler().getPlayerListEntry(mc.player.getUuid())) && gamemodesIgnoreOwn.get())
-                        || (gamemodesPlayers.get().contains(entry1.getProfile().getName()) && gamemodesPlayersListMode.get() == PlayersListMode.Blacklist)
-                        || (!gamemodesPlayers.get().contains(entry1.getProfile().getName()) && gamemodesPlayersListMode.get() == PlayersListMode.Whitelist)
+                        || (gamemodesPlayers.get().contains(entry1.getProfile().name()) && gamemodesPlayersListMode.get() == PlayersListMode.BLACKLIST)
+                        || (!gamemodesPlayers.get().contains(entry1.getProfile().name()) && gamemodesPlayersListMode.get() == PlayersListMode.WHITELIST)
                         || (Friends.get().isFriend(entry1) && gamemodesIgnoreFriends.get())
                     ) {
                         continue;
@@ -400,7 +400,7 @@ public class Notifier extends Module {
                         if (!gamemodes.get().contains(gameMode)) {
                             continue;
                         }
-                        info("Player %s changed gamemode to %s", entry1.getProfile().getName(), entry.gameMode());
+                        info("Player %s changed gamemode to %s", entry1.getProfile().name(), entry.gameMode());
                     }
                 }
             }
@@ -410,7 +410,7 @@ public class Notifier extends Module {
     
     @EventHandler
     private void onTick(TickEvent.Post event) {
-        if (joinsLeavesMode.get() != JoinLeaveModes.None) {
+        if (joinsLeavesMode.get() != JoinLeaveModes.NONE) {
             timer++;
             while (timer >= notificationDelay.get() && !messageQueue.isEmpty()) {
                 timer = 0;
@@ -456,12 +456,12 @@ public class Notifier extends Module {
                     Formatting.GRAY + "["
                         + Formatting.GREEN + "+"
                         + Formatting.GRAY + "] "
-                        + entry.profile().getName()
+                        + entry.profile().name()
                 ));
             } else {
                 messageQueue.addLast(Text.literal(
                     Formatting.WHITE
-                        + entry.profile().getName()
+                        + entry.profile().name()
                         + Formatting.GRAY + " joined."
                 ));
             }
@@ -484,34 +484,40 @@ public class Notifier extends Module {
                     Formatting.GRAY + "["
                         + Formatting.RED + "-"
                         + Formatting.GRAY + "] "
-                        + toRemove.getProfile().getName()
+                        + toRemove.getProfile().name()
                 ));
             } else {
                 messageQueue.addLast(Text.literal(
                     Formatting.WHITE
-                        + toRemove.getProfile().getName()
+                        + toRemove.getProfile().name()
                         + Formatting.GRAY + " left."
                 ));
             }
         }
     }
     
-    public enum Event {
-        Spawn,
-        Despawn,
-        Both
+    private enum Event {
+        
+        SPAWN,
+        DESPAWN,
+        BOTH
+        
     }
     
-    public enum JoinLeaveModes {
-        None,
-        Joins,
-        Leaves,
-        Both
+    private enum JoinLeaveModes {
+        
+        NONE,
+        JOINS,
+        LEAVES,
+        BOTH
+        
     }
     
-    public enum PlayersListMode {
-        Whitelist,
-        Blacklist
+    private enum PlayersListMode {
+        
+        WHITELIST,
+        BLACKLIST
+        
     }
     
 }

@@ -18,6 +18,7 @@ public class HeldItemRendererEvent {
     public static HeldItemRendererEvent get(Hand hand, MatrixStack matrices) {
         INSTANCE.hand = hand;
         INSTANCE.matrix = matrices;
+        
         return INSTANCE;
     }
     

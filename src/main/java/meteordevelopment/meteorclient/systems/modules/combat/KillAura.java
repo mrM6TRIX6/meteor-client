@@ -392,7 +392,7 @@ public class KillAura extends Module {
     }
     
     private boolean entityCheck(Entity entity) {
-        if (entity.equals(mc.player) || entity.equals(mc.cameraEntity)) {
+        if (entity.equals(mc.player) || entity.equals(mc.getCameraEntity())) {
             return false;
         }
         if ((entity instanceof LivingEntity livingEntity && livingEntity.isDead()) || !entity.isAlive()) {

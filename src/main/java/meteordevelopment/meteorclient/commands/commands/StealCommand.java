@@ -24,7 +24,7 @@ public class StealCommand extends Command {
     private final static Dynamic2CommandExceptionType EMPTY_SLOT = new Dynamic2CommandExceptionType((player, slot) -> Text.literal("%s doesn't have an item in %s slot.".formatted(player, slot)));
     
     public StealCommand() {
-        super("Steal", "Steals an item from the player equipment slot.");
+        super("Steal", "Steals an item from the player equipment slot. Requires Creative mode.");
     }
     
     @Override

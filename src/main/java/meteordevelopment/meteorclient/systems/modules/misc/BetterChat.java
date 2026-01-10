@@ -498,7 +498,7 @@ public class BetterChat extends Module {
             return;
         }
         
-        PlayerListEntry entry = mc.getNetworkHandler().getPlayerListEntry(sender.getId());
+        PlayerListEntry entry = mc.getNetworkHandler().getPlayerListEntry(sender.id());
         if (entry == null) {
             return;
         }
@@ -647,7 +647,7 @@ public class BetterChat extends Module {
     // Copying messages
     
     public boolean copyingMessages() {
-        return copyingMessages.get();
+        return isActive() && copyingMessages.get();
     }
     
 }

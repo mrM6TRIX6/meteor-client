@@ -240,13 +240,6 @@ public class NoRender extends Module {
         .build()
     );
     
-    private final Setting<Boolean> noSkylightUpdates = sgWorld.add(new BoolSetting.Builder()
-        .name("skylight-updates")
-        .description("Disables rendering of skylight updates.")
-        .defaultValue(false)
-        .build()
-    );
-    
     private final Setting<Boolean> noBeaconBeams = sgWorld.add(new BoolSetting.Builder()
         .name("beacon-beams")
         .description("Disables rendering of beacon beams.")
@@ -286,7 +279,7 @@ public class NoRender extends Module {
     private final Setting<BannerRenderMode> bannerRender = sgWorld.add(new EnumSetting.Builder<BannerRenderMode>()
         .name("banners")
         .description("Changes rendering of banners.")
-        .defaultValue(BannerRenderMode.Everything)
+        .defaultValue(BannerRenderMode.EVERYTHING)
         .build()
     );
     
@@ -522,10 +515,6 @@ public class NoRender extends Module {
         return isActive() && noBlockBreakOverlay.get();
     }
     
-    public boolean noSkylightUpdates() {
-        return isActive() && noSkylightUpdates.get();
-    }
-    
     public boolean noBeaconBeams() {
         return isActive() && noBeaconBeams.get();
     }
@@ -551,7 +540,7 @@ public class NoRender extends Module {
     
     public BannerRenderMode getBannerRenderMode() {
         if (!isActive()) {
-            return BannerRenderMode.Everything;
+            return BannerRenderMode.EVERYTHING;
         } else {
             return bannerRender.get();
         }
@@ -582,7 +571,7 @@ public class NoRender extends Module {
     
     @EventHandler
     private void onRenderBlockEntity(RenderBlockEntityEvent event) {
-        if (blockEntities.get().contains(event.blockEntity.getCachedState().getBlock())) {
+        if (blockEntities.get().contains(event.blockEntityState.blockState.getBlock())) {
             event.cancel();
         }
     }
@@ -626,9 +615,11 @@ public class NoRender extends Module {
     }
     
     public enum BannerRenderMode {
-        Everything,
-        Pillar,
-        None
+        
+        EVERYTHING,
+        PILLAR,
+        NONE
+        
     }
     
 }

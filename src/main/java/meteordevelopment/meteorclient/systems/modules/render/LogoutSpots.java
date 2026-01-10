@@ -24,11 +24,11 @@ import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.NametagUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import meteordevelopment.meteorclient.utils.world.Dimension;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.dimension.DimensionType;
 import org.joml.Vector3d;
 
 import java.util.ArrayList;
@@ -104,7 +104,7 @@ public class LogoutSpots extends Module {
     private final List<PlayerEntity> lastPlayers = new ArrayList<>();
     
     private int timer;
-    private Dimension lastDimension;
+    private DimensionType lastDimension;
     
     public LogoutSpots() {
         super(Categories.Render, "LogoutSpots", "Displays a box where another player has logged out at.");
@@ -117,7 +117,7 @@ public class LogoutSpots extends Module {
         updateLastPlayers();
         
         timer = 10;
-        lastDimension = PlayerUtils.getDimension();
+        lastDimension = mc.world.getDimension();
     }
     
     @Override
@@ -162,7 +162,7 @@ public class LogoutSpots extends Module {
                 }
                 
                 for (PlayerEntity player : lastPlayers) {
-                    if (player.getUuid().equals(entry.getProfile().getId())) {
+                    if (player.getUuid().equals(entry.getProfile().id())) {
                         add(new Entry(player));
                     }
                 }
@@ -180,7 +180,7 @@ public class LogoutSpots extends Module {
             timer--;
         }
         
-        Dimension dimension = PlayerUtils.getDimension();
+        DimensionType dimension = mc.world.getDimension();
         if (dimension != lastDimension) {
             players.clear();
         }

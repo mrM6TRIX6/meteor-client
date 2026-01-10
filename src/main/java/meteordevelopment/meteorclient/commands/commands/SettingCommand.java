@@ -23,7 +23,7 @@ import net.minecraft.command.CommandSource;
 public class SettingCommand extends Command {
     
     public SettingCommand() {
-        super("Settings", "Allows you to view and change module settings.", "S");
+        super("Settings", "Allows you to view and change module settings.", "s");
     }
     
     @Override
