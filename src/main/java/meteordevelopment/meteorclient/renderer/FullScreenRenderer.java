@@ -5,11 +5,20 @@
 
 package meteordevelopment.meteorclient.renderer;
 
+import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import meteordevelopment.meteorclient.utils.PreInit;
 
 public class FullScreenRenderer {
     
+    public static GpuBuffer vbo;
+    public static GpuBuffer ibo;
+    
+    /**
+     * Deprecated for performance reasons, use {@link MeshRenderer#fullscreen()} or the {@link FullScreenRenderer#vbo}
+     * and {@link FullScreenRenderer#ibo} buffer objects instead.
+     */
+    @Deprecated(forRemoval = true)
     public static MeshBuilder mesh;
     
     private FullScreenRenderer() {}
@@ -19,7 +28,6 @@ public class FullScreenRenderer {
         mesh = new MeshBuilder(MeteorVertexFormats.POS2, VertexFormat.DrawMode.TRIANGLES, 4, 6);
         
         mesh.begin();
-        mesh.ensureQuadCapacity();
         
         mesh.quad(
             mesh.vec2(-1, -1).next(),
@@ -29,6 +37,9 @@ public class FullScreenRenderer {
         );
         
         mesh.end();
+        
+        vbo = mesh.getVertexBuffer();
+        ibo = mesh.getIndexBuffer();
     }
     
 }

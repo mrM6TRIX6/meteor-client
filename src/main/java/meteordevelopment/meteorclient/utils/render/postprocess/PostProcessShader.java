@@ -66,7 +66,7 @@ public abstract class PostProcessShader {
         var renderer = MeshRenderer.begin()
             .attachments(mc.getFramebuffer())
             .pipeline(pipeline)
-            .mesh(FullScreenRenderer.mesh)
+            .fullscreen()
             .uniform("PostData", UNIFORM_STORAGE.write(new UniformData(
                 (float) mc.getWindow().getFramebufferWidth(), (float) mc.getWindow().getFramebufferHeight(),
                 (float) glfwGetTime()
