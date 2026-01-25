@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.accounts;
 
-public class UuidToProfileResponse {
+public class UUIDToProfileResponse {
     
     public Property[] properties;
     

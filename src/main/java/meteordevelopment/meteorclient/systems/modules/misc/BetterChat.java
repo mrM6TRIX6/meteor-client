@@ -503,7 +503,7 @@ public class BetterChat extends Module {
             return;
         }
         
-        PlayerSkinDrawer.draw(context, entry.getSkinTextures(), 0, y, 8);
+        PlayerSkinDrawer.draw(context, entry.getSkinTextures(), 0, y, 8, color);
     }
     
     private GameProfile getSender(IChatHudLine line, String text) {

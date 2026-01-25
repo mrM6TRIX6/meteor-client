@@ -16,8 +16,7 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.utils.network.portscanner.PortScanRunner;
-import meteordevelopment.meteorclient.utils.network.portscanner.PortScannerManager;
+import meteordevelopment.meteorclient.utils.network.PortScanner;
 import meteordevelopment.meteorclient.utils.world.TickRate;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ServerAddress;
@@ -323,10 +322,10 @@ public class ServerCommand extends Command {
     
     private void scanPorts(InetAddress address, Collection<Integer> port_list) {
         info("Started scanning %d ports", port_list.size());
-        PortScanRunner portScanRunner = new PortScanRunner(address, 5, 3, 200, port_list, scanResults -> {
+        PortScanner.ScanRunner scanRunner = new PortScanner.ScanRunner(address, 5, 3, 200, port_list, scanResults -> {
             int open_ports = 0;
             info("Open ports:");
-            for (PortScannerManager.ScanResult result : scanResults) {
+            for (PortScanner.ScanResult result : scanResults) {
                 if (result.isOpen()) {
                     info(formatPort(result.getPort(), address));
                     open_ports++;
@@ -334,7 +333,7 @@ public class ServerCommand extends Command {
             }
             info("Open count: %d/%d", open_ports, scanResults.size());
         });
-        PortScannerManager.scans.add(portScanRunner);
+        PortScanner.scans.add(scanRunner);
     }
     
     private void scanKnownPorts(InetAddress address) {
