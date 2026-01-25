@@ -11,6 +11,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.events.entity.player.DoItemUseEvent;
 import meteordevelopment.meteorclient.events.entity.player.ItemUseCrosshairTargetEvent;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.game.ResolutionChangedEvent;
@@ -101,10 +102,6 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
     @Shadow
     @Nullable
     public ClientPlayerEntity player;
-    
-    @Shadow
-    @Final
-    private ReloadableResourceManagerImpl resourceManager;
     
     @Shadow
     @Final
@@ -220,6 +217,13 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
         }
     }
     
+    @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Hand;values()[Lnet/minecraft/util/Hand;"), cancellable = true)
+    private void onDoItemUseBeforeHands(CallbackInfo ci) {
+        if (MeteorClient.EVENT_BUS.post(DoItemUseEvent.get()).isCancelled()) {
+            ci.cancel();
+        }
+    }
+    
     @ModifyExpressionValue(method = "doItemUse", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;crosshairTarget:Lnet/minecraft/util/hit/HitResult;", ordinal = 1))
     private HitResult doItemUseMinecraftClientCrosshairTargetProxy(HitResult original) {
         return MeteorClient.EVENT_BUS.post(ItemUseCrosshairTargetEvent.get(original)).target;
@@ -292,8 +296,8 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
             if (!options.useKey.isPressed()) {
                 interactionManager.stopUsingItem(player);
             }
-            while (options.useKey.wasPressed())
-                ;
+            // noinspection StatementWithEmptyBody
+            while (options.useKey.wasPressed());
         }
     }
     
