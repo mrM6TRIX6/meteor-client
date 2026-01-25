@@ -126,11 +126,20 @@ public abstract class WorldRendererMixin implements IWorldRenderer {
         var empty = true;
         
         for (var state : worldState.entityRenderStates) {
+            Entity entity = ((IEntityRenderState) state).meteor$getEntity();
+            if (entity == null) {
+                continue;
+            }
+            
             if (!shader.shouldDraw(((IEntityRenderState) state).meteor$getEntity())) {
                 continue;
             }
             
-            var color = colorGetter.apply(((IEntityRenderState) state).meteor$getEntity());
+            if (!shader.shouldDraw(entity)) {
+                continue;
+            }
+            
+            var color = colorGetter.apply(entity);
             if (color == null) {
                 continue;
             }

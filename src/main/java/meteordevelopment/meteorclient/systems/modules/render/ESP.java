@@ -51,7 +51,6 @@ public class ESP extends Module {
         .description("The width of the shader outline.")
         .visible(() -> mode.get() == Mode.SHADER)
         .defaultValue(2)
-        .min(0)
         .sliderRange(1, 10)
         .build()
     );
@@ -62,7 +61,6 @@ public class ESP extends Module {
         .visible(() -> mode.get() == Mode.SHADER)
         .decimalPlaces(3)
         .defaultValue(3.5)
-        .min(0)
         .build()
     );
     
