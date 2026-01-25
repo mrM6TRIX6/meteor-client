@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.MessageEvent;
 import meteordevelopment.meteorclient.mixininterface.IChatHud;
@@ -57,9 +58,6 @@ public abstract class ChatHudMixin implements IChatHud {
     
     @Unique
     private int nextId;
-    
-    @Unique
-    private boolean skipOnAddMessage;
     
     @Unique
     private int chatY = -1;
@@ -120,11 +118,7 @@ public abstract class ChatHudMixin implements IChatHud {
     }
     
     @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", cancellable = true)
-    private void onAddMessage(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci) {
-        if (skipOnAddMessage) {
-            return;
-        }
-        
+    private void onAddMessage(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci, @Local(argsOnly = true) LocalRef<Text> messageRef, @Local(argsOnly = true) LocalRef<MessageIndicator> indicatorRef) {
         MessageEvent.Receive event = MeteorClient.EVENT_BUS.post(MessageEvent.Receive.get(message, indicator, nextId));
         
         if (event.isCancelled()) {
@@ -140,11 +134,8 @@ public abstract class ChatHudMixin implements IChatHud {
             }
             
             if (event.isModified()) {
-                ci.cancel();
-                
-                skipOnAddMessage = true;
-                addMessage(event.getMessage(), signatureData, event.getIndicator());
-                skipOnAddMessage = false;
+                messageRef.set(event.getMessage());
+                indicatorRef.set(event.getIndicator());
             }
         }
     }

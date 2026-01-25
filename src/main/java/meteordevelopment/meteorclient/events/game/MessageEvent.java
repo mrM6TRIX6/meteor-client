@@ -63,6 +63,7 @@ public class MessageEvent {
         public static Send get(String message) {
             INSTANCE.setCancelled(false);
             INSTANCE.message = message;
+            
             return INSTANCE;
         }
         
