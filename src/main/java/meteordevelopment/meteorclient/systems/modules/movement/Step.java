@@ -31,7 +31,7 @@ public class Step extends Module {
     private final Setting<Double> height = sgGeneral.add(new DoubleSetting.Builder()
         .name("height")
         .description("Step height.")
-        .defaultValue(1)
+        .defaultValue(1.25)
         .min(0)
         .build()
     );
@@ -39,7 +39,7 @@ public class Step extends Module {
     private final Setting<ActiveWhen> activeWhen = sgGeneral.add(new EnumSetting.Builder<ActiveWhen>()
         .name("active-when")
         .description("Step is active when you meet these requirements.")
-        .defaultValue(ActiveWhen.Always)
+        .defaultValue(ActiveWhen.ALWAYS)
         .build()
     );
     
@@ -77,7 +77,7 @@ public class Step extends Module {
     
     @EventHandler
     private void onTick(TickEvent.Post event) {
-        boolean work = (activeWhen.get() == ActiveWhen.Always) || (activeWhen.get() == ActiveWhen.Sneaking && mc.player.isSneaking()) || (activeWhen.get() == ActiveWhen.NotSneaking && !mc.player.isSneaking());
+        boolean work = (activeWhen.get() == ActiveWhen.ALWAYS) || (activeWhen.get() == ActiveWhen.SNEAKING && mc.player.isSneaking()) || (activeWhen.get() == ActiveWhen.NOT_SNEAKING && !mc.player.isSneaking());
         mc.player.setBoundingBox(mc.player.getBoundingBox().offset(0, 1, 0));
         if (work && (!safeStep.get() || (getHealth() > stepHealth.get() && getHealth() - getExplosionDamage() > stepHealth.get()))) {
             mc.player.getAttributeInstance(EntityAttributes.STEP_HEIGHT).setBaseValue(height.get());
@@ -108,9 +108,11 @@ public class Step extends Module {
     }
     
     private enum ActiveWhen {
-        Always,
-        Sneaking,
-        NotSneaking
+        
+        ALWAYS,
+        SNEAKING,
+        NOT_SNEAKING
+        
     }
     
 }
