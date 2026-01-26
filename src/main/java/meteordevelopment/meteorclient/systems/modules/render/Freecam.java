@@ -35,6 +35,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.network.packet.s2c.play.DeathMessageS2CPacket;
 import net.minecraft.network.packet.s2c.play.HealthUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.PlayerRespawnS2CPacket;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -49,82 +50,9 @@ import org.lwjgl.glfw.GLFW;
 
 public class Freecam extends Module {
     
-    public final Vector3d pos = new Vector3d();
-    public final Vector3d prevPos = new Vector3d();
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgPathing = settings.createGroup("Pathing");
-    private final Setting<Double> speedScrollSensitivity = sgGeneral.add(new DoubleSetting.Builder()
-        .name("speed-scroll-sensitivity")
-        .description("Allows you to change speed value using scroll wheel. 0 to disable.")
-        .defaultValue(0)
-        .min(0)
-        .sliderMax(2)
-        .build()
-    );
-    private final Setting<Boolean> staySneaking = sgGeneral.add(new BoolSetting.Builder()
-        .name("stay-sneaking")
-        .description("If you are sneaking when you enter freecam, whether your player should remain sneaking.")
-        .defaultValue(true)
-        .build()
-    );
-    private final Setting<Boolean> toggleOnDamage = sgGeneral.add(new BoolSetting.Builder()
-        .name("toggle-on-damage")
-        .description("Disables freecam when you take damage.")
-        .defaultValue(false)
-        .build()
-    );
-    private final Setting<Boolean> toggleOnDeath = sgGeneral.add(new BoolSetting.Builder()
-        .name("toggle-on-death")
-        .description("Disables freecam when you die.")
-        .defaultValue(false)
-        .build()
-    );
-    private final Setting<Boolean> toggleOnLog = sgGeneral.add(new BoolSetting.Builder()
-        .name("toggle-on-log")
-        .description("Disables freecam when you disconnect from a server.")
-        .defaultValue(true)
-        .build()
-    );
-    private final Setting<Boolean> reloadChunks = sgGeneral.add(new BoolSetting.Builder()
-        .name("reload-chunks")
-        .description("Disables cave culling.")
-        .defaultValue(true)
-        .build()
-    );
-    private final Setting<Boolean> renderHands = sgGeneral.add(new BoolSetting.Builder()
-        .name("show-hands")
-        .description("Whether or not to render your hands in freecam.")
-        .defaultValue(true)
-        .build()
-    );
-    private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
-        .description("Rotates to the block or entity you are looking at.")
-        .defaultValue(false)
-        .build()
-    );
-    private final Setting<Boolean> staticView = sgGeneral.add(new BoolSetting.Builder()
-        .name("static")
-        .description("Disables settings that move the view.")
-        .defaultValue(true)
-        .build()
-    );
-    private final Setting<Boolean> baritoneClick = sgPathing.add(new BoolSetting.Builder()
-        .name("click-to-path")
-        .description("Sets a pathfinding goal to any block/entity you click at.")
-        .defaultValue(false)
-        .build()
-    );
-    private final Setting<Boolean> requireDoubleClick = sgPathing.add(new BoolSetting.Builder()
-        .name("double-click")
-        .description("Require two clicks to start pathing.")
-        .defaultValue(false)
-        .build()
-    );
-    public float yaw, pitch;
-    public float lastYaw, lastPitch;
-    private Perspective perspective;
-    private double speedValue;
+    
     private final Setting<Double> speed = sgGeneral.add(new DoubleSetting.Builder()
         .name("speed")
         .description("Your speed while in freecam.")
@@ -133,6 +61,95 @@ public class Freecam extends Module {
         .min(0.0)
         .build()
     );
+    
+    private final Setting<Double> speedScrollSensitivity = sgGeneral.add(new DoubleSetting.Builder()
+        .name("speed-scroll-sensitivity")
+        .description("Allows you to change speed value using scroll wheel. 0 to disable.")
+        .defaultValue(0)
+        .min(0)
+        .sliderMax(2)
+        .build()
+    );
+    
+    private final Setting<Boolean> staySneaking = sgGeneral.add(new BoolSetting.Builder()
+        .name("stay-sneaking")
+        .description("If you are sneaking when you enter freecam, whether your player should remain sneaking.")
+        .defaultValue(true)
+        .build()
+    );
+    
+    private final Setting<Boolean> toggleOnDamage = sgGeneral.add(new BoolSetting.Builder()
+        .name("toggle-on-damage")
+        .description("Disables freecam when you take damage.")
+        .defaultValue(false)
+        .build()
+    );
+    
+    private final Setting<Boolean> toggleOnDeath = sgGeneral.add(new BoolSetting.Builder()
+        .name("toggle-on-death")
+        .description("Disables freecam when you die.")
+        .defaultValue(false)
+        .build()
+    );
+    
+    private final Setting<Boolean> toggleOnLog = sgGeneral.add(new BoolSetting.Builder()
+        .name("toggle-on-log")
+        .description("Disables freecam when you disconnect from a server.")
+        .defaultValue(true)
+        .build()
+    );
+    
+    private final Setting<Boolean> reloadChunks = sgGeneral.add(new BoolSetting.Builder()
+        .name("reload-chunks")
+        .description("Disables cave culling.")
+        .defaultValue(true)
+        .build()
+    );
+    
+    private final Setting<Boolean> renderHands = sgGeneral.add(new BoolSetting.Builder()
+        .name("show-hands")
+        .description("Whether or not to render your hands in freecam.")
+        .defaultValue(true)
+        .build()
+    );
+    
+    private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
+        .name("rotate")
+        .description("Rotates to the block or entity you are looking at.")
+        .defaultValue(false)
+        .build()
+    );
+    
+    private final Setting<Boolean> staticView = sgGeneral.add(new BoolSetting.Builder()
+        .name("static")
+        .description("Disables settings that move the view.")
+        .defaultValue(true)
+        .build()
+    );
+    
+    private final Setting<Boolean> baritoneClick = sgPathing.add(new BoolSetting.Builder()
+        .name("click-to-path")
+        .description("Sets a pathfinding goal to any block/entity you click at.")
+        .defaultValue(false)
+        .build()
+    );
+    
+    private final Setting<Boolean> requireDoubleClick = sgPathing.add(new BoolSetting.Builder()
+        .name("double-click")
+        .description("Require two clicks to start pathing.")
+        .defaultValue(false)
+        .build()
+    );
+    
+    public final Vector3d pos = new Vector3d();
+    public final Vector3d prevPos = new Vector3d();
+    
+    public float yaw, pitch;
+    public float lastYaw, lastPitch;
+    
+    private Perspective perspective;
+    private double speedValue;
+    
     private double fovScale;
     private boolean bobView;
     
@@ -456,6 +473,11 @@ public class Freecam extends Module {
             if (mc.player.getHealth() - packet.getHealth() > 0 && toggleOnDamage.get()) {
                 toggle();
                 info("Toggled off because you took damage.");
+            }
+        } else if (event.packet instanceof PlayerRespawnS2CPacket) {
+            if (isActive()) {
+                toggle();
+                info("Toggled off because the dimension was changed.");
             }
         }
     }
