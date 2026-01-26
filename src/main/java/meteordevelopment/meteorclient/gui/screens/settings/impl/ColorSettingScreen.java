@@ -26,9 +26,15 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class ColorSettingScreen extends WindowScreen {
     
-    private static final Color[] HUE_COLORS = { new Color(255, 0, 0), new Color(255, 255, 0), new Color(0, 255, 0), new Color(0, 255, 255), new Color(0, 0, 255), new Color(255, 0, 255), new Color(255, 0, 0) };
-    private static final Color WHITE = new Color(255, 255, 255);
-    private static final Color BLACK = new Color(0, 0, 0);
+    private static final Color[] HUE_COLORS = {
+        Color.RED,
+        Color.YELLOW,
+        Color.GREEN,
+        Color.CYAN,
+        Color.BLUE,
+        Color.MAGENTA,
+        Color.RED
+    };
     
     public Runnable action;
     
@@ -443,10 +449,10 @@ public class ColorSettingScreen extends WindowScreen {
             
             hueQuad.calculateColor();
             
-            renderer.quad(x, y, width, height, QuadColorState.of(WHITE, hueQuad.color, BLACK, BLACK));
+            renderer.quad(x, y, width, height, QuadColorState.of(Color.WHITE, hueQuad.color, Color.BLACK, Color.BLACK));
             
             double s = theme.scale(2);
-            renderer.quad(x + handleX - s / 2, y + handleY - s / 2, s, s, WHITE);
+            renderer.quad(x + handleX - s / 2, y + handleY - s / 2, s, s, Color.WHITE);
         }
         
     }
@@ -655,7 +661,7 @@ public class ColorSettingScreen extends WindowScreen {
             }
             
             double s = theme.scale(2);
-            renderer.quad(x + handleX - s / 2, y, s, height, WHITE);
+            renderer.quad(x + handleX - s / 2, y, s, height, Color.WHITE);
         }
         
     }
