@@ -205,7 +205,7 @@ public class MeteorGuiTheme extends GuiTheme {
     
     @Override
     public WLabel label(String text, boolean title, double maxWidth) {
-        if (maxWidth == 0) {
+        if (maxWidth == 0 && !text.contains("\n")) {
             return w(new WMeteorLabel(text, title));
         }
         return w(new WMeteorMultiLabel(text, title, maxWidth));

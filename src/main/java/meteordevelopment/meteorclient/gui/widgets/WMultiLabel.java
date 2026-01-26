@@ -25,54 +25,62 @@ public abstract class WMultiLabel extends WLabel {
         lines.clear();
         
         String[] textLines = text.split("\n");
-        StringBuilder sb = new StringBuilder();
-        
-        double spaceWidth = theme.textWidth(" ", 1, title);
-        double maxWidth = theme.scale(this.maxWidth);
-        
-        double lineWidth = 0;
         double maxLineWidth = 0;
         
-        int iInLine = 0;
-        
-        for (String line : textLines) {
-            for (String word : line.split(" ")) {
-                double wordWidth = theme.textWidth(word, word.length(), title);
-                
-                double toAdd = wordWidth;
-                if (iInLine > 0) {
-                    toAdd += spaceWidth;
-                }
-                
-                if (lineWidth + toAdd > maxWidth) {
-                    lines.add(sb.toString());
-                    sb.setLength(0);
-                    
-                    sb.append(word);
-                    lineWidth = wordWidth;
-                    iInLine = 1;
-                    
-                } else {
-                    if (iInLine > 0) {
-                        sb.append(' ');
-                        lineWidth += spaceWidth;
-                    }
-                    
-                    sb.append(word);
-                    lineWidth += wordWidth;
-                    iInLine++;
-                }
-                // Now this line is not pointless!
+        if (this.maxWidth == 0) {
+            for (String line : textLines) {
+                lines.add(line);
+                double lineWidth = theme.textWidth(line, line.length(), title);
                 maxLineWidth = Math.max(maxLineWidth, lineWidth);
             }
-            lines.add(sb.toString());
-            sb.setLength(0);
-            lineWidth = 0;
-            iInLine = 0;
-        }
-        
-        if (!sb.isEmpty()) {
-            lines.add(sb.toString());
+        } else {
+            StringBuilder sb = new StringBuilder();
+            
+            double lineWidth = 0;
+            double spaceWidth = theme.textWidth(" ", 1, title);
+            double maxWidth = theme.scale(this.maxWidth);
+            
+            int iInLine = 0;
+            
+            for (String line : textLines) {
+                for (String word : line.split(" ")) {
+                    double wordWidth = theme.textWidth(word, word.length(), title);
+                    
+                    double toAdd = wordWidth;
+                    if (iInLine > 0) {
+                        toAdd += spaceWidth;
+                    }
+                    
+                    if (lineWidth + toAdd > maxWidth) {
+                        lines.add(sb.toString());
+                        sb.setLength(0);
+                        
+                        sb.append(word);
+                        lineWidth = wordWidth;
+                        iInLine = 1;
+                        
+                    } else {
+                        if (iInLine > 0) {
+                            sb.append(' ');
+                            lineWidth += spaceWidth;
+                        }
+                        
+                        sb.append(word);
+                        lineWidth += wordWidth;
+                        iInLine++;
+                    }
+                    // Now this line is not pointless!
+                    maxLineWidth = Math.max(maxLineWidth, lineWidth);
+                }
+                lines.add(sb.toString());
+                sb.setLength(0);
+                lineWidth = 0;
+                iInLine = 0;
+            }
+            
+            if (!sb.isEmpty()) {
+                lines.add(sb.toString());
+            }
         }
         
         width = maxLineWidth;
