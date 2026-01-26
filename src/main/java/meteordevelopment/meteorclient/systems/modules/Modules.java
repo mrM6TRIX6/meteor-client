@@ -43,6 +43,7 @@ import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
@@ -113,10 +114,17 @@ public class Modules extends System<Modules> {
     }
     
     @SuppressWarnings("unchecked")
+    @Nullable
     public <T extends Module> T get(Class<T> clazz) {
         return (T) moduleInstances.get(clazz);
     }
     
+    @SuppressWarnings("unused")
+    public <T extends Module> Optional<T> getOptional(Class<T> clazz) {
+        return Optional.ofNullable(get(clazz));
+    }
+    
+    @Nullable
     public Module get(String name) {
         for (Module module : moduleInstances.values()) {
             if (module.name.equalsIgnoreCase(name)) {
@@ -145,9 +153,7 @@ public class Modules extends System<Modules> {
     }
     
     public List<Module> getActive() {
-        synchronized (active) {
-            return active;
-        }
+        return active;
     }
     
     public Set<Module> searchNames(String text) {
@@ -339,9 +345,7 @@ public class Modules extends System<Modules> {
     public void disableAll() {
         synchronized (active) {
             for (Module module : getAll()) {
-                if (module.isActive()) {
-                    module.toggle();
-                }
+                module.disable();
             }
         }
     }

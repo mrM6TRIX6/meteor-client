@@ -662,9 +662,8 @@ public class Notebot extends Module {
     }
     
     public void pause() {
-        if (!isActive()) {
-            toggle();
-        }
+        enable();
+        
         if (isPlaying) {
             info("Pausing.");
             isPlaying = false;
@@ -676,7 +675,7 @@ public class Notebot extends Module {
     
     public void stop() {
         info("Stopping.");
-        disable();
+        disableNotebot();
         updateStatus();
     }
     
@@ -702,11 +701,9 @@ public class Notebot extends Module {
         }
     }
     
-    public void disable() {
+    public void disableNotebot() {
         resetVariables();
-        if (!isActive()) {
-            toggle();
-        }
+        enable();
     }
     
     /**
@@ -715,9 +712,7 @@ public class Notebot extends Module {
      * @param file Song supported by one of {@link SongDecoder}
      */
     public void loadSong(File file) {
-        if (!isActive()) {
-            toggle();
-        }
+        enable();
         resetVariables();
         
         this.playingMode = PlayingMode.Noteblocks;
@@ -734,9 +729,7 @@ public class Notebot extends Module {
      * @param file Song supported by one of {@link SongDecoder}
      */
     public void previewSong(File file) {
-        if (!isActive()) {
-            toggle();
-        }
+        enable();
         resetVariables();
         
         this.playingMode = PlayingMode.Preview;
@@ -886,7 +879,7 @@ public class Notebot extends Module {
     
     private void tuneBlocks() {
         if (mc.world == null || mc.player == null) {
-            disable();
+            disableNotebot();
         }
         
         if (swingArm.get()) {

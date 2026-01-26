@@ -51,7 +51,7 @@ public class SettingGroup implements ISerializable<SettingGroup>, Iterable<Setti
         return null;
     }
     
-    public <T> Setting<T> add(Setting<T> setting) {
+    public <T extends Setting<?>> T add(T setting) {
         parent.forEach(group ->
             group.forEach(existing -> {
                 if (existing.name.equalsIgnoreCase(setting.name)) {

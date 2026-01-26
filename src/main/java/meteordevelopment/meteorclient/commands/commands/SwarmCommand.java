@@ -89,9 +89,7 @@ public class SwarmCommand extends Command {
                     }
                     
                     Swarm swarm = Modules.get().get(Swarm.class);
-                    if (!swarm.isActive()) {
-                        swarm.toggle();
-                    }
+                    swarm.enable();
                     
                     swarm.close();
                     swarm.mode.set(Swarm.Mode.Worker);
@@ -330,9 +328,7 @@ public class SwarmCommand extends Command {
                                 swarm.host.sendMessage(context.getInput());
                             } else if (swarm.isWorker()) {
                                 Module m = ModuleArgumentType.get(context, "module");
-                                if (!m.isActive()) {
-                                    m.toggle();
-                                }
+                                m.enable();
                             }
                         } else {
                             throw SWARM_NOT_ACTIVE.create();
@@ -349,9 +345,7 @@ public class SwarmCommand extends Command {
                                 swarm.host.sendMessage(context.getInput());
                             } else if (swarm.isWorker()) {
                                 Module m = ModuleArgumentType.get(context, "module");
-                                if (m.isActive()) {
-                                    m.toggle();
-                                }
+                                m.disable();
                             }
                         } else {
                             throw SWARM_NOT_ACTIVE.create();
@@ -434,12 +428,8 @@ public class SwarmCommand extends Command {
     
     private void runInfinityMiner() {
         InfinityMiner infinityMiner = Modules.get().get(InfinityMiner.class);
-        if (infinityMiner.isActive()) {
-            infinityMiner.toggle();
-        }
-        if (!infinityMiner.isActive()) {
-            infinityMiner.toggle();
-        }
+        infinityMiner.disable();
+        infinityMiner.enable();
     }
     
     private void scatter(int radius) {

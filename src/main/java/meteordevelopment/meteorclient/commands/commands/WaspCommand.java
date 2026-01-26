@@ -29,9 +29,7 @@ public class WaspCommand extends Command {
         
         builder.then(literal("reset")
             .executes(context -> {
-                if (wasp.isActive()) {
-                    wasp.toggle();
-                }
+                wasp.disable();
                 return SINGLE_SUCCESS;
             })
         );
@@ -45,9 +43,7 @@ public class WaspCommand extends Command {
                 }
                 
                 wasp.target = player;
-                if (!wasp.isActive()) {
-                    wasp.toggle();
-                }
+                wasp.enable();
                 info(player.getName().getString() + " set as target.");
                 return SINGLE_SUCCESS;
             })
