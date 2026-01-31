@@ -304,6 +304,10 @@ public class ESP extends Module {
         Renderer2D.COLOR.render();
     }
     
+    public boolean forceRender() {
+        return isActive() && (mode.get() == Mode.SHADER || mode.get() == Mode.GLOW);
+    }
+    
     private boolean checkCorner(double x, double y, double z, Vector3d min, Vector3d max) {
         pos.set(x, y, z);
         if (!NametagUtils.to2D(pos, 1)) {
@@ -399,7 +403,7 @@ public class ESP extends Module {
     
     @Override
     public String getInfoString() {
-        return Integer.toString(count);
+        return mode.get().toString();
     }
     
     public boolean isShader() {

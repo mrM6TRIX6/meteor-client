@@ -16,6 +16,7 @@ import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.state.EntityHitbox;
 import net.minecraft.client.render.entity.state.EntityHitboxAndView;
 import net.minecraft.client.render.entity.state.EntityRenderState;
@@ -38,9 +39,19 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
     @Unique
     private ESP esp;
     
+    @Unique
+    private NoRender noRender;
+    
+    // Meteor is already initialised at this point
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void onInit(EntityRendererFactory.Context context, CallbackInfo ci) {
+        esp = Modules.get().get(ESP.class);
+        noRender = Modules.get().get(NoRender.class);
+    }
+    
     @Inject(method = "getDisplayName", at = @At("HEAD"), cancellable = true)
     private void onRenderLabel(T entity, CallbackInfoReturnable<Text> cir) {
-        if (Modules.get().get(NoRender.class).noNametags()) {
+        if (noRender.noNametags()) {
             cir.setReturnValue(null);
         }
         if (!(entity instanceof PlayerEntity player)) {
@@ -53,18 +64,25 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
     
     @Inject(method = "shouldRender", at = @At("HEAD"), cancellable = true)
     private void shouldRender(T entity, Frustum frustum, double x, double y, double z, CallbackInfoReturnable<Boolean> cir) {
-        if (Modules.get().get(NoRender.class).noEntity(entity)) {
+        if (noRender.noEntity(entity)) {
             cir.setReturnValue(false);
         }
-        if (Modules.get().get(NoRender.class).noFallingBlocks() && entity instanceof FallingBlockEntity) {
+        if (noRender.noFallingBlocks() && entity instanceof FallingBlockEntity) {
+            cir.setReturnValue(false);
+        }
+    }
+    
+    @Inject(method = "canBeCulled", at = @At("HEAD"), cancellable = true)
+    void canBeCulled(T entity, CallbackInfoReturnable<Boolean> cir) {
+        if (esp.forceRender()) {
             cir.setReturnValue(false);
         }
     }
     
     @Inject(method = "updateRenderState", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/entity/state/EntityRenderState;outlineColor:I", shift = At.Shift.AFTER))
     private void onGetOutlineColor(T entity, S state, float tickProgress, CallbackInfo ci) {
-        if (getESP().isGlow() && !getESP().shouldSkip(entity)) {
-            Color color = getESP().getColor(entity);
+        if (esp.isGlow() && !esp.shouldSkip(entity)) {
+            Color color = esp.getColor(entity);
             
             if (color != null) {
                 state.outlineColor = color.getPacked();
@@ -74,21 +92,13 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
     
     @Inject(method = "updateShadow(Lnet/minecraft/entity/Entity;Lnet/minecraft/client/render/entity/state/EntityRenderState;)V", at = @At("HEAD"), cancellable = true)
     private void updateShadow(Entity entity, EntityRenderState renderState, CallbackInfo ci) {
-        if (Modules.get().get(NoRender.class).noDeadEntities() &&
-            entity instanceof LivingEntity &&
-            renderState instanceof LivingEntityRenderState livingEntityRenderState &&
-            livingEntityRenderState.deathTime > 0) {
+        if (noRender.noDeadEntities()
+            && entity instanceof LivingEntity
+            && renderState instanceof LivingEntityRenderState livingEntityRenderState
+            && livingEntityRenderState.deathTime > 0
+        ) {
             ci.cancel();
         }
-    }
-    
-    @Unique
-    private ESP getESP() {
-        if (esp == null) {
-            esp = Modules.get().get(ESP.class);
-        }
-        
-        return esp;
     }
     
     // Hitboxes

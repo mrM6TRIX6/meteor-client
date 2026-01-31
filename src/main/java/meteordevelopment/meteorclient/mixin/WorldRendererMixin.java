@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import it.unimi.dsi.fastutil.Stack;
@@ -34,6 +35,7 @@ import net.minecraft.client.render.state.WorldRenderState;
 import net.minecraft.client.util.Handle;
 import net.minecraft.client.util.ObjectAllocator;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
@@ -54,6 +56,19 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin implements IWorldRenderer {
+    
+    @Unique
+    private NoRender noRender;
+    
+    @Unique
+    private ESP esp;
+    
+    // If a world exists, Meteor is initialised
+    @Inject(method = "setWorld", at = @At("TAIL"))
+    private void onSetWorld(ClientWorld world, CallbackInfo ci) {
+        esp = Modules.get().get(ESP.class);
+        noRender = Modules.get().get(NoRender.class);
+    }
     
     @Inject(method = "checkEmpty", at = @At("HEAD"), cancellable = true)
     private void onCheckEmpty(MatrixStack matrixStack, CallbackInfo ci) {
@@ -76,12 +91,12 @@ public abstract class WorldRendererMixin implements IWorldRenderer {
     
     @WrapWithCondition(method = "method_62216", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WeatherRendering;renderPrecipitation(Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/client/render/state/WeatherRenderState;)V"))
     private boolean shouldRenderPrecipitation(WeatherRendering instance, VertexConsumerProvider vertexConsumers, Vec3d pos, WeatherRenderState weatherRenderState) {
-        return !Modules.get().get(NoRender.class).noWeather();
+        return !noRender.noWeather();
     }
     
     @Inject(method = "hasBlindnessOrDarkness(Lnet/minecraft/client/render/Camera;)Z", at = @At("HEAD"), cancellable = true)
     private void hasBlindnessOrDarkness(Camera camera, CallbackInfoReturnable<Boolean> info) {
-        if (Modules.get().get(NoRender.class).noBlindness() || Modules.get().get(NoRender.class).noDarkness()) {
+        if (noRender.noBlindness() || noRender.noDarkness()) {
             info.setReturnValue(null);
         }
     }
@@ -117,7 +132,7 @@ public abstract class WorldRendererMixin implements IWorldRenderer {
         }
         
         draw(worldState, matrices, PostProcessShaders.CHAMS, entity -> Color.WHITE);
-        draw(worldState, matrices, PostProcessShaders.ENTITY_OUTLINE, entity -> Modules.get().get(ESP.class).getColor(entity));
+        draw(worldState, matrices, PostProcessShaders.ENTITY_OUTLINE, entity -> esp.getColor(entity));
     }
     
     @Unique
@@ -168,6 +183,14 @@ public abstract class WorldRendererMixin implements IWorldRenderer {
         
         provider = null;
         meteor$popEntityOutlineFramebuffer();
+    }
+    
+    @ModifyExpressionValue(method = "fillEntityRenderStates", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;isRenderingReady(Lnet/minecraft/util/math/BlockPos;)Z"))
+    boolean fillEntityRenderStatesIsRenderingReady(boolean original) {
+        if (esp.forceRender()) {
+            return true;
+        }
+        return original;
     }
     
     @Inject(method = "method_62214", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/OutlineVertexConsumerProvider;draw()V"))
