@@ -12,8 +12,6 @@ import meteordevelopment.meteorclient.mixininterface.IChatHud;
 import net.minecraft.command.CommandSource;
 import net.minecraft.text.Text;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class FakeMessageCommand extends Command {
     
     public FakeMessageCommand() {

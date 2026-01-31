@@ -11,7 +11,6 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import org.spongepowered.asm.mixin.transformer.IMixinTransformer;
-import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -25,9 +24,9 @@ public class MixinPlugin implements IMixinConfigPlugin {
     
     private static boolean isOriginsPresent;
     private static boolean isIndigoPresent;
-    public static boolean isSodiumPresent;
+    private static boolean isSodiumPresent;
     private static boolean isLithiumPresent;
-    public static boolean isIrisPresent;
+    private static boolean isIrisPresent;
     private static boolean isVFPPresent;
     
     @Override
@@ -51,20 +50,15 @@ public class MixinPlugin implements IMixinConfigPlugin {
             Field mixinTransformerField = delegateClass.getDeclaredField("mixinTransformer");
             mixinTransformerField.setAccessible(true);
             
-            // Get unsafe
-            Field unsafeField = Unsafe.class.getDeclaredField("theUnsafe");
-            unsafeField.setAccessible(true);
-            Unsafe unsafe = (Unsafe) unsafeField.get(null);
-            
             // Create Asm
             Asm.init();
             
             // Change delegate
-            Asm.Transformer mixinTransformer = (Asm.Transformer) unsafe.allocateInstance(Asm.Transformer.class);
+            Asm.Transformer mixinTransformer = new Asm.Transformer();
             mixinTransformer.delegate = (IMixinTransformer) mixinTransformerField.get(delegate);
             
             mixinTransformerField.set(delegate, mixinTransformer);
-        } catch (NoSuchFieldException | IllegalAccessException | InstantiationException e) {
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
         
@@ -114,5 +108,29 @@ public class MixinPlugin implements IMixinConfigPlugin {
     
     @Override
     public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {}
+    
+    public static boolean isLithiumPresent() {
+        return isLithiumPresent;
+    }
+    
+    public static boolean isVFPPresent() {
+        return isVFPPresent;
+    }
+    
+    public static boolean isIrisPresent() {
+        return isIrisPresent;
+    }
+    
+    public static boolean isSodiumPresent() {
+        return isSodiumPresent;
+    }
+    
+    public static boolean isIndigoPresent() {
+        return isIndigoPresent;
+    }
+    
+    public static boolean isOriginsPresent() {
+        return isOriginsPresent;
+    }
     
 }

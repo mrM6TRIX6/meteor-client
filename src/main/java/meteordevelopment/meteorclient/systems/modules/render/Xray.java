@@ -111,10 +111,10 @@ public class Xray extends Module {
     
     @Override
     public WWidget getWidget(GuiTheme theme) {
-        if (MixinPlugin.isSodiumPresent) {
+        if (MixinPlugin.isSodiumPresent()) {
             return theme.label("Warning: Due to Sodium in use, opacity is overridden to 0.");
         }
-        if (MixinPlugin.isIrisPresent && IrisApi.getInstance().isShaderPackInUse()) {
+        if (MixinPlugin.isIrisPresent() && IrisApi.getInstance().isShaderPackInUse()) {
             return theme.label("Warning: Due to shaders in use, opacity is overridden to 0.");
         }
         
@@ -157,7 +157,7 @@ public class Xray extends Module {
         Xray xray = Modules.get().get(Xray.class);
         
         if (wallHack.isActive() && wallHack.blocks.get().contains(state.getBlock())) {
-            if (MixinPlugin.isSodiumPresent || (MixinPlugin.isIrisPresent && IrisApi.getInstance().isShaderPackInUse())) {
+            if (MixinPlugin.isSodiumPresent() || (MixinPlugin.isIrisPresent() && IrisApi.getInstance().isShaderPackInUse())) {
                 return 0;
             }
             
@@ -171,7 +171,7 @@ public class Xray extends Module {
             
             return alpha;
         } else if (xray.isActive() && !wallHack.isActive() && xray.isBlocked(state.getBlock(), pos)) {
-            return (MixinPlugin.isSodiumPresent || (MixinPlugin.isIrisPresent && IrisApi.getInstance().isShaderPackInUse())) ? 0 : xray.opacity.get();
+            return (MixinPlugin.isSodiumPresent() || (MixinPlugin.isIrisPresent() && IrisApi.getInstance().isShaderPackInUse())) ? 0 : xray.opacity.get();
         }
         
         return -1;
