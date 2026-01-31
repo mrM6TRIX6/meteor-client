@@ -117,10 +117,16 @@ public abstract class WContainer extends WWidget {
             return true;
         }
         
+        WView view = getView();
+        
         for (Cell<?> cell : cells) {
             double y = cell.widget().y;
             if (y > getWindowHeight()) {
                 break;
+            }
+            
+            if (view != null && !view.isWidgetInView(cell.widget())) {
+                continue;
             }
             
             if (y + cell.widget().height > 0) {
