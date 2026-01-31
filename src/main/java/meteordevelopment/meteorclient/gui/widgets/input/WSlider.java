@@ -56,6 +56,7 @@ public abstract class WSlider extends WWidget {
             }
             
             dragging = true;
+            setFocused(true);
             return true;
         }
         return false;
@@ -120,6 +121,7 @@ public abstract class WSlider extends WWidget {
             }
             
             dragging = false;
+            setFocused(false);
             return true;
         }
         return false;

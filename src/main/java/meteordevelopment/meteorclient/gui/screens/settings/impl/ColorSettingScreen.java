@@ -111,7 +111,11 @@ public class ColorSettingScreen extends WindowScreen {
         
         SettingColor color;
         try {
-            color = new SettingColor(Integer.parseInt(hex.substring(0, 2), 16), Integer.parseInt(hex.substring(2, 4), 16), Integer.parseInt(hex.substring(4, 6), 16));
+            color = new SettingColor(
+                Integer.parseInt(hex.substring(0, 2), 16),
+                Integer.parseInt(hex.substring(2, 4), 16),
+                Integer.parseInt(hex.substring(4, 6), 16)
+            );
             if (hex.length() == 8) {
                 color.a = Integer.parseInt(hex.substring(6, 8), 16);
             }
@@ -377,6 +381,7 @@ public class ColorSettingScreen extends WindowScreen {
             
             if (mouseOver) {
                 dragging = true;
+                setFocused(true);
                 
                 handleX = lastMouseX - x;
                 handleY = lastMouseY - y;
@@ -392,6 +397,7 @@ public class ColorSettingScreen extends WindowScreen {
         public boolean onMouseReleased(Click click) {
             if (dragging) {
                 dragging = false;
+                setFocused(false);
             }
             
             return false;
@@ -604,6 +610,7 @@ public class ColorSettingScreen extends WindowScreen {
             
             if (mouseOver) {
                 dragging = true;
+                setFocused(true);
                 
                 handleX = lastMouseX - x;
                 calculateHueAngleFromHandleX();
@@ -619,6 +626,7 @@ public class ColorSettingScreen extends WindowScreen {
         public boolean onMouseReleased(Click click) {
             if (dragging) {
                 dragging = false;
+                setFocused(false);
             }
             
             return mouseOver;

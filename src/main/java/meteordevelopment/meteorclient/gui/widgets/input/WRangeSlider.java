@@ -92,12 +92,14 @@ public abstract class WRangeSlider extends WWidget {
             
             if (isOverMin) {
                 draggingFrom = true;
+                setFocused(true);
                 valueFromAtDragStart = value.from;
                 return true;
             }
             
             if (isOverMax) {
                 draggingTo = true;
+                setFocused(true);
                 valueToAtDragStart = value.to;
                 return true;
             }
@@ -115,6 +117,7 @@ public abstract class WRangeSlider extends WWidget {
                 draggingTo = true;
                 valueToAtDragStart = value.to;
             }
+            setFocused(true);
             return true;
         }
         return false;
@@ -193,6 +196,7 @@ public abstract class WRangeSlider extends WWidget {
             }
             draggingFrom = false;
             draggingTo = false;
+            setFocused(false);
             return true;
         }
         return false;
