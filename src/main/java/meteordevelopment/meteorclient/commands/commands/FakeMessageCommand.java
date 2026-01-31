@@ -12,6 +12,8 @@ import meteordevelopment.meteorclient.mixininterface.IChatHud;
 import net.minecraft.command.CommandSource;
 import net.minecraft.text.Text;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 public class FakeMessageCommand extends Command {
     
     public FakeMessageCommand() {
@@ -23,7 +25,7 @@ public class FakeMessageCommand extends Command {
         builder.then(argument("message", ClientTextArgumentType.text(REGISTRY_ACCESS))
             .executes(context -> {
                 Text message = ClientTextArgumentType.get(context, "message");
-                ((IChatHud) mc.inGameHud.getChatHud()).meteor$add(message, 0);
+                mc.execute(() -> ((IChatHud) mc.inGameHud.getChatHud()).meteor$add(message, 0));
                 return SINGLE_SUCCESS;
             })
         );
