@@ -31,7 +31,6 @@ public abstract class ItemEntityRendererMixin {
     
     @Inject(method = "render(Lnet/minecraft/client/render/entity/state/ItemEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V", at = @At("HEAD"), cancellable = true)
     private void renderStack(ItemEntityRenderState itemEntityRenderState, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState arg, CallbackInfo ci) {
-        // TODO: fix to work with entity render batching
         RenderItemEntityEvent event = MeteorClient.EVENT_BUS.post(
             RenderItemEntityEvent.get(
                 itemEntityRenderState,

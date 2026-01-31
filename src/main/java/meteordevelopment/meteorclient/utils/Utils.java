@@ -253,10 +253,7 @@ public class Utils {
                     items[i] = stacks.get(i);
                 }
             }
-        }
-        // Should we remove this? are there still instances where we might get presented container items in this format?
-        // Maybe on servers with weird multiversion setups - if they exist, test this code to ensure it works
-        else if (components.contains(DataComponentTypes.BLOCK_ENTITY_DATA)) {
+        } else if (components.contains(DataComponentTypes.BLOCK_ENTITY_DATA)) {
             TypedEntityData<BlockEntityType<?>> blockEntityData = components.get(DataComponentTypes.BLOCK_ENTITY_DATA);
             if (blockEntityData == null) return;
             NbtList nbt3 = blockEntityData.copyNbtWithoutId().getListOrEmpty("Items");
