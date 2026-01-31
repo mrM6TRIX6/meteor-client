@@ -51,8 +51,8 @@ public abstract class WRangeSlider extends WWidget {
     }
     
     @Override
-    public boolean onMouseClicked(Click click, boolean used) {
-        if (used) {
+    public boolean onMouseClicked(Click click, boolean doubled) {
+        if (doubled) {
             return false;
         }
         

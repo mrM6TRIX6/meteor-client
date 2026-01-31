@@ -374,8 +374,8 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         @Override
-        public boolean onMouseClicked(Click click, boolean used) {
-            if (used) {
+        public boolean onMouseClicked(Click click, boolean doubled) {
+            if (doubled) {
                 return false;
             }
             
@@ -603,8 +603,8 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         @Override
-        public boolean onMouseClicked(Click click, boolean used) {
-            if (used) {
+        public boolean onMouseClicked(Click click, boolean doubled) {
+            if (doubled) {
                 return false;
             }
             

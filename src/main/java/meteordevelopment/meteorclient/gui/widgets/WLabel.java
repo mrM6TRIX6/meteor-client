@@ -28,9 +28,9 @@ public abstract class WLabel extends WPressable {
     }
     
     @Override
-    public boolean onMouseClicked(Click click, boolean used) {
+    public boolean onMouseClicked(Click click, boolean doubled) {
         if (action != null) {
-            return super.onMouseClicked(click, used);
+            return super.onMouseClicked(click, doubled);
         }
         return false;
     }
