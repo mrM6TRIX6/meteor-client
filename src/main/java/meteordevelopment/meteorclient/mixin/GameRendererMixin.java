@@ -10,6 +10,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.blaze3d.systems.RenderSystem;
 import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.MixinPlugin;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.render.RenderAfterWorldEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
@@ -142,11 +143,6 @@ public abstract class GameRendererMixin {
             camera.getCameraPos().z
         );
         
-        // Call utility classes
-        
-        RenderUtils.updateScreenCenter(projection, position);
-        NametagUtils.onRender(position);
-        
         // Update model view matrix
         
         RenderSystem.getModelViewStack().pushMatrix().mul(position);
@@ -155,11 +151,19 @@ public abstract class GameRendererMixin {
         
         tiltViewWhenHurt(this.matrices, camera.getLastTickProgress());
         if (client.options.getBobView().getValue()) {
-            bobView(this.matrices, camera.getLastTickProgress());
+            bobView(matrices, camera.getLastTickProgress());
         }
         
-        RenderSystem.getModelViewStack().mul(this.matrices.peek().getPositionMatrix().invert());
+        Matrix4f inverseBob = new Matrix4f(matrices.peek().getPositionMatrix()).invert();
+        RenderSystem.getModelViewStack().mul(inverseBob);
+        
         this.matrices.pop();
+        
+        // Call utility classes (apply bob correction when Iris shaders are active)
+        
+        Matrix4f correctedPosition = MixinPlugin.isIrisPresent() && RenderUtils.isShaderPackInUse() ? new Matrix4f(position).mul(inverseBob) : position;
+        RenderUtils.updateScreenCenter(projection, correctedPosition);
+        NametagUtils.onRender(position);
         
         // Render
         

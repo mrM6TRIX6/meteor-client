@@ -17,6 +17,7 @@ import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
+import net.irisshaders.iris.api.v0.IrisApi;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.ProjectionMatrix2;
 import net.minecraft.item.ItemStack;
@@ -77,7 +78,12 @@ public class RenderUtils {
         rendering3D = true;
     }
     
+    public static boolean isShaderPackInUse() {
+        return IrisApi.getInstance().isShaderPackInUse();
+    }
+    
     // Items
+    
     public static void drawItem(DrawContext drawContext, ItemStack itemStack, int x, int y, float scale, boolean overlay, String countOverride, boolean disableGuiScale) {
         Matrix3x2fStack matrices = drawContext.getMatrices();
         matrices.pushMatrix();
