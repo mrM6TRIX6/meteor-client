@@ -166,14 +166,6 @@ tasks {
         from("LICENSE") {
             rename { "${it}_${inputs.properties["archivesName"]}" }
         }
-
-        // Launch sub project
-        dependsOn(":launch:compileJava")
-        from(project(":launch").layout.buildDirectory.dir("classes/java/main"))
-
-        manifest {
-            attributes["Main-Class"] = "meteordevelopment.meteorclient.Main"
-        }
     }
 
     java {
