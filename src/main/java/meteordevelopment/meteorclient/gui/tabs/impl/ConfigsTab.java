@@ -169,6 +169,7 @@ public class ConfigsTab extends Tab {
         
         @Override
         public void tick() {
+            super.tick();
             config.settings.tick(settingsContainer, theme);
         }
         
