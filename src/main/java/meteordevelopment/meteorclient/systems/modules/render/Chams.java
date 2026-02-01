@@ -39,9 +39,7 @@ public class Chams extends Module {
     public final Setting<Shader> shader = sgThroughWalls.add(new EnumSetting.Builder<Shader>()
         .name("shader")
         .description("Renders a shader over of the entities.")
-        .defaultValue(Shader.Image)
-        .onModuleActivated(setting -> updateShader(setting.get()))
-        .onChanged(this::updateShader)
+        .defaultValue(Shader.IMAGE)
         .build()
     );
     
@@ -49,7 +47,7 @@ public class Chams extends Module {
         .name("shader-color")
         .description("The color that the shader is drawn with.")
         .defaultValue(new SettingColor(255, 255, 255, 150))
-        .visible(() -> shader.get() != Shader.None)
+        .visible(() -> shader.get() != Shader.NONE)
         .build()
     );
     
@@ -190,19 +188,14 @@ public class Chams extends Module {
     }
     
     public boolean isShader() {
-        return isActive() && shader.get() != Shader.None;
-    }
-    
-    public void updateShader(Shader value) {
-        if (value == Shader.None) {
-            return;
-        }
-        PostProcessShaders.CHAMS.init(MeteorRenderPipelines.POST_IMAGE);
+        return isActive() && shader.get() != Shader.NONE;
     }
     
     public enum Shader {
-        Image,
-        None
+        
+        IMAGE,
+        NONE
+        
     }
     
 }

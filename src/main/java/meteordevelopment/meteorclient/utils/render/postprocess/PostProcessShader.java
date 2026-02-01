@@ -20,30 +20,20 @@ import static org.lwjgl.glfw.GLFW.glfwGetTime;
 
 public abstract class PostProcessShader {
     
-    public CustomOutlineVertexConsumerProvider vertexConsumerProvider;
-    public Framebuffer framebuffer;
+    protected final RenderPipeline pipeline;
+    public final Framebuffer framebuffer;
     
-    protected RenderPipeline pipeline;
-    
-    public void init(RenderPipeline pipeline) {
-        if (vertexConsumerProvider == null) {
-            vertexConsumerProvider = new CustomOutlineVertexConsumerProvider();
-        }
-        if (framebuffer == null) {
-            framebuffer = new SimpleFramebuffer(
-                MeteorClient.NAME + " PostProcessShader",
-                mc.getWindow().getFramebufferWidth(),
-                mc.getWindow().getFramebufferHeight(),
-                true
-            );
-        }
-        
+    protected PostProcessShader(RenderPipeline pipeline) {
         this.pipeline = pipeline;
+        this.framebuffer = new SimpleFramebuffer(
+            MeteorClient.NAME + " PostProcessShader " + this.getClass().getSimpleName(),
+            mc.getWindow().getFramebufferWidth(),
+            mc.getWindow().getFramebufferHeight(),
+            true
+        );
     }
     
     protected abstract boolean shouldDraw();
-    
-    public abstract boolean shouldDraw(Entity entity);
     
     protected void preDraw() {}
     
@@ -51,11 +41,13 @@ public abstract class PostProcessShader {
     
     protected abstract void setupPass(MeshRenderer renderer);
     
-    public boolean beginRender() {
-        return shouldDraw();
+    public void clearTexture() {
+        if (this.shouldDraw()) {
+            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(framebuffer.getColorAttachment(), 0);
+        }
     }
     
-    public void endRender(Runnable draw) {
+    public void submitVertices(Runnable draw) {
         if (!shouldDraw()) {
             return;
         }
@@ -63,15 +55,23 @@ public abstract class PostProcessShader {
         preDraw();
         draw.run();
         postDraw();
+    }
+    
+    public void render() {
+        if (!shouldDraw()) {
+            return;
+        }
         
-        var renderer = MeshRenderer.begin()
+        MeshRenderer renderer = MeshRenderer.begin()
             .attachments(mc.getFramebuffer())
             .pipeline(pipeline)
             .fullscreen()
-            .uniform("PostData", UNIFORM_STORAGE.write(new UniformData(
-                (float) mc.getWindow().getFramebufferWidth(), (float) mc.getWindow().getFramebufferHeight(),
-                (float) glfwGetTime()
-            )))
+            .uniform("PostData", UNIFORM_STORAGE.write(
+                new UniformData(
+                    (float) mc.getWindow().getFramebufferWidth(), (float) mc.getWindow().getFramebufferHeight(),
+                    (float) glfwGetTime()
+                )
+            ))
             .sampler("u_Texture", framebuffer.getColorAttachmentView(), RenderSystem.getSamplerCache().get(FilterMode.NEAREST));
         
         setupPass(renderer);

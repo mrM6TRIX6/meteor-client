@@ -11,7 +11,7 @@ public class EntityOutlineShader extends EntityShader {
     private static ESP esp;
     
     public EntityOutlineShader() {
-        init(MeteorRenderPipelines.POST_OUTLINE);
+        super(MeteorRenderPipelines.POST_OUTLINE);
     }
     
     @Override

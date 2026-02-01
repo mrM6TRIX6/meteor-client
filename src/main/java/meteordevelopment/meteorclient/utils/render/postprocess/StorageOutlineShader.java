@@ -13,22 +13,9 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 public class StorageOutlineShader extends PostProcessShader {
     
     private static StorageESP storageESP;
-    private Framebuffer mcFramebuffer;
     
     public StorageOutlineShader() {
-        init(MeteorRenderPipelines.POST_OUTLINE);
-    }
-    
-    @Override
-    protected void preDraw() {
-        mcFramebuffer = mc.getFramebuffer();
-        ((IMinecraftClient) mc).meteor$setFramebuffer(framebuffer);
-    }
-    
-    @Override
-    protected void postDraw() {
-        ((IMinecraftClient) mc).meteor$setFramebuffer(mcFramebuffer);
-        mcFramebuffer = null;
+        super(MeteorRenderPipelines.POST_OUTLINE);
     }
     
     @Override
@@ -37,11 +24,6 @@ public class StorageOutlineShader extends PostProcessShader {
             storageESP = Modules.get().get(StorageESP.class);
         }
         return storageESP.isShader();
-    }
-    
-    @Override
-    public boolean shouldDraw(Entity entity) {
-        return true;
     }
     
     @Override

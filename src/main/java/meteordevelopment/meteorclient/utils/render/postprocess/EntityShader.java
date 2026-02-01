@@ -1,23 +1,22 @@
 package meteordevelopment.meteorclient.utils.render.postprocess;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
 import meteordevelopment.meteorclient.mixininterface.IWorldRenderer;
-
-import java.util.OptionalInt;
+import meteordevelopment.meteorclient.utils.render.CustomOutlineVertexConsumerProvider;
+import net.minecraft.entity.Entity;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public abstract class EntityShader extends PostProcessShader {
     
-    @Override
-    public boolean beginRender() {
-        if (super.beginRender()) {
-            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(framebuffer.getColorAttachment(), 0);
-            return true;
-        }
-        
-        return false;
+    public final CustomOutlineVertexConsumerProvider vertexConsumerProvider;
+    
+    protected EntityShader(RenderPipeline pipeline) {
+        super(pipeline);
+        this.vertexConsumerProvider = new CustomOutlineVertexConsumerProvider();
     }
+    
+    public abstract boolean shouldDraw(Entity entity);
     
     @Override
     protected void preDraw() {
@@ -29,8 +28,8 @@ public abstract class EntityShader extends PostProcessShader {
         ((IWorldRenderer) mc.worldRenderer).meteor$popEntityOutlineFramebuffer();
     }
     
-    public void endRender() {
-        endRender(() -> vertexConsumerProvider.draw());
+    public void submitVertices() {
+        submitVertices(vertexConsumerProvider::draw);
     }
     
 }

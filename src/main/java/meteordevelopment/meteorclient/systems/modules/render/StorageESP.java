@@ -35,7 +35,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.*;
 import net.minecraft.block.enums.ChestType;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
@@ -45,8 +44,6 @@ import java.util.Set;
 
 public class StorageESP extends Module {
     
-    private static final MatrixStack MATRICES = new MatrixStack();
-    
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgOpened = settings.createGroup("Opened Rendering");
     private final Set<BlockPos> interactedBlocks = new HashSet<>();
@@ -54,7 +51,7 @@ public class StorageESP extends Module {
     private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
         .name("mode")
         .description("Rendering mode.")
-        .defaultValue(Mode.Shader)
+        .defaultValue(Mode.SHADER)
         .build()
     );
     
@@ -92,7 +89,7 @@ public class StorageESP extends Module {
     public final Setting<Integer> outlineWidth = sgGeneral.add(new IntSetting.Builder()
         .name("width")
         .description("The width of the shader outline.")
-        .visible(() -> mode.get() == Mode.Shader)
+        .visible(() -> mode.get() == Mode.SHADER)
         .defaultValue(1)
         .range(1, 10)
         .sliderRange(1, 5)
@@ -102,7 +99,7 @@ public class StorageESP extends Module {
     public final Setting<Double> glowMultiplier = sgGeneral.add(new DoubleSetting.Builder()
         .name("glow-multiplier")
         .description("Multiplier for glow effect")
-        .visible(() -> mode.get() == Mode.Shader)
+        .visible(() -> mode.get() == Mode.SHADER)
         .decimalPlaces(3)
         .defaultValue(3.5)
         .min(0)
@@ -291,7 +288,7 @@ public class StorageESP extends Module {
                 }
                 
                 // Only start a mesh when there's something to render
-                if (count == 0 && mode.get() == Mode.Shader) {
+                if (count == 0 && mode.get() == Mode.SHADER) {
                     mesh.begin();
                 }
                 
@@ -305,11 +302,11 @@ public class StorageESP extends Module {
                     event.renderer.line(RenderUtils.center.x, RenderUtils.center.y, RenderUtils.center.z, blockEntity.getPos().getX() + 0.5, blockEntity.getPos().getY() + 0.5, blockEntity.getPos().getZ() + 0.5, lineColor);
                 }
                 
-                if (mode.get() == Mode.Box) {
+                if (mode.get() == Mode.BOX) {
                     renderBox(event, blockEntity);
                 }
                 
-                if (mode.get() == Mode.Shader) {
+                if (mode.get() == Mode.SHADER) {
                     renderShader(event, blockEntity);
                 }
                 
@@ -320,14 +317,15 @@ public class StorageESP extends Module {
             }
         }
         
-        if (mode.get() == Mode.Shader && count > 0) {
-            PostProcessShaders.STORAGE_OUTLINE.endRender(() -> MeshRenderer.begin()
-                .attachments(mc.getFramebuffer())
+        if (mode.get() == Mode.SHADER && count > 0) {
+            MeshRenderer.begin()
+                .attachments(PostProcessShaders.STORAGE_OUTLINE.framebuffer)
                 .clearColor(Color.CLEAR)
                 .pipeline(MeteorRenderPipelines.WORLD_COLORED)
                 .mesh(mesh, event.matrices)
-                .end()
-            );
+                .end();
+            
+            PostProcessShaders.STORAGE_OUTLINE.render();
         }
     }
     
@@ -382,12 +380,14 @@ public class StorageESP extends Module {
     }
     
     public boolean isShader() {
-        return isActive() && mode.get() == Mode.Shader;
+        return isActive() && mode.get() == Mode.SHADER;
     }
     
     private enum Mode {
-        Box,
-        Shader
+        
+        BOX,
+        SHADER
+        
     }
     
 }
