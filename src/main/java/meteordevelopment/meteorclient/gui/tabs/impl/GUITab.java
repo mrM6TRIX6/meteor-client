@@ -19,9 +19,9 @@ import net.minecraft.client.gui.screen.Screen;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public class GuiTab extends Tab {
+public class GUITab extends Tab {
     
-    public GuiTab() {
+    public GUITab() {
         super("GUI");
     }
     

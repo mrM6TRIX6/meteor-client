@@ -25,8 +25,8 @@ public class Tabs {
         add(new ModulesTab());
         add(new ClientSettingsTab());
         add(new ConfigsTab());
-        add(new GuiTab());
-        add(new HudTab());
+        add(new GUITab());
+        add(new HUDTab());
         add(new FriendsTab());
         add(new MacrosTab());
         

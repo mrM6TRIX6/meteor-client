@@ -113,10 +113,7 @@ public class MacrosTab extends Tab {
         
         @Override
         public boolean save() {
-            if (value.name.get().isBlank()
-                || value.messages.get().isEmpty()
-                || !value.keybind.get().isSet()
-            ) {
+            if (value.name.get().isBlank() || value.messages.get().isEmpty()) {
                 return false;
             }
             

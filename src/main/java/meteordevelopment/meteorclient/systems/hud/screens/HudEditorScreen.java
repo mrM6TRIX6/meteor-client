@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.systems.hud.screens;
 
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.gui.tabs.impl.HudTab;
+import meteordevelopment.meteorclient.gui.tabs.impl.HUDTab;
 import meteordevelopment.meteorclient.renderer.Renderer2D;
 import meteordevelopment.meteorclient.systems.hud.Hud;
 import meteordevelopment.meteorclient.systems.hud.HudElement;
@@ -409,7 +409,7 @@ public class HudEditorScreen extends WidgetScreen implements Snapper.Container {
     
     public static boolean isOpen() {
         Screen s = mc.currentScreen;
-        return s instanceof HudEditorScreen || s instanceof AddHudElementScreen || s instanceof HudElementPresetsScreen || s instanceof HudElementScreen || s instanceof HudTab.HudScreen;
+        return s instanceof HudEditorScreen || s instanceof AddHudElementScreen || s instanceof HudElementPresetsScreen || s instanceof HudElementScreen || s instanceof HUDTab.HudScreen;
     }
     
     private class SelectionBox implements Snapper.Element {

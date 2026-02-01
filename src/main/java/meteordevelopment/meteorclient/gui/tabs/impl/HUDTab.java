@@ -22,9 +22,9 @@ import net.minecraft.client.gui.screen.Screen;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public class HudTab extends Tab {
+public class HUDTab extends Tab {
     
-    public HudTab() {
+    public HUDTab() {
         super("HUD");
     }
     
