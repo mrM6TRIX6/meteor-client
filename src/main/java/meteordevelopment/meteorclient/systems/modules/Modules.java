@@ -157,26 +157,7 @@ public class Modules extends System<Modules> {
         return active;
     }
     
-    public Set<Module> searchNames(String text) {
-        Map<Module, Integer> modules = new ValueComparableMap<>(Comparator.naturalOrder());
-        
-        for (Module module : this.moduleInstances.values()) {
-            int score = Utils.searchLevenshteinDefault(module.name, text, false);
-            if (ClientSettings.get().moduleAliases.get()) {
-                for (String alias : module.aliases) {
-                    int aliasScore = Utils.searchLevenshteinDefault(alias, text, false);
-                    if (aliasScore < score) {
-                        score = aliasScore;
-                    }
-                }
-            }
-            modules.put(module, modules.getOrDefault(module, 0) + score);
-        }
-        
-        return modules.keySet();
-    }
-    
-    public List<Pair<Module, String>> searchTitles(String text) {
+    public List<Pair<Module, String>> searchNames(String text) {
         Map<Pair<Module, String>, Integer> modules = new HashMap<>();
         
         for (Module module : this.moduleInstances.values()) {
@@ -200,6 +181,25 @@ public class Modules extends System<Modules> {
         l.sort(Comparator.comparingInt(modules::get));
         
         return l;
+    }
+    
+    public Set<Module> searchSettingTitles(String text) {
+        Map<Module, Integer> modules = new ValueComparableMap<>(Comparator.naturalOrder());
+        
+        for (Module module : this.moduleInstances.values()) {
+            int lowest = Integer.MAX_VALUE;
+            for (SettingGroup sg : module.settings) {
+                for (Setting<?> setting : sg) {
+                    int score = Utils.searchLevenshteinDefault(setting.title, text, false);
+                    if (score < lowest) {
+                        lowest = score;
+                    }
+                }
+            }
+            modules.put(module, modules.getOrDefault(module, 0) + lowest);
+        }
+        
+        return modules.keySet();
     }
     
     void addActive(Module module) {

@@ -6,6 +6,7 @@
 package meteordevelopment.meteorclient.gui.utils;
 
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
+import org.jetbrains.annotations.Nullable;
 
 public class Cell<T extends WWidget> {
     
@@ -24,6 +25,9 @@ public class Cell<T extends WWidget> {
     private boolean expandWidgetY;
     
     public boolean expandCellX;
+    
+    @Nullable
+    public String group;
     
     public Cell(T widget) {
         this.widget = widget;
@@ -162,6 +166,12 @@ public class Cell<T extends WWidget> {
     }
     
     // Other
+    
+    // Makes this cell's width match the largest cell in the group
+    public Cell<T> group(String group) {
+        this.group = group;
+        return this;
+    }
     
     public void alignWidget() {
         if (expandWidgetX) {

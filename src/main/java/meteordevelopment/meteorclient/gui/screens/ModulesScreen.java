@@ -78,7 +78,7 @@ public class ModulesScreen extends TabScreen {
     
     protected void createSearchW(WContainer container, String text) {
         if (!text.isEmpty()) {
-            // Titles
+            // Names
             List<Pair<Module, String>> modules = Modules.get().searchNames(text);
             
             if (!modules.isEmpty()) {
