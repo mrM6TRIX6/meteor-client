@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator;
-import meteordevelopment.meteorclient.utils.entity.simulator.SimulationStep;
+import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator.SimulationStep;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;

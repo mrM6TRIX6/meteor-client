@@ -10,6 +10,7 @@ import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.Account;
+import meteordevelopment.meteorclient.systems.accounts.AccountType;
 import meteordevelopment.meteorclient.systems.accounts.TokenAccount;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 
@@ -26,15 +27,20 @@ public class AccountInfoScreen extends WindowScreen {
     
     @Override
     public void initWidgets() {
-        TokenAccount e = (TokenAccount) account;
-        WHorizontalList l = add(theme.horizontalList()).expandX().widget();
+        TokenAccount tokenAccount = (TokenAccount) account;
+        WHorizontalList list = add(theme.horizontalList()).expandX().widget();
+        
+        String tokenLabel = account.getType() + " token:";
+        if (account.getType() == AccountType.SESSION) {
+            tokenLabel = "";
+        }
         
         WButton copy = theme.button("Copy");
-        copy.action = () -> mc.keyboard.setClipboard(e.getToken());
+        copy.action = () -> mc.keyboard.setClipboard(tokenAccount.getToken());
         
-        l.add(theme.label("TheAltening token:"));
-        l.add(theme.label(e.getToken()).color(Color.GRAY)).pad(5);
-        l.add(copy);
+        list.add(theme.label(tokenLabel));
+        list.add(theme.label(account.getType() == AccountType.SESSION ? "Click to copy Token" : tokenAccount.getToken()).color(Color.GRAY)).pad(5);
+        list.add(copy);
     }
     
 }

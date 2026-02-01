@@ -11,6 +11,7 @@ import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.accounts.impl.CrackedAccount;
 import meteordevelopment.meteorclient.systems.accounts.impl.MicrosoftAccount;
+import meteordevelopment.meteorclient.systems.accounts.impl.SessionAccount;
 import meteordevelopment.meteorclient.systems.accounts.impl.TheAlteningAccount;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
@@ -84,6 +85,7 @@ public class Accounts extends System<Accounts> implements Iterable<Account<?>> {
                 return switch (type) {
                     case CRACKED -> new CrackedAccount(null).fromJson(account);
                     case MICROSOFT -> new MicrosoftAccount(null).fromJson(account);
+                    case SESSION -> new SessionAccount(null).fromJson(account);
                     case THE_ALTENING -> new TheAlteningAccount(null).fromJson(account);
                 };
             } catch (JsonParseException e) {

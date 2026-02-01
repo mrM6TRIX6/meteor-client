@@ -100,25 +100,18 @@ public class TheAlteningAccount extends Account<TheAlteningAccount> implements T
     
     @Override
     public JsonObject toJson() {
-        JsonObject jsonObject = new JsonObject();
+        JsonObject jsonObject = super.toJson();
         
-        jsonObject.addProperty("type", type.name());
-        jsonObject.addProperty("name", name);
         jsonObject.addProperty("token", token);
-        jsonObject.add("cache", cache.toJson());
         
         return jsonObject;
     }
     
     @Override
     public TheAlteningAccount fromJson(JsonObject jsonObject) {
-        if (jsonObject.get("name").getAsString().isEmpty() || jsonObject.get("cache").isJsonNull() || jsonObject.get("token").getAsString().isEmpty()) {
-            throw new JsonSyntaxException("Invalid account data");
-        }
+        super.fromJson(jsonObject);
         
-        name = jsonObject.get("name").getAsString();
         token = jsonObject.get("token").getAsString();
-        cache.fromJson(jsonObject.get("cache").getAsJsonObject());
         
         return this;
     }

@@ -64,10 +64,10 @@ public class MicrosoftAccount extends Account<MicrosoftAccount> {
     
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof MicrosoftAccount)) {
+        if (!(o instanceof MicrosoftAccount account)) {
             return false;
         }
-        return ((MicrosoftAccount) o).name.equals(this.name);
+        return account.name.equals(this.name);
     }
     
 }

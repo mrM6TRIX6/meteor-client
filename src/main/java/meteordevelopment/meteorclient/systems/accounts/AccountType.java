@@ -9,6 +9,7 @@ public enum AccountType {
     
     CRACKED,
     MICROSOFT,
+    SESSION,
     THE_ALTENING
     
 }

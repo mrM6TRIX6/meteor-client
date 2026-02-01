@@ -40,6 +40,7 @@ public class AccountsScreen extends WindowScreen {
         
         addButton(list, "Cracked", () -> mc.setScreen(new AddCrackedAccountScreen(theme, this)));
         addButton(list, "Altening", () -> mc.setScreen(new AddAlteningAccountScreen(theme, this)));
+        addButton(list, "Session", () -> mc.setScreen(new AddSessionAccountScreen(theme, this)));
         addButton(list, "Microsoft", () -> mc.setScreen(new AddMicrosoftAccountScreen(theme, this)));
         
         // Clear
