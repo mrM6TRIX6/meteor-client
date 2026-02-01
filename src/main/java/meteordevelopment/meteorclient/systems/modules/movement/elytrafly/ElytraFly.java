@@ -169,8 +169,11 @@ public class ElytraFly extends Module {
     
     public final Setting<Double> pitch40lowerBounds = sgGeneral.add(new DoubleSetting.Builder()
         .name("pitch40-lower-bounds")
-        .description("The bottom height boundary for pitch40.")
-        .defaultValue(80)
+        .description(
+            "The bottom height boundary for pitch40. You must be at least 40 blocks above this boundary when starting the module.\n" +
+                "After descending below this boundary you will start pitching upwards."
+        )
+        .defaultValue(180)
         .min(-128)
         .sliderMax(360)
         .visible(() -> flightMode.get() == ElytraFlyModes.PITCH40)
@@ -179,8 +182,11 @@ public class ElytraFly extends Module {
     
     public final Setting<Double> pitch40upperBounds = sgGeneral.add(new DoubleSetting.Builder()
         .name("pitch40-upper-bounds")
-        .description("The upper height boundary for pitch40.")
-        .defaultValue(120)
+        .description(
+            "The upper height boundary for pitch40. You must be above this boundary when starting the module.\n" +
+                "When ascending above this boundary, if you are not already, you will start pitching downwards."
+        )
+        .defaultValue(220)
         .min(-128)
         .sliderMax(360)
         .visible(() -> flightMode.get() == ElytraFlyModes.PITCH40)
@@ -189,7 +195,7 @@ public class ElytraFly extends Module {
     
     public final Setting<Double> pitch40rotationSpeed = sgGeneral.add(new DoubleSetting.Builder()
         .name("pitch40-rotate-speed")
-        .description("The speed for pitch rotation (degrees per tick)")
+        .description("The speed for pitch rotation (degrees per tick).")
         .defaultValue(4)
         .min(1)
         .sliderMax(6)
@@ -207,7 +213,7 @@ public class ElytraFly extends Module {
     
     public final Setting<Rotation.LockMode> yawLockMode = sgGeneral.add(new EnumSetting.Builder<Rotation.LockMode>()
         .name("yaw-lock")
-        .description("Whether to enable yaw lock or not")
+        .description("Whether to enable yaw lock or not.")
         .defaultValue(Rotation.LockMode.SMART)
         .visible(() -> flightMode.get() == ElytraFlyModes.BOUNCE)
         .build()
