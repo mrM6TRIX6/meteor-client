@@ -70,7 +70,7 @@ public abstract class HeldItemRendererMixin {
     
     @ModifyArg(method = "updateHeldItems", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;clamp(FFF)F", ordinal = 2), index = 0)
     private float modifyEquipProgressMainhand(float value) {
-        float f = mc.player.getAttackCooldownProgress(1f);
+        float f = mc.player.getHandEquippingProgress(1F);
         float modified = Modules.get().get(HandView.class).oldAnimations() ? 1 : f * f * f;
         
         return (shouldSkipHandAnimationOnSwap(mainHand, mc.player.getMainHandStack()) ? modified : 0) - equipProgressMainHand;
