@@ -107,18 +107,26 @@ public class ESP extends Module {
     
     // Colors
     
-    public final Setting<Boolean> distance = sgColors.add(new BoolSetting.Builder()
-        .name("distance-colors")
-        .description("Changes the color of tracers depending on distance.")
-        .defaultValue(false)
+    public final Setting<ESPColorMode> colorMode = sgColors.add(new EnumSetting.Builder<ESPColorMode>()
+        .name("color-mode")
+        .description("Determines the colors used for entities.")
+        .defaultValue(ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
     public final Setting<Boolean> friendOverride = sgColors.add(new BoolSetting.Builder()
         .name("show-friend-colors")
-        .description("Whether or not to override the distance color of friends with the friend color.")
+        .description("Whether or not to override the distance/health color of friends with the friend color.")
         .defaultValue(true)
-        .visible(distance::get)
+        .visible(() -> colorMode.get() == ESPColorMode.DISTANCE || colorMode.get() == ESPColorMode.HEALTH)
+        .build()
+    );
+    
+    private final Setting<SettingColor> nonLivingEntityColor = sgColors.add(new ColorSetting.Builder()
+        .name("non-living-entity-color")
+        .description("The color used for non living entities such as dropped items.")
+        .defaultValue(new SettingColor(25, 25, 25))
+        .visible(() -> colorMode.get() == ESPColorMode.HEALTH)
         .build()
     );
     
@@ -126,7 +134,7 @@ public class ESP extends Module {
         .name("players-color")
         .description("The other player's color.")
         .defaultValue(new SettingColor(255, 255, 255))
-        .visible(() -> !distance.get())
+        .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
@@ -134,7 +142,7 @@ public class ESP extends Module {
         .name("animals-color")
         .description("The animal's color.")
         .defaultValue(new SettingColor(25, 255, 25, 255))
-        .visible(() -> !distance.get())
+        .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
@@ -142,7 +150,7 @@ public class ESP extends Module {
         .name("water-animals-color")
         .description("The water animal's color.")
         .defaultValue(new SettingColor(25, 25, 255, 255))
-        .visible(() -> !distance.get())
+        .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
@@ -150,7 +158,7 @@ public class ESP extends Module {
         .name("monsters-color")
         .description("The monster's color.")
         .defaultValue(new SettingColor(255, 25, 25, 255))
-        .visible(() -> !distance.get())
+        .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
@@ -158,7 +166,7 @@ public class ESP extends Module {
         .name("ambient-color")
         .description("The ambient's color.")
         .defaultValue(new SettingColor(25, 25, 25, 255))
-        .visible(() -> !distance.get())
+        .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
@@ -166,7 +174,7 @@ public class ESP extends Module {
         .name("misc-color")
         .description("The misc color.")
         .defaultValue(new SettingColor(175, 175, 175, 255))
-        .visible(() -> !distance.get())
+        .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
@@ -393,22 +401,29 @@ public class ESP extends Module {
     }
     
     public Color getEntityTypeColor(Entity entity) {
-        if (distance.get()) {
-            if (friendOverride.get() && entity instanceof PlayerEntity && Friends.get().isFriend((PlayerEntity) entity)) {
-                return ClientSettings.get().friendColor.get();
+        if (colorMode.get() == ESPColorMode.ENTITY_TYPE) {
+            if (entity instanceof PlayerEntity player) {
+                return PlayerUtils.getPlayerColor(player, playersColor.get());
             } else {
-                return EntityUtils.getColorFromDistance(entity);
+                return switch (entity.getType().getSpawnGroup()) {
+                    case CREATURE -> animalsColor.get();
+                    case WATER_AMBIENT, WATER_CREATURE, UNDERGROUND_WATER_CREATURE, AXOLOTLS -> waterAnimalsColor.get();
+                    case MONSTER -> monstersColor.get();
+                    case AMBIENT -> ambientColor.get();
+                    default -> miscColor.get();
+                };
             }
-        } else if (entity instanceof PlayerEntity) {
-            return PlayerUtils.getPlayerColor(((PlayerEntity) entity), playersColor.get());
+        }
+        
+        if (friendOverride.get() && entity instanceof PlayerEntity player
+            && Friends.get().isFriend(player)) {
+            return ClientSettings.get().friendColor.get();
+        }
+        
+        if (colorMode.get() == ESPColorMode.HEALTH) {
+            return EntityUtils.getColorFromHealth(entity, nonLivingEntityColor.get());
         } else {
-            return switch (entity.getType().getSpawnGroup()) {
-                case CREATURE -> animalsColor.get();
-                case WATER_AMBIENT, WATER_CREATURE, UNDERGROUND_WATER_CREATURE, AXOLOTLS -> waterAnimalsColor.get();
-                case MONSTER -> monstersColor.get();
-                case AMBIENT -> ambientColor.get();
-                default -> miscColor.get();
-            };
+            return EntityUtils.getColorFromDistance(entity);
         }
     }
     
@@ -436,6 +451,19 @@ public class ESP extends Module {
         @Override
         public String toString() {
             return this == _2D ? "2D" : super.toString();
+        }
+        
+    }
+    
+    private enum ESPColorMode {
+        
+        ENTITY_TYPE,
+        DISTANCE,
+        HEALTH;
+        
+        @Override
+        public String toString() {
+            return this == ENTITY_TYPE ? "Entity Type" : super.toString();
         }
         
     }
