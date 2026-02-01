@@ -17,6 +17,7 @@
     "AbstractSignEditScreenMixin",
     "ArmorFeatureRendererMixin",
     "ArmorStandEntityRendererMixin",
+    "AttackRangeComponentMixin",
     "BannerBlockEntityRendererMixin",
     "BeaconBlockEntityRendererMixin",
     "BeaconScreenMixin",
@@ -201,10 +202,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "mixins": [
-    "AttackRangeComponentMixin",
-    "ChatHudLineConsumerMixin",
-    "HungerManagerMixin"
-  ]
+  }
 }
