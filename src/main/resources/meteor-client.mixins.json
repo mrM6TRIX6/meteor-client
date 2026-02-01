@@ -202,6 +202,7 @@
     "defaultRequire": 1
   },
   "mixins": [
+    "AttackRangeComponentMixin",
     "ChatHudLineConsumerMixin",
     "HungerManagerMixin"
   ]

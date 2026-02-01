@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.AxeItem;
+import net.minecraft.item.MaceItem;
 import net.minecraft.registry.tag.ItemTags;
 
 import java.util.Set;
@@ -25,6 +25,7 @@ import java.util.Set;
 public class Hitboxes extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
+    private final SettingGroup sgWeapon = settings.createGroup("Weapon Options");
     
     private final Setting<Set<EntityType<?>>> entities = sgGeneral.add(new EntityTypeListSetting.Builder()
         .name("entities")
@@ -47,15 +48,71 @@ public class Hitboxes extends Module {
         .build()
     );
     
-    private final Setting<Boolean> onlyOnWeapon = sgGeneral.add(new BoolSetting.Builder()
+    private final Setting<Boolean> onlyOnWeapon = sgWeapon.add(new BoolSetting.Builder()
         .name("only-on-weapon")
         .description("Only modifies hitbox when holding a weapon in hand.")
         .defaultValue(false)
         .build()
     );
     
+    private final Setting<Boolean> sword = sgWeapon.add(new BoolSetting.Builder()
+        .name("sword")
+        .description("Enable when holding a sword.")
+        .defaultValue(true)
+        .visible(onlyOnWeapon::get)
+        .build()
+    );
+    
+    private final Setting<Boolean> axe = sgWeapon.add(new BoolSetting.Builder()
+        .name("axe")
+        .description("Enable when holding an axe.")
+        .defaultValue(true)
+        .visible(onlyOnWeapon::get)
+        .build()
+    );
+    
+    private final Setting<Boolean> pickaxe = sgWeapon.add(new BoolSetting.Builder()
+        .name("pickaxe")
+        .description("Enable when holding a pickaxe.")
+        .defaultValue(true)
+        .visible(onlyOnWeapon::get)
+        .build()
+    );
+    
+    private final Setting<Boolean> shovel = sgWeapon.add(new BoolSetting.Builder()
+        .name("shovel")
+        .description("Enable when holding a shovel.")
+        .defaultValue(true)
+        .visible(onlyOnWeapon::get)
+        .build()
+    );
+    
+    private final Setting<Boolean> hoe = sgWeapon.add(new BoolSetting.Builder()
+        .name("hoe")
+        .description("Enable when holding a hoe.")
+        .defaultValue(true)
+        .visible(onlyOnWeapon::get)
+        .build()
+    );
+    
+    private final Setting<Boolean> mace = sgWeapon.add(new BoolSetting.Builder()
+        .name("mace")
+        .description("Enable when holding a mace.")
+        .defaultValue(true)
+        .visible(onlyOnWeapon::get)
+        .build()
+    );
+    
+    private final Setting<Boolean> spear = sgWeapon.add(new BoolSetting.Builder()
+        .name("spear")
+        .description("Enable when holding a spear.")
+        .defaultValue(true)
+        .visible(onlyOnWeapon::get)
+        .build()
+    );
+    
     public Hitboxes() {
-        super(Categories.Combat, "Hitboxes", "Expands an entity's hitboxes.");
+        super(Categories.Combat, "hitboxes", "Expands an entity's hitboxes.");
     }
     
     public double getEntityValue(Entity entity) {
@@ -72,7 +129,28 @@ public class Hitboxes extends Module {
         if (!onlyOnWeapon.get()) {
             return true;
         }
-        return InventoryUtils.testInHands(itemStack -> itemStack.isIn(ItemTags.SWORDS) || itemStack.getItem() instanceof AxeItem);
+        
+        return InventoryUtils.testInMainHand(itemStack -> {
+            if (sword.get() && itemStack.isIn(ItemTags.SWORDS)) {
+                return true;
+            }
+            if (axe.get() && itemStack.isIn(ItemTags.AXES)) {
+                return true;
+            }
+            if (pickaxe.get() && itemStack.isIn(ItemTags.PICKAXES)) {
+                return true;
+            }
+            if (shovel.get() && itemStack.isIn(ItemTags.SHOVELS)) {
+                return true;
+            }
+            if (hoe.get() && itemStack.isIn(ItemTags.HOES)) {
+                return true;
+            }
+            if (mace.get() && itemStack.getItem() instanceof MaceItem) {
+                return true;
+            }
+            return spear.get() && itemStack.isIn(ItemTags.SPEARS);
+        });
     }
     
 }
