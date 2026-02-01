@@ -147,7 +147,7 @@ public class CustomTextRenderer implements TextRenderer {
                 .attachments(mc.getFramebuffer())
                 .pipeline(MeteorRenderPipelines.UI_TEXT)
                 .mesh(mesh)
-                .sampler("u_Texture", font.texture.getGlTextureView())
+                .sampler("u_Texture", font.texture.getGlTextureView(), font.texture.getSampler())
                 .end();
         }
         

@@ -112,14 +112,14 @@ public class MeteorStarscript {
         ss.set("camera", new ValueMap()
             .set("pos", new ValueMap()
                 .set("_toString", () -> posString(false, true))
-                .set("x", () -> Value.number(mc.gameRenderer.getCamera().getPos().x))
-                .set("y", () -> Value.number(mc.gameRenderer.getCamera().getPos().y))
-                .set("z", () -> Value.number(mc.gameRenderer.getCamera().getPos().z))
+                .set("x", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().x))
+                .set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
+                .set("z", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().z))
             )
             .set("opposite_dim_pos", new ValueMap()
                 .set("_toString", () -> posString(true, true))
                 .set("x", () -> oppositeX(true))
-                .set("y", () -> Value.number(mc.gameRenderer.getCamera().getPos().y))
+                .set("y", () -> Value.number(mc.gameRenderer.getCamera().getCameraPos().y))
                 .set("z", () -> oppositeZ(true))
             )
             
@@ -516,7 +516,7 @@ public class MeteorStarscript {
     }
     
     private static Value oppositeX(boolean camera) {
-        double x = camera ? mc.gameRenderer.getCamera().getPos().x : (mc.player != null ? mc.player.getX() : 0);
+        double x = camera ? mc.gameRenderer.getCamera().getCameraPos().x : (mc.player != null ? mc.player.getX() : 0);
         Dimension dimension = PlayerUtils.getDimension();
         
         if (dimension == Dimension.OVERWORLD) {
@@ -529,7 +529,7 @@ public class MeteorStarscript {
     }
     
     private static Value oppositeZ(boolean camera) {
-        double z = camera ? mc.gameRenderer.getCamera().getPos().z : (mc.player != null ? mc.player.getZ() : 0);
+        double z = camera ? mc.gameRenderer.getCamera().getCameraPos().z : (mc.player != null ? mc.player.getZ() : 0);
         Dimension dimension = PlayerUtils.getDimension();
         
         if (dimension == Dimension.OVERWORLD) {
@@ -637,7 +637,7 @@ public class MeteorStarscript {
     private static Value posString(boolean opposite, boolean camera) {
         Vec3d pos;
         if (camera) {
-            pos = mc.gameRenderer.getCamera().getPos();
+            pos = mc.gameRenderer.getCamera().getCameraPos();
         } else {
             pos = mc.player != null ? mc.player.getEntityPos() : Vec3d.ZERO;
         }

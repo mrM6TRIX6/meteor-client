@@ -27,6 +27,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -102,7 +103,7 @@ public class AutoExtinguish extends Module {
     
     @EventHandler
     private void onTickPre(TickEvent.Pre event) {
-        if (mc.world.getDimension().respawnAnchorWorks()) {
+        if (mc.world.getEnvironmentAttributes().getAttributeValue(EnvironmentAttributes.RESPAWN_ANCHOR_WORKS_GAMEPLAY)) {
             if (doesWaterBucketWork) {
                 warning("Water Buckets don't work in this dimension!");
                 doesWaterBucketWork = false;

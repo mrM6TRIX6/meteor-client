@@ -11,7 +11,7 @@ public class TexturesJson {
     
     public static class Textures {
         
-        public Texture SKIN;
+        public Texture skin;
         
     }
     

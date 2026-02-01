@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.mixin;
 
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.world.Ambience;
+import meteordevelopment.meteorclient.systems.modules.render.Ambience;
 import net.minecraft.client.color.block.BlockColorProvider;
 import net.minecraft.client.color.block.BlockColors;
 import org.spongepowered.asm.mixin.Mixin;

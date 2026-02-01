@@ -208,7 +208,7 @@ public class ElytraFly extends Module {
     public final Setting<Rotation.LockMode> yawLockMode = sgGeneral.add(new EnumSetting.Builder<Rotation.LockMode>()
         .name("yaw-lock")
         .description("Whether to enable yaw lock or not")
-        .defaultValue(Rotation.LockMode.Smart)
+        .defaultValue(Rotation.LockMode.SMART)
         .visible(() -> flightMode.get() == ElytraFlyModes.BOUNCE)
         .build()
     );
@@ -229,7 +229,7 @@ public class ElytraFly extends Module {
         .defaultValue(0)
         .range(0, 360)
         .sliderRange(0, 360)
-        .visible(() -> flightMode.get() == ElytraFlyModes.BOUNCE && yawLockMode.get() == Rotation.LockMode.Simple)
+        .visible(() -> flightMode.get() == ElytraFlyModes.BOUNCE && yawLockMode.get() == Rotation.LockMode.SIMPLE)
         .build()
     );
     

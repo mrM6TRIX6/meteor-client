@@ -24,7 +24,7 @@ public class Rotation extends Module {
     private final Setting<LockMode> yawLockMode = sgYaw.add(new EnumSetting.Builder<LockMode>()
         .name("yaw-lock-mode")
         .description("The way in which your yaw is locked.")
-        .defaultValue(LockMode.Simple)
+        .defaultValue(LockMode.SIMPLE)
         .build()
     );
     
@@ -34,7 +34,7 @@ public class Rotation extends Module {
         .defaultValue(0)
         .sliderMax(360)
         .max(360)
-        .visible(() -> yawLockMode.get() == LockMode.Simple)
+        .visible(() -> yawLockMode.get() == LockMode.SIMPLE)
         .build()
     );
     
@@ -43,7 +43,7 @@ public class Rotation extends Module {
     private final Setting<LockMode> pitchLockMode = sgPitch.add(new EnumSetting.Builder<LockMode>()
         .name("pitch-lock-mode")
         .description("The way in which your pitch is locked.")
-        .defaultValue(LockMode.Simple)
+        .defaultValue(LockMode.SIMPLE)
         .build()
     );
     
@@ -53,7 +53,7 @@ public class Rotation extends Module {
         .defaultValue(0)
         .range(-90, 90)
         .sliderRange(-90, 90)
-        .visible(() -> pitchLockMode.get() == LockMode.Simple)
+        .visible(() -> pitchLockMode.get() == LockMode.SIMPLE)
         .build()
     );
     
@@ -69,13 +69,13 @@ public class Rotation extends Module {
     @EventHandler
     private void onTick(TickEvent.Post event) {
         switch (yawLockMode.get()) {
-            case Simple -> setYawAngle(yawAngle.get().floatValue());
-            case Smart -> setYawAngle(getSmartYawDirection());
+            case SIMPLE -> setYawAngle(yawAngle.get().floatValue());
+            case SMART -> setYawAngle(getSmartYawDirection());
         }
         
         switch (pitchLockMode.get()) {
-            case Simple -> mc.player.setPitch(pitchAngle.get().floatValue());
-            case Smart -> mc.player.setPitch(getSmartPitchDirection());
+            case SIMPLE -> mc.player.setPitch(pitchAngle.get().floatValue());
+            case SMART -> mc.player.setPitch(getSmartPitchDirection());
         }
     }
     
@@ -94,9 +94,11 @@ public class Rotation extends Module {
     }
     
     public enum LockMode {
-        Smart,
-        Simple,
-        None
+        
+        SMART,
+        SIMPLE,
+        NONE
+        
     }
     
 }

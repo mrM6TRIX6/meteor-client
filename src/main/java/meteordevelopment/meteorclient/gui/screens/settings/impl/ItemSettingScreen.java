@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.utils.misc.Names;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 public class ItemSettingScreen extends WindowScreen {
     
@@ -58,7 +58,7 @@ public class ItemSettingScreen extends WindowScreen {
             }
             
             WItemWithLabel itemLabel = theme.itemWithLabel(item.getDefaultStack(), Names.get(item));
-            if (!filterText.isEmpty() && !StringUtils.containsIgnoreCase(itemLabel.getLabelText(), filterText)) {
+            if (!filterText.isEmpty() && !Strings.CI.contains(itemLabel.getLabelText(), filterText)) {
                 continue;
             }
             table.add(itemLabel);

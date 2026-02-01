@@ -11,6 +11,4 @@ public interface IChatHud {
     
     void meteor$add(Text message, int id);
     
-    int meteor$getChatY();
-    
 }

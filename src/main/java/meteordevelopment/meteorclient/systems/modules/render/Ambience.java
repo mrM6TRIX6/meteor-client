@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.systems.modules.world;
+package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -13,8 +13,6 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import net.minecraft.client.render.DimensionEffects;
-import net.minecraft.util.math.Vec3d;
 
 /**
  * @author Walaryne
@@ -95,6 +93,7 @@ public class Ambience extends Module {
     );
     
     // World
+    
     public final Setting<Boolean> customGrassColor = sgWorld.add(new BoolSetting.Builder()
         .name("custom-grass-color")
         .description("Whether the grass color should be changed.")
@@ -179,7 +178,7 @@ public class Ambience extends Module {
     );
     
     public Ambience() {
-        super(Categories.World, "Ambience", "Change the color of various pieces of the environment.");
+        super(Categories.Render, "Ambience", "Change the color of various pieces of the environment.");
     }
     
     @Override
@@ -211,24 +210,6 @@ public class Ambience extends Module {
             }
         }
         return null;
-    }
-    
-    public static class Custom extends DimensionEffects {
-        
-        public Custom() {
-            super(SkyType.END, true, false);
-        }
-        
-        @Override
-        public Vec3d adjustFogColor(Vec3d color, float sunHeight) {
-            return color.multiply(0.15000000596046448D);
-        }
-        
-        @Override
-        public boolean useThickFog(int camX, int camY) {
-            return false;
-        }
-        
     }
     
 }

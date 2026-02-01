@@ -47,6 +47,12 @@ public class CustomOutlineVertexConsumerProvider implements VertexConsumerProvid
         }
         
         @Override
+        public VertexConsumer color(int argb) {
+            consumer.color(argb);
+            return this;
+        }
+        
+        @Override
         public VertexConsumer texture(float u, float v) {
             consumer.texture(u, v);
             return this;
@@ -64,6 +70,11 @@ public class CustomOutlineVertexConsumerProvider implements VertexConsumerProvid
         
         @Override
         public VertexConsumer normal(float x, float y, float z) {
+            return this;
+        }
+        
+        @Override
+        public VertexConsumer lineWidth(float width) {
             return this;
         }
         

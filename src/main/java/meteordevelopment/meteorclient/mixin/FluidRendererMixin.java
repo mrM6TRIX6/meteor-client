@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.mixin;
 
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Xray;
-import meteordevelopment.meteorclient.systems.modules.world.Ambience;
+import meteordevelopment.meteorclient.systems.modules.render.Ambience;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.VertexConsumer;

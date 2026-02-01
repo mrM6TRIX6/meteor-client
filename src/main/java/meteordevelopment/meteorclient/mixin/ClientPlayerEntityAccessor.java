@@ -19,7 +19,4 @@ public interface ClientPlayerEntityAccessor {
     @Accessor("ticksSinceLastPositionPacketSent")
     void meteor$setTicksSinceLastPositionPacketSent(int ticks);
     
-    @Invoker("canSprint")
-    boolean meteor$invokeCanSprint();
-    
 }

@@ -83,6 +83,13 @@ public class InventoryTweaks extends Module {
         .build()
     );
     
+    private final Setting<Boolean> operatorTab = sgGeneral.add(new BoolSetting.Builder()
+        .name("operator-tab")
+        .description("Shows the operator utilities item-group even if user don't have op, but only if it is enabled in the minecraft config.")
+        .defaultValue(true)
+        .build()
+    );
+    
     // Sorting
     
     private final Setting<Boolean> sortingEnabled = sgSorting.add(new BoolSetting.Builder()
@@ -532,6 +539,10 @@ public class InventoryTweaks extends Module {
     
     public boolean fakeCloseButton(ScreenHandler handler) {
         return isActive() && fakeCloseButton.get() && !(handler instanceof CreativeInventoryScreen.CreativeScreenHandler);
+    }
+    
+    public boolean operatorTab() {
+        return isActive() && operatorTab.get();
     }
     
     public boolean mouseDragItemMove() {

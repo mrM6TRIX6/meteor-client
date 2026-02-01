@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.mixin;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import net.minecraft.client.gui.screen.SplashTextRenderer;
 import net.minecraft.client.resource.SplashTextResourceSupplier;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -36,7 +37,11 @@ public abstract class SplashTextResourceSupplierMixin {
         }
         
         if (override) {
-            cir.setReturnValue(new SplashTextRenderer(meteorSplashes.get(random.nextInt(meteorSplashes.size()))));
+            cir.setReturnValue(
+                new SplashTextRenderer(
+                    Text.literal(meteorSplashes.get(random.nextInt(meteorSplashes.size())))
+                )
+            );
         }
         override = !override;
     }

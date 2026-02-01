@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.mixin;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
@@ -22,13 +23,19 @@ public interface ChatHudAccessor {
     @Accessor("messages")
     List<ChatHudLine> meteor$getMessages();
     
-    @Invoker("toChatLineY")
-    double meteor$invokeToChatLineY(double y);
-    
-    @Invoker("getMessageIndex")
-    int meteor$invokeGetMessageIndex(double chatLineX, double chatLineY);
+    @Accessor("scrolledLines")
+    int meteor$getScrolledLines();
     
     @Invoker("getLineHeight")
-    int meteor$invokeGetLineHeight();
+    int meteor$getLineHeight();
+    
+    @Invoker("getChatScale")
+    double meteor$getChatScale();
+    
+    @Invoker("getWidth")
+    int meteor$getWidth();
+    
+    @Invoker("isChatHidden")
+    boolean meteor$isChatHidden();
     
 }

@@ -41,10 +41,10 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
     protected Slot focusedSlot;
     
     @Shadow
-    protected int backgroundWidth;
+    public int backgroundWidth;
     
     @Shadow
-    protected int backgroundHeight;
+    public int backgroundHeight;
     
     @Shadow
     protected int x;
@@ -157,7 +157,7 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
     // Item Highlight
     
     @Inject(method = "drawSlot", at = @At("HEAD"))
-    private void onDrawSlot(DrawContext context, Slot slot, CallbackInfo ci) {
+    private void onDrawSlot(DrawContext context, Slot slot, int mouseX, int mouseY, CallbackInfo ci) {
         int color = Modules.get().get(ItemHighlight.class).getColor(slot.getStack());
         if (color != -1) {
             context.fill(slot.x, slot.y, slot.x + 16, slot.y + 16, color);

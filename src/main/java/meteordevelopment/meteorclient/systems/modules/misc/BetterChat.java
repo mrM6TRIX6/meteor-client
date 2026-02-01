@@ -52,6 +52,11 @@ import java.util.regex.PatternSyntaxException;
 
 public class BetterChat extends Module {
     
+    private static final Pattern antiSpamRegex = Pattern.compile(" \\(([0-9]{1,9})\\)$");
+    private static final Pattern antiClearRegex = Pattern.compile("\\n(\\n|\\s)+\\n");
+    private static final Pattern timestampRegex = Pattern.compile("^(<[0-9]{2}:[0-9]{2}(?::[0-9]{2})?> )");
+    private static final Pattern usernameRegex = Pattern.compile("^(?:<[0-9]{2}:[0-9]{2}>\\s)?<(.*?)>.*");
+    
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgFilter = settings.createGroup("Filter");
     private final SettingGroup sgLongerChat = settings.createGroup("Longer Chat");
@@ -248,12 +253,8 @@ public class BetterChat extends Module {
         .build()
     );
     
-    private static final Pattern antiSpamRegex = Pattern.compile(" \\(([0-9]{1,9})\\)$");
-    private static final Pattern antiClearRegex = Pattern.compile("\\n(\\n|\\s)+\\n");
-    private static final Pattern timestampRegex = Pattern.compile("^(<[0-9]{2}:[0-9]{2}(?::[0-9]{2})?> )");
-    private static final Pattern usernameRegex = Pattern.compile("^(?:<[0-9]{2}:[0-9]{2}>\\s)?<(.*?)>.*");
+    private final Char2CharMap smallCaps = new Char2CharOpenHashMap();
     
-    private final Char2CharMap SMALL_CAPS = new Char2CharOpenHashMap();
     public final IntList lines = new IntArrayList();
     
     public BetterChat() {
@@ -262,7 +263,7 @@ public class BetterChat extends Module {
         String[] a = "abcdefghijklmnopqrstuvwxyz".split("");
         String[] b = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴩqʀꜱᴛᴜᴠᴡxyᴢ".split("");
         for (int i = 0; i < a.length; i++) {
-            SMALL_CAPS.put(a[i].charAt(0), b[i].charAt(0));
+            smallCaps.put(a[i].charAt(0), b[i].charAt(0));
         }
         compileFilterRegexList();
     }
@@ -288,7 +289,7 @@ public class BetterChat extends Module {
                 TextVisitor.visit(message, (text, style, string) -> {
                     Matcher antiClearMatcher = antiClearRegex.matcher(string);
                     if (antiClearMatcher.find()) {
-                        // assume literal text content
+                        // Assume literal text content
                         newMessage.append(Text.literal(antiClearMatcher.replaceAll("\n\n")).setStyle(style));
                     } else {
                         newMessage.append(text.copyContentOnly().setStyle(style));
@@ -429,6 +430,8 @@ public class BetterChat extends Module {
     
     private static final Pattern TIMESTAMP_REGEX = Pattern.compile("^<\\d{1,2}:\\d{1,2}>");
     
+    public ChatHudLine.Visible line;
+    
     /**
      * Registers a custom player head to render based on a message prefix
      */
@@ -448,8 +451,8 @@ public class BetterChat extends Module {
         return width;
     }
     
-    public void beforeDrawMessage(DrawContext context, ChatHudLine.Visible line, int y, int color) {
-        if (!isActive() || !playerHeads.get()) {
+    public void beforeDrawMessage(DrawContext context, int y, int color) {
+        if (!isActive() || !playerHeads.get() || line == null) {
             return;
         }
         
@@ -457,18 +460,14 @@ public class BetterChat extends Module {
         if (((IChatHudLineVisible) (Object) line).meteor$isStartOfEntry()) {
             drawTexture(context, (IChatHudLine) (Object) line, y, color);
         }
-        
-        // Offset
-        context.getMatrices().pushMatrix();
-        context.getMatrices().translate(10, 0);
     }
     
-    public void afterDrawMessage(DrawContext context) {
+    public void afterDrawMessage() {
         if (!isActive() || !playerHeads.get()) {
             return;
         }
         
-        context.getMatrices().popMatrix();
+        line = null;
     }
     
     private void drawTexture(DrawContext context, IChatHudLine line, int y, int color) {
@@ -557,7 +556,7 @@ public class BetterChat extends Module {
         StringBuilder sb = new StringBuilder();
         
         for (char ch : message.toCharArray()) {
-            sb.append(SMALL_CAPS.getOrDefault(ch, ch));
+            sb.append(smallCaps.getOrDefault(ch, ch));
         }
         
         return sb.toString();

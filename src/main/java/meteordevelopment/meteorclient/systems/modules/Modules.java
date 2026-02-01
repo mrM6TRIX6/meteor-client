@@ -510,6 +510,7 @@ public class Modules extends System<Modules> {
     }
     
     private void initRender() {
+        add(new Ambience());
         add(new BetterTooltips());
         add(new BlockSelection());
         add(new BossStack());
@@ -548,7 +549,6 @@ public class Modules extends System<Modules> {
     
     private void initWorld() {
         add(new AirPlace());
-        add(new Ambience());
         add(new AutoBreed());
         add(new AutoBrewer());
         add(new AutoNametag());

@@ -5,15 +5,15 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import net.minecraft.entity.passive.AbstractHorseEntity;
-import net.minecraft.screen.HorseScreenHandler;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.screen.MountScreenHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(HorseScreenHandler.class)
-public interface HorseScreenHandlerAccessor {
+@Mixin(MountScreenHandler.class)
+public interface MountScreenHandlerAccessor {
     
-    @Accessor("entity")
-    AbstractHorseEntity meteor$getEntity();
+    @Accessor("mount")
+    LivingEntity meteor$getMount();
     
 }

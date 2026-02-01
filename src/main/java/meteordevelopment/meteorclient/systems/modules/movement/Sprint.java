@@ -122,8 +122,12 @@ public class Sprint extends Module {
             }
         }
         
-        boolean strictSprint = !(mc.player.isTouchingWater() && !mc.player.isSubmergedInWater())
-            && ((ClientPlayerEntityAccessor) mc.player).meteor$invokeCanSprint()
+        boolean strictSprint = !(mc.player.isPartlyTouchingWater())
+            && !mc.player.hasBlindnessEffect()
+            && mc.player.hasVehicle()
+                ? (mc.player.getVehicle().canSprintAsVehicle()
+                    && mc.player.getVehicle().isLogicalSideForUpdatingMovement())
+                : mc.player.getHungerManager().canSprint()
             && (!mc.player.horizontalCollision || mc.player.collidedSoftly);
         
         return isActive() && (mode.get() == Mode.Rage || strictSprint);

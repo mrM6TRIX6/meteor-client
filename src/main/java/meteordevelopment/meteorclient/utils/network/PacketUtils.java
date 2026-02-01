@@ -335,8 +335,8 @@ public class PacketUtils {
         S2C_PACKETS_REVERSE.put("MoveMinecartAlongTrackS2CPacket", net.minecraft.network.packet.s2c.play.MoveMinecartAlongTrackS2CPacket.class);
         S2C_PACKETS.put(net.minecraft.network.packet.s2c.play.NbtQueryResponseS2CPacket.class, "NbtQueryResponseS2CPacket");
         S2C_PACKETS_REVERSE.put("NbtQueryResponseS2CPacket", net.minecraft.network.packet.s2c.play.NbtQueryResponseS2CPacket.class);
-        S2C_PACKETS.put(net.minecraft.network.packet.s2c.play.OpenHorseScreenS2CPacket.class, "OpenHorseScreenS2CPacket");
-        S2C_PACKETS_REVERSE.put("OpenHorseScreenS2CPacket", net.minecraft.network.packet.s2c.play.OpenHorseScreenS2CPacket.class);
+        S2C_PACKETS.put(net.minecraft.network.packet.s2c.play.OpenMountScreenS2CPacket.class, "OpenMountScreenS2CPacket");
+        S2C_PACKETS_REVERSE.put("OpenMountScreenS2CPacket", net.minecraft.network.packet.s2c.play.OpenMountScreenS2CPacket.class);
         S2C_PACKETS.put(net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket.class, "OpenScreenS2CPacket");
         S2C_PACKETS_REVERSE.put("OpenScreenS2CPacket", net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket.class);
         S2C_PACKETS.put(net.minecraft.network.packet.s2c.play.OpenWrittenBookS2CPacket.class, "OpenWrittenBookS2CPacket");

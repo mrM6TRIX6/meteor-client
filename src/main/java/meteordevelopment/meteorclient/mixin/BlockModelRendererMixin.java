@@ -43,7 +43,7 @@ public abstract class BlockModelRendererMixin {
         }
     }
     
-    @ModifyArgs(method = "renderQuad", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumer;quad(Lnet/minecraft/client/util/math/MatrixStack$Entry;Lnet/minecraft/client/render/model/BakedQuad;[FFFFF[IIZ)V"))
+    @ModifyArgs(method = "renderQuad", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/VertexConsumer;quad(Lnet/minecraft/client/util/math/MatrixStack$Entry;Lnet/minecraft/client/render/model/BakedQuad;[FFFFF[II)V"))
     private void modifyXrayAlpha(final Args args) {
         final int alpha = alphas.get();
         args.set(6, alpha == -1 ? args.get(6) : alpha / 255f);

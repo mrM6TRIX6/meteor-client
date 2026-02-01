@@ -13,7 +13,10 @@ import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.component.Component;
 import net.minecraft.text.CharacterVisitor;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -61,7 +64,6 @@ public abstract class ChatScreenMixin {
         
         List<ChatHudLine.Visible> visibleMessages = accessor.meteor$getVisibleMessages();
         Deque<ChatHudLine.Visible> messageParts = new ArrayDeque<>();
-        
         messageParts.add(visibleMessages.get(activeMessage[3]));
         
         for (int index = activeMessage[3] + 1; index < visibleMessages.size(); index++) {
@@ -105,30 +107,90 @@ public abstract class ChatScreenMixin {
     private int @Nullable [] getActiveMessage(int mouseX, int mouseY) {
         ChatHud chatHud = mc.inGameHud.getChatHud();
         ChatHudAccessor accessor = (ChatHudAccessor) chatHud;
-        IChatHud addition = (IChatHud) chatHud;
         
-        float chatScale = (float) chatHud.getChatScale();
-        int chatLineY = (int) accessor.meteor$invokeToChatLineY(mouseY);
-        int messageIndex = accessor.meteor$invokeGetMessageIndex(0, chatLineY);
-        int buttonX = (int) (chatHud.getWidth() + 14 * chatScale);
+        float chatScale = (float) accessor.meteor$getChatScale();
+        int chatLineY = (int) meteor$toChatLineY(mouseY);
+        int messageIndex = meteor$getMessageIndex(0, chatLineY);
+        int buttonX = (int) (accessor.meteor$getWidth() + 14 * chatScale);
         
         if (messageIndex == -1 || mouseX > buttonX + 14 * chatScale) {
             return null;
         }
         
-        int chatY = addition.meteor$getChatY();
+        int chatY = (int) (9.0 * (mc.options.getChatLineSpacing().getValue() + 1.0));
         
         int buttonSize = (int) (9 * chatScale);
-        int lineHeight = accessor.meteor$invokeGetLineHeight();
+        int lineHeight = accessor.meteor$getLineHeight();
         int scaledButtonY = chatY - (chatLineY + 1) * lineHeight + (int) Math.ceil((lineHeight - 9) / 2.0);
         float buttonY = scaledButtonY * chatScale;
         
         boolean hovering = mouseX >= 0 && mouseX <= buttonX && mouseY >= buttonY && mouseY <= buttonY + buttonSize;
         
         if (hovering) {
-            return new int[] { (int) buttonY, buttonX, buttonSize, messageIndex };
+            return new int[] {
+                (int) buttonY,
+                buttonX,
+                buttonSize,
+                messageIndex
+            };
         } else {
             return null;
+        }
+    }
+    
+    // Functions removed in 1.21.11, so re-implementation
+    
+    @Unique
+    private double meteor$toChatLineY(double y) {
+        ChatHud chatHud = mc.inGameHud.getChatHud();
+        ChatHudAccessor accessor = (ChatHudAccessor) chatHud;
+        
+        double d = mc.getWindow().getScaledHeight() - y - 40.0;
+        return d / (accessor.meteor$getChatScale() * accessor.meteor$getLineHeight());
+    }
+    
+    @Unique
+    private int meteor$getMessageIndex(double chatLineX, double chatLineY) {
+        ChatHud chatHud = mc.inGameHud.getChatHud();
+        ChatHudAccessor accessor = (ChatHudAccessor) chatHud;
+        
+        int i = this.meteor$getMessageLineIndex(chatLineX, chatLineY);
+        
+        if (i == -1) {
+            return -1;
+        } else {
+            while (i >= 0) {
+                if (accessor.meteor$getVisibleMessages().get(i).endOfEntry()) {
+                    return i;
+                }
+                --i;
+            }
+            
+            return i;
+        }
+    }
+    
+    @Unique
+    private int meteor$getMessageLineIndex(double chatLineX, double chatLineY) {
+        ChatHud chatHud = mc.inGameHud.getChatHud();
+        ChatHudAccessor accessor = (ChatHudAccessor) chatHud;
+        
+        if (chatHud.isChatFocused() && !accessor.meteor$isChatHidden()) {
+            if (!(chatLineX < -4.0) && !(chatLineX > MathHelper.floor(accessor.meteor$getWidth() / accessor.meteor$getChatScale()))) {
+                int i = Math.min(chatHud.getVisibleLineCount(), accessor.meteor$getVisibleMessages().size());
+                if (chatLineY >= 0.0 && chatLineY < i) {
+                    int j = MathHelper.floor(chatLineY + accessor.meteor$getScrolledLines());
+                    if (j >= 0 && j < accessor.meteor$getVisibleMessages().size()) {
+                        return j;
+                    }
+                }
+                
+                return -1;
+            } else {
+                return -1;
+            }
+        } else {
+            return -1;
         }
     }
     

@@ -28,7 +28,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.client.resource.language.I18n;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -116,7 +116,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         RemoveInfo removeInfo = null;
         
         for (Setting<?> setting : group) {
-            if (!StringUtils.containsIgnoreCase(setting.title, filter)) {
+            if (!Strings.CI.contains(setting.title, filter)) {
                 continue;
             }
             

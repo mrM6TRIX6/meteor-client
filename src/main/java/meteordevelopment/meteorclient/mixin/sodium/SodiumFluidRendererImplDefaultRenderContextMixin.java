@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.mixin.sodium;
 
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.world.Ambience;
+import meteordevelopment.meteorclient.systems.modules.render.Ambience;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.caffeinemc.mods.sodium.api.util.ColorABGR;
 import net.caffeinemc.mods.sodium.client.model.color.ColorProvider;

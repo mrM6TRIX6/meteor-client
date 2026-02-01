@@ -37,6 +37,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 
 public class AnchorAura extends Module {
     
@@ -281,8 +282,8 @@ public class AnchorAura extends Module {
     
     @EventHandler
     private void onTick(TickEvent.Pre event) {
-        if (mc.world.getDimension().respawnAnchorWorks()) {
-            error("You are in the Nether... disabling.");
+        if (mc.world.getEnvironmentAttributes().getAttributeValue(EnvironmentAttributes.RESPAWN_ANCHOR_WORKS_GAMEPLAY)) {
+            error("You can't blow up respawn anchors in this dimension, disabling.");
             toggle();
             return;
         }

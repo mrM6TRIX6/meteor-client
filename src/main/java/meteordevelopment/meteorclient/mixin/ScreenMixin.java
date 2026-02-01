@@ -53,14 +53,13 @@ public abstract class ScreenMixin {
         }
     }
     
-    @Inject(method = "handleTextClick", at = @At(value = "HEAD"), cancellable = true)
-    private void onInvalidClickEvent(@Nullable Style style, CallbackInfoReturnable<Boolean> cir) {
-        if (style == null || !(style.getClickEvent() instanceof RunnableClickEvent runnableClickEvent)) {
+    @Inject(method = "handleClickEvent", at = @At(value = "HEAD"))
+    private static void onHandleClickEvent(ClickEvent clickEvent, MinecraftClient client, Screen screenAfterRun, CallbackInfo ci) {
+        if (!(clickEvent instanceof RunnableClickEvent runnableClickEvent)) {
             return;
         }
         
         runnableClickEvent.runnable.run();
-        cir.setReturnValue(true);
     }
     
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)

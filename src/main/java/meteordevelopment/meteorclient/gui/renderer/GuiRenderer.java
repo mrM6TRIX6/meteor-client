@@ -118,7 +118,7 @@ public class GuiRenderer {
         renderTexture.end();
         
         render.render();
-        renderTexture.render("u_Texture", TEXTURE.getGlTextureView());
+        renderTexture.render("u_Texture", TEXTURE.getGlTextureView(), TEXTURE.getSampler());
         
         // Normal text
         theme.textRenderer().begin(theme.scale(1));
@@ -176,9 +176,11 @@ public class GuiRenderer {
         endRender(scissor);
         
         scissor.push();
+        
         for (Runnable task : scissor.postTasks) {
             task.run();
         }
+        
         scissor.pop();
         
         drawContext.disableScissor();
@@ -274,7 +276,7 @@ public class GuiRenderer {
             renderTexture.texQuad(x, y, width, height, rotation, 0, 0, 1, 1, Color.WHITE);
             renderTexture.end();
             
-            renderTexture.render(texture.getGlTextureView());
+            renderTexture.render(texture.getGlTextureView(), texture.getSampler());
         });
     }
     

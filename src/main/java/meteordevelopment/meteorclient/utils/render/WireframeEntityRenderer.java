@@ -7,11 +7,11 @@ package meteordevelopment.meteorclient.utils.render;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
-import meteordevelopment.meteorclient.mixininterface.IMultiPhase;
-import meteordevelopment.meteorclient.mixininterface.IMultiPhaseParameters;
+import meteordevelopment.meteorclient.mixin.RenderLayerAccessor;
 import meteordevelopment.meteorclient.renderer.Renderer3D;
 import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.utils.render.color.Color;
+import net.minecraft.client.render.OutputTarget;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -95,9 +95,8 @@ public class WireframeEntityRenderer {
         
         @Override
         public VertexConsumer getBuffer(RenderLayer layer) {
-            // Noinspection ConstantValue
-            if (layer instanceof IMultiPhase phase) {
-                ((IMultiPhaseParameters) (Object) phase.meteor$getParameters()).meteor$getTarget();
+            if (((RenderLayerAccessor) layer).getRenderSetup().outputTarget == OutputTarget.ITEM_ENTITY_TARGET) {
+                return NoopVertexConsumer.INSTANCE;
             }
             
             MyVertexConsumer vertexConsumer = buffers.get(layer);
@@ -161,6 +160,11 @@ public class WireframeEntityRenderer {
         }
         
         @Override
+        public VertexConsumer color(int argb) {
+            return this;
+        }
+        
+        @Override
         public VertexConsumer texture(float u, float v) {
             return this;
         }
@@ -177,6 +181,11 @@ public class WireframeEntityRenderer {
         
         @Override
         public VertexConsumer normal(float x, float y, float z) {
+            return this;
+        }
+        
+        @Override
+        public VertexConsumer lineWidth(float width) {
             return this;
         }
         

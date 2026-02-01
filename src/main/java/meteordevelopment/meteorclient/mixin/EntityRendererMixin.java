@@ -17,8 +17,6 @@ import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.render.Frustum;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.client.render.entity.state.EntityHitbox;
-import net.minecraft.client.render.entity.state.EntityHitboxAndView;
 import net.minecraft.client.render.entity.state.EntityRenderState;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
 import net.minecraft.entity.Entity;
@@ -99,34 +97,6 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
         ) {
             ci.cancel();
         }
-    }
-    
-    // Hitboxes
-    
-    @ModifyReturnValue(method = "createHitbox", at = @At("TAIL"))
-    private EntityHitboxAndView meteor$createHitbox(EntityHitboxAndView original, T entity, float tickProgress, boolean green) {
-        double v = Modules.get().get(Hitboxes.class).getEntityValue(entity);
-        if (v == 0) {
-            return original;
-        }
-        
-        var builder = new ImmutableList.Builder<EntityHitbox>();
-        
-        for (var hitbox : original.hitboxes()) {
-            builder.add(new EntityHitbox(
-                hitbox.x0() - v, hitbox.y0() - v, hitbox.z0() - v,
-                hitbox.x1() + v, hitbox.y1() + v, hitbox.z1() + v,
-                hitbox.offsetX(), hitbox.offsetY(), hitbox.offsetZ(),
-                hitbox.red(), hitbox.green(), hitbox.blue()
-            ));
-        }
-        
-        return new EntityHitboxAndView(
-            original.viewX(),
-            original.viewY(),
-            original.viewZ(),
-            builder.build()
-        );
     }
     
 }

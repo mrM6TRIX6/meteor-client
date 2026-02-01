@@ -78,7 +78,7 @@ public class Breadcrumbs extends Module {
     
     @EventHandler
     private void onTick(TickEvent.Post event) {
-        if (!mc.player.isLoaded()) {
+        if (!mc.getNetworkHandler().isLoaded()) {
             return;
         }
         

@@ -35,6 +35,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public abstract class ChatHudMixin implements IChatHud {
     
     @Shadow
     @Final
-    private MinecraftClient client;
+    MinecraftClient client;
     
     @Shadow
     @Final
@@ -59,12 +60,6 @@ public abstract class ChatHudMixin implements IChatHud {
     @Unique
     private int nextId;
     
-    @Unique
-    private int chatY = -1;
-    
-    @Shadow
-    public abstract void addMessage(Text message, @Nullable MessageSignatureData signatureData, @Nullable MessageIndicator indicator);
-    
     @Shadow
     public abstract void addMessage(Text message);
     
@@ -75,17 +70,12 @@ public abstract class ChatHudMixin implements IChatHud {
         nextId = 0;
     }
     
-    @Override
-    public int meteor$getChatY() {
-        return chatY;
-    }
-    
-    @Inject(method = "addVisibleMessage", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V", shift = At.Shift.AFTER))
+    @Inject(method = "addVisibleMessage", at = @At(value = "INVOKE", target = "Ljava/util/List;addFirst(Ljava/lang/Object;)V", shift = At.Shift.AFTER))
     private void onAddMessageAfterNewChatHudLineVisible(ChatHudLine message, CallbackInfo ci) {
         ((IChatHudLine) (Object) visibleMessages.getFirst()).meteor$setId(nextId);
     }
     
-    @Inject(method = "addMessage(Lnet/minecraft/client/gui/hud/ChatHudLine;)V", at = @At(value = "INVOKE", target = "Ljava/util/List;add(ILjava/lang/Object;)V", shift = At.Shift.AFTER))
+    @Inject(method = "addMessage(Lnet/minecraft/client/gui/hud/ChatHudLine;)V", at = @At(value = "INVOKE", target = "Ljava/util/List;addFirst(Ljava/lang/Object;)V", shift = At.Shift.AFTER))
     private void onAddMessageAfterNewChatHudLine(ChatHudLine message, CallbackInfo ci) {
         ((IChatHudLine) (Object) messages.getFirst()).meteor$setId(nextId);
     }
@@ -117,7 +107,7 @@ public abstract class ChatHudMixin implements IChatHud {
         return line;
     }
     
-    @Inject(at = @At("HEAD"), method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", cancellable = true)
+    @Inject(method = "addMessage(Lnet/minecraft/text/Text;Lnet/minecraft/network/message/MessageSignatureData;Lnet/minecraft/client/gui/hud/MessageIndicator;)V", at = @At("HEAD"), cancellable = true)
     private void onAddMessage(Text message, MessageSignatureData signatureData, MessageIndicator indicator, CallbackInfo ci, @Local(argsOnly = true) LocalRef<Text> messageRef, @Local(argsOnly = true) LocalRef<MessageIndicator> indicatorRef) {
         MessageEvent.Receive event = MeteorClient.EVENT_BUS.post(MessageEvent.Receive.get(message, indicator, nextId));
         
@@ -161,27 +151,9 @@ public abstract class ChatHudMixin implements IChatHud {
     
     // Player Heads
     
-    @ModifyExpressionValue(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;ceil(F)I"))
+    @ModifyExpressionValue(method = "render(Lnet/minecraft/client/gui/hud/ChatHud$Backend;IIZ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;ceil(F)I"))
     private int onRender_modifyWidth(int width) {
         return getBetterChat().modifyChatWidth(width);
-    }
-    
-    @ModifyReceiver(method = "method_71991", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/OrderedText;III)V"))
-    private DrawContext onRender_beforeDrawTextWithShadow(DrawContext context, TextRenderer textRenderer, OrderedText text, int x, int y, int color, @Local(argsOnly = true) ChatHudLine.Visible line) {
-        getBetterChat().beforeDrawMessage(context, line, y, color);
-        return context;
-    }
-    
-    @Inject(method = "method_71991", at = @At("TAIL"))
-    private void onRender_afterDrawTextWithShadow(int i, DrawContext context, float f, int j, int k, int l, ChatHudLine.Visible visible, int m, float g, CallbackInfo ci) {
-        getBetterChat().afterDrawMessage(context);
-    }
-    
-    // No Message Signature Indicator
-    
-    @ModifyExpressionValue(method = "method_71992", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHudLine$Visible;indicator()Lnet/minecraft/client/gui/hud/MessageIndicator;"))
-    private MessageIndicator onRender_modifyIndicator(MessageIndicator indicator) {
-        return Modules.get().get(NoRender.class).noMessageSignatureIndicator() ? null : indicator;
     }
     
     // Anti spam
@@ -195,7 +167,7 @@ public abstract class ChatHudMixin implements IChatHud {
         getBetterChat().lines.addFirst(list.size());
     }
     
-    @Inject(method = "addMessage(Lnet/minecraft/client/gui/hud/ChatHudLine;)V", at = @At(value = "INVOKE", target = "Ljava/util/List;remove(I)Ljava/lang/Object;"))
+    @Inject(method = "addMessage(Lnet/minecraft/client/gui/hud/ChatHudLine;)V", at = @At(value = "INVOKE", target = "Ljava/util/List;removeLast()Ljava/lang/Object;"))
     private void onRemoveMessage(ChatHudLine message, CallbackInfo ci) {
         if (Modules.get() == null) {
             return;
@@ -221,18 +193,13 @@ public abstract class ChatHudMixin implements IChatHud {
     }
     
     // Other
+    
     @Unique
     private BetterChat getBetterChat() {
         if (betterChat == null) {
             betterChat = Modules.get().get(BetterChat.class);
         }
-        
         return betterChat;
-    }
-    
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/ChatHud;getLineHeight()I", ordinal = 0))
-    public void hookStoreChatY(DrawContext context, int currentTick, int mouseX, int mouseY, boolean focused, CallbackInfo ci, @Local(ordinal = 7) int m) {
-        this.chatY = m;
     }
     
 }

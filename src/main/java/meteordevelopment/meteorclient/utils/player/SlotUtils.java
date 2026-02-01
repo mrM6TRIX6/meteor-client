@@ -5,9 +5,10 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
-import meteordevelopment.meteorclient.mixin.HorseScreenHandlerAccessor;
+import meteordevelopment.meteorclient.mixin.MountScreenHandlerAccessor;
 import meteordevelopment.meteorclient.mixin.ItemGroupsAccessor;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.SkeletonHorseEntity;
 import net.minecraft.entity.mob.ZombieHorseEntity;
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
@@ -189,7 +190,7 @@ public class SlotUtils {
     }
     
     public static int horse(ScreenHandler handler, int i) {
-        AbstractHorseEntity entity = ((HorseScreenHandlerAccessor) handler).meteor$getEntity();
+        LivingEntity entity = ((MountScreenHandlerAccessor) handler).meteor$getMount();
         
         if (entity instanceof LlamaEntity llamaEntity) {
             int strength = llamaEntity.getStrength();

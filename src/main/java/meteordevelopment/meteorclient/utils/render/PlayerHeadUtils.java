@@ -44,11 +44,11 @@ public class PlayerHeadUtils {
         }
         
         TexturesJson textures = new Gson().fromJson(new String(Base64.getDecoder().decode(base64Textures)), TexturesJson.class);
-        if (textures.textures.SKIN == null) {
+        if (textures.textures.skin == null) {
             return null;
         }
         
-        return textures.textures.SKIN.url;
+        return textures.textures.skin.url;
     }
     
 }
