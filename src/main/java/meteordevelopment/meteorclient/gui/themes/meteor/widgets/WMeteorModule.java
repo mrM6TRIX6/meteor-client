@@ -20,15 +20,16 @@ import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT;
 public class WMeteorModule extends WPressable implements MeteorWidget {
     
     private final Module module;
+    private final String name;
     
-    private double titleWidth;
+    private double nameWidth;
     
     private double animationProgress1;
-    
     private double animationProgress2;
     
-    public WMeteorModule(Module module) {
+    public WMeteorModule(Module module, String name) {
         this.module = module;
+        this.name = name;
         this.tooltip = module.description;
         
         if (module.isActive()) {
@@ -49,11 +50,11 @@ public class WMeteorModule extends WPressable implements MeteorWidget {
     protected void onCalculateSize() {
         double pad = pad();
         
-        if (titleWidth == 0) {
-            titleWidth = theme.textWidth(module.name);
+        if (nameWidth == 0) {
+            nameWidth = theme.textWidth(name);
         }
         
-        width = pad + titleWidth + pad;
+        width = pad + nameWidth + pad;
         height = pad + theme.textHeight() + pad;
     }
     
@@ -88,12 +89,12 @@ public class WMeteorModule extends WPressable implements MeteorWidget {
         double w = width - pad * 2;
         
         if (theme.moduleAlignment.get() == AlignmentX.CENTER) {
-            x += w / 2 - titleWidth / 2;
+            x += w / 2 - nameWidth / 2;
         } else if (theme.moduleAlignment.get() == AlignmentX.RIGHT) {
-            x += w - titleWidth;
+            x += w - nameWidth;
         }
         
-        renderer.text(module.name, x, y + pad, theme.textColor.get(), false);
+        renderer.text(name, x, y + pad, theme.textColor.get(), false);
     }
     
 }

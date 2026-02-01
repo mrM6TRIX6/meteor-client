@@ -43,6 +43,7 @@ import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
+import net.minecraft.util.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -175,23 +176,30 @@ public class Modules extends System<Modules> {
         return modules.keySet();
     }
     
-    public Set<Module> searchSettingTitles(String text) {
-        Map<Module, Integer> modules = new ValueComparableMap<>(Comparator.naturalOrder());
+    public List<Pair<Module, String>> searchTitles(String text) {
+        Map<Pair<Module, String>, Integer> modules = new HashMap<>();
         
         for (Module module : this.moduleInstances.values()) {
-            int lowest = Integer.MAX_VALUE;
-            for (SettingGroup sg : module.settings) {
-                for (Setting<?> setting : sg) {
-                    int score = Utils.searchLevenshteinDefault(setting.title, text, false);
-                    if (score < lowest) {
-                        lowest = score;
+            String title = module.name;
+            int score = Utils.searchLevenshteinDefault(title, text, false);
+            
+            if (ClientSettings.get().moduleAliases.get()) {
+                for (String alias : module.aliases) {
+                    int aliasScore = Utils.searchLevenshteinDefault(alias, text, false);
+                    if (aliasScore < score) {
+                        title = module.name + " (" + alias + ")";
+                        score = aliasScore;
                     }
                 }
             }
-            modules.put(module, modules.getOrDefault(module, 0) + lowest);
+            
+            modules.put(new Pair<>(module, title), score);
         }
         
-        return modules.keySet();
+        List<Pair<Module, String>> l = new ArrayList<>(modules.keySet());
+        l.sort(Comparator.comparingInt(modules::get));
+        
+        return l;
     }
     
     void addActive(Module module) {

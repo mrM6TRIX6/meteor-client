@@ -287,8 +287,8 @@ public class MeteorGuiTheme extends GuiTheme {
     }
     
     @Override
-    public WWidget module(Module module) {
-        return w(new WMeteorModule(module));
+    public WWidget module(Module module, String name) {
+        return w(new WMeteorModule(module, name));
     }
     
     @Override

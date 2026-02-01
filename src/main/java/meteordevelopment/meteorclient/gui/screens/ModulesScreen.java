@@ -21,6 +21,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.item.Items;
+import net.minecraft.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,32 +79,32 @@ public class ModulesScreen extends TabScreen {
     protected void createSearchW(WContainer container, String text) {
         if (!text.isEmpty()) {
             // Titles
-            Set<Module> modules = Modules.get().searchNames(text);
+            List<Pair<Module, String>> modules = Modules.get().searchNames(text);
             
             if (!modules.isEmpty()) {
                 WSection section = container.add(theme.section("Modules")).expandX().widget();
                 section.spacing = 0;
                 
                 int count = 0;
-                for (Module module : modules) {
+                for (Pair<Module, String> p : modules) {
                     if (count >= ClientSettings.get().moduleSearchCount.get() || count >= modules.size()) {
                         break;
                     }
-                    section.add(theme.module(module)).expandX();
+                    section.add(theme.module(p.getLeft(), p.getRight())).expandX();
                     count++;
                 }
             }
             
             // Settings
-            modules = Modules.get().searchSettingTitles(text);
+            Set<Module> settings = Modules.get().searchSettingTitles(text);
             
-            if (!modules.isEmpty()) {
+            if (!settings.isEmpty()) {
                 WSection section = container.add(theme.section("Settings")).expandX().widget();
                 section.spacing = 0;
                 
                 int count = 0;
-                for (Module module : modules) {
-                    if (count >= ClientSettings.get().moduleSearchCount.get() || count >= modules.size()) {
+                for (Module module : settings) {
+                    if (count >= ClientSettings.get().moduleSearchCount.get() || count >= settings.size()) {
                         break;
                     }
                     section.add(theme.module(module)).expandX();
