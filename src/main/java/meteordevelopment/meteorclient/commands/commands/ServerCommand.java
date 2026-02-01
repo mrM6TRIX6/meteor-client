@@ -68,7 +68,12 @@ public class ServerCommand extends Command {
         "grimac",
         "intave",
         "watchdog",
-        "themis"
+        "themis",
+        "foxaddition",
+        "guardianac",
+        "ggintegrity",
+        "lightanticheat",
+        "anarchyexploitfixes"
     );
     
     private final List<String> plugins = new ArrayList<>();
