@@ -99,13 +99,13 @@ public class AutoWasp extends Module {
     public void onActivate() {
         if (target == null || target.isRemoved()) {
             target = (PlayerEntity) TargetUtils.get(entity -> {
-                if (!(entity instanceof PlayerEntity) || entity == mc.player) {
+                if (!(entity instanceof PlayerEntity player) || entity == mc.player) {
                     return false;
                 }
-                if (((PlayerEntity) entity).isDead() || ((PlayerEntity) entity).getHealth() <= 0) {
+                if (player.isDead() || player.getHealth() <= 0) {
                     return false;
                 }
-                return !onlyFriends.get() || Friends.get().get((PlayerEntity) entity) != null;
+                return !onlyFriends.get() || Friends.get().get(player) != null;
             }, SortPriority.LOWEST_DISTANCE);
             
             if (target == null) {

@@ -110,7 +110,7 @@ public class BowAimbot extends Module {
             if (entity == mc.player || entity == mc.getCameraEntity()) {
                 return false;
             }
-            if ((entity instanceof LivingEntity && ((LivingEntity) entity).isDead()) || !entity.isAlive()) {
+            if ((entity instanceof LivingEntity livingEntity && livingEntity.isDead()) || !entity.isAlive()) {
                 return false;
             }
             if (!PlayerUtils.isWithin(entity, range.get())) {
@@ -125,15 +125,15 @@ public class BowAimbot extends Module {
             if (!PlayerUtils.canSeeEntity(entity)) {
                 return false;
             }
-            if (entity instanceof PlayerEntity) {
-                if (((PlayerEntity) entity).isCreative()) {
+            if (entity instanceof PlayerEntity player) {
+                if (player.isCreative()) {
                     return false;
                 }
-                if (!Friends.get().shouldAttack((PlayerEntity) entity)) {
+                if (!Friends.get().shouldAttack(player)) {
                     return false;
                 }
             }
-            return !(entity instanceof AnimalEntity) || babies.get() || !((AnimalEntity) entity).isBaby();
+            return !(entity instanceof AnimalEntity animal) || babies.get() || !animal.isBaby();
         }, priority.get());
         
         if (target == null) {

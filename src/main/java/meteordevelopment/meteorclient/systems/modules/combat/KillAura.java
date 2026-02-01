@@ -19,6 +19,7 @@ import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.Target;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
+import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -458,6 +459,9 @@ public class KillAura extends Module {
                 return false;
             }
             if (shieldMode.get() == ShieldMode.IGNORE && player.isBlocking()) {
+                return false;
+            }
+            if (player instanceof FakePlayerEntity fakePlayer && fakePlayer.noHit) {
                 return false;
             }
         }
