@@ -24,6 +24,7 @@ import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -77,7 +78,7 @@ public abstract class EntityRendererMixin<T extends Entity, S extends EntityRend
         }
     }
     
-    @Inject(method = "updateRenderState", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/entity/state/EntityRenderState;outlineColor:I", shift = At.Shift.AFTER))
+    @Inject(method = "updateRenderState", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/entity/state/EntityRenderState;outlineColor:I", shift = At.Shift.AFTER, opcode = Opcodes.PUTFIELD))
     private void onGetOutlineColor(T entity, S state, float tickProgress, CallbackInfo ci) {
         if (esp.isGlow() && !esp.shouldSkip(entity)) {
             Color color = esp.getColor(entity);
