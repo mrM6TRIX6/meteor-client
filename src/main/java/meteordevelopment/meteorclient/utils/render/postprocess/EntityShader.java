@@ -12,7 +12,7 @@ public abstract class EntityShader extends PostProcessShader {
     @Override
     public boolean beginRender() {
         if (super.beginRender()) {
-            RenderSystem.getDevice().createCommandEncoder().createRenderPass(() -> "Meteor EntityShader", framebuffer.getColorAttachmentView(), OptionalInt.of(0)).close();
+            RenderSystem.getDevice().createCommandEncoder().clearColorTexture(framebuffer.getColorAttachment(), 0);
             return true;
         }
         
