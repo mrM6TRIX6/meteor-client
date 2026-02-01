@@ -20,6 +20,7 @@ import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.SpectralArrowEntity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -33,15 +34,20 @@ import java.util.List;
 public class ArrowDodge extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
+    public final Setting<Integer> simulationSteps = sgGeneral.add(new IntSetting.Builder()
+        .name("simulation-steps")
+        .description("How many steps to simulate projectiles. Zero for no limit.")
+        .defaultValue(500)
+        .sliderMax(5000)
+        .build()
+    );
     private final SettingGroup sgMovement = settings.createGroup("Movement");
-    
     private final Setting<MoveType> moveType = sgMovement.add(new EnumSetting.Builder<MoveType>()
         .name("move-type")
         .description("The way you are moved by this module.")
         .defaultValue(MoveType.VELOCITY)
         .build()
     );
-    
     private final Setting<Double> moveSpeed = sgMovement.add(new DoubleSetting.Builder()
         .name("move-speed")
         .description("How fast should you be when dodging arrow.")
@@ -50,7 +56,6 @@ public class ArrowDodge extends Module {
         .sliderRange(0.01, 5)
         .build()
     );
-    
     private final Setting<Double> distanceCheck = sgMovement.add(new DoubleSetting.Builder()
         .name("distance-check")
         .description("How far should an arrow be from the player to be considered not hitting.")
@@ -59,43 +64,24 @@ public class ArrowDodge extends Module {
         .sliderRange(0.01, 5)
         .build()
     );
-    
-    private final Setting<Boolean> accurate = sgGeneral.add(new BoolSetting.Builder()
-        .name("accurate")
-        .description("Whether or not to calculate more accurate.")
-        .defaultValue(false)
-        .build()
-    );
-    
     private final Setting<Boolean> groundCheck = sgGeneral.add(new BoolSetting.Builder()
         .name("ground-check")
         .description("Tries to prevent you from falling to your death.")
         .defaultValue(true)
         .build()
     );
-    
     private final Setting<Boolean> allProjectiles = sgGeneral.add(new BoolSetting.Builder()
         .name("all-projectiles")
         .description("Dodge all projectiles, not only arrows.")
         .defaultValue(false)
         .build()
     );
-    
     private final Setting<Boolean> ignoreOwn = sgGeneral.add(new BoolSetting.Builder()
         .name("ignore-own")
         .description("Ignore your own projectiles.")
-        .defaultValue(false)
+        .defaultValue(true)
         .build()
     );
-    
-    public final Setting<Integer> simulationSteps = sgGeneral.add(new IntSetting.Builder()
-        .name("simulation-steps")
-        .description("How many steps to simulate projectiles. Zero for no limit.")
-        .defaultValue(500)
-        .sliderMax(5000)
-        .build()
-    );
-    
     private final List<Vec3d> possibleMoveDirections = Arrays.asList(
         new Vec3d(1, 0, 1),
         new Vec3d(0, 0, 1),
@@ -116,7 +102,7 @@ public class ArrowDodge extends Module {
     }
     
     @EventHandler
-    private void onTickPre(TickEvent.Pre event) {
+    private void onTick(TickEvent.Pre event) {
         vec3s.freeAll(points);
         points.clear();
         
@@ -124,7 +110,7 @@ public class ArrowDodge extends Module {
             if (!(e instanceof ProjectileEntity projectile)) {
                 continue;
             }
-            if (!allProjectiles.get() && !(projectile instanceof ArrowEntity)) {
+            if (!allProjectiles.get() && !(projectile instanceof ArrowEntity || projectile instanceof SpectralArrowEntity)) {
                 continue;
             }
             if (ignoreOwn.get()) {
@@ -133,26 +119,26 @@ public class ArrowDodge extends Module {
                     continue;
                 }
             }
-            if (!simulator.set(projectile, accurate.get())) {
+            
+            if (!simulator.set(projectile)) {
                 continue;
             }
-            
             for (int i = 0; i < (simulationSteps.get() > 0 ? simulationSteps.get() : Integer.MAX_VALUE); i++) {
                 points.add(vec3s.get().set(simulator.pos));
-                if (simulator.tick() != null) {
+                if (simulator.tick().shouldStop) {
                     break;
                 }
             }
         }
         
         if (isValid(Vec3d.ZERO, false)) {
-            return; // No need to move
+            return; // no need to move
         }
         
         double speed = moveSpeed.get();
-        for (int i = 0; i < 500; i++) { // It's not a while loop so it doesn't freeze if something is wrong
+        for (int i = 0; i < 500; i++) { // it's not a while loop so it doesn't freeze if something is wrong
             boolean didMove = false;
-            Collections.shuffle(possibleMoveDirections); // Make the direction unpredictable
+            Collections.shuffle(possibleMoveDirections); //Make the direction unpredictable
             for (Vec3d direction : possibleMoveDirections) {
                 Vec3d velocity = direction.multiply(speed);
                 if (isValid(velocity, true)) {
@@ -164,7 +150,7 @@ public class ArrowDodge extends Module {
             if (didMove) {
                 break;
             }
-            speed += moveSpeed.get(); // Move further
+            speed += moveSpeed.get(); // move further
         }
         
     }
@@ -201,7 +187,7 @@ public class ArrowDodge extends Module {
         if (checkGround) {
             BlockPos blockPos = mc.player.getBlockPos().add(BlockPos.ofFloored(velocity.x, velocity.y, velocity.z));
             
-            // check if target pos is air
+            // Check if target pos is air
             if (!mc.world.getBlockState(blockPos).getCollisionShape(mc.world, blockPos).isEmpty()) {
                 return false;
             } else if (!mc.world.getBlockState(blockPos.up()).getCollisionShape(mc.world, blockPos.up()).isEmpty()) {
@@ -209,7 +195,7 @@ public class ArrowDodge extends Module {
             }
             
             if (groundCheck.get()) {
-                // check if ground under target is solid
+                // Check if ground under target is solid
                 return !mc.world.getBlockState(blockPos.down()).getCollisionShape(mc.world, blockPos.down()).isEmpty();
             }
             
@@ -218,7 +204,7 @@ public class ArrowDodge extends Module {
         return true;
     }
     
-    public enum MoveType {
+    private enum MoveType {
         
         VELOCITY,
         PACKET
