@@ -82,7 +82,7 @@ public abstract class ClientConnectionMixin {
     
     @Inject(method = "addHandlers", at = @At("RETURN"))
     private static void onAddHandlers(ChannelPipeline pipeline, NetworkSide side, boolean local, PacketSizeLogger packetSizeLogger, CallbackInfo ci) {
-        if (side != NetworkSide.CLIENTBOUND) {
+        if (side != NetworkSide.CLIENTBOUND || local) {
             return;
         }
         
