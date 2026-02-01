@@ -64,7 +64,7 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
             }
         });
         
-        if (!left.cells.isEmpty()) {
+        if (ClientSettings.get().syncListSettingWidths.get() || !left.cells.isEmpty()) {
             table.add(theme.verticalSeparator()).expandWidgetY();
         }
         
