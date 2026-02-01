@@ -91,7 +91,16 @@ public abstract class ClientConnectionMixin {
             return;
         }
         
-        pipeline.addFirst(new Socks5ProxyHandler(new InetSocketAddress(proxy.address.get(), proxy.port.get()), proxy.username.get(), proxy.password.get()));
+        pipeline.addFirst(
+            new Socks5ProxyHandler(
+                new InetSocketAddress(
+                    proxy.address.get(),
+                    proxy.port.get()
+                ),
+                proxy.username.get(),
+                proxy.password.get()
+            )
+        );
     }
     
 }
