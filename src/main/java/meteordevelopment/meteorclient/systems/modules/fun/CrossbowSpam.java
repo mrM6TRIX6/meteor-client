@@ -25,7 +25,6 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtOps;
-import net.minecraft.util.Hand;
 
 public class CrossbowSpam extends Module {
     

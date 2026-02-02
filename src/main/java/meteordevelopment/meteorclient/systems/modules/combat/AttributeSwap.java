@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.modules.combat;
 
-import meteordevelopment.meteorclient.events.entity.player.EntityAttackEvent;
 import meteordevelopment.meteorclient.events.entity.player.DoAttackEvent;
+import meteordevelopment.meteorclient.events.entity.player.EntityAttackEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;

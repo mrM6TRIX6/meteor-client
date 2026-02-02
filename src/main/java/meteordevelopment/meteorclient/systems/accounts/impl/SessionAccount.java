@@ -6,16 +6,13 @@
 package meteordevelopment.meteorclient.systems.accounts.impl;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.util.UndashedUuid;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.accounts.AccountType;
 import meteordevelopment.meteorclient.systems.accounts.TokenAccount;
-import meteordevelopment.meteorclient.systems.accounts.impl.TheAlteningAccount;
 import meteordevelopment.meteorclient.utils.network.Http;
 import net.minecraft.client.session.Session;
-import net.minecraft.nbt.NbtCompound;
 
 import java.util.Optional;
 

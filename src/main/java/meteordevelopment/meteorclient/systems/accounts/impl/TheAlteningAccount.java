@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.systems.accounts.impl;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.mojang.authlib.Environment;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import de.florianmichael.waybackauthlib.InvalidCredentialsException;

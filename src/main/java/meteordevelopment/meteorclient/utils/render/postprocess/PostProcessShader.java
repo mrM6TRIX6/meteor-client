@@ -7,11 +7,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.renderer.MeshRenderer;
-import meteordevelopment.meteorclient.utils.render.CustomOutlineVertexConsumerProvider;
 import net.minecraft.client.gl.DynamicUniformStorage;
 import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.gl.SimpleFramebuffer;
-import net.minecraft.entity.Entity;
 
 import java.nio.ByteBuffer;
 
