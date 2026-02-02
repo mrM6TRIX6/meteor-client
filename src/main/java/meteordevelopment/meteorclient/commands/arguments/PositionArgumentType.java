@@ -22,10 +22,10 @@ import java.util.concurrent.CompletableFuture;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public class ClientPosArgumentType implements ArgumentType<Vec3d> {
+public class PositionArgumentType implements ArgumentType<Vec3d> {
     
-    public static ClientPosArgumentType pos() {
-        return new ClientPosArgumentType();
+    public static PositionArgumentType pos() {
+        return new PositionArgumentType();
     }
     
     public static Vec3d getPos(CommandContext<?> context, String name) {

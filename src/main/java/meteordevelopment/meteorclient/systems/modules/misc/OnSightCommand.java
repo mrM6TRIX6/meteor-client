@@ -98,7 +98,7 @@ public class OnSightCommand extends Module {
     private final List<Entity> targets = new ArrayList<>();
     
     public OnSightCommand() {
-        super(Categories.Misc, "OnSightCommand", "Executes commands on players on sight.");
+        super(Categories.MISC, "OnSightCommand", "Executes commands on players on sight.");
     }
     
     @Override

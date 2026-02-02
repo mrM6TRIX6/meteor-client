@@ -112,7 +112,7 @@ public class InfinityMiner extends Module {
     private boolean repairing;
     
     public InfinityMiner() {
-        super(Categories.World, "InfinityMiner", "Allows you to essentially mine forever by mining repair blocks when the durability gets low. Needs a mending pickaxe.");
+        super(Categories.WORLD, "InfinityMiner", "Allows you to essentially mine forever by mining repair blocks when the durability gets low. Needs a mending pickaxe.");
     }
     
     @Override

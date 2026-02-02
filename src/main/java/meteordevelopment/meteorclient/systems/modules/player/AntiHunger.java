@@ -38,7 +38,7 @@ public class AntiHunger extends Module {
     private boolean lastOnGround, ignorePacket;
     
     public AntiHunger() {
-        super(Categories.Player, "AntiHunger", "Reduces (does NOT remove) hunger consumption.");
+        super(Categories.PLAYER, "AntiHunger", "Reduces (does NOT remove) hunger consumption.");
     }
     
     @Override

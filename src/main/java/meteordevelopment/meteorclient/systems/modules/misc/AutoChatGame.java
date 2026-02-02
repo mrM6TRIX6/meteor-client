@@ -45,7 +45,7 @@ public class AutoChatGame extends Module {
     private final Timer timer = new Timer();
     
     public AutoChatGame() {
-        super(Categories.Misc, "AutoChatGame", "Automatically solves chat games on MineBlaze.");
+        super(Categories.MISC, "AutoChatGame", "Automatically solves chat games on MineBlaze.");
     }
     
     @EventHandler

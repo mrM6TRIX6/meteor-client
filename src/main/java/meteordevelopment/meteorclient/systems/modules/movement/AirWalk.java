@@ -35,7 +35,7 @@ public class AirWalk extends Module {
     );
     
     public AirWalk() {
-        super(Categories.Movement, "AirWalk", "Lets you walk on air.");
+        super(Categories.MOVEMENT, "AirWalk", "Lets you walk on air.");
     }
     
     @EventHandler

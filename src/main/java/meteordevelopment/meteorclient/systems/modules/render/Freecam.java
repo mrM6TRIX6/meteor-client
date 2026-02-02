@@ -158,7 +158,7 @@ public class Freecam extends Module {
     private long clickTs = 0;
     
     public Freecam() {
-        super(Categories.Render, "Freecam", "Allows the camera to move away from the player.");
+        super(Categories.RENDER, "Freecam", "Allows the camera to move away from the player.");
     }
     
     @Override

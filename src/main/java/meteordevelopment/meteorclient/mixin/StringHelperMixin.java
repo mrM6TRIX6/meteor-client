@@ -25,9 +25,9 @@ public abstract class StringHelperMixin {
     }
     
     @Inject(method = "isValidChar", at = @At(value = "HEAD"), cancellable = true)
-    private static void isValidChar(CallbackInfoReturnable<Boolean> info) {
+    private static void isValidChar(CallbackInfoReturnable<Boolean> cir) {
         if (Modules.get().get(BetterMinecraft.class).paragraphs()) {
-            info.setReturnValue(true);
+            cir.setReturnValue(true);
         }
     }
     

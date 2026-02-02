@@ -27,9 +27,9 @@ public abstract class AbstractClientPlayerEntityMixin {
     // Player model rendering in main menu
     
     @Inject(method = "getPlayerListEntry", at = @At("HEAD"), cancellable = true)
-    private void onGetPlayerListEntry(CallbackInfoReturnable<PlayerListEntry> info) {
+    private void onGetPlayerListEntry(CallbackInfoReturnable<PlayerListEntry> cir) {
         if (mc.getNetworkHandler() == null) {
-            info.setReturnValue(FakeClientPlayer.getPlayerListEntry());
+            cir.setReturnValue(FakeClientPlayer.getPlayerListEntry());
         }
     }
     

@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.systems.modules.movement;
+package meteordevelopment.meteorclient.systems.modules.world;
 
 import com.google.common.collect.Streams;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -185,7 +185,7 @@ public class Scaffold extends Module {
     private final BlockPos.Mutable bp = new BlockPos.Mutable();
     
     public Scaffold() {
-        super(Categories.Movement, "Scaffold", "Automatically places blocks under you.");
+        super(Categories.MOVEMENT, "Scaffold", "Automatically places blocks under you.");
     }
     
     @EventHandler

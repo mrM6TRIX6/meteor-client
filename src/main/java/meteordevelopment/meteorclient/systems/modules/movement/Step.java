@@ -68,7 +68,7 @@ public class Step extends Module {
     private boolean prevPathManagerStep;
     
     public Step() {
-        super(Categories.Movement, "Step", "Allows you to walk up full blocks instantly.");
+        super(Categories.MOVEMENT, "Step", "Allows you to walk up full blocks instantly.");
     }
     
     @Override

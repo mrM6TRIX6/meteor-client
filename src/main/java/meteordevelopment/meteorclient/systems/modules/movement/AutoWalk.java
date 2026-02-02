@@ -82,7 +82,7 @@ public class AutoWalk extends Module {
     );
     
     public AutoWalk() {
-        super(Categories.Movement, "AutoWalk", "Automatically walks forward.");
+        super(Categories.MOVEMENT, "AutoWalk", "Automatically walks forward.");
     }
     
     @Override

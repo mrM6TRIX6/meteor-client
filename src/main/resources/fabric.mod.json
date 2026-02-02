@@ -24,7 +24,7 @@
       "meteordevelopment.meteorclient.MeteorClient"
     ],
     "modmenu": [
-      "meteordevelopment.meteorclient.modintegration.ModMenuIntegration"
+      "meteordevelopment.meteorclient.ModMenuIntegration"
     ]
   },
   "mixins": [
@@ -44,14 +44,11 @@
       "links": {
         "modmenu.discord": "https://meteorclient.com/discord"
       }
-    },
-    "badoptimizations:cache_hooks": {
-      "lightmap": "meteordevelopment.meteorclient.modintegration.BadOptimizationsHook"
     }
   },
   "depends": {
     "java": ">=21",
-    "minecraft": ["${minecraft_version}"],
+    "minecraft": "${minecraft_version}",
     "fabricloader": ">=${loader_version}"
   },
   "breaks": {

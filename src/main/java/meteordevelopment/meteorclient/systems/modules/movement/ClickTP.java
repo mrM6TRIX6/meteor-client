@@ -28,7 +28,7 @@ import net.minecraft.world.RaycastContext;
 public class ClickTP extends Module {
     
     public ClickTP() {
-        super(Categories.Movement, "ClickTP", "Teleports you to the block you click on.");
+        super(Categories.MOVEMENT, "ClickTP", "Teleports you to the block you click on.");
     }
     
     @EventHandler

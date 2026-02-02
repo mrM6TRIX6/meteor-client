@@ -258,7 +258,7 @@ public class BetterChat extends Module {
     public final IntList lines = new IntArrayList();
     
     public BetterChat() {
-        super(Categories.Misc, "BetterChat", "Improves your chat experience in various ways.");
+        super(Categories.MISC, "BetterChat", "Improves your chat experience in various ways.");
         
         String[] a = "abcdefghijklmnopqrstuvwxyz".split("");
         String[] b = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴩqʀꜱᴛᴜᴠᴡxyᴢ".split("");

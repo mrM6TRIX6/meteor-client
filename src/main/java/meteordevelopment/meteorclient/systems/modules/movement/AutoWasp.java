@@ -92,7 +92,7 @@ public class AutoWasp extends Module {
     private boolean incrementJumpTimer = false;
     
     public AutoWasp() {
-        super(Categories.Movement, "AutoWasp", "Wasps for you. Unable to traverse around blocks, assumes a clear straight line to the target.");
+        super(Categories.MOVEMENT, "AutoWasp", "Wasps for you. Unable to traverse around blocks, assumes a clear straight line to the target.");
     }
     
     @Override

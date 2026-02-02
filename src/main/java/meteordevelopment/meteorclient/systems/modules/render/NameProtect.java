@@ -41,7 +41,7 @@ public class NameProtect extends Module {
     private String username = "If you see this, something is wrong.";
     
     public NameProtect() {
-        super(Categories.Render, "NameProtect", "Hide player names and skins.");
+        super(Categories.RENDER, "NameProtect", "Hide player names and skins.");
     }
     
     @Override

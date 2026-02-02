@@ -48,7 +48,7 @@ public class BowSpam extends Module {
     private boolean wasHoldingRightClick = false;
     
     public BowSpam() {
-        super(Categories.Combat, "BowSpam", "Spams arrows and tridents.");
+        super(Categories.COMBAT, "BowSpam", "Spams arrows and tridents.");
     }
     
     @Override

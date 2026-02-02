@@ -304,7 +304,7 @@ public class Nuker extends Module {
     int maxV = 0;
     
     public Nuker() {
-        super(Categories.World, "Nuker", "Breaks blocks around you.");
+        super(Categories.WORLD, "Nuker", "Breaks blocks around you.");
     }
     
     @Override

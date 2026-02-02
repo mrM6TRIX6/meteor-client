@@ -91,7 +91,7 @@ public class InstantRebreak extends Module {
     private Direction direction;
     
     public InstantRebreak() {
-        super(Categories.Player, "InstantRebreak", "Instantly re-breaks blocks in the same position.");
+        super(Categories.PLAYER, "InstantRebreak", "Instantly re-breaks blocks in the same position.");
     }
     
     @Override

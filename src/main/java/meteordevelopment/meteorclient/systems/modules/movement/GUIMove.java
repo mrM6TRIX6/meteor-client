@@ -96,7 +96,7 @@ public class GUIMove extends Module {
     );
     
     public GUIMove() {
-        super(Categories.Movement, "GUIMove", "Allows you to perform various actions while in GUIs.");
+        super(Categories.MOVEMENT, "GUIMove", "Allows you to perform various actions while in GUIs.");
     }
     
     @Override

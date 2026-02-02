@@ -17,16 +17,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class WorldBorderMixin {
     
     @Inject(method = "canCollide", at = @At("HEAD"), cancellable = true)
-    private void canCollide(CallbackInfoReturnable<Boolean> info) {
+    private void canCollide(CallbackInfoReturnable<Boolean> cir) {
         if (Modules.get().get(Collisions.class).ignoreBorder()) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
     }
     
     @Inject(method = "contains(Lnet/minecraft/util/math/BlockPos;)Z", at = @At("HEAD"), cancellable = true)
-    private void contains(CallbackInfoReturnable<Boolean> info) {
+    private void contains(CallbackInfoReturnable<Boolean> cir) {
         if (Modules.get().get(Collisions.class).ignoreBorder()) {
-            info.setReturnValue(true);
+            cir.setReturnValue(true);
         }
     }
     

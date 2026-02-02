@@ -37,7 +37,7 @@ public class AntiAnchor extends Module {
     );
     
     public AntiAnchor() {
-        super(Categories.Combat, "AntiAnchor", "Automatically prevents Anchor Aura by placing a slab on your head.");
+        super(Categories.COMBAT, "AntiAnchor", "Automatically prevents Anchor Aura by placing a slab on your head.");
     }
     
     @EventHandler

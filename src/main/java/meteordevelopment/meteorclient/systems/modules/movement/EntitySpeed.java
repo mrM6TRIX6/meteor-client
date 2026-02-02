@@ -48,7 +48,7 @@ public class EntitySpeed extends Module {
     );
     
     public EntitySpeed() {
-        super(Categories.Movement, "EntitySpeed", "Makes you go faster when riding entities.");
+        super(Categories.MOVEMENT, "EntitySpeed", "Makes you go faster when riding entities.");
     }
     
     @EventHandler

@@ -43,7 +43,7 @@ public class AutoJump extends Module {
     );
     
     public AutoJump() {
-        super(Categories.Movement, "AutoJump", "Automatically jumps.");
+        super(Categories.MOVEMENT, "AutoJump", "Automatically jumps.");
     }
     
     private boolean jump() {

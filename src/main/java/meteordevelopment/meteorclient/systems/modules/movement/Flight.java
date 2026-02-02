@@ -100,7 +100,7 @@ public class Flight extends Module {
     private double lastPacketY = Double.MAX_VALUE;
     
     public Flight() {
-        super(Categories.Movement, "Flight", "FLYYYY! NoFall is recommended with this module.");
+        super(Categories.MOVEMENT, "Flight", "FLYYYY! NoFall is recommended with this module.");
     }
     
     @Override

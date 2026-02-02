@@ -61,17 +61,17 @@ public abstract class BannerBlockEntityRendererMixin {
     }
     
     @Inject(method = "render(Lnet/minecraft/client/render/block/entity/state/BannerBlockEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V", at = @At("HEAD"), cancellable = true)
-    private void injectRender1(BannerBlockEntityRenderState bannerBlockEntityRenderState, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState arg, CallbackInfo ci) {
+    private void injectRender1(BannerBlockEntityRenderState bannerBlockEntityRenderState, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState arg, CallbackInfo ci) {
         if (Modules.get().get(NoRender.class).getBannerRenderMode() == NoRender.BannerRenderMode.NONE) {
             ci.cancel();
         }
     }
     
     @Inject(method = "render(Lnet/minecraft/client/render/block/entity/state/BannerBlockEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/block/entity/BannerBlockEntityRenderer;render(Lnet/minecraft/client/texture/SpriteHolder;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;IIFLnet/minecraft/client/render/block/entity/model/BannerBlockModel;Lnet/minecraft/client/render/block/entity/model/BannerFlagBlockModel;FLnet/minecraft/util/DyeColor;Lnet/minecraft/component/type/BannerPatternsComponent;Lnet/minecraft/client/render/command/ModelCommandRenderer$CrumblingOverlayCommand;I)V"), cancellable = true)
-    private void injectRender2(BannerBlockEntityRenderState bannerBlockEntityRenderState, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState cameraRenderState, CallbackInfo ci, @Local BannerBlockModel bannerBlockModel) {
+    private void injectRender2(BannerBlockEntityRenderState bannerBlockEntityRenderState, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState cameraRenderState, CallbackInfo ci, @Local BannerBlockModel bannerBlockModel) {
         if (Modules.get().get(NoRender.class).getBannerRenderMode() == NoRender.BannerRenderMode.PILLAR) {
             renderPillar(
-                matrixStack,
+                matrices,
                 orderedRenderCommandQueue,
                 bannerBlockEntityRenderState.lightmapCoordinates,
                 bannerBlockEntityRenderState.yaw,

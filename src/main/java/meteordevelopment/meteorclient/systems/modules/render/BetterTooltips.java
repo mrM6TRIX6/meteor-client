@@ -240,7 +240,7 @@ public class BetterTooltips extends Module {
     private static final ItemStack[] PEEK_SCREEN = new ItemStack[27];
     
     public BetterTooltips() {
-        super(Categories.Render, "BetterTooltips", "Displays more useful tooltips for certain items.");
+        super(Categories.RENDER, "BetterTooltips", "Displays more useful tooltips for certain items.");
     }
     
     @EventHandler

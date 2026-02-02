@@ -36,7 +36,7 @@ public class NoStatusEffects extends Module {
     );
     
     public NoStatusEffects() {
-        super(Categories.Player, "NoStatusEffects", "Blocks specified status effects.");
+        super(Categories.PLAYER, "NoStatusEffects", "Blocks specified status effects.");
     }
     
     public boolean shouldBlock(StatusEffect effect) {

@@ -26,13 +26,13 @@ public abstract class BlockItemMixin {
     protected abstract BlockState getPlacementState(ItemPlacementContext context);
     
     @Inject(method = "place(Lnet/minecraft/item/ItemPlacementContext;Lnet/minecraft/block/BlockState;)Z", at = @At("HEAD"), cancellable = true)
-    private void onPlace(ItemPlacementContext context, BlockState state, CallbackInfoReturnable<Boolean> info) {
+    private void onPlace(ItemPlacementContext context, BlockState state, CallbackInfoReturnable<Boolean> cir) {
         if (!context.getWorld().isClient()) {
             return;
         }
         
         if (MeteorClient.EVENT_BUS.post(PlaceBlockEvent.get(context.getBlockPos(), state.getBlock())).isCancelled()) {
-            info.setReturnValue(true);
+            cir.setReturnValue(true);
         }
     }
     

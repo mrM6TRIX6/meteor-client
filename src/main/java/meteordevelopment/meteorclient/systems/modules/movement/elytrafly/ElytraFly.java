@@ -349,7 +349,7 @@ public class ElytraFly extends Module {
     private ElytraFlyMode currentMode = new Vanilla();
     
     public ElytraFly() {
-        super(Categories.Movement, "ElytraFly", "Gives you more control over your elytra.");
+        super(Categories.MOVEMENT, "ElytraFly", "Gives you more control over your elytra.");
     }
     
     @Override

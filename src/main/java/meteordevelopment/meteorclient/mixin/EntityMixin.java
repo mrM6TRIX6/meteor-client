@@ -57,30 +57,30 @@ public abstract class EntityMixin {
     }
     
     @Inject(method = "isTouchingWater", at = @At(value = "HEAD"), cancellable = true)
-    private void isTouchingWater(CallbackInfoReturnable<Boolean> info) {
+    private void isTouchingWater(CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this != mc.player) {
             return;
         }
         
         if (Modules.get().get(Flight.class).isActive()) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
         if (Modules.get().get(NoSlow.class).fluidDrag()) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
     }
     
     @Inject(method = "isInLava", at = @At(value = "HEAD"), cancellable = true)
-    private void isInLava(CallbackInfoReturnable<Boolean> info) {
+    private void isInLava(CallbackInfoReturnable<Boolean> cir) {
         if ((Object) this != mc.player) {
             return;
         }
         
         if (Modules.get().get(Flight.class).isActive()) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
         if (Modules.get().get(NoSlow.class).fluidDrag()) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
     }
     
@@ -187,35 +187,35 @@ public abstract class EntityMixin {
     }
     
     @Inject(method = "isGlowing", at = @At("HEAD"), cancellable = true)
-    private void isGlowing(CallbackInfoReturnable<Boolean> info) {
+    private void isGlowing(CallbackInfoReturnable<Boolean> cir) {
         if (Modules.get().get(NoRender.class).noGlowing()) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
     }
     
     @Inject(method = "getTargetingMargin", at = @At("HEAD"), cancellable = true)
-    private void onGetTargetingMargin(CallbackInfoReturnable<Float> info) {
+    private void onGetTargetingMargin(CallbackInfoReturnable<Float> cir) {
         double v = Modules.get().get(Hitboxes.class).getEntityValue((Entity) (Object) this);
         if (v != 0) {
-            info.setReturnValue((float) v);
+            cir.setReturnValue((float) v);
         }
     }
     
     @Inject(method = "isInvisibleTo", at = @At("HEAD"), cancellable = true)
-    private void onIsInvisibleTo(PlayerEntity player, CallbackInfoReturnable<Boolean> info) {
+    private void onIsInvisibleTo(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
         if (player == null) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
     }
     
     @Inject(method = "getPose", at = @At("HEAD"), cancellable = true)
-    private void getPoseHook(CallbackInfoReturnable<EntityPose> info) {
+    private void getPoseHook(CallbackInfoReturnable<EntityPose> cir) {
         if ((Object) this != mc.player) {
             return;
         }
         
         if (Modules.get().get(ElytraFly.class).canPacketEfly()) {
-            info.setReturnValue(EntityPose.GLIDING);
+            cir.setReturnValue(EntityPose.GLIDING);
         }
     }
     

@@ -31,7 +31,7 @@ public class AntiPacketKick extends Module {
     );
     
     public AntiPacketKick() {
-        super(Categories.Misc, "AntiPacketKick", "Attempts to prevent you from being disconnected by large packets.");
+        super(Categories.MISC, "AntiPacketKick", "Attempts to prevent you from being disconnected by large packets.");
     }
     
     public boolean catchExceptions() {

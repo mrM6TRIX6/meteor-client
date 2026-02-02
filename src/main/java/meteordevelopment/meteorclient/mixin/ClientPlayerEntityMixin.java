@@ -19,6 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.movement.*;
 import meteordevelopment.meteorclient.systems.modules.player.LiquidInteract;
 import meteordevelopment.meteorclient.systems.modules.player.NoMiningTrace;
 import meteordevelopment.meteorclient.systems.modules.player.PortalMenu;
+import meteordevelopment.meteorclient.systems.modules.world.Scaffold;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.Input;
@@ -47,9 +48,9 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     }
     
     @Inject(method = "dropSelectedItem", at = @At("HEAD"), cancellable = true)
-    private void onDropSelectedItem(boolean dropEntireStack, CallbackInfoReturnable<Boolean> info) {
+    private void onDropSelectedItem(boolean dropEntireStack, CallbackInfoReturnable<Boolean> cir) {
         if (MeteorClient.EVENT_BUS.post(DropItemEvent.get(getMainHandStack())).isCancelled()) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
     }
     
@@ -70,19 +71,19 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     }
     
     @Inject(method = "isSneaking", at = @At("HEAD"), cancellable = true)
-    private void onIsSneaking(CallbackInfoReturnable<Boolean> info) {
+    private void onIsSneaking(CallbackInfoReturnable<Boolean> cir) {
         if (Modules.get().get(Scaffold.class).scaffolding()) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
         if (Modules.get().get(Flight.class).noSneak()) {
-            info.setReturnValue(false);
+            cir.setReturnValue(false);
         }
     }
     
     @Inject(method = "shouldSlowDown", at = @At("HEAD"), cancellable = true)
-    private void onShouldSlowDown(CallbackInfoReturnable<Boolean> info) {
+    private void onShouldSlowDown(CallbackInfoReturnable<Boolean> cir) {
         if (Modules.get().get(NoSlow.class).sneaking()) {
-            info.setReturnValue(isCrawling());
+            cir.setReturnValue(isCrawling());
         }
     }
     

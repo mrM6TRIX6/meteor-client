@@ -65,7 +65,7 @@ public class ExtraElytra extends Module {
     }
     
     public ExtraElytra() {
-        super(Categories.Movement, "ExtraElytra", "Easier elytra.");
+        super(Categories.MOVEMENT, "ExtraElytra", "Easier elytra.");
     }
     
     @EventHandler

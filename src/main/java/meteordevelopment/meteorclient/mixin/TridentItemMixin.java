@@ -26,14 +26,14 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 public abstract class TridentItemMixin {
     
     @Inject(method = "onStoppedUsing", at = @At("HEAD"))
-    private void onStoppedUsingHead(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfoReturnable<Boolean> info) {
+    private void onStoppedUsingHead(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfoReturnable<Boolean> cir) {
         if (user == mc.player) {
             PlayerUtils.isReleasingTrident = true;
         }
     }
     
     @Inject(method = "onStoppedUsing", at = @At("TAIL"))
-    private void onStoppedUsingTail(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfoReturnable<Boolean> info) {
+    private void onStoppedUsingTail(ItemStack stack, World world, LivingEntity user, int remainingUseTicks, CallbackInfoReturnable<Boolean> cir) {
         if (user == mc.player) {
             PlayerUtils.isReleasingTrident = false;
         }

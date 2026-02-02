@@ -70,7 +70,7 @@ public class BlockSelection extends Module {
     );
     
     public BlockSelection() {
-        super(Categories.Render, "BlockSelection", "Modifies how your block selection is rendered.");
+        super(Categories.RENDER, "BlockSelection", "Modifies how your block selection is rendered.");
     }
     
     @EventHandler

@@ -111,7 +111,7 @@ public class AutoHotbar extends Module {
     private int currentSlot;
     
     public AutoHotbar() {
-        super(Categories.Player, "AutoHotbar", "Automatically swaps between slots in the hotbar.");
+        super(Categories.PLAYER, "AutoHotbar", "Automatically swaps between slots in the hotbar.");
     }
     
     @Override

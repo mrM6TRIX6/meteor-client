@@ -117,7 +117,7 @@ public abstract class GameRendererMixin {
     }
     
     @Inject(method = "renderWorld", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", args = { "ldc=hand" }))
-    private void onRenderWorld(RenderTickCounter tickCounter, CallbackInfo ci, @Local(ordinal = 0) Matrix4f projection, @Local(ordinal = 1) Matrix4f position, @Local(ordinal = 0) float tickDelta, @Local MatrixStack matrixStack) {
+    private void onRenderWorld(RenderTickCounter tickCounter, CallbackInfo ci, @Local(ordinal = 0) Matrix4f projection, @Local(ordinal = 1) Matrix4f position, @Local(ordinal = 0) float tickDelta, @Local MatrixStack matrices) {
         if (!Utils.canUpdate()) {
             return;
         }
@@ -134,7 +134,7 @@ public abstract class GameRendererMixin {
         }
         
         Render3DEvent event = Render3DEvent.get(
-            matrixStack,
+            matrices,
             renderer,
             depthRenderer,
             tickDelta,
@@ -170,8 +170,8 @@ public abstract class GameRendererMixin {
         renderer.begin();
         depthRenderer.begin();
         MeteorClient.EVENT_BUS.post(event);
-        renderer.render(matrixStack);
-        depthRenderer.render(matrixStack);
+        renderer.render(matrices);
+        depthRenderer.render(matrices);
         
         // Revert model view matrix
         

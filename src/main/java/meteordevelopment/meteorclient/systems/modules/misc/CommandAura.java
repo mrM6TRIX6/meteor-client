@@ -65,7 +65,7 @@ public class CommandAura extends Module {
     );
     
     public CommandAura() {
-        super(Categories.Misc, "CommandAura", "Sends a message when players come in render distance.");
+        super(Categories.MISC, "CommandAura", "Sends a message when players come in render distance.");
     }
     
     @EventHandler

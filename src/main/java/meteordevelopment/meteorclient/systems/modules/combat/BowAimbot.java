@@ -88,7 +88,7 @@ public class BowAimbot extends Module {
     private Entity target;
     
     public BowAimbot() {
-        super(Categories.Combat, "BowAimbot", "Automatically aims your bow for you.");
+        super(Categories.COMBAT, "BowAimbot", "Automatically aims your bow for you.");
     }
     
     @Override

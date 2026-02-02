@@ -19,7 +19,7 @@ import net.minecraft.client.gui.screen.ingame.AnvilScreen;
 public class SelfAnvil extends Module {
     
     public SelfAnvil() {
-        super(Categories.Combat, "SelfAnvil", "Automatically places an anvil on you to prevent other players from going into your hole.");
+        super(Categories.COMBAT, "SelfAnvil", "Automatically places an anvil on you to prevent other players from going into your hole.");
     }
     
     @EventHandler

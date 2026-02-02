@@ -30,7 +30,7 @@ public class AntiVoid extends Module {
     private boolean wasFlightEnabled, hasRun;
     
     public AntiVoid() {
-        super(Categories.Movement, "AntiVoid", "Attempts to prevent you from falling into the void.");
+        super(Categories.MOVEMENT, "AntiVoid", "Attempts to prevent you from falling into the void.");
     }
     
     @Override

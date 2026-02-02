@@ -97,7 +97,7 @@ public class PopChams extends Module {
     private final List<GhostPlayer> ghosts = new ArrayList<>();
     
     public PopChams() {
-        super(Categories.Render, "PopChams", "Renders a ghost where players pop totem.");
+        super(Categories.RENDER, "PopChams", "Renders a ghost where players pop totem.");
     }
     
     @Override

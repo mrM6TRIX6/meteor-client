@@ -31,7 +31,7 @@ public class AutoClip extends Module {
     );
     
     public AutoClip() {
-        super(Categories.Movement, "AutoClip", "Automatically clips through blocks if you collide");
+        super(Categories.MOVEMENT, "AutoClip", "Automatically clips through blocks if you collide");
     }
     
     @EventHandler

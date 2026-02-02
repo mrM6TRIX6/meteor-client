@@ -179,7 +179,7 @@ public class SexAura extends Module {
     private Entity target = null;
     
     public SexAura() {
-        super(Categories.Fun, "SexAura", "Automatic Minecraft Sex RP.");
+        super(Categories.FUN, "SexAura", "Automatic Minecraft Sex RP.");
     }
     
     @Override

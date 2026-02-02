@@ -52,7 +52,7 @@ public class HandDerp extends Module {
     private int timer;
     
     public HandDerp() {
-        super(Categories.Fun, "HandDerp", "Switches your main hand.");
+        super(Categories.FUN, "HandDerp", "Switches your main hand.");
     }
     
     @Override

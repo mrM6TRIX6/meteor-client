@@ -45,7 +45,7 @@ public class ItemPhysics extends Module {
     private boolean skipTransformation;
     
     public ItemPhysics() {
-        super(Categories.Render, "ItemPhysics", "Applies physics to items on the ground.");
+        super(Categories.RENDER, "ItemPhysics", "Applies physics to items on the ground.");
     }
     
     @EventHandler
@@ -56,7 +56,7 @@ public class ItemPhysics extends Module {
             return;
         }
         
-        MatrixStack matrices = event.matrixStack;
+        MatrixStack matrices = event.matrices;
         
         random.setSeed(event.itemEntity.getId() * 89748956L);
         
@@ -107,7 +107,7 @@ public class ItemPhysics extends Module {
     }
     
     private void renderLayer(RenderItemEntityEvent event, ModelInfo info) {
-        MatrixStack matrices = event.matrixStack;
+        MatrixStack matrices = event.matrices;
         skipTransformation = true;
         
         for (int j = 0; j < event.renderState.renderedAmount; j++) {

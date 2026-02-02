@@ -72,7 +72,7 @@ public abstract class PlayerEntityRendererMixin<AvatarlikeEntity extends PlayerL
     // Chams - Hand Texture
     
     @ModifyExpressionValue(method = "renderArm", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/RenderLayers;entityTranslucent(Lnet/minecraft/util/Identifier;)Lnet/minecraft/client/render/RenderLayer;"))
-    private RenderLayer renderArm$texture(RenderLayer original, MatrixStack matrixStack, OrderedRenderCommandQueue entityRenderCommandQueue, int light, Identifier skinTexture, ModelPart modelPart, boolean sleeveVisible) {
+    private RenderLayer renderArm$texture(RenderLayer original, MatrixStack matrices, OrderedRenderCommandQueue entityRenderCommandQueue, int light, Identifier skinTexture, ModelPart modelPart, boolean sleeveVisible) {
         if (chams.isActive() && chams.hand.get()) {
             Identifier texture = chams.handTexture.get() ? skinTexture : Chams.BLANK;
             return RenderLayers.entityTranslucent(texture);
@@ -84,9 +84,9 @@ public abstract class PlayerEntityRendererMixin<AvatarlikeEntity extends PlayerL
     // Chams - Hand Color
     
     @WrapWithCondition(method = "renderArm", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;submitModelPart(Lnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/RenderLayer;IILnet/minecraft/client/texture/Sprite;)V"))
-    private boolean renderArm$color(OrderedRenderCommandQueue instance, ModelPart modelPart, MatrixStack matrixStack, RenderLayer renderLayer, int light, int uv, Sprite sprite) {
+    private boolean renderArm$color(OrderedRenderCommandQueue instance, ModelPart modelPart, MatrixStack matrices, RenderLayer renderLayer, int light, int uv, Sprite sprite) {
         if (chams.isActive() && chams.hand.get()) {
-            instance.submitModelPart(modelPart, matrixStack, renderLayer, light, uv, null, chams.handColor.get().getPacked(), null);
+            instance.submitModelPart(modelPart, matrices, renderLayer, light, uv, null, chams.handColor.get().getPacked(), null);
             return false;
         }
         

@@ -299,7 +299,7 @@ public class Nametags extends Module {
     private final List<Entity> entityList = new ArrayList<>();
     
     public Nametags() {
-        super(Categories.Render, "Nametags", "Displays customizable nametags above players, items and other entities.");
+        super(Categories.RENDER, "Nametags", "Displays customizable nametags above players, items and other entities.");
     }
     
     private static String ticksToTime(int ticks) {

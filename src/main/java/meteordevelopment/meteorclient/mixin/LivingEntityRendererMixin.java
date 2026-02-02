@@ -71,7 +71,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     // Chams - Player color
     
     @WrapWithCondition(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/RenderLayer;IIILnet/minecraft/client/texture/Sprite;ILnet/minecraft/client/render/command/ModelCommandRenderer$CrumblingOverlayCommand;)V"))
-    private <TState> boolean render$render(OrderedRenderCommandQueue instance, Model<? super TState> model, TState state, MatrixStack matrixStack, RenderLayer renderLayer, int light, int overlay, int mixColor, Sprite sprite, int outlineColor, ModelCommandRenderer.CrumblingOverlayCommand crumblingOverlayCommand) {
+    private <TState> boolean render$render(OrderedRenderCommandQueue instance, Model<? super TState> model, TState state, MatrixStack matrices, RenderLayer renderLayer, int light, int overlay, int mixColor, Sprite sprite, int outlineColor, ModelCommandRenderer.CrumblingOverlayCommand crumblingOverlayCommand) {
         if (!chams.isActive() || !chams.players.get() || !(((IEntityRenderState) state).meteor$getEntity() instanceof PlayerEntity player)) {
             return true;
         }
@@ -79,7 +79,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
             return true;
         }
         
-        instance.submitModel(model, state, matrixStack, renderLayer, light, overlay, PlayerUtils.getPlayerColor(player, chams.playersColor.get()).getPacked(), sprite, outlineColor, null);
+        instance.submitModel(model, state, matrices, renderLayer, light, overlay, PlayerUtils.getPlayerColor(player, chams.playersColor.get()).getPacked(), sprite, outlineColor, null);
         return false;
     }
     
@@ -105,7 +105,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     // Chams - Through walls
     
     @Inject(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V", at = @At("HEAD"), cancellable = true)
-    private void render$Head(S state, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState arg, CallbackInfo ci) {
+    private void render$Head(S state, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState arg, CallbackInfo ci) {
         Entity entity = ((IEntityRenderState) state).meteor$getEntity();
         if (!(entity instanceof LivingEntity livingEntity)) {
             return;
@@ -122,7 +122,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, S extend
     }
     
     @Inject(method = "render(Lnet/minecraft/client/render/entity/state/LivingEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V", at = @At("TAIL"))
-    private void render$Tail(S state, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState arg, CallbackInfo ci) {
+    private void render$Tail(S state, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, CameraRenderState arg, CallbackInfo ci) {
         Entity entity = ((IEntityRenderState) state).meteor$getEntity();
         if (!(entity instanceof LivingEntity livingEntity)) {
             return;

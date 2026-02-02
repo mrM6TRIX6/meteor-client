@@ -122,7 +122,7 @@ public class DiscordPresence extends Module {
     }
     
     public DiscordPresence() {
-        super(Categories.Misc, "DiscordPresence", "Displays Meteor as your presence on Discord.");
+        super(Categories.MISC, "DiscordPresence", "Displays Meteor as your presence on Discord.");
         
         runInMainMenu = true;
     }

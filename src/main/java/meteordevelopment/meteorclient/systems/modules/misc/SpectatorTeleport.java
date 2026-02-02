@@ -64,7 +64,7 @@ public class SpectatorTeleport extends Module {
     );
     
     public SpectatorTeleport() {
-        super(Categories.Misc, "SpectatorTeleport", "Settings for sptp command. Remove the messages if you don't need them.");
+        super(Categories.MISC, "SpectatorTeleport", "Settings for sptp command. Remove the messages if you don't need them.");
     }
     
     @Override

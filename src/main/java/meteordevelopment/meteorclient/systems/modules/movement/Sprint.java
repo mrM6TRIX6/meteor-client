@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.systems.modules.movement;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.mixin.ClientPlayerEntityAccessor;
 import meteordevelopment.meteorclient.mixininterface.IPlayerInteractEntityC2SPacket;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -63,7 +62,7 @@ public class Sprint extends Module {
     );
     
     public Sprint() {
-        super(Categories.Movement, "Sprint", "Automatically sprints.");
+        super(Categories.MOVEMENT, "Sprint", "Automatically sprints.");
     }
     
     @EventHandler(priority = EventPriority.HIGH)

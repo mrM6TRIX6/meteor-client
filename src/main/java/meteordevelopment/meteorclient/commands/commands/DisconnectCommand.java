@@ -9,7 +9,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
-import meteordevelopment.meteorclient.commands.arguments.ClientTextArgumentType;
+import meteordevelopment.meteorclient.commands.arguments.TextArgumentType;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.util.GlfwUtil;
 import net.minecraft.command.CommandSource;
@@ -36,10 +36,10 @@ public class DisconnectCommand extends Command {
                 mc.player.networkHandler.onDisconnect(new DisconnectS2CPacket(Text.translatable("multiplayer.disconnect.generic")));
                 return SINGLE_SUCCESS;
             })
-            .then(argument("reason", ClientTextArgumentType.text(REGISTRY_ACCESS))
+            .then(argument("reason", TextArgumentType.text(REGISTRY_ACCESS))
                 .executes(context -> {
                     checkMultiplayer();
-                    mc.player.networkHandler.onDisconnect(new DisconnectS2CPacket(ClientTextArgumentType.get(context, "reason")));
+                    mc.player.networkHandler.onDisconnect(new DisconnectS2CPacket(TextArgumentType.get(context, "reason")));
                     return SINGLE_SUCCESS;
                 })
             )

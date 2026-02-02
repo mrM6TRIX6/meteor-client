@@ -17,9 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class ShadowPiecesCommandRendererMixin {
     
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private void meteor$onRender(BatchingRenderCommandQueue queue, VertexConsumerProvider.Immediate vertexConsumers, CallbackInfo info) {
+    private void meteor$onRender(BatchingRenderCommandQueue queue, VertexConsumerProvider.Immediate vertexConsumers, CallbackInfo ci) {
         if (queue.getShadowPiecesCommands().isEmpty()) {
-            info.cancel();
+            ci.cancel();
         }
     }
     

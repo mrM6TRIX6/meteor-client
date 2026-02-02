@@ -65,12 +65,12 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
     }
     
     @Inject(method = "onGameJoin", at = @At("HEAD"))
-    private void onGameJoinHead(GameJoinS2CPacket packet, CallbackInfo info, @Share("worldNotNull") LocalBooleanRef worldNotNull) {
+    private void onGameJoinHead(GameJoinS2CPacket packet, CallbackInfo ci, @Share("worldNotNull") LocalBooleanRef worldNotNull) {
         worldNotNull.set(world != null);
     }
     
     @Inject(method = "onGameJoin", at = @At("TAIL"))
-    private void onGameJoinTail(GameJoinS2CPacket packet, CallbackInfo info, @Share("worldNotNull") LocalBooleanRef worldNotNull) {
+    private void onGameJoinTail(GameJoinS2CPacket packet, CallbackInfo ci, @Share("worldNotNull") LocalBooleanRef worldNotNull) {
         if (worldNotNull.get()) {
             MeteorClient.EVENT_BUS.post(GameLeftEvent.get());
         }
@@ -78,9 +78,9 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
         MeteorClient.EVENT_BUS.post(GameJoinEvent.get());
     }
     
+    // The server sends a GameJoin packet after the reconfiguration phase
     @Inject(method = "onEnterReconfiguration", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/NetworkThreadUtils;forceMainThread(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/listener/PacketListener;Lnet/minecraft/network/PacketApplyBatcher;)V", shift = At.Shift.AFTER))
     private void onEnterReconfiguration(EnterReconfigurationS2CPacket packet, CallbackInfo ci) {
-        // The server sends a GameJoin packet after the reconfiguration phase
         MeteorClient.EVENT_BUS.post(GameLeftEvent.get());
     }
     

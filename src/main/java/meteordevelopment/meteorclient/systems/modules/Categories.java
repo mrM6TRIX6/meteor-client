@@ -11,14 +11,14 @@ import net.minecraft.item.Items;
 
 public class Categories {
     
-    public static final Category Combat = new Category("Combat", Items.DIAMOND_SWORD.getDefaultStack());
-    public static final Category Player = new Category("Player", Items.CRAFTING_TABLE.getDefaultStack());
-    public static final Category Movement = new Category("Movement", Items.IRON_BOOTS.getDefaultStack());
-    public static final Category Render = new Category("Render", Items.BEACON.getDefaultStack());
-    public static final Category World = new Category("World", Items.GRASS_BLOCK.getDefaultStack());
-    public static final Category Misc = new Category("Misc", Items.LAVA_BUCKET.getDefaultStack());
-    public static final Category Exploit = new Category("Exploit", Items.TNT.getDefaultStack());
-    public static final Category Fun = new Category("Fun", Items.FIREWORK_ROCKET.getDefaultStack());
+    public static final Category COMBAT = new Category("Combat", Items.DIAMOND_SWORD.getDefaultStack());
+    public static final Category PLAYER = new Category("Player", Items.CRAFTING_TABLE.getDefaultStack());
+    public static final Category MOVEMENT = new Category("Movement", Items.IRON_BOOTS.getDefaultStack());
+    public static final Category RENDER = new Category("Render", Items.BEACON.getDefaultStack());
+    public static final Category WORLD = new Category("World", Items.GRASS_BLOCK.getDefaultStack());
+    public static final Category MISC = new Category("Misc", Items.LAVA_BUCKET.getDefaultStack());
+    public static final Category EXPLOIT = new Category("Exploit", Items.TNT.getDefaultStack());
+    public static final Category FUN = new Category("Fun", Items.FIREWORK_ROCKET.getDefaultStack());
     
     public static boolean REGISTERING;
     
@@ -26,14 +26,14 @@ public class Categories {
         REGISTERING = true;
         
         // Meteor
-        Modules.registerCategory(Combat);
-        Modules.registerCategory(Player);
-        Modules.registerCategory(Movement);
-        Modules.registerCategory(Render);
-        Modules.registerCategory(World);
-        Modules.registerCategory(Misc);
-        Modules.registerCategory(Exploit);
-        Modules.registerCategory(Fun);
+        Modules.registerCategory(COMBAT);
+        Modules.registerCategory(PLAYER);
+        Modules.registerCategory(MOVEMENT);
+        Modules.registerCategory(RENDER);
+        Modules.registerCategory(WORLD);
+        Modules.registerCategory(MISC);
+        Modules.registerCategory(EXPLOIT);
+        Modules.registerCategory(FUN);
         
         // TODO: Delete it
         // Addons

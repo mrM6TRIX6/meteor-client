@@ -26,10 +26,10 @@ public abstract class PlayerListEntryMixin {
     public abstract GameProfile getProfile();
     
     @Inject(method = "getSkinTextures", at = @At("HEAD"), cancellable = true)
-    private void onGetTexture(CallbackInfoReturnable<SkinTextures> info) {
+    private void onGetTexture(CallbackInfoReturnable<SkinTextures> cir) {
         if (getProfile().name().equals(mc.getSession().getUsername())) {
             if (Modules.get().get(NameProtect.class).skinProtect()) {
-                info.setReturnValue(DefaultSkinHelper.getSkinTextures(getProfile()));
+                cir.setReturnValue(DefaultSkinHelper.getSkinTextures(getProfile()));
             }
         }
     }

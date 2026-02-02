@@ -32,7 +32,7 @@ public abstract class EntityRenderManagerMixin {
     public Camera camera;
     
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    private <S extends EntityRenderState> void render(S renderState, CameraRenderState cameraRenderState, double d, double e, double f, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CallbackInfo ci) {
+    private <S extends EntityRenderState> void render(S renderState, CameraRenderState cameraRenderState, double d, double e, double f, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, CallbackInfo ci) {
         Entity entity = ((IEntityRenderState) renderState).meteor$getEntity();
         
         if (entity instanceof FakePlayerEntity player && player.hideWhenInsideCamera) {
@@ -47,13 +47,13 @@ public abstract class EntityRenderManagerMixin {
     }
     
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V", ordinal = 0, shift = At.Shift.AFTER), cancellable = true)
-    private <S extends EntityRenderState> void afterTranslate(S renderState, CameraRenderState cameraRenderState, double d, double e, double f, MatrixStack matrixStack, OrderedRenderCommandQueue orderedRenderCommandQueue, CallbackInfo ci) {
+    private <S extends EntityRenderState> void afterTranslate(S renderState, CameraRenderState cameraRenderState, double d, double e, double f, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, CallbackInfo ci) {
         BadTrip badTrip = Modules.get().get(BadTrip.class);
         if (badTrip.isActive() && renderState instanceof PlayerEntityRenderState playerState) {
             float wobble = ((System.currentTimeMillis() + playerState.id * 100) % 400) / 400F;
             wobble = (wobble > 0.5F ? 1 - wobble : wobble) * 2F;
             wobble = Math.max(0, Math.min(1, wobble));
-            matrixStack.scale(wobble * 2F + 1, 1 - 0.5F * wobble, wobble * 2F + 1);
+            matrices.scale(wobble * 2F + 1, 1 - 0.5F * wobble, wobble * 2F + 1);
         }
     }
     

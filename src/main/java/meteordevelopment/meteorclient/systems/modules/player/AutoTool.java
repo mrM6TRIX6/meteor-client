@@ -125,7 +125,7 @@ public class AutoTool extends Module {
     private int bestSlot;
     
     public AutoTool() {
-        super(Categories.Player, "AutoTool", "Automatically switches to the most effective tool when performing an action.");
+        super(Categories.PLAYER, "AutoTool", "Automatically switches to the most effective tool when performing an action.");
     }
     
     @EventHandler

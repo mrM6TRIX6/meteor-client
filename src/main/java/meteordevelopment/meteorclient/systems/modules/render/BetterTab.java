@@ -83,7 +83,7 @@ public class BetterTab extends Module {
     );
     
     public BetterTab() {
-        super(Categories.Render, "BetterTab", "Various improvements to the tab.");
+        super(Categories.RENDER, "BetterTab", "Various improvements to the tab.");
     }
     
 }

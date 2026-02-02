@@ -72,7 +72,7 @@ public abstract class WorldRendererMixin implements IWorldRenderer {
     }
     
     @Inject(method = "checkEmpty", at = @At("HEAD"), cancellable = true)
-    private void onCheckEmpty(MatrixStack matrixStack, CallbackInfo ci) {
+    private void onCheckEmpty(MatrixStack matrices, CallbackInfo ci) {
         ci.cancel();
     }
     
@@ -96,9 +96,9 @@ public abstract class WorldRendererMixin implements IWorldRenderer {
     }
     
     @Inject(method = "hasBlindnessOrDarkness(Lnet/minecraft/client/render/Camera;)Z", at = @At("HEAD"), cancellable = true)
-    private void hasBlindnessOrDarkness(Camera camera, CallbackInfoReturnable<Boolean> info) {
+    private void hasBlindnessOrDarkness(Camera camera, CallbackInfoReturnable<Boolean> cir) {
         if (noRender.noBlindness() || noRender.noDarkness()) {
-            info.setReturnValue(null);
+            cir.setReturnValue(null);
         }
     }
     
@@ -119,7 +119,7 @@ public abstract class WorldRendererMixin implements IWorldRenderer {
     private RenderDispatcher renderDispatcher;
     
     @Inject(method = "pushEntityRenders", at = @At("TAIL"))
-    private void onPushEntityRenders(MatrixStack matrices, WorldRenderState worldState, OrderedRenderCommandQueue queue, CallbackInfo info) {
+    private void onPushEntityRenders(MatrixStack matrices, WorldRenderState worldState, OrderedRenderCommandQueue queue, CallbackInfo ci) {
         if (renderDispatcher == null) {
             renderDispatcher = new RenderDispatcher(
                 outlineRenderCommandQueue,
@@ -200,7 +200,7 @@ public abstract class WorldRendererMixin implements IWorldRenderer {
     }
     
     @Inject(method = "onResized", at = @At("HEAD"))
-    private void onResized(int width, int height, CallbackInfo info) {
+    private void onResized(int width, int height, CallbackInfo ci) {
         PostProcessShaders.onResized(width, height);
     }
     
@@ -234,7 +234,7 @@ public abstract class WorldRendererMixin implements IWorldRenderer {
     private Stack<Handle<Framebuffer>> framebufferHandleStack;
     
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void init$IWorldRenderer(CallbackInfo info) {
+    private void init$IWorldRenderer(CallbackInfo ci) {
         framebufferStack = new ObjectArrayList<>();
         framebufferHandleStack = new ObjectArrayList<>();
     }

@@ -32,8 +32,8 @@ public abstract class GlCommandEncoderMixin {
     private GlBackend backend;
     
     @Inject(method = "createRenderPass(Ljava/util/function/Supplier;Lcom/mojang/blaze3d/textures/GpuTextureView;Ljava/util/OptionalInt;Lcom/mojang/blaze3d/textures/GpuTextureView;Ljava/util/OptionalDouble;)Lcom/mojang/blaze3d/systems/RenderPass;", at = @At("RETURN"))
-    private void createRenderPass$iGpuDevice(CallbackInfoReturnable<RenderPass> info) {
-        ((IGpuDevice) backend).meteor$onCreateRenderPass(info.getReturnValue());
+    private void createRenderPass$iGpuDevice(CallbackInfoReturnable<RenderPass> cir) {
+        ((IGpuDevice) backend).meteor$onCreateRenderPass(cir.getReturnValue());
     }
     
     @Inject(method = "setPipelineAndApplyState", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/opengl/GlStateManager;_polygonMode(II)V"))

@@ -64,7 +64,7 @@ public class AutoClicker extends Module {
     private int rightClickTimer, leftClickTimer;
     
     public AutoClicker() {
-        super(Categories.Player, "AutoClicker", "Automatically clicks.");
+        super(Categories.PLAYER, "AutoClicker", "Automatically clicks.");
     }
     
     @Override

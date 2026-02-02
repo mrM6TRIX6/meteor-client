@@ -31,14 +31,14 @@ public class CustomBannerGuiElementRenderer extends SpecialGuiElementRenderer<Cu
         return CustomBannerGuiElementRenderState.class;
     }
     
-    protected void render(CustomBannerGuiElementRenderState state, MatrixStack matrixStack) {
+    protected void render(CustomBannerGuiElementRenderState state, MatrixStack matrices) {
         MinecraftClient.getInstance().gameRenderer.getDiffuseLighting().setShaderLights(DiffuseLighting.Type.ITEMS_FLAT);
-        matrixStack.translate(0.0F, 0.25F, 0.0F);
+        matrices.translate(0.0F, 0.25F, 0.0F);
         RenderDispatcher renderDispatcher = MinecraftClient.getInstance().gameRenderer.getEntityRenderDispatcher();
         OrderedRenderCommandQueueImpl orderedRenderCommandQueueImpl = renderDispatcher.getQueue();
         BannerBlockEntityRenderer.renderCanvas(
             this.sprite,
-            matrixStack,
+            matrices,
             orderedRenderCommandQueueImpl,
             15728880,
             OverlayTexture.DEFAULT_UV,

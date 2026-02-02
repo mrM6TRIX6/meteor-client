@@ -189,7 +189,7 @@ public class ESP extends Module {
     private int count;
     
     public ESP() {
-        super(Categories.Render, "ESP", "Renders entities through walls.");
+        super(Categories.RENDER, "ESP", "Renders entities through walls.");
     }
     
     // Box

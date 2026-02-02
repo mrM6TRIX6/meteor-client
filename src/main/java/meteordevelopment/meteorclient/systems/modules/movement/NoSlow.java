@@ -112,7 +112,7 @@ public class NoSlow extends Module {
     private boolean resetTimer;
     
     public NoSlow() {
-        super(Categories.Movement, "NoSlow", "Allows you to move normally when using objects that will slow you.");
+        super(Categories.MOVEMENT, "NoSlow", "Allows you to move normally when using objects that will slow you.");
     }
     
     @Override

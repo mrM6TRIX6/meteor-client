@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 public class BadTrip extends Module {
     
     public BadTrip() {
-        super(Categories.Fun, "BadTrip", "Makes the players wobble.");
+        super(Categories.FUN, "BadTrip", "Makes the players wobble.");
     }
     
 }

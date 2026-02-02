@@ -376,7 +376,7 @@ public class NoRender extends Module {
     );
     
     public NoRender() {
-        super(Categories.Render, "NoRender", "Disables certain animations or overlays from rendering.");
+        super(Categories.RENDER, "NoRender", "Disables certain animations or overlays from rendering.");
     }
     
     @Override

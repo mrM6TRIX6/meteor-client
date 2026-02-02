@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.commands.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
-import meteordevelopment.meteorclient.commands.arguments.ClientPosArgumentType;
+import meteordevelopment.meteorclient.commands.arguments.PositionArgumentType;
 import net.minecraft.block.BlockState;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.BlockStateArgument;
@@ -23,10 +23,10 @@ public class SetBlockCommand extends Command {
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(argument("pos", ClientPosArgumentType.pos())
+        builder.then(argument("pos", PositionArgumentType.pos())
             .then(argument("block", BlockStateArgumentType.blockState(REGISTRY_ACCESS))
                 .executes(context -> {
-                    Vec3d pos = ClientPosArgumentType.getPos(context, "pos");
+                    Vec3d pos = PositionArgumentType.getPos(context, "pos");
                     BlockState blockState = context.getArgument("block", BlockStateArgument.class).getBlockState();
                     
                     mc.world.setBlockState(new BlockPos((int) pos.getX(), (int) pos.getY(), (int) pos.getZ()), blockState);

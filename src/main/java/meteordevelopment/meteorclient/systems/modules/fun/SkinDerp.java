@@ -93,7 +93,7 @@ public class SkinDerp extends Module {
     private int timer;
     
     public SkinDerp() {
-        super(Categories.Fun, "SkinDerp", "Makes your skin blink (Requires multi-layer skin).");
+        super(Categories.FUN, "SkinDerp", "Makes your skin blink (Requires multi-layer skin).");
     }
     
     @Override

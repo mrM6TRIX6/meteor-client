@@ -37,7 +37,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.attribute.EnvironmentAttributes;
 
 public class BedAura extends Module {
     
@@ -200,7 +199,7 @@ public class BedAura extends Module {
     private int timer;
     
     public BedAura() {
-        super(Categories.Combat, "BedAura", "Automatically places and explodes beds in the Nether and End.");
+        super(Categories.COMBAT, "BedAura", "Automatically places and explodes beds in the Nether and End.");
     }
     
     @Override

@@ -59,7 +59,7 @@ public class MaceKill extends Module {
     private Vec3d previousPos;
     
     public MaceKill() {
-        super(Categories.Combat, "MaceKill", "Makes the mace powerful by faking fall height.");
+        super(Categories.COMBAT, "MaceKill", "Makes the mace powerful by faking fall height.");
     }
     
     @EventHandler

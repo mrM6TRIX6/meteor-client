@@ -67,7 +67,7 @@ public class CrossbowSpam extends Module {
     private int timer;
     
     public CrossbowSpam() {
-        super(Categories.Fun, "CrossbowSpam", "Automatically shoots a crossbow very fast. Creative mode only.");
+        super(Categories.FUN, "CrossbowSpam", "Automatically shoots a crossbow very fast. Creative mode only.");
     }
     
     @Override

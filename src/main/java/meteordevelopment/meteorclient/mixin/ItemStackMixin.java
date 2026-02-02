@@ -39,7 +39,7 @@ public abstract class ItemStackMixin {
     }
     
     @Inject(method = "finishUsing", at = @At("HEAD"))
-    private void onFinishUsing(World world, LivingEntity user, CallbackInfoReturnable<ItemStack> info) {
+    private void onFinishUsing(World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
         if (user == mc.player) {
             MeteorClient.EVENT_BUS.post(FinishUsingItemEvent.get((ItemStack) (Object) this));
         }

@@ -38,7 +38,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-import net.minecraft.world.attribute.EnvironmentAttributes;
 
 public class AnchorAura extends Module {
     
@@ -259,7 +258,7 @@ public class AnchorAura extends Module {
     private PlayerEntity target;
     
     public AnchorAura() {
-        super(Categories.Combat, "AnchorAura", "Automatically places and breaks Respawn Anchors to harm entities.");
+        super(Categories.COMBAT, "AnchorAura", "Automatically places and breaks Respawn Anchors to harm entities.");
     }
     
     @Override

@@ -6,14 +6,12 @@
 package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.renderer.MeteorRenderPipelines;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import meteordevelopment.meteorclient.utils.render.postprocess.PostProcessShaders;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
@@ -180,7 +178,7 @@ public class Chams extends Module {
     public static final Identifier BLANK = MeteorClient.identifier("textures/blank.png");
     
     public Chams() {
-        super(Categories.Render, "Chams", "Tweaks rendering of entities.");
+        super(Categories.RENDER, "Chams", "Tweaks rendering of entities.");
     }
     
     public boolean shouldRender(Entity entity) {

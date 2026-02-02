@@ -160,7 +160,7 @@ public class Jesus extends Module {
     public boolean isInBubbleColumn = false;
     
     public Jesus() {
-        super(Categories.Movement, "Jesus", "Walk on liquids and powder snow like Jesus.");
+        super(Categories.MOVEMENT, "Jesus", "Walk on liquids and powder snow like Jesus.");
     }
     
     @Override

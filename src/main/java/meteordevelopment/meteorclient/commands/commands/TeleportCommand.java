@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.commands.commands;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
-import meteordevelopment.meteorclient.commands.arguments.ClientPosArgumentType;
+import meteordevelopment.meteorclient.commands.arguments.PositionArgumentType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.util.math.Vec3d;
 
@@ -21,20 +21,20 @@ public class TeleportCommand extends Command {
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(argument("pos", ClientPosArgumentType.pos())
+        builder.then(argument("pos", PositionArgumentType.pos())
             .executes(context -> {
-                Vec3d pos = ClientPosArgumentType.getPos(context, "pos");
+                Vec3d pos = PositionArgumentType.getPos(context, "pos");
                 mc.player.updatePosition(pos.getX(), pos.getY(), pos.getZ());
                 
                 return SINGLE_SUCCESS;
             })
         );
         
-        builder.then(argument("pos", ClientPosArgumentType.pos())
+        builder.then(argument("pos", PositionArgumentType.pos())
             .then(argument("yaw", FloatArgumentType.floatArg())
                 .then(argument("pitch", FloatArgumentType.floatArg())
                     .executes(context -> {
-                        Vec3d pos = ClientPosArgumentType.getPos(context, "pos");
+                        Vec3d pos = PositionArgumentType.getPos(context, "pos");
                         float yaw = FloatArgumentType.getFloat(context, "yaw");
                         float pitch = FloatArgumentType.getFloat(context, "pitch");
                         mc.player.updatePositionAndAngles(pos.getX(), pos.getY(), pos.getZ(), yaw, pitch);

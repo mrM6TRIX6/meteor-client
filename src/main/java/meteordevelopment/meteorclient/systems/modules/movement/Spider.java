@@ -27,7 +27,7 @@ public class Spider extends Module {
     );
     
     public Spider() {
-        super(Categories.Movement, "Spider", "Allows you to climb walls like a spider.");
+        super(Categories.MOVEMENT, "Spider", "Allows you to climb walls like a spider.");
     }
     
     @EventHandler

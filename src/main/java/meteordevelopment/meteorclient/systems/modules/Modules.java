@@ -507,7 +507,6 @@ public class Modules extends System<Modules> {
         add(new ParkourBot());
         add(new ReverseStep());
         add(new SafeWalk());
-        add(new Scaffold());
         add(new Slippy());
         add(new Sneak());
         add(new Speed());
@@ -570,6 +569,7 @@ public class Modules extends System<Modules> {
         add(new NoGhostBlocks());
         add(new Nuker());
         add(new PacketMine());
+        add(new Scaffold());
         add(new Timer());
         
         if (BaritoneUtils.IS_AVAILABLE) {

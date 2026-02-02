@@ -105,7 +105,7 @@ public class Confuse extends Module {
     private Entity target = null;
     
     public Confuse() {
-        super(Categories.Combat, "Confuse", "Makes your enemies shit themselves.");
+        super(Categories.COMBAT, "Confuse", "Makes your enemies shit themselves.");
     }
     
     @Override

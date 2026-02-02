@@ -61,7 +61,7 @@ public class PacketDebugger extends Module {
     );
     
     public PacketDebugger() {
-        super(Categories.Misc, "PacketDebugger", "Logging network packets.");
+        super(Categories.MISC, "PacketDebugger", "Logging network packets.");
         runInMainMenu = true;
     }
     

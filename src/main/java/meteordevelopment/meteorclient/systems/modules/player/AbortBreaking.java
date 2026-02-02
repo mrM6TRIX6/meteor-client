@@ -13,7 +13,7 @@ import meteordevelopment.orbit.EventHandler;
 public class AbortBreaking extends Module {
     
     public AbortBreaking() {
-        super(Categories.Player, "AbortBreaking", "Allows you to abort breaking without losing the progress. Recommended using it with Multi Actions module.");
+        super(Categories.PLAYER, "AbortBreaking", "Allows you to abort breaking without losing the progress. Recommended using it with Multi Actions module.");
     }
     
     @EventHandler

@@ -53,7 +53,7 @@ public class FastClimb extends Module {
     private boolean resetTimer;
     
     public FastClimb() {
-        super(Categories.Movement, "FastClimb", "Allows you to climb faster.");
+        super(Categories.MOVEMENT, "FastClimb", "Allows you to climb faster.");
     }
     
     @Override

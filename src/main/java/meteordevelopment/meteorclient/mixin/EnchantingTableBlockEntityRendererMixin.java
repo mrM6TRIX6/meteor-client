@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class EnchantingTableBlockEntityRendererMixin {
     
     @WrapWithCondition(method = "render(Lnet/minecraft/client/render/block/entity/state/EnchantingTableBlockEntityRenderState;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;Lnet/minecraft/client/render/state/CameraRenderState;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/command/OrderedRenderCommandQueue;submitModel(Lnet/minecraft/client/model/Model;Ljava/lang/Object;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/RenderLayer;IIILnet/minecraft/client/texture/Sprite;ILnet/minecraft/client/render/command/ModelCommandRenderer$CrumblingOverlayCommand;)V"))
-    private <S> boolean onRenderBookModelRenderProxy(OrderedRenderCommandQueue instance, Model<? super S> model, S state, MatrixStack matrixStack, RenderLayer renderLayer, int i, int j, int k, Sprite sprite, int l, ModelCommandRenderer.CrumblingOverlayCommand crumblingOverlayCommand) {
+    private <S> boolean onRenderBookModelRenderProxy(OrderedRenderCommandQueue instance, Model<? super S> model, S state, MatrixStack matrices, RenderLayer renderLayer, int i, int j, int k, Sprite sprite, int l, ModelCommandRenderer.CrumblingOverlayCommand crumblingOverlayCommand) {
         return !Modules.get().get(NoRender.class).noEnchTableBook();
     }
     

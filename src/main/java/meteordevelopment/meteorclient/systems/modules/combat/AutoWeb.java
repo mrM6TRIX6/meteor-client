@@ -141,7 +141,7 @@ public class AutoWeb extends Module {
     private PlayerEntity target = null;
     
     public AutoWeb() {
-        super(Categories.Combat, "AutoWeb", "Automatically places webs on other players.");
+        super(Categories.COMBAT, "AutoWeb", "Automatically places webs on other players.");
     }
     
     @Override

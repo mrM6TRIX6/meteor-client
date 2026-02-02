@@ -293,7 +293,7 @@ public class InventoryTweaks extends Module {
     private boolean invOpened;
     
     public InventoryTweaks() {
-        super(Categories.Misc, "InventoryTweaks", "Various inventory related utilities.");
+        super(Categories.MISC, "InventoryTweaks", "Various inventory related utilities.");
     }
     
     @Override

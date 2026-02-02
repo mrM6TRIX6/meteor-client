@@ -94,7 +94,7 @@ public class MiddleClickExtra extends Module {
     private int itemSlot;
     private int selectedSlot;
     public MiddleClickExtra() {
-        super(Categories.Player, "middle-click-extra", "Perform various actions when you middle click.");
+        super(Categories.PLAYER, "middle-click-extra", "Perform various actions when you middle click.");
     }
     
     @Override

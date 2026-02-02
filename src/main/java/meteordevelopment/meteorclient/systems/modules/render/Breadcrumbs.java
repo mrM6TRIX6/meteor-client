@@ -59,7 +59,7 @@ public class Breadcrumbs extends Module {
     private DimensionType lastDimension;
     
     public Breadcrumbs() {
-        super(Categories.Render, "Breadcrumbs", "Displays a trail behind where you have walked.");
+        super(Categories.RENDER, "Breadcrumbs", "Displays a trail behind where you have walked.");
     }
     
     @Override

@@ -175,7 +175,7 @@ public class HandView extends Module {
     );
     
     public HandView() {
-        super(Categories.Render, "HandView", "Alters the way items are rendered in your hands.");
+        super(Categories.RENDER, "HandView", "Alters the way items are rendered in your hands.");
     }
     
     @EventHandler

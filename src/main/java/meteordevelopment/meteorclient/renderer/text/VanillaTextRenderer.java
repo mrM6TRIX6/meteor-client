@@ -115,16 +115,16 @@ public class VanillaTextRenderer implements TextRenderer {
             throw new RuntimeException("VanillaTextRenderer.end() called without calling begin()");
         }
         
-        Matrix4fStack matrixStack = RenderSystem.getModelViewStack();
+        Matrix4fStack matrices = RenderSystem.getModelViewStack();
         
-        matrixStack.pushMatrix();
+        matrices.pushMatrix();
         if (!scaleIndividually) {
-            matrixStack.scale((float) scale, (float) scale, 1);
+            matrices.scale((float) scale, (float) scale, 1);
         }
         
         immediate.draw();
         
-        matrixStack.popMatrix();
+        matrices.popMatrix();
         
         this.scale = 2;
         this.building = false;

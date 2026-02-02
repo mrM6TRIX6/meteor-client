@@ -90,7 +90,7 @@ public class CustomHead extends Module {
     private int currentItemIndex, currentComponentsIndex, timer;
     
     public CustomHead() {
-        super(Categories.Fun, "CustomHead", "Sets custom item in head slot.");
+        super(Categories.FUN, "CustomHead", "Sets custom item in head slot.");
     }
     
     @Override

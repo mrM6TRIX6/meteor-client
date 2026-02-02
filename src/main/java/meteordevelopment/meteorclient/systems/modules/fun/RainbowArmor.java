@@ -147,7 +147,7 @@ public class RainbowArmor extends Module {
     private int linearI;
     
     public RainbowArmor() {
-        super(Categories.Fun, "RainbowArmor", "Gives you Rainbow Leather Armor with various modes.");
+        super(Categories.FUN, "RainbowArmor", "Gives you Rainbow Leather Armor with various modes.");
     }
     
     @Override

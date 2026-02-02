@@ -21,16 +21,14 @@ import net.minecraft.util.packrat.Parser;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class ClientTextArgumentType extends ParserBackedArgumentType<Text> {
+public class TextArgumentType extends ParserBackedArgumentType<Text> {
     
-    public static final DynamicCommandExceptionType INVALID_COMPONENT_EXCEPTION = new DynamicCommandExceptionType(
-        text -> Text.stringifiedTranslatable("argument.component.invalid", text)
-    );
+    public static final DynamicCommandExceptionType INVALID_COMPONENT_EXCEPTION = new DynamicCommandExceptionType(text -> Text.stringifiedTranslatable("argument.component.invalid", text));
     private static final Collection<String> EXAMPLES = Arrays.asList("\"hello world\"", "'hello world'", "\"\"", "{text:\"hello world\"}", "[\"\"]");
     private static final DynamicOps<NbtElement> OPS = NbtOps.INSTANCE;
     private static final Parser<NbtElement> PARSER = SnbtParsing.createParser(OPS);
     
-    private ClientTextArgumentType(RegistryWrapper.WrapperLookup registries) {
+    private TextArgumentType(RegistryWrapper.WrapperLookup registries) {
         super(PARSER.withDecoding(registries.getOps(OPS), PARSER, TextCodecs.CODEC, INVALID_COMPONENT_EXCEPTION));
     }
     
@@ -38,8 +36,8 @@ public class ClientTextArgumentType extends ParserBackedArgumentType<Text> {
         return context.getArgument(name, Text.class);
     }
     
-    public static ClientTextArgumentType text(CommandRegistryAccess registryAccess) {
-        return new ClientTextArgumentType(registryAccess);
+    public static TextArgumentType text(CommandRegistryAccess registryAccess) {
+        return new TextArgumentType(registryAccess);
     }
     
     @Override

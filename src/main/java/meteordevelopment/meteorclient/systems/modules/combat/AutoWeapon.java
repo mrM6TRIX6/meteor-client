@@ -47,7 +47,7 @@ public class AutoWeapon extends Module {
     );
     
     public AutoWeapon() {
-        super(Categories.Combat, "AutoWeapon", "Finds the best weapon to use in your hotbar.");
+        super(Categories.COMBAT, "AutoWeapon", "Finds the best weapon to use in your hotbar.");
     }
     
     @EventHandler

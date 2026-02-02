@@ -20,7 +20,7 @@ public class AutoSign extends Module {
     private String[] text;
     
     public AutoSign() {
-        super(Categories.World, "AutoSign", "Automatically writes signs. The first sign's text will be used.");
+        super(Categories.WORLD, "AutoSign", "Automatically writes signs. The first sign's text will be used.");
     }
     
     @Override

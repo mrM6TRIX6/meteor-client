@@ -39,7 +39,7 @@ public class PacketCanceller extends Module {
     );
     
     public PacketCanceller() {
-        super(Categories.Misc, "PacketCanceller", "Allows you to cancel certain packets.");
+        super(Categories.MISC, "PacketCanceller", "Allows you to cancel certain packets.");
         runInMainMenu = true;
     }
     

@@ -33,7 +33,7 @@ public class VehicleOneHit extends Module {
     private boolean sendingPackets = false;
     
     public VehicleOneHit() {
-        super(Categories.Player, "VehicleOneHit", "Destroy vehicles with one hit.");
+        super(Categories.PLAYER, "VehicleOneHit", "Destroy vehicles with one hit.");
     }
     
     @EventHandler

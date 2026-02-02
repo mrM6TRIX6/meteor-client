@@ -10,7 +10,6 @@ import com.mojang.blaze3d.buffers.Std140Builder;
 import com.mojang.blaze3d.buffers.Std140SizeCalculator;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.AddressMode;
 import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import com.mojang.blaze3d.textures.TextureFormat;
@@ -123,7 +122,7 @@ public class Blur extends Module {
     private float previousOffset = -1;
     
     public Blur() {
-        super(Categories.Render, "Blur", "Blurs background when in GUI screens.");
+        super(Categories.RENDER, "Blur", "Blurs background when in GUI screens.");
         
         // Initialize fbos for the first time
         for (int i = 0; i < fbos.length; i++) {

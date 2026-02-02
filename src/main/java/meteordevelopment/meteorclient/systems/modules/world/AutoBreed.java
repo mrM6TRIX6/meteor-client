@@ -67,7 +67,7 @@ public class AutoBreed extends Module {
     private final List<Entity> animalsFed = new ArrayList<>();
     
     public AutoBreed() {
-        super(Categories.World, "AutoBreed", "Automatically breeds specified animals.");
+        super(Categories.WORLD, "AutoBreed", "Automatically breeds specified animals.");
     }
     
     @Override

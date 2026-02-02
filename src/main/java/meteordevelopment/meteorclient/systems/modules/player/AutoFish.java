@@ -85,7 +85,7 @@ public class AutoFish extends Module {
     );
     
     public AutoFish() {
-        super(Categories.Player, "auto-fish", "Automatically fishes for you.");
+        super(Categories.PLAYER, "auto-fish", "Automatically fishes for you.");
     }
     
     private double castDelayLeft = 0.0;

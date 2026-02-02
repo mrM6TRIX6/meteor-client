@@ -59,7 +59,7 @@ public class AntiBed extends Module {
     private boolean breaking;
     
     public AntiBed() {
-        super(Categories.Combat, "AntiBed", "Places string to prevent beds being placed on you.");
+        super(Categories.COMBAT, "AntiBed", "Places string to prevent beds being placed on you.");
     }
     
     @EventHandler

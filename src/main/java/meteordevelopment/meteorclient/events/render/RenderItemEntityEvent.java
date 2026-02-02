@@ -21,7 +21,7 @@ public class RenderItemEntityEvent extends Cancellable {
     public ItemEntity itemEntity;
     public ItemEntityRenderState renderState;
     public float tickDelta;
-    public MatrixStack matrixStack;
+    public MatrixStack matrices;
     public VertexConsumerProvider vertexConsumerProvider;
     public int light;
     public ItemModelManager itemModelManager;
@@ -30,7 +30,7 @@ public class RenderItemEntityEvent extends Cancellable {
     public static RenderItemEntityEvent get(
         ItemEntityRenderState renderState,
         float tickDelta,
-        MatrixStack matrixStack,
+        MatrixStack matrices,
         VertexConsumerProvider vertexConsumerProvider,
         int light,
         ItemModelManager itemModelManager,
@@ -40,7 +40,7 @@ public class RenderItemEntityEvent extends Cancellable {
         INSTANCE.itemEntity = (ItemEntity) ((IEntityRenderState) renderState).meteor$getEntity();
         INSTANCE.renderState = renderState;
         INSTANCE.tickDelta = tickDelta;
-        INSTANCE.matrixStack = matrixStack;
+        INSTANCE.matrices = matrices;
         INSTANCE.vertexConsumerProvider = vertexConsumerProvider;
         INSTANCE.light = light;
         INSTANCE.itemModelManager = itemModelManager;

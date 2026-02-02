@@ -116,7 +116,7 @@ public class LongJump extends Module {
     );
     
     public LongJump() {
-        super(Categories.Movement, "LongJump", "Allows you to jump further than normal.");
+        super(Categories.MOVEMENT, "LongJump", "Allows you to jump further than normal.");
     }
     
     private int stage;

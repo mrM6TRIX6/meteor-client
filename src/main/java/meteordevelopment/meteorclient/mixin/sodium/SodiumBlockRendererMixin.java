@@ -27,18 +27,18 @@ public abstract class SodiumBlockRendererMixin {
     private int xrayAlpha;
     
     @Inject(method = "renderModel", at = @At("HEAD"), cancellable = true)
-    private void onRenderModel(BlockStateModel model, BlockState state, BlockPos pos, BlockPos origin, CallbackInfo info) {
+    private void onRenderModel(BlockStateModel model, BlockState state, BlockPos pos, BlockPos origin, CallbackInfo ci) {
         xrayAlpha = Xray.getAlpha(state, pos);
         
         // Cancel block rendering when alpha is 0, required for Iris support but unnecessary to check for shaders,
         // we already force be disabled when Xray is enabled
         if (xrayAlpha == 0) {
-            info.cancel();
+            ci.cancel();
         }
     }
     
     @Inject(method = "bufferQuad", at = @At("HEAD"))
-    private void onBufferQuad(MutableQuadViewImpl quad, float[] brightnesses, Material material, CallbackInfo info) {
+    private void onBufferQuad(MutableQuadViewImpl quad, float[] brightnesses, Material material, CallbackInfo ci) {
         if (xrayAlpha != -1) {
             for (int i = 0; i < 4; i++) {
                 int color = quad.baseColor(i);
