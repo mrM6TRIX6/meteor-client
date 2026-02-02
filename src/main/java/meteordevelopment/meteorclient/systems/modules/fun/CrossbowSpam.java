@@ -18,6 +18,7 @@ import meteordevelopment.meteorclient.settings.impl.StringSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ComponentMapReader;
+import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
@@ -109,7 +110,7 @@ public class CrossbowSpam extends Module {
             try {
                 ComponentMap componentsToApply = reader.consume(new StringReader(crossbowNBT.get()));
                 if (!componentsToApply.contains(DataComponentTypes.CHARGED_PROJECTILES)) {
-                    error("You did not specify CHARGED_PROJECTILES component in the crossbow NBT.");
+                    error("CHARGED_PROJECTILES component is missing from crossbow NBT.");
                     toggle();
                 }
                 itemStack.applyComponentsFrom(componentsToApply);
@@ -121,7 +122,7 @@ public class CrossbowSpam extends Module {
             mc.player.getInventory().setStack(mc.player.getInventory().getSelectedSlot(), itemStack);
             mc.interactionManager.clickCreativeStack(itemStack, mc.player.getInventory().getSelectedSlot() + 36);
             
-            mc.interactionManager.interactItem(mc.player, Hand.MAIN_HAND);
+            PlayerUtils.rightClick();
             
             timer = 0;
         }
