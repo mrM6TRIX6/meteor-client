@@ -76,6 +76,7 @@ public class MiddleClickExtra extends Module {
         .visible(() -> mode.get() != Mode.ADD_FRIEND && !quickSwap.get())
         .build()
     );
+    
     private final Setting<Boolean> notify = sgGeneral.add(new BoolSetting.Builder()
         .name("notify")
         .description("Notifies you when you do not have the specified item in your hotbar.")
@@ -83,18 +84,21 @@ public class MiddleClickExtra extends Module {
         .visible(() -> mode.get() != Mode.ADD_FRIEND)
         .build()
     );
+    
     private final Setting<Boolean> disableInCreative = sgGeneral.add(new BoolSetting.Builder()
         .name("disable-in-creative")
         .description("Middle click action is disabled in Creative mode.")
         .defaultValue(true)
         .build()
     );
+    
     private boolean isUsing;
     private boolean wasHeld;
     private int itemSlot;
     private int selectedSlot;
+    
     public MiddleClickExtra() {
-        super(Categories.PLAYER, "middle-click-extra", "Perform various actions when you middle click.");
+        super(Categories.PLAYER, "MiddleClickExtra", "Perform various actions when you middle click.");
     }
     
     @Override
