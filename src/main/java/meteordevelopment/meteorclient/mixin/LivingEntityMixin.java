@@ -9,6 +9,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.player.CanWalkOnFluidEvent;
+import meteordevelopment.meteorclient.events.entity.player.PlayerJumpEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.exploit.OffhandCrash;
 import meteordevelopment.meteorclient.systems.modules.movement.HighJump;
@@ -31,6 +32,7 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -45,11 +47,20 @@ public abstract class LivingEntityMixin extends Entity {
         super(type, world);
     }
     
+    @Shadow
+    protected abstract float getJumpVelocity();
+    
+    @Shadow
+    public abstract void jump();
+    
+    @Shadow public abstract float getYaw(float tickProgress);
+    
     @ModifyReturnValue(method = "canWalkOnFluid", at = @At("RETURN"))
     private boolean onCanWalkOnFluid(boolean original, FluidState fluidState) {
         if ((Object) this != mc.player) {
             return original;
         }
+        
         CanWalkOnFluidEvent event = MeteorClient.EVENT_BUS.post(CanWalkOnFluidEvent.get(fluidState));
         
         return event.walkOnFluid;
@@ -184,6 +195,44 @@ public abstract class LivingEntityMixin extends Entity {
         
         // Only add the extra velocity if you're actually moving, otherwise you'll jump in place and move forward
         return original && (Math.abs(mc.player.forwardSpeed) > 1.0E-5F || Math.abs(mc.player.sidewaysSpeed) > 1.0E-5F);
+    }
+    
+    // Player jump
+    
+    @Unique
+    private PlayerJumpEvent jumpEvent;
+    
+    @Inject(method = "jump", at = @At("HEAD"), cancellable = true)
+    private void hookJumpEvent(CallbackInfo ci) {
+        if ((Object) this != mc.player) {
+            return;
+        }
+        
+        jumpEvent = MeteorClient.EVENT_BUS.post(PlayerJumpEvent.get(getJumpVelocity(), this.getYaw()));
+        
+        if (jumpEvent.isCancelled()) {
+            ci.cancel();
+        }
+    }
+    
+    @ModifyExpressionValue(method = "jump", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getJumpVelocity()F"))
+    private float hookJumpEvent(float original) {
+        // Replaces ((Object) this) != MinecraftClient.getInstance().player
+        if (jumpEvent == null) {
+            return original;
+        }
+        
+        return jumpEvent.motion;
+    }
+    
+    @ModifyExpressionValue(method = "jump", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getYaw()F"))
+    private float hookJumpYaw(float original) {
+        // Replaces ((Object) this) != MinecraftClient.getInstance().player
+        if (jumpEvent == null) {
+            return original;
+        }
+        
+        return jumpEvent.yaw;
     }
     
 }
