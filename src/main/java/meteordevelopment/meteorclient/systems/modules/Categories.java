@@ -20,10 +20,10 @@ public class Categories {
     public static final Category EXPLOIT = new Category("Exploit", Items.TNT.getDefaultStack());
     public static final Category FUN = new Category("Fun", Items.FIREWORK_ROCKET.getDefaultStack());
     
-    public static boolean REGISTERING;
+    private static boolean registering;
     
     public static void init() {
-        REGISTERING = true;
+        registering = true;
         
         // Meteor
         Modules.registerCategory(COMBAT);
@@ -39,7 +39,11 @@ public class Categories {
         // Addons
         AddonManager.ADDONS.forEach(MeteorAddon::onRegisterCategories);
         
-        REGISTERING = false;
+        registering = false;
+    }
+    
+    public static boolean isRegistering() {
+        return registering;
     }
     
 }
