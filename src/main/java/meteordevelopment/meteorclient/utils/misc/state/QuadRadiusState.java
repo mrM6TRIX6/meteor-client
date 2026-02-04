@@ -45,10 +45,6 @@ public record QuadRadiusState(double radiusTopLeft, double radiusTopRight, doubl
         return new QuadRadiusState(0.0, rightRadius, rightRadius, 0.0);
     }
     
-    public static QuadRadiusState ofAll(double radius) {
-        return new QuadRadiusState(radius);
-    }
-    
     public static QuadRadiusState ofVertical(double top, double bottom) {
         return new QuadRadiusState(top, top, bottom, bottom);
     }

@@ -25,6 +25,15 @@ public abstract class MeteorVertexFormats {
         .add("Color", VertexFormatElement.COLOR)
         .build();
     
+    public static final VertexFormat POS2_COLOR_UV0_SIZE_RADIUS_SMOOTHNESS = VertexFormat.builder()
+        .add("Position", MeteorVertexFormatElements.POS2)
+        .add("Color", VertexFormatElement.COLOR)
+        .add("UV0", VertexFormatElement.UV0)
+        .add("Size", MeteorVertexFormatElements.SIZE)
+        .add("Radius", MeteorVertexFormatElements.RADIUS)
+        .add("Smoothness", MeteorVertexFormatElements.SMOOTHNESS)
+        .build();
+    
     private MeteorVertexFormats() {}
     
 }

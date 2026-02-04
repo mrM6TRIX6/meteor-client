@@ -35,7 +35,7 @@ public class MeshBuilder {
     private ByteBuffer indices;
     private long indicesPointer;
     
-    private int vertexI, indicesCount;
+    public int vertexI, indicesCount;
     
     private boolean building;
     private double cameraX, cameraZ;
@@ -112,6 +112,55 @@ public class MeshBuilder {
         memPutByte(pointer + 1, (byte) c.g);
         memPutByte(pointer + 2, (byte) c.b);
         memPutByte(pointer + 3, (byte) (c.a * (float) alpha));
+        
+        verticesPointer += 4;
+        return this;
+    }
+    
+    public MeshBuilder uv(double x, double y){
+        debugVertexBufferCapacity();
+        
+        long p = verticesPointer;
+        
+        memPutFloat(p, (float) x);
+        memPutFloat(p + 4, (float) y);
+        
+        verticesPointer += 8;
+        return this;
+    }
+    
+    public MeshBuilder size(double w, double h){
+        debugVertexBufferCapacity();
+        
+        long p = verticesPointer;
+        
+        memPutFloat(p, (float) w);
+        memPutFloat(p + 4, (float) h);
+        
+        verticesPointer += 8;
+        return this;
+    }
+    
+    public MeshBuilder radius(double r1, double r2, double r3, double r4){
+        debugVertexBufferCapacity();
+        
+        long p = verticesPointer;
+        
+        memPutFloat(p, (float) r1);
+        memPutFloat(p + 4, (float) r2);
+        memPutFloat(p + 8, (float) r3);
+        memPutFloat(p + 12, (float) r4);
+        
+        verticesPointer += 16;
+        return this;
+    }
+    
+    public MeshBuilder smoothness(double smoothness){
+        debugVertexBufferCapacity();
+        
+        long p = verticesPointer;
+        
+        memPutFloat(p, (float) smoothness);
         
         verticesPointer += 4;
         return this;

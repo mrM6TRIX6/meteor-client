@@ -9,6 +9,7 @@ import com.mojang.blaze3d.textures.GpuTextureView;
 import meteordevelopment.meteorclient.gui.renderer.packer.TextureRegion;
 import meteordevelopment.meteorclient.utils.PreInit;
 import meteordevelopment.meteorclient.utils.misc.state.QuadColorState;
+import meteordevelopment.meteorclient.utils.misc.state.QuadRadiusState;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.gl.GpuSampler;
 
@@ -23,12 +24,14 @@ public class Renderer2D {
     
     public final MeshBuilder triangles;
     public final MeshBuilder lines;
+    public final MeshBuilder rectangleMesh;
     
     public Renderer2D(boolean textured) {
         this.textured = textured;
         
         triangles = new MeshBuilder(textured ? MeteorRenderPipelines.UI_TEXTURED : MeteorRenderPipelines.UI_COLORED);
         lines = new MeshBuilder(MeteorRenderPipelines.UI_COLORED_LINES);
+        rectangleMesh = new MeshBuilder(MeteorRenderPipelines.UI_RECTANGLE);
     }
     
     @PreInit
@@ -46,10 +49,19 @@ public class Renderer2D {
         lines.begin();
     }
     
+    public void beginRectangle() {
+        rectangleMesh.begin();
+    }
+    
     public void end() {
         triangles.end();
         lines.end();
     }
+    
+    public void endRectangle() {
+        rectangleMesh.end();
+    }
+    
     
     public void render() {
         render(null, null, null);
@@ -82,6 +94,18 @@ public class Renderer2D {
             .pipeline(textured ? MeteorRenderPipelines.UI_TEXTURED : MeteorRenderPipelines.UI_COLORED)
             .mesh(triangles)
             .sampler(samplerName, samplerView, sampler)
+            .end();
+    }
+    
+    public void renderRectangle() {
+        if (rectangleMesh.isBuilding()) {
+            rectangleMesh.end();
+        }
+        
+        MeshRenderer.begin()
+            .attachments(mc.getFramebuffer())
+            .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
+            .mesh(rectangleMesh)
             .end();
     }
     
@@ -194,6 +218,66 @@ public class Renderer2D {
     
     public void texQuad(double x, double y, double width, double height, double rotation, TextureRegion region, Color color) {
         texQuad(x, y, width, height, rotation, region.x1, region.y1, region.x2, region.y2, color);
+    }
+    
+    // Test
+    
+    public void rectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness) {
+        rectangleMesh.ensureQuadCapacity();
+        
+        rectangleMesh.quad(
+            rectangleMesh.vec2(x, y)
+                .color(color.colorTopLeft())
+                .uv(0, 0)
+                .size(width, height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusBottomLeft(),
+                    radius.radiusBottomRight(),
+                    radius.radiusTopRight()
+                )
+                .smoothness(smoothness)
+                .next(),
+            
+            rectangleMesh.vec2(x + width, y)
+                .color(color.colorTopRight())
+                .uv(1, 0)
+                .size(width, height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusBottomLeft(),
+                    radius.radiusBottomRight(),
+                    radius.radiusTopRight()
+                )
+                .smoothness(smoothness)
+                .next(),
+            
+            rectangleMesh.vec2(x + width, y + height)
+                .color(color.colorBottomRight())
+                .uv(1, 1)
+                .size(width, height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusBottomLeft(),
+                    radius.radiusBottomRight(),
+                    radius.radiusTopRight()
+                )
+                .smoothness(smoothness)
+                .next(),
+            
+            rectangleMesh.vec2(x, y + height)
+                .color(color.colorBottomLeft())
+                .uv(0, 1)
+                .size(width, height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusBottomLeft(),
+                    radius.radiusBottomRight(),
+                    radius.radiusTopRight()
+                )
+                .smoothness(smoothness)
+                .next()
+        );
     }
     
 }

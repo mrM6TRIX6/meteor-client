@@ -214,6 +214,20 @@ public abstract class MeteorRenderPipelines {
         .build()
     );
     
+    // Test
+    
+    public static final RenderPipeline UI_RECTANGLE = add(new ExtendedRenderPipelineBuilder(MESH_UNIFORMS)
+        .withLocation(MeteorClient.identifier("pipeline/ui_rectangle"))
+        .withVertexFormat(MeteorVertexFormats.POS2_COLOR_UV0_SIZE_RADIUS_SMOOTHNESS, VertexFormat.DrawMode.TRIANGLES)
+        .withVertexShader(MeteorClient.identifier("shaders/rectangle.vert"))
+        .withFragmentShader(MeteorClient.identifier("shaders/rectangle.frag"))
+        .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+        .withDepthWrite(false)
+        .withBlend(BlendFunction.TRANSLUCENT)
+        .withCull(false)
+        .build()
+    );
+    
     private static RenderPipeline add(RenderPipeline pipeline) {
         PIPELINES.add(pipeline);
         return pipeline;
