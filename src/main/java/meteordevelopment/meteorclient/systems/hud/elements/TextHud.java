@@ -27,8 +27,6 @@ import java.util.List;
 
 public class TextHud extends HudElement {
     
-    private static final Color WHITE = new Color(255, 255, 255);
-    
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgShown = settings.createGroup("Shown");
     private final SettingGroup sgScale = settings.createGroup("Scale");
@@ -278,7 +276,7 @@ public class TextHud extends HudElement {
     
     public static Color getSectionColor(int i) {
         List<SettingColor> colors = Hud.get().textColors.get();
-        return (i >= 0 && i < colors.size()) ? colors.get(i) : WHITE;
+        return (i >= 0 && i < colors.size()) ? colors.get(i) : Color.WHITE;
     }
     
     public String getText() {

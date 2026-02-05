@@ -9,17 +9,16 @@ import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.renderer.Renderer2D;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.state.QuadColorState;
-import meteordevelopment.meteorclient.utils.misc.state.QuadRadiusState;
-import meteordevelopment.meteorclient.utils.render.RenderUtils;
+import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
+import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 
 public class Test extends Module {
     
-    
     public Test() {
         super(Categories.RENDER, "Test", "");
+        runInMainMenu = true;
     }
     
     @EventHandler
@@ -30,7 +29,7 @@ public class Test extends Module {
         QuadRadiusState radius = QuadRadiusState.of(10);
         double smoothness = 10;
         
-        Renderer2D.COLOR.beginRectangle();
+        Renderer2D.COLOR.begin();
         
         Renderer2D.COLOR.rectangle(
             50,
@@ -42,9 +41,9 @@ public class Test extends Module {
             smoothness
         );
         
-        Renderer2D.COLOR.endRectangle();
+        Renderer2D.COLOR.end();
         
-        Renderer2D.COLOR.renderRectangle();
+        Renderer2D.COLOR.render();
     }
     
 }

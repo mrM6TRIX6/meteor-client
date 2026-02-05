@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.themes.meteor.MeteorGuiTheme;
 import meteordevelopment.meteorclient.gui.themes.meteor.MeteorWidget;
 import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
-import meteordevelopment.meteorclient.utils.misc.state.QuadColorState;
+import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 
 public class WMeteorHorizontalSeparator extends WHorizontalSeparator implements MeteorWidget {
     

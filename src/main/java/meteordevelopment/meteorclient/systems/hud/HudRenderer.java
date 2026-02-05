@@ -17,9 +17,10 @@ import meteordevelopment.meteorclient.renderer.text.CustomTextRenderer;
 import meteordevelopment.meteorclient.renderer.text.Font;
 import meteordevelopment.meteorclient.renderer.text.VanillaTextRenderer;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.state.QuadColorState;
+import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
@@ -125,6 +126,18 @@ public class HudRenderer {
     
     public void quad(double x, double y, double width, double height, Color color) {
         Renderer2D.COLOR.quad(x, y, width, height, color);
+    }
+    
+    public void rectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness) {
+        Renderer2D.COLOR.rectangle(
+            x,
+            y,
+            width,
+            height,
+            color,
+            radius,
+            smoothness
+        );
     }
     
     public void triangle(double x1, double y1, double x2, double y2, double x3, double y3, Color color) {

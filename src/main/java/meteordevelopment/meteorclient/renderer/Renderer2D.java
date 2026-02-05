@@ -8,8 +8,8 @@ package meteordevelopment.meteorclient.renderer;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import meteordevelopment.meteorclient.gui.renderer.packer.TextureRegion;
 import meteordevelopment.meteorclient.utils.PreInit;
-import meteordevelopment.meteorclient.utils.misc.state.QuadColorState;
-import meteordevelopment.meteorclient.utils.misc.state.QuadRadiusState;
+import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
+import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.gl.GpuSampler;
 
@@ -47,21 +47,14 @@ public class Renderer2D {
     public void begin() {
         triangles.begin();
         lines.begin();
-    }
-    
-    public void beginRectangle() {
         rectangleMesh.begin();
     }
     
     public void end() {
         triangles.end();
         lines.end();
-    }
-    
-    public void endRectangle() {
         rectangleMesh.end();
     }
-    
     
     public void render() {
         render(null, null, null);
@@ -82,6 +75,9 @@ public class Renderer2D {
         if (triangles.isBuilding()) {
             triangles.end();
         }
+        if (rectangleMesh.isBuilding()) {
+            rectangleMesh.end();
+        }
         
         MeshRenderer.begin()
             .attachments(mc.getFramebuffer())
@@ -95,12 +91,6 @@ public class Renderer2D {
             .mesh(triangles)
             .sampler(samplerName, samplerView, sampler)
             .end();
-    }
-    
-    public void renderRectangle() {
-        if (rectangleMesh.isBuilding()) {
-            rectangleMesh.end();
-        }
         
         MeshRenderer.begin()
             .attachments(mc.getFramebuffer())

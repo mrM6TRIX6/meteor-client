@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.renderer.Renderer2D;
 import meteordevelopment.meteorclient.renderer.Texture;
 import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.misc.Pool;
-import meteordevelopment.meteorclient.utils.misc.state.QuadColorState;
+import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.gui.DrawContext;
