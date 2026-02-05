@@ -13,6 +13,7 @@ import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
 import meteordevelopment.meteorclient.systems.accounts.impl.CrackedAccount;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -28,7 +29,7 @@ public class AddCrackedAccountScreen extends AddAccountScreen {
         
         // Name
         table.add(theme.label("Name: "));
-        WTextBox name = table.add(theme.textBox("", "seasnail8169", (text, c) ->
+        WTextBox name = table.add(theme.textBox("", "nickname", (text, c) ->
             // Username can't contain spaces
             c != ' '
         )).expandX().widget();
@@ -50,10 +51,9 @@ public class AddCrackedAccountScreen extends AddAccountScreen {
         
         // Random
         WButton random = list.add(theme.button("Random")).expandX().widget();
-        random.action = () -> name.set("Random_name_123");
-        
-        WButton edit = list.add(theme.button(GuiRenderer.EDIT)).widget();
-        edit.action = () -> mc.setScreen(new RandomAccountSettingsScreen(theme));
+        random.action = () -> name.set(
+            RandomStringUtils.insecure().nextAlphanumeric(7, 13)
+        );
         
         enterAction = add.action;
     }
