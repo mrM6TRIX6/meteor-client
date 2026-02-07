@@ -200,12 +200,20 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         
         Module module = (Module) o;
-        if (name == null && module.name == null) return true;
-        if (name == null || module.name == null) return false;
+        if (name == null && module.name == null) {
+            return true;
+        }
+        if (name == null || module.name == null) {
+            return false;
+        }
         
         return name.equalsIgnoreCase(module.name);
     }

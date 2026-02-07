@@ -83,9 +83,7 @@ public class SettingGroup implements ISerializable<SettingGroup>, Iterable<Setti
         
         JsonArray settingsArray = new JsonArray();
         for (Setting<?> setting : this) {
-            if (setting.wasChanged()) {
-                settingsArray.add(setting.toJson());
-            }
+            settingsArray.add(setting.toJson());
         }
         jsonObject.add("settings", settingsArray);
         

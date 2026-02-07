@@ -70,14 +70,6 @@ public class ResetCommand extends Command {
                 })
             )
         );
-        
-        builder.then(literal("hud")
-            .executes(context -> {
-                Systems.get(Hud.class).reset();
-                ChatUtils.infoPrefix("HUD", "Reset all elements.");
-                return SINGLE_SUCCESS;
-            })
-        );
     }
     
 }

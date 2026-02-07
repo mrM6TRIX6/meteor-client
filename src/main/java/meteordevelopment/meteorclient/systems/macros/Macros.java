@@ -17,6 +17,7 @@ import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +27,7 @@ public class Macros extends System<Macros> implements Iterable<Macro> {
     private List<Macro> macros = new ArrayList<>();
     
     public Macros() {
-        super("macros");
+        super("macros", new File(MeteorClient.FOLDER, "macros.json"));
     }
     
     public static Macros get() {

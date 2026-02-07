@@ -25,13 +25,11 @@ import java.nio.file.Files;
 import java.util.List;
 
 /**
- * Config — represents single config file (one JSON file) with optional sections modules/hud/macros
+ * Represents single config file (one JSON file) with optional sections modules/hud/macros
  */
 public class Config implements ISerializable<Config> {
     
-    private static final Gson GSON = new GsonBuilder()
-        .setPrettyPrinting()
-        .create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     
     public final Settings settings = new Settings();
     
@@ -74,10 +72,6 @@ public class Config implements ISerializable<Config> {
     );
     
     public Config() {}
-    
-    public Config(JsonObject json) {
-        fromJson(json);
-    }
     
     /**
      * Load this config into global systems. Only fields present in file are applied.

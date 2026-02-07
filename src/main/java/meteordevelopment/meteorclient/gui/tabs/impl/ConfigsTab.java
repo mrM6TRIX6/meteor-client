@@ -59,8 +59,8 @@ public class ConfigsTab extends Tab {
             WHorizontalList list = add(theme.horizontalList()).expandX().widget();
             
             // Create
-            WButton create = list.add(theme.button("Create")).expandX().widget();
-            create.action = () -> mc.setScreen(new EditConfigScreen(theme, null, this::reload));
+            WButton createBtn = list.add(theme.button("Create")).expandX().widget();
+            createBtn.action = () -> mc.setScreen(new EditConfigScreen(theme, null, this::reload));
             
             // Clear
             WButton clearBtn = list.add(theme.button("Clear")).expandX().widget();

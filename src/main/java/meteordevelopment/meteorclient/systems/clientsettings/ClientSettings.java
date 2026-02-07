@@ -6,6 +6,7 @@
 package meteordevelopment.meteorclient.systems.clientsettings;
 
 import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.renderer.Fonts;
 import meteordevelopment.meteorclient.renderer.text.FontFace;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -18,6 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,7 +164,7 @@ public class ClientSettings extends System<ClientSettings> {
     public List<String> dontShowAgainPrompts = new ArrayList<>();
     
     public ClientSettings() {
-        super("client-settings");
+        super("client-settings", new File(MeteorClient.FOLDER, "client-settings.json"));
     }
     
     public static ClientSettings get() {

@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.systems.hud;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
@@ -26,6 +27,7 @@ import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.*;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
@@ -108,10 +110,8 @@ public class Hud extends System<Hud> implements Iterable<HudElement> {
         .build()
     );
     
-    private boolean reset;
-    
     public Hud() {
-        super("hud");
+        super("HUD", new File(MeteorClient.FOLDER, "HUD.json"));
     }
     
     public static Hud get() {
@@ -137,11 +137,6 @@ public class Hud extends System<Hud> implements Iterable<HudElement> {
         register(CombatHud.INFO);
         register(MapHud.INFO);
         register(RectangleHud.INFO);
-        
-        // Default config
-        if (isFirstInit) {
-            reset();
-        }
     }
     
     public void register(HudElementInfo<?> info) {
@@ -195,40 +190,10 @@ public class Hud extends System<Hud> implements Iterable<HudElement> {
         elements.clear();
     }
     
-    public void reset() {
-        reset = true;
-    }
-    
-    private void resetImpl() {
-        elements.clear();
-        
-        int h = (int) Math.ceil(HudRenderer.INSTANCE.textHeight(true));
-        
-        // Top Left
-        add(MeteorTextHud.WATERMARK, 4, 4, XAnchor.LEFT, YAnchor.TOP);
-        add(MeteorTextHud.FPS, 4, 4 + h, XAnchor.LEFT, YAnchor.TOP);
-        add(MeteorTextHud.TPS, 4, 4 + h * 2, XAnchor.LEFT, YAnchor.TOP);
-        add(MeteorTextHud.PING, 4, 4 + h * 3, XAnchor.LEFT, YAnchor.TOP);
-        add(MeteorTextHud.SPEED, 4, 4 + h * 4, XAnchor.LEFT, YAnchor.TOP);
-        
-        // Top Right
-        add(ActiveModulesHud.INFO, -4, 4, XAnchor.RIGHT, YAnchor.TOP);
-        
-        // Bottom Right
-        add(MeteorTextHud.POSITION, -4, -4, XAnchor.RIGHT, YAnchor.BOTTOM);
-        add(MeteorTextHud.OPPOSITE_POSITION, -4, -4 - h, XAnchor.RIGHT, YAnchor.BOTTOM);
-        add(MeteorTextHud.ROTATION, -4, -4 - h * 2, XAnchor.RIGHT, YAnchor.BOTTOM);
-    }
-    
     @EventHandler
     private void onTick(TickEvent.Post event) {
         if (Utils.isLoading()) {
             return;
-        }
-        
-        if (reset) {
-            resetImpl();
-            reset = false;
         }
         
         if (!(active || HudEditorScreen.isOpen())) {

@@ -26,29 +26,25 @@ import java.util.Locale;
 
 public abstract class System<T> implements ISerializable<T> {
     
-    private final String name;
-    private File file;
-    
-    protected boolean isFirstInit;
-    
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH.mm.ss", Locale.ROOT);
-    private static final Gson GSON = new GsonBuilder()
-        .setPrettyPrinting()
-        .serializeNulls()
-        .create();
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    
+    private final String name;
+    private final File file;
+    
+    public System(String name, File file) {
+        this.name = name;
+        this.file = file;
+    }
     
     public System(String name) {
         this.name = name;
-        
-        if (name != null) {
-            this.file = new File(MeteorClient.FOLDER, name + ".json");
-            this.isFirstInit = !file.exists();
-        }
+        this.file = null;
     }
     
     public void init() {}
     
-    public void save(File folder) {
+    public void save() {
         File file = getFile();
         if (file == null) {
             return;
@@ -66,9 +62,7 @@ public abstract class System<T> implements ISerializable<T> {
                 GSON.toJson(jsonObject, writer);
             }
             
-            if (folder != null) {
-                file = new File(folder, file.getName());
-            }
+            file = new File(MeteorClient.FOLDER, file.getName());
             
             file.getParentFile().mkdirs();
             
@@ -83,20 +77,14 @@ public abstract class System<T> implements ISerializable<T> {
         }
     }
     
-    public void save() {
-        save(null);
-    }
-    
-    public void load(File folder) {
+    public void load() {
         File file = getFile();
         if (file == null) {
             return;
         }
         
         try {
-            if (folder != null) {
-                file = new File(folder, file.getName());
-            }
+            file = new File(MeteorClient.FOLDER, file.getName());
             
             if (file.exists()) {
                 try (FileReader reader = new FileReader(file)) {
@@ -123,16 +111,12 @@ public abstract class System<T> implements ISerializable<T> {
         }
     }
     
-    public void load() {
-        load(null);
+    public String getName() {
+        return name;
     }
     
     public File getFile() {
         return file;
-    }
-    
-    public String getName() {
-        return name;
     }
     
     @Override

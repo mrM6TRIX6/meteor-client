@@ -64,7 +64,7 @@ public class Modules extends System<Modules> {
     private boolean awaitingKeyRelease = false;
     
     public Modules() {
-        super("modules");
+        super("modules", new File(MeteorClient.FOLDER, "modules.json"));
     }
     
     public static Modules get() {
@@ -84,7 +84,7 @@ public class Modules extends System<Modules> {
     }
     
     @Override
-    public void load(File folder) {
+    public void load() {
         for (Module module : getAll()) {
             for (SettingGroup group : module.settings) {
                 for (Setting<?> setting : group) {
@@ -93,12 +93,12 @@ public class Modules extends System<Modules> {
             }
         }
         
-        super.load(folder);
+        super.load();
     }
     
     public void sortModules() {
         for (List<Module> modules : groups.values()) {
-            modules.sort(Comparator.comparing(o -> o.name));
+            modules.sort(Comparator.comparing(module -> module.name));
         }
     }
     

@@ -6,11 +6,13 @@
 package meteordevelopment.meteorclient.systems.proxies;
 
 import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +27,7 @@ public class Proxies extends System<Proxies> implements Iterable<Proxy> {
     private List<Proxy> proxies = new ArrayList<>();
     
     public Proxies() {
-        super("proxies");
+        super("proxies", new File(MeteorClient.FOLDER, "proxies.json"));
     }
     
     public static Proxies get() {

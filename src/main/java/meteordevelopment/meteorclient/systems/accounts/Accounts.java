@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.systems.accounts;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.accounts.impl.CrackedAccount;
@@ -17,6 +18,7 @@ import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -26,7 +28,7 @@ public class Accounts extends System<Accounts> implements Iterable<Account<?>> {
     private List<Account<?>> accounts = new ArrayList<>();
     
     public Accounts() {
-        super("accounts");
+        super("accounts", new File(MeteorClient.FOLDER, "accounts.json"));
     }
     
     public static Accounts get() {

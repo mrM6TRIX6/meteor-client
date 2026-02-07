@@ -42,7 +42,7 @@ public class Systems {
         clientSettingsSystem.init();
         clientSettingsSystem.load();
         
-        // Registers the colors from Client Settings tab. This allows rainbow colours to work for friends.
+        // Registers the colors from client settings tab. This allows rainbow colours to work for friends.
         clientSettings.settings.registerColorSettings(null);
         
         add(new Macros());
@@ -70,22 +70,18 @@ public class Systems {
         save();
     }
     
-    public static void save(File folder) {
+    public static void save() {
         long start = java.lang.System.currentTimeMillis();
         MeteorClient.LOG.info("Saving");
         
         for (System<?> system : systems.values()) {
-            system.save(folder);
+            system.save();
         }
         
         MeteorClient.LOG.info("Saved in {} milliseconds.", java.lang.System.currentTimeMillis() - start);
     }
     
-    public static void save() {
-        save(null);
-    }
-    
-    public static void load(File folder) {
+    public static void load() {
         long start = java.lang.System.currentTimeMillis();
         MeteorClient.LOG.info("Loading");
         
@@ -93,14 +89,10 @@ public class Systems {
             task.run();
         }
         for (System<?> system : systems.values()) {
-            system.load(folder);
+            system.load();
         }
         
         MeteorClient.LOG.info("Loaded in {} milliseconds", java.lang.System.currentTimeMillis() - start);
-    }
-    
-    public static void load() {
-        load(null);
     }
     
     @SuppressWarnings("unchecked")

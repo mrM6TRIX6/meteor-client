@@ -1,6 +1,8 @@
 package meteordevelopment.meteorclient.systems.configs;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
 import meteordevelopment.meteorclient.systems.System;
@@ -11,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -22,15 +23,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Configs extends System<Configs> implements Iterable<Config> {
     
     public static final File FOLDER = new File(MeteorClient.FOLDER, "configs");
-    public static final File REGISTRY = new File(MeteorClient.FOLDER, "configs.json");
-    
-    private static final Gson GSON = new GsonBuilder()
-        .setPrettyPrinting()
-        .create();
     
     private final List<Config> configs = new ArrayList<>();
     private final AtomicBoolean ignoreFileEvents = new AtomicBoolean(false);
-    private WatchService watchService;
     
     public Configs() {
         super("configs");
@@ -43,33 +38,12 @@ public class Configs extends System<Configs> implements Iterable<Config> {
     @Override
     public void init() {
         FOLDER.mkdirs();
-        load(null);
+        load();
         startWatcher();
     }
     
     @Override
-    public void save(File folder) {
-        try (FileWriter writer = new FileWriter(getFile())) {
-            GSON.toJson(toJson(), writer);
-        } catch (IOException e) {
-            MeteorClient.LOG.error("Error saving configs registry", e);
-        }
-    }
-    
-    @Override
-    public void load(File folder) {
-        if (!getFile().exists()) {
-            saveRegistry();
-            return;
-        }
-        
-        try (FileReader reader = new FileReader(getFile())) {
-            JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
-            fromJson(root);
-        } catch (Exception e) {
-            MeteorClient.LOG.error("Error loading configs registry", e);
-        }
-        
+    public void load() {
         File[] files = FOLDER.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
         if (files != null) {
             for (File file : files) {
@@ -84,50 +58,6 @@ public class Configs extends System<Configs> implements Iterable<Config> {
                 }
             }
         }
-        
-        saveRegistry();
-    }
-    
-    @Override
-    public File getFile() {
-        // System.getFile() expects this to be MeteorClient.FOLDER/<name>.json which fits configs.json in root
-        return REGISTRY;
-    }
-    
-    @Override
-    public JsonObject toJson() {
-        JsonObject root = new JsonObject();
-        JsonArray array = new JsonArray();
-        
-        for (Config config : configs) {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("file", config.name.get() + ".json");
-            array.add(jsonObject);
-        }
-        
-        root.add("configs", array);
-        return root;
-    }
-    
-    @Override
-    public Configs fromJson(JsonObject jsonObject) {
-        configs.clear();
-        if (jsonObject == null || !jsonObject.has("configs")) {
-            return this;
-        }
-        
-        JsonArray array = jsonObject.getAsJsonArray("configs");
-        
-        for (JsonElement element : array) {
-            JsonObject configObj = element.getAsJsonObject();
-            String file = configObj.get("file").getAsString();
-            String name = file.endsWith(".json") ? file.substring(0, file.length() - 5) : file;
-            Config config = new Config();
-            config.name.set(name);
-            configs.add(config);
-        }
-        
-        return this;
     }
     
     public List<Config> getAll() {
@@ -136,11 +66,10 @@ public class Configs extends System<Configs> implements Iterable<Config> {
     
     public Config get(String name) {
         for (Config config : configs) {
-            if (config.name.get().equalsIgnoreCase(name)) {
+            if (config.name.get().equals(name)) {
                 return config;
             }
         }
-        
         return null;
     }
     
@@ -156,7 +85,6 @@ public class Configs extends System<Configs> implements Iterable<Config> {
         // Create backing file and save
         ignoreFileEvents.set(true);
         config.save();
-        saveRegistry();
         ignoreFileEvents.set(false);
     }
     
@@ -164,7 +92,6 @@ public class Configs extends System<Configs> implements Iterable<Config> {
         if (configs.remove(config)) {
             ignoreFileEvents.set(true);
             config.deleteFile();
-            saveRegistry();
             ignoreFileEvents.set(false);
         }
     }
@@ -176,30 +103,14 @@ public class Configs extends System<Configs> implements Iterable<Config> {
         }
     }
     
+    @NotNull
     @Override
-    public @NotNull Iterator<Config> iterator() {
+    public Iterator<Config> iterator() {
         return configs.iterator();
     }
     
     public boolean isEmpty() {
         return configs.isEmpty();
-    }
-    
-    private void saveRegistry() {
-        ignoreFileEvents.set(true);
-        
-        try (FileWriter writer = new FileWriter(getFile())) {
-            GSON.toJson(toJson(), writer);
-        } catch (IOException e) {
-            MeteorClient.LOG.error("Error saving configs registry", e);
-        } finally {
-            // Small delay to avoid watch events firing for our own write
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ignored) {}
-            
-            ignoreFileEvents.set(false);
-        }
     }
     
     @EventHandler
@@ -222,7 +133,7 @@ public class Configs extends System<Configs> implements Iterable<Config> {
         @Override
         public void run() {
             try {
-                watchService = FileSystems.getDefault().newWatchService();
+                WatchService watchService = FileSystems.getDefault().newWatchService();
                 FOLDER.toPath().register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
                 
                 while (true) {
@@ -270,7 +181,6 @@ public class Configs extends System<Configs> implements Iterable<Config> {
             Config config = new Config();
             config.name.set(base);
             configs.add(config);
-            saveRegistry();
         }
         
         private void onExternalDelete(String fileName) {
@@ -278,15 +188,10 @@ public class Configs extends System<Configs> implements Iterable<Config> {
             Config found = get(base);
             if (found != null) {
                 configs.remove(found);
-                saveRegistry();
             }
         }
         
-        private void onExternalModify(String fileName) {
-            // Modification could change settings inside a config. Optionally reload metadata if stored in registry.
-            // Minimal behavior: do nothing (user can explicit reload). If you want auto-reload, implement parsing here.
-        }
-        
+        private void onExternalModify(String fileName) {}
     }
     
 }
