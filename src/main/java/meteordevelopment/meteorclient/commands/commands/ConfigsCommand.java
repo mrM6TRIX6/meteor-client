@@ -54,7 +54,7 @@ public class ConfigsCommand extends Command {
                 .executes(context -> {
                     Config config = ConfigArgumentType.get(context, "config");
                     if (config != null) {
-                        ConfigManager.get().remove(config);
+                        ConfigManager.remove(config);
                         info("Deleted config (highlight)%s(default).", config.name.get());
                     }
                     
@@ -65,7 +65,7 @@ public class ConfigsCommand extends Command {
         
         builder.then(literal("clear")
             .executes(context -> {
-                ConfigManager.get().clear();
+                ConfigManager.clear();
                 info("Configs has been cleared.");
                 
                 return SINGLE_SUCCESS;
@@ -74,8 +74,8 @@ public class ConfigsCommand extends Command {
         
         builder.then(literal("list")
             .executes(context -> {
-                ChatUtils.info("--- Configs ((highlight)%s(default)) ---", ConfigManager.get().getCount());
-                ConfigManager.get().forEach(cfg -> ChatUtils.info("(highlight)%s".formatted(cfg.name)));
+                ChatUtils.info("--- Configs ((highlight)%s(default)) ---", ConfigManager.getCount());
+                ConfigManager.getAll().forEach(cfg -> ChatUtils.info("(highlight)%s".formatted(cfg.name)));
                 
                 return SINGLE_SUCCESS;
             })
