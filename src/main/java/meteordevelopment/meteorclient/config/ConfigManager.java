@@ -1,9 +1,13 @@
-package meteordevelopment.meteorclient.systems.configs;
+/*
+ * This file is part of the Meteor Client distribution (https://github.com/MeteorDevelopment/meteor-client).
+ * Copyright (c) Meteor Development.
+ */
+
+package meteordevelopment.meteorclient.config;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
-import meteordevelopment.meteorclient.systems.System;
-import meteordevelopment.meteorclient.systems.Systems;
+import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.orbit.EventHandler;
 import org.jetbrains.annotations.NotNull;
@@ -16,36 +20,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class Configs extends System<Configs> implements Iterable<Config> {
+public class ConfigManager {
     
     public static final File FOLDER = new File(MeteorClient.FOLDER, "configs");
     
-    private final List<Config> configs = new ArrayList<>();
-    private final AtomicBoolean ignoreFileEvents = new AtomicBoolean(false);
+    private static final List<Config> configs = new ArrayList<>();
+    private static final AtomicBoolean ignoreFileEvents = new AtomicBoolean(false);
     
-    public Configs() {
-        super("configs");
-    }
-    
-    public static Configs get() {
-        return Systems.get(Configs.class);
-    }
-    
-    @Override
-    public void init() {
+    @PostInit
+    public static void init() {
         FOLDER.mkdirs();
-        load();
-        startWatcher();
-    }
-    
-    @Override
-    public void load() {
+        
         File[] files = FOLDER.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
         if (files != null) {
             for (File file : files) {
-                if (file.getName().equalsIgnoreCase("configs.json")) {
-                    continue;
-                }
                 String base = file.getName().substring(0, file.getName().length() - 5);
                 if (get(base) == null) {
                     Config config = new Config();
@@ -54,13 +42,15 @@ public class Configs extends System<Configs> implements Iterable<Config> {
                 }
             }
         }
+        
+        startWatcher();
     }
     
-    public List<Config> getAll() {
+    public static List<Config> getAll() {
         return configs;
     }
     
-    public Config get(String name) {
+    public static Config get(String name) {
         for (Config config : configs) {
             if (config.name.get().equals(name)) {
                 return config;
@@ -69,11 +59,11 @@ public class Configs extends System<Configs> implements Iterable<Config> {
         return null;
     }
     
-    public int getCount() {
+    public static int getCount() {
         return configs.size();
     }
     
-    public void add(Config config) {
+    public static void add(Config config) {
         if (!configs.contains(config)) {
             configs.add(config);
         }
@@ -84,7 +74,7 @@ public class Configs extends System<Configs> implements Iterable<Config> {
         ignoreFileEvents.set(false);
     }
     
-    public void remove(Config config) {
+    public static void remove(Config config) {
         if (configs.remove(config)) {
             ignoreFileEvents.set(true);
             config.deleteFile();
@@ -92,7 +82,7 @@ public class Configs extends System<Configs> implements Iterable<Config> {
         }
     }
     
-    public void clear() {
+    public static void clear() {
         List<Config> copy = new ArrayList<>(configs);
         for (Config config : copy) {
             remove(config);
@@ -100,17 +90,16 @@ public class Configs extends System<Configs> implements Iterable<Config> {
     }
     
     @NotNull
-    @Override
-    public Iterator<Config> iterator() {
+    public static Iterator<Config> iterator() {
         return configs.iterator();
     }
     
-    public boolean isEmpty() {
+    public static boolean isEmpty() {
         return configs.isEmpty();
     }
     
     @EventHandler
-    private void onGameJoin(GameJoinEvent event) {
+    private static void onGameJoin(GameJoinEvent event) {
         for (Config config : configs) {
             if (config.loadOnJoin.get().contains(Utils.getWorldName())) {
                 config.load();
@@ -118,13 +107,13 @@ public class Configs extends System<Configs> implements Iterable<Config> {
         }
     }
     
-    private void startWatcher() {
+    private static void startWatcher() {
         Thread watcher = new Thread(new ConfigWatcher(), "ConfigWatcher");
         watcher.setDaemon(true);
         watcher.start();
     }
     
-    private class ConfigWatcher implements Runnable {
+    private static class ConfigWatcher implements Runnable {
         
         @Override
         public void run() {
@@ -144,9 +133,6 @@ public class Configs extends System<Configs> implements Iterable<Config> {
                         Path rel = (Path) event.context();
                         String fileName = rel.getFileName().toString();
                         if (!fileName.toLowerCase().endsWith(".json")) {
-                            continue;
-                        }
-                        if (fileName.equalsIgnoreCase("configs.json")) {
                             continue;
                         }
                         

@@ -32,14 +32,12 @@ public abstract class System<T> implements ISerializable<T> {
     private final String name;
     private final File file;
     
-    public System(String name, File file) {
-        this.name = name;
-        this.file = file;
-    }
+    protected boolean isFirstInit;
     
     public System(String name) {
         this.name = name;
-        this.file = null;
+        this.file = new File(MeteorClient.FOLDER, name + ".json");
+        this.isFirstInit = !file.exists();
     }
     
     public void init() {}

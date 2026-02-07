@@ -11,7 +11,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.commands.Commands;
+import meteordevelopment.meteorclient.commands.CommandManager;
 import meteordevelopment.meteorclient.events.entity.EntityDestroyEvent;
 import meteordevelopment.meteorclient.events.entity.player.PickItemsEvent;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
@@ -150,7 +150,7 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
         
         if (message.startsWith(ClientSettings.get().prefix.get())) {
             try {
-                Commands.dispatch(message.substring(ClientSettings.get().prefix.get().length()));
+                CommandManager.dispatch(message.substring(ClientSettings.get().prefix.get().length()));
             } catch (CommandSyntaxException e) {
                 ChatUtils.error(e.getMessage());
             }

@@ -11,7 +11,8 @@ import it.unimi.dsi.fastutil.chars.Char2CharOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.commands.Commands;
+import meteordevelopment.meteorclient.commands.CommandManager;
+import meteordevelopment.meteorclient.commands.commands.SayCommand;
 import meteordevelopment.meteorclient.events.game.MessageEvent;
 import meteordevelopment.meteorclient.mixin.ChatHudAccessor;
 import meteordevelopment.meteorclient.mixininterface.IChatHudLine;
@@ -619,7 +620,7 @@ public class BetterChat extends Module {
         
         sendButton.setStyle(sendButton.getStyle()
             .withFormatting(Formatting.DARK_RED)
-            .withClickEvent(new MeteorClickEvent(Commands.get("say").toString(message)))
+            .withClickEvent(new MeteorClickEvent(CommandManager.get(SayCommand.class).toString(message)))
             .withHoverEvent(new HoverEvent.ShowText(hintBaseText))
         );
         return sendButton;

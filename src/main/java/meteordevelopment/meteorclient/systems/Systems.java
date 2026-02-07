@@ -10,7 +10,6 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
-import meteordevelopment.meteorclient.systems.configs.Configs;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.macros.Macros;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -46,7 +45,6 @@ public class Systems {
         add(new Macros());
         add(new Friends());
         add(new Accounts());
-        add(new Configs());
         add(new Proxies());
         
         MeteorClient.EVENT_BUS.subscribe(Systems.class);

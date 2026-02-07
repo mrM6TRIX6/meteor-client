@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.tabs.impl;
 
+import meteordevelopment.meteorclient.config.ConfigManager;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
@@ -16,8 +17,7 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
-import meteordevelopment.meteorclient.systems.configs.Config;
-import meteordevelopment.meteorclient.systems.configs.Configs;
+import meteordevelopment.meteorclient.config.Config;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.screen.Screen;
@@ -65,18 +65,18 @@ public class ConfigsTab extends Tab {
             // Clear
             WButton clearBtn = list.add(theme.button("Clear")).expandX().widget();
             clearBtn.action = () -> {
-                Configs.get().clear();
+                ConfigManager.get().clear();
                 reload();
             };
         }
         
         private void initTable(WTable table) {
             table.clear();
-            if (Configs.get().isEmpty()) {
+            if (ConfigManager.get().isEmpty()) {
                 return;
             }
             
-            for (Config config : Configs.get()) {
+            for (Config config : ConfigManager.get()) {
                 table.add(theme.label(config.name.get())).expandCellX();
                 
                 WButton save = table.add(theme.button("Save")).widget();
@@ -90,7 +90,7 @@ public class ConfigsTab extends Tab {
                 
                 WMinus remove = table.add(theme.minus()).widget();
                 remove.action = () -> {
-                    Configs.get().remove(config);
+                    ConfigManager.get().remove(config);
                     reload();
                 };
                 
@@ -100,12 +100,12 @@ public class ConfigsTab extends Tab {
         
         @Override
         public boolean toClipboard() {
-            return JsonUtils.toClipboard(Configs.get());
+            return JsonUtils.toClipboard(ConfigManager.get());
         }
         
         @Override
         public boolean fromClipboard() {
-            return JsonUtils.fromClipboard(Configs.get());
+            return JsonUtils.fromClipboard(ConfigManager.get());
         }
         
     }
@@ -139,7 +139,7 @@ public class ConfigsTab extends Tab {
                 }
                 
                 if (isNew) {
-                    for (Config p : Configs.get()) {
+                    for (Config p : ConfigManager.get()) {
                         if (config.equals(p)) {
                             return;
                         }
@@ -156,9 +156,9 @@ public class ConfigsTab extends Tab {
                 config.loadOnJoin.set(valid);
                 
                 if (isNew) {
-                    Configs.get().add(config);
+                    ConfigManager.get().add(config);
                 } else {
-                    Configs.get().save();
+                    ConfigManager.get().save();
                 }
                 
                 close();

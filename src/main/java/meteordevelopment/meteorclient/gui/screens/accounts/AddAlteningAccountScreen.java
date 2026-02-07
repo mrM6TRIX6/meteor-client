@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.gui.screens.accounts;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
-import meteordevelopment.meteorclient.systems.accounts.impl.TheAlteningAccount;
+import meteordevelopment.meteorclient.systems.accounts.types.TheAlteningAccount;
 
 public class AddAlteningAccountScreen extends AddAccountScreen {
     

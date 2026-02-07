@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.MicrosoftLogin;
-import meteordevelopment.meteorclient.systems.accounts.impl.MicrosoftAccount;
+import meteordevelopment.meteorclient.systems.accounts.types.MicrosoftAccount;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 

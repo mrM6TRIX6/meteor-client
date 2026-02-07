@@ -13,8 +13,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
-import meteordevelopment.meteorclient.systems.configs.Config;
-import meteordevelopment.meteorclient.systems.configs.Configs;
+import meteordevelopment.meteorclient.config.Config;
+import meteordevelopment.meteorclient.config.ConfigManager;
 import net.minecraft.text.Text;
 
 import java.util.Collection;
@@ -36,7 +36,7 @@ public class ConfigArgumentType implements ArgumentType<String> {
     }
     
     public static Config get(CommandContext<?> context, String name) {
-        return Configs.get().get(context.getArgument(name, String.class));
+        return ConfigManager.get().get(context.getArgument(name, String.class));
     }
     
     @Override
@@ -44,7 +44,7 @@ public class ConfigArgumentType implements ArgumentType<String> {
         String argument = reader.getRemaining();
         reader.setCursor(reader.getTotalLength());
         
-        if (Configs.get().get(argument) == null) {
+        if (ConfigManager.get().get(argument) == null) {
             throw NO_SUCH_PROFILE.create(argument);
         }
         
@@ -53,7 +53,7 @@ public class ConfigArgumentType implements ArgumentType<String> {
     
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
-        return suggestMatching(Streams.stream(Configs.get()).map(profile -> profile.name.get()), builder);
+        return suggestMatching(Streams.stream(ConfigManager.get()).map(profile -> profile.name.get()), builder);
     }
     
     @Override

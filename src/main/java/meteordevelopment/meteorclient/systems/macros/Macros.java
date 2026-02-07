@@ -27,7 +27,7 @@ public class Macros extends System<Macros> implements Iterable<Macro> {
     private List<Macro> macros = new ArrayList<>();
     
     public Macros() {
-        super("macros", new File(MeteorClient.FOLDER, "macros.json"));
+        super("macros");
     }
     
     public static Macros get() {

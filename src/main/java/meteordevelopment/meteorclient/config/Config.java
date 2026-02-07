@@ -1,4 +1,9 @@
-package meteordevelopment.meteorclient.systems.configs;
+/*
+ * This file is part of the Meteor Client distribution (https://github.com/MeteorDevelopment/meteor-client).
+ * Copyright (c) Meteor Development.
+ */
+
+package meteordevelopment.meteorclient.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -132,7 +137,7 @@ public class Config implements ISerializable<Config> {
     }
     
     public File getFile() {
-        return new File(Configs.FOLDER, name.get() + ".json");
+        return new File(ConfigManager.FOLDER, name.get() + ".json");
     }
     
     @Override

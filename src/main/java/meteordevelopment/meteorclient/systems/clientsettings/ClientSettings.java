@@ -164,7 +164,7 @@ public class ClientSettings extends System<ClientSettings> {
     public List<String> dontShowAgainPrompts = new ArrayList<>();
     
     public ClientSettings() {
-        super("client-settings", new File(MeteorClient.FOLDER, "client-settings.json"));
+        super("client-settings");
     }
     
     public static ClientSettings get() {

@@ -10,10 +10,10 @@ import com.google.gson.JsonParseException;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
-import meteordevelopment.meteorclient.systems.accounts.impl.CrackedAccount;
-import meteordevelopment.meteorclient.systems.accounts.impl.MicrosoftAccount;
-import meteordevelopment.meteorclient.systems.accounts.impl.SessionAccount;
-import meteordevelopment.meteorclient.systems.accounts.impl.TheAlteningAccount;
+import meteordevelopment.meteorclient.systems.accounts.types.CrackedAccount;
+import meteordevelopment.meteorclient.systems.accounts.types.MicrosoftAccount;
+import meteordevelopment.meteorclient.systems.accounts.types.SessionAccount;
+import meteordevelopment.meteorclient.systems.accounts.types.TheAlteningAccount;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ public class Accounts extends System<Accounts> implements Iterable<Account<?>> {
     private List<Account<?>> accounts = new ArrayList<>();
     
     public Accounts() {
-        super("accounts", new File(MeteorClient.FOLDER, "accounts.json"));
+        super("accounts");
     }
     
     public static Accounts get() {

@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.systems.accounts.impl;
+package meteordevelopment.meteorclient.systems.accounts.types;
 
 import com.google.gson.JsonObject;
 import com.mojang.authlib.Environment;

@@ -25,7 +25,7 @@ import java.util.Map;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public class Commands {
+public class CommandManager {
     
     private static final List<Command> commands = new ArrayList<>();
     private static final Map<Class<? extends Command>, Command> commandInstances = new Reference2ReferenceOpenHashMap<>();
@@ -87,7 +87,7 @@ public class Commands {
         
         commands.sort(Comparator.comparing(Command::getName));
         
-        MeteorClient.EVENT_BUS.subscribe(Commands.class);
+        MeteorClient.EVENT_BUS.subscribe(CommandManager.class);
     }
     
     public static void add(Command command) {

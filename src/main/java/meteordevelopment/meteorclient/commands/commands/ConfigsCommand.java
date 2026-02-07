@@ -8,8 +8,8 @@ package meteordevelopment.meteorclient.commands.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.ConfigArgumentType;
-import meteordevelopment.meteorclient.systems.configs.Config;
-import meteordevelopment.meteorclient.systems.configs.Configs;
+import meteordevelopment.meteorclient.config.Config;
+import meteordevelopment.meteorclient.config.ConfigManager;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.command.CommandSource;
 
@@ -54,7 +54,7 @@ public class ConfigsCommand extends Command {
                 .executes(context -> {
                     Config config = ConfigArgumentType.get(context, "config");
                     if (config != null) {
-                        Configs.get().remove(config);
+                        ConfigManager.get().remove(config);
                         info("Deleted config (highlight)%s(default).", config.name.get());
                     }
                     
@@ -65,7 +65,7 @@ public class ConfigsCommand extends Command {
         
         builder.then(literal("clear")
             .executes(context -> {
-                Configs.get().clear();
+                ConfigManager.get().clear();
                 info("Configs has been cleared.");
                 
                 return SINGLE_SUCCESS;
@@ -74,8 +74,8 @@ public class ConfigsCommand extends Command {
         
         builder.then(literal("list")
             .executes(context -> {
-                ChatUtils.info("--- Configs ((highlight)%s(default)) ---", Configs.get().getCount());
-                Configs.get().forEach(cfg -> ChatUtils.info("(highlight)%s".formatted(cfg.name)));
+                ChatUtils.info("--- Configs ((highlight)%s(default)) ---", ConfigManager.get().getCount());
+                ConfigManager.get().forEach(cfg -> ChatUtils.info("(highlight)%s".formatted(cfg.name)));
                 
                 return SINGLE_SUCCESS;
             })

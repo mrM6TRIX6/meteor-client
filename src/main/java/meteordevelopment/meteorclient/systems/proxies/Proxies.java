@@ -27,7 +27,7 @@ public class Proxies extends System<Proxies> implements Iterable<Proxy> {
     private List<Proxy> proxies = new ArrayList<>();
     
     public Proxies() {
-        super("proxies", new File(MeteorClient.FOLDER, "proxies.json"));
+        super("proxies");
     }
     
     public static Proxies get() {

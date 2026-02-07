@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.commands.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
-import meteordevelopment.meteorclient.commands.Commands;
+import meteordevelopment.meteorclient.commands.CommandManager;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.command.CommandSource;
@@ -26,10 +26,10 @@ public class HelpCommand extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.executes(context -> {
-            ChatUtils.info("--- Commands ((highlight)%d(default)) ---", Commands.getCount());
+            ChatUtils.info("--- Commands ((highlight)%d(default)) ---", CommandManager.getCount());
             
             MutableText commands = Text.literal("");
-            Commands.getAll().forEach(command -> commands.append(getCommandText(command)));
+            CommandManager.getAll().forEach(command -> commands.append(getCommandText(command)));
             ChatUtils.sendMsg(commands);
             
             return SINGLE_SUCCESS;
@@ -61,7 +61,7 @@ public class HelpCommand extends Command {
         
         // Text
         MutableText text = Text.literal(command.getName());
-        if (command != Commands.getAll().getLast()) {
+        if (command != CommandManager.getAll().getLast()) {
             text.append(Text.literal(", ").formatted(Formatting.GRAY));
         }
         text.setStyle(text

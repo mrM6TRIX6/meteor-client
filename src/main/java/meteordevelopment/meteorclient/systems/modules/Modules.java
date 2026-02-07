@@ -65,7 +65,7 @@ public class Modules extends System<Modules> {
     private boolean awaitingKeyRelease = false;
     
     public Modules() {
-        super("modules", new File(MeteorClient.FOLDER, "modules.json"));
+        super("modules");
     }
     
     public static Modules get() {

@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.mixin;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.commands.Commands;
+import meteordevelopment.meteorclient.commands.CommandManager;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.GUIMove;
@@ -37,7 +37,7 @@ public abstract class ScreenMixin {
     private static void onHandleBasicClickEvent(ClickEvent clickEvent, MinecraftClient client, Screen screen, CallbackInfo ci) {
         if (clickEvent instanceof MeteorClickEvent meteorClickEvent && meteorClickEvent.value.startsWith(ClientSettings.get().prefix.get())) {
             try {
-                Commands.dispatch(meteorClickEvent.value.substring(ClientSettings.get().prefix.get().length()));
+                CommandManager.dispatch(meteorClickEvent.value.substring(ClientSettings.get().prefix.get().length()));
             } catch (CommandSyntaxException e) {
                 MeteorClient.LOG.error("Failed to run command", e);
             }

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.misc.swarm;
 
-import meteordevelopment.meteorclient.commands.Commands;
+import meteordevelopment.meteorclient.commands.CommandManager;
 import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.block.Block;
@@ -48,7 +48,7 @@ public class SwarmWorker extends Thread {
                     ChatUtils.infoPrefix("Swarm", "Received command: (highlight)%s", read);
                     
                     try {
-                        Commands.dispatch(read);
+                        CommandManager.dispatch(read);
                     } catch (Exception e) {
                         ChatUtils.error("Error fetching command.");
                         e.printStackTrace();

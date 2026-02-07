@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
-import meteordevelopment.meteorclient.systems.accounts.impl.CrackedAccount;
+import meteordevelopment.meteorclient.systems.accounts.types.CrackedAccount;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class AddCrackedAccountScreen extends AddAccountScreen {

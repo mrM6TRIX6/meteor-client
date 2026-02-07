@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.systems.accounts.impl;
+package meteordevelopment.meteorclient.systems.accounts.types;
 
 import com.mojang.util.UndashedUuid;
 import meteordevelopment.meteorclient.systems.accounts.Account;
