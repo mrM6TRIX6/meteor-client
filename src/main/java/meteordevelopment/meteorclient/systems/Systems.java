@@ -12,13 +12,12 @@ import meteordevelopment.meteorclient.systems.accounts.Accounts;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.configs.Configs;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.hud.Hud;
+import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.macros.Macros;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.proxies.Proxies;
 import meteordevelopment.orbit.EventHandler;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +49,6 @@ public class Systems {
         add(new Accounts());
         add(new Configs());
         add(new Proxies());
-        add(new Hud());
         
         MeteorClient.EVENT_BUS.subscribe(Systems.class);
     }

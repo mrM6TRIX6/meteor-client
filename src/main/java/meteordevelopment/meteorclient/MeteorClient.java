@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.gui.tabs.impl.ModulesTab;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
-import meteordevelopment.meteorclient.systems.hud.screens.HudEditorScreen;
+import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.DiscordPresence;
@@ -189,7 +189,7 @@ public class MeteorClient implements ClientModInitializer {
             if (GuiThemes.get().hideHUD() || wasHudHiddenRoot) {
                 // Always show the MC HUD in the HUD editor screen since people like
                 // to align some items with the hotbar or chat
-                mc.options.hudHidden = !(event.screen instanceof HudEditorScreen);
+                mc.options.hudHidden = !(event.screen instanceof HUDEditorScreen);
             }
         } else {
             if (wasWidgetScreen) {

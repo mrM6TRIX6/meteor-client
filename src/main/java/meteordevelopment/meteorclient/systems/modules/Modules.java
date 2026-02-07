@@ -34,6 +34,7 @@ import meteordevelopment.meteorclient.systems.modules.movement.speed.Speed;
 import meteordevelopment.meteorclient.systems.modules.player.*;
 import meteordevelopment.meteorclient.systems.modules.render.*;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.BlockESP;
+import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.world.*;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -533,6 +534,7 @@ public class Modules extends System<Modules> {
         add(new FreeLook());
         add(new Fullbright());
         add(new HandView());
+        add(new HUD());
         add(new ItemPhysics());
         add(new ItemHighlight());
         add(new LogoutSpots());

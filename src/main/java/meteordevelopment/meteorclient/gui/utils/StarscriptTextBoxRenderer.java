@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.gui.utils;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
-import meteordevelopment.meteorclient.systems.hud.elements.TextHud;
+import meteordevelopment.meteorclient.systems.modules.render.hud.elements.TextHUD;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import org.meteordev.starscript.utils.SemanticToken;
@@ -106,7 +106,7 @@ public class StarscriptTextBoxRenderer implements WTextBox.Renderer {
                 }
                 
                 try {
-                    yield TextHud.getSectionColor(Integer.parseInt(text));
+                    yield TextHUD.getSectionColor(Integer.parseInt(text));
                 } catch (NumberFormatException ignored) {}
                 
                 yield theme.starscriptTextColor();

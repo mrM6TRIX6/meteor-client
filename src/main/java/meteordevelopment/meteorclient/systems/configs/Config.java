@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
-import meteordevelopment.meteorclient.systems.hud.Hud;
+import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.macros.Macros;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -92,9 +92,6 @@ public class Config implements ISerializable<Config> {
             if (root.has("modules")) {
                 Modules.get().fromJson(root.getAsJsonObject("modules"));
             }
-            if (root.has("hud")) {
-                Hud.get().fromJson(root.getAsJsonObject("hud"));
-            }
             if (root.has("macros")) {
                 Macros.get().fromJson(root.getAsJsonObject("macros"));
             }
@@ -115,9 +112,6 @@ public class Config implements ISerializable<Config> {
         
         if (modules.get()) {
             root.add("modules", Modules.get().toJson());
-        }
-        if (hud.get()) {
-            root.add("hud", Hud.get().toJson());
         }
         if (macros.get()) {
             root.add("macros", Macros.get().toJson());

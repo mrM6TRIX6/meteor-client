@@ -6,9 +6,9 @@
 package meteordevelopment.meteorclient.mixin;
 
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.systems.hud.Hud;
-import meteordevelopment.meteorclient.systems.hud.HudElement;
-import meteordevelopment.meteorclient.systems.hud.elements.TextHud;
+import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
+import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
+import meteordevelopment.meteorclient.systems.modules.render.hud.elements.TextHUD;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -59,31 +59,31 @@ public abstract class CrashReportMixin {
                 
             }
             
-        }
-        
-        if (Hud.get() != null && Hud.get().active) {
-            boolean hudActive = false;
-            for (HudElement element : Hud.get()) {
-                if (element == null || !element.isActive()) {
-                    continue;
-                }
-                
-                if (!hudActive) {
-                    hudActive = true;
-                    sb.append("\n[[ Active Hud Elements ]]\n");
-                }
-                
-                if (!(element instanceof TextHud textHud)) {
-                    sb.append(element.info.name).append("\n");
-                } else {
-                    sb.append("Text\n{")
-                        .append(textHud.getText())
-                        .append("}\n");
-                    if (textHud.getShown() != TextHud.Shown.ALWAYS) {
-                        sb.append("(")
-                            .append(textHud.getShown())
-                            .append(textHud.getCondition())
-                            .append(")\n");
+            HUD hud = HUD.get();
+            if (hud != null && hud.isActive()) {
+                boolean hudActive = false;
+                for (HUDElement element : hud) {
+                    if (element == null || !element.isActive()) {
+                        continue;
+                    }
+                    
+                    if (!hudActive) {
+                        hudActive = true;
+                        sb.append("\n[[ Active HUD Elements ]]\n");
+                    }
+                    
+                    if (!(element instanceof TextHUD textHud)) {
+                        sb.append(element.info.name).append("\n");
+                    } else {
+                        sb.append("Text\n{")
+                            .append(textHud.getText())
+                            .append("}\n");
+                        if (textHud.getShown() != TextHUD.Shown.ALWAYS) {
+                            sb.append("(")
+                                .append(textHud.getShown())
+                                .append(textHud.getCondition())
+                                .append(")\n");
+                        }
                     }
                 }
             }

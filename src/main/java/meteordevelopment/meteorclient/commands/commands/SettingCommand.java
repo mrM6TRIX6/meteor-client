@@ -12,9 +12,6 @@ import meteordevelopment.meteorclient.commands.arguments.SettingArgumentType;
 import meteordevelopment.meteorclient.commands.arguments.SettingValueArgumentType;
 import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.gui.tabs.TabScreen;
-import meteordevelopment.meteorclient.gui.tabs.Tabs;
-import meteordevelopment.meteorclient.gui.tabs.impl.HUDTab;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -28,16 +25,6 @@ public class SettingCommand extends Command {
     
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
-        builder.then(literal("hud")
-            .executes(context -> {
-                TabScreen screen = Tabs.get(HUDTab.class).createScreen(GuiThemes.get());
-                screen.parent = null;
-                
-                Utils.screenToOpen = screen;
-                return SINGLE_SUCCESS;
-            })
-        );
-        
         // Open module screen
         builder.then(argument("module", ModuleArgumentType.create())
             .executes(context -> {
