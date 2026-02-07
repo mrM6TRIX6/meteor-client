@@ -54,14 +54,14 @@ public class ClientSettings extends System<ClientSettings> {
     
     public final Setting<Boolean> titleScreenCredits = sgVisual.add(new BoolSetting.Builder()
         .name("title-screen-credits")
-        .description("Show Meteor credits on title screen")
+        .description("Show Meteor credits on title screen.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Boolean> titleScreenSplashes = sgVisual.add(new BoolSetting.Builder()
         .name("title-screen-splashes")
-        .description("Show Meteor splash texts on title screen")
+        .description("Show Meteor splash texts on title screen.")
         .defaultValue(true)
         .build()
     );
@@ -98,6 +98,13 @@ public class ClientSettings extends System<ClientSettings> {
         .build()
     );
     
+    public final Setting<Boolean> separateNames = sgVisual.add(new BoolSetting.Builder()
+        .name("separate-names")
+        .description("Separate the displayed names of modules, commands, and HUD elements with a space.")
+        .defaultValue(true)
+        .build()
+    );
+    
     // Modules
     
     public final Setting<List<Module>> hiddenModules = sgModules.add(new ModuleListSetting.Builder()
@@ -111,13 +118,6 @@ public class ClientSettings extends System<ClientSettings> {
         .description("Amount of modules and settings to be shown in the module search bar.")
         .defaultValue(8)
         .min(1).sliderMax(12)
-        .build()
-    );
-    
-    public final Setting<Boolean> moduleAliases = sgModules.add(new BoolSetting.Builder()
-        .name("search-module-aliases")
-        .description("Whether or not module aliases will be used in the module search bar.")
-        .defaultValue(true)
         .build()
     );
     

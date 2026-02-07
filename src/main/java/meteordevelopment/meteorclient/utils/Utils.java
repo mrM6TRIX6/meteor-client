@@ -436,6 +436,37 @@ public class Utils {
             .collect(Collectors.joining(" "));
     }
     
+    public static String separateName(String input) {
+        if (input == null || input.isBlank()) {
+            return input;
+        }
+        
+        StringBuilder result = new StringBuilder();
+        char[] chars = input.toCharArray();
+        
+        for (int i = 0; i < chars.length; i++) {
+            char current = chars[i];
+            
+            result.append(current);
+            
+            if (i < chars.length - 1) {
+                char next = chars[i + 1];
+                if (Character.isLowerCase(current) && Character.isUpperCase(next)) {
+                    result.append(' ');
+                } else if (Character.isUpperCase(current) && Character.isUpperCase(next)) {
+                    if (i < chars.length - 2) {
+                        char afterNext = chars[i + 2];
+                        if (Character.isLowerCase(afterNext)) {
+                            result.append(' ');
+                        }
+                    }
+                }
+            }
+        }
+        
+        return result.toString();
+    }
+    
     public static String getKeyName(int key) {
         return switch (key) {
             case GLFW_KEY_UNKNOWN -> "Unknown";

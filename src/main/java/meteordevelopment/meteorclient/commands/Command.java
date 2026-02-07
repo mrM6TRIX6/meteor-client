@@ -11,6 +11,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
+import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandRegistryAccess;
@@ -29,6 +30,7 @@ public abstract class Command {
     protected static final MinecraftClient mc = MeteorClient.mc;
     
     private final String name;
+    private final String separatedName;
     private final String description;
     private final List<String> aliases;
     
@@ -38,6 +40,7 @@ public abstract class Command {
         }
         
         this.name = name;
+        this.separatedName = Utils.separateName(this.name);
         this.description = description;
         this.aliases = Stream.of(aliases)
             .map(String::toLowerCase)
@@ -73,6 +76,10 @@ public abstract class Command {
         return name;
     }
     
+    public String getDisplayName() {
+        return ClientSettings.get().separateNames.get() ? separatedName : name;
+    }
+    
     public String getDescription() {
         return description;
     }
@@ -95,22 +102,22 @@ public abstract class Command {
     
     public void info(Text message) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.sendMsg(name, message);
+        ChatUtils.sendMsg(getDisplayName(), message);
     }
     
     public void info(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.infoPrefix(name, message, args);
+        ChatUtils.infoPrefix(getDisplayName(), message, args);
     }
     
     public void warning(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.warningPrefix(name, message, args);
+        ChatUtils.warningPrefix(getDisplayName(), message, args);
     }
     
     public void error(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.errorPrefix(name, message, args);
+        ChatUtils.errorPrefix(getDisplayName(), message, args);
     }
     
 }

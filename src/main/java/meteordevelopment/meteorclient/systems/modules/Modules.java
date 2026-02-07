@@ -22,7 +22,6 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.combat.*;
 import meteordevelopment.meteorclient.systems.modules.exploit.*;
 import meteordevelopment.meteorclient.systems.modules.fun.*;
@@ -48,7 +47,6 @@ import net.minecraft.util.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
-import java.io.File;
 import java.util.*;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
@@ -162,18 +160,8 @@ public class Modules extends System<Modules> {
         Map<Pair<Module, String>, Integer> modules = new HashMap<>();
         
         for (Module module : this.moduleInstances.values()) {
-            String title = module.name;
+            String title = module.getDisplayName();
             int score = Utils.searchLevenshteinDefault(title, text, false);
-            
-            if (ClientSettings.get().moduleAliases.get()) {
-                for (String alias : module.aliases) {
-                    int aliasScore = Utils.searchLevenshteinDefault(alias, text, false);
-                    if (aliasScore < score) {
-                        title = module.name + " (" + alias + ")";
-                        score = aliasScore;
-                    }
-                }
-            }
             
             modules.put(new Pair<>(module, title), score);
         }
@@ -184,7 +172,7 @@ public class Modules extends System<Modules> {
         return l;
     }
     
-    public Set<Module> searchSettingTitles(String text) {
+    public Set<Module> searchSettingNames(String text) {
         Map<Module, Integer> modules = new ValueComparableMap<>(Comparator.naturalOrder());
         
         for (Module module : this.moduleInstances.values()) {

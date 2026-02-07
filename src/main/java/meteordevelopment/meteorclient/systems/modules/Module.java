@@ -32,8 +32,8 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     public final Category category;
     public final String name;
+    public final String separatedName;
     public final String description;
-    public final String[] aliases;
     public final Color color;
     
     public final MeteorAddon addon;
@@ -50,7 +50,7 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     public boolean chatFeedback = true;
     public boolean favorite = false;
     
-    public Module(Category category, String name, String description, String... aliases) {
+    public Module(Category category, String name, String description) {
         if (name.contains(" ")) {
             throw new IllegalArgumentException("Module '%s' contains invalid characters in name.".formatted(name));
         }
@@ -58,8 +58,8 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         this.mc = MinecraftClient.getInstance();
         this.category = category;
         this.name = name;
+        this.separatedName = Utils.separateName(this.name);
         this.description = description;
-        this.aliases = aliases;
         this.color = Color.fromHsv(Utils.random(0.0, 360.0), 0.35, 1);
         
         String classname = this.getClass().getName();
@@ -71,10 +71,6 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         }
         
         this.addon = null;
-    }
-    
-    public Module(Category category, String name, String description) {
-        this(category, name, description, new String[0]);
     }
     
     public WWidget getWidget(GuiTheme theme) {
@@ -126,28 +122,28 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     public void sendToggledMsg() {
         if (ClientSettings.get().chatFeedback.get() && chatFeedback) {
             ChatUtils.forceNextPrefixClass(getClass());
-            ChatUtils.sendMsg(this.hashCode(), Formatting.GRAY, "Toggled (highlight)%s(default) %s(default).", name, isActive() ? Formatting.GREEN + "on" : Formatting.RED + "off");
+            ChatUtils.sendMsg(this.hashCode(), Formatting.GRAY, "Toggled (highlight)%s(default) %s(default).", getDisplayName(), isActive() ? Formatting.GREEN + "on" : Formatting.RED + "off");
         }
     }
     
     public void info(Text message) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.sendMsg(name, message);
+        ChatUtils.sendMsg(getDisplayName(), message);
     }
     
     public void info(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.infoPrefix(name, message, args);
+        ChatUtils.infoPrefix(getDisplayName(), message, args);
     }
     
     public void warning(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.warningPrefix(name, message, args);
+        ChatUtils.warningPrefix(getDisplayName(), message, args);
     }
     
     public void error(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.errorPrefix(name, message, args);
+        ChatUtils.errorPrefix(getDisplayName(), message, args);
     }
     
     public boolean isActive() {
@@ -156,6 +152,10 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     public String getInfoString() {
         return null;
+    }
+    
+    public String getDisplayName() {
+        return ClientSettings.get().separateNames.get() ? separatedName : name;
     }
     
     @Override

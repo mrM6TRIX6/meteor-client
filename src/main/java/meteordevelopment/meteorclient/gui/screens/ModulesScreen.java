@@ -96,7 +96,7 @@ public class ModulesScreen extends TabScreen {
             }
             
             // Settings
-            Set<Module> settings = Modules.get().searchSettingTitles(text);
+            Set<Module> settings = Modules.get().searchSettingNames(text);
             
             if (!settings.isEmpty()) {
                 WSection section = container.add(theme.section("Settings")).expandX().widget();
@@ -179,7 +179,7 @@ public class ModulesScreen extends TabScreen {
             }
         }
         
-        modules.sort((o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.name, o2.name));
+        modules.sort((o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getDisplayName(), o2.getDisplayName()));
         
         for (Module module : modules) {
             window.add(theme.module(module)).expandX();

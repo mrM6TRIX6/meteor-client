@@ -40,7 +40,7 @@ public class HelpCommand extends Command {
         // Hover tooltip
         MutableText tooltip = Text.literal("");
         
-        tooltip.append(Text.literal(command.getName()).formatted(Formatting.BLUE, Formatting.BOLD)).append("\n");
+        tooltip.append(Text.literal(command.getDisplayName()).formatted(Formatting.BLUE, Formatting.BOLD)).append("\n");
         
         MutableText aliases = Text.literal(command.toString());
         if (!command.getAliases().isEmpty()) {
@@ -60,7 +60,7 @@ public class HelpCommand extends Command {
         tooltip.append(Text.literal(command.getDescription()).formatted(Formatting.WHITE));
         
         // Text
-        MutableText text = Text.literal(command.getName());
+        MutableText text = Text.literal(command.getDisplayName());
         if (command != CommandManager.getAll().getLast()) {
             text.append(Text.literal(", ").formatted(Formatting.GRAY));
         }

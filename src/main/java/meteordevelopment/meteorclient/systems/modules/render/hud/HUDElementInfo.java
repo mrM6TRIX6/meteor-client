@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public class HUDElementInfo<T extends HUDElement> {
     
     public final HUDGroup group;
     public final String name;
+    public final String separatedName;
     public final String title;
     public final String description;
     
@@ -26,6 +28,7 @@ public class HUDElementInfo<T extends HUDElement> {
     public HUDElementInfo(HUDGroup group, String name, String title, String description, Supplier<T> factory) {
         this.group = group;
         this.name = name;
+        this.separatedName = Utils.separateName(this.name);
         this.title = title;
         this.description = description;
         
@@ -52,6 +55,10 @@ public class HUDElementInfo<T extends HUDElement> {
     
     public HUDElement create() {
         return factory.get();
+    }
+    
+    public String getDisplayName() {
+        return ClientSettings.get().separateNames.get() ? separatedName : name;
     }
     
     public class Preset {

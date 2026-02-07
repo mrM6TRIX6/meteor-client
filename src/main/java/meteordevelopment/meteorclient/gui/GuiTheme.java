@@ -169,8 +169,9 @@ public abstract class GuiTheme implements ISerializable<GuiTheme> {
     public abstract WAccount account(WidgetScreen screen, Account<?> account);
     
     public WWidget module(Module module) {
-        return module(module, module.name);
+        return module(module, module.getDisplayName());
     }
+    
     public abstract WWidget module(Module module, String name);
     
     public abstract WQuad quad(Color color);
