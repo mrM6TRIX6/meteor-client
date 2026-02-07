@@ -8,7 +8,6 @@ package meteordevelopment.meteorclient.systems.modules.render.hud.screens;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.renderer.Renderer2D;
-import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;

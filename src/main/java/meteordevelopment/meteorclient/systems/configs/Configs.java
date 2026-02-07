@@ -1,8 +1,5 @@
 package meteordevelopment.meteorclient.systems.configs;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
 import meteordevelopment.meteorclient.systems.System;
@@ -12,7 +9,6 @@ import meteordevelopment.orbit.EventHandler;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;

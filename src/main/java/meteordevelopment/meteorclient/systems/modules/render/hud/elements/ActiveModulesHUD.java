@@ -11,9 +11,9 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.hud.*;
-import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
+import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 
 import java.util.ArrayList;
 import java.util.List;

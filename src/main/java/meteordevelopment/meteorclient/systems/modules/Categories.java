@@ -5,8 +5,6 @@
 
 package meteordevelopment.meteorclient.systems.modules;
 
-import meteordevelopment.meteorclient.addons.AddonManager;
-import meteordevelopment.meteorclient.addons.MeteorAddon;
 import net.minecraft.item.Items;
 
 public class Categories {
@@ -25,7 +23,6 @@ public class Categories {
     public static void init() {
         registering = true;
         
-        // Meteor
         Modules.registerCategory(COMBAT);
         Modules.registerCategory(PLAYER);
         Modules.registerCategory(MOVEMENT);
@@ -34,10 +31,6 @@ public class Categories {
         Modules.registerCategory(MISC);
         Modules.registerCategory(EXPLOIT);
         Modules.registerCategory(FUN);
-        
-        // TODO: Delete it
-        // Addons
-        AddonManager.ADDONS.forEach(MeteorAddon::onRegisterCategories);
         
         registering = false;
     }

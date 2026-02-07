@@ -11,7 +11,6 @@ import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
-import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.macros.Macros;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;

@@ -6,12 +6,12 @@
 package meteordevelopment.meteorclient.mixin;
 
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
-import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
-import meteordevelopment.meteorclient.systems.modules.render.hud.elements.TextHUD;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
+import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
+import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
+import meteordevelopment.meteorclient.systems.modules.render.hud.elements.TextHUD;
 import net.minecraft.util.crash.CrashReport;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

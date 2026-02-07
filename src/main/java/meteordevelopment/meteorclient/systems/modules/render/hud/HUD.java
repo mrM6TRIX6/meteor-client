@@ -7,24 +7,21 @@ package meteordevelopment.meteorclient.systems.modules.render.hud;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.Settings;
-import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.System;
-import meteordevelopment.meteorclient.systems.Systems;
+import meteordevelopment.meteorclient.settings.impl.BoolSetting;
+import meteordevelopment.meteorclient.settings.impl.ColorListSetting;
+import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
+import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -32,15 +29,11 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.elements.*;
 import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
-import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.*;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class HUD extends Module implements Iterable<HUDElement> {
     

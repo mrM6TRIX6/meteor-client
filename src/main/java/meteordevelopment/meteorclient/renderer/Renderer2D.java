@@ -8,9 +8,9 @@ package meteordevelopment.meteorclient.renderer;
 import com.mojang.blaze3d.textures.GpuTextureView;
 import meteordevelopment.meteorclient.gui.renderer.packer.TextureRegion;
 import meteordevelopment.meteorclient.utils.PreInit;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
-import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.gl.GpuSampler;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;

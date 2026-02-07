@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.gui.screens.accounts;
 
 import meteordevelopment.meteorclient.gui.GuiTheme;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
@@ -14,8 +13,6 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
 import meteordevelopment.meteorclient.systems.accounts.impl.CrackedAccount;
 import org.apache.commons.lang3.RandomStringUtils;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class AddCrackedAccountScreen extends AddAccountScreen {
     
