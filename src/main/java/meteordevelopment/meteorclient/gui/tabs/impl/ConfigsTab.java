@@ -65,18 +65,18 @@ public class ConfigsTab extends Tab {
             // Clear
             WButton clearBtn = list.add(theme.button("Clear")).expandX().widget();
             clearBtn.action = () -> {
-                ConfigManager.get().clear();
+                ConfigManager.getAll().clear();
                 reload();
             };
         }
         
         private void initTable(WTable table) {
             table.clear();
-            if (ConfigManager.get().isEmpty()) {
+            if (ConfigManager.isEmpty()) {
                 return;
             }
             
-            for (Config config : ConfigManager.get()) {
+            for (Config config : ConfigManager.getAll()) {
                 table.add(theme.label(config.name.get())).expandCellX();
                 
                 WButton save = table.add(theme.button("Save")).widget();
@@ -90,22 +90,12 @@ public class ConfigsTab extends Tab {
                 
                 WMinus remove = table.add(theme.minus()).widget();
                 remove.action = () -> {
-                    ConfigManager.get().remove(config);
+                    ConfigManager.remove(config);
                     reload();
                 };
                 
                 table.row();
             }
-        }
-        
-        @Override
-        public boolean toClipboard() {
-            return JsonUtils.toClipboard(ConfigManager.get());
-        }
-        
-        @Override
-        public boolean fromClipboard() {
-            return JsonUtils.fromClipboard(ConfigManager.get());
         }
         
     }
@@ -139,7 +129,7 @@ public class ConfigsTab extends Tab {
                 }
                 
                 if (isNew) {
-                    for (Config p : ConfigManager.get()) {
+                    for (Config p : ConfigManager.getAll()) {
                         if (config.equals(p)) {
                             return;
                         }
@@ -156,9 +146,9 @@ public class ConfigsTab extends Tab {
                 config.loadOnJoin.set(valid);
                 
                 if (isNew) {
-                    ConfigManager.get().add(config);
+                    ConfigManager.add(config);
                 } else {
-                    ConfigManager.get().save();
+                    config.save();
                 }
                 
                 close();
