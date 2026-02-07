@@ -268,7 +268,7 @@ public class HUD extends Module implements Iterable<HUDElement> {
     
     @Override
     public JsonObject toJson() {
-        JsonObject jsonObject = new JsonObject();
+        JsonObject jsonObject = super.toJson();
         
         jsonObject.add("settings", settings.toJson());
         jsonObject.add("elements", JsonUtils.listToJson(elements));
@@ -278,7 +278,7 @@ public class HUD extends Module implements Iterable<HUDElement> {
     
     @Override
     public HUD fromJson(JsonObject jsonObject) {
-        settings.fromJson(jsonObject.get("settings").getAsJsonObject());
+        super.fromJson(jsonObject);
         
         // Elements
         elements.clear();
