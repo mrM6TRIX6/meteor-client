@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.tabs.impl;
 
+import meteordevelopment.meteorclient.config.Config;
 import meteordevelopment.meteorclient.config.ConfigManager;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
@@ -17,9 +18,7 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
-import meteordevelopment.meteorclient.config.Config;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.screen.Screen;
 
 import java.util.ArrayList;

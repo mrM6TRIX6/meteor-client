@@ -6,13 +6,11 @@
 package meteordevelopment.meteorclient.systems.proxies;
 
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

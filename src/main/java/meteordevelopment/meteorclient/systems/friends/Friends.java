@@ -8,7 +8,6 @@ package meteordevelopment.meteorclient.systems.friends;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.util.UndashedUuid;
-import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
@@ -17,7 +16,6 @@ import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
