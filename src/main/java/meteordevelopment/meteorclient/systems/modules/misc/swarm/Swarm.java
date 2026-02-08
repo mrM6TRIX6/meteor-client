@@ -15,11 +15,12 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.Util;
 
@@ -27,10 +28,10 @@ public class Swarm extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    public final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    public final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("What type of client to run.")
-        .defaultValue(Mode.Host)
+        .defaultValue(Mode.HOST)
         .build()
     );
     
@@ -38,7 +39,7 @@ public class Swarm extends Module {
         .name("ip")
         .description("The IP address of the host server.")
         .defaultValue("localhost")
-        .visible(() -> mode.get() == Mode.Worker)
+        .visible(() -> mode.get() == Mode.WORKER)
         .build()
     );
     
@@ -71,7 +72,7 @@ public class Swarm extends Module {
             }
             
             close();
-            if (mode.get() == Mode.Host) {
+            if (mode.get() == Mode.HOST) {
                 host = new SwarmHost(serverPort.get());
             } else {
                 worker = new SwarmWorker(ipAddress.get(), serverPort.get());
@@ -132,11 +133,11 @@ public class Swarm extends Module {
     }
     
     public boolean isHost() {
-        return mode.get() == Mode.Host && host != null && !host.isInterrupted();
+        return mode.get() == Mode.HOST && host != null && !host.isInterrupted();
     }
     
     public boolean isWorker() {
-        return mode.get() == Mode.Worker && worker != null && !worker.isInterrupted();
+        return mode.get() == Mode.WORKER && worker != null && !worker.isInterrupted();
     }
     
     @EventHandler
@@ -146,9 +147,22 @@ public class Swarm extends Module {
         }
     }
     
-    public enum Mode {
-        Host,
-        Worker
+    public enum Mode implements ITagged {
+        
+        HOST("Host"),
+        WORKER("Worker");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

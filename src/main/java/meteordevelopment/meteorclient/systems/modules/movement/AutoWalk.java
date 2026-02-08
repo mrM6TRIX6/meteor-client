@@ -15,11 +15,12 @@ import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
@@ -30,7 +31,7 @@ public class AutoWalk extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("Walking mode.")
         .defaultValue(Mode.SMART)
@@ -48,7 +49,7 @@ public class AutoWalk extends Module {
         .build()
     );
     
-    private final Setting<Direction> direction = sgGeneral.add(new EnumSetting.Builder<Direction>()
+    private final Setting<Direction> direction = sgGeneral.add(new EnumChoiceSetting.Builder<Direction>()
         .name("simple-direction")
         .description("The direction to walk in simple mode.")
         .defaultValue(Direction.FORWARDS)
@@ -193,19 +194,41 @@ public class AutoWalk extends Module {
         PathManagers.get().moveInDirection(mc.player.getYaw());
     }
     
-    private enum Mode {
+    private enum Mode implements ITagged {
         
-        SIMPLE,
-        SMART
+        SIMPLE("Simple"),
+        SMART("Smart");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    private enum Direction {
+    private enum Direction implements ITagged {
         
-        FORWARDS,
-        BACKWARDS,
-        LEFT,
-        RIGHT
+        FORWARDS("Forwards"),
+        BACKWARDS("Backwards"),
+        LEFT("Left"),
+        RIGHT("Right");
+        
+        private final String tag;
+        
+        Direction(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

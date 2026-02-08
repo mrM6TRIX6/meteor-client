@@ -5,10 +5,23 @@
 
 package meteordevelopment.meteorclient.utils.render;
 
-public enum AlignmentY {
+import meteordevelopment.meteorclient.utils.misc.ITagged;
+
+public enum AlignmentY implements ITagged {
     
-    TOP,
-    CENTER,
-    BOTTOM
+    TOP("Top"),
+    CENTER("Center"),
+    BOTTOM("Bottom");
+    
+    private final String tag;
+    
+    AlignmentY(String tag) {
+        this.tag = tag;
+    }
+    
+    @Override
+    public String getTag() {
+        return tag;
+    }
     
 }

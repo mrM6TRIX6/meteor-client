@@ -13,6 +13,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -43,10 +44,10 @@ public class Scaffold extends Module {
         .build()
     );
     
-    private final Setting<ListMode> blocksFilter = sgGeneral.add(new EnumSetting.Builder<ListMode>()
+    private final Setting<ListMode> blocksFilter = sgGeneral.add(new EnumChoiceSetting.Builder<ListMode>()
         .name("blocks-filter")
         .description("How to use the block list setting")
-        .defaultValue(ListMode.Blacklist)
+        .defaultValue(ListMode.BLACKLIST)
         .build()
     );
     
@@ -158,10 +159,10 @@ public class Scaffold extends Module {
         .build()
     );
     
-    private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumSetting.Builder<ShapeMode>()
+    private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .visible(render::get)
         .build()
     );
@@ -319,9 +320,9 @@ public class Scaffold extends Module {
         
         Block block = ((BlockItem) itemStack.getItem()).getBlock();
         
-        if (blocksFilter.get() == ListMode.Blacklist && blocks.get().contains(block)) {
+        if (blocksFilter.get() == ListMode.BLACKLIST && blocks.get().contains(block)) {
             return false;
-        } else if (blocksFilter.get() == ListMode.Whitelist && !blocks.get().contains(block)) {
+        } else if (blocksFilter.get() == ListMode.WHITELIST && !blocks.get().contains(block)) {
             return false;
         }
         
@@ -351,9 +352,22 @@ public class Scaffold extends Module {
         return false;
     }
     
-    public enum ListMode {
-        Whitelist,
-        Blacklist
+    private enum ListMode implements ITagged {
+        
+        WHITELIST("Whitelist"),
+        BLACKLIST("Blacklist");
+        
+        private final String tag;
+        
+        ListMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

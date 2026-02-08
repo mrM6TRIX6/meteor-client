@@ -25,10 +25,7 @@ import meteordevelopment.meteorclient.renderer.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import meteordevelopment.meteorclient.utils.misc.Keybind;
-import meteordevelopment.meteorclient.utils.misc.Names;
-import meteordevelopment.meteorclient.utils.misc.Range;
+import meteordevelopment.meteorclient.utils.misc.*;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
@@ -130,9 +127,9 @@ public abstract class GuiTheme implements ISerializable<GuiTheme> {
         return textBox(text, (text1, c) -> true, null);
     }
     
-    public abstract <T> WDropdown<T> dropdown(T[] values, T value);
+    public abstract <T extends ITagged> WDropdown<T> dropdown(T[] values, T value);
     
-    public <T extends Enum<?>> WDropdown<T> dropdown(T value) {
+    public <T extends Enum<T> & ITagged> WDropdown<T> dropdown(T value) {
         Class<?> clazz = value.getDeclaringClass();
         T[] values = (T[]) clazz.getEnumConstants();
         return dropdown(values, value);

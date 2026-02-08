@@ -23,6 +23,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.notebot.NotebotUtils;
 import meteordevelopment.meteorclient.utils.notebot.decoder.SongDecoder;
 import meteordevelopment.meteorclient.utils.notebot.decoder.SongDecoders;
@@ -84,14 +85,14 @@ public class Notebot extends Module {
         .build()
     );
     
-    public final Setting<NotebotUtils.NotebotMode> mode = sgGeneral.add(new EnumSetting.Builder<NotebotUtils.NotebotMode>()
+    public final Setting<NotebotUtils.NotebotMode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<NotebotUtils.NotebotMode>()
         .name("mode")
         .description("Select mode of notebot")
         .defaultValue(NotebotUtils.NotebotMode.EXACT_INSTRUMENTS)
         .build()
     );
     
-    public final Setting<InstrumentDetectMode> instrumentDetectMode = sgGeneral.add(new EnumSetting.Builder<InstrumentDetectMode>()
+    public final Setting<InstrumentDetectMode> instrumentDetectMode = sgGeneral.add(new EnumChoiceSetting.Builder<InstrumentDetectMode>()
         .name("instrument-detect-mode")
         .description("Select an instrument detect mode. Can be useful when server has a plugin that modifies noteblock state (e.g ItemsAdder) but noteblock can still play the right note")
         .defaultValue(InstrumentDetectMode.BLOCK_STATE)
@@ -156,10 +157,10 @@ public class Notebot extends Module {
         .build()
     );
     
-    public final Setting<ShapeMode> shapeMode = sgRender.add(new EnumSetting.Builder<ShapeMode>()
+    public final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
@@ -240,8 +241,8 @@ public class Notebot extends Module {
     private final Map<Note, BlockPos> noteBlockPositions = new HashMap<>(); // Currently used noteblocks by the song
     private final Multimap<Note, BlockPos> scannedNoteblocks = MultimapBuilder.linkedHashKeys().arrayListValues().build(); // Found noteblocks
     private final List<BlockPos> clickedBlocks = new ArrayList<>();
-    private Stage stage = Stage.None;
-    private PlayingMode playingMode = PlayingMode.None;
+    private Stage stage = Stage.NONE;
+    private PlayingMode playingMode = PlayingMode.NONE;
     private boolean isPlaying = false;
     private int currentTick = 0;
     private int ticks = 0;
@@ -259,7 +260,7 @@ public class Notebot extends Module {
         for (NoteBlockInstrument inst : NoteBlockInstrument.values()) {
             NotebotUtils.OptionalInstrument optionalInstrument = NotebotUtils.OptionalInstrument.fromMinecraftInstrument(inst);
             if (optionalInstrument != null) {
-                sgNoteMap.add(new EnumSetting.Builder<NotebotUtils.OptionalInstrument>()
+                sgNoteMap.add(new EnumChoiceSetting.Builder<NotebotUtils.OptionalInstrument>()
                     .name(beautifyText(inst.name()))
                     .defaultValue(optionalInstrument)
                     .visible(() -> mode.get() == NotebotUtils.NotebotMode.EXACT_INSTRUMENTS)
@@ -271,7 +272,7 @@ public class Notebot extends Module {
     
     @Override
     public String getInfoString() {
-        if (stage == Stage.None) {
+        if (stage == Stage.NONE) {
             return "None";
         } else {
             return playingMode.toString() + " | " + stage.toString();
@@ -293,9 +294,9 @@ public class Notebot extends Module {
         tuneHits.clear();
         anyNoteblockTuned = false;
         currentTick = 0;
-        playingMode = PlayingMode.None;
+        playingMode = PlayingMode.NONE;
         isPlaying = false;
-        stage = Stage.None;
+        stage = Stage.NONE;
         song = null;
         noteBlockPositions.clear();
     }
@@ -306,7 +307,7 @@ public class Notebot extends Module {
             return;
         }
         
-        if (stage != Stage.SetUp && stage != Stage.Tune && stage != Stage.WaitingToCheckNoteblocks && !isPlaying) {
+        if (stage != Stage.SET_UP && stage != Stage.TUNE && stage != Stage.WAITING_TO_CHECK_NOTEBLOCKS && !isPlaying) {
             return;
         }
         
@@ -368,7 +369,7 @@ public class Notebot extends Module {
             return;
         }
         
-        if (stage != Stage.SetUp && stage != Stage.Tune && stage != Stage.WaitingToCheckNoteblocks && !isPlaying) {
+        if (stage != Stage.SET_UP && stage != Stage.TUNE && stage != Stage.WAITING_TO_CHECK_NOTEBLOCKS && !isPlaying) {
             return;
         }
         
@@ -423,16 +424,16 @@ public class Notebot extends Module {
         ticks++;
         clickedBlocks.clear();
         
-        if (stage == Stage.WaitingToCheckNoteblocks) {
+        if (stage == Stage.WAITING_TO_CHECK_NOTEBLOCKS) {
             waitTicks--;
             if (waitTicks == 0) {
                 waitTicks = -1;
                 info("Checking noteblocks again...");
                 
                 setupTuneHitsMap();
-                stage = Stage.Tune;
+                stage = Stage.TUNE;
             }
-        } else if (stage == Stage.SetUp) {
+        } else if (stage == Stage.SET_UP) {
             scanForNoteblocks();
             if (scannedNoteblocks.isEmpty()) {
                 error("Can't find any nearby noteblock!");
@@ -447,10 +448,10 @@ public class Notebot extends Module {
                 return;
             }
             setupTuneHitsMap();
-            stage = Stage.Tune;
-        } else if (stage == Stage.Tune) {
+            stage = Stage.TUNE;
+        } else if (stage == Stage.TUNE) {
             tune();
-        } else if (stage == Stage.Playing) {
+        } else if (stage == Stage.PLAYING) {
             if (!isPlaying) {
                 return;
             }
@@ -462,7 +463,7 @@ public class Notebot extends Module {
             }
             
             if (song.getNotesMap().containsKey(currentTick)) {
-                if (playingMode == PlayingMode.Preview) {
+                if (playingMode == PlayingMode.PREVIEW) {
                     onTickPreview();
                 } else if (mc.player.getAbilities().creativeMode) {
                     error("You need to be in survival mode.");
@@ -634,10 +635,10 @@ public class Notebot extends Module {
         if (isPlaying) {
             return String.format("Playing song. %d/%d", currentTick, song.getLastTick());
         }
-        if (stage == Stage.Playing) {
+        if (stage == Stage.PLAYING) {
             return "Ready to play.";
         }
-        if (stage == Stage.SetUp || stage == Stage.Tune || stage == Stage.WaitingToCheckNoteblocks) {
+        if (stage == Stage.SET_UP || stage == Stage.TUNE || stage == Stage.WAITING_TO_CHECK_NOTEBLOCKS) {
             return "Setting up the noteblocks.";
         } else {
             return String.format("Stage: %s.", stage.toString());
@@ -651,9 +652,9 @@ public class Notebot extends Module {
         if (mc.player == null) {
             return;
         }
-        if (mc.player.getAbilities().creativeMode && playingMode != PlayingMode.Preview) {
+        if (mc.player.getAbilities().creativeMode && playingMode != PlayingMode.PREVIEW) {
             error("You need to be in survival mode.");
-        } else if (stage == Stage.Playing) {
+        } else if (stage == Stage.PLAYING) {
             isPlaying = true;
             info("Playing.");
         } else {
@@ -680,7 +681,7 @@ public class Notebot extends Module {
     }
     
     public void onSongEnd() {
-        if (autoPlay.get() && playingMode != PlayingMode.Preview) {
+        if (autoPlay.get() && playingMode != PlayingMode.PREVIEW) {
             playRandomSong();
         } else {
             stop();
@@ -715,8 +716,8 @@ public class Notebot extends Module {
         enable();
         resetVariables();
         
-        this.playingMode = PlayingMode.Noteblocks;
-        if (!loadFileToMap(file, () -> stage = Stage.SetUp)) {
+        this.playingMode = PlayingMode.NOTEBLOCKS;
+        if (!loadFileToMap(file, () -> stage = Stage.SET_UP)) {
             onSongEnd();
             return;
         }
@@ -732,9 +733,9 @@ public class Notebot extends Module {
         enable();
         resetVariables();
         
-        this.playingMode = PlayingMode.Preview;
+        this.playingMode = PlayingMode.PREVIEW;
         loadFileToMap(file, () -> {
-            stage = Stage.Playing;
+            stage = Stage.PLAYING;
             play();
         });
         updateStatus();
@@ -771,7 +772,7 @@ public class Notebot extends Module {
         });
         loadingSongFuture.completeOnTimeout(null, 60, TimeUnit.SECONDS);
         
-        stage = Stage.LoadingSong;
+        stage = Stage.LOADING_SONG;
         long time1 = System.currentTimeMillis();
         loadingSongFuture.whenComplete((song, ex) -> {
             if (ex == null) {
@@ -858,11 +859,11 @@ public class Notebot extends Module {
             if (anyNoteblockTuned) {
                 anyNoteblockTuned = false;
                 waitTicks = checkNoteblocksAgainDelay.get();
-                stage = Stage.WaitingToCheckNoteblocks;
+                stage = Stage.WAITING_TO_CHECK_NOTEBLOCKS;
                 
                 info("Delaying check for noteblocks");
             } else {
-                stage = Stage.Playing;
+                stage = Stage.PLAYING;
                 info("Loading done.");
                 play();
             }
@@ -1040,19 +1041,45 @@ public class Notebot extends Module {
         return sb.toString().trim();
     }
     
-    public enum Stage {
-        None,
-        LoadingSong,
-        SetUp,
-        Tune,
-        WaitingToCheckNoteblocks,
-        Playing
+    public enum Stage implements ITagged {
+        
+        NONE("None"),
+        LOADING_SONG("Loading song"),
+        SET_UP("Set up"),
+        TUNE("Tune"),
+        WAITING_TO_CHECK_NOTEBLOCKS("Waiting to check noteblocks"),
+        PLAYING("Playing");
+        
+        private final String tag;
+        
+        Stage(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    public enum PlayingMode {
-        None,
-        Preview,
-        Noteblocks
+    public enum PlayingMode implements ITagged {
+        
+        NONE("None"),
+        PREVIEW("Preview"),
+        NOTEBLOCKS("Noteblocks");
+        
+        private final String tag;
+        
+        PlayingMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

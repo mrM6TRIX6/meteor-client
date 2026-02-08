@@ -12,6 +12,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
@@ -33,14 +34,14 @@ public class LiquidFiller extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgWhitelist = settings.createGroup("Whitelist");
     
-    private final Setting<PlaceIn> placeInLiquids = sgGeneral.add(new EnumSetting.Builder<PlaceIn>()
+    private final Setting<PlaceIn> placeInLiquids = sgGeneral.add(new EnumChoiceSetting.Builder<PlaceIn>()
         .name("place-in")
         .description("What type of liquids to place in.")
         .defaultValue(PlaceIn.BOTH)
         .build()
     );
     
-    private final Setting<Shape> shape = sgGeneral.add(new EnumSetting.Builder<Shape>()
+    private final Setting<Shape> shape = sgGeneral.add(new EnumChoiceSetting.Builder<Shape>()
         .name("shape")
         .description("The shape of placing algorithm.")
         .defaultValue(Shape.SPHERE)
@@ -72,7 +73,7 @@ public class LiquidFiller extends Module {
         .build()
     );
     
-    private final Setting<SortMode> sortMode = sgGeneral.add(new EnumSetting.Builder<SortMode>()
+    private final Setting<SortMode> sortMode = sgGeneral.add(new EnumChoiceSetting.Builder<SortMode>()
         .name("sort-mode")
         .description("The blocks you want to place first.")
         .defaultValue(SortMode.CLOSEST)
@@ -88,7 +89,7 @@ public class LiquidFiller extends Module {
     
     // Whitelist and blacklist
     
-    private final Setting<ListMode> listMode = sgWhitelist.add(new EnumSetting.Builder<ListMode>()
+    private final Setting<ListMode> listMode = sgWhitelist.add(new EnumChoiceSetting.Builder<ListMode>()
         .name("list-mode")
         .description("Selection mode.")
         .defaultValue(ListMode.WHITELIST)
@@ -219,35 +220,79 @@ public class LiquidFiller extends Module {
         return Math.max(Math.max(dX, dY), dZ);
     }
     
-    private enum ListMode {
+    private enum ListMode implements ITagged {
         
-        WHITELIST,
-        BLACKLIST
+        WHITELIST("Whitelist"),
+        BLACKLIST("Blacklist");
         
-    }
-    
-    private enum PlaceIn {
+        private final String tag;
         
-        BOTH,
-        WATER,
-        LAVA
+        ListMode(String tag) {
+            this.tag = tag;
+        }
         
-    }
-    
-    private enum SortMode {
-        
-        NONE,
-        CLOSEST,
-        FURTHEST,
-        TOP_DOWN,
-        BOTTOM_UP
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    private enum Shape {
+    private enum PlaceIn implements ITagged {
         
-        SPHERE,
-        UNIFORM_CUBE
+        BOTH("Both"),
+        WATER("Water"),
+        LAVA("Lava");
+        
+        private final String tag;
+        
+        PlaceIn(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
+    }
+    
+    private enum SortMode implements ITagged {
+        
+        NONE("None"),
+        CLOSEST("Closest"),
+        FURTHEST("Furthest"),
+        TOP_DOWN("Top Down"),
+        BOTTOM_UP("Bottom Up");
+        
+        private final String tag;
+        
+        SortMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
+    }
+    
+    private enum Shape implements ITagged {
+        
+        SPHERE("Sphere"),
+        UNIFORM_CUBE("Uniform Cube");
+        
+        private final String tag;
+        
+        Shape(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

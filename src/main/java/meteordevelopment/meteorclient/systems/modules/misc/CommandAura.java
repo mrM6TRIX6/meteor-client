@@ -11,12 +11,13 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
@@ -36,7 +37,7 @@ public class CommandAura extends Module {
         .build()
     );
     
-    private final Setting<Target> targetMode = sgGeneral.add(new EnumSetting.Builder<Target>()
+    private final Setting<Target> targetMode = sgGeneral.add(new EnumChoiceSetting.Builder<Target>()
         .name("target")
         .description("Only targets selected target.")
         .defaultValue(Target.EVERYONE)
@@ -131,11 +132,22 @@ public class CommandAura extends Module {
         }
     }
     
-    private enum Target {
+    private enum Target implements ITagged {
         
-        EVERYONE,
-        ONLY_FRIENDS,
-        IGNORE_FRIENDS
+        EVERYONE("Everyone"),
+        ONLY_FRIENDS("Only Friends"),
+        IGNORE_FRIENDS("Ignore Friends");
+        
+        private final String tag;
+        
+        Target(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

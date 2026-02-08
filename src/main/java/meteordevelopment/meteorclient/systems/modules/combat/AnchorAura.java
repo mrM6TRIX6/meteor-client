@@ -58,7 +58,7 @@ public class AnchorAura extends Module {
         .build()
     );
     
-    private final Setting<SortPriority> targetPriority = sgGeneral.add(new EnumSetting.Builder<SortPriority>()
+    private final Setting<SortPriority> targetPriority = sgGeneral.add(new EnumChoiceSetting.Builder<SortPriority>()
         .name("target-priority")
         .description("How to select the player to target.")
         .defaultValue(SortPriority.LOWEST_HEALTH)
@@ -224,10 +224,10 @@ public class AnchorAura extends Module {
         .build()
     );
     
-    private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumSetting.Builder<ShapeMode>()
+    private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .visible(render::get)
         .build()
     );

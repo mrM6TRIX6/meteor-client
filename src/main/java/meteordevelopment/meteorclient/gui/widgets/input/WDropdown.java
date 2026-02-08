@@ -11,12 +11,13 @@ import meteordevelopment.meteorclient.gui.widgets.WRoot;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WView;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPressable;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.util.math.MathHelper;
 
-public abstract class WDropdown<T> extends WPressable {
+public abstract class WDropdown<T extends ITagged> extends WPressable {
     
     public Runnable action;
     

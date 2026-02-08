@@ -9,12 +9,13 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
@@ -83,7 +84,7 @@ public class AntiAFK extends Module {
         .build()
     );
     
-    private final Setting<SpinMode> spinMode = sgActions.add(new EnumSetting.Builder<SpinMode>()
+    private final Setting<SpinMode> spinMode = sgActions.add(new EnumChoiceSetting.Builder<SpinMode>()
         .name("spin-mode")
         .description("The method of rotating.")
         .defaultValue(SpinMode.SERVER)
@@ -241,10 +242,21 @@ public class AntiAFK extends Module {
         }
     }
     
-    private enum SpinMode {
+    private enum SpinMode implements ITagged {
         
-        SERVER,
-        CLIENT
+        SERVER("Server"),
+        CLIENT("Client");
+        
+        private final String tag;
+        
+        SpinMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

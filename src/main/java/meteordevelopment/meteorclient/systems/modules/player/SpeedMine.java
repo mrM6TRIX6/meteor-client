@@ -14,23 +14,23 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
-import static net.minecraft.entity.effect.StatusEffects.HASTE;
-
 public class SpeedMine extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    public final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    public final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
-        .defaultValue(Mode.Damage)
+        .defaultValue(Mode.DAMAGE)
         .onChanged(mode -> removeHaste())
         .build()
     );
@@ -39,15 +39,15 @@ public class SpeedMine extends Module {
         .name("blocks")
         .description("Selected blocks.")
         .filter(block -> block.getHardness() > 0)
-        .visible(() -> mode.get() != Mode.Haste)
+        .visible(() -> mode.get() != Mode.HASTE)
         .build()
     );
     
-    private final Setting<ListMode> blocksFilter = sgGeneral.add(new EnumSetting.Builder<ListMode>()
+    private final Setting<ListMode> blocksFilter = sgGeneral.add(new EnumChoiceSetting.Builder<ListMode>()
         .name("blocks-filter")
         .description("How to use the blocks setting.")
-        .defaultValue(ListMode.Blacklist)
-        .visible(() -> mode.get() != Mode.Haste)
+        .defaultValue(ListMode.BLACKLIST)
+        .visible(() -> mode.get() != Mode.HASTE)
         .build()
     );
     
@@ -55,7 +55,7 @@ public class SpeedMine extends Module {
         .name("modifier")
         .description("Mining speed modifier. An additional value of 0.2 is equivalent to one haste level (1.2 = haste 1).")
         .defaultValue(1.4)
-        .visible(() -> mode.get() == Mode.Normal)
+        .visible(() -> mode.get() == Mode.NORMAL)
         .min(0)
         .build()
     );
@@ -65,7 +65,7 @@ public class SpeedMine extends Module {
         .description("What value of haste to give you. Above 2 not recommended.")
         .defaultValue(2)
         .min(1)
-        .visible(() -> mode.get() == Mode.Haste)
+        .visible(() -> mode.get() == Mode.HASTE)
         .onChanged(i -> removeHaste())
         .build()
     );
@@ -74,7 +74,7 @@ public class SpeedMine extends Module {
         .name("instamine")
         .description("Whether or not to instantly mine blocks under certain conditions.")
         .defaultValue(true)
-        .visible(() -> mode.get() == Mode.Damage)
+        .visible(() -> mode.get() == Mode.DAMAGE)
         .build()
     );
     
@@ -82,7 +82,7 @@ public class SpeedMine extends Module {
         .name("grim-bypass")
         .description("Bypasses Grim's fastbreak check, working as of 2.3.58")
         .defaultValue(false)
-        .visible(() -> mode.get() == Mode.Damage)
+        .visible(() -> mode.get() == Mode.DAMAGE)
         .build()
     );
     
@@ -101,13 +101,13 @@ public class SpeedMine extends Module {
             return;
         }
         
-        if (mode.get() == Mode.Haste) {
-            StatusEffectInstance haste = mc.player.getStatusEffect(HASTE);
+        if (mode.get() == Mode.HASTE) {
+            StatusEffectInstance haste = mc.player.getStatusEffect(StatusEffects.HASTE);
             
             if (haste == null || haste.getAmplifier() <= hasteAmplifier.get() - 1) {
-                mc.player.setStatusEffect(new StatusEffectInstance(HASTE, -1, hasteAmplifier.get() - 1, false, false, false), null);
+                mc.player.setStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, -1, hasteAmplifier.get() - 1, false, false, false), null);
             }
-        } else if (mode.get() == Mode.Damage) {
+        } else if (mode.get() == Mode.DAMAGE) {
             ClientPlayerInteractionManagerAccessor im = (ClientPlayerInteractionManagerAccessor) mc.interactionManager;
             float progress = im.meteor$getBreakingProgress();
             BlockPos pos = im.meteor$getCurrentBreakingBlockPos();
@@ -123,7 +123,7 @@ public class SpeedMine extends Module {
     
     @EventHandler
     private void onPacketSend(PacketEvent.Send event) {
-        if (!(mode.get() == Mode.Damage) || !grimBypass.get()) {
+        if (!(mode.get() == Mode.DAMAGE) || !grimBypass.get()) {
             return;
         }
         
@@ -138,32 +138,58 @@ public class SpeedMine extends Module {
             return;
         }
         
-        StatusEffectInstance haste = mc.player.getStatusEffect(HASTE);
+        StatusEffectInstance haste = mc.player.getStatusEffect(StatusEffects.HASTE);
         if (haste != null && !haste.shouldShowIcon()) {
-            mc.player.removeStatusEffect(HASTE);
+            mc.player.removeStatusEffect(StatusEffects.HASTE);
         }
     }
     
     public boolean filter(Block block) {
-        if (blocksFilter.get() == ListMode.Blacklist && !blocks.get().contains(block)) {
+        if (blocksFilter.get() == ListMode.BLACKLIST && !blocks.get().contains(block)) {
             return true;
         }
-        return blocksFilter.get() == ListMode.Whitelist && blocks.get().contains(block);
+        return blocksFilter.get() == ListMode.WHITELIST && blocks.get().contains(block);
     }
     
     public boolean instamine() {
-        return isActive() && mode.get() == Mode.Damage && instamine.get();
+        return isActive() && mode.get() == Mode.DAMAGE && instamine.get();
     }
     
-    public enum Mode {
-        Normal,
-        Haste,
-        Damage
+    public enum Mode implements ITagged {
+        
+        NORMAL("Normal"),
+        HASTE("Haste"),
+        DAMAGE("Damage");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    public enum ListMode {
-        Whitelist,
-        Blacklist
+    private enum ListMode implements ITagged {
+        
+        WHITELIST("Whitelist"),
+        BLACKLIST("Blacklist");
+        
+        private final String tag;
+        
+        ListMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

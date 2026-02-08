@@ -5,9 +5,22 @@
 
 package meteordevelopment.meteorclient.systems.modules.movement.speed;
 
-public enum SpeedModes {
+import meteordevelopment.meteorclient.utils.misc.ITagged;
+
+public enum SpeedModes implements ITagged {
     
-    STRAFE,
-    VANILLA
+    STRAFE("Strafe"),
+    VANILLA("Vanilla");
+    
+    private final String tag;
+    
+    SpeedModes(String tag) {
+        this.tag = tag;
+    }
+    
+    @Override
+    public String getTag() {
+        return tag;
+    }
     
 }

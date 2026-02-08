@@ -11,12 +11,13 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.item.ItemStack;
@@ -66,7 +67,7 @@ public class InventoryHUD extends HUDElement {
     
     // Background
     
-    private final Setting<Background> background = sgBackground.add(new EnumSetting.Builder<Background>()
+    private final Setting<Background> background = sgBackground.add(new EnumChoiceSetting.Builder<Background>()
         .name("background")
         .description("Background of inventory viewer.")
         .defaultValue(Background.TEXTURE)
@@ -166,18 +167,25 @@ public class InventoryHUD extends HUDElement {
         return customScale.get() ? scale.get() : scale.getDefaultValue();
     }
     
-    private enum Background {
+    private enum Background implements ITagged {
         
-        NONE(162, 54),
-        TEXTURE(176, 67),
-        OUTLINE(162, 54),
-        FLAT(162, 54);
+        NONE("None", 162, 54),
+        TEXTURE("Texture", 176, 67),
+        OUTLINE("Outline", 162, 54),
+        FLAT("Flat", 162, 54);
         
+        private final String tag;
         private final int width, height;
         
-        Background(int width, int height) {
+        Background(String tag, int width, int height) {
+            this.tag = tag;
             this.width = width;
             this.height = height;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
         }
         
     }

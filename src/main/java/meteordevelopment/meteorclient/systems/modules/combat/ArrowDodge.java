@@ -10,11 +10,12 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
@@ -34,6 +35,8 @@ import java.util.List;
 public class ArrowDodge extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
+    private final SettingGroup sgMovement = settings.createGroup("Movement");
+    
     public final Setting<Integer> simulationSteps = sgGeneral.add(new IntSetting.Builder()
         .name("simulation-steps")
         .description("How many steps to simulate projectiles. Zero for no limit.")
@@ -41,13 +44,14 @@ public class ArrowDodge extends Module {
         .sliderMax(5000)
         .build()
     );
-    private final SettingGroup sgMovement = settings.createGroup("Movement");
-    private final Setting<MoveType> moveType = sgMovement.add(new EnumSetting.Builder<MoveType>()
+    
+    private final Setting<MoveType> moveType = sgMovement.add(new EnumChoiceSetting.Builder<MoveType>()
         .name("move-type")
         .description("The way you are moved by this module.")
         .defaultValue(MoveType.VELOCITY)
         .build()
     );
+    
     private final Setting<Double> moveSpeed = sgMovement.add(new DoubleSetting.Builder()
         .name("move-speed")
         .description("How fast should you be when dodging arrow.")
@@ -56,6 +60,7 @@ public class ArrowDodge extends Module {
         .sliderRange(0.01, 5)
         .build()
     );
+    
     private final Setting<Double> distanceCheck = sgMovement.add(new DoubleSetting.Builder()
         .name("distance-check")
         .description("How far should an arrow be from the player to be considered not hitting.")
@@ -64,24 +69,28 @@ public class ArrowDodge extends Module {
         .sliderRange(0.01, 5)
         .build()
     );
+    
     private final Setting<Boolean> groundCheck = sgGeneral.add(new BoolSetting.Builder()
         .name("ground-check")
         .description("Tries to prevent you from falling to your death.")
         .defaultValue(true)
         .build()
     );
+    
     private final Setting<Boolean> allProjectiles = sgGeneral.add(new BoolSetting.Builder()
         .name("all-projectiles")
         .description("Dodge all projectiles, not only arrows.")
         .defaultValue(false)
         .build()
     );
+    
     private final Setting<Boolean> ignoreOwn = sgGeneral.add(new BoolSetting.Builder()
         .name("ignore-own")
         .description("Ignore your own projectiles.")
         .defaultValue(true)
         .build()
     );
+    
     private final List<Vec3d> possibleMoveDirections = Arrays.asList(
         new Vec3d(1, 0, 1),
         new Vec3d(0, 0, 1),
@@ -204,10 +213,21 @@ public class ArrowDodge extends Module {
         return true;
     }
     
-    private enum MoveType {
+    private enum MoveType implements ITagged {
         
-        VELOCITY,
-        PACKET
+        VELOCITY("Velocity"),
+        PACKET("Packet");
+        
+        private final String tag;
+        
+        MoveType(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

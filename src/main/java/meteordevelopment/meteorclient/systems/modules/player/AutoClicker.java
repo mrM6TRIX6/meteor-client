@@ -9,10 +9,11 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 
@@ -27,10 +28,10 @@ public class AutoClicker extends Module {
         .build()
     );
     
-    private final Setting<Mode> leftClickMode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> leftClickMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode-left")
         .description("The method of clicking for left clicks.")
-        .defaultValue(Mode.Press)
+        .defaultValue(Mode.PRESS)
         .build()
     );
     
@@ -40,14 +41,14 @@ public class AutoClicker extends Module {
         .defaultValue(2)
         .min(0)
         .sliderMax(60)
-        .visible(() -> leftClickMode.get() == Mode.Press)
+        .visible(() -> leftClickMode.get() == Mode.PRESS)
         .build()
     );
     
-    private final Setting<Mode> rightClickMode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> rightClickMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode-right")
         .description("The method of clicking for right clicks.")
-        .defaultValue(Mode.Press)
+        .defaultValue(Mode.PRESS)
         .build()
     );
     
@@ -57,7 +58,7 @@ public class AutoClicker extends Module {
         .defaultValue(2)
         .min(0)
         .sliderMax(60)
-        .visible(() -> rightClickMode.get() == Mode.Press)
+        .visible(() -> rightClickMode.get() == Mode.PRESS)
         .build()
     );
     
@@ -88,9 +89,9 @@ public class AutoClicker extends Module {
         }
         
         switch (leftClickMode.get()) {
-            case Disabled -> {}
-            case Hold -> mc.options.attackKey.setPressed(true);
-            case Press -> {
+            case DISABLED -> {}
+            case HOLD -> mc.options.attackKey.setPressed(true);
+            case PRESS -> {
                 leftClickTimer++;
                 if (leftClickTimer > leftClickDelay.get()) {
                     PlayerUtils.leftClick();
@@ -100,9 +101,9 @@ public class AutoClicker extends Module {
         }
         
         switch (rightClickMode.get()) {
-            case Disabled -> {}
-            case Hold -> mc.options.useKey.setPressed(true);
-            case Press -> {
+            case DISABLED -> {}
+            case HOLD -> mc.options.useKey.setPressed(true);
+            case PRESS -> {
                 rightClickTimer++;
                 if (rightClickTimer > rightClickDelay.get()) {
                     PlayerUtils.rightClick();
@@ -112,10 +113,23 @@ public class AutoClicker extends Module {
         }
     }
     
-    public enum Mode {
-        Disabled,
-        Hold,
-        Press
+    private enum Mode implements ITagged {
+        
+        DISABLED("Disabled"),
+        HOLD("Hold"),
+        PRESS("Press");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

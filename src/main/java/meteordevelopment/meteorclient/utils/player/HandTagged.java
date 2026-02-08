@@ -6,16 +6,24 @@
 package meteordevelopment.meteorclient.utils.player;
 
 import meteordevelopment.meteorclient.utils.misc.ITagged;
+import net.minecraft.util.Hand;
 
-public enum Safety implements ITagged {
+public enum HandTagged implements ITagged {
     
-    SAFE("Safe"),
-    SUICIDE("Suicide");
+    MAIN_HAND("Main Hand"),
+    OFF_HAND("Off Hand");
     
     private final String tag;
     
-    Safety(String tag) {
+    HandTagged(String tag) {
         this.tag = tag;
+    }
+    
+    public Hand get() {
+        return switch (this) {
+            case MAIN_HAND -> Hand.MAIN_HAND;
+            case OFF_HAND -> Hand.OFF_HAND;
+        };
     }
     
     @Override

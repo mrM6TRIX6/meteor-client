@@ -21,6 +21,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.NametagUtils;
@@ -173,10 +174,10 @@ public class Nametags extends Module {
         .build()
     );
     
-    private final Setting<Durability> itemDurability = sgPlayers.add(new EnumSetting.Builder<Durability>()
+    private final Setting<Durability> itemDurability = sgPlayers.add(new EnumChoiceSetting.Builder<Durability>()
         .name("durability")
         .description("Displays item durability as either a total, percentage, or neither.")
-        .defaultValue(Durability.None)
+        .defaultValue(Durability.NONE)
         .visible(displayItems::get)
         .build()
     );
@@ -202,10 +203,10 @@ public class Nametags extends Module {
         .build()
     );
     
-    private final Setting<Position> enchantPos = sgPlayers.add(new EnumSetting.Builder<Position>()
+    private final Setting<Position> enchantPos = sgPlayers.add(new EnumChoiceSetting.Builder<Position>()
         .name("enchantment-position")
         .description("Where the enchantments are rendered.")
-        .defaultValue(Position.Above)
+        .defaultValue(Position.ABOVE)
         .visible(() -> displayItems.get() && displayEnchants.get())
         .build()
     );
@@ -271,10 +272,10 @@ public class Nametags extends Module {
         .build()
     );
     
-    private final Setting<DistanceColorMode> distanceColorMode = sgRender.add(new EnumSetting.Builder<DistanceColorMode>()
+    private final Setting<DistanceColorMode> distanceColorMode = sgRender.add(new EnumChoiceSetting.Builder<DistanceColorMode>()
         .name("distance-color-mode")
         .description("The mode to color the nametag distance with.")
-        .defaultValue(DistanceColorMode.Gradient)
+        .defaultValue(DistanceColorMode.GRADIENT)
         .visible(displayDistance::get)
         .build()
     );
@@ -283,7 +284,7 @@ public class Nametags extends Module {
         .name("distance-color")
         .description("The color of the nametag distance.")
         .defaultValue(new SettingColor(150, 150, 150))
-        .visible(() -> displayDistance.get() && distanceColorMode.get() == DistanceColorMode.Flat)
+        .visible(() -> displayDistance.get() && distanceColorMode.get() == DistanceColorMode.MODE)
         .build()
     );
     
@@ -506,8 +507,8 @@ public class Nametags extends Module {
         }
         if (displayDistance.get() && renderPlayerDistance) {
             switch (distanceColorMode.get()) {
-                case Flat -> text.render(distText, hX, hY, distanceColor.get(), shadow);
-                case Gradient -> text.render(distText, hX, hY, EntityUtils.getColorFromDistance(player), shadow);
+                case MODE -> text.render(distText, hX, hY, distanceColor.get(), shadow);
+                case GRADIENT -> text.render(distText, hX, hY, EntityUtils.getColorFromDistance(player), shadow);
             }
         }
         
@@ -564,13 +565,13 @@ public class Nametags extends Module {
                 
                 RenderUtils.drawItem(event.drawContext, stack, (int) x, (int) y, 2, true, null, false);
                 
-                if (stack.isDamageable() && itemDurability.get() != Durability.None) {
+                if (stack.isDamageable() && itemDurability.get() != Durability.NONE) {
                     text.begin(0.75, false, true);
                     
                     String damageText = switch (itemDurability.get()) {
-                        case Percentage ->
+                        case PERCENTAGE ->
                             String.format("%.0f%%", ((stack.getMaxDamage() - stack.getDamage()) * 100f) / (float) stack.getMaxDamage());
-                        case Total -> Integer.toString(stack.getMaxDamage() - stack.getDamage());
+                        case TOTAL -> Integer.toString(stack.getMaxDamage() - stack.getDamage());
                         default -> "err";
                     };
                     Color damageColor = new Color(stack.getItemBarColor());
@@ -595,8 +596,8 @@ public class Nametags extends Module {
                     double enchantY = 0;
                     
                     double addY = switch (enchantPos.get()) {
-                        case Above -> -((enchantmentsToShow.size() + 1) * text.getHeight(shadow));
-                        case OnTop -> (itemsHeight - enchantmentsToShow.size() * text.getHeight(shadow)) / 2;
+                        case ABOVE -> -((enchantmentsToShow.size() + 1) * text.getHeight(shadow));
+                        case ON_TOP -> (itemsHeight - enchantmentsToShow.size() * text.getHeight(shadow)) / 2;
                     };
                     
                     double enchantX;
@@ -610,8 +611,8 @@ public class Nametags extends Module {
                         }
                         
                         enchantX = switch (enchantPos.get()) {
-                            case Above -> x + (aW / 2) - (text.getWidth(enchantName, shadow) / 2);
-                            case OnTop -> x + (aW - text.getWidth(enchantName, shadow)) / 2;
+                            case ABOVE -> x + (aW / 2) - (text.getWidth(enchantName, shadow) / 2);
+                            case ON_TOP -> x + (aW - text.getWidth(enchantName, shadow)) / 2;
                         };
                         
                         text.render(enchantName, enchantX, y + addY + enchantY, enchantColor, shadow);
@@ -781,20 +782,59 @@ public class Nametags extends Module {
         return isActive() && entities.get().contains(EntityType.PLAYER);
     }
     
-    private enum Position {
-        Above,
-        OnTop
+    private enum Position implements ITagged {
+        
+        ABOVE("Above"),
+        ON_TOP("On Top");
+        
+        private final String tag;
+        
+        Position(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    private enum Durability {
-        None,
-        Total,
-        Percentage
+    private enum Durability implements ITagged {
+        
+        NONE("None"),
+        TOTAL("Total"),
+        PERCENTAGE("Percentage");
+        
+        private final String tag;
+        
+        Durability(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    private enum DistanceColorMode {
-        Gradient,
-        Flat
+    private enum DistanceColorMode implements ITagged {
+        
+        GRADIENT("Gradient"),
+        MODE("Mode");
+        
+        private final String tag;
+        
+        DistanceColorMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

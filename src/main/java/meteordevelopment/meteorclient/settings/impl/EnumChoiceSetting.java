@@ -8,24 +8,23 @@ package meteordevelopment.meteorclient.settings.impl;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
-public class EnumSetting<T extends Enum<?>> extends Setting<T> {
+public class EnumChoiceSetting<T extends Enum<T> & ITagged> extends Setting<T> {
     
     private final T[] values;
     private final List<String> suggestions;
     
-    public EnumSetting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
+    public EnumChoiceSetting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
         super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
-        values = (T[]) defaultValue.getDeclaringClass().getEnumConstants();
-        suggestions = new ArrayList<>(values.length);
-        for (T value : values) {
-            suggestions.add(value.toString());
-        }
+        values = defaultValue.getDeclaringClass().getEnumConstants();
+        suggestions = Arrays.stream(values).map(Objects::toString).toList();
     }
     
     @Override
@@ -63,15 +62,15 @@ public class EnumSetting<T extends Enum<?>> extends Setting<T> {
         return get();
     }
     
-    public static class Builder<T extends Enum<?>> extends SettingBuilder<Builder<T>, T, EnumSetting<T>> {
+    public static class Builder<T extends Enum<T> & ITagged> extends SettingBuilder<Builder<T>, T, EnumChoiceSetting<T>> {
         
         public Builder() {
             super(null);
         }
         
         @Override
-        public EnumSetting<T> build() {
-            return new EnumSetting<>(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
+        public EnumChoiceSetting<T> build() {
+            return new EnumChoiceSetting<>(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

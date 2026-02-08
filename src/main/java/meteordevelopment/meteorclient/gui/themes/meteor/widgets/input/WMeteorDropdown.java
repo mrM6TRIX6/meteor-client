@@ -9,9 +9,10 @@ import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.themes.meteor.MeteorGuiTheme;
 import meteordevelopment.meteorclient.gui.themes.meteor.MeteorWidget;
 import meteordevelopment.meteorclient.gui.widgets.input.WDropdown;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 
-public class WMeteorDropdown<T> extends WDropdown<T> implements MeteorWidget {
+public class WMeteorDropdown<T extends ITagged> extends WDropdown<T> implements MeteorWidget {
     
     public WMeteorDropdown(T[] values, T value) {
         super(values, value);
@@ -35,7 +36,7 @@ public class WMeteorDropdown<T> extends WDropdown<T> implements MeteorWidget {
         
         renderBackground(renderer, this, pressed, mouseOver);
         
-        String text = get().toString();
+        String text = get().getTag();
         double w = theme.textWidth(text);
         renderer.text(text, x + pad + maxValueWidth / 2 - w / 2, y + pad, theme.textColor.get(), false);
         
@@ -63,7 +64,7 @@ public class WMeteorDropdown<T> extends WDropdown<T> implements MeteorWidget {
         protected void onCalculateSize() {
             double pad = pad();
             
-            width = pad + theme.textWidth(value.toString()) + pad;
+            width = pad + theme.textWidth(value.getTag()) + pad;
             height = pad + theme.textHeight() + pad;
         }
         
@@ -80,7 +81,7 @@ public class WMeteorDropdown<T> extends WDropdown<T> implements MeteorWidget {
             
             color.a = preA;
             
-            String text = value.toString();
+            String text = value.getTag();
             renderer.text(text, x + width / 2 - theme.textWidth(text) / 2, y + pad(), theme.textColor.get(), false);
         }
         

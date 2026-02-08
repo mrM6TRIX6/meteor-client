@@ -8,10 +8,11 @@ package meteordevelopment.meteorclient.systems.modules.player;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EquipmentSlot;
@@ -24,7 +25,7 @@ public class ChestSwap extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Chestplate> chestplate = sgGeneral.add(new EnumSetting.Builder<Chestplate>()
+    private final Setting<Chestplate> chestplate = sgGeneral.add(new EnumChoiceSetting.Builder<Chestplate>()
         .name("chestplate")
         .description("Which type of chestplate to swap to.")
         .defaultValue(Chestplate.PREFER_NETHERITE)
@@ -155,12 +156,23 @@ public class ChestSwap extends Module {
         }
     }
     
-    private enum Chestplate {
+    private enum Chestplate implements ITagged {
         
-        DIAMOND,
-        NETHERITE,
-        PREFER_DIAMOND,
-        PREFER_NETHERITE
+        DIAMOND("Diamond"),
+        NETHERITE("Netherite"),
+        PREFER_DIAMOND("Prefer Diamond"),
+        PREFER_NETHERITE("Prefer Netherite");
+        
+        private final String tag;
+        
+        Chestplate(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

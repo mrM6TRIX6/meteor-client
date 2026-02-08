@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
@@ -19,6 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Xray;
 import meteordevelopment.meteorclient.systems.modules.world.InfinityMiner;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -42,10 +43,10 @@ public class AutoTool extends Module {
     
     // General
     
-    private final Setting<EnchantPreference> prefer = sgGeneral.add(new EnumSetting.Builder<EnchantPreference>()
+    private final Setting<EnchantPreference> prefer = sgGeneral.add(new EnumChoiceSetting.Builder<EnchantPreference>()
         .name("prefer")
         .description("Either to prefer Silk Touch, Fortune, or none.")
-        .defaultValue(EnchantPreference.Fortune)
+        .defaultValue(EnchantPreference.FORTUNE)
         .build()
     );
     
@@ -96,17 +97,17 @@ public class AutoTool extends Module {
     
     // Whitelist and blacklist
     
-    private final Setting<ListMode> listMode = sgWhitelist.add(new EnumSetting.Builder<ListMode>()
+    private final Setting<ListMode> listMode = sgWhitelist.add(new EnumChoiceSetting.Builder<ListMode>()
         .name("list-mode")
         .description("Selection mode.")
-        .defaultValue(ListMode.Blacklist)
+        .defaultValue(ListMode.BLACKLIST)
         .build()
     );
     
     private final Setting<List<Item>> whitelist = sgWhitelist.add(new ItemListSetting.Builder()
         .name("whitelist")
         .description("The tools you want to use.")
-        .visible(() -> listMode.get() == ListMode.Whitelist)
+        .visible(() -> listMode.get() == ListMode.WHITELIST)
         .filter(AutoTool::isTool)
         .build()
     );
@@ -114,7 +115,7 @@ public class AutoTool extends Module {
     private final Setting<List<Item>> blacklist = sgWhitelist.add(new ItemListSetting.Builder()
         .name("blacklist")
         .description("The tools you don't want to use.")
-        .visible(() -> listMode.get() == ListMode.Blacklist)
+        .visible(() -> listMode.get() == ListMode.BLACKLIST)
         .filter(AutoTool::isTool)
         .build()
     );
@@ -171,10 +172,10 @@ public class AutoTool extends Module {
         for (int i = 0; i < 9; i++) {
             ItemStack itemStack = mc.player.getInventory().getStack(i);
             
-            if (listMode.get() == ListMode.Whitelist && !whitelist.get().contains(itemStack.getItem())) {
+            if (listMode.get() == ListMode.WHITELIST && !whitelist.get().contains(itemStack.getItem())) {
                 continue;
             }
-            if (listMode.get() == ListMode.Blacklist && blacklist.get().contains(itemStack.getItem())) {
+            if (listMode.get() == ListMode.BLACKLIST && blacklist.get().contains(itemStack.getItem())) {
                 continue;
             }
             
@@ -243,10 +244,10 @@ public class AutoTool extends Module {
         score += Utils.getEnchantmentLevel(itemStack, Enchantments.EFFICIENCY);
         score += Utils.getEnchantmentLevel(itemStack, Enchantments.MENDING);
         
-        if (enchantPreference == EnchantPreference.Fortune) {
+        if (enchantPreference == EnchantPreference.FORTUNE) {
             score += Utils.getEnchantmentLevel(itemStack, Enchantments.FORTUNE);
         }
-        if (enchantPreference == EnchantPreference.SilkTouch) {
+        if (enchantPreference == EnchantPreference.SILK_TOUCH) {
             score += Utils.getEnchantmentLevel(itemStack, Enchantments.SILK_TOUCH);
         }
         
@@ -279,15 +280,41 @@ public class AutoTool extends Module {
         return Xray.ORES.contains(block) || block instanceof CropBlock;
     }
     
-    public enum EnchantPreference {
-        None,
-        Fortune,
-        SilkTouch
+    private enum EnchantPreference implements ITagged {
+        
+        NONE("None"),
+        FORTUNE("Fortune"),
+        SILK_TOUCH("Silk Touch");
+        
+        private final String tag;
+        
+        EnchantPreference(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    public enum ListMode {
-        Whitelist,
-        Blacklist
+    private enum ListMode implements ITagged {
+        
+        WHITELIST("Whitelist"),
+        BLACKLIST("Blacklist");
+        
+        private final String tag;
+        
+        ListMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

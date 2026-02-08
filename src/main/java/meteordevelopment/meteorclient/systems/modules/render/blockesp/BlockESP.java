@@ -60,7 +60,7 @@ public class BlockESP extends Module {
         .description("Default block config.")
         .defaultValue(
             new ESPBlockData(
-                ShapeMode.Lines,
+                ShapeMode.LINES,
                 new SettingColor(0, 255, 200),
                 new SettingColor(0, 255, 200, 25),
                 true,

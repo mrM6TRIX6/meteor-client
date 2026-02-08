@@ -11,6 +11,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -34,7 +35,7 @@ public class Chams extends Module {
         .build()
     );
     
-    public final Setting<Shader> shader = sgThroughWalls.add(new EnumSetting.Builder<Shader>()
+    public final Setting<Shader> shader = sgThroughWalls.add(new EnumChoiceSetting.Builder<Shader>()
         .name("shader")
         .description("Renders a shader over of the entities.")
         .defaultValue(Shader.IMAGE)
@@ -189,10 +190,21 @@ public class Chams extends Module {
         return isActive() && shader.get() != Shader.NONE;
     }
     
-    public enum Shader {
+    public enum Shader implements ITagged {
         
-        IMAGE,
-        NONE
+        IMAGE("Image"),
+        NONE("None");
+        
+        private final String tag;
+        
+        Shader(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

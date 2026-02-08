@@ -76,7 +76,7 @@ public class PlayerRadarHUD extends HUDElement {
         .build()
     );
     
-    private final Setting<Alignment> alignment = sgGeneral.add(new EnumSetting.Builder<Alignment>()
+    private final Setting<Alignment> alignment = sgGeneral.add(new EnumChoiceSetting.Builder<Alignment>()
         .name("alignment")
         .description("Horizontal alignment.")
         .defaultValue(Alignment.AUTO)

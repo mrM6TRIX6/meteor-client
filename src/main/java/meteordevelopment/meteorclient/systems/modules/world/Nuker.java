@@ -18,6 +18,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
@@ -54,14 +55,14 @@ public class Nuker extends Module {
     
     // General
     
-    private final Setting<Shape> shape = sgGeneral.add(new EnumSetting.Builder<Shape>()
+    private final Setting<Shape> shape = sgGeneral.add(new EnumChoiceSetting.Builder<Shape>()
         .name("shape")
         .description("The shape of nuking algorithm.")
         .defaultValue(Shape.SPHERE)
         .build()
     );
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("The way the blocks are broken.")
         .defaultValue(Mode.FLATTEN)
@@ -156,7 +157,7 @@ public class Nuker extends Module {
         .build()
     );
     
-    private final Setting<SortMode> sortMode = sgGeneral.add(new EnumSetting.Builder<SortMode>()
+    private final Setting<SortMode> sortMode = sgGeneral.add(new EnumChoiceSetting.Builder<SortMode>()
         .name("sort-mode")
         .description("The blocks you want to mine first.")
         .defaultValue(SortMode.CLOSEST)
@@ -193,7 +194,7 @@ public class Nuker extends Module {
     
     // Whitelist and blacklist
     
-    private final Setting<ListMode> listMode = sgWhitelist.add(new EnumSetting.Builder<ListMode>()
+    private final Setting<ListMode> listMode = sgWhitelist.add(new EnumChoiceSetting.Builder<ListMode>()
         .name("list-mode")
         .description("Selection mode.")
         .defaultValue(ListMode.BLACKLIST)
@@ -237,10 +238,10 @@ public class Nuker extends Module {
         .build()
     );
     
-    private final Setting<ShapeMode> shapeModeBox = sgRender.add(new EnumSetting.Builder<ShapeMode>()
+    private final Setting<ShapeMode> shapeModeBox = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("nuke-box-mode")
         .description("How the shape for the bounding box is rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
@@ -265,10 +266,10 @@ public class Nuker extends Module {
         .build()
     );
     
-    private final Setting<ShapeMode> shapeModeBreak = sgRender.add(new EnumSetting.Builder<ShapeMode>()
+    private final Setting<ShapeMode> shapeModeBreak = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("nuke-block-mode")
         .description("How the shapes for broken blocks are rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .visible(enableRenderBreaking::get)
         .build()
     );
@@ -626,35 +627,79 @@ public class Nuker extends Module {
         return Math.max(Math.max(dX, dY), dZ);
     }
     
-    private enum ListMode {
+    private enum ListMode implements ITagged {
         
-        WHITELIST,
-        BLACKLIST
+        WHITELIST("Whitelist"),
+        BLACKLIST("Blacklist");
         
-    }
-    
-    private enum Mode {
+        private final String tag;
         
-        All,
-        FLATTEN,
-        SMASH
+        ListMode(String tag) {
+            this.tag = tag;
+        }
         
-    }
-    
-    private enum SortMode {
-        
-        NONE,
-        CLOSEST,
-        FURTHEST,
-        TOP_DOWN
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    private enum Shape {
+    private enum Mode implements ITagged {
         
-        CUBE,
-        UNIFORM_CUBE,
-        SPHERE
+        ALL("All"),
+        FLATTEN("Flatten"),
+        SMASH("Smash");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
+    }
+    
+    private enum SortMode implements ITagged {
+        
+        NONE("None"),
+        CLOSEST("Closest"),
+        FURTHEST("Furthest"),
+        TOP_DOWN("Top Down");
+        
+        private final String tag;
+        
+        SortMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
+    }
+    
+    private enum Shape implements ITagged {
+        
+        CUBE("Cube"),
+        UNIFORM_CUBE("Uniform Cube"),
+        SPHERE("Sphere");
+        
+        private final String tag;
+        
+        Shape(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

@@ -13,6 +13,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.AbstractBannerBlock;
 import net.minecraft.block.Block;
@@ -276,7 +277,7 @@ public class NoRender extends Module {
         .build()
     );
     
-    private final Setting<BannerRenderMode> bannerRender = sgWorld.add(new EnumSetting.Builder<BannerRenderMode>()
+    private final Setting<BannerRenderMode> bannerRender = sgWorld.add(new EnumChoiceSetting.Builder<BannerRenderMode>()
         .name("banners")
         .description("Changes rendering of banners.")
         .defaultValue(BannerRenderMode.EVERYTHING)
@@ -614,11 +615,22 @@ public class NoRender extends Module {
         return isActive() && noNametags.get();
     }
     
-    public enum BannerRenderMode {
+    public enum BannerRenderMode implements ITagged {
         
-        EVERYTHING,
-        PILLAR,
-        NONE
+        EVERYTHING("Everything"),
+        PILLAR("Pillar"),
+        NONE("None");
+        
+        private final String tag;
+        
+        BannerRenderMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

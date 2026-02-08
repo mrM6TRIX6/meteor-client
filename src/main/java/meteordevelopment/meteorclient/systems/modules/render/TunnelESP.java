@@ -20,7 +20,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -61,10 +61,10 @@ public class TunnelESP extends Module {
         .build()
     );
     
-    private final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumSetting.Builder<ShapeMode>()
+    private final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
@@ -170,36 +170,36 @@ public class TunnelESP extends Module {
         }
         
         TunnelSide s1 = getTunnelSide(ctx, x + 1, y, z);
-        if (s1 == TunnelSide.PartiallyBlocked) {
+        if (s1 == TunnelSide.PARTIALLY_BLOCKED) {
             return false;
         }
         
         TunnelSide s2 = getTunnelSide(ctx, x - 1, y, z);
-        if (s2 == TunnelSide.PartiallyBlocked) {
+        if (s2 == TunnelSide.PARTIALLY_BLOCKED) {
             return false;
         }
         
         TunnelSide s3 = getTunnelSide(ctx, x, y, z + 1);
-        if (s3 == TunnelSide.PartiallyBlocked) {
+        if (s3 == TunnelSide.PARTIALLY_BLOCKED) {
             return false;
         }
         
         TunnelSide s4 = getTunnelSide(ctx, x, y, z - 1);
-        if (s4 == TunnelSide.PartiallyBlocked) {
+        if (s4 == TunnelSide.PARTIALLY_BLOCKED) {
             return false;
         }
         
-        return (s1 == TunnelSide.Walkable && s2 == TunnelSide.Walkable && s3 == TunnelSide.FullyBlocked && s4 == TunnelSide.FullyBlocked) || (s1 == TunnelSide.FullyBlocked && s2 == TunnelSide.FullyBlocked && s3 == TunnelSide.Walkable && s4 == TunnelSide.Walkable);
+        return (s1 == TunnelSide.WALKABLE && s2 == TunnelSide.WALKABLE && s3 == TunnelSide.FULLY_BLOCKED && s4 == TunnelSide.FULLY_BLOCKED) || (s1 == TunnelSide.FULLY_BLOCKED && s2 == TunnelSide.FULLY_BLOCKED && s3 == TunnelSide.WALKABLE && s4 == TunnelSide.WALKABLE);
     }
     
     private TunnelSide getTunnelSide(Context ctx, int x, int y, int z) {
         if (canWalkIn(ctx, x, y, z)) {
-            return TunnelSide.Walkable;
+            return TunnelSide.WALKABLE;
         }
         if (!canWalkThrough(ctx, x, y, z) && !canWalkThrough(ctx, x, y + 1, z)) {
-            return TunnelSide.FullyBlocked;
+            return TunnelSide.FULLY_BLOCKED;
         }
-        return TunnelSide.PartiallyBlocked;
+        return TunnelSide.PARTIALLY_BLOCKED;
     }
     
     private boolean canWalkOn(Context ctx, int x, int y, int z) {
@@ -389,9 +389,11 @@ public class TunnelESP extends Module {
     }
     
     private enum TunnelSide {
-        Walkable,
-        PartiallyBlocked,
-        FullyBlocked
+        
+        WALKABLE,
+        PARTIALLY_BLOCKED,
+        FULLY_BLOCKED
+        
     }
     
 }

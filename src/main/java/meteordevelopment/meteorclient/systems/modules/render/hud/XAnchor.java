@@ -5,10 +5,23 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
-public enum XAnchor {
+import meteordevelopment.meteorclient.utils.misc.ITagged;
+
+public enum XAnchor implements ITagged {
     
-    LEFT,
-    CENTER,
-    RIGHT
+    LEFT("Left"),
+    CENTER("Center"),
+    RIGHT("Right");
+    
+    private final String tag;
+    
+    XAnchor(String tag) {
+        this.tag = tag;
+    }
+    
+    @Override
+    public String getTag() {
+        return tag;
+    }
     
 }

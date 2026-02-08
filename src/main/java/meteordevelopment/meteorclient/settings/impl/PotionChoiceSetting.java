@@ -11,17 +11,17 @@ import meteordevelopment.meteorclient.utils.misc.MyPotion;
 
 import java.util.function.Consumer;
 
-public class PotionSetting extends EnumSetting<MyPotion> {
+public class PotionChoiceSetting extends EnumChoiceSetting<MyPotion> {
     
-    public PotionSetting(String name, String title, String description, MyPotion defaultValue, Consumer<MyPotion> onChanged, Consumer<Setting<MyPotion>> onModuleActivated, IVisible visible) {
+    public PotionChoiceSetting(String name, String title, String description, MyPotion defaultValue, Consumer<MyPotion> onChanged, Consumer<Setting<MyPotion>> onModuleActivated, IVisible visible) {
         super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
-    public static class Builder extends EnumSetting.Builder<MyPotion> {
+    public static class Builder extends EnumChoiceSetting.Builder<MyPotion> {
         
         @Override
-        public EnumSetting<MyPotion> build() {
-            return new PotionSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
+        public EnumChoiceSetting<MyPotion> build() {
+            return new PotionChoiceSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

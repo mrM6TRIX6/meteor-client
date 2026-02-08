@@ -11,11 +11,12 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -34,7 +35,7 @@ public class ArmorHUD extends HUDElement {
     
     // General
     
-    private final Setting<Orientation> orientation = sgGeneral.add(new EnumSetting.Builder<Orientation>()
+    private final Setting<Orientation> orientation = sgGeneral.add(new EnumChoiceSetting.Builder<Orientation>()
         .name("orientation")
         .description("How to display armor.")
         .defaultValue(Orientation.HORIZONTAL)
@@ -58,7 +59,7 @@ public class ArmorHUD extends HUDElement {
     
     // Durability
     
-    private final Setting<Durability> durability = sgDurability.add(new EnumSetting.Builder<Durability>()
+    private final Setting<Durability> durability = sgDurability.add(new EnumChoiceSetting.Builder<Durability>()
         .name("durability")
         .description("How to display armor durability.")
         .defaultValue(Durability.BAR)
@@ -214,19 +215,41 @@ public class ArmorHUD extends HUDElement {
         return customScale.get() ? scale.get().floatValue() : scale.getDefaultValue().floatValue();
     }
     
-    public enum Durability {
+    private enum Durability implements ITagged {
         
-        NONE,
-        BAR,
-        TOTAL,
-        PERCENTAGE
+        NONE("None"),
+        BAR("Bar"),
+        TOTAL("Total"),
+        PERCENTAGE("Percentage");
+        
+        private final String tag;
+        
+        Durability(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    public enum Orientation {
+    private enum Orientation implements ITagged {
         
-        HORIZONTAL,
-        VERTICAL
+        HORIZONTAL("Horizontal"),
+        VERTICAL("Vertical");
+        
+        private final String tag;
+        
+        Orientation(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.systems.modules.world;
 
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.PotionSetting;
+import meteordevelopment.meteorclient.settings.impl.PotionChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.MyPotion;
@@ -24,7 +24,7 @@ public class AutoBrewer extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<MyPotion> potion = sgGeneral.add(new PotionSetting.Builder()
+    private final Setting<MyPotion> potion = sgGeneral.add(new PotionChoiceSetting.Builder()
         .name("potion")
         .description("The type of potion to brew.")
         .defaultValue(MyPotion.STRENGTH)

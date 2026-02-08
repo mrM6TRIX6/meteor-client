@@ -16,12 +16,13 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.KeybindSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ByteCountDataOutput;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.EChestMemory;
 import meteordevelopment.meteorclient.utils.render.ContainerInventoryScreen;
@@ -70,10 +71,10 @@ public class BetterTooltips extends Module {
     
     // General
     
-    private final Setting<DisplayWhen> displayWhen = sgGeneral.add(new EnumSetting.Builder<DisplayWhen>()
+    private final Setting<DisplayWhen> displayWhen = sgGeneral.add(new EnumChoiceSetting.Builder<DisplayWhen>()
         .name("display-when")
         .description("When to display previews.")
-        .defaultValue(DisplayWhen.Keybind)
+        .defaultValue(DisplayWhen.KEYBIND)
         .onChanged(value -> updateTooltips = true)
         .build()
     );
@@ -82,7 +83,7 @@ public class BetterTooltips extends Module {
         .name("keybind")
         .description("The bind for keybind mode.")
         .defaultValue(Keybind.fromKey(GLFW_KEY_LEFT_ALT))
-        .visible(() -> displayWhen.get() == DisplayWhen.Keybind)
+        .visible(() -> displayWhen.get() == DisplayWhen.KEYBIND)
         .onChanged(value -> updateTooltips = true)
         .build()
     );
@@ -203,10 +204,10 @@ public class BetterTooltips extends Module {
         .build()
     );
     
-    private final Setting<SortSize> sizeType = sgOther.add(new EnumSetting.Builder<SortSize>()
+    private final Setting<SortSize> sizeType = sgOther.add(new EnumChoiceSetting.Builder<SortSize>()
         .name("byte-size-format")
         .description("The format by which to display the item's byte size.")
-        .defaultValue(SortSize.Dynamic)
+        .defaultValue(SortSize.AUTO)
         .visible(byteSize::get)
         .build()
     );
@@ -290,10 +291,10 @@ public class BetterTooltips extends Module {
                         
                         int byteCount = ByteCountDataOutput.INSTANCE.getCount();
                         String count = switch (sizeType.get()) {
-                            case Bytes -> String.format("%d bytes", byteCount);
-                            case Kilobytes -> String.format("%.2f kB", byteCount / 1024f);
-                            case Megabytes -> String.format("%.4f MB", byteCount / 1048576f);
-                            case Dynamic -> {
+                            case BYTES -> String.format("%d bytes", byteCount);
+                            case KILOBYTES -> String.format("%.2f kB", byteCount / 1024f);
+                            case MEGABYTES -> String.format("%.4f MB", byteCount / 1048576f);
+                            case AUTO -> {
                                 if (byteCount >= 1048576) {
                                     yield String.format("%.2f MB", byteCount / 1048576f);
                                 } else if (byteCount >= 1024) {
@@ -587,7 +588,7 @@ public class BetterTooltips extends Module {
     }
     
     private boolean isPressed() {
-        return (keybind.get().isPressed() && displayWhen.get() == DisplayWhen.Keybind) || displayWhen.get() == DisplayWhen.Always;
+        return (keybind.get().isPressed() && displayWhen.get() == DisplayWhen.KEYBIND) || displayWhen.get() == DisplayWhen.ALWAYS;
     }
     
     public boolean updateTooltips() {
@@ -599,16 +600,42 @@ public class BetterTooltips extends Module {
         return false;
     }
     
-    public enum DisplayWhen {
-        Keybind,
-        Always
+    private enum DisplayWhen implements ITagged {
+        
+        KEYBIND("Keybind"),
+        ALWAYS("Always");
+        
+        private final String tag;
+        
+        DisplayWhen(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    public enum SortSize {
-        Bytes,
-        Kilobytes,
-        Megabytes,
-        Dynamic,
+    private enum SortSize implements ITagged {
+        
+        BYTES("Bytes"),
+        KILOBYTES("Kilobytes"),
+        MEGABYTES("Megabytes"),
+        AUTO("Auto");
+        
+        private final String tag;
+        
+        SortSize(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

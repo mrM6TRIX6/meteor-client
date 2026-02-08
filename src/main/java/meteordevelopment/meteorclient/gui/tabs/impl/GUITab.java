@@ -48,13 +48,13 @@ public class GUITab extends Tab {
             WTable table = add(theme.table()).expandX().widget();
             
             table.add(theme.label("Theme:"));
-            WDropdown<String> themeW = table.add(theme.dropdown(GuiThemes.getNames(), GuiThemes.get().name)).widget();
-            themeW.action = () -> {
-                GuiThemes.select(themeW.get());
-                
-                mc.setScreen(null);
-                tab.openScreen(GuiThemes.get());
-            };
+            // WDropdown<String> themeW = table.add(theme.dropdown(GuiThemes.getNames(), GuiThemes.get().name)).widget();
+//            themeW.action = () -> {
+//                GuiThemes.select(themeW.get());
+//
+//                mc.setScreen(null);
+//                tab.openScreen(GuiThemes.get());
+//            };
             
             WButton reset = add(theme.button("Reset GUI Layout")).widget();
             reset.action = theme::clearWindowConfigs;

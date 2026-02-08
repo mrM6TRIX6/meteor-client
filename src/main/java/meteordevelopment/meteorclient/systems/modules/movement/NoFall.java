@@ -14,12 +14,13 @@ import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -46,26 +47,26 @@ public class NoFall extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("The way you are saved from fall damage.")
-        .defaultValue(Mode.Packet)
+        .defaultValue(Mode.PACKET)
         .build()
     );
     
-    private final Setting<PlacedItem> placedItem = sgGeneral.add(new EnumSetting.Builder<PlacedItem>()
+    private final Setting<PlacedItem> placedItem = sgGeneral.add(new EnumChoiceSetting.Builder<PlacedItem>()
         .name("placed-item")
         .description("Which block to place.")
-        .defaultValue(PlacedItem.Bucket)
-        .visible(() -> mode.get() == Mode.Place)
+        .defaultValue(PlacedItem.BUCKET)
+        .visible(() -> mode.get() == Mode.PLACE)
         .build()
     );
     
-    private final Setting<PlaceMode> airPlaceMode = sgGeneral.add(new EnumSetting.Builder<PlaceMode>()
+    private final Setting<PlaceMode> airPlaceMode = sgGeneral.add(new EnumChoiceSetting.Builder<PlaceMode>()
         .name("air-place-mode")
         .description("Whether place mode places before you die or before you take damage.")
-        .defaultValue(PlaceMode.BeforeDeath)
-        .visible(() -> mode.get() == Mode.AirPlace)
+        .defaultValue(PlaceMode.BEFORE_DEATH)
+        .visible(() -> mode.get() == Mode.AIR_PLACE)
         .build()
     );
     
@@ -73,7 +74,7 @@ public class NoFall extends Module {
         .name("anchor")
         .description("Centers the player and reduces movement when using bucket or air place mode.")
         .defaultValue(true)
-        .visible(() -> mode.get() != Mode.Packet)
+        .visible(() -> mode.get() != Mode.PACKET)
         .build()
     );
     
@@ -103,7 +104,7 @@ public class NoFall extends Module {
     @Override
     public void onActivate() {
         prePathManagerNoFall = PathManagers.get().getSettings().getNoFall().get();
-        if (mode.get() == Mode.Packet) {
+        if (mode.get() == Mode.PACKET) {
             PathManagers.get().getSettings().getNoFall().set(true);
         }
         
@@ -122,7 +123,7 @@ public class NoFall extends Module {
         }
         if (mc.player.getAbilities().creativeMode
             || !(event.packet instanceof PlayerMoveC2SPacket)
-            || mode.get() != Mode.Packet
+            || mode.get() != Mode.PACKET
             || ((IPlayerMoveC2SPacket) event.packet).meteor$getTag() == 1337) {
             return;
         }
@@ -160,7 +161,7 @@ public class NoFall extends Module {
         }
         
         // AirPlace mode
-        if (mode.get() == Mode.AirPlace) {
+        if (mode.get() == Mode.AIR_PLACE) {
             // Test if fall damage setting is valid
             if (!airPlaceMode.get().test((float) mc.player.fallDistance)) {
                 return;
@@ -182,9 +183,9 @@ public class NoFall extends Module {
         }
         
         // Bucket mode
-        else if (mode.get() == Mode.Place) {
+        else if (mode.get() == Mode.PLACE) {
             PlacedItem placedItem1 = mc.world.getEnvironmentAttributes().getAttributeValue(EnvironmentAttributes.WATER_EVAPORATES_GAMEPLAY)
-                && placedItem.get() == PlacedItem.Bucket ? PlacedItem.PowderSnow : placedItem.get();
+                && placedItem.get() == PlacedItem.BUCKET ? PlacedItem.POWDER_SNOW : placedItem.get();
             
             if (mc.player.fallDistance > 3 && !EntityUtils.isAboveWater(mc.player)) {
                 Item item = placedItem1.item;
@@ -206,10 +207,10 @@ public class NoFall extends Module {
                 // Place
                 if (result != null && result.getType() == HitResult.Type.BLOCK) {
                     targetPos = result.getBlockPos().up();
-                    if (placedItem1 == PlacedItem.Bucket) {
+                    if (placedItem1 == PlacedItem.BUCKET) {
                         useItem(findItemResult, true, targetPos, true);
                     } else {
-                        useItem(findItemResult, placedItem1 == PlacedItem.PowderSnow, targetPos, false);
+                        useItem(findItemResult, placedItem1 == PlacedItem.POWDER_SNOW, targetPos, false);
                     }
                 }
             }
@@ -257,41 +258,72 @@ public class NoFall extends Module {
         return mode.get().toString();
     }
     
-    private enum Mode {
-        Packet,
-        AirPlace,
-        Place
+    private enum Mode implements ITagged {
+        
+        PACKET("Packet"),
+        AIR_PLACE("Air Place"),
+        PLACE("Place");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    private enum PlacedItem {
-        Bucket(Items.WATER_BUCKET, Blocks.WATER),
-        PowderSnow(Items.POWDER_SNOW_BUCKET, Blocks.POWDER_SNOW),
-        HayBale(Items.HAY_BLOCK, Blocks.HAY_BLOCK),
-        Cobweb(Items.COBWEB, Blocks.COBWEB),
-        SlimeBlock(Items.SLIME_BLOCK, Blocks.SLIME_BLOCK);
+    private enum PlacedItem implements ITagged {
         
+        BUCKET("Bucket", Items.WATER_BUCKET, Blocks.WATER),
+        POWDER_SNOW("Powder Snow", Items.POWDER_SNOW_BUCKET, Blocks.POWDER_SNOW),
+        HAY_BALE("Hay Bale", Items.HAY_BLOCK, Blocks.HAY_BLOCK),
+        COBWEB("Cobweb", Items.COBWEB, Blocks.COBWEB),
+        SLIME_BLOCK("Slime Block", Items.SLIME_BLOCK, Blocks.SLIME_BLOCK);
+        
+        private final String tag;
         private final Item item;
         private final Block block;
         
-        PlacedItem(Item item, Block block) {
+        PlacedItem(String tag, Item item, Block block) {
+            this.tag = tag;
             this.item = item;
             this.block = block;
         }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    private enum PlaceMode {
-        BeforeDamage(height -> height > 2),
-        BeforeDeath(height -> height > Math.max(PlayerUtils.getTotalHealth(), 2));
+    private enum PlaceMode implements ITagged {
         
+        BEFORE_DAMAGE("Before Damage", height -> height > 2),
+        BEFORE_DEATH("Before Death", height -> height > Math.max(PlayerUtils.getTotalHealth(), 2));
+        
+        private final String tag;
         private final Predicate<Float> fallHeight;
         
-        PlaceMode(Predicate<Float> fallHeight) {
+        PlaceMode(String tag, Predicate<Float> fallHeight) {
+            this.tag = tag;
             this.fallHeight = fallHeight;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
         }
         
         public boolean test(float fallheight) {
             return fallHeight.test(fallheight);
         }
+        
     }
     
 }

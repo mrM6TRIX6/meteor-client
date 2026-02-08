@@ -12,6 +12,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.entity.player.PlayerEntity;
@@ -63,7 +64,7 @@ public class PlayerModelHUD extends HUDElement {
         .build()
     );
     
-    private final Setting<CenterOrientation> centerOrientation = sgGeneral.add(new EnumSetting.Builder<CenterOrientation>()
+    private final Setting<CenterOrientation> centerOrientation = sgGeneral.add(new EnumChoiceSetting.Builder<CenterOrientation>()
         .name("center-orientation")
         .description("Which direction the player faces when the HUD model faces directly forward.")
         .defaultValue(CenterOrientation.SOUTH)
@@ -146,10 +147,21 @@ public class PlayerModelHUD extends HUDElement {
         return customScale.get() ? scale.get() : scale.getDefaultValue();
     }
     
-    private enum CenterOrientation {
+    private enum CenterOrientation implements ITagged {
         
-        NORTH,
-        SOUTH
+        NORTH("North"),
+        SOUTH("South");
+        
+        private final String tag;
+        
+        CenterOrientation(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

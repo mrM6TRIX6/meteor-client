@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.notebot;
 
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.notebot.instrumentdetect.InstrumentDetectFunction;
 import meteordevelopment.meteorclient.utils.notebot.song.Note;
 import net.minecraft.block.BlockState;
@@ -28,32 +29,43 @@ public class NotebotUtils {
         return new Note(instrument, level);
     }
     
-    public enum NotebotMode {
+    public enum NotebotMode implements ITagged {
         
-        ANY_INSTRUMENT,
-        EXACT_INSTRUMENTS
+        ANY_INSTRUMENT("Any Instrument"),
+        EXACT_INSTRUMENTS("Exact Instruments");
+        
+        private final String tag;
+        
+        NotebotMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    public enum OptionalInstrument {
+    public enum OptionalInstrument implements ITagged {
         
-        NONE(null),
-        HARP(NoteBlockInstrument.HARP),
-        BASEDRUM(NoteBlockInstrument.BASEDRUM),
-        SNARE(NoteBlockInstrument.SNARE),
-        HAT(NoteBlockInstrument.HAT),
-        BASS(NoteBlockInstrument.BASS),
-        FLUTE(NoteBlockInstrument.FLUTE),
-        BELL(NoteBlockInstrument.BELL),
-        GUITAR(NoteBlockInstrument.GUITAR),
-        CHIME(NoteBlockInstrument.CHIME),
-        XYLOPHONE(NoteBlockInstrument.XYLOPHONE),
-        IRON_XYLOPHONE(NoteBlockInstrument.IRON_XYLOPHONE),
-        COW_BELL(NoteBlockInstrument.COW_BELL),
-        DIDGERIDOO(NoteBlockInstrument.DIDGERIDOO),
-        BIT(NoteBlockInstrument.BIT),
-        BANJO(NoteBlockInstrument.BANJO),
-        PLING(NoteBlockInstrument.PLING);
+        NONE("None", null),
+        HARP("Harp", NoteBlockInstrument.HARP),
+        BASEDRUM("Basedrum", NoteBlockInstrument.BASEDRUM),
+        SNARE("Snare", NoteBlockInstrument.SNARE),
+        HAT("Hat", NoteBlockInstrument.HAT),
+        BASS("Bass", NoteBlockInstrument.BASS),
+        FLUTE("Flute", NoteBlockInstrument.FLUTE),
+        BELL("Bell", NoteBlockInstrument.BELL),
+        GUITAR("Guitar", NoteBlockInstrument.GUITAR),
+        CHIME("Chime", NoteBlockInstrument.CHIME),
+        XYLOPHONE("Xylophone", NoteBlockInstrument.XYLOPHONE),
+        IRON_XYLOPHONE("Iron Xylophone", NoteBlockInstrument.IRON_XYLOPHONE),
+        COW_BELL("Cow Bell", NoteBlockInstrument.COW_BELL),
+        DIDGERIDOO("Didgeridoo", NoteBlockInstrument.DIDGERIDOO),
+        BIT("Bit", NoteBlockInstrument.BIT),
+        BANJO("Banjo", NoteBlockInstrument.BANJO),
+        PLING("Pling", NoteBlockInstrument.PLING);
         
         public static final Map<NoteBlockInstrument, OptionalInstrument> BY_MINECRAFT_INSTRUMENT = new HashMap<>();
         
@@ -63,10 +75,17 @@ public class NotebotUtils {
             }
         }
         
+        private final String tag;
         private final NoteBlockInstrument minecraftInstrument;
         
-        OptionalInstrument(@Nullable NoteBlockInstrument minecraftInstrument) {
+        OptionalInstrument(String tag, @Nullable NoteBlockInstrument minecraftInstrument) {
+            this.tag = tag;
             this.minecraftInstrument = minecraftInstrument;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
         }
         
         public NoteBlockInstrument toMinecraftInstrument() {

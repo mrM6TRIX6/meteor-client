@@ -14,6 +14,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -80,7 +81,7 @@ public class TextHUD extends HUDElement {
     
     // Shown
     
-    private final Setting<Shown> shown = sgShown.add(new EnumSetting.Builder<Shown>()
+    private final Setting<Shown> shown = sgShown.add(new EnumChoiceSetting.Builder<Shown>()
         .name("shown")
         .description("When this text element is shown.")
         .defaultValue(Shown.ALWAYS)
@@ -303,19 +304,21 @@ public class TextHUD extends HUDElement {
         return condition.get();
     }
     
-    public enum Shown {
+    public enum Shown implements ITagged {
         
-        ALWAYS,
-        WHEN_TRUE,
-        WHEN_FALSE;
+        ALWAYS("Always"),
+        WHEN_TRUE("When True"),
+        WHEN_FALSE("When False");
+        
+        private final String tag;
+        
+        Shown(String tag) {
+            this.tag = tag;
+        }
         
         @Override
-        public String toString() {
-            return switch (this) {
-                case ALWAYS -> "Always";
-                case WHEN_TRUE -> "When True";
-                case WHEN_FALSE -> "When False";
-            };
+        public String getTag() {
+            return tag;
         }
         
     }

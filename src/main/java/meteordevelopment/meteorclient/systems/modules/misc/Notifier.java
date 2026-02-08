@@ -20,6 +20,7 @@ import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -110,7 +111,7 @@ public class Notifier extends Module {
         .build()
     );
     
-    private final Setting<Event> event = sgVisualRange.add(new EnumSetting.Builder<Event>()
+    private final Setting<Event> event = sgVisualRange.add(new EnumChoiceSetting.Builder<Event>()
         .name("event")
         .description("When to log the entities.")
         .defaultValue(Event.BOTH)
@@ -170,7 +171,7 @@ public class Notifier extends Module {
     
     // Joins/Leaves
     
-    private final Setting<JoinLeaveModes> joinsLeavesMode = sgJoinsLeaves.add(new EnumSetting.Builder<JoinLeaveModes>()
+    private final Setting<JoinLeaveModes> joinsLeavesMode = sgJoinsLeaves.add(new EnumChoiceSetting.Builder<JoinLeaveModes>()
         .name("player-joins-leaves")
         .description("How to handle player join/leave notifications.")
         .defaultValue(JoinLeaveModes.NONE)
@@ -214,7 +215,7 @@ public class Notifier extends Module {
         .build()
     );
     
-    private final Setting<PlayersListMode> gamemodesPlayersListMode = sgGamemodeChanges.add(new EnumSetting.Builder<PlayersListMode>()
+    private final Setting<PlayersListMode> gamemodesPlayersListMode = sgGamemodeChanges.add(new EnumChoiceSetting.Builder<PlayersListMode>()
         .name("players-list-mode")
         .description("Mode for filtering players.")
         .defaultValue(PlayersListMode.BLACKLIST)
@@ -496,27 +497,60 @@ public class Notifier extends Module {
         }
     }
     
-    private enum Event {
+    private enum Event implements ITagged {
         
-        SPAWN,
-        DESPAWN,
-        BOTH
+        SPAWN("Spawn"),
+        DESPAWN("Despawn"),
+        BOTH("Both");
+        
+        private final String tag;
+        
+        Event(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    private enum JoinLeaveModes {
+    private enum JoinLeaveModes implements ITagged {
         
-        NONE,
-        JOINS,
-        LEAVES,
-        BOTH
+        NONE("None"),
+        JOINS("Joins"),
+        LEAVES("Leaves"),
+        BOTH("Both");
+        
+        private final String tag;
+        
+        JoinLeaveModes(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    private enum PlayersListMode {
+    private enum PlayersListMode implements ITagged {
         
-        WHITELIST,
-        BLACKLIST
+        WHITELIST("Whitelist"),
+        BLACKLIST("Blacklist");
+        
+        private final String tag;
+        
+        PlayersListMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

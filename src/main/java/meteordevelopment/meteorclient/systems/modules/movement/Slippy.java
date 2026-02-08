@@ -9,9 +9,10 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import net.minecraft.block.Block;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class Slippy extends Module {
         .build()
     );
     
-    public final Setting<ListMode> listMode = sgGeneral.add(new EnumSetting.Builder<ListMode>()
+    public final Setting<ListMode> listMode = sgGeneral.add(new EnumChoiceSetting.Builder<ListMode>()
         .name("list-mode")
         .description("The mode to select blocks.")
         .defaultValue(ListMode.BLACKLIST)
@@ -54,10 +55,21 @@ public class Slippy extends Module {
         super(Categories.MOVEMENT, "Slippy", "Changes the base friction level of blocks.");
     }
     
-    public enum ListMode {
+    public enum ListMode implements ITagged {
         
-        WHITELIST,
-        BLACKLIST
+        WHITELIST("Whitelist"),
+        BLACKLIST("Blacklist");
+        
+        private final String tag;
+        
+        ListMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

@@ -75,7 +75,7 @@ public class BedAura extends Module {
         .build()
     );
     
-    private final Setting<SortPriority> priority = sgTargeting.add(new EnumSetting.Builder<SortPriority>()
+    private final Setting<SortPriority> priority = sgTargeting.add(new EnumChoiceSetting.Builder<SortPriority>()
         .name("target-priority")
         .description("How to filter targets within range.")
         .defaultValue(SortPriority.LOWEST_HEALTH)
@@ -172,10 +172,10 @@ public class BedAura extends Module {
         .build()
     );
     
-    private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumSetting.Builder<ShapeMode>()
+    private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .build()
     );
     

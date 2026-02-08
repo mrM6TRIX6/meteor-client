@@ -8,21 +8,22 @@ package meteordevelopment.meteorclient.systems.modules.movement;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 
 public class AntiVoid extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("The method to prevent you from falling into the void.")
-        .defaultValue(Mode.Jump)
+        .defaultValue(Mode.JUMP)
         .onChanged(a -> onActivate())
         .build()
     );
@@ -35,14 +36,14 @@ public class AntiVoid extends Module {
     
     @Override
     public void onActivate() {
-        if (mode.get() == Mode.Flight) {
+        if (mode.get() == Mode.FLIGHT) {
             wasFlightEnabled = Modules.get().isActive(Flight.class);
         }
     }
     
     @Override
     public void onDeactivate() {
-        if (!wasFlightEnabled && mode.get() == Mode.Flight && Utils.canUpdate()) {
+        if (!wasFlightEnabled && mode.get() == Mode.FLIGHT && Utils.canUpdate()) {
             Modules.get().get(Flight.class).disable();
         }
     }
@@ -52,7 +53,7 @@ public class AntiVoid extends Module {
         int minY = mc.world.getBottomY();
         
         if (mc.player.getY() > minY || mc.player.getY() < minY - 15) {
-            if (hasRun && mode.get() == Mode.Flight) {
+            if (hasRun && mode.get() == Mode.FLIGHT) {
                 Modules.get().get(Flight.class).disable();
                 hasRun = false;
             }
@@ -60,17 +61,30 @@ public class AntiVoid extends Module {
         }
         
         switch (mode.get()) {
-            case Flight -> {
+            case FLIGHT -> {
                 Modules.get().get(Flight.class).enable();
                 hasRun = true;
             }
-            case Jump -> mc.player.jump();
+            case JUMP -> mc.player.jump();
         }
     }
     
-    public enum Mode {
-        Flight,
-        Jump
+    private enum Mode implements ITagged {
+        
+        FLIGHT("Flight"),
+        JUMP("Jump");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

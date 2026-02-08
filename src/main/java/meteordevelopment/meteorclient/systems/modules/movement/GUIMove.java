@@ -14,11 +14,12 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
@@ -37,7 +38,7 @@ public class GUIMove extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Screens> screens = sgGeneral.add(new EnumSetting.Builder<Screens>()
+    private final Setting<Screens> screens = sgGeneral.add(new EnumChoiceSetting.Builder<Screens>()
         .name("guis")
         .description("Which GUIs to move in.")
         .defaultValue(Screens.INVENTORY)
@@ -249,11 +250,22 @@ public class GUIMove extends Module {
         return jump.get();
     }
     
-    private enum Screens {
+    private enum Screens implements ITagged {
         
-        GUI,
-        INVENTORY,
-        BOTH
+        GUI("GUI"),
+        INVENTORY("Inventory"),
+        BOTH("Both");
+        
+        private final String tag;
+        
+        Screens(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

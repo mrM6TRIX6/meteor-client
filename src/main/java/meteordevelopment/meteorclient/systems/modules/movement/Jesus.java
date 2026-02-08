@@ -16,12 +16,13 @@ import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -63,10 +64,10 @@ public class Jesus extends Module {
     
     // Water
     
-    private final Setting<Mode> waterMode = sgWater.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> waterMode = sgWater.add(new EnumChoiceSetting.Builder<Mode>()
         .name("water-mode")
         .description("How to treat the water.")
-        .defaultValue(Mode.Solid)
+        .defaultValue(Mode.SOLID)
         .build()
     );
     
@@ -74,7 +75,7 @@ public class Jesus extends Module {
         .name("dip-if-burning")
         .description("Lets you go into the water when you are burning.")
         .defaultValue(true)
-        .visible(() -> waterMode.get() == Mode.Solid)
+        .visible(() -> waterMode.get() == Mode.SOLID)
         .build()
     );
     
@@ -82,7 +83,7 @@ public class Jesus extends Module {
         .name("dip-on-sneak-water")
         .description("Lets you go into the water when your sneak key is held.")
         .defaultValue(true)
-        .visible(() -> waterMode.get() == Mode.Solid)
+        .visible(() -> waterMode.get() == Mode.SOLID)
         .build()
     );
     
@@ -90,7 +91,7 @@ public class Jesus extends Module {
         .name("dip-on-fall-water")
         .description("Lets you go into the water when you fall over a certain height.")
         .defaultValue(true)
-        .visible(() -> waterMode.get() == Mode.Solid)
+        .visible(() -> waterMode.get() == Mode.SOLID)
         .build()
     );
     
@@ -100,16 +101,16 @@ public class Jesus extends Module {
         .defaultValue(4)
         .range(1, 255)
         .sliderRange(3, 20)
-        .visible(() -> waterMode.get() == Mode.Solid && dipOnFallWater.get())
+        .visible(() -> waterMode.get() == Mode.SOLID && dipOnFallWater.get())
         .build()
     );
     
     // Lava
     
-    private final Setting<Mode> lavaMode = sgLava.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> lavaMode = sgLava.add(new EnumChoiceSetting.Builder<Mode>()
         .name("lava-mode")
         .description("How to treat the lava.")
-        .defaultValue(Mode.Solid)
+        .defaultValue(Mode.SOLID)
         .build()
     );
     
@@ -117,7 +118,7 @@ public class Jesus extends Module {
         .name("dip-if-resistant")
         .description("Lets you go into the lava if you have Fire Resistance effect.")
         .defaultValue(true)
-        .visible(() -> lavaMode.get() == Mode.Solid)
+        .visible(() -> lavaMode.get() == Mode.SOLID)
         .build()
     );
     
@@ -125,7 +126,7 @@ public class Jesus extends Module {
         .name("dip-on-sneak-lava")
         .description("Lets you go into the lava when your sneak key is held.")
         .defaultValue(true)
-        .visible(() -> lavaMode.get() == Mode.Solid)
+        .visible(() -> lavaMode.get() == Mode.SOLID)
         .build()
     );
     
@@ -133,7 +134,7 @@ public class Jesus extends Module {
         .name("dip-on-fall-lava")
         .description("Lets you go into the lava when you fall over a certain height.")
         .defaultValue(true)
-        .visible(() -> lavaMode.get() == Mode.Solid)
+        .visible(() -> lavaMode.get() == Mode.SOLID)
         .build()
     );
     
@@ -143,7 +144,7 @@ public class Jesus extends Module {
         .defaultValue(4)
         .range(1, 255)
         .sliderRange(3, 20)
-        .visible(() -> lavaMode.get() == Mode.Solid && dipOnFallLava.get())
+        .visible(() -> lavaMode.get() == Mode.SOLID && dipOnFallLava.get())
         .build()
     );
     
@@ -168,8 +169,8 @@ public class Jesus extends Module {
         prePathManagerWalkOnWater = PathManagers.get().getSettings().getWalkOnWater().get();
         prePathManagerWalkOnLava = PathManagers.get().getSettings().getWalkOnLava().get();
         
-        PathManagers.get().getSettings().getWalkOnWater().set(waterMode.get() == Mode.Solid);
-        PathManagers.get().getSettings().getWalkOnLava().set(lavaMode.get() == Mode.Solid);
+        PathManagers.get().getSettings().getWalkOnWater().set(waterMode.get() == Mode.SOLID);
+        PathManagers.get().getSettings().getWalkOnLava().set(lavaMode.get() == Mode.SOLID);
     }
     
     @Override
@@ -183,7 +184,7 @@ public class Jesus extends Module {
         boolean bubbleColumn = isInBubbleColumn;
         isInBubbleColumn = false;
         
-        if ((waterMode.get() == Mode.Bob && mc.player.isTouchingWater()) || (lavaMode.get() == Mode.Bob && mc.player.isInLava())) {
+        if ((waterMode.get() == Mode.BOB && mc.player.isTouchingWater()) || (lavaMode.get() == Mode.BOB && mc.player.isInLava())) {
             double fluidHeight;
             if (mc.player.isInLava()) {
                 fluidHeight = mc.player.getFluidHeight(FluidTags.LAVA);
@@ -351,7 +352,7 @@ public class Jesus extends Module {
             return false;
         }
         
-        return waterMode.get() == Mode.Solid;
+        return waterMode.get() == Mode.SOLID;
     }
     
     private boolean lavaShouldBeSolid() {
@@ -359,7 +360,7 @@ public class Jesus extends Module {
             return false;
         }
         
-        if (!lavaIsSafe() && lavaMode.get() == Mode.Solid) {
+        if (!lavaIsSafe() && lavaMode.get() == Mode.SOLID) {
             return true;
         }
         
@@ -370,7 +371,7 @@ public class Jesus extends Module {
             return false;
         }
         
-        return lavaMode.get() == Mode.Solid;
+        return lavaMode.get() == Mode.SOLID;
     }
     
     private boolean lavaIsSafe() {
@@ -406,10 +407,23 @@ public class Jesus extends Module {
         return isActive() && powderSnow.get();
     }
     
-    private enum Mode {
-        Solid,
-        Bob,
-        Ignore
+    private enum Mode implements ITagged {
+        
+        SOLID("Solid"),
+        BOB("Bob"),
+        IGNORE("Ignore");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

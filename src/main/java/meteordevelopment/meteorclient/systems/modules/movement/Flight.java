@@ -13,11 +13,12 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.entity.Entity;
@@ -30,10 +31,10 @@ public class Flight extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgAntiKick = settings.createGroup("Anti Kick"); //Pog
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("The mode for Flight.")
-        .defaultValue(Mode.Abilities)
+        .defaultValue(Mode.ABILITIES)
         .onChanged(mode -> {
             if (!isActive() || !Utils.canUpdate()) {
                 return;
@@ -62,16 +63,16 @@ public class Flight extends Module {
         .name("no-sneak")
         .description("Prevents you from sneaking while flying.")
         .defaultValue(false)
-        .visible(() -> mode.get() == Mode.Velocity)
+        .visible(() -> mode.get() == Mode.VELOCITY)
         .build()
     );
     
     // Anti Kick
     
-    private final Setting<AntiKickMode> antiKickMode = sgAntiKick.add(new EnumSetting.Builder<AntiKickMode>()
+    private final Setting<AntiKickMode> antiKickMode = sgAntiKick.add(new EnumChoiceSetting.Builder<AntiKickMode>()
         .name("anti-kick-mode")
         .description("The mode for anti kick.")
-        .defaultValue(AntiKickMode.Packet)
+        .defaultValue(AntiKickMode.PACKET)
         .build()
     );
     
@@ -105,7 +106,7 @@ public class Flight extends Module {
     
     @Override
     public void onActivate() {
-        if (mode.get() == Mode.Abilities && !mc.player.isSpectator()) {
+        if (mode.get() == Mode.ABILITIES && !mc.player.isSpectator()) {
             mc.player.getAbilities().flying = true;
             if (mc.player.getAbilities().creativeMode) {
                 return;
@@ -116,7 +117,7 @@ public class Flight extends Module {
     
     @Override
     public void onDeactivate() {
-        if (mode.get() == Mode.Abilities && !mc.player.isSpectator()) {
+        if (mode.get() == Mode.ABILITIES && !mc.player.isSpectator()) {
             abilitiesOff();
         }
     }
@@ -141,19 +142,19 @@ public class Flight extends Module {
             delayLeft = delay.get();
             offLeft = offTime.get();
             
-            if (antiKickMode.get() == AntiKickMode.Packet) {
+            if (antiKickMode.get() == AntiKickMode.PACKET) {
                 // Resend movement packets
                 ((ClientPlayerEntityAccessor) mc.player).meteor$setTicksSinceLastPositionPacketSent(20);
             }
         } else if (delayLeft <= 0) {
             boolean shouldReturn = false;
             
-            if (antiKickMode.get() == AntiKickMode.Normal) {
-                if (mode.get() == Mode.Abilities) {
+            if (antiKickMode.get() == AntiKickMode.NORMAL) {
+                if (mode.get() == Mode.ABILITIES) {
                     abilitiesOff();
                     shouldReturn = true;
                 }
-            } else if (antiKickMode.get() == AntiKickMode.Packet && offLeft == offTime.get()) {
+            } else if (antiKickMode.get() == AntiKickMode.PACKET && offLeft == offTime.get()) {
                 // Resend movement packets
                 ((ClientPlayerEntityAccessor) mc.player).meteor$setTicksSinceLastPositionPacketSent(20);
             }
@@ -170,7 +171,7 @@ public class Flight extends Module {
         }
         
         switch (mode.get()) {
-            case Velocity -> {
+            case VELOCITY -> {
                 mc.player.getAbilities().flying = false;
                 mc.player.setVelocity(0, 0, 0);
                 Vec3d playerVelocity = mc.player.getVelocity();
@@ -185,7 +186,7 @@ public class Flight extends Module {
                     mc.player.setOnGround(false);
                 }
             }
-            case Abilities -> {
+            case ABILITIES -> {
                 if (mc.player.isSpectator()) {
                     return;
                 }
@@ -216,7 +217,7 @@ public class Flight extends Module {
      */
     @EventHandler
     private void onPacketSend(PacketEvent.Send event) {
-        if (!(event.packet instanceof PlayerMoveC2SPacket packet) || antiKickMode.get() != AntiKickMode.Packet) {
+        if (!(event.packet instanceof PlayerMoveC2SPacket packet) || antiKickMode.get() != AntiKickMode.PACKET) {
             return;
         }
         
@@ -277,25 +278,51 @@ public class Flight extends Module {
     public float getOffGroundSpeed() {
         // All the multiplication below is to get the speed to roughly match the speed you get when using vanilla fly
         
-        if (!isActive() || mode.get() != Mode.Velocity) {
+        if (!isActive() || mode.get() != Mode.VELOCITY) {
             return -1;
         }
         return speed.get().floatValue() * (mc.player.isSprinting() ? 15f : 10f);
     }
     
     public boolean noSneak() {
-        return isActive() && mode.get() == Mode.Velocity && noSneak.get();
+        return isActive() && mode.get() == Mode.VELOCITY && noSneak.get();
     }
     
-    public enum Mode {
-        Abilities,
-        Velocity
+    private enum Mode implements ITagged {
+        
+        ABILITIES("Abilities"),
+        VELOCITY("Velocity");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    public enum AntiKickMode {
-        Normal,
-        Packet,
-        None
+    private enum AntiKickMode implements ITagged {
+        
+        NORMAL("Normal"),
+        PACKET("Packet"),
+        NONE("None");
+        
+        private final String tag;
+        
+        AntiKickMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

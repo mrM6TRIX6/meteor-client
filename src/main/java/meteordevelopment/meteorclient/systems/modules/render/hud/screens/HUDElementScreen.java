@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.XAnchor;
 import meteordevelopment.meteorclient.systems.modules.render.hud.YAnchor;
@@ -53,7 +53,7 @@ public class HUDElementScreen extends WindowScreen {
             })
             .build()
         );
-        sg.add(new EnumSetting.Builder<XAnchor>()
+        sg.add(new EnumChoiceSetting.Builder<XAnchor>()
             .name("x-anchor")
             .description("Horizontal anchor.")
             .defaultValue(XAnchor.LEFT)
@@ -62,7 +62,7 @@ public class HUDElementScreen extends WindowScreen {
             .onChanged(element.box::setXAnchor)
             .build()
         );
-        sg.add(new EnumSetting.Builder<YAnchor>()
+        sg.add(new EnumChoiceSetting.Builder<YAnchor>()
             .name("y-anchor")
             .description("Vertical anchor.")
             .defaultValue(YAnchor.TOP)

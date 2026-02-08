@@ -5,10 +5,23 @@
 
 package meteordevelopment.meteorclient.utils.render;
 
-public enum AlignmentX {
+import meteordevelopment.meteorclient.utils.misc.ITagged;
+
+public enum AlignmentX implements ITagged {
     
-    LEFT,
-    CENTER,
-    RIGHT
+    LEFT("Left"),
+    CENTER("Center"),
+    RIGHT("Right");
+    
+    private final String tag;
+    
+    AlignmentX(String tag) {
+        this.tag = tag;
+    }
+    
+    @Override
+    public String getTag() {
+        return tag;
+    }
     
 }

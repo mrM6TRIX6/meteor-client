@@ -9,10 +9,11 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.Target;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
@@ -26,10 +27,10 @@ public class EndermanLook extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Mode> lookMode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> lookMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("look-mode")
         .description("How this module behaves.")
-        .defaultValue(Mode.Away)
+        .defaultValue(Mode.AWAY)
         .build()
     );
     
@@ -37,7 +38,7 @@ public class EndermanLook extends Module {
         .name("stun-hostiles")
         .description("Automatically stares at hostile endermen to stun them in place.")
         .defaultValue(true)
-        .visible(() -> lookMode.get() == Mode.Away)
+        .visible(() -> lookMode.get() == Mode.AWAY)
         .build()
     );
     
@@ -58,14 +59,14 @@ public class EndermanLook extends Module {
             }
             
             switch (lookMode.get()) {
-                case Away -> {
+                case AWAY -> {
                     if (enderman.isAngry() && stun.get()) {
                         Rotations.rotate(Rotations.getYaw(enderman), Rotations.getPitch(enderman, Target.HEAD), -75, null);
                     } else if (angleCheck(enderman)) {
                         Rotations.rotate(mc.player.getYaw(), 90, -75, null);
                     }
                 }
-                case At -> {
+                case AT -> {
                     if (!enderman.isAngry()) {
                         Rotations.rotate(Rotations.getYaw(enderman), Rotations.getPitch(enderman, Target.HEAD), -75, null);
                     }
@@ -88,9 +89,22 @@ public class EndermanLook extends Module {
         return e > 1.0D - 0.025D / d;
     }
     
-    public enum Mode {
-        At,
-        Away
+    private enum Mode implements ITagged {
+        
+        AT("At"),
+        AWAY("Away");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

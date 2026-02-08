@@ -8,11 +8,12 @@ package meteordevelopment.meteorclient.systems.modules.player;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,31 +22,26 @@ import java.util.List;
 
 public class FastUse extends Module {
     
-    public enum Mode {
-        All,
-        Some
-    }
-    
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("Which items to fast use.")
-        .defaultValue(Mode.All)
+        .defaultValue(Mode.ALL)
         .build()
     );
     
     private final Setting<List<Item>> items = sgGeneral.add(new ItemListSetting.Builder()
         .name("items")
         .description("Which items should fast place work on in \"Some\" mode.")
-        .visible(() -> mode.get() == Mode.Some)
+        .visible(() -> mode.get() == Mode.SOME)
         .build()
     );
     
     private final Setting<Boolean> blocks = sgGeneral.add(new BoolSetting.Builder()
         .name("blocks")
         .description("Fast-places blocks if the mode is \"Some\" mode.")
-        .visible(() -> mode.get() == Mode.Some)
+        .visible(() -> mode.get() == Mode.SOME)
         .defaultValue(false)
         .build()
     );
@@ -64,7 +60,7 @@ public class FastUse extends Module {
     }
     
     public int getItemUseCooldown(ItemStack itemStack) {
-        if (mode.get() == Mode.All || shouldWorkSome(itemStack)) {
+        if (mode.get() == Mode.ALL || shouldWorkSome(itemStack)) {
             return cooldown.get();
         }
         return 4; //default cooldown
@@ -72,6 +68,24 @@ public class FastUse extends Module {
     
     private boolean shouldWorkSome(ItemStack itemStack) {
         return (blocks.get() && itemStack.getItem() instanceof BlockItem) || items.get().contains(itemStack.getItem());
+    }
+    
+    private enum Mode implements ITagged {
+        
+        ALL("All"),
+        SOME("Some");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

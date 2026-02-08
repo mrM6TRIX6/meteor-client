@@ -93,10 +93,10 @@ public abstract class LivingEntityMixin extends Entity {
         
         HandView handView = Modules.get().get(HandView.class);
         if (handView.isActive()) {
-            if (handView.swingMode.get() == HandView.SwingMode.None) {
+            if (handView.swingMode.get() == HandView.SwingMode.NONE) {
                 return hand;
             }
-            return handView.swingMode.get() == HandView.SwingMode.Offhand ? Hand.OFF_HAND : Hand.MAIN_HAND;
+            return handView.swingMode.get() == HandView.SwingMode.OFFHAND ? Hand.OFF_HAND : Hand.MAIN_HAND;
         }
         return hand;
     }

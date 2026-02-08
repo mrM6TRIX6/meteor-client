@@ -5,11 +5,24 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
-public enum Alignment {
+import meteordevelopment.meteorclient.utils.misc.ITagged;
+
+public enum Alignment implements ITagged {
     
-    AUTO,
-    LEFT,
-    CENTER,
-    RIGHT
+    AUTO("Auto"),
+    LEFT("Left"),
+    CENTER("Center"),
+    RIGHT("Right");
+    
+    private final String tag;
+    
+    Alignment(String tag) {
+        this.tag = tag;
+    }
+    
+    @Override
+    public String getTag() {
+        return tag;
+    }
     
 }

@@ -13,11 +13,12 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -40,7 +41,7 @@ public class Step extends Module {
         .build()
     );
     
-    private final Setting<ActiveWhen> activeWhen = sgGeneral.add(new EnumSetting.Builder<ActiveWhen>()
+    private final Setting<ActiveWhen> activeWhen = sgGeneral.add(new EnumChoiceSetting.Builder<ActiveWhen>()
         .name("active-when")
         .description("Step is active when you meet these requirements.")
         .defaultValue(ActiveWhen.ALWAYS)
@@ -167,11 +168,22 @@ public class Step extends Module {
         return h;
     }
     
-    private enum ActiveWhen {
+    private enum ActiveWhen implements ITagged {
         
-        ALWAYS,
-        SNEAKING,
-        NOT_SNEAKING
+        ALWAYS("Always"),
+        SNEAKING("Sneaking"),
+        NOT_SNEAKING("Not Sneaking");
+        
+        private final String tag;
+        
+        ActiveWhen(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

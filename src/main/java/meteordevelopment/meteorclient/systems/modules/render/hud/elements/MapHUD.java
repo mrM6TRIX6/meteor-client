@@ -14,6 +14,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -37,7 +38,7 @@ public class MapHUD extends HUDElement {
     
     // General
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("How to determine which map to render.")
         .defaultValue(Mode.SIMPLE)
@@ -170,11 +171,22 @@ public class MapHUD extends HUDElement {
         });
     }
     
-    private enum Mode {
+    private enum Mode implements ITagged {
         
-        SLOT_INDEX,
-        MAP_ID,
-        SIMPLE
+        SLOT_INDEX("Slot Index"),
+        MAP_ID("Map ID"),
+        SIMPLE("Simple");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

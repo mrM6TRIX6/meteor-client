@@ -27,6 +27,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.Target;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -134,7 +135,7 @@ public class CrystalAura extends Module {
         .build()
     );
     
-    private final Setting<YawStepMode> yawStepMode = sgGeneral.add(new EnumSetting.Builder<YawStepMode>()
+    private final Setting<YawStepMode> yawStepMode = sgGeneral.add(new EnumChoiceSetting.Builder<YawStepMode>()
         .name("yaw-steps-mode")
         .description("When to run the yaw steps check.")
         .defaultValue(YawStepMode.BREAK)
@@ -161,7 +162,7 @@ public class CrystalAura extends Module {
     
     // Switch
     
-    private final Setting<AutoSwitchMode> autoSwitch = sgSwitch.add(new EnumSetting.Builder<AutoSwitchMode>()
+    private final Setting<AutoSwitchMode> autoSwitch = sgSwitch.add(new EnumChoiceSetting.Builder<AutoSwitchMode>()
         .name("auto-switch")
         .description("Switches to crystals in your hotbar once a target is found.")
         .defaultValue(AutoSwitchMode.NORMAL)
@@ -241,7 +242,7 @@ public class CrystalAura extends Module {
         .build()
     );
     
-    private final Setting<SupportMode> support = sgPlace.add(new EnumSetting.Builder<SupportMode>()
+    private final Setting<SupportMode> support = sgPlace.add(new EnumChoiceSetting.Builder<SupportMode>()
         .name("support")
         .description("Places a support block in air if no other position have been found.")
         .defaultValue(SupportMode.DISABLED)
@@ -388,14 +389,14 @@ public class CrystalAura extends Module {
     
     // Pause
     
-    public final Setting<PauseMode> pauseOnUse = sgPause.add(new EnumSetting.Builder<PauseMode>()
+    public final Setting<PauseMode> pauseOnUse = sgPause.add(new EnumChoiceSetting.Builder<PauseMode>()
         .name("pause-on-use")
         .description("Which processes should be paused while using an item.")
         .defaultValue(PauseMode.PLACE)
         .build()
     );
     
-    public final Setting<PauseMode> pauseOnMine = sgPause.add(new EnumSetting.Builder<PauseMode>()
+    public final Setting<PauseMode> pauseOnMine = sgPause.add(new EnumChoiceSetting.Builder<PauseMode>()
         .name("pause-on-mine")
         .description("Which processes should be paused while mining a block.")
         .defaultValue(PauseMode.NONE)
@@ -427,14 +428,14 @@ public class CrystalAura extends Module {
     
     // Render
     
-    public final Setting<SwingMode> swingMode = sgRender.add(new EnumSetting.Builder<SwingMode>()
+    public final Setting<SwingMode> swingMode = sgRender.add(new EnumChoiceSetting.Builder<SwingMode>()
         .name("swing-mode")
         .description("How to swing when placing.")
         .defaultValue(SwingMode.BOTH)
         .build()
     );
     
-    private final Setting<RenderMode> renderMode = sgRender.add(new EnumSetting.Builder<RenderMode>()
+    private final Setting<RenderMode> renderMode = sgRender.add(new EnumChoiceSetting.Builder<RenderMode>()
         .name("render-mode")
         .description("The mode to render in.")
         .defaultValue(RenderMode.NORMAL)
@@ -507,10 +508,10 @@ public class CrystalAura extends Module {
         .build()
     );
     
-    private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumSetting.Builder<ShapeMode>()
+    private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .visible(() -> renderMode.get() != RenderMode.NONE)
         .build()
     );
@@ -1515,48 +1516,98 @@ public class CrystalAura extends Module {
         }
     }
     
-    private enum YawStepMode {
+    private enum YawStepMode implements ITagged {
         
-        BREAK,
-        ALL,
+        BREAK("Break"),
+        ALL("All");
         
-    }
-    
-    private enum AutoSwitchMode {
+        private final String tag;
         
-        NORMAL,
-        SILENT,
-        NONE
+        YawStepMode(String tag) {
+            this.tag = tag;
+        }
         
-    }
-    
-    private enum SupportMode {
-        
-        DISABLED,
-        ACCURATE,
-        FAST
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    private enum PauseMode {
+    private enum AutoSwitchMode implements ITagged {
         
-        BOTH,
-        PLACE,
-        BREAK,
-        NONE;
+        NORMAL("Normal"),
+        SILENT("Silent"),
+        NONE("None");
+        
+        private final String tag;
+        
+        AutoSwitchMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
+    }
+    
+    private enum SupportMode implements ITagged {
+        
+        DISABLED("Disabled"),
+        ACCURATE("Accurate"),
+        FAST("Fast");
+        
+        private final String tag;
+        
+        SupportMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
+    }
+    
+    private enum PauseMode implements ITagged {
+        
+        BOTH("Both"),
+        PLACE("Place"),
+        BREAK("Break"),
+        NONE("None");
+        
+        private final String tag;
+        
+        PauseMode(String tag) {
+            this.tag = tag;
+        }
         
         public boolean equals(PauseMode process) {
             return this == process || this == PauseMode.BOTH;
         }
         
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    private enum SwingMode {
+    private enum SwingMode implements ITagged {
         
-        BOTH,
-        PACKET,
-        CLIENT,
-        NONE;
+        BOTH("Both"),
+        PACKET("Packet"),
+        CLIENT("Client"),
+        NONE("None");
+        
+        private final String tag;
+        
+        SwingMode(String tag) {
+            this.tag = tag;
+        }
         
         public boolean packet() {
             return this == PACKET || this == BOTH;
@@ -1566,15 +1617,31 @@ public class CrystalAura extends Module {
             return this == CLIENT || this == BOTH;
         }
         
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    private enum RenderMode {
+    private enum RenderMode implements ITagged {
         
-        NORMAL,
-        SMOOTH,
-        FADING,
-        GRADIENT,
-        NONE
+        NORMAL("Normal"),
+        SMOOTH("Smooth"),
+        FADING("Fading"),
+        GRADIENT("Gradient"),
+        NONE("None");
+        
+        private final String tag;
+        
+        RenderMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

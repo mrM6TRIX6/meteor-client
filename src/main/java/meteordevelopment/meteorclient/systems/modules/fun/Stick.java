@@ -11,13 +11,14 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.Vector3dSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
@@ -38,18 +39,18 @@ public class Stick extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Mode> targetMode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> targetMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("target-mode")
         .description("The mode at which to follow the player.")
-        .defaultValue(Mode.Automatic)
+        .defaultValue(Mode.AUTOMATIC)
         .onChanged(onChanged -> target = null)
         .build()
     );
     
-    private final Setting<Follow> followMode = sgGeneral.add(new EnumSetting.Builder<Follow>()
+    private final Setting<Follow> followMode = sgGeneral.add(new EnumChoiceSetting.Builder<Follow>()
         .name("follow")
         .description("Which parts rotation to follow.")
-        .defaultValue(Follow.Head)
+        .defaultValue(Follow.HEAD)
         .build()
     );
     
@@ -80,7 +81,7 @@ public class Stick extends Module {
     
     @Override
     public void onActivate() {
-        if (targetMode.get() == Mode.Automatic) {
+        if (targetMode.get() == Mode.AUTOMATIC) {
             setTarget();
         }
     }
@@ -94,7 +95,7 @@ public class Stick extends Module {
     // Middle click mode
     @EventHandler
     private void onMouseClick(MouseClickEvent event) {
-        if (targetMode.get() == Mode.MiddleClick) {
+        if (targetMode.get() == Mode.MIDDLE_CLICK) {
             if (event.action == KeyAction.PRESS && event.button() == GLFW_MOUSE_BUTTON_MIDDLE && mc.currentScreen == null) {
                 if (mc.targetedEntity instanceof PlayerEntity) {
                     target = mc.targetedEntity;
@@ -117,12 +118,12 @@ public class Stick extends Module {
         
         switch (followMode.get()) {
             
-            case Head -> {
+            case HEAD -> {
                 Rotations.rotate(Rotations.getYaw(target), 0);
                 Position head = target.raycast(-1 + offset.get().z, 1f / 20f, false).getPos();
                 mc.player.setPosition(head.getX() + offset.get().x, head.getY() + offset.get().y, head.getZ());
             }
-            case Body ->
+            case BODY ->
                 mc.player.setPosition(target.getX() + offset.get().x, target.getY() + offset.get().y, target.getZ() + offset.get().z);
         }
     }
@@ -150,10 +151,10 @@ public class Stick extends Module {
             .map(GameProfile::name)
             .toList();
         
-        if (!playerNamesList.contains(EntityUtils.getName(target)) && targetMode.get() == Mode.Automatic) {
+        if (!playerNamesList.contains(EntityUtils.getName(target)) && targetMode.get() == Mode.AUTOMATIC) {
             target = null;
         }
-        if (target == null && targetMode.get() == Mode.Automatic) {
+        if (target == null && targetMode.get() == Mode.AUTOMATIC) {
             setTarget();
         }
     }
@@ -166,14 +167,40 @@ public class Stick extends Module {
         target = targets.get(0);
     }
     
-    public enum Mode {
-        MiddleClick,
-        Automatic
+    public enum Mode implements ITagged {
+        
+        MIDDLE_CLICK("Middle Click"),
+        AUTOMATIC("Automatic");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    public enum Follow {
-        Head,
-        Body
+    public enum Follow implements ITagged {
+        
+        HEAD("Head"),
+        BODY("Body");
+        
+        private final String tag;
+        
+        Follow(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

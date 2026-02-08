@@ -12,11 +12,12 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorListSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
@@ -39,7 +40,7 @@ public class RainbowArmor extends Module {
     private final SettingGroup sgSlots = settings.createGroup("Slots");
     private final SettingGroup sgExtra = settings.createGroup("Extra");
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("rainbow-mode")
         .description("RGB Method.")
         .defaultValue(Mode.DEFAULT)
@@ -329,10 +330,21 @@ public class RainbowArmor extends Module {
         return (result + 1.0f) % 1.0f;
     }
     
-    private enum Mode {
+    private enum Mode implements ITagged {
         
-        DEFAULT,
-        LINEAR
+        DEFAULT("Default"),
+        LINEAR("Linear");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

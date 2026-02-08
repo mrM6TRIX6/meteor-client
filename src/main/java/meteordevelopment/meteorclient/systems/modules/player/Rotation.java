@@ -9,9 +9,10 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 
 public class Rotation extends Module {
@@ -21,7 +22,7 @@ public class Rotation extends Module {
     
     // Yaw
     
-    private final Setting<LockMode> yawLockMode = sgYaw.add(new EnumSetting.Builder<LockMode>()
+    private final Setting<LockMode> yawLockMode = sgYaw.add(new EnumChoiceSetting.Builder<LockMode>()
         .name("yaw-lock-mode")
         .description("The way in which your yaw is locked.")
         .defaultValue(LockMode.SIMPLE)
@@ -40,7 +41,7 @@ public class Rotation extends Module {
     
     // Pitch
     
-    private final Setting<LockMode> pitchLockMode = sgPitch.add(new EnumSetting.Builder<LockMode>()
+    private final Setting<LockMode> pitchLockMode = sgPitch.add(new EnumChoiceSetting.Builder<LockMode>()
         .name("pitch-lock-mode")
         .description("The way in which your pitch is locked.")
         .defaultValue(LockMode.SIMPLE)
@@ -93,11 +94,22 @@ public class Rotation extends Module {
         mc.player.bodyYaw = yawAngle;
     }
     
-    public enum LockMode {
+    public enum LockMode implements ITagged {
         
-        SMART,
-        SIMPLE,
-        NONE
+        SMART("Smart"),
+        SIMPLE("Simple"),
+        NONE("None");
+        
+        private final String tag;
+        
+        LockMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

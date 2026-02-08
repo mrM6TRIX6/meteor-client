@@ -7,15 +7,16 @@ package meteordevelopment.meteorclient.systems.modules.movement;
 
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 
 public class Sneak extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("Which method to sneak.")
         .defaultValue(Mode.VANILLA)
@@ -34,10 +35,21 @@ public class Sneak extends Module {
         return isActive() && !mc.player.getAbilities().flying && mode.get() == Mode.VANILLA;
     }
     
-    private enum Mode {
+    private enum Mode implements ITagged {
         
-        PACKET,
-        VANILLA
+        PACKET("Packet"),
+        VANILLA("Vanilla");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -41,10 +41,10 @@ public class BlockSelection extends Module {
         .build()
     );
     
-    private final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumSetting.Builder<ShapeMode>()
+    private final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
@@ -133,7 +133,7 @@ public class BlockSelection extends Module {
             }
         } else {
             if (advanced.get()) {
-                if (shapeMode.get() == ShapeMode.Both || shapeMode.get() == ShapeMode.Lines) {
+                if (shapeMode.get() == ShapeMode.BOTH || shapeMode.get() == ShapeMode.LINES) {
                     shape.forEachEdge((minX, minY, minZ, maxX, maxY, maxZ) ->
                         event.renderer.line(
                             bp.getX() + minX,
@@ -147,7 +147,7 @@ public class BlockSelection extends Module {
                     );
                 }
                 
-                if (shapeMode.get() == ShapeMode.Both || shapeMode.get() == ShapeMode.Sides) {
+                if (shapeMode.get() == ShapeMode.BOTH || shapeMode.get() == ShapeMode.SIDES) {
                     for (Box b : shape.getBoundingBoxes()) {
                         render(event, bp, b);
                     }

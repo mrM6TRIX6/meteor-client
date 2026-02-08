@@ -80,7 +80,7 @@ public class FontFaceSettingScreen extends WindowScreen {
             }
             table.add(item);
             
-            WDropdown<FontInfo.Type> dropdown = table.add(theme.dropdown(FontInfo.Type.Regular)).right().widget();
+            WDropdown<FontInfo.Type> dropdown = table.add(theme.dropdown(FontInfo.Type.REGULAR)).right().widget();
             
             WButton select = table.add(theme.button("Select")).expandCellX().right().widget();
             select.action = () -> {

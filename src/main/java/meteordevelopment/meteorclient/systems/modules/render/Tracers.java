@@ -18,6 +18,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.Target;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.NametagUtils;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
@@ -73,14 +74,14 @@ public class Tracers extends Module {
     
     // Appearance
     
-    private final Setting<TracerStyle> style = sgAppearance.add(new EnumSetting.Builder<TracerStyle>()
+    private final Setting<TracerStyle> style = sgAppearance.add(new EnumChoiceSetting.Builder<TracerStyle>()
         .name("style")
         .description("What display mode should be used")
         .defaultValue(TracerStyle.LINES)
         .build()
     );
     
-    private final Setting<Target> target = sgAppearance.add(new EnumSetting.Builder<Target>()
+    private final Setting<Target> target = sgAppearance.add(new EnumChoiceSetting.Builder<Target>()
         .name("target")
         .description("What part of the entity to target.")
         .defaultValue(Target.BODY)
@@ -400,10 +401,21 @@ public class Tracers extends Module {
         return Integer.toString(count);
     }
     
-    private enum TracerStyle {
+    private enum TracerStyle implements ITagged {
         
-        LINES,
-        OFFSCREEN
+        LINES("Lines"),
+        OFFSCREEN("Offscreen");
+        
+        private final String tag;
+        
+        TracerStyle(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

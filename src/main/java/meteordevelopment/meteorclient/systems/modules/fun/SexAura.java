@@ -17,6 +17,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -54,7 +55,7 @@ public class SexAura extends Module {
     
     // General
     
-    private final Setting<Mode> targetMode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> targetMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("target-mode")
         .description("The mode at which to follow the player.")
         .defaultValue(Mode.AUTOMATIC)
@@ -96,7 +97,7 @@ public class SexAura extends Module {
         .build()
     );
     
-    private final Setting<Style> sexStyle = sgPos.add(new EnumSetting.Builder<Style>()
+    private final Setting<Style> sexStyle = sgPos.add(new EnumChoiceSetting.Builder<Style>()
         .name("style")
         .description("The style for sticking to player.")
         .defaultValue(Style.GULP_GULP)
@@ -379,17 +380,39 @@ public class SexAura extends Module {
         return chance <= 0.1;
     }
     
-    private enum Mode {
+    private enum Mode implements ITagged {
         
-        MIDDLE_CLICK,
-        AUTOMATIC
+        MIDDLE_CLICK("Middle Click"),
+        AUTOMATIC("Automatic");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    private enum Style {
+    private enum Style implements ITagged {
         
-        GULP_GULP,
-        DOGGY
+        GULP_GULP("Gulp-Gulp"),
+        DOGGY("Doggy");
+        
+        private final String tag;
+        
+        Style(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

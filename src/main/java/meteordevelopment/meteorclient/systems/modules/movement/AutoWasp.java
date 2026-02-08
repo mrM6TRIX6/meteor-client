@@ -14,13 +14,14 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.Vector3dSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EquipmentSlot;
@@ -73,7 +74,7 @@ public class AutoWasp extends Module {
         .build()
     );
     
-    private final Setting<Action> action = sgGeneral.add(new EnumSetting.Builder<Action>()
+    private final Setting<Action> action = sgGeneral.add(new EnumChoiceSetting.Builder<Action>()
         .name("action-on-target-loss")
         .description("What to do if you lose the target.")
         .defaultValue(Action.TOGGLE)
@@ -251,19 +252,23 @@ public class AutoWasp extends Module {
         ((IVec3d) event.movement).meteor$set(xVel, yVel, zVel);
     }
     
-    public enum Action {
-        TOGGLE,
-        CHOOSE_NEW_TARGET,
-        DISCONNECT;
+    private enum Action implements ITagged {
+        
+        TOGGLE("Toggle"),
+        CHOOSE_NEW_TARGET("Choose New Target"),
+        DISCONNECT("Disconnect");
+        
+        private final String tag;
+        
+        Action(String tag) {
+            this.tag = tag;
+        }
         
         @Override
-        public String toString() {
-            return switch (this) {
-                case TOGGLE -> "Toggle module";
-                case CHOOSE_NEW_TARGET -> "Choose new target";
-                case DISCONNECT -> "Disconnect";
-            };
+        public String getTag() {
+            return tag;
         }
+        
     }
     
 }

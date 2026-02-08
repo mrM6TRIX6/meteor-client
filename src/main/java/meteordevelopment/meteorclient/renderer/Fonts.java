@@ -47,7 +47,7 @@ public class Fonts {
         MeteorClient.LOG.info("Found {} font families.", FONT_FAMILIES.size());
         
         DEFAULT_FONT_FAMILY = FontUtils.getFontInfo(FontUtils.stream(FONTS[0])).family();
-        DEFAULT_FONT = getFamily(DEFAULT_FONT_FAMILY).get(FontInfo.Type.Regular);
+        DEFAULT_FONT = getFamily(DEFAULT_FONT_FAMILY).get(FontInfo.Type.REGULAR);
         
         ClientSettings clientSettings = ClientSettings.get();
         load(clientSettings != null ? clientSettings.font.get() : DEFAULT_FONT);

@@ -13,12 +13,13 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.effect.StatusEffects;
@@ -28,17 +29,17 @@ public class LongJump extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    public final Setting<JumpMode> jumpMode = sgGeneral.add(new EnumSetting.Builder<JumpMode>()
+    public final Setting<JumpMode> jumpMode = sgGeneral.add(new EnumChoiceSetting.Builder<JumpMode>()
         .name("mode")
         .description("The method of jumping.")
-        .defaultValue(JumpMode.Vanilla)
+        .defaultValue(JumpMode.VANILLA)
         .build()
     );
     
     private final Setting<Double> vanillaBoostFactor = sgGeneral.add(new DoubleSetting.Builder()
         .name("vanilla-boost-factor")
         .description("The amount by which to boost the jump.")
-        .visible(() -> jumpMode.get() == JumpMode.Vanilla)
+        .visible(() -> jumpMode.get() == JumpMode.VANILLA)
         .defaultValue(1.261)
         .min(0)
         .sliderMax(5)
@@ -48,7 +49,7 @@ public class LongJump extends Module {
     private final Setting<Double> burstInitialSpeed = sgGeneral.add(new DoubleSetting.Builder()
         .name("burst-initial-speed")
         .description("The initial speed of the runup.")
-        .visible(() -> jumpMode.get() == JumpMode.Burst)
+        .visible(() -> jumpMode.get() == JumpMode.BURST)
         .defaultValue(6)
         .min(0)
         .sliderMax(20)
@@ -58,7 +59,7 @@ public class LongJump extends Module {
     private final Setting<Double> burstBoostFactor = sgGeneral.add(new DoubleSetting.Builder()
         .name("burst-boost-factor")
         .description("The amount by which to boost the jump.")
-        .visible(() -> jumpMode.get() == JumpMode.Burst)
+        .visible(() -> jumpMode.get() == JumpMode.BURST)
         .defaultValue(2.149)
         .min(0)
         .sliderMax(20)
@@ -68,7 +69,7 @@ public class LongJump extends Module {
     private final Setting<Boolean> onlyOnGround = sgGeneral.add(new BoolSetting.Builder()
         .name("only-on-ground")
         .description("Only performs the jump if you are on the ground.")
-        .visible(() -> jumpMode.get() == JumpMode.Burst)
+        .visible(() -> jumpMode.get() == JumpMode.BURST)
         .defaultValue(true)
         .build()
     );
@@ -76,7 +77,7 @@ public class LongJump extends Module {
     private final Setting<Boolean> onJump = sgGeneral.add(new BoolSetting.Builder()
         .name("on-jump")
         .description("Whether the player needs to jump first or not.")
-        .visible(() -> jumpMode.get() == JumpMode.Burst)
+        .visible(() -> jumpMode.get() == JumpMode.BURST)
         .defaultValue(false)
         .build()
     );
@@ -84,7 +85,7 @@ public class LongJump extends Module {
     private final Setting<Double> glideMultiplier = sgGeneral.add(new DoubleSetting.Builder()
         .name("glide-multiplier")
         .description("The amount by to multiply the glide velocity.")
-        .visible(() -> jumpMode.get() == JumpMode.Glide)
+        .visible(() -> jumpMode.get() == JumpMode.GLIDE)
         .defaultValue(1)
         .min(0)
         .sliderMax(5)
@@ -103,7 +104,7 @@ public class LongJump extends Module {
     private final Setting<Boolean> autoDisable = sgGeneral.add(new BoolSetting.Builder()
         .name("auto-disable")
         .description("Automatically disabled the module after jumping.")
-        .visible(() -> jumpMode.get() != JumpMode.Vanilla)
+        .visible(() -> jumpMode.get() != JumpMode.VANILLA)
         .defaultValue(true)
         .build()
     );
@@ -153,7 +154,7 @@ public class LongJump extends Module {
             Modules.get().get(Timer.class).setOverride(PlayerUtils.isMoving() ? timer.get() : Timer.OFF);
         }
         switch (jumpMode.get()) {
-            case Vanilla -> {
+            case VANILLA -> {
                 if (PlayerUtils.isMoving() && mc.options.jumpKey.isPressed()) {
                     double dir = getDir();
                     
@@ -168,7 +169,7 @@ public class LongJump extends Module {
                     }
                 }
             }
-            case Burst -> {
+            case BURST -> {
                 if (stage != 0 && !mc.player.isOnGround() && autoDisable.get()) {
                     jumping = true;
                 }
@@ -212,7 +213,7 @@ public class LongJump extends Module {
     
     @EventHandler
     private void onTickPre(TickEvent.Pre event) {
-        if (Utils.canUpdate() && jumpMode.get() == JumpMode.Glide) {
+        if (Utils.canUpdate() && jumpMode.get() == JumpMode.GLIDE) {
             if (!PlayerUtils.isMoving()) {
                 return;
             }
@@ -321,10 +322,23 @@ public class LongJump extends Module {
         ((IVec3d) event.movement).meteor$setXZ((forward * speed * cos) + (strafe * speed * sin), (forward * speed * sin) + (strafe * speed * cos));
     }
     
-    public enum JumpMode {
-        Vanilla,
-        Burst,
-        Glide
+    private enum JumpMode implements ITagged {
+        
+        VANILLA("Vanilla"),
+        BURST("Burst"),
+        GLIDE("Glide");
+        
+        private final String tag;
+        
+        JumpMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

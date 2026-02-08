@@ -10,9 +10,10 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.option.Perspective;
@@ -26,10 +27,10 @@ public class FreeLook extends Module {
     
     // General
     
-    public final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    public final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("Which entity to rotate.")
-        .defaultValue(Mode.Player)
+        .defaultValue(Mode.PLAYER)
         .build()
     );
     
@@ -94,11 +95,11 @@ public class FreeLook extends Module {
     }
     
     public boolean playerMode() {
-        return isActive() && mc.options.getPerspective() == Perspective.THIRD_PERSON_BACK && mode.get() == Mode.Player;
+        return isActive() && mc.options.getPerspective() == Perspective.THIRD_PERSON_BACK && mode.get() == Mode.PLAYER;
     }
     
     public boolean cameraMode() {
-        return isActive() && mode.get() == Mode.Camera;
+        return isActive() && mode.get() == Mode.CAMERA;
     }
     
     @EventHandler
@@ -106,7 +107,7 @@ public class FreeLook extends Module {
         if (arrows.get()) {
             for (int i = 0; i < (arrowSpeed.get() * 2); i++) {
                 switch (mode.get()) {
-                    case Player -> {
+                    case PLAYER -> {
                         if (Input.isKeyPressed(GLFW.GLFW_KEY_LEFT)) {
                             cameraYaw -= 0.5;
                         }
@@ -120,7 +121,7 @@ public class FreeLook extends Module {
                             cameraPitch += 0.5;
                         }
                     }
-                    case Camera -> {
+                    case CAMERA -> {
                         float yaw = mc.player.getYaw();
                         float pitch = mc.player.getPitch();
                         
@@ -148,9 +149,22 @@ public class FreeLook extends Module {
         cameraPitch = MathHelper.clamp(cameraPitch, -90, 90);
     }
     
-    public enum Mode {
-        Player,
-        Camera
+    private enum Mode implements ITagged {
+        
+        PLAYER("Player"),
+        CAMERA("Camera");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

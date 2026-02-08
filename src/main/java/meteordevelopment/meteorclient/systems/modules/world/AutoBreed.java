@@ -10,9 +10,11 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.player.HandTagged;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
@@ -50,14 +52,14 @@ public class AutoBreed extends Module {
         .build()
     );
     
-    private final Setting<Hand> hand = sgGeneral.add(new EnumSetting.Builder<Hand>()
+    private final Setting<HandTagged> hand = sgGeneral.add(new EnumChoiceSetting.Builder<HandTagged>()
         .name("hand-for-breeding")
         .description("The hand to use for breeding.")
-        .defaultValue(Hand.MAIN_HAND)
+        .defaultValue(HandTagged.MAIN_HAND)
         .build()
     );
     
-    private final Setting<EntityAge> mobAgeFilter = sgGeneral.add(new EnumSetting.Builder<EntityAge>()
+    private final Setting<EntityAge> mobAgeFilter = sgGeneral.add(new EnumChoiceSetting.Builder<EntityAge>()
         .name("mob-age-filter")
         .description("Determines the age of the mobs to target (baby, adult, or both).")
         .defaultValue(EntityAge.ADULT)
@@ -86,7 +88,7 @@ public class AutoBreed extends Module {
             boolean isRightAge = checkAgeRequirement(animal, mobAgeFilter.get());
             boolean isNotFedYet = !animalsFed.contains(animal);
             boolean isInRange = PlayerUtils.isWithin(animal, range.get());
-            boolean hasCorrectFood = checkHeldFood(animal, hand.get());
+            boolean hasCorrectFood = checkHeldFood(animal, hand.get().get());
             
             boolean shouldSkipAnimal = !isAllowedType
                 || !isRightAge
@@ -100,7 +102,7 @@ public class AutoBreed extends Module {
             
             Rotations.rotate(Rotations.getYaw(entity), Rotations.getPitch(entity), -100, () -> {
                 EntityHitResult location = new EntityHitResult(animal, animal.getBoundingBox().getCenter());
-                mc.interactionManager.interactEntityAtLocation(mc.player, animal, location, hand.get());
+                mc.interactionManager.interactEntityAtLocation(mc.player, animal, location, hand.get().get());
                 animalsFed.add(animal);
             });
             
@@ -123,11 +125,22 @@ public class AutoBreed extends Module {
         return animal.isBreedingItem(itemStack);
     }
     
-    private enum EntityAge {
+    private enum EntityAge implements ITagged {
         
-        BABY,
-        ADULT,
-        BOTH
+        BABY("Baby"),
+        ADULT("Adult"),
+        BOTH("Both");
+        
+        private final String tag;
+        
+        EntityAge(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

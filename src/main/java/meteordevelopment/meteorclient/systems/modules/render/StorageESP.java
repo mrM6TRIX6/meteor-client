@@ -21,6 +21,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.MeshBuilderVertexConsumerProvider;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
@@ -48,7 +49,7 @@ public class StorageESP extends Module {
     private final SettingGroup sgOpened = settings.createGroup("Opened Rendering");
     private final Set<BlockPos> interactedBlocks = new HashSet<>();
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("Rendering mode.")
         .defaultValue(Mode.SHADER)
@@ -69,17 +70,17 @@ public class StorageESP extends Module {
         .build()
     );
     
-    public final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumSetting.Builder<ShapeMode>()
+    public final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     public final Setting<Integer> fillOpacity = sgGeneral.add(new IntSetting.Builder()
         .name("fill-opacity")
         .description("The opacity of the shape fill.")
-        .visible(() -> shapeMode.get() != ShapeMode.Lines)
+        .visible(() -> shapeMode.get() != ShapeMode.LINES)
         .defaultValue(50)
         .range(0, 255)
         .sliderMax(255)
@@ -213,7 +214,7 @@ public class StorageESP extends Module {
         
         render = true;
         
-        if (shapeMode.get() == ShapeMode.Sides || shapeMode.get() == ShapeMode.Both) {
+        if (shapeMode.get() == ShapeMode.SIDES || shapeMode.get() == ShapeMode.BOTH) {
             sideColor.set(lineColor);
             sideColor.a = fillOpacity.get();
         }
@@ -383,10 +384,21 @@ public class StorageESP extends Module {
         return isActive() && mode.get() == Mode.SHADER;
     }
     
-    private enum Mode {
+    private enum Mode implements ITagged {
         
-        BOX,
-        SHADER
+        BOX("Box"),
+        SHADER("Shader");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

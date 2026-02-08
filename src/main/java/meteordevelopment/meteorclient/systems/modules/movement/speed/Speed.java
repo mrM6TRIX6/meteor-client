@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -28,7 +28,7 @@ public class Speed extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    public final Setting<SpeedModes> speedMode = sgGeneral.add(new EnumSetting.Builder<SpeedModes>()
+    public final Setting<SpeedModes> speedMode = sgGeneral.add(new EnumChoiceSetting.Builder<SpeedModes>()
         .name("mode")
         .description("The method of applying speed.")
         .defaultValue(SpeedModes.VANILLA)

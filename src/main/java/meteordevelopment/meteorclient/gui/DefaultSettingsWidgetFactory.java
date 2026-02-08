@@ -25,6 +25,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.client.resource.language.I18n;
@@ -50,8 +51,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         factories.put(RangeSetting.class, (table, setting) -> rangeW(table, (RangeSetting) setting));
         factories.put(DoubleSetting.class, (table, setting) -> doubleW(table, (DoubleSetting) setting));
         factories.put(StringSetting.class, (table, setting) -> stringW(table, (StringSetting) setting));
-        factories.put(EnumSetting.class, (table, setting) -> enumW(table, (EnumSetting<? extends Enum<?>>) setting));
-        factories.put(ProvidedStringSetting.class, (table, setting) -> providedStringW(table, (ProvidedStringSetting) setting));
+        factories.put(EnumChoiceSetting.class, (table, setting) -> enumW(table, (EnumChoiceSetting<? extends Enum<?>>) setting));
         factories.put(GenericSetting.class, (table, setting) -> genericW(table, (GenericSetting<?>) setting));
         factories.put(ColorSetting.class, (table, setting) -> colorW(table, (ColorSetting) setting));
         factories.put(KeybindSetting.class, (table, setting) -> keybindW(table, (KeybindSetting) setting));
@@ -70,7 +70,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         factories.put(StorageBlockListSetting.class, (table, setting) -> storageBlockListW(table, (StorageBlockListSetting) setting));
         factories.put(ScreenHandlerListSetting.class, (table, setting) -> screenHandlerListW(table, (ScreenHandlerListSetting) setting));
         factories.put(BlockDataSetting.class, (table, setting) -> blockDataW(table, (BlockDataSetting<?>) setting));
-        factories.put(PotionSetting.class, (table, setting) -> potionW(table, (PotionSetting) setting));
+        factories.put(PotionChoiceSetting.class, (table, setting) -> potionW(table, (PotionChoiceSetting) setting));
         factories.put(GameModeListSetting.class, (table, setting) -> gameModeListW(table, (GameModeListSetting) setting));
         factories.put(StringListSetting.class, (table, setting) -> stringListW(table, (StringListSetting) setting));
         factories.put(BlockPosSetting.class, (table, setting) -> blockPosW(table, (BlockPosSetting) setting));
@@ -241,15 +241,8 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         StringListSetting.fillTable(theme, wtable, setting);
     }
     
-    private <T extends Enum<?>> void enumW(WTable table, EnumSetting<T> setting) {
+    private <T extends Enum<T> & ITagged> void enumW(WTable table, EnumChoiceSetting<T> setting) {
         WDropdown<T> dropdown = table.add(theme.dropdown(setting.get())).expandCellX().widget();
-        dropdown.action = () -> setting.set(dropdown.get());
-        
-        reset(table, setting, () -> dropdown.set(setting.get()));
-    }
-    
-    private void providedStringW(WTable table, ProvidedStringSetting setting) {
-        WDropdown<String> dropdown = table.add(theme.dropdown(setting.supplier.get(), setting.get())).expandCellX().widget();
         dropdown.action = () -> setting.set(dropdown.get());
         
         reset(table, setting, () -> dropdown.set(setting.get()));
@@ -388,9 +381,9 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         reset(table, setting, null);
     }
     
-    private void potionW(WTable table, PotionSetting setting) {
+    private void potionW(WTable table, PotionChoiceSetting setting) {
         WHorizontalList list = table.add(theme.horizontalList()).expandX().widget();
-        WItemWithLabel item = list.add(theme.itemWithLabel(setting.get().potion, I18n.translate(setting.get().potion.getItem().getTranslationKey()))).widget();
+        WItemWithLabel item = list.add(theme.itemWithLabel(setting.get().potion, setting.get().getTag())).widget();
         
         WButton button = list.add(theme.button("Select")).expandCellX().widget();
         button.action = () -> {

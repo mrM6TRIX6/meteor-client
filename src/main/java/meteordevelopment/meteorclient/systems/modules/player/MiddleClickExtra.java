@@ -13,12 +13,13 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
 import meteordevelopment.meteorclient.systems.friends.Friend;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
@@ -38,7 +39,7 @@ public class MiddleClickExtra extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("Which item to use when you middle click.")
         .defaultValue(Mode.PEARL)
@@ -231,26 +232,33 @@ public class MiddleClickExtra extends Module {
         return disableInCreative.get() && mc.player.getGameMode() == GameMode.CREATIVE;
     }
     
-    private enum Mode {
+    private enum Mode implements ITagged {
         
-        PEARL(Items.ENDER_PEARL, true),
-        XP(Items.EXPERIENCE_BOTTLE, true),
-        ROCKET(Items.FIREWORK_ROCKET, true),
-        WIND_CHARGE(Items.WIND_CHARGE, true),
+        PEARL("Pearl", Items.ENDER_PEARL, true),
+        XP("XP", Items.EXPERIENCE_BOTTLE, true),
+        ROCKET("Rocket", Items.FIREWORK_ROCKET, true),
+        WIND_CHARGE("Wind Charge", Items.WIND_CHARGE, true),
         
-        BOW(Items.BOW, false),
-        GAP(Items.GOLDEN_APPLE, false),
-        E_GAP(Items.ENCHANTED_GOLDEN_APPLE, false),
-        CHORUS(Items.CHORUS_FRUIT, false),
+        BOW("Bow", Items.BOW, false),
+        GAP("Gap", Items.GOLDEN_APPLE, false),
+        EGAP("EGap", Items.ENCHANTED_GOLDEN_APPLE, false),
+        CHORUS("Chorus", Items.CHORUS_FRUIT, false),
         
-        ADD_FRIEND(null, true);
+        ADD_FRIEND("Add Friend", null, true);
         
+        private final String tag;
         private final Item item;
         private final boolean immediate;
         
-        Mode(Item item, boolean immediate) {
+        Mode(String tag, Item item, boolean immediate) {
+            this.tag = tag;
             this.item = item;
             this.immediate = immediate;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
         }
         
     }

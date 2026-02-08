@@ -92,7 +92,7 @@ public class SwarmCommand extends Command {
                     swarm.enable();
                     
                     swarm.close();
-                    swarm.mode.set(Swarm.Mode.Worker);
+                    swarm.mode.set(Swarm.Mode.WORKER);
                     swarm.worker = new SwarmWorker(pendingConnection.left(), pendingConnection.rightInt());
                     
                     pendingConnection = null;

@@ -91,7 +91,7 @@ public abstract class PlayerEntityMixin extends LivingEntity {
         }
         
         SpeedMine speedMine = Modules.get().get(SpeedMine.class);
-        if (!speedMine.isActive() || speedMine.mode.get() != SpeedMine.Mode.Normal || !speedMine.filter(block.getBlock())) {
+        if (!speedMine.isActive() || speedMine.mode.get() != SpeedMine.Mode.NORMAL || !speedMine.filter(block.getBlock())) {
             return breakSpeed;
         }
         

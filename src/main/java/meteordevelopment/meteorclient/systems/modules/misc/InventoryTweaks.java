@@ -22,6 +22,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
@@ -220,7 +221,7 @@ public class InventoryTweaks extends Module {
         .build()
     );
     
-    private final Setting<ListMode> dumpFilter = sgStealDump.add(new EnumSetting.Builder<ListMode>()
+    private final Setting<ListMode> dumpFilter = sgStealDump.add(new EnumChoiceSetting.Builder<ListMode>()
         .name("dump-filter")
         .description("Dump mode.")
         .defaultValue(ListMode.NONE)
@@ -233,7 +234,7 @@ public class InventoryTweaks extends Module {
         .build()
     );
     
-    private final Setting<ListMode> stealFilter = sgStealDump.add(new EnumSetting.Builder<ListMode>()
+    private final Setting<ListMode> stealFilter = sgStealDump.add(new EnumChoiceSetting.Builder<ListMode>()
         .name("steal-filter")
         .description("Steal mode.")
         .defaultValue(ListMode.NONE)
@@ -590,11 +591,22 @@ public class InventoryTweaks extends Module {
         }
     }
     
-    private enum ListMode {
+    private enum ListMode implements ITagged {
         
-        WHITELIST,
-        BLACKLIST,
-        NONE
+        WHITELIST("Whitelist"),
+        BLACKLIST("Blacklist"),
+        NONE("None");
+        
+        private final String tag;
+        
+        ListMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

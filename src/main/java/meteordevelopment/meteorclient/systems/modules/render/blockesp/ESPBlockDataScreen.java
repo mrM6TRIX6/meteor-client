@@ -44,10 +44,10 @@ public class ESPBlockDataScreen extends WindowScreen {
         SettingGroup sgGeneral = settings.getDefaultGroup();
         SettingGroup sgTracer = settings.createGroup("Tracer");
         
-        sgGeneral.add(new EnumSetting.Builder<ShapeMode>()
+        sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
             .name("shape-mode")
             .description("How the shape is rendered.")
-            .defaultValue(ShapeMode.Lines)
+            .defaultValue(ShapeMode.LINES)
             .onModuleActivated(shapeModeSetting -> shapeModeSetting.set(blockData.shapeMode))
             .onChanged(shapeMode -> {
                 if (blockData.shapeMode != shapeMode) {

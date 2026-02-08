@@ -9,10 +9,11 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.orbit.EventHandler;
 
@@ -35,10 +36,10 @@ public class AutoHotbar extends Module {
         .build()
     );
     
-    private final Setting<SwitchMode> switchMode = sgGeneral.add(new EnumSetting.Builder<SwitchMode>()
+    private final Setting<SwitchMode> switchMode = sgGeneral.add(new EnumChoiceSetting.Builder<SwitchMode>()
         .name("switching-mode")
         .description("Mode of the slot switching.")
-        .defaultValue(SwitchMode.Next)
+        .defaultValue(SwitchMode.NEXT)
         .build()
     );
     
@@ -140,21 +141,21 @@ public class AutoHotbar extends Module {
             
             switch (switchMode.get()) {
                 
-                case Next -> {
+                case NEXT -> {
                     int currentIndex = toggledSlots.indexOf(currentSlot);
                     if (currentIndex == -1) {
                         currentIndex = 0;
                     }
                     slotToSwap = (currentIndex < toggledSlots.size() - 1) ? toggledSlots.get(currentIndex + 1) : toggledSlots.get(0);
                 }
-                case Previous -> {
+                case PREVIOUS -> {
                     int currentIndex = toggledSlots.indexOf(currentSlot);
                     if (currentIndex == -1) {
                         currentIndex = toggledSlots.size() - 1;
                     }
                     slotToSwap = (currentIndex > 0) ? toggledSlots.get(currentIndex - 1) : toggledSlots.get(toggledSlots.size() - 1);
                 }
-                case Random -> slotToSwap = toggledSlots.get(random.nextInt(toggledSlots.size()));
+                case RANDOM -> slotToSwap = toggledSlots.get(random.nextInt(toggledSlots.size()));
             }
             
             if (slotToSwap != currentSlot) {
@@ -165,10 +166,23 @@ public class AutoHotbar extends Module {
         }
     }
     
-    private enum SwitchMode {
-        Next,
-        Previous,
-        Random
+    private enum SwitchMode implements ITagged {
+        
+        NEXT("Next"),
+        PREVIOUS("Previous"),
+        RANDOM("Random");
+        
+        private final String tag;
+        
+        SwitchMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

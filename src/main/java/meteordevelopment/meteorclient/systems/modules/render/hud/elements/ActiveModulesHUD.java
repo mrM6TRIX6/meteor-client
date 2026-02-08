@@ -11,6 +11,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.hud.*;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
@@ -27,7 +28,7 @@ public class ActiveModulesHUD extends HUDElement {
     private final SettingGroup sgScale = settings.createGroup("Scale");
     private final SettingGroup sgBackground = settings.createGroup("Background");
     
-    private final Setting<Sort> sort = sgGeneral.add(new EnumSetting.Builder<Sort>()
+    private final Setting<Sort> sort = sgGeneral.add(new EnumChoiceSetting.Builder<Sort>()
         .name("sort")
         .description("How to sort active modules.")
         .defaultValue(Sort.BIGGEST)
@@ -78,7 +79,7 @@ public class ActiveModulesHUD extends HUDElement {
         .build()
     );
     
-    private final Setting<Alignment> alignment = sgGeneral.add(new EnumSetting.Builder<Alignment>()
+    private final Setting<Alignment> alignment = sgGeneral.add(new EnumChoiceSetting.Builder<Alignment>()
         .name("alignment")
         .description("Horizontal alignment.")
         .defaultValue(Alignment.AUTO)
@@ -87,7 +88,7 @@ public class ActiveModulesHUD extends HUDElement {
     
     // Color
     
-    private final Setting<ColorMode> colorMode = sgColor.add(new EnumSetting.Builder<ColorMode>()
+    private final Setting<ColorMode> colorMode = sgColor.add(new EnumChoiceSetting.Builder<ColorMode>()
         .name("color-mode")
         .description("What color to use for active modules.")
         .defaultValue(ColorMode.RAINBOW)
@@ -366,27 +367,41 @@ public class ActiveModulesHUD extends HUDElement {
         return customScale.get() ? scale.get() : HUD.get().getTextScale();
     }
     
-    public enum Sort {
+    private enum Sort implements ITagged {
         
-        ALPHABETICAL,
-        BIGGEST,
-        SMALLEST
+        ALPHABETICAL("Alphabetical"),
+        BIGGEST("Biggest"),
+        SMALLEST("Smallest");
+        
+        private final String tag;
+        
+        Sort(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    public enum ColorMode {
+    private enum ColorMode implements ITagged {
         
-        FLAT,
-        RANDOM,
-        RAINBOW
+        FLAT("Flat"),
+        RANDOM("Random"),
+        RAINBOW("Rainbow");
         
-    }
-    
-    public enum Background {
+        private final String tag;
         
-        NONE,
-        BLOCK,
-        TEXT
+        ColorMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

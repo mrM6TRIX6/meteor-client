@@ -17,6 +17,7 @@ import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.NametagUtils;
 import meteordevelopment.meteorclient.utils.render.WireframeEntityRenderer;
@@ -39,7 +40,7 @@ public class ESP extends Module {
     
     // General
     
-    public final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    public final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("mode")
         .description("Rendering mode.")
         .defaultValue(Mode.SHADER)
@@ -71,18 +72,18 @@ public class ESP extends Module {
         .build()
     );
     
-    public final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumSetting.Builder<ShapeMode>()
+    public final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
         .name("shape-mode")
         .description("How the shapes are rendered.")
         .visible(() -> mode.get() != Mode.GLOW)
-        .defaultValue(ShapeMode.Both)
+        .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     public final Setting<Double> fillOpacity = sgGeneral.add(new DoubleSetting.Builder()
         .name("fill-opacity")
         .description("The opacity of the shape fill.")
-        .visible(() -> shapeMode.get() != ShapeMode.Lines && mode.get() != Mode.GLOW)
+        .visible(() -> shapeMode.get() != ShapeMode.LINES && mode.get() != Mode.GLOW)
         .defaultValue(0.3)
         .range(0, 1)
         .sliderMax(1)
@@ -107,7 +108,7 @@ public class ESP extends Module {
     
     // Colors
     
-    public final Setting<ESPColorMode> colorMode = sgColors.add(new EnumSetting.Builder<ESPColorMode>()
+    public final Setting<ESPColorMode> colorMode = sgColors.add(new EnumChoiceSetting.Builder<ESPColorMode>()
         .name("color-mode")
         .description("Determines the colors used for entities.")
         .defaultValue(ESPColorMode.ENTITY_TYPE)
@@ -295,11 +296,11 @@ public class ESP extends Module {
             }
             
             // Render
-            if (shapeMode.get() != ShapeMode.Lines && sideColor.a > 0) {
+            if (shapeMode.get() != ShapeMode.LINES && sideColor.a > 0) {
                 Renderer2D.COLOR.quad(pos1.x, pos1.y, pos2.x - pos1.x, pos2.y - pos1.y, sideColor);
             }
             
-            if (shapeMode.get() != ShapeMode.Sides) {
+            if (shapeMode.get() != ShapeMode.SIDES) {
                 Renderer2D.COLOR.line(pos1.x, pos1.y, pos1.x, pos2.y, lineColor);
                 Renderer2D.COLOR.line(pos2.x, pos1.y, pos2.x, pos2.y, lineColor);
                 Renderer2D.COLOR.line(pos1.x, pos1.y, pos2.x, pos1.y, lineColor);
@@ -440,30 +441,42 @@ public class ESP extends Module {
         return isActive() && mode.get() == Mode.GLOW;
     }
     
-    public enum Mode {
+    public enum Mode implements ITagged {
         
-        BOX,
-        WIREFRAME,
-        _2D,
-        SHADER,
-        GLOW;
+        BOX("Box"),
+        WIREFRAME("Wireframe"),
+        _2D("2D"),
+        SHADER("Shader"),
+        GLOW("Glow");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
         
         @Override
-        public String toString() {
-            return this == _2D ? "2D" : super.toString();
+        public String getTag() {
+            return tag;
         }
         
     }
     
-    private enum ESPColorMode {
+    private enum ESPColorMode implements ITagged {
         
-        ENTITY_TYPE,
-        DISTANCE,
-        HEALTH;
+        ENTITY_TYPE("Entity Type"),
+        DISTANCE("Distance"),
+        HEALTH("Health");
+        
+        private final String tag;
+        
+        ESPColorMode(String tag) {
+            this.tag = tag;
+        }
         
         @Override
-        public String toString() {
-            return this == ENTITY_TYPE ? "Entity Type" : super.toString();
+        public String getTag() {
+            return tag;
         }
         
     }

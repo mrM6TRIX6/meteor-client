@@ -10,11 +10,12 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
 
@@ -29,10 +30,10 @@ public class NoSlow extends Module {
         .build()
     );
     
-    private final Setting<WebMode> web = sgGeneral.add(new EnumSetting.Builder<WebMode>()
+    private final Setting<WebMode> web = sgGeneral.add(new EnumChoiceSetting.Builder<WebMode>()
         .name("web")
         .description("Whether or not cobwebs will not slow you down.")
-        .defaultValue(WebMode.Vanilla)
+        .defaultValue(WebMode.VANILLA)
         .build()
     );
     
@@ -42,7 +43,7 @@ public class NoSlow extends Module {
         .defaultValue(10)
         .min(1)
         .sliderMin(1)
-        .visible(() -> web.get() == WebMode.Timer)
+        .visible(() -> web.get() == WebMode.TIMER)
         .build()
     );
     
@@ -141,7 +142,7 @@ public class NoSlow extends Module {
     }
     
     public boolean cobweb() {
-        return isActive() && web.get() == WebMode.Vanilla;
+        return isActive() && web.get() == WebMode.VANILLA;
     }
     
     public boolean berryBush() {
@@ -166,7 +167,7 @@ public class NoSlow extends Module {
     
     @EventHandler
     private void onTickPre(TickEvent.Pre event) {
-        if (web.get() == WebMode.Timer) {
+        if (web.get() == WebMode.TIMER) {
             if (mc.world.getBlockState(mc.player.getBlockPos()).getBlock() == Blocks.COBWEB && !mc.player.isOnGround()) {
                 resetTimer = false;
                 Modules.get().get(Timer.class).setOverride(webTimer.get());
@@ -177,10 +178,23 @@ public class NoSlow extends Module {
         }
     }
     
-    public enum WebMode {
-        Vanilla,
-        Timer,
-        None
+    private enum WebMode implements ITagged {
+        
+        VANILLA("Vanilla"),
+        TIMER("Timer"),
+        NONE("None");
+        
+        private final String tag;
+        
+        WebMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

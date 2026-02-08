@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -27,6 +27,7 @@ import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.V
 import meteordevelopment.meteorclient.systems.modules.player.ChestSwap;
 import meteordevelopment.meteorclient.systems.modules.player.Rotation;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -50,7 +51,7 @@ public class ElytraFly extends Module {
     
     // General
     
-    public final Setting<ElytraFlyModes> flightMode = sgGeneral.add(new EnumSetting.Builder<ElytraFlyModes>()
+    public final Setting<ElytraFlyModes> flightMode = sgGeneral.add(new EnumChoiceSetting.Builder<ElytraFlyModes>()
         .name("mode")
         .description("The mode of flying.")
         .defaultValue(ElytraFlyModes.VANILLA)
@@ -211,7 +212,7 @@ public class ElytraFly extends Module {
         .build()
     );
     
-    public final Setting<Rotation.LockMode> yawLockMode = sgGeneral.add(new EnumSetting.Builder<Rotation.LockMode>()
+    public final Setting<Rotation.LockMode> yawLockMode = sgGeneral.add(new EnumChoiceSetting.Builder<Rotation.LockMode>()
         .name("yaw-lock")
         .description("Whether to enable yaw lock or not.")
         .defaultValue(Rotation.LockMode.SMART)
@@ -284,10 +285,10 @@ public class ElytraFly extends Module {
         .build()
     );
     
-    public final Setting<ChestSwapMode> chestSwap = sgInventory.add(new EnumSetting.Builder<ChestSwapMode>()
+    public final Setting<ChestSwapMode> chestSwap = sgInventory.add(new EnumChoiceSetting.Builder<ChestSwapMode>()
         .name("chest-swap")
         .description("Enables ChestSwap when toggling this module.")
-        .defaultValue(ChestSwapMode.Never)
+        .defaultValue(ChestSwapMode.NEVER)
         .build()
     );
     
@@ -355,7 +356,7 @@ public class ElytraFly extends Module {
     @Override
     public void onActivate() {
         currentMode.onActivate();
-        if ((chestSwap.get() == ChestSwapMode.Always || chestSwap.get() == ChestSwapMode.WaitForGround)
+        if ((chestSwap.get() == ChestSwapMode.ALWAYS || chestSwap.get() == ChestSwapMode.WAIT_FOR_GROUND)
             && mc.player.getEquippedStack(EquipmentSlot.CHEST).getItem() != Items.ELYTRA && isActive()) {
             Modules.get().get(ChestSwap.class).swap();
         }
@@ -367,9 +368,9 @@ public class ElytraFly extends Module {
             mc.options.forwardKey.setPressed(false);
         }
         
-        if (chestSwap.get() == ChestSwapMode.Always && mc.player.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.ELYTRA) {
+        if (chestSwap.get() == ChestSwapMode.ALWAYS && mc.player.getEquippedStack(EquipmentSlot.CHEST).getItem() == Items.ELYTRA) {
             Modules.get().get(ChestSwap.class).swap();
-        } else if (chestSwap.get() == ChestSwapMode.WaitForGround) {
+        } else if (chestSwap.get() == ChestSwapMode.WAIT_FOR_GROUND) {
             enableGroundListener();
         }
         
@@ -568,15 +569,41 @@ public class ElytraFly extends Module {
         return currentMode.getHudString();
     }
     
-    public enum ChestSwapMode {
-        Always,
-        Never,
-        WaitForGround
+    public enum ChestSwapMode implements ITagged {
+        
+        ALWAYS("Always"),
+        NEVER("Never"),
+        WAIT_FOR_GROUND("Wait For Ground");
+        
+        private final String tag;
+        
+        ChestSwapMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
-    public enum AutoPilotMode {
-        Vanilla,
-        Pitch40
+    public enum AutoPilotMode implements ITagged {
+        
+        VANILLA("Vanilla"),
+        PITCH40("Pitch40");
+        
+        private final String tag;
+        
+        AutoPilotMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

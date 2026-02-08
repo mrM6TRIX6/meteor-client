@@ -19,6 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.combat.AnchorAura;
 import meteordevelopment.meteorclient.systems.modules.combat.BedAura;
 import meteordevelopment.meteorclient.systems.modules.combat.CrystalAura;
 import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.SlotUtils;
@@ -76,10 +77,10 @@ public class AutoEat extends Module {
     
     // Threshold
     
-    private final Setting<ThresholdMode> thresholdMode = sgThreshold.add(new EnumSetting.Builder<ThresholdMode>()
+    private final Setting<ThresholdMode> thresholdMode = sgThreshold.add(new EnumChoiceSetting.Builder<ThresholdMode>()
         .name("threshold-mode")
         .description("The threshold mode to trigger auto eat.")
-        .defaultValue(ThresholdMode.Any)
+        .defaultValue(ThresholdMode.ANY)
         .build()
     );
     
@@ -89,7 +90,7 @@ public class AutoEat extends Module {
         .defaultValue(10)
         .range(1, 19)
         .sliderRange(1, 19)
-        .visible(() -> thresholdMode.get() != ThresholdMode.Hunger)
+        .visible(() -> thresholdMode.get() != ThresholdMode.HUNGER)
         .build()
     );
     
@@ -99,7 +100,7 @@ public class AutoEat extends Module {
         .defaultValue(16)
         .range(1, 19)
         .sliderRange(1, 19)
-        .visible(() -> thresholdMode.get() != ThresholdMode.Health)
+        .visible(() -> thresholdMode.get() != ThresholdMode.HEALTH)
         .build()
     );
     
@@ -280,21 +281,30 @@ public class AutoEat extends Module {
         return slot;
     }
     
-    public enum ThresholdMode {
-        Health((health, hunger) -> health),
-        Hunger((health, hunger) -> hunger),
-        Any((health, hunger) -> health || hunger),
-        Both((health, hunger) -> health && hunger);
+    private enum ThresholdMode implements ITagged {
         
+        HEALTH("Health", (health, hunger) -> health),
+        HUNGER("Hunger", (health, hunger) -> hunger),
+        ANY("Any", (health, hunger) -> health || hunger),
+        BOTH("Both", (health, hunger) -> health && hunger);
+        
+        private final String tag;
         private final BiPredicate<Boolean, Boolean> predicate;
         
-        ThresholdMode(BiPredicate<Boolean, Boolean> predicate) {
+        ThresholdMode(String tag, BiPredicate<Boolean, Boolean> predicate) {
+            this.tag = tag;
             this.predicate = predicate;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
         }
         
         public boolean test(boolean health, boolean hunger) {
             return predicate.test(health, hunger);
         }
+        
     }
     
 }

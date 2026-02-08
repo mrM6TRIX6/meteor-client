@@ -9,15 +9,15 @@ import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.settings.impl.PotionSetting;
+import meteordevelopment.meteorclient.settings.impl.PotionChoiceSetting;
 import meteordevelopment.meteorclient.utils.misc.MyPotion;
 import net.minecraft.client.resource.language.I18n;
 
 public class PotionSettingScreen extends WindowScreen {
     
-    private final PotionSetting setting;
+    private final PotionChoiceSetting setting;
     
-    public PotionSettingScreen(GuiTheme theme, PotionSetting setting) {
+    public PotionSettingScreen(GuiTheme theme, PotionChoiceSetting setting) {
         super(theme, "Select Potion");
         
         this.setting = setting;
@@ -28,7 +28,7 @@ public class PotionSettingScreen extends WindowScreen {
         WTable table = add(theme.table()).expandX().widget();
         
         for (MyPotion potion : MyPotion.values()) {
-            table.add(theme.itemWithLabel(potion.potion, I18n.translate(potion.potion.getItem().getTranslationKey())));
+            table.add(theme.itemWithLabel(potion.potion, potion.getTag()));
             
             WButton select = table.add(theme.button("Select")).widget();
             select.action = () -> {

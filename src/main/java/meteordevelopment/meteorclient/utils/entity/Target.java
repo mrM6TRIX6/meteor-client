@@ -5,10 +5,23 @@
 
 package meteordevelopment.meteorclient.utils.entity;
 
-public enum Target {
+import meteordevelopment.meteorclient.utils.misc.ITagged;
+
+public enum Target implements ITagged {
     
-    HEAD,
-    BODY,
-    FEET
+    HEAD("Head"),
+    BODY("Body"),
+    FEET("Feet");
+    
+    private final String tag;
+    
+    Target(String tag) {
+        this.tag = tag;
+    }
+    
+    @Override
+    public String getTag() {
+        return tag;
+    }
     
 }

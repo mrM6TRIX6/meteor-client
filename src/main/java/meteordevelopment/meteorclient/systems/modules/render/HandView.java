@@ -12,6 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.util.math.MatrixStack;
@@ -56,10 +57,10 @@ public class HandView extends Module {
         .build()
     );
     
-    public final Setting<SwingMode> swingMode = sgGeneral.add(new EnumSetting.Builder<SwingMode>()
+    public final Setting<SwingMode> swingMode = sgGeneral.add(new EnumChoiceSetting.Builder<SwingMode>()
         .name("swing-mode")
         .description("Modifies your client & server hand swinging.")
-        .defaultValue(SwingMode.None)
+        .defaultValue(SwingMode.NONE)
         .build()
     );
     
@@ -233,10 +234,23 @@ public class HandView extends Module {
         return isActive() && disableFoodAnimation.get();
     }
     
-    public enum SwingMode {
-        Offhand,
-        Mainhand,
-        None
+    public enum SwingMode implements ITagged {
+        
+        OFFHAND("Offhand"),
+        MAINHAND("Mainhand"),
+        NONE("None");
+        
+        private final String tag;
+        
+        SwingMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

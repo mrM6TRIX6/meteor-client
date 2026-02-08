@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.renderer.text;
 
+import meteordevelopment.meteorclient.utils.misc.ITagged;
+
 public record FontInfo(String family, Type type) {
     
     @Override
@@ -22,28 +24,30 @@ public record FontInfo(String family, Type type) {
         return family.equals(info.family) && type == info.type;
     }
     
-    public enum Type {
-        Regular,
-        Bold,
-        Italic,
-        BoldItalic;
+    public enum Type implements ITagged {
         
-        public static Type fromString(String str) {
-            return switch (str) {
-                case "Bold" -> Bold;
-                case "Italic" -> Italic;
-                case "Bold Italic", "BoldItalic" -> BoldItalic;
-                default -> Regular;
-            };
+        REGULAR("Regular"),
+        BOLD("Bold"),
+        ITALIC("Italic"),
+        BOLD_ITALIC("Bold Italic");
+        
+        private final String tag;
+        
+        Type(String tag) {
+            this.tag = tag;
         }
         
         @Override
-        public String toString() {
-            return switch (this) {
-                case Bold -> "Bold";
-                case Italic -> "Italic";
-                case BoldItalic -> "Bold Italic";
-                default -> "Regular";
+        public String getTag() {
+            return tag;
+        }
+        
+        public static Type fromString(String str) {
+            return switch (str) {
+                case "Bold" -> BOLD;
+                case "Italic" -> ITALIC;
+                case "Bold Italic", "BoldItalic" -> BOLD_ITALIC;
+                default -> REGULAR;
             };
         }
     }

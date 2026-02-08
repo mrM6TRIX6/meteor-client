@@ -12,6 +12,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -36,7 +37,7 @@ public class ItemHUD extends HUDElement {
         .build()
     );
     
-    private final Setting<NoneMode> noneMode = sgGeneral.add(new EnumSetting.Builder<NoneMode>()
+    private final Setting<NoneMode> noneMode = sgGeneral.add(new EnumChoiceSetting.Builder<NoneMode>()
         .name("none-mode")
         .description("How to render the item when you don't have the specified item in your inventory.")
         .defaultValue(NoneMode.HIDE_COUNT)
@@ -138,19 +139,21 @@ public class ItemHUD extends HUDElement {
         return customScale.get() ? scale.get().floatValue() : scale.getDefaultValue().floatValue();
     }
     
-    private enum NoneMode {
+    private enum NoneMode implements ITagged {
         
-        HIDE_ITEM,
-        HIDE_COUNT,
-        SHOW_COUNT;
+        HIDE_ITEM("Hide Item"),
+        HIDE_COUNT("Hide Count"),
+        SHOW_COUNT("Show Count");
+        
+        private final String tag;
+        
+        NoneMode(String tag) {
+            this.tag = tag;
+        }
         
         @Override
-        public String toString() {
-            return switch (this) {
-                case HIDE_ITEM -> "Hide Item";
-                case HIDE_COUNT -> "Hide Count";
-                case SHOW_COUNT -> "Show Count";
-            };
+        public String getTag() {
+            return tag;
         }
         
     }

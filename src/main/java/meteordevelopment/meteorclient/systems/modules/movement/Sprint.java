@@ -11,10 +11,11 @@ import meteordevelopment.meteorclient.mixininterface.IPlayerInteractEntityC2SPac
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
@@ -24,10 +25,10 @@ public class Sprint extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Mode> mode = sgGeneral.add(new EnumSetting.Builder<Mode>()
+    private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
         .name("sprint-mode")
         .description("What mode of sprinting.")
-        .defaultValue(Mode.Strict)
+        .defaultValue(Mode.STRICT)
         .build()
     );
     
@@ -49,7 +50,7 @@ public class Sprint extends Module {
         .name("unsprint-in-water")
         .description("Whether to stop sprinting when in water.")
         .defaultValue(true)
-        .visible(() -> mode.get() == Mode.Rage)
+        .visible(() -> mode.get() == Mode.RAGE)
         .build()
     );
     
@@ -57,7 +58,7 @@ public class Sprint extends Module {
         .name("sprint-while-stationary")
         .description("Sprint even when not moving.")
         .defaultValue(false)
-        .visible(() -> mode.get() == Mode.Rage)
+        .visible(() -> mode.get() == Mode.RAGE)
         .build()
     );
     
@@ -111,12 +112,12 @@ public class Sprint extends Module {
             return false;
         }
         
-        float movement = mode.get() == Mode.Rage
+        float movement = mode.get() == Mode.RAGE
             ? (Math.abs(mc.player.forwardSpeed) + Math.abs(mc.player.sidewaysSpeed))
             : mc.player.forwardSpeed;
         
         if (movement <= (mc.player.isSubmergedInWater() ? 1.0E-5F : 0.8)) {
-            if (mode.get() == Mode.Strict || !permaSprint.get()) {
+            if (mode.get() == Mode.STRICT || !permaSprint.get()) {
                 return false;
             }
         }
@@ -129,11 +130,11 @@ public class Sprint extends Module {
                 : mc.player.getHungerManager().canSprint()
             && (!mc.player.horizontalCollision || mc.player.collidedSoftly);
         
-        return isActive() && (mode.get() == Mode.Rage || strictSprint);
+        return isActive() && (mode.get() == Mode.RAGE || strictSprint);
     }
     
     public boolean rageSprint() {
-        return isActive() && mode.get() == Mode.Rage;
+        return isActive() && mode.get() == Mode.RAGE;
     }
     
     public boolean unsprintInWater() {
@@ -149,9 +150,22 @@ public class Sprint extends Module {
         return mode.get().toString();
     }
     
-    private enum Mode {
-        Strict,
-        Rage
+    private enum Mode implements ITagged {
+        
+        STRICT("Strict"),
+        RAGE("Rage");
+        
+        private final String tag;
+        
+        Mode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
     }
     
 }

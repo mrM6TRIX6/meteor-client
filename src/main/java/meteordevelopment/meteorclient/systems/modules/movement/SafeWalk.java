@@ -149,10 +149,10 @@ public class SafeWalk extends Module {
             Box playerBox = mc.player.getBoundingBox();
             Box adjustedBox = getAdjustedPlayerBox(playerBox);
             
-            event.renderer.box(adjustedBox, Color.BLUE, Color.RED, ShapeMode.Lines, 0);
+            event.renderer.box(adjustedBox, Color.BLUE, Color.RED, ShapeMode.LINES, 0);
             
             if (renderPlayerBox.get()) {
-                event.renderer.box(playerBox, Color.BLUE, Color.GREEN, ShapeMode.Lines, 0);
+                event.renderer.box(playerBox, Color.BLUE, Color.GREEN, ShapeMode.LINES, 0);
             }
         }
     }

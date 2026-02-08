@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -69,14 +69,14 @@ public class Aimbot extends Module {
         .build()
     );
     
-    private final Setting<SortPriority> priority = sgGeneral.add(new EnumSetting.Builder<SortPriority>()
+    private final Setting<SortPriority> priority = sgGeneral.add(new EnumChoiceSetting.Builder<SortPriority>()
         .name("priority")
         .description("How to filter targets within range.")
         .defaultValue(SortPriority.LOWEST_HEALTH)
         .build()
     );
     
-    private final Setting<Target> bodyTarget = sgGeneral.add(new EnumSetting.Builder<Target>()
+    private final Setting<Target> bodyTarget = sgGeneral.add(new EnumChoiceSetting.Builder<Target>()
         .name("aim-target")
         .description("Which part of the entities body to aim at.")
         .defaultValue(Target.BODY)

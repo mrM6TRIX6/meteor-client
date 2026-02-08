@@ -12,13 +12,14 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnchantmentListSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.player.ChestSwap;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.DataComponentTypes;
@@ -41,7 +42,7 @@ public class AutoArmor extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Protection> preferredProtection = sgGeneral.add(new EnumSetting.Builder<Protection>()
+    private final Setting<Protection> preferredProtection = sgGeneral.add(new EnumChoiceSetting.Builder<Protection>()
         .name("preferred-protection")
         .description("Which type of protection to prefer.")
         .defaultValue(Protection.PROTECTION)
@@ -243,17 +244,24 @@ public class AutoArmor extends Module {
         return itemStack.isIn(ItemTags.FOOT_ARMOR) || itemStack.isIn(ItemTags.LEG_ARMOR) || itemStack.isIn(ItemTags.CHEST_ARMOR) || itemStack.isIn(ItemTags.HEAD_ARMOR);
     }
     
-    private enum Protection {
+    private enum Protection implements ITagged {
         
-        PROTECTION(Enchantments.PROTECTION),
-        BLAST_PROTECTION(Enchantments.BLAST_PROTECTION),
-        FIRE_PROTECTION(Enchantments.FIRE_PROTECTION),
-        PROJECTILE_PROTECTION(Enchantments.PROJECTILE_PROTECTION);
+        PROTECTION("Protection", Enchantments.PROTECTION),
+        BLAST_PROTECTION("Blast Protection", Enchantments.BLAST_PROTECTION),
+        FIRE_PROTECTION("Fire Protection", Enchantments.FIRE_PROTECTION),
+        PROJECTILE_PROTECTION("Projectile Protection", Enchantments.PROJECTILE_PROTECTION);
         
+        private final String tag;
         private final RegistryKey<Enchantment> enchantment;
         
-        Protection(RegistryKey<Enchantment> enchantment) {
+        Protection(String tag, RegistryKey<Enchantment> enchantment) {
+            this.tag = tag;
             this.enchantment = enchantment;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
         }
         
     }

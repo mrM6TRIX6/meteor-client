@@ -19,12 +19,13 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gui.screen.CreditsScreen;
@@ -69,7 +70,7 @@ public class DiscordPresence extends Module {
         .build()
     );
     
-    private final Setting<SelectMode> line1SelectMode = sgLine1.add(new EnumSetting.Builder<SelectMode>()
+    private final Setting<SelectMode> line1SelectMode = sgLine1.add(new EnumChoiceSetting.Builder<SelectMode>()
         .name("line-1-select-mode")
         .description("How to select messages for the first line.")
         .defaultValue(SelectMode.SEQUENTIAL)
@@ -96,7 +97,7 @@ public class DiscordPresence extends Module {
         .build()
     );
     
-    private final Setting<SelectMode> line2SelectMode = sgLine2.add(new EnumSetting.Builder<SelectMode>()
+    private final Setting<SelectMode> line2SelectMode = sgLine2.add(new EnumChoiceSetting.Builder<SelectMode>()
         .name("line-2-select-mode")
         .description("How to select messages for the second line.")
         .defaultValue(SelectMode.SEQUENTIAL)
@@ -357,10 +358,21 @@ public class DiscordPresence extends Module {
         }
     }
     
-    private enum SelectMode {
+    private enum SelectMode implements ITagged {
         
-        RANDOM,
-        SEQUENTIAL
+        RANDOM("Random"),
+        SEQUENTIAL("Sequential");
+        
+        private final String tag;
+        
+        SelectMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

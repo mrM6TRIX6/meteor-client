@@ -9,11 +9,12 @@ import meteordevelopment.meteorclient.events.entity.player.EntityAttackEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.EnumSetting;
+import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.LivingEntity;
@@ -25,7 +26,7 @@ public class AutoWeapon extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<Weapon> weapon = sgGeneral.add(new EnumSetting.Builder<Weapon>()
+    private final Setting<Weapon> weapon = sgGeneral.add(new EnumChoiceSetting.Builder<Weapon>()
         .name("weapon")
         .description("What type of weapon to use.")
         .defaultValue(Weapon.SWORD)
@@ -95,10 +96,21 @@ public class AutoWeapon extends Module {
         }
     }
     
-    private enum Weapon {
+    private enum Weapon implements ITagged {
         
-        SWORD,
-        AXE
+        SWORD("Sword"),
+        AXE("Axe");
+        
+        private final String tag;
+        
+        Weapon(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     

@@ -20,6 +20,7 @@ import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.Target;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
+import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -68,7 +69,7 @@ public class KillAura extends Module {
     
     // General
     
-    private final Setting<AttackItems> attackWhenHolding = sgGeneral.add(new EnumSetting.Builder<AttackItems>()
+    private final Setting<AttackItems> attackWhenHolding = sgGeneral.add(new EnumChoiceSetting.Builder<AttackItems>()
         .name("attack-when-holding")
         .description("Only attacks an entity when a specified item is in your hand.")
         .defaultValue(AttackItems.WEAPONS)
@@ -84,7 +85,7 @@ public class KillAura extends Module {
         .build()
     );
     
-    private final Setting<RotationMode> rotation = sgGeneral.add(new EnumSetting.Builder<RotationMode>()
+    private final Setting<RotationMode> rotation = sgGeneral.add(new EnumChoiceSetting.Builder<RotationMode>()
         .name("rotate")
         .description("Determines when you should rotate towards the target.")
         .defaultValue(RotationMode.ALWAYS)
@@ -106,7 +107,7 @@ public class KillAura extends Module {
         .build()
     );
     
-    private final Setting<ShieldMode> shieldMode = sgGeneral.add(new EnumSetting.Builder<ShieldMode>()
+    private final Setting<ShieldMode> shieldMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShieldMode>()
         .name("shield-mode")
         .description("""
             What to do when your target is blocking with a shield:
@@ -149,7 +150,7 @@ public class KillAura extends Module {
         .build()
     );
     
-    private final Setting<SortPriority> priority = sgTargeting.add(new EnumSetting.Builder<SortPriority>()
+    private final Setting<SortPriority> priority = sgTargeting.add(new EnumChoiceSetting.Builder<SortPriority>()
         .name("priority")
         .description("How to filter targets within range.")
         .defaultValue(SortPriority.CLOSEST_ANGLE)
@@ -184,7 +185,7 @@ public class KillAura extends Module {
         .build()
     );
     
-    private final Setting<EntityAge> mobAgeFilter = sgTargeting.add(new EnumSetting.Builder<EntityAge>()
+    private final Setting<EntityAge> mobAgeFilter = sgTargeting.add(new EnumChoiceSetting.Builder<EntityAge>()
         .name("mob-age-filter")
         .description("Determines the age of the mobs to target (baby, adult, or both).")
         .defaultValue(EntityAge.ADULT)
@@ -560,34 +561,78 @@ public class KillAura extends Module {
         return null;
     }
     
-    private enum AttackItems {
+    private enum AttackItems implements ITagged {
         
-        WEAPONS,
-        ALL
+        WEAPONS("Weapons"),
+        ALL("All");
         
-    }
-    
-    private enum RotationMode {
+        private final String tag;
         
-        ALWAYS,
-        ON_HIT,
-        NONE
+        AttackItems(String tag) {
+            this.tag = tag;
+        }
         
-    }
-    
-    private enum ShieldMode {
-        
-        IGNORE,
-        BREAK,
-        NONE
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
-    private enum EntityAge {
+    private enum RotationMode implements ITagged {
         
-        BABY,
-        ADULT,
-        BOTH
+        ALWAYS("Always"),
+        ON_HIT("On Hit"),
+        NONE("None");
+        
+        private final String tag;
+        
+        RotationMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
+    }
+    
+    private enum ShieldMode implements ITagged {
+        
+        IGNORE("Ignore"),
+        BREAK("Break"),
+        NONE("None");
+        
+        private final String tag;
+        
+        ShieldMode(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
+        
+    }
+    
+    private enum EntityAge implements ITagged {
+        
+        BABY("Baby"),
+        ADULT("Adult"),
+        BOTH("Both");
+        
+        private final String tag;
+        
+        EntityAge(String tag) {
+            this.tag = tag;
+        }
+        
+        @Override
+        public String getTag() {
+            return tag;
+        }
         
     }
     
