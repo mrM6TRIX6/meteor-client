@@ -12,9 +12,14 @@ import meteordevelopment.meteorclient.utils.misc.ITagged;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
 
+
+/**
+ * Choice setting, based on tagged enum constants.
+ *
+ * @param <T> enum, which implements {@link ITagged}
+ */
 public class EnumChoiceSetting<T extends Enum<T> & ITagged> extends Setting<T> {
     
     private final T[] values;
@@ -24,7 +29,7 @@ public class EnumChoiceSetting<T extends Enum<T> & ITagged> extends Setting<T> {
         super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
         
         values = defaultValue.getDeclaringClass().getEnumConstants();
-        suggestions = Arrays.stream(values).map(Objects::toString).toList();
+        suggestions = Arrays.stream(values).map(Object::toString).toList();
     }
     
     @Override
@@ -40,6 +45,10 @@ public class EnumChoiceSetting<T extends Enum<T> & ITagged> extends Setting<T> {
     
     @Override
     protected boolean isValueValid(T value) {
+        /*
+         * Since value is guaranteed to be an enum (T) constant used for this setting,
+         * there's no need to double-check whether it is contained in the values array.
+         */
         return true;
     }
     
