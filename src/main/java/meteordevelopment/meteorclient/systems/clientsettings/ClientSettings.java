@@ -105,12 +105,6 @@ public class ClientSettings extends System<ClientSettings> {
     
     // Modules
     
-    public final Setting<List<Module>> hiddenModules = sgModules.add(new ModuleListSetting.Builder()
-        .name("hidden-modules")
-        .description("Prevent these modules from being rendered as options in the clickgui.")
-        .build()
-    );
-    
     public final Setting<Integer> moduleSearchCount = sgModules.add(new IntSetting.Builder()
         .name("module-search-count")
         .description("Amount of modules and settings to be shown in the module search bar.")

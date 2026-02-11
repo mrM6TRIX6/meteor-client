@@ -10,6 +10,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
@@ -64,7 +65,7 @@ public class SpectatorTeleport extends Module {
     );
     
     public SpectatorTeleport() {
-        super(Categories.MISC, "SpectatorTeleport", "Settings for sptp command. Remove the messages if you don't need them.");
+        super(Categories.MISC, "SpectatorTeleport", "Settings for %ssptp command. Remove the messages if you don't need them.".formatted(ClientSettings.get().prefix.get()));
     }
     
     @Override

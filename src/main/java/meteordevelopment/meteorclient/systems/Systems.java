@@ -31,9 +31,6 @@ public class Systems {
     }
     
     public static void init() {
-        // Has to be loaded first so the hidden modules list in Client Settings tab can load modules
-        add(new Modules());
-        
         ClientSettings clientSettings = new ClientSettings();
         System<?> clientSettingsSystem = add(clientSettings);
         clientSettingsSystem.init();
@@ -42,6 +39,7 @@ public class Systems {
         // Registers the colors from client settings tab. This allows rainbow colours to work for friends.
         clientSettings.settings.registerColorSettings(null);
         
+        add(new Modules());
         add(new Macros());
         add(new Friends());
         add(new Accounts());

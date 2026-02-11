@@ -212,11 +212,7 @@ public class ModulesScreen extends TabScreen {
         public void init() {
             List<Module> moduleList = new ArrayList<>();
             for (Category category : Modules.loopCategories()) {
-                for (Module module : Modules.get().getGroup(category)) {
-                    if (!ClientSettings.get().hiddenModules.get().contains(module)) {
-                        moduleList.add(module);
-                    }
-                }
+                moduleList.addAll(Modules.get().getGroup(category));
                 
                 // Ensure empty categories are not shown
                 if (!moduleList.isEmpty()) {
