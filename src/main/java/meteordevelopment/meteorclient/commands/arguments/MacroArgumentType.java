@@ -60,7 +60,10 @@ public class MacroArgumentType implements ArgumentType<Macro> {
     
     @Override
     public Collection<String> getExamples() {
-        return Macros.get().getAll().stream().limit(3).map(macro -> macro.name.get()).collect(Collectors.toList());
+        return Macros.get().getAll().stream()
+            .limit(3)
+            .map(macro -> macro.name.get())
+            .collect(Collectors.toList());
     }
     
 }

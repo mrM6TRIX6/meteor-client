@@ -20,6 +20,7 @@ import static net.minecraft.nbt.StringNbtReader.EXPECTED_COMPOUND;
 public class CompoundNbtTagArgumentType implements ArgumentType<NbtCompound> {
     
     private static final CompoundNbtTagArgumentType INSTANCE = new CompoundNbtTagArgumentType();
+    
     private static final Collection<String> EXAMPLES = List.of("{foo:bar}", "{foo:[aa, bb],bar:15}");
     
     private CompoundNbtTagArgumentType() {}

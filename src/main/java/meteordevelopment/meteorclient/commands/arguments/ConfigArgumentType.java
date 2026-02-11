@@ -26,6 +26,7 @@ import static net.minecraft.command.CommandSource.suggestMatching;
 public class ConfigArgumentType implements ArgumentType<String> {
     
     private static final ConfigArgumentType INSTANCE = new ConfigArgumentType();
+    
     private static final DynamicCommandExceptionType NO_SUCH_PROFILE = new DynamicCommandExceptionType(name -> Text.literal("Config with name " + name + " doesn't exist."));
     private static final Collection<String> EXAMPLES = List.of("pvp.meteorclient.com", "anarchy");
     
