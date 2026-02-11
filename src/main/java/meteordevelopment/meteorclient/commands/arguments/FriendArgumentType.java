@@ -24,6 +24,7 @@ import static net.minecraft.command.CommandSource.suggestMatching;
 public class FriendArgumentType implements ArgumentType<String> {
     
     private static final FriendArgumentType INSTANCE = new FriendArgumentType();
+    
     private static final Collection<String> EXAMPLES = List.of("seasnail8169", "MineGame159");
     
     private FriendArgumentType() {}

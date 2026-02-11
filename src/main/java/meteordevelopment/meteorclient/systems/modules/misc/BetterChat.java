@@ -122,6 +122,13 @@ public class BetterChat extends Module {
         .build()
     );
     
+    private final Setting<Boolean> unicodeArguments = sgGeneral.add(new BoolSetting.Builder()
+        .name("unicode-arguments")
+        .description("Allows you to use non-English characters in command arguments.")
+        .defaultValue(true)
+        .build()
+    );
+    
     // Filter
     
     private final Setting<Boolean> antiSpam = sgFilter.add(new BoolSetting.Builder()
@@ -263,9 +270,11 @@ public class BetterChat extends Module {
         
         String[] a = "abcdefghijklmnopqrstuvwxyz".split("");
         String[] b = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴩqʀꜱᴛᴜᴠᴡxyᴢ".split("");
+        
         for (int i = 0; i < a.length; i++) {
             smallCaps.put(a[i].charAt(0), b[i].charAt(0));
         }
+        
         compileFilterRegexList();
     }
     
@@ -648,6 +657,12 @@ public class BetterChat extends Module {
     
     public boolean copyingMessages() {
         return isActive() && copyingMessages.get();
+    }
+    
+    // Unicode arguments
+    
+    public boolean unicodeArguments() {
+        return isActive() && unicodeArguments.get();
     }
     
 }

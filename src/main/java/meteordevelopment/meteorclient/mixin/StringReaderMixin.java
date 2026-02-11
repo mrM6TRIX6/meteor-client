@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.mixin;
 
 import com.mojang.brigadier.StringReader;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.misc.BetterMinecraft;
+import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +18,7 @@ public abstract class StringReaderMixin {
     
     @Inject(method = "isAllowedInUnquotedString", at = @At("RETURN"), remap = false, cancellable = true)
     private static void onIsAllowedInUnquotedString(char c, CallbackInfoReturnable<Boolean> cir) {
-        if (Modules.get().get(BetterMinecraft.class).unicodeArguments()) {
+        if (Modules.get().get(BetterChat.class).unicodeArguments()) {
             cir.setReturnValue(
                 Character.isLetterOrDigit(c)
                     || c == '_' || c == '-'

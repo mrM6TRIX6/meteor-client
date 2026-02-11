@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.mixin;
 
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
-import meteordevelopment.meteorclient.systems.modules.misc.BetterMinecraft;
+import meteordevelopment.meteorclient.systems.modules.misc.Paragraphs;
 import net.minecraft.util.StringHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +26,7 @@ public abstract class StringHelperMixin {
     
     @Inject(method = "isValidChar", at = @At(value = "HEAD"), cancellable = true)
     private static void isValidChar(CallbackInfoReturnable<Boolean> cir) {
-        if (Modules.get().get(BetterMinecraft.class).paragraphs()) {
+        if (Modules.get().get(Paragraphs.class).isActive()) {
             cir.setReturnValue(true);
         }
     }

@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class MacroArgumentType implements ArgumentType<Macro> {
     
     private static final MacroArgumentType INSTANCE = new MacroArgumentType();
+    
     private static final DynamicCommandExceptionType NO_SUCH_MACRO = new DynamicCommandExceptionType(name -> Text.literal("Macro with name " + name + " doesn't exist."));
     
     private MacroArgumentType() {}

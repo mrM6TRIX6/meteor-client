@@ -579,7 +579,6 @@ public class Modules extends System<Modules> {
         add(new AutoReconnect());
         add(new AutoRespawn());
         add(new BetterChat());
-        add(new BetterMinecraft());
         add(new BookBot());
         add(new CommandAura());
         add(new DiscordPresence());
@@ -590,6 +589,7 @@ public class Modules extends System<Modules> {
         add(new OnSightCommand());
         add(new PacketCanceller());
         add(new PacketDebugger());
+        add(new Paragraphs());
         add(new SoundBlocker());
         add(new Spammer());
         add(new Swarm());

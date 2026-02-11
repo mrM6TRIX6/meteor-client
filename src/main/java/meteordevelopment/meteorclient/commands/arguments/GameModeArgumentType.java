@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 public class GameModeArgumentType implements ArgumentType<GameMode> {
     
     private static final GameModeArgumentType INSTANCE = new GameModeArgumentType();
+    
     private static final DynamicCommandExceptionType INVALID_GAMEMODE = new DynamicCommandExceptionType(gameMode -> Text.literal("Invalid game mode '" + gameMode + "'."));
     private static final Collection<String> EXAMPLES = List.of("creative", "1");
     
