@@ -12,6 +12,7 @@ import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.settings.impl.ColorListSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
+import meteordevelopment.meteorclient.settings.impl.ModeEnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
@@ -34,6 +35,19 @@ public class Settings implements ISerializable<Settings>, Iterable<SettingGroup>
         for (SettingGroup group : groups) {
             for (Setting<?> setting : group) {
                 setting.onActivated();
+            }
+        }
+    }
+    
+    /**
+     * Subscribe / unsubscribe {@link meteordevelopment.meteorclient.settings.impl.ModeEnumChoiceSetting.ModeImpl ModeImpl} in {@link ModeEnumChoiceSetting}
+     */
+    public void updateModesState(boolean state) {
+        for (SettingGroup group : groups) {
+            for (Setting<?> setting : group) {
+                if (setting instanceof ModeEnumChoiceSetting<?, ?> modeSetting) {
+                    modeSetting.updateState(state);
+                }
             }
         }
     }

@@ -15,6 +15,7 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.IRunInMainMenu;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
@@ -26,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public abstract class Module implements ISerializable<Module>, Comparable<Module> {
+public abstract class Module implements ISerializable<Module>, Comparable<Module>, IRunInMainMenu {
     
     protected final MinecraftClient mc;
     
@@ -43,7 +44,6 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     public boolean serialize = true;
     public boolean runInMainMenu = false;
-    public boolean autoSubscribe = true;
     
     public final Keybind keybind = Keybind.none();
     public boolean toggleOnBindRelease = false;
@@ -89,16 +89,14 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
             settings.onActivated();
             
             if (runInMainMenu || Utils.canUpdate()) {
-                if (autoSubscribe) {
-                    MeteorClient.EVENT_BUS.subscribe(this);
-                }
+                MeteorClient.EVENT_BUS.subscribe(this);
+                settings.updateModesState(true);
                 onActivate();
             }
         } else {
             if (runInMainMenu || Utils.canUpdate()) {
-                if (autoSubscribe) {
-                    MeteorClient.EVENT_BUS.unsubscribe(this);
-                }
+                MeteorClient.EVENT_BUS.unsubscribe(this);
+                settings.updateModesState(false);
                 onDeactivate();
             }
             
@@ -156,6 +154,11 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     public String getDisplayName() {
         return ClientSettings.get().separateNames.get() ? separatedName : name;
+    }
+    
+    @Override
+    public boolean getRunInMainMenu() {
+        return runInMainMenu;
     }
     
     @Override

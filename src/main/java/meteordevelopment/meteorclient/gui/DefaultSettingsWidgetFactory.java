@@ -25,10 +25,10 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
+import meteordevelopment.meteorclient.utils.misc.IRunInMainMenu;
 import meteordevelopment.meteorclient.utils.misc.ITagged;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import net.minecraft.client.resource.language.I18n;
 import org.apache.commons.lang3.Strings;
 
 import java.util.ArrayList;
@@ -52,6 +52,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         factories.put(DoubleSetting.class, (table, setting) -> doubleW(table, (DoubleSetting) setting));
         factories.put(StringSetting.class, (table, setting) -> stringW(table, (StringSetting) setting));
         factories.put(EnumChoiceSetting.class, (table, setting) -> enumW(table, (EnumChoiceSetting<? extends Enum<?>>) setting));
+        factories.put(ModeEnumChoiceSetting.class, (table, setting) -> modeEnumW(table, (ModeEnumChoiceSetting<? extends Enum<?>, ?>) setting));
         factories.put(GenericSetting.class, (table, setting) -> genericW(table, (GenericSetting<?>) setting));
         factories.put(ColorSetting.class, (table, setting) -> colorW(table, (ColorSetting) setting));
         factories.put(KeybindSetting.class, (table, setting) -> keybindW(table, (KeybindSetting) setting));
@@ -242,6 +243,13 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
     }
     
     private <T extends Enum<T> & ITagged> void enumW(WTable table, EnumChoiceSetting<T> setting) {
+        WDropdown<T> dropdown = table.add(theme.dropdown(setting.get())).expandCellX().widget();
+        dropdown.action = () -> setting.set(dropdown.get());
+        
+        reset(table, setting, () -> dropdown.set(setting.get()));
+    }
+    
+    private <T extends Enum<T> & ITagged & ModeEnumChoiceSetting.IModeImpl<P>, P extends IRunInMainMenu> void modeEnumW(WTable table, ModeEnumChoiceSetting<T, P> setting) {
         WDropdown<T> dropdown = table.add(theme.dropdown(setting.get())).expandCellX().widget();
         dropdown.action = () -> setting.set(dropdown.get());
         

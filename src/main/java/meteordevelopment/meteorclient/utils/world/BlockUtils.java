@@ -39,6 +39,8 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @SuppressWarnings("ConstantConditions")
@@ -474,6 +476,65 @@ public class BlockUtils {
      */
     public static BlockPos.Mutable mutateAround(BlockPos.Mutable mutable, BlockPos origin, int xOffset, int yOffset, int zOffset) {
         return mutable.set(origin.getX() + xOffset, origin.getY() + yOffset, origin.getZ() + zOffset);
+    }
+    
+    /**
+     * Shrinks a VoxelShape by the specified amounts on selected axes.
+     */
+    public static VoxelShape shrink(VoxelShape shape, double x, double y, double z) {
+        if (shape.isEmpty()) {
+            return VoxelShapes.empty();
+        }
+        
+        if (shape.equals(VoxelShapes.fullCube())) {
+            return VoxelShapes.cuboid(
+                x,
+                y,
+                z,
+                1.0 - x,
+                1.0 - y,
+                1.0 - z
+            );
+        }
+        
+        AtomicReference<VoxelShape> resultRef = new AtomicReference<>(VoxelShapes.empty());
+        
+        shape.forEachBox((minX, minY, minZ, maxX, maxY, maxZ) -> {
+            double width = maxX - minX;
+            double height = maxY - minY;
+            double depth = maxZ - minZ;
+            
+            boolean canShrinkX = x == 0.0 || width > x * 2;
+            boolean canShrinkY = y == 0.0 || height > y * 2;
+            boolean canShrinkZ = z == 0.0 || depth > z * 2;
+            
+            if (canShrinkX && canShrinkY && canShrinkZ) {
+                double shrinkX = x > 0 ? x : 0.0;
+                double shrinkY = y > 0 ? y : 0.0;
+                double shrinkZ = z > 0 ? z : 0.0;
+                
+                VoxelShape shrunkBox = VoxelShapes.cuboid(
+                    minX + shrinkX,
+                    minY + shrinkY,
+                    minZ + shrinkZ,
+                    maxX - shrinkX,
+                    maxY - shrinkY,
+                    maxZ - shrinkZ
+                );
+                
+                resultRef.set(VoxelShapes.union(resultRef.get(), shrunkBox));
+            }
+        });
+        
+        return resultRef.get();
+    }
+    
+    public static VoxelShape shrink(VoxelShape shape, double x, double z) {
+        return shrink(shape, x, 0.0, z);
+    }
+    
+    public static VoxelShape shrink(VoxelShape shape, double amount) {
+        return shrink(shape, amount, amount, amount);
     }
     
     public enum MobSpawn {
