@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.movement.spider.modes.Polar;
 import meteordevelopment.meteorclient.systems.modules.movement.spider.modes.Vanilla;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
 public class Spider extends Module {
     
@@ -57,22 +57,22 @@ public class Spider extends Module {
         return jumpHeight.get();
     }
     
-    private enum Mode implements ITagged, ModeEnumChoiceSetting.IModeImpl<Spider> {
+    private enum Mode implements IDisplayName, ModeEnumChoiceSetting.IModeImpl<Spider> {
         
         VANILLA("Vanilla", new Vanilla()),
         POLAR("Polar", new Polar());
         
-        private final String tag;
+        private final String displayName;
         private final ModeEnumChoiceSetting.ModeImpl<Spider> modeImpl;
         
-        Mode(String tag, ModeEnumChoiceSetting.ModeImpl<Spider> modeImpl) {
-            this.tag = tag;
+        Mode(String displayName, ModeEnumChoiceSetting.ModeImpl<Spider> modeImpl) {
+            this.displayName = displayName;
             this.modeImpl = modeImpl;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
         @Override

@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.systems.friends.Friend;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
@@ -232,7 +232,7 @@ public class MiddleClickExtra extends Module {
         return disableInCreative.get() && mc.player.getGameMode() == GameMode.CREATIVE;
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         PEARL("Pearl", Items.ENDER_PEARL, true),
         XP("XP", Items.EXPERIENCE_BOTTLE, true),
@@ -246,19 +246,19 @@ public class MiddleClickExtra extends Module {
         
         ADD_FRIEND("Add Friend", null, true);
         
-        private final String tag;
+        private final String displayName;
         private final Item item;
         private final boolean immediate;
         
-        Mode(String tag, Item item, boolean immediate) {
-            this.tag = tag;
+        Mode(String displayName, Item item, boolean immediate) {
+            this.displayName = displayName;
             this.item = item;
             this.immediate = immediate;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

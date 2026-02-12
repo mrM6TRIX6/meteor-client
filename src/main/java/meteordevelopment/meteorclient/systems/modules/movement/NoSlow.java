@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
 
@@ -178,21 +178,21 @@ public class NoSlow extends Module {
         }
     }
     
-    private enum WebMode implements ITagged {
+    private enum WebMode implements IDisplayName {
         
         VANILLA("Vanilla"),
         TIMER("Timer"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        WebMode(String tag) {
-            this.tag = tag;
+        WebMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

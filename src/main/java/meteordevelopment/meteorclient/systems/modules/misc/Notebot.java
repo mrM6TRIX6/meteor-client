@@ -23,7 +23,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.notebot.NotebotUtils;
 import meteordevelopment.meteorclient.utils.notebot.decoder.SongDecoder;
 import meteordevelopment.meteorclient.utils.notebot.decoder.SongDecoders;
@@ -307,7 +307,7 @@ public class Notebot extends Module {
             return;
         }
         
-        if (stage != Stage.SET_UP && stage != Stage.TUNE && stage != Stage.WAITING_TO_CHECK_NOTEBLOCKS && !isPlaying) {
+        if (stage != Stage.SET_UP && stage != Stage.TUNE && stage != Stage.WAITING_TO_CHECK_NOTE_BLOCKS && !isPlaying) {
             return;
         }
         
@@ -369,7 +369,7 @@ public class Notebot extends Module {
             return;
         }
         
-        if (stage != Stage.SET_UP && stage != Stage.TUNE && stage != Stage.WAITING_TO_CHECK_NOTEBLOCKS && !isPlaying) {
+        if (stage != Stage.SET_UP && stage != Stage.TUNE && stage != Stage.WAITING_TO_CHECK_NOTE_BLOCKS && !isPlaying) {
             return;
         }
         
@@ -424,7 +424,7 @@ public class Notebot extends Module {
         ticks++;
         clickedBlocks.clear();
         
-        if (stage == Stage.WAITING_TO_CHECK_NOTEBLOCKS) {
+        if (stage == Stage.WAITING_TO_CHECK_NOTE_BLOCKS) {
             waitTicks--;
             if (waitTicks == 0) {
                 waitTicks = -1;
@@ -638,7 +638,7 @@ public class Notebot extends Module {
         if (stage == Stage.PLAYING) {
             return "Ready to play.";
         }
-        if (stage == Stage.SET_UP || stage == Stage.TUNE || stage == Stage.WAITING_TO_CHECK_NOTEBLOCKS) {
+        if (stage == Stage.SET_UP || stage == Stage.TUNE || stage == Stage.WAITING_TO_CHECK_NOTE_BLOCKS) {
             return "Setting up the noteblocks.";
         } else {
             return String.format("Stage: %s.", stage.toString());
@@ -716,7 +716,7 @@ public class Notebot extends Module {
         enable();
         resetVariables();
         
-        this.playingMode = PlayingMode.NOTEBLOCKS;
+        this.playingMode = PlayingMode.NOTE_BLOCKS;
         if (!loadFileToMap(file, () -> stage = Stage.SET_UP)) {
             onSongEnd();
             return;
@@ -859,7 +859,7 @@ public class Notebot extends Module {
             if (anyNoteblockTuned) {
                 anyNoteblockTuned = false;
                 waitTicks = checkNoteblocksAgainDelay.get();
-                stage = Stage.WAITING_TO_CHECK_NOTEBLOCKS;
+                stage = Stage.WAITING_TO_CHECK_NOTE_BLOCKS;
                 
                 info("Delaying check for noteblocks");
             } else {
@@ -1041,43 +1041,43 @@ public class Notebot extends Module {
         return sb.toString().trim();
     }
     
-    public enum Stage implements ITagged {
+    public enum Stage implements IDisplayName {
         
         NONE("None"),
         LOADING_SONG("Loading song"),
         SET_UP("Set up"),
         TUNE("Tune"),
-        WAITING_TO_CHECK_NOTEBLOCKS("Waiting to check noteblocks"),
+        WAITING_TO_CHECK_NOTE_BLOCKS("Waiting to check note blocks"),
         PLAYING("Playing");
         
-        private final String tag;
+        private final String displayName;
         
-        Stage(String tag) {
-            this.tag = tag;
+        Stage(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    public enum PlayingMode implements ITagged {
+    public enum PlayingMode implements IDisplayName {
         
         NONE("None"),
         PREVIEW("Preview"),
-        NOTEBLOCKS("Noteblocks");
+        NOTE_BLOCKS("Note Blocks");
         
-        private final String tag;
+        private final String displayName;
         
-        PlayingMode(String tag) {
-            this.tag = tag;
+        PlayingMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

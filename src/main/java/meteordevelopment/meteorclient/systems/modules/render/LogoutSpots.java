@@ -265,13 +265,13 @@ public class LogoutSpots extends Module {
             NametagUtils.begin(pos);
             
             // Compute health things
-            double healthPercentage = (double) health / maxHealth;
+            double healthPercendisplayNamee = (double) health / maxHealth;
             
             // Get health color
             Color healthColor;
-            if (healthPercentage <= 0.333) {
+            if (healthPercendisplayNamee <= 0.333) {
                 healthColor = RED;
-            } else if (healthPercentage <= 0.666) {
+            } else if (healthPercendisplayNamee <= 0.666) {
                 healthColor = ORANGE;
             } else {
                 healthColor = GREEN;

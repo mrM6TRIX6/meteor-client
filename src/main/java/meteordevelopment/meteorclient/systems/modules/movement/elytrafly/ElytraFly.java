@@ -27,7 +27,7 @@ import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.V
 import meteordevelopment.meteorclient.systems.modules.player.ChestSwap;
 import meteordevelopment.meteorclient.systems.modules.player.Rotation;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -569,39 +569,39 @@ public class ElytraFly extends Module {
         return currentMode.getHudString();
     }
     
-    public enum ChestSwapMode implements ITagged {
+    public enum ChestSwapMode implements IDisplayName {
         
         ALWAYS("Always"),
         NEVER("Never"),
         WAIT_FOR_GROUND("Wait For Ground");
         
-        private final String tag;
+        private final String displayName;
         
-        ChestSwapMode(String tag) {
-            this.tag = tag;
+        ChestSwapMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    public enum AutoPilotMode implements ITagged {
+    public enum AutoPilotMode implements IDisplayName {
         
         VANILLA("Vanilla"),
         PITCH40("Pitch40");
         
-        private final String tag;
+        private final String displayName;
         
-        AutoPilotMode(String tag) {
-            this.tag = tag;
+        AutoPilotMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
 import net.minecraft.block.Block;
@@ -253,60 +253,60 @@ public class NoInteract extends Module {
         }
     }
     
-    private enum HandMode implements ITagged {
+    private enum HandMode implements IDisplayName {
         
         MAINHAND("Mainhand"),
         OFFHAND("Offhand"),
         BOTH("Both"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        HandMode(String tag) {
-            this.tag = tag;
+        HandMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum ListMode implements ITagged {
+    private enum ListMode implements IDisplayName {
         
         WHITELIST("Whitelist"),
         BLACKLIST("Blacklist");
         
-        private final String tag;
+        private final String displayName;
         
-        ListMode(String tag) {
-            this.tag = tag;
+        ListMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum InteractMode implements ITagged {
+    private enum InteractMode implements IDisplayName {
         
         HIT("Hit"),
         INTERACT("Interact"),
         BOTH("Both"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        InteractMode(String tag) {
-            this.tag = tag;
+        InteractMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

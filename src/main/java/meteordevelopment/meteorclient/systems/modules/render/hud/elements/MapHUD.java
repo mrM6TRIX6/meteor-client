@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -171,21 +171,21 @@ public class MapHUD extends HUDElement {
         });
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         SLOT_INDEX("Slot Index"),
         MAP_ID("Map ID"),
         SIMPLE("Simple");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -304,21 +304,21 @@ public class TextHUD extends HUDElement {
         return condition.get();
     }
     
-    public enum Shown implements ITagged {
+    public enum Shown implements IDisplayName {
         
         ALWAYS("Always"),
         WHEN_TRUE("When True"),
         WHEN_FALSE("When False");
         
-        private final String tag;
+        private final String displayName;
         
-        Shown(String tag) {
-            this.tag = tag;
+        Shown(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.util.math.MatrixStack;
@@ -234,21 +234,21 @@ public class HandView extends Module {
         return isActive() && disableFoodAnimation.get();
     }
     
-    public enum SwingMode implements ITagged {
+    public enum SwingMode implements IDisplayName {
         
         OFFHAND("Offhand"),
         MAINHAND("Mainhand"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        SwingMode(String tag) {
-            this.tag = tag;
+        SwingMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

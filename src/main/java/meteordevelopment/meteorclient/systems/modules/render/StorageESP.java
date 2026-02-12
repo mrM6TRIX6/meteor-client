@@ -21,7 +21,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.MeshBuilderVertexConsumerProvider;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
@@ -384,20 +384,20 @@ public class StorageESP extends Module {
         return isActive() && mode.get() == Mode.SHADER;
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         BOX("Box"),
         SHADER("Shader");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

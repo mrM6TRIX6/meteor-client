@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.item.ItemStack;
@@ -167,25 +167,25 @@ public class InventoryHUD extends HUDElement {
         return customScale.get() ? scale.get() : scale.getDefaultValue();
     }
     
-    private enum Background implements ITagged {
+    private enum Background implements IDisplayName {
         
         NONE("None", 162, 54),
         TEXTURE("Texture", 176, 67),
         OUTLINE("Outline", 162, 54),
         FLAT("Flat", 162, 54);
         
-        private final String tag;
+        private final String displayName;
         private final int width, height;
         
-        Background(String tag, int width, int height) {
-            this.tag = tag;
+        Background(String displayName, int width, int height) {
+            this.displayName = displayName;
             this.width = width;
             this.height = height;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

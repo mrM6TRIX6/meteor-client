@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
@@ -220,44 +220,44 @@ public class LiquidFiller extends Module {
         return Math.max(Math.max(dX, dY), dZ);
     }
     
-    private enum ListMode implements ITagged {
+    private enum ListMode implements IDisplayName {
         
         WHITELIST("Whitelist"),
         BLACKLIST("Blacklist");
         
-        private final String tag;
+        private final String displayName;
         
-        ListMode(String tag) {
-            this.tag = tag;
+        ListMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum PlaceIn implements ITagged {
+    private enum PlaceIn implements IDisplayName {
         
         BOTH("Both"),
         WATER("Water"),
         LAVA("Lava");
         
-        private final String tag;
+        private final String displayName;
         
-        PlaceIn(String tag) {
-            this.tag = tag;
+        PlaceIn(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum SortMode implements ITagged {
+    private enum SortMode implements IDisplayName {
         
         NONE("None"),
         CLOSEST("Closest"),
@@ -265,33 +265,33 @@ public class LiquidFiller extends Module {
         TOP_DOWN("Top Down"),
         BOTTOM_UP("Bottom Up");
         
-        private final String tag;
+        private final String displayName;
         
-        SortMode(String tag) {
-            this.tag = tag;
+        SortMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum Shape implements ITagged {
+    private enum Shape implements IDisplayName {
         
         SPHERE("Sphere"),
         UNIFORM_CUBE("Uniform Cube");
         
-        private final String tag;
+        private final String displayName;
         
-        Shape(String tag) {
-            this.tag = tag;
+        Shape(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
@@ -242,20 +242,20 @@ public class AntiAFK extends Module {
         }
     }
     
-    private enum SpinMode implements ITagged {
+    private enum SpinMode implements IDisplayName {
         
         SERVER("Server"),
         CLIENT("Client");
         
-        private final String tag;
+        private final String displayName;
         
-        SpinMode(String tag) {
-            this.tag = tag;
+        SpinMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

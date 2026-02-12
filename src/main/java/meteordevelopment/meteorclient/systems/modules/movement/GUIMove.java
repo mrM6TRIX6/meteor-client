@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
@@ -250,21 +250,21 @@ public class GUIMove extends Module {
         return jump.get();
     }
     
-    private enum Screens implements ITagged {
+    private enum Screens implements IDisplayName {
         
         GUI("GUI"),
         INVENTORY("Inventory"),
         BOTH("Both");
         
-        private final String tag;
+        private final String displayName;
         
-        Screens(String tag) {
-            this.tag = tag;
+        Screens(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

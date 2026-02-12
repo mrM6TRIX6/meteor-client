@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.Target;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
@@ -89,20 +89,20 @@ public class EndermanLook extends Module {
         return e > 1.0D - 0.025D / d;
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         AT("At"),
         AWAY("Away");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

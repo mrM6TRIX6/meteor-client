@@ -15,6 +15,7 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.IRunInMainMenu;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
@@ -27,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public abstract class Module implements ISerializable<Module>, Comparable<Module>, IRunInMainMenu {
+public abstract class Module implements ISerializable<Module>, Comparable<Module>, IDisplayName, IRunInMainMenu {
     
     protected final MinecraftClient mc;
     
@@ -152,6 +153,7 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         return null;
     }
     
+    @Override
     public String getDisplayName() {
         return ClientSettings.get().separateNames.get() ? separatedName : name;
     }

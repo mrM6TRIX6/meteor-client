@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
@@ -167,38 +167,38 @@ public class Stick extends Module {
         target = targets.get(0);
     }
     
-    public enum Mode implements ITagged {
+    public enum Mode implements IDisplayName {
         
         MIDDLE_CLICK("Middle Click"),
         AUTOMATIC("Automatic");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    public enum Follow implements ITagged {
+    public enum Follow implements IDisplayName {
         
         HEAD("Head"),
         BODY("Body");
         
-        private final String tag;
+        private final String displayName;
         
-        Follow(String tag) {
-            this.tag = tag;
+        Follow(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

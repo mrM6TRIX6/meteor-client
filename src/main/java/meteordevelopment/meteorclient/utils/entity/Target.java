@@ -5,23 +5,23 @@
 
 package meteordevelopment.meteorclient.utils.entity;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
-public enum Target implements ITagged {
+public enum Target implements IDisplayName {
     
     HEAD("Head"),
     BODY("Body"),
     FEET("Feet");
     
-    private final String tag;
+    private final String displayName;
     
-    Target(String tag) {
-        this.tag = tag;
+    Target(String displayName) {
+        this.displayName = displayName;
     }
     
     @Override
-    public String getTag() {
-        return tag;
+    public String getDisplayName() {
+        return displayName;
     }
     
 }

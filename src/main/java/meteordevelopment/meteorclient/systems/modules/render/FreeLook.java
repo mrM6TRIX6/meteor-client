@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.option.Perspective;
@@ -149,20 +149,20 @@ public class FreeLook extends Module {
         cameraPitch = MathHelper.clamp(cameraPitch, -90, 90);
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         PLAYER("Player"),
         CAMERA("Camera");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

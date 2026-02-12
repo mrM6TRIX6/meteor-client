@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -352,20 +352,20 @@ public class Scaffold extends Module {
         return false;
     }
     
-    private enum ListMode implements ITagged {
+    private enum ListMode implements IDisplayName {
         
         WHITELIST("Whitelist"),
         BLACKLIST("Blacklist");
         
-        private final String tag;
+        private final String displayName;
         
-        ListMode(String tag) {
-            this.tag = tag;
+        ListMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

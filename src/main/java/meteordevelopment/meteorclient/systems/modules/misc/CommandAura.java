@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
@@ -132,21 +132,21 @@ public class CommandAura extends Module {
         }
     }
     
-    private enum Target implements ITagged {
+    private enum Target implements IDisplayName {
         
         EVERYONE("Everyone"),
         ONLY_FRIENDS("Only Friends"),
         IGNORE_FRIENDS("Ignore Friends");
         
-        private final String tag;
+        private final String displayName;
         
-        Target(String tag) {
-            this.tag = tag;
+        Target(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

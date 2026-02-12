@@ -35,7 +35,7 @@ import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.Range;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -258,7 +258,7 @@ public class MeteorGuiTheme extends GuiTheme {
     }
     
     @Override
-    public <T extends ITagged> WDropdown<T> dropdown(T[] values, T value) {
+    public <T extends IDisplayName> WDropdown<T> dropdown(T[] values, T value) {
         return w(new WMeteorDropdown<>(values, value));
     }
     

@@ -12,6 +12,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandRegistryAccess;
@@ -23,7 +24,7 @@ import net.minecraft.text.Text;
 import java.util.List;
 import java.util.stream.Stream;
 
-public abstract class Command {
+public abstract class Command implements IDisplayName {
     
     protected static CommandRegistryAccess REGISTRY_ACCESS = CommandManager.createRegistryAccess(BuiltinRegistries.createWrapperLookup());
     protected static final int SINGLE_SUCCESS = com.mojang.brigadier.Command.SINGLE_SUCCESS;
@@ -76,10 +77,6 @@ public abstract class Command {
         return name;
     }
     
-    public String getDisplayName() {
-        return ClientSettings.get().separateNames.get() ? separatedName : name;
-    }
-    
     public String getDescription() {
         return description;
     }
@@ -118,6 +115,11 @@ public abstract class Command {
     public void error(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
         ChatUtils.errorPrefix(getDisplayName(), message, args);
+    }
+    
+    @Override
+    public String getDisplayName() {
+        return ClientSettings.get().separateNames.get() ? separatedName : name;
     }
     
 }

@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.hud.*;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
@@ -367,40 +367,40 @@ public class ActiveModulesHUD extends HUDElement {
         return customScale.get() ? scale.get() : HUD.get().getTextScale();
     }
     
-    private enum Sort implements ITagged {
+    private enum Sort implements IDisplayName {
         
         ALPHABETICAL("Alphabetical"),
         BIGGEST("Biggest"),
         SMALLEST("Smallest");
         
-        private final String tag;
+        private final String displayName;
         
-        Sort(String tag) {
-            this.tag = tag;
+        Sort(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum ColorMode implements ITagged {
+    private enum ColorMode implements IDisplayName {
         
         FLAT("Flat"),
         RANDOM("Random"),
         RAINBOW("Rainbow");
         
-        private final String tag;
+        private final String displayName;
         
-        ColorMode(String tag) {
-            this.tag = tag;
+        ColorMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

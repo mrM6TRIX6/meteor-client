@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.effect.StatusEffects;
@@ -322,21 +322,21 @@ public class LongJump extends Module {
         ((IVec3d) event.movement).meteor$setXZ((forward * speed * cos) + (strafe * speed * sin), (forward * speed * sin) + (strafe * speed * cos));
     }
     
-    private enum JumpMode implements ITagged {
+    private enum JumpMode implements IDisplayName {
         
         VANILLA("Vanilla"),
         BURST("Burst"),
         GLIDE("Glide");
         
-        private final String tag;
+        private final String displayName;
         
-        JumpMode(String tag) {
-            this.tag = tag;
+        JumpMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

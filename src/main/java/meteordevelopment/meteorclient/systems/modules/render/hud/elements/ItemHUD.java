@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -139,21 +139,21 @@ public class ItemHUD extends HUDElement {
         return customScale.get() ? scale.get().floatValue() : scale.getDefaultValue().floatValue();
     }
     
-    private enum NoneMode implements ITagged {
+    private enum NoneMode implements IDisplayName {
         
         HIDE_ITEM("Hide Item"),
         HIDE_COUNT("Hide Count"),
         SHOW_COUNT("Show Count");
         
-        private final String tag;
+        private final String displayName;
         
-        NoneMode(String tag) {
-            this.tag = tag;
+        NoneMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

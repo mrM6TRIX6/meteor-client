@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -190,20 +190,20 @@ public class Chams extends Module {
         return isActive() && shader.get() != Shader.NONE;
     }
     
-    public enum Shader implements ITagged {
+    public enum Shader implements IDisplayName {
         
         IMAGE("Image"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        Shader(String tag) {
-            this.tag = tag;
+        Shader(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

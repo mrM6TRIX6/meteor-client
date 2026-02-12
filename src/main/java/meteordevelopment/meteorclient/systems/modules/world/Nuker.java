@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
@@ -627,78 +627,78 @@ public class Nuker extends Module {
         return Math.max(Math.max(dX, dY), dZ);
     }
     
-    private enum ListMode implements ITagged {
+    private enum ListMode implements IDisplayName {
         
         WHITELIST("Whitelist"),
         BLACKLIST("Blacklist");
         
-        private final String tag;
+        private final String displayName;
         
-        ListMode(String tag) {
-            this.tag = tag;
+        ListMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         ALL("All"),
         FLATTEN("Flatten"),
         SMASH("Smash");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum SortMode implements ITagged {
+    private enum SortMode implements IDisplayName {
         
         NONE("None"),
         CLOSEST("Closest"),
         FURTHEST("Furthest"),
         TOP_DOWN("Top Down");
         
-        private final String tag;
+        private final String displayName;
         
-        SortMode(String tag) {
-            this.tag = tag;
+        SortMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum Shape implements ITagged {
+    private enum Shape implements IDisplayName {
         
         CUBE("Cube"),
         UNIFORM_CUBE("Uniform Cube"),
         SPHERE("Sphere");
         
-        private final String tag;
+        private final String displayName;
         
-        Shape(String tag) {
-            this.tag = tag;
+        Shape(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

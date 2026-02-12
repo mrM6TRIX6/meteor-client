@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.entity.Entity;
@@ -288,39 +288,39 @@ public class Flight extends Module {
         return isActive() && mode.get() == Mode.VELOCITY && noSneak.get();
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         ABILITIES("Abilities"),
         VELOCITY("Velocity");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum AntiKickMode implements ITagged {
+    private enum AntiKickMode implements IDisplayName {
         
         NORMAL("Normal"),
         PACKET("Packet"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        AntiKickMode(String tag) {
-            this.tag = tag;
+        AntiKickMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

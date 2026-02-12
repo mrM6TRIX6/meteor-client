@@ -20,7 +20,7 @@ import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.Target;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -561,77 +561,77 @@ public class KillAura extends Module {
         return null;
     }
     
-    private enum AttackItems implements ITagged {
+    private enum AttackItems implements IDisplayName {
         
         WEAPONS("Weapons"),
         ALL("All");
         
-        private final String tag;
+        private final String displayName;
         
-        AttackItems(String tag) {
-            this.tag = tag;
+        AttackItems(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum RotationMode implements ITagged {
+    private enum RotationMode implements IDisplayName {
         
         ALWAYS("Always"),
         ON_HIT("On Hit"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        RotationMode(String tag) {
-            this.tag = tag;
+        RotationMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum ShieldMode implements ITagged {
+    private enum ShieldMode implements IDisplayName {
         
         IGNORE("Ignore"),
         BREAK("Break"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        ShieldMode(String tag) {
-            this.tag = tag;
+        ShieldMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum EntityAge implements ITagged {
+    private enum EntityAge implements IDisplayName {
         
         BABY("Baby"),
         ADULT("Adult"),
         BOTH("Both");
         
-        private final String tag;
+        private final String displayName;
         
-        EntityAge(String tag) {
-            this.tag = tag;
+        EntityAge(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

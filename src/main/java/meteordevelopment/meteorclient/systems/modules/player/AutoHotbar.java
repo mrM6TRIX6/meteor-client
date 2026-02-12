@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.orbit.EventHandler;
 
@@ -166,21 +166,21 @@ public class AutoHotbar extends Module {
         }
     }
     
-    private enum SwitchMode implements ITagged {
+    private enum SwitchMode implements IDisplayName {
         
         NEXT("Next"),
         PREVIOUS("Previous"),
         RANDOM("Random");
         
-        private final String tag;
+        private final String displayName;
         
-        SwitchMode(String tag) {
-            this.tag = tag;
+        SwitchMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

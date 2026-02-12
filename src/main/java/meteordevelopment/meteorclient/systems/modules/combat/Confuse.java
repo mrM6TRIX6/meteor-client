@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
@@ -31,7 +31,7 @@ import net.minecraft.world.RaycastContext;
 
 import java.util.Random;
 
-// Too much much spaghetti!
+// Too much spaghetti!
 // -StormyBytes
 
 public class Confuse extends Module {
@@ -229,21 +229,21 @@ public class Confuse extends Module {
         }
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         RANDOM_TP("Random TP"),
         SWITCH("Switch"),
         CIRCLE("Circle");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

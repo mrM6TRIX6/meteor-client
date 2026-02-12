@@ -13,8 +13,8 @@ import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
-import meteordevelopment.meteorclient.utils.player.HandTagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.player.HandWithDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
@@ -52,10 +52,10 @@ public class AutoBreed extends Module {
         .build()
     );
     
-    private final Setting<HandTagged> hand = sgGeneral.add(new EnumChoiceSetting.Builder<HandTagged>()
+    private final Setting<HandWithDisplayName> hand = sgGeneral.add(new EnumChoiceSetting.Builder<HandWithDisplayName>()
         .name("hand-for-breeding")
         .description("The hand to use for breeding.")
-        .defaultValue(HandTagged.MAIN_HAND)
+        .defaultValue(HandWithDisplayName.MAIN_HAND)
         .build()
     );
     
@@ -125,21 +125,21 @@ public class AutoBreed extends Module {
         return animal.isBreedingItem(itemStack);
     }
     
-    private enum EntityAge implements ITagged {
+    private enum EntityAge implements IDisplayName {
         
         BABY("Baby"),
         ADULT("Adult"),
         BOTH("Both");
         
-        private final String tag;
+        private final String displayName;
         
-        EntityAge(String tag) {
-            this.tag = tag;
+        EntityAge(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

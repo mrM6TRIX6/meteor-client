@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 
 public class Rotation extends Module {
@@ -94,21 +94,21 @@ public class Rotation extends Module {
         mc.player.bodyYaw = yawAngle;
     }
     
-    public enum LockMode implements ITagged {
+    public enum LockMode implements IDisplayName {
         
         SMART("Smart"),
         SIMPLE("Simple"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        LockMode(String tag) {
-            this.tag = tag;
+        LockMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

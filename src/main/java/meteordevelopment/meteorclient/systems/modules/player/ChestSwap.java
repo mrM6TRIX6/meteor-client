@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EquipmentSlot;
@@ -156,22 +156,22 @@ public class ChestSwap extends Module {
         }
     }
     
-    private enum Chestplate implements ITagged {
+    private enum Chestplate implements IDisplayName {
         
         DIAMOND("Diamond"),
         NETHERITE("Netherite"),
         PREFER_DIAMOND("Prefer Diamond"),
         PREFER_NETHERITE("Prefer Netherite");
         
-        private final String tag;
+        private final String displayName;
         
-        Chestplate(String tag) {
-            this.tag = tag;
+        Chestplate(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

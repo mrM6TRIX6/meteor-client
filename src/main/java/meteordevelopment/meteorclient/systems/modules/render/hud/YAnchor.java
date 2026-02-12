@@ -5,23 +5,23 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
-public enum YAnchor implements ITagged {
+public enum YAnchor implements IDisplayName {
     
     TOP("Top"),
     CENTER("Center"),
     BOTTOM("Bottom");
     
-    private final String tag;
+    private final String displayName;
     
-    YAnchor(String tag) {
-        this.tag = tag;
+    YAnchor(String displayName) {
+        this.displayName = displayName;
     }
     
     @Override
-    public String getTag() {
-        return tag;
+    public String getDisplayName() {
+        return displayName;
     }
     
 }

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.notebot;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.notebot.instrumentdetect.InstrumentDetectFunction;
 import meteordevelopment.meteorclient.utils.notebot.song.Note;
 import net.minecraft.block.BlockState;
@@ -29,25 +29,25 @@ public class NotebotUtils {
         return new Note(instrument, level);
     }
     
-    public enum NotebotMode implements ITagged {
+    public enum NotebotMode implements IDisplayName {
         
         ANY_INSTRUMENT("Any Instrument"),
         EXACT_INSTRUMENTS("Exact Instruments");
         
-        private final String tag;
+        private final String displayName;
         
-        NotebotMode(String tag) {
-            this.tag = tag;
+        NotebotMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    public enum OptionalInstrument implements ITagged {
+    public enum OptionalInstrument implements IDisplayName {
         
         NONE("None", null),
         HARP("Harp", NoteBlockInstrument.HARP),
@@ -75,17 +75,17 @@ public class NotebotUtils {
             }
         }
         
-        private final String tag;
+        private final String displayName;
         private final NoteBlockInstrument minecraftInstrument;
         
-        OptionalInstrument(String tag, @Nullable NoteBlockInstrument minecraftInstrument) {
-            this.tag = tag;
+        OptionalInstrument(String displayName, @Nullable NoteBlockInstrument minecraftInstrument) {
+            this.displayName = displayName;
             this.minecraftInstrument = minecraftInstrument;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
         public NoteBlockInstrument toMinecraftInstrument() {

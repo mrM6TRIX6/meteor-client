@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Xray;
 import meteordevelopment.meteorclient.systems.modules.world.InfinityMiner;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -280,39 +280,39 @@ public class AutoTool extends Module {
         return Xray.ORES.contains(block) || block instanceof CropBlock;
     }
     
-    private enum EnchantPreference implements ITagged {
+    private enum EnchantPreference implements IDisplayName {
         
         NONE("None"),
         FORTUNE("Fortune"),
         SILK_TOUCH("Silk Touch");
         
-        private final String tag;
+        private final String displayName;
         
-        EnchantPreference(String tag) {
-            this.tag = tag;
+        EnchantPreference(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum ListMode implements ITagged {
+    private enum ListMode implements IDisplayName {
         
         WHITELIST("Whitelist"),
         BLACKLIST("Blacklist");
         
-        private final String tag;
+        private final String displayName;
         
-        ListMode(String tag) {
-            this.tag = tag;
+        ListMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.settings.impl;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,11 +16,11 @@ import java.util.function.Consumer;
 
 
 /**
- * Choice setting, based on tagged enum constants.
+ * Choice setting, based on {@link IDisplayName} enum constants.
  *
- * @param <T> enum, which implements {@link ITagged}
+ * @param <T> enum, which implements {@link IDisplayName}
  */
-public class EnumChoiceSetting<T extends Enum<T> & ITagged> extends Setting<T> {
+public class EnumChoiceSetting<T extends Enum<T> & IDisplayName> extends Setting<T> {
     
     private final T[] values;
     private final List<String> suggestions;
@@ -71,7 +71,7 @@ public class EnumChoiceSetting<T extends Enum<T> & ITagged> extends Setting<T> {
         return get();
     }
     
-    public static class Builder<T extends Enum<T> & ITagged> extends SettingBuilder<Builder<T>, T, EnumChoiceSetting<T>> {
+    public static class Builder<T extends Enum<T> & IDisplayName> extends SettingBuilder<Builder<T>, T, EnumChoiceSetting<T>> {
         
         public Builder() {
             super(null);

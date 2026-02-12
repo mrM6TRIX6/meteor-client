@@ -5,24 +5,24 @@
 
 package meteordevelopment.meteorclient.systems.modules.movement.elytrafly;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
-public enum ElytraFlyModes implements ITagged {
+public enum ElytraFlyModes implements IDisplayName {
     
     VANILLA("Vanilla"),
     PACKET("Packet"),
     PITCH40("Pitch40"),
     BOUNCE("Bounce");
     
-    private final String tag;
+    private final String displayName;
     
-    ElytraFlyModes(String tag) {
-        this.tag = tag;
+    ElytraFlyModes(String displayName) {
+        this.displayName = displayName;
     }
     
     @Override
-    public String getTag() {
-        return tag;
+    public String getDisplayName() {
+        return displayName;
     }
     
 }

@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.LivingEntity;
@@ -96,20 +96,20 @@ public class AutoWeapon extends Module {
         }
     }
     
-    private enum Weapon implements ITagged {
+    private enum Weapon implements IDisplayName {
         
         SWORD("Sword"),
         AXE("Axe");
         
-        private final String tag;
+        private final String displayName;
         
-        Weapon(String tag) {
-            this.tag = tag;
+        Weapon(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

@@ -5,22 +5,22 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
-public enum Safety implements ITagged {
+public enum Safety implements IDisplayName {
     
     SAFE("Safe"),
     SUICIDE("Suicide");
     
-    private final String tag;
+    private final String displayName;
     
-    Safety(String tag) {
-        this.tag = tag;
+    Safety(String displayName) {
+        this.displayName = displayName;
     }
     
     @Override
-    public String getTag() {
-        return tag;
+    public String getDisplayName() {
+        return displayName;
     }
     
 }

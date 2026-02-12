@@ -5,18 +5,18 @@
 
 package meteordevelopment.meteorclient.renderer;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
-public enum ShapeMode implements ITagged {
+public enum ShapeMode implements IDisplayName {
     
     LINES("Lines"),
     SIDES("Sides"),
     BOTH("Both");
     
-    private final String tag;
+    private final String displayName;
     
-    ShapeMode(String tag) {
-        this.tag = tag;
+    ShapeMode(String displayName) {
+        this.displayName = displayName;
     }
     
     public boolean lines() {
@@ -28,7 +28,7 @@ public enum ShapeMode implements ITagged {
     }
     
     @Override
-    public String getTag() {
-        return tag;
+    public String getDisplayName() {
+        return displayName;
     }
 }

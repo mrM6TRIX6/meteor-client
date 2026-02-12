@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 
 public class AutoJump extends Module {
@@ -68,39 +68,39 @@ public class AutoJump extends Module {
         }
     }
     
-    private enum JumpWhen implements ITagged {
+    private enum JumpWhen implements IDisplayName {
         
         SPRINTING("Sprinting"),
         WALKING("Walking"),
         ALWAYS("Always");
         
-        private final String tag;
+        private final String displayName;
         
-        JumpWhen(String tag) {
-            this.tag = tag;
+        JumpWhen(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         JUMP("Jump"),
         LOW_HOP("Low Hop");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

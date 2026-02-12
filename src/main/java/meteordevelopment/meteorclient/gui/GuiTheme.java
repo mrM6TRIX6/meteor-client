@@ -127,9 +127,9 @@ public abstract class GuiTheme implements ISerializable<GuiTheme> {
         return textBox(text, (text1, c) -> true, null);
     }
     
-    public abstract <T extends ITagged> WDropdown<T> dropdown(T[] values, T value);
+    public abstract <T extends IDisplayName> WDropdown<T> dropdown(T[] values, T value);
     
-    public <T extends Enum<T> & ITagged> WDropdown<T> dropdown(T value) {
+    public <T extends Enum<T> & IDisplayName> WDropdown<T> dropdown(T value) {
         Class<?> clazz = value.getDeclaringClass();
         T[] values = (T[]) clazz.getEnumConstants();
         return dropdown(values, value);

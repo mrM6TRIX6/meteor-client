@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.utils.misc;
 
-public interface ITagged {
+public interface IDisplayName {
     
-    String getTag();
+    String getDisplayName();
     
 }

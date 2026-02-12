@@ -27,7 +27,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.Target;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -1516,73 +1516,73 @@ public class CrystalAura extends Module {
         }
     }
     
-    private enum YawStepMode implements ITagged {
+    private enum YawStepMode implements IDisplayName {
         
         BREAK("Break"),
         ALL("All");
         
-        private final String tag;
+        private final String displayName;
         
-        YawStepMode(String tag) {
-            this.tag = tag;
+        YawStepMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum AutoSwitchMode implements ITagged {
+    private enum AutoSwitchMode implements IDisplayName {
         
         NORMAL("Normal"),
         SILENT("Silent"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        AutoSwitchMode(String tag) {
-            this.tag = tag;
+        AutoSwitchMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum SupportMode implements ITagged {
+    private enum SupportMode implements IDisplayName {
         
         DISABLED("Disabled"),
         ACCURATE("Accurate"),
         FAST("Fast");
         
-        private final String tag;
+        private final String displayName;
         
-        SupportMode(String tag) {
-            this.tag = tag;
+        SupportMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum PauseMode implements ITagged {
+    private enum PauseMode implements IDisplayName {
         
         BOTH("Both"),
         PLACE("Place"),
         BREAK("Break"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        PauseMode(String tag) {
-            this.tag = tag;
+        PauseMode(String displayName) {
+            this.displayName = displayName;
         }
         
         public boolean equals(PauseMode process) {
@@ -1590,23 +1590,23 @@ public class CrystalAura extends Module {
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum SwingMode implements ITagged {
+    private enum SwingMode implements IDisplayName {
         
         BOTH("Both"),
         PACKET("Packet"),
         CLIENT("Client"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        SwingMode(String tag) {
-            this.tag = tag;
+        SwingMode(String displayName) {
+            this.displayName = displayName;
         }
         
         public boolean packet() {
@@ -1618,13 +1618,13 @@ public class CrystalAura extends Module {
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum RenderMode implements ITagged {
+    private enum RenderMode implements IDisplayName {
         
         NORMAL("Normal"),
         SMOOTH("Smooth"),
@@ -1632,15 +1632,15 @@ public class CrystalAura extends Module {
         GRADIENT("Gradient"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        RenderMode(String tag) {
-            this.tag = tag;
+        RenderMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

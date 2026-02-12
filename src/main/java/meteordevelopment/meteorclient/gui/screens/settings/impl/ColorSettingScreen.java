@@ -434,11 +434,11 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         void handleMoved() {
-            double handleXPercentage = handleX / width;
-            double handleYPercentage = handleY / height;
+            double handleXPercendisplayNamee = handleX / width;
+            double handleYPercendisplayNamee = handleY / height;
             
-            saturation = handleXPercentage;
-            value = 1 - handleYPercentage;
+            saturation = handleXPercendisplayNamee;
+            value = 1 - handleYPercendisplayNamee;
             
             hsvChanged();
         }
@@ -525,8 +525,8 @@ public class ColorSettingScreen extends WindowScreen {
             }
             
             if (calculateNow) {
-                double huePercentage = hueAngle / 360;
-                handleX = huePercentage * width;
+                double huePercendisplayNamee = hueAngle / 360;
+                handleX = huePercendisplayNamee * width;
             } else {
                 calculateHandleXOnLayout = true;
             }
@@ -535,8 +535,8 @@ public class ColorSettingScreen extends WindowScreen {
         @Override
         protected void onCalculateWidgetPositions() {
             if (calculateHandleXOnLayout) {
-                double huePercentage = hueAngle / 360;
-                handleX = huePercentage * width;
+                double huePercendisplayNamee = hueAngle / 360;
+                handleX = huePercendisplayNamee * width;
                 
                 calculateHandleXOnLayout = false;
             }
@@ -654,8 +654,8 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         void calculateHueAngleFromHandleX() {
-            double handleXPercentage = handleX / (width - 4);
-            hueAngle = handleXPercentage * 360;
+            double handleXPercendisplayNamee = handleX / (width - 4);
+            hueAngle = handleXPercendisplayNamee * 360;
         }
         
         @Override

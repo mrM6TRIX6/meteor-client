@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.combat.AnchorAura;
 import meteordevelopment.meteorclient.systems.modules.combat.BedAura;
 import meteordevelopment.meteorclient.systems.modules.combat.CrystalAura;
 import meteordevelopment.meteorclient.systems.modules.combat.KillAura;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.SlotUtils;
@@ -281,24 +281,24 @@ public class AutoEat extends Module {
         return slot;
     }
     
-    private enum ThresholdMode implements ITagged {
+    private enum ThresholdMode implements IDisplayName {
         
         HEALTH("Health", (health, hunger) -> health),
         HUNGER("Hunger", (health, hunger) -> hunger),
         ANY("Any", (health, hunger) -> health || hunger),
         BOTH("Both", (health, hunger) -> health && hunger);
         
-        private final String tag;
+        private final String displayName;
         private final BiPredicate<Boolean, Boolean> predicate;
         
-        ThresholdMode(String tag, BiPredicate<Boolean, Boolean> predicate) {
-            this.tag = tag;
+        ThresholdMode(String displayName, BiPredicate<Boolean, Boolean> predicate) {
+            this.displayName = displayName;
             this.predicate = predicate;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
         public boolean test(boolean health, boolean hunger) {

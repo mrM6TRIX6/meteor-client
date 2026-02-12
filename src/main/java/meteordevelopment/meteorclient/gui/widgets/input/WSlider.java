@@ -163,8 +163,8 @@ public abstract class WSlider extends WWidget {
     }
     
     protected double valueWidth() {
-        double valuePercentage = (value - min) / (max - min);
-        return valuePercentage * (width - handleSize());
+        double valuePercendisplayNamee = (value - min) / (max - min);
+        return valuePercendisplayNamee * (width - handleSize());
     }
     
 }

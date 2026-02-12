@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.NametagUtils;
 import meteordevelopment.meteorclient.utils.render.WireframeEntityRenderer;
@@ -441,7 +441,7 @@ public class ESP extends Module {
         return isActive() && mode.get() == Mode.GLOW;
     }
     
-    public enum Mode implements ITagged {
+    public enum Mode implements IDisplayName {
         
         BOX("Box"),
         WIREFRAME("Wireframe"),
@@ -449,34 +449,34 @@ public class ESP extends Module {
         SHADER("Shader"),
         GLOW("Glow");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum ESPColorMode implements ITagged {
+    private enum ESPColorMode implements IDisplayName {
         
         ENTITY_TYPE("Entity Type"),
         DISTANCE("Distance"),
         HEALTH("Health");
         
-        private final String tag;
+        private final String displayName;
         
-        ESPColorMode(String tag) {
-            this.tag = tag;
+        ESPColorMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

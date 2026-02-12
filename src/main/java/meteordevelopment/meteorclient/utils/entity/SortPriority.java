@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.entity;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import net.minecraft.entity.Entity;
@@ -15,7 +15,7 @@ import java.util.Comparator;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public enum SortPriority implements ITagged, Comparator<Entity> {
+public enum SortPriority implements IDisplayName, Comparator<Entity> {
     
     LOWEST_DISTANCE("Lowest Distance", Comparator.comparingDouble(PlayerUtils::squaredDistanceTo)),
     HIGHEST_DISTANCE("Highest Distance", (e1, e2) -> Double.compare(PlayerUtils.squaredDistanceTo(e2), PlayerUtils.squaredDistanceTo(e1))),
@@ -23,17 +23,17 @@ public enum SortPriority implements ITagged, Comparator<Entity> {
     HIGHEST_HEALTH("Highest Health", (e1, e2) -> sortHealth(e2, e1)),
     CLOSEST_ANGLE("Closest Angle", SortPriority::sortAngle);
     
-    private final String tag;
+    private final String displayName;
     private final Comparator<Entity> comparator;
     
-    SortPriority(String tag, Comparator<Entity> comparator) {
-        this.tag = tag;
+    SortPriority(String displayName, Comparator<Entity> comparator) {
+        this.displayName = displayName;
         this.comparator = comparator;
     }
     
     @Override
-    public String getTag() {
-        return tag;
+    public String getDisplayName() {
+        return displayName;
     }
     
     @Override

@@ -5,23 +5,23 @@
 
 package meteordevelopment.meteorclient.utils.render;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
-public enum AlignmentY implements ITagged {
+public enum AlignmentY implements IDisplayName {
     
     TOP("Top"),
     CENTER("Center"),
     BOTTOM("Bottom");
     
-    private final String tag;
+    private final String displayName;
     
-    AlignmentY(String tag) {
-        this.tag = tag;
+    AlignmentY(String displayName) {
+        this.displayName = displayName;
     }
     
     @Override
-    public String getTag() {
-        return tag;
+    public String getDisplayName() {
+        return displayName;
     }
     
 }

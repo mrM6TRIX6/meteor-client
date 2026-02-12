@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -215,40 +215,40 @@ public class ArmorHUD extends HUDElement {
         return customScale.get() ? scale.get().floatValue() : scale.getDefaultValue().floatValue();
     }
     
-    private enum Durability implements ITagged {
+    private enum Durability implements IDisplayName {
         
         NONE("None"),
         BAR("Bar"),
         TOTAL("Total"),
-        PERCENTAGE("Percentage");
+        PERCENTAGE("PercendisplayNamee");
         
-        private final String tag;
+        private final String displayName;
         
-        Durability(String tag) {
-            this.tag = tag;
+        Durability(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum Orientation implements ITagged {
+    private enum Orientation implements IDisplayName {
         
         HORIZONTAL("Horizontal"),
         VERTICAL("Vertical");
         
-        private final String tag;
+        private final String displayName;
         
-        Orientation(String tag) {
-            this.tag = tag;
+        Orientation(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

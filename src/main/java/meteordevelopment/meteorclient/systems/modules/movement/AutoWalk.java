@@ -20,7 +20,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
@@ -194,40 +194,40 @@ public class AutoWalk extends Module {
         PathManagers.get().moveInDirection(mc.player.getYaw());
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         SIMPLE("Simple"),
         SMART("Smart");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum Direction implements ITagged {
+    private enum Direction implements IDisplayName {
         
         FORWARDS("Forwards"),
         BACKWARDS("Backwards"),
         LEFT("Left"),
         RIGHT("Right");
         
-        private final String tag;
+        private final String displayName;
         
-        Direction(String tag) {
-            this.tag = tag;
+        Direction(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

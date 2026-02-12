@@ -21,7 +21,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.NametagUtils;
@@ -782,57 +782,57 @@ public class Nametags extends Module {
         return isActive() && entities.get().contains(EntityType.PLAYER);
     }
     
-    private enum Position implements ITagged {
+    private enum Position implements IDisplayName {
         
         ABOVE("Above"),
         ON_TOP("On Top");
         
-        private final String tag;
+        private final String displayName;
         
-        Position(String tag) {
-            this.tag = tag;
+        Position(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum Durability implements ITagged {
+    private enum Durability implements IDisplayName {
         
         NONE("None"),
         TOTAL("Total"),
         PERCENTAGE("Percentage");
         
-        private final String tag;
+        private final String displayName;
         
-        Durability(String tag) {
-            this.tag = tag;
+        Durability(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum DistanceColorMode implements ITagged {
+    private enum DistanceColorMode implements IDisplayName {
         
         GRADIENT("Gradient"),
         MODE("Mode");
         
-        private final String tag;
+        private final String displayName;
         
-        DistanceColorMode(String tag) {
-            this.tag = tag;
+        DistanceColorMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

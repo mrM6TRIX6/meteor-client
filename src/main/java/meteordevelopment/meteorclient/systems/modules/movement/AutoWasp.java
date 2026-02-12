@@ -21,7 +21,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EquipmentSlot;
@@ -252,21 +252,21 @@ public class AutoWasp extends Module {
         ((IVec3d) event.movement).meteor$set(xVel, yVel, zVel);
     }
     
-    private enum Action implements ITagged {
+    private enum Action implements IDisplayName {
         
         TOGGLE("Toggle"),
         CHOOSE_NEW_TARGET("Choose New Target"),
         DISCONNECT("Disconnect");
         
-        private final String tag;
+        private final String displayName;
         
-        Action(String tag) {
-            this.tag = tag;
+        Action(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

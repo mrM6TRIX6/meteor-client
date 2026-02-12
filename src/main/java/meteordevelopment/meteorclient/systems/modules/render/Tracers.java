@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.Target;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.NametagUtils;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
@@ -401,20 +401,20 @@ public class Tracers extends Module {
         return Integer.toString(count);
     }
     
-    private enum TracerStyle implements ITagged {
+    private enum TracerStyle implements IDisplayName {
         
         LINES("Lines"),
         OFFSCREEN("Offscreen");
         
-        private final String tag;
+        private final String displayName;
         
-        TracerStyle(String tag) {
-            this.tag = tag;
+        TracerStyle(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

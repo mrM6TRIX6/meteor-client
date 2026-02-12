@@ -22,7 +22,7 @@ import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ByteCountDataOutput;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.EChestMemory;
 import meteordevelopment.meteorclient.utils.render.ContainerInventoryScreen;
@@ -600,40 +600,40 @@ public class BetterTooltips extends Module {
         return false;
     }
     
-    private enum DisplayWhen implements ITagged {
+    private enum DisplayWhen implements IDisplayName {
         
         KEYBIND("Keybind"),
         ALWAYS("Always");
         
-        private final String tag;
+        private final String displayName;
         
-        DisplayWhen(String tag) {
-            this.tag = tag;
+        DisplayWhen(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum SortSize implements ITagged {
+    private enum SortSize implements IDisplayName {
         
         BYTES("Bytes"),
         KILOBYTES("Kilobytes"),
         MEGABYTES("Megabytes"),
         AUTO("Auto");
         
-        private final String tag;
+        private final String displayName;
         
-        SortSize(String tag) {
-            this.tag = tag;
+        SortSize(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

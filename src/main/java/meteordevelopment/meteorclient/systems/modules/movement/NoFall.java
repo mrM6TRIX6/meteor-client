@@ -20,7 +20,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -258,26 +258,26 @@ public class NoFall extends Module {
         return mode.get().toString();
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         PACKET("Packet"),
         AIR_PLACE("Air Place"),
         PLACE("Place");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum PlacedItem implements ITagged {
+    private enum PlacedItem implements IDisplayName {
         
         BUCKET("Bucket", Items.WATER_BUCKET, Blocks.WATER),
         POWDER_SNOW("Powder Snow", Items.POWDER_SNOW_BUCKET, Blocks.POWDER_SNOW),
@@ -285,39 +285,39 @@ public class NoFall extends Module {
         COBWEB("Cobweb", Items.COBWEB, Blocks.COBWEB),
         SLIME_BLOCK("Slime Block", Items.SLIME_BLOCK, Blocks.SLIME_BLOCK);
         
-        private final String tag;
+        private final String displayName;
         private final Item item;
         private final Block block;
         
-        PlacedItem(String tag, Item item, Block block) {
-            this.tag = tag;
+        PlacedItem(String displayName, Item item, Block block) {
+            this.displayName = displayName;
             this.item = item;
             this.block = block;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum PlaceMode implements ITagged {
+    private enum PlaceMode implements IDisplayName {
         
         BEFORE_DAMAGE("Before Damage", height -> height > 2),
         BEFORE_DEATH("Before Death", height -> height > Math.max(PlayerUtils.getTotalHealth(), 2));
         
-        private final String tag;
+        private final String displayName;
         private final Predicate<Float> fallHeight;
         
-        PlaceMode(String tag, Predicate<Float> fallHeight) {
-            this.tag = tag;
+        PlaceMode(String displayName, Predicate<Float> fallHeight) {
+            this.displayName = displayName;
             this.fallHeight = fallHeight;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
         public boolean test(float fallheight) {

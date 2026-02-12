@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -168,21 +168,21 @@ public class Step extends Module {
         return h;
     }
     
-    private enum ActiveWhen implements ITagged {
+    private enum ActiveWhen implements IDisplayName {
         
         ALWAYS("Always"),
         SNEAKING("Sneaking"),
         NOT_SNEAKING("Not Sneaking");
         
-        private final String tag;
+        private final String displayName;
         
-        ActiveWhen(String tag) {
-            this.tag = tag;
+        ActiveWhen(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

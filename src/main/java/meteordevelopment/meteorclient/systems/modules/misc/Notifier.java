@@ -20,7 +20,7 @@ import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -497,59 +497,59 @@ public class Notifier extends Module {
         }
     }
     
-    private enum Event implements ITagged {
+    private enum Event implements IDisplayName {
         
         SPAWN("Spawn"),
         DESPAWN("Despawn"),
         BOTH("Both");
         
-        private final String tag;
+        private final String displayName;
         
-        Event(String tag) {
-            this.tag = tag;
+        Event(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum JoinLeaveModes implements ITagged {
+    private enum JoinLeaveModes implements IDisplayName {
         
         NONE("None"),
         JOINS("Joins"),
         LEAVES("Leaves"),
         BOTH("Both");
         
-        private final String tag;
+        private final String displayName;
         
-        JoinLeaveModes(String tag) {
-            this.tag = tag;
+        JoinLeaveModes(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum PlayersListMode implements ITagged {
+    private enum PlayersListMode implements IDisplayName {
         
         WHITELIST("Whitelist"),
         BLACKLIST("Blacklist");
         
-        private final String tag;
+        private final String displayName;
         
-        PlayersListMode(String tag) {
-            this.tag = tag;
+        PlayersListMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

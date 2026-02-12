@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.renderer.text;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
 public record FontInfo(String family, Type type) {
     
@@ -24,22 +24,22 @@ public record FontInfo(String family, Type type) {
         return family.equals(info.family) && type == info.type;
     }
     
-    public enum Type implements ITagged {
+    public enum Type implements IDisplayName {
         
         REGULAR("Regular"),
         BOLD("Bold"),
         ITALIC("Italic"),
         BOLD_ITALIC("Bold Italic");
         
-        private final String tag;
+        private final String displayName;
         
-        Type(String tag) {
-            this.tag = tag;
+        Type(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
         public static Type fromString(String str) {

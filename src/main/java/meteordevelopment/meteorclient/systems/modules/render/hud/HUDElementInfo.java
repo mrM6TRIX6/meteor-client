@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.systems.modules.render.hud;
 
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class HUDElementInfo<T extends HUDElement> {
+public class HUDElementInfo<T extends HUDElement> implements IDisplayName {
     
     public final HUDGroup group;
     public final String name;
@@ -57,6 +58,7 @@ public class HUDElementInfo<T extends HUDElement> {
         return factory.get();
     }
     
+    @Override
     public String getDisplayName() {
         return ClientSettings.get().separateNames.get() ? separatedName : name;
     }

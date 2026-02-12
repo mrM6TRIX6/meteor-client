@@ -26,7 +26,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.utils.misc.IRunInMainMenu;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import org.apache.commons.lang3.Strings;
@@ -242,14 +242,14 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         StringListSetting.fillTable(theme, wtable, setting);
     }
     
-    private <T extends Enum<T> & ITagged> void enumW(WTable table, EnumChoiceSetting<T> setting) {
+    private <T extends Enum<T> & IDisplayName> void enumW(WTable table, EnumChoiceSetting<T> setting) {
         WDropdown<T> dropdown = table.add(theme.dropdown(setting.get())).expandCellX().widget();
         dropdown.action = () -> setting.set(dropdown.get());
         
         reset(table, setting, () -> dropdown.set(setting.get()));
     }
     
-    private <T extends Enum<T> & ITagged & ModeEnumChoiceSetting.IModeImpl<P>, P extends IRunInMainMenu> void modeEnumW(WTable table, ModeEnumChoiceSetting<T, P> setting) {
+    private <T extends Enum<T> & IDisplayName & ModeEnumChoiceSetting.IModeImpl<P>, P extends IRunInMainMenu> void modeEnumW(WTable table, ModeEnumChoiceSetting<T, P> setting) {
         WDropdown<T> dropdown = table.add(theme.dropdown(setting.get())).expandCellX().widget();
         dropdown.action = () -> setting.set(dropdown.get());
         
@@ -391,7 +391,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
     
     private void potionW(WTable table, PotionChoiceSetting setting) {
         WHorizontalList list = table.add(theme.horizontalList()).expandX().widget();
-        WItemWithLabel item = list.add(theme.itemWithLabel(setting.get().potion, setting.get().getTag())).widget();
+        WItemWithLabel item = list.add(theme.itemWithLabel(setting.get().potion, setting.get().getDisplayName())).widget();
         
         WButton button = list.add(theme.button("Select")).expandCellX().widget();
         button.action = () -> {

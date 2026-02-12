@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
@@ -213,20 +213,20 @@ public class ArrowDodge extends Module {
         return true;
     }
     
-    private enum MoveType implements ITagged {
+    private enum MoveType implements IDisplayName {
         
         VELOCITY("Velocity"),
         PACKET("Packet");
         
-        private final String tag;
+        private final String displayName;
         
-        MoveType(String tag) {
-            this.tag = tag;
+        MoveType(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

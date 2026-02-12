@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.AbstractBannerBlock;
 import net.minecraft.block.Block;
@@ -615,21 +615,21 @@ public class NoRender extends Module {
         return isActive() && noNametags.get();
     }
     
-    public enum BannerRenderMode implements ITagged {
+    public enum BannerRenderMode implements IDisplayName {
         
         EVERYTHING("Everything"),
         PILLAR("Pillar"),
         NONE("None");
         
-        private final String tag;
+        private final String displayName;
         
-        BannerRenderMode(String tag) {
-            this.tag = tag;
+        BannerRenderMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

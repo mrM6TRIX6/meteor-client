@@ -12,18 +12,18 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IParent;
 import meteordevelopment.meteorclient.utils.misc.IRunInMainMenu;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
- * Choice setting, based on tagged enum constants, but more advanced to support multimode systems.
+ * Choice setting, based on {@link IDisplayName} enum constants, but more advanced to support multimode systems.
  *
- * @param <T> enum, which implements {@link ITagged}
+ * @param <T> enum, which implements {@link IDisplayName}
  */
-public class ModeEnumChoiceSetting<T extends Enum<T> & ITagged & ModeEnumChoiceSetting.IModeImpl<P>, P extends IRunInMainMenu> extends EnumChoiceSetting<T> {
+public class ModeEnumChoiceSetting<T extends Enum<T> & IDisplayName & ModeEnumChoiceSetting.IModeImpl<P>, P extends IRunInMainMenu> extends EnumChoiceSetting<T> {
     
     public ModeEnumChoiceSetting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
         super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
@@ -96,7 +96,7 @@ public class ModeEnumChoiceSetting<T extends Enum<T> & ITagged & ModeEnumChoiceS
         return true;
     }
     
-    public static class Builder<T extends Enum<T> & ITagged & IModeImpl<P>, P extends IRunInMainMenu> extends SettingBuilder<Builder<T, P>, T, ModeEnumChoiceSetting<T, P>> {
+    public static class Builder<T extends Enum<T> & IDisplayName & IModeImpl<P>, P extends IRunInMainMenu> extends SettingBuilder<Builder<T, P>, T, ModeEnumChoiceSetting<T, P>> {
         
         public Builder() {
             super(null);

@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.render.hud.*;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.Names;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -273,21 +273,21 @@ public class PotionTimersHUD extends HUDElement {
         return true;
     }
     
-    private enum ColorMode implements ITagged {
+    private enum ColorMode implements IDisplayName {
         
         EFFECT("Effect"),
         FLAT("Flat"),
         RAINBOW("Rainbow");
         
-        private final String tag;
+        private final String displayName;
         
-        ColorMode(String tag) {
-            this.tag = tag;
+        ColorMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

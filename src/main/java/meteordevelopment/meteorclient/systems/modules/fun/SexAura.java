@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -380,38 +380,38 @@ public class SexAura extends Module {
         return chance <= 0.1;
     }
     
-    private enum Mode implements ITagged {
+    private enum Mode implements IDisplayName {
         
         MIDDLE_CLICK("Middle Click"),
         AUTOMATIC("Automatic");
         
-        private final String tag;
+        private final String displayName;
         
-        Mode(String tag) {
-            this.tag = tag;
+        Mode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
     
-    private enum Style implements ITagged {
+    private enum Style implements IDisplayName {
         
         GULP_GULP("Gulp-Gulp"),
         DOGGY("Doggy");
         
-        private final String tag;
+        private final String displayName;
         
-        Style(String tag) {
-            this.tag = tag;
+        Style(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

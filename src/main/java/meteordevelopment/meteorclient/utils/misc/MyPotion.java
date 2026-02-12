@@ -14,7 +14,7 @@ import net.minecraft.potion.Potions;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 
-public enum MyPotion implements ITagged {
+public enum MyPotion implements IDisplayName {
     
     SWIFTNESS(Potions.SWIFTNESS, Items.NETHER_WART, Items.SUGAR),
     SWIFTNESS_LONG(Potions.LONG_SWIFTNESS, Items.NETHER_WART, Items.SUGAR, Items.REDSTONE),
@@ -76,9 +76,8 @@ public enum MyPotion implements ITagged {
         this.ingredients = ingredients;
     }
     
-    
     @Override
-    public String getTag() {
+    public String getDisplayName() {
         return Text.translatable(potion.getItem().getTranslationKey()).toString();
     }
     

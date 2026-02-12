@@ -5,27 +5,27 @@
 
 package meteordevelopment.meteorclient.utils.notebot.instrumentdetect;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import net.minecraft.block.NoteBlock;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public enum InstrumentDetectMode implements ITagged {
+public enum InstrumentDetectMode implements IDisplayName {
     
     BLOCK_STATE("Block State", ((noteBlock, blockPos) -> noteBlock.get(NoteBlock.INSTRUMENT))),
     BELOW_BLOCK("Below Block", ((noteBlock, blockPos) -> mc.world.getBlockState(blockPos.down()).getInstrument()));
     
-    private final String tag;
+    private final String displayName;
     private final InstrumentDetectFunction instrumentDetectFunction;
     
-    InstrumentDetectMode(String tag, InstrumentDetectFunction instrumentDetectFunction) {
-        this.tag = tag;
+    InstrumentDetectMode(String displayName, InstrumentDetectFunction instrumentDetectFunction) {
+        this.displayName = displayName;
         this.instrumentDetectFunction = instrumentDetectFunction;
     }
     
     @Override
-    public String getTag() {
-        return tag;
+    public String getDisplayName() {
+        return displayName;
     }
     
     public InstrumentDetectFunction getInstrumentDetectFunction() {

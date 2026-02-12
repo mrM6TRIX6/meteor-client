@@ -25,7 +25,7 @@ import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gui.screen.CreditsScreen;
@@ -358,20 +358,20 @@ public class DiscordPresence extends Module {
         }
     }
     
-    private enum SelectMode implements ITagged {
+    private enum SelectMode implements IDisplayName {
         
         RANDOM("Random"),
         SEQUENTIAL("Sequential");
         
-        private final String tag;
+        private final String displayName;
         
-        SelectMode(String tag) {
-            this.tag = tag;
+        SelectMode(String displayName) {
+            this.displayName = displayName;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }

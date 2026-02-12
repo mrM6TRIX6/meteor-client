@@ -5,18 +5,18 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import net.minecraft.util.Hand;
 
-public enum HandTagged implements ITagged {
+public enum HandWithDisplayName implements IDisplayName {
     
     MAIN_HAND("Main Hand"),
     OFF_HAND("Off Hand");
     
-    private final String tag;
+    private final String displayName;
     
-    HandTagged(String tag) {
-        this.tag = tag;
+    HandWithDisplayName(String displayName) {
+        this.displayName = displayName;
     }
     
     public Hand get() {
@@ -27,8 +27,8 @@ public enum HandTagged implements ITagged {
     }
     
     @Override
-    public String getTag() {
-        return tag;
+    public String getDisplayName() {
+        return displayName;
     }
     
 }

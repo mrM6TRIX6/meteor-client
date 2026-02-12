@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.player.ChestSwap;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.ITagged;
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.DataComponentTypes;
@@ -244,24 +244,24 @@ public class AutoArmor extends Module {
         return itemStack.isIn(ItemTags.FOOT_ARMOR) || itemStack.isIn(ItemTags.LEG_ARMOR) || itemStack.isIn(ItemTags.CHEST_ARMOR) || itemStack.isIn(ItemTags.HEAD_ARMOR);
     }
     
-    private enum Protection implements ITagged {
+    private enum Protection implements IDisplayName {
         
         PROTECTION("Protection", Enchantments.PROTECTION),
         BLAST_PROTECTION("Blast Protection", Enchantments.BLAST_PROTECTION),
         FIRE_PROTECTION("Fire Protection", Enchantments.FIRE_PROTECTION),
         PROJECTILE_PROTECTION("Projectile Protection", Enchantments.PROJECTILE_PROTECTION);
         
-        private final String tag;
+        private final String displayName;
         private final RegistryKey<Enchantment> enchantment;
         
-        Protection(String tag, RegistryKey<Enchantment> enchantment) {
-            this.tag = tag;
+        Protection(String displayName, RegistryKey<Enchantment> enchantment) {
+            this.displayName = displayName;
             this.enchantment = enchantment;
         }
         
         @Override
-        public String getTag() {
-            return tag;
+        public String getDisplayName() {
+            return displayName;
         }
         
     }
@@ -288,7 +288,7 @@ public class AutoArmor extends Module {
         }
         
         public void add(ItemStack itemStack, int slot) {
-            // Calculate armor piece score and check if its higher than the last one
+            // Calculate armor piece score and check if it's higher than the last one
             int score = getScore(itemStack);
             
             if (score > bestScore) {
