@@ -33,13 +33,18 @@ import static net.minecraft.client.util.InputUtil.*;
 @Mixin(value = Screen.class, priority = 500) // Needs to be before baritone
 public abstract class ScreenMixin {
     
-    @Inject(method = "handleBasicClickEvent", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;error(Ljava/lang/String;Ljava/lang/Object;)V", remap = false))
+    @Inject(method = "handleBasicClickEvent", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;error(Ljava/lang/String;Ljava/lang/Object;)V", remap = false), cancellable = true)
     private static void onHandleBasicClickEvent(ClickEvent clickEvent, MinecraftClient client, Screen screen, CallbackInfo ci) {
-        if (clickEvent instanceof MeteorClickEvent meteorClickEvent && meteorClickEvent.value.startsWith(ClientSettings.get().prefix.get())) {
+        if (clickEvent instanceof RunnableClickEvent runnableClickEvent) {
+            runnableClickEvent.runnable.run();
+            ci.cancel();
+        } else if (clickEvent instanceof MeteorClickEvent meteorClickEvent && meteorClickEvent.value.startsWith(ClientSettings.get().prefix.get())) {
             try {
                 CommandManager.dispatch(meteorClickEvent.value.substring(ClientSettings.get().prefix.get().length()));
             } catch (CommandSyntaxException e) {
                 MeteorClient.LOG.error("Failed to run command", e);
+            } finally {
+                ci.cancel();
             }
         }
     }
@@ -49,15 +54,6 @@ public abstract class ScreenMixin {
         if (Utils.canUpdate() && Modules.get().get(NoRender.class).noGuiBackground()) {
             ci.cancel();
         }
-    }
-    
-    @Inject(method = "handleClickEvent", at = @At(value = "HEAD"))
-    private static void onHandleClickEvent(ClickEvent clickEvent, MinecraftClient client, Screen screenAfterRun, CallbackInfo ci) {
-        if (!(clickEvent instanceof RunnableClickEvent runnableClickEvent)) {
-            return;
-        }
-        
-        runnableClickEvent.runnable.run();
     }
     
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
