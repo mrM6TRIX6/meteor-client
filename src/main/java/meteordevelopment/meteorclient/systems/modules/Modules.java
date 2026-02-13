@@ -487,6 +487,7 @@ public class Modules extends System<Modules> {
         add(new ExtraElytra());
         add(new FastClimb());
         add(new Flight());
+        add(new Freeze());
         add(new Glide());
         add(new GUIMove());
         add(new HighJump());

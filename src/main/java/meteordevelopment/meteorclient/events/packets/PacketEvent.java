@@ -35,6 +35,16 @@ public class PacketEvent {
             this.connection = connection;
         }
         
+        /**
+         * Sends a packet without triggering an event. Use when you want to send a packet inside the event
+         * listener, without causing a StackOverflowError
+         *
+         * @param packet The packet to silently send
+         */
+        public void sendPacketSilently(Packet<?> packet) {
+            connection.send(packet, null, true);
+        }
+        
     }
     
     public static class Sent {

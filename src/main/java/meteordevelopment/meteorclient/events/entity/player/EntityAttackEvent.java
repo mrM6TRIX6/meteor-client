@@ -17,6 +17,7 @@ public class EntityAttackEvent extends Cancellable {
     public static EntityAttackEvent get(Entity entity) {
         INSTANCE.setCancelled(false);
         INSTANCE.entity = entity;
+        
         return INSTANCE;
     }
     

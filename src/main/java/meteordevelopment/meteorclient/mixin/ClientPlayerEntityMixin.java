@@ -12,6 +12,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.authlib.GameProfile;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.DropItemEvent;
+import meteordevelopment.meteorclient.events.entity.player.PlayerTickPreEvent;
 import meteordevelopment.meteorclient.events.entity.player.PlayerTickMovementEvent;
 import meteordevelopment.meteorclient.events.entity.player.SendMovementPacketsEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -45,6 +46,16 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
     
     public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile) {
         super(world, profile);
+    }
+    
+    /**
+     * Hook entity tick pre event
+     */
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tick()V", shift = At.Shift.BEFORE, ordinal = 0), cancellable = true)
+    private void hookTickPreEvent(CallbackInfo ci) {
+        if (MeteorClient.EVENT_BUS.post(PlayerTickPreEvent.get()).isCancelled()) {
+            ci.cancel();
+        }
     }
     
     @Inject(method = "dropSelectedItem", at = @At("HEAD"), cancellable = true)
