@@ -64,8 +64,8 @@ public class HelpCommand extends Command {
         if (command != CommandManager.getAll().getLast()) {
             text.append(Text.literal(", ").formatted(Formatting.GRAY));
         }
-        text.setStyle(text
-            .getStyle()
+        
+        text.setStyle(text.getStyle()
             .withHoverEvent(new HoverEvent.ShowText(tooltip))
             .withClickEvent(new ClickEvent.SuggestCommand(command.toString()))
         );

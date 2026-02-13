@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.systems.friends;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.util.UndashedUuid;
+import joptsimple.internal.Strings;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
@@ -126,7 +127,11 @@ public class Friends extends System<Friends> implements Iterable<Friend> {
                 continue;
             }
             
-            String uuid = friendJson.get("id").getAsString();
+            String uuid = Strings.EMPTY;
+            if (friendJson.has("uuid")) {
+                uuid = friendJson.get("uuid").getAsString();
+            }
+            
             Friend friend = !uuid.isBlank()
                 ? new Friend(name, UndashedUuid.fromStringLenient(uuid))
                 : new Friend(name);

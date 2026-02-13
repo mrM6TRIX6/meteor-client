@@ -36,3 +36,6 @@ accessible   field   net/minecraft/client/render/RenderSetup outputTarget Lnet/m
 accessible   field   net/minecraft/client/render/command/OrderedRenderCommandQueueImpl batchingQueues Lit/unimi/dsi/fastutil/ints/Int2ObjectAVLTreeMap;
 
 accessible   method   net/minecraft/entity/projectile/ProjectileEntity deflectsAgainstWorldBorder ()Z
+
+accessible   field    net/minecraft/network/packet/c2s/play/PlayerMoveC2SPacket pitch F
+mutable      field    net/minecraft/network/packet/c2s/play/PlayerMoveC2SPacket pitch F

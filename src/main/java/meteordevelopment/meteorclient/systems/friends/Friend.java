@@ -26,13 +26,13 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 public class Friend implements ISerializable<Friend>, Comparable<Friend> {
     
     public volatile String name;
-    private volatile @Nullable UUID id;
+    private volatile @Nullable UUID uuid;
     private volatile @Nullable PlayerHeadTexture headTexture;
     private volatile boolean updating;
     
-    public Friend(String name, @Nullable UUID id) {
+    public Friend(String name, @Nullable UUID uuid) {
         this.name = name;
-        this.id = id;
+        this.uuid = uuid;
         this.headTexture = null;
     }
     
@@ -56,8 +56,8 @@ public class Friend implements ISerializable<Friend>, Comparable<Friend> {
         updating = true;
         HttpResponse<APIResponse> res = null;
         
-        if (id != null) {
-            res = Http.get("https://sessionserver.mojang.com/session/minecraft/profile/" + UndashedUuid.toString(id))
+        if (uuid != null) {
+            res = Http.get("https://sessionserver.mojang.com/session/minecraft/profile/" + UndashedUuid.toString(uuid))
                 .exceptionHandler(e -> MeteorClient.LOG.error("Error while trying to connect session server for friend '{}'", name))
                 .sendJsonResponse(APIResponse.class);
         }
@@ -71,10 +71,10 @@ public class Friend implements ISerializable<Friend>, Comparable<Friend> {
         
         if (res != null && res.statusCode() == 200) {
             name = res.body().name;
-            id = UndashedUuid.fromStringLenient(res.body().id);
-            mc.execute(() -> headTexture = PlayerHeadUtils.fetchHead(id));
+            uuid = UndashedUuid.fromStringLenient(res.body().id);
+            mc.execute(() -> headTexture = PlayerHeadUtils.fetchHead(uuid));
         } else if (!(res instanceof FailedHttpResponse)) { // cracked accounts shouldn't be assigned ids
-            id = null;
+            uuid = null;
         }
         
         updating = false;
@@ -89,8 +89,8 @@ public class Friend implements ISerializable<Friend>, Comparable<Friend> {
         JsonObject jsonObject = new JsonObject();
         
         jsonObject.addProperty("name", name);
-        if (id != null) {
-            jsonObject.addProperty("id", UndashedUuid.toString(id));
+        if (uuid != null) {
+            jsonObject.addProperty("uuid", UndashedUuid.toString(uuid));
         }
         
         return jsonObject;
