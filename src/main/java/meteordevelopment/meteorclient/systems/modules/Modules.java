@@ -598,6 +598,7 @@ public class Modules extends System<Modules> {
     
     private void initExploit() {
         add(new BungeeCordSpoof());
+        add(new NoPitchLimit());
         add(new NoSignLimit());
         add(new OffhandCrash());
         add(new Phase());
