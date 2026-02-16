@@ -1,6 +1,9 @@
 package meteordevelopment.meteorclient.systems.modules.render.hud.elements;
 
-import meteordevelopment.meteorclient.renderer.Renderer2D;
+import it.unimi.dsi.fastutil.ints.IntFloatImmutablePair;
+import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.events.game.ResolutionChangedEvent;
+import meteordevelopment.meteorclient.renderer.*;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -14,15 +17,37 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
+import meteordevelopment.orbit.listeners.ConsumerListener;
 
 public class RectangleHUD extends HUDElement {
+    private final IntFloatImmutablePair[] strengths = new IntFloatImmutablePair[]{
+        IntFloatImmutablePair.of(1, 1.25f), // LVL 1
+        IntFloatImmutablePair.of(1, 2.25f), // LVL 2
+        IntFloatImmutablePair.of(2, 2.0f), // LVL 3
+        IntFloatImmutablePair.of(2, 3.0f), // LVL 4
+        IntFloatImmutablePair.of(2, 4.25f), // LVL 5
+        IntFloatImmutablePair.of(3, 2.5f), // LVL 6
+        IntFloatImmutablePair.of(3, 3.25f), // LVL 7
+        IntFloatImmutablePair.of(3, 4.25f), // LVL 8
+        IntFloatImmutablePair.of(3, 5.5f), // LVL 9
+        IntFloatImmutablePair.of(4, 3.25f), // LVL 10
+        IntFloatImmutablePair.of(4, 4.0f), // LVL 11
+        IntFloatImmutablePair.of(4, 5.0f), // LVL 12
+        IntFloatImmutablePair.of(4, 6.0f), // LVL 13
+        IntFloatImmutablePair.of(4, 7.25f), // LVL 14
+        IntFloatImmutablePair.of(4, 8.25f), // LVL 15
+        IntFloatImmutablePair.of(5, 4.5f), // LVL 16
+        IntFloatImmutablePair.of(5, 5.25f), // LVL 17
+        IntFloatImmutablePair.of(5, 6.25f), // LVL 18
+        IntFloatImmutablePair.of(5, 7.25f), // LVL 19
+        IntFloatImmutablePair.of(5, 8.5f) // LVL 20
+    };
     
     public static final HUDElementInfo<RectangleHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "rectangle", "HUD element test.", RectangleHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     // Size
-    
     private final Setting<Integer> width = sgGeneral.add(new IntSetting.Builder()
         .name("width")
         .description("Custom width.")
@@ -42,7 +67,6 @@ public class RectangleHUD extends HUDElement {
     );
     
     // Color
-    
     private final Setting<Boolean> colorEachVertex = sgGeneral.add(new BoolSetting.Builder()
         .name("color-each-vertex")
         .description("Set custom color for each vertex.")
@@ -91,7 +115,6 @@ public class RectangleHUD extends HUDElement {
     );
     
     // Radius
-    
     private final Setting<Boolean> radiusEachVertex = sgGeneral.add(new BoolSetting.Builder()
         .name("radius-each-vertex")
         .description("Set custom radius for each vertex.")
@@ -103,6 +126,8 @@ public class RectangleHUD extends HUDElement {
         .name("radius")
         .description("Radius used for the rectangle.")
         .defaultValue(10)
+        .min(0)
+        .sliderRange(0, 20)
         .visible(() -> !radiusEachVertex.get())
         .build()
     );
@@ -158,6 +183,44 @@ public class RectangleHUD extends HUDElement {
         .build()
     );
     
+    // Blur
+    
+    private final Setting<Boolean> blur = sgGeneral.add(new BoolSetting.Builder()
+        .name("blur")
+        .description("Enable blur.")
+        .defaultValue(false)
+        .build()
+    );
+    
+    private final Setting<Integer> iterations = sgGeneral.add(new IntSetting.Builder()
+        .name("iterations")
+        .description("Blur iterations.")
+        .defaultValue(1)
+        .range(0, 8)
+        .visible(blur::get)
+        .build()
+    );
+    
+    private final Setting<Double> offset = sgGeneral.add(new DoubleSetting.Builder()
+        .name("offset")
+        .description("Blur offset.")
+        .defaultValue(1)
+        .min(0)
+        .sliderRange(0, 20)
+        .visible(blur::get)
+        .build()
+    );
+    
+    private final Setting<Double> padding = sgGeneral.add(new DoubleSetting.Builder()
+        .name("padding")
+        .description("Blur padding.")
+        .defaultValue(6)
+        .min(0)
+        .sliderRange(0, 1000)
+        .visible(blur::get)
+        .build()
+    );
+    
     public RectangleHUD() {
         super(INFO);
     }
@@ -172,8 +235,9 @@ public class RectangleHUD extends HUDElement {
                 colorTopRight.get(),
                 colorBottomRight.get(),
                 colorBottomLeft.get()
-            ) 
-            : new QuadColorState(color.get());
+            )
+            : new QuadColorState(color.get()
+        );
         
         QuadRadiusState radiusState = radiusEachVertex.get()
             ? new QuadRadiusState(
@@ -182,17 +246,32 @@ public class RectangleHUD extends HUDElement {
                 radiusBottomRight.get(),
                 radiusBottomLeft.get()
             )
-            : new QuadRadiusState(radius.get());
-        
-        Renderer2D.COLOR.rectangle(
-            x,
-            y,
-            width.get(),
-            height.get(),
-            colorState,
-            radiusState,
-            smoothness.get()
+            : new QuadRadiusState(radius.get()
         );
+        
+        if (blur.get()) {
+            renderer.blurredRectangle(
+                x - padding.get(),
+                y - padding.get(),
+                width.get(),
+                height.get(),
+                colorState,
+                radiusState,
+                smoothness.get(),
+                iterations.get(),
+                offset.get(),
+                padding.get()
+            );
+        } else {
+            renderer.rectangle(
+                x,
+                y,
+                width.get(),
+                height.get(),
+                colorState,
+                radiusState,
+                smoothness.get()
+            );
+        }
     }
-    
 }

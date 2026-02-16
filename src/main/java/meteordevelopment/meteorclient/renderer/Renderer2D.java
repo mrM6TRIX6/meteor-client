@@ -1,17 +1,19 @@
-/*
- * This file is part of the Meteor Client distribution (https://github.com/MeteorDevelopment/meteor-client).
- * Copyright (c) Meteor Development.
- */
-
 package meteordevelopment.meteorclient.renderer;
 
+import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.textures.TextureFormat;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.gui.renderer.packer.TextureRegion;
 import meteordevelopment.meteorclient.utils.PreInit;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
 import net.minecraft.client.gl.GpuSampler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -20,11 +22,14 @@ public class Renderer2D {
     public static Renderer2D COLOR;
     public static Renderer2D TEXTURE;
     
+    private final KawaseBlur blur = new KawaseBlur();
     private final boolean textured;
     
     public final MeshBuilder triangles;
     public final MeshBuilder lines;
     public final MeshBuilder rectangleMesh;
+    
+    public final List<BlurTask> blurTasks = new ArrayList<>();
     
     public Renderer2D(boolean textured) {
         this.textured = textured;
@@ -97,6 +102,29 @@ public class Renderer2D {
             .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
             .mesh(rectangleMesh)
             .end();
+        
+        // Render blur tasks
+        
+        for (BlurTask task : blurTasks) {
+            blur.ensure(
+                mc.getFramebuffer().textureWidth,
+                mc.getFramebuffer().textureHeight
+            );
+            
+            MeshRenderer.begin()
+                .attachments(blur.getSourceFBO(), null)
+                .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
+                .clearColor(Color.CLEAR)
+                .fullscreen()
+                .mesh(task.mesh)
+                .end();
+            
+            GpuTextureView blurred = blur.blur(task.iterations, (float) task.offset);
+            
+            blur.drawResult(blurred);
+        }
+        
+        blurTasks.clear();
     }
     
     // Tris
@@ -269,5 +297,72 @@ public class Renderer2D {
                 .next()
         );
     }
+    
+    public void blurredRectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int iterations, double offset, double padding) {
+        BlurTask task = new BlurTask(x, y, width, height, iterations, offset, padding, new MeshBuilder(MeteorRenderPipelines.UI_RECTANGLE));
+        
+        task.mesh.begin();
+        
+        task.mesh.ensureQuadCapacity();
+        
+        task.mesh.quad(
+            task.mesh.vec2(x + padding, y + padding)
+                .color(color.colorTopLeft())
+                .uv(0,0)
+                .size(width, height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusTopRight(),
+                    radius.radiusBottomRight(),
+                    radius.radiusBottomLeft()
+                )
+                .smoothness(smoothness)
+                .next(),
+            
+            task.mesh.vec2(x + width + padding, y + padding)
+                .color(color.colorTopRight())
+                .uv(1,0)
+                .size(width,height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusTopRight(),
+                    radius.radiusBottomRight(),
+                    radius.radiusBottomLeft()
+                )
+                .smoothness(smoothness)
+                .next(),
+            
+            task.mesh.vec2(x + width + padding, y + height + padding)
+                .color(color.colorBottomRight())
+                .uv(1,1)
+                .size(width,height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusTopRight(),
+                    radius.radiusBottomRight(),
+                    radius.radiusBottomLeft())
+                .smoothness(smoothness)
+                .next(),
+            
+            task.mesh.vec2(x + padding, y + height + padding)
+                .color(color.colorBottomLeft())
+                .uv(0,1)
+                .size(width,height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusTopRight(),
+                    radius.radiusBottomRight(),
+                    radius.radiusBottomLeft()
+                )
+                .smoothness(smoothness)
+                .next()
+        );
+        
+        task.mesh.end();
+        
+        blurTasks.add(task);
+    }
+    
+     private record BlurTask(double x, double y, double width, double height, int iterations, double offset, double padding, MeshBuilder mesh) {}
     
 }

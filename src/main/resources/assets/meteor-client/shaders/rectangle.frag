@@ -6,7 +6,7 @@ in vec2 v_Size;
 in vec4 v_Radius;
 in float v_Smoothness;
 
-out vec4 color;
+out vec4 FragColor;
 
 float rdist(vec2 pos, vec2 size, vec4 radius) {
     radius.xy = (pos.x > 0.0) ? radius.xy : radius.wz;
@@ -35,11 +35,11 @@ vec2 rvertexcoord(int id) {
 
 void main() {
     float alpha = ralpha(v_Size, v_Uv, v_Radius, v_Smoothness);
-    vec4 color1 = vec4(v_Color.rgb, v_Color.a * alpha);
+    vec4 color = vec4(v_Color.rgb, v_Color.a * alpha);
 
-    if (color1.a == 0.0) { // alpha test
+    if (color.a == 0.0) { // alpha test
         discard;
     }
 
-    color = color1;
+    FragColor = color;
 }

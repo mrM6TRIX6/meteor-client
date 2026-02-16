@@ -6,6 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
 import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Settings;
@@ -13,12 +14,16 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEdit
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.other.Snapper;
+import net.minecraft.client.MinecraftClient;
 
 import java.util.Optional;
 
 public abstract class HUDElement implements Snapper.Element, ISerializable<HUDElement> {
     
+    protected static final MinecraftClient mc = MeteorClient.mc;
+    
     public final HUDElementInfo<?> info;
+    
     private boolean active;
     
     public final Settings settings = new Settings();

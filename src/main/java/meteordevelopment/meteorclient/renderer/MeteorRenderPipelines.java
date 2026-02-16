@@ -1,5 +1,5 @@
 /*
- * This file is part of the Meteor Client distribution (https://github.com/MeteorDevelopment/meteor-client).
+ * This file is part of the Meteor Client distribution[](https://github.com/MeteorDevelopment/meteor-client).
  * Copyright (c) Meteor Development.
  */
 
@@ -202,7 +202,7 @@ public abstract class MeteorRenderPipelines {
     );
     
     public static final RenderPipeline BLUR_PASSTHROUGH = add(new ExtendedRenderPipelineBuilder(MESH_UNIFORMS)
-        .withLocation(MeteorClient.identifier("pipeline/blur/up"))
+        .withLocation(MeteorClient.identifier("pipeline/blur/passthrough"))
         .withVertexFormat(MeteorVertexFormats.POS2, VertexFormat.DrawMode.TRIANGLES)
         .withVertexShader(MeteorClient.identifier("shaders/passthrough.vert"))
         .withFragmentShader(MeteorClient.identifier("shaders/passthrough.frag"))
@@ -221,6 +221,36 @@ public abstract class MeteorRenderPipelines {
         .withVertexFormat(MeteorVertexFormats.POS2_COLOR_UV0_SIZE_RADIUS_SMOOTHNESS, VertexFormat.DrawMode.TRIANGLES)
         .withVertexShader(MeteorClient.identifier("shaders/rectangle.vert"))
         .withFragmentShader(MeteorClient.identifier("shaders/rectangle.frag"))
+        .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+        .withDepthWrite(false)
+        .withBlend(BlendFunction.TRANSLUCENT)
+        .withCull(false)
+        .build()
+    );
+    
+    // Blur test
+    
+    public static final RenderPipeline KAWASE_BLUR_DOWN = add(new ExtendedRenderPipelineBuilder(MESH_UNIFORMS)
+        .withLocation(MeteorClient.identifier("pipeline/kawase_blur/down"))
+        .withVertexFormat(MeteorVertexFormats.POS2, VertexFormat.DrawMode.TRIANGLES)
+        .withVertexShader(MeteorClient.identifier("shaders/kawase_blur.vert"))
+        .withFragmentShader(MeteorClient.identifier("shaders/kawase_blur_down.frag"))
+        .withSampler("u_Texture")
+        .withUniform("BlurData", UniformType.UNIFORM_BUFFER)
+        .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
+        .withDepthWrite(false)
+        .withBlend(BlendFunction.TRANSLUCENT)
+        .withCull(false)
+        .build()
+    );
+    
+    public static final RenderPipeline KAWASE_BLUR_UP = add(new ExtendedRenderPipelineBuilder(MESH_UNIFORMS)
+        .withLocation(MeteorClient.identifier("pipeline/kawase_blur/up"))
+        .withVertexFormat(MeteorVertexFormats.POS2, VertexFormat.DrawMode.TRIANGLES)
+        .withVertexShader(MeteorClient.identifier("shaders/kawase_blur.vert"))
+        .withFragmentShader(MeteorClient.identifier("shaders/kawase_blur_up.frag"))
+        .withSampler("u_Texture")
+        .withUniform("BlurData", UniformType.UNIFORM_BUFFER)
         .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
         .withDepthWrite(false)
         .withBlend(BlendFunction.TRANSLUCENT)
