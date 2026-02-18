@@ -455,7 +455,7 @@ public class ColorSettingScreen extends WindowScreen {
             
             hueQuad.calculateColor();
             
-            renderer.quad(x, y, width, height, QuadColorState.of(Color.WHITE, hueQuad.color, Color.BLACK, Color.BLACK));
+            renderer.quad(x, y, width, height, QuadColorState.of(Color.WHITE, Color.BLACK, Color.BLACK, hueQuad.color));
             
             double s = theme.scale(2);
             renderer.quad(x + handleX - s / 2, y + handleY - s / 2, s, s, Color.WHITE);
