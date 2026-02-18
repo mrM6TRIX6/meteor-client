@@ -312,15 +312,15 @@ public class ActiveModulesHUD extends HUDElement {
                 
                 renderer.quad(x - 2 - outlineWidth.get(), lineStartY - outlineWidth.get(),
                     textLength + 4 + 2 * outlineWidth.get(),
-                    outlineWidth.get(), QuadColorState.of(prevColor, color));
+                    outlineWidth.get(), QuadColorState.ofVertical(prevColor, color));
             } else { // In-between quads are rendered above the current line so don't need for the top
                 renderer.quad(Math.min(lastX, x) - 2 - outlineWidth.get(), Math.max(lastX, x) == x ? y : y - outlineWidth.get(),
                     (Math.max(lastX, x) - 2) - (Math.min(lastX, x) - 2 - outlineWidth.get()), outlineWidth.get(),
-                    QuadColorState.of(prevColor, color)); // Left in-between quad
+                    QuadColorState.ofVertical(prevColor, color)); // Left in-between quad
                 
                 renderer.quad(Math.min(lastX + prevTextLength, x + textLength) + 2, Math.min(lastX + prevTextLength, x + textLength) == x + textLength ? y : y - outlineWidth.get(),
                     (Math.max(lastX + prevTextLength, x + textLength) + 2 + outlineWidth.get()) - (Math.min(lastX + prevTextLength, x + textLength) + 2), outlineWidth.get(),
-                    QuadColorState.of(prevColor, color)); // Right in-between quad
+                    QuadColorState.ofVertical(prevColor, color)); // Right in-between quad
             }
             
             if (index == modules.size() - 1) { // Render bottom quad for last item in list
@@ -328,14 +328,14 @@ public class ActiveModulesHUD extends HUDElement {
                 
                 renderer.quad(x - 2 - outlineWidth.get(), lineStartY + lineHeight,
                     textLength + 4 + 2 * outlineWidth.get(), outlineWidth.get(),
-                    QuadColorState.of(prevColor, color));
+                    QuadColorState.ofVertical(prevColor, color));
             }
             
             // Left side quad
-            renderer.quad(x - 2 - outlineWidth.get(), lineStartY, outlineWidth.get(), lineHeight, QuadColorState.of(prevColor, color));
+            renderer.quad(x - 2 - outlineWidth.get(), lineStartY, outlineWidth.get(), lineHeight, QuadColorState.ofVertical(prevColor, color));
             
             // Right side quad
-            renderer.quad(x + textLength + 2, lineStartY, outlineWidth.get(), lineHeight, QuadColorState.of(prevColor, color));
+            renderer.quad(x + textLength + 2, lineStartY, outlineWidth.get(), lineHeight, QuadColorState.ofVertical(prevColor, color));
         }
         
         if (background.get()) {

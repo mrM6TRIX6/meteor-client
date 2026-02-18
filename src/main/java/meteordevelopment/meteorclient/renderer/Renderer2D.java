@@ -1,10 +1,8 @@
 package meteordevelopment.meteorclient.renderer;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.textures.TextureFormat;
-import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.gui.renderer.packer.TextureRegion;
 import meteordevelopment.meteorclient.utils.PreInit;
 import meteordevelopment.meteorclient.utils.render.color.Color;
@@ -84,6 +82,34 @@ public class Renderer2D {
             rectangleMesh.end();
         }
         
+        // Render blur tasks firstly
+        
+        for (BlurTask task : blurTasks) {
+            blur.ensure(
+                mc.getFramebuffer().textureWidth,
+                mc.getFramebuffer().textureHeight
+            );
+            
+            MeshRenderer.begin()
+                .attachments(blur.getSource(), null)
+                .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
+                .clearColor(Color.CLEAR)
+                .fullscreen()
+                .mesh(task.mesh)
+                .end();
+            
+            GpuTextureView blurred = blur.blur(task.passes, (float) task.offset);
+            
+            MeshRenderer.begin()
+                .attachments(mc.getFramebuffer())
+                .pipeline(MeteorRenderPipelines.BLUR_PASSTHROUGH)
+                .fullscreen()
+                .sampler("u_Texture", blurred, RenderSystem.getSamplerCache().get(FilterMode.LINEAR))
+                .end();
+        }
+        
+        blurTasks.clear();
+        
         MeshRenderer.begin()
             .attachments(mc.getFramebuffer())
             .pipeline(MeteorRenderPipelines.UI_COLORED_LINES)
@@ -102,29 +128,6 @@ public class Renderer2D {
             .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
             .mesh(rectangleMesh)
             .end();
-        
-        // Render blur tasks
-        
-        for (BlurTask task : blurTasks) {
-            blur.ensure(
-                mc.getFramebuffer().textureWidth,
-                mc.getFramebuffer().textureHeight
-            );
-            
-            MeshRenderer.begin()
-                .attachments(blur.getSourceFBO(), null)
-                .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
-                .clearColor(Color.CLEAR)
-                .fullscreen()
-                .mesh(task.mesh)
-                .end();
-            
-            GpuTextureView blurred = blur.blur(task.iterations, (float) task.offset);
-            
-            blur.drawResult(blurred);
-        }
-        
-        blurTasks.clear();
     }
     
     // Tris
@@ -258,8 +261,8 @@ public class Renderer2D {
                 .next(),
             
             rectangleMesh.vec2(x + width, y)
-                .color(color.colorTopRight())
-                .uv(1, 0)
+                .color(color.colorBottomLeft())
+                .uv(0, 1)
                 .size(width, height)
                 .radius(
                     radius.radiusTopLeft(),
@@ -284,8 +287,8 @@ public class Renderer2D {
                 .next(),
             
             rectangleMesh.vec2(x, y + height)
-                .color(color.colorBottomLeft())
-                .uv(0, 1)
+                .color(color.colorTopRight())
+                .uv(1, 0)
                 .size(width, height)
                 .radius(
                     radius.radiusTopLeft(),
@@ -298,61 +301,62 @@ public class Renderer2D {
         );
     }
     
-    public void blurredRectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int iterations, double offset, double padding) {
-        BlurTask task = new BlurTask(x, y, width, height, iterations, offset, padding, new MeshBuilder(MeteorRenderPipelines.UI_RECTANGLE));
+    public void blurredRectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int passes, double offset) {
+        BlurTask task = new BlurTask(x, y, width, height, passes, offset, new MeshBuilder(MeteorRenderPipelines.UI_RECTANGLE));
         
         task.mesh.begin();
         
         task.mesh.ensureQuadCapacity();
         
         task.mesh.quad(
-            task.mesh.vec2(x + padding, y + padding)
+            task.mesh.vec2(x, y)
                 .color(color.colorTopLeft())
                 .uv(0,0)
                 .size(width, height)
                 .radius(
                     radius.radiusTopLeft(),
-                    radius.radiusTopRight(),
+                    radius.radiusBottomLeft(),
                     radius.radiusBottomRight(),
-                    radius.radiusBottomLeft()
+                    radius.radiusTopRight()
                 )
                 .smoothness(smoothness)
                 .next(),
             
-            task.mesh.vec2(x + width + padding, y + padding)
-                .color(color.colorTopRight())
-                .uv(1,0)
-                .size(width,height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusTopRight(),
-                    radius.radiusBottomRight(),
-                    radius.radiusBottomLeft()
-                )
-                .smoothness(smoothness)
-                .next(),
-            
-            task.mesh.vec2(x + width + padding, y + height + padding)
-                .color(color.colorBottomRight())
-                .uv(1,1)
-                .size(width,height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusTopRight(),
-                    radius.radiusBottomRight(),
-                    radius.radiusBottomLeft())
-                .smoothness(smoothness)
-                .next(),
-            
-            task.mesh.vec2(x + padding, y + height + padding)
+            task.mesh.vec2(x, y + height)
                 .color(color.colorBottomLeft())
                 .uv(0,1)
                 .size(width,height)
                 .radius(
                     radius.radiusTopLeft(),
-                    radius.radiusTopRight(),
+                    radius.radiusBottomLeft(),
                     radius.radiusBottomRight(),
-                    radius.radiusBottomLeft()
+                    radius.radiusTopRight()
+                )
+                .smoothness(smoothness)
+                .next(),
+            
+            task.mesh.vec2(x + width, y + height)
+                .color(color.colorBottomRight())
+                .uv(1,1)
+                .size(width,height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusBottomLeft(),
+                    radius.radiusBottomRight(),
+                    radius.radiusTopRight()
+                )
+                .smoothness(smoothness)
+                .next(),
+            
+            task.mesh.vec2(x + width, y)
+                .color(color.colorTopRight())
+                .uv(1,0)
+                .size(width,height)
+                .radius(
+                    radius.radiusTopLeft(),
+                    radius.radiusBottomLeft(),
+                    radius.radiusBottomRight(),
+                    radius.radiusTopRight()
                 )
                 .smoothness(smoothness)
                 .next()
@@ -363,6 +367,6 @@ public class Renderer2D {
         blurTasks.add(task);
     }
     
-     private record BlurTask(double x, double y, double width, double height, int iterations, double offset, double padding, MeshBuilder mesh) {}
+     private record BlurTask(double x, double y, double width, double height, int passes, double offset, MeshBuilder mesh) {}
     
 }

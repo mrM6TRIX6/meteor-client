@@ -471,8 +471,8 @@ public class CombatHUD extends HUDElement {
             int absorbWidth = (int) (totalAbsorbWidth * absorbPercent);
             
             Renderer2D.COLOR.begin();
-            Renderer2D.COLOR.quad(x, y, healthWidth, 7, QuadColorState.of(healthColor1.get(), healthColor2.get(), healthColor2.get(), healthColor1.get()));
-            Renderer2D.COLOR.quad(x + healthWidth, y, absorbWidth, 7, QuadColorState.of(healthColor2.get(), healthColor3.get(), healthColor3.get(), healthColor2.get()));
+            Renderer2D.COLOR.quad(x, y, healthWidth, 7, QuadColorState.of(healthColor1.get(), healthColor1.get(), healthColor2.get(), healthColor2.get()));
+            Renderer2D.COLOR.quad(x + healthWidth, y, absorbWidth, 7, QuadColorState.of(healthColor2.get(), healthColor2.get(), healthColor3.get(), healthColor3.get()));
             Renderer2D.COLOR.render();
             
             matrices.popMatrix();

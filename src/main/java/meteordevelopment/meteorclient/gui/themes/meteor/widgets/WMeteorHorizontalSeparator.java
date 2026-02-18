@@ -31,8 +31,8 @@ public class WMeteorHorizontalSeparator extends WHorizontalSeparator implements 
         double s = theme.scale(1);
         double w = width / 2;
         
-        renderer.quad(x, y + s, w, s, QuadColorState.of(theme.separatorEdges.get(), theme.separatorCenter.get()));
-        renderer.quad(x + w, y + s, w, s, QuadColorState.of(theme.separatorCenter.get(), theme.separatorEdges.get()));
+        renderer.quad(x, y + s, w, s, QuadColorState.ofHorizontal(theme.separatorEdges.get(), theme.separatorCenter.get()));
+        renderer.quad(x + w, y + s, w, s, QuadColorState.ofHorizontal(theme.separatorCenter.get(), theme.separatorEdges.get()));
     }
     
     private void renderWithText(GuiRenderer renderer) {
@@ -45,9 +45,9 @@ public class WMeteorHorizontalSeparator extends WHorizontalSeparator implements 
         
         double offsetY = Math.round(height / 2.0);
         
-        renderer.quad(x, y + offsetY, textStart, h, QuadColorState.of(theme.separatorEdges.get(), theme.separatorCenter.get()));
+        renderer.quad(x, y + offsetY, textStart, h, QuadColorState.ofHorizontal(theme.separatorEdges.get(), theme.separatorCenter.get()));
         renderer.text(text, x + textStart + s, y, theme.separatorText.get(), false);
-        renderer.quad(x + textEnd, y + offsetY, width - textEnd, h, QuadColorState.of(theme.separatorCenter.get(), theme.separatorEdges.get()));
+        renderer.quad(x + textEnd, y + offsetY, width - textEnd, h, QuadColorState.ofHorizontal(theme.separatorCenter.get(), theme.separatorEdges.get()));
     }
     
 }

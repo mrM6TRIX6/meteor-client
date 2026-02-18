@@ -140,7 +140,7 @@ public class HUDRenderer {
         );
     }
     
-    public void blurredRectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int iterations, double offset, double padding) {
+    public void blurredRectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int passes, double offset) {
         Renderer2D.COLOR.blurredRectangle(
             x,
             y,
@@ -149,9 +149,8 @@ public class HUDRenderer {
             color,
             radius,
             smoothness,
-            iterations,
-            offset,
-            padding
+            passes,
+            offset
         );
     }
     

@@ -209,7 +209,7 @@ public abstract class MeteorRenderPipelines {
         .withSampler("u_Texture")
         .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
         .withDepthWrite(false)
-        .withBlend(BlendFunction.TRANSLUCENT)
+        .withBlend(BlendFunction.TRANSLUCENT_PREMULTIPLIED_ALPHA)
         .withCull(false)
         .build()
     );
@@ -239,7 +239,7 @@ public abstract class MeteorRenderPipelines {
         .withUniform("BlurData", UniformType.UNIFORM_BUFFER)
         .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
         .withDepthWrite(false)
-        .withBlend(BlendFunction.TRANSLUCENT)
+        .withBlend(BlendFunction.TRANSLUCENT_PREMULTIPLIED_ALPHA)
         .withCull(false)
         .build()
     );
@@ -253,7 +253,7 @@ public abstract class MeteorRenderPipelines {
         .withUniform("BlurData", UniformType.UNIFORM_BUFFER)
         .withDepthTestFunction(DepthTestFunction.NO_DEPTH_TEST)
         .withDepthWrite(false)
-        .withBlend(BlendFunction.TRANSLUCENT)
+        .withBlend(BlendFunction.TRANSLUCENT_PREMULTIPLIED_ALPHA)
         .withCull(false)
         .build()
     );

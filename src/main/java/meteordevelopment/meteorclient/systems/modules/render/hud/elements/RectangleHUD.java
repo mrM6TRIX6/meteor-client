@@ -1,9 +1,7 @@
 package meteordevelopment.meteorclient.systems.modules.render.hud.elements;
 
 import it.unimi.dsi.fastutil.ints.IntFloatImmutablePair;
-import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.events.game.ResolutionChangedEvent;
-import meteordevelopment.meteorclient.renderer.*;
+import meteordevelopment.meteorclient.renderer.KawaseBlur;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -17,10 +15,12 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
-import meteordevelopment.orbit.listeners.ConsumerListener;
 
 public class RectangleHUD extends HUDElement {
-    private final IntFloatImmutablePair[] strengths = new IntFloatImmutablePair[]{
+    
+    public static final HUDElementInfo<RectangleHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "rectangle", "HUD element test.", RectangleHUD::new);
+    
+    private static final IntFloatImmutablePair[] STRENGTHS = new IntFloatImmutablePair[] {
         IntFloatImmutablePair.of(1, 1.25f), // LVL 1
         IntFloatImmutablePair.of(1, 2.25f), // LVL 2
         IntFloatImmutablePair.of(2, 2.0f), // LVL 3
@@ -43,11 +43,10 @@ public class RectangleHUD extends HUDElement {
         IntFloatImmutablePair.of(5, 8.5f) // LVL 20
     };
     
-    public static final HUDElementInfo<RectangleHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "rectangle", "HUD element test.", RectangleHUD::new);
-    
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     // Size
+    
     private final Setting<Integer> width = sgGeneral.add(new IntSetting.Builder()
         .name("width")
         .description("Custom width.")
@@ -67,6 +66,7 @@ public class RectangleHUD extends HUDElement {
     );
     
     // Color
+    
     private final Setting<Boolean> colorEachVertex = sgGeneral.add(new BoolSetting.Builder()
         .name("color-each-vertex")
         .description("Set custom color for each vertex.")
@@ -90,9 +90,9 @@ public class RectangleHUD extends HUDElement {
         .build()
     );
     
-    private final Setting<SettingColor> colorTopRight = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-top-right")
-        .description("Color used for the top right vertex.")
+    private final Setting<SettingColor> colorBottomLeft = sgGeneral.add(new ColorSetting.Builder()
+        .name("color-bottom-left")
+        .description("Color used for the bottom left vertex.")
         .defaultValue(SettingColor.BLUE)
         .visible(colorEachVertex::get)
         .build()
@@ -106,15 +106,16 @@ public class RectangleHUD extends HUDElement {
         .build()
     );
     
-    private final Setting<SettingColor> colorBottomLeft = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-bottom-left")
-        .description("Color used for the bottom left vertex.")
+    private final Setting<SettingColor> colorTopRight = sgGeneral.add(new ColorSetting.Builder()
+        .name("color-top-right")
+        .description("Color used for the top right vertex.")
         .defaultValue(SettingColor.BLUE)
         .visible(colorEachVertex::get)
         .build()
     );
     
     // Radius
+    
     private final Setting<Boolean> radiusEachVertex = sgGeneral.add(new BoolSetting.Builder()
         .name("radius-each-vertex")
         .description("Set custom radius for each vertex.")
@@ -142,16 +143,6 @@ public class RectangleHUD extends HUDElement {
         .build()
     );
     
-    private final Setting<Double> radiusTopRight = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius-top-right")
-        .description("Custom radius for the top right vertex.")
-        .defaultValue(10)
-        .min(0)
-        .sliderRange(0, 20)
-        .visible(radiusEachVertex::get)
-        .build()
-    );
-    
     private final Setting<Double> radiusBottomLeft = sgGeneral.add(new DoubleSetting.Builder()
         .name("radius-bottom-left")
         .description("Custom radius for the bottom left vertex.")
@@ -165,6 +156,16 @@ public class RectangleHUD extends HUDElement {
     private final Setting<Double> radiusBottomRight = sgGeneral.add(new DoubleSetting.Builder()
         .name("radius-bottom-right")
         .description("Custom radius for the bottom right vertex.")
+        .defaultValue(10)
+        .min(0)
+        .sliderRange(0, 20)
+        .visible(radiusEachVertex::get)
+        .build()
+    );
+    
+    private final Setting<Double> radiusTopRight = sgGeneral.add(new DoubleSetting.Builder()
+        .name("radius-top-right")
+        .description("Custom radius for the top right vertex.")
         .defaultValue(10)
         .min(0)
         .sliderRange(0, 20)
@@ -192,11 +193,11 @@ public class RectangleHUD extends HUDElement {
         .build()
     );
     
-    private final Setting<Integer> iterations = sgGeneral.add(new IntSetting.Builder()
-        .name("iterations")
-        .description("Blur iterations.")
+    private final Setting<Integer> passes = sgGeneral.add(new IntSetting.Builder()
+        .name("passes")
+        .description("Blur passes.")
         .defaultValue(1)
-        .range(0, 8)
+        .range(0, KawaseBlur.MAX_PASSES)
         .visible(blur::get)
         .build()
     );
@@ -211,16 +212,6 @@ public class RectangleHUD extends HUDElement {
         .build()
     );
     
-    private final Setting<Double> padding = sgGeneral.add(new DoubleSetting.Builder()
-        .name("padding")
-        .description("Blur padding.")
-        .defaultValue(6)
-        .min(0)
-        .sliderRange(0, 1000)
-        .visible(blur::get)
-        .build()
-    );
-    
     public RectangleHUD() {
         super(INFO);
     }
@@ -230,37 +221,34 @@ public class RectangleHUD extends HUDElement {
         setSize(width.get(), height.get());
         
         QuadColorState colorState = colorEachVertex.get()
-            ? new QuadColorState(
+            ? QuadColorState.of(
                 colorTopLeft.get(),
-                colorTopRight.get(),
+                colorBottomLeft.get(),
                 colorBottomRight.get(),
-                colorBottomLeft.get()
+                colorTopRight.get()
             )
-            : new QuadColorState(color.get()
-        );
+            : QuadColorState.of(color.get());
         
         QuadRadiusState radiusState = radiusEachVertex.get()
-            ? new QuadRadiusState(
+            ? QuadRadiusState.of(
                 radiusTopLeft.get(),
-                radiusTopRight.get(),
+                radiusBottomLeft.get(),
                 radiusBottomRight.get(),
-                radiusBottomLeft.get()
+                radiusTopRight.get()
             )
-            : new QuadRadiusState(radius.get()
-        );
+            : QuadRadiusState.of(radius.get());
         
         if (blur.get()) {
             renderer.blurredRectangle(
-                x - padding.get(),
-                y - padding.get(),
+                x,
+                y,
                 width.get(),
                 height.get(),
                 colorState,
                 radiusState,
                 smoothness.get(),
-                iterations.get(),
-                offset.get(),
-                padding.get()
+                passes.get(),
+                offset.get()
             );
         } else {
             renderer.rectangle(
@@ -274,4 +262,5 @@ public class RectangleHUD extends HUDElement {
             );
         }
     }
+    
 }

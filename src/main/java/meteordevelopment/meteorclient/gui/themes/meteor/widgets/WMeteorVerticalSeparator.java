@@ -23,8 +23,8 @@ public class WMeteorVerticalSeparator extends WVerticalSeparator implements Mete
         double s = theme.scale(1);
         double offsetX = Math.round(width / 2.0);
         
-        renderer.quad(x + offsetX, y, s, height / 2, QuadColorState.of(colorEdges, colorCenter));
-        renderer.quad(x + offsetX, y + height / 2, s, height / 2, QuadColorState.of(colorCenter, colorEdges));
+        renderer.quad(x + offsetX, y, s, height / 2, QuadColorState.ofVertical(colorEdges, colorCenter));
+        renderer.quad(x + offsetX, y + height / 2, s, height / 2, QuadColorState.ofVertical(colorCenter, colorEdges));
     }
     
 }

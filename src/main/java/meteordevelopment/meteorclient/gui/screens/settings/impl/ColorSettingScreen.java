@@ -664,7 +664,7 @@ public class ColorSettingScreen extends WindowScreen {
             double sectionX = x;
             
             for (int i = 0; i < HUE_COLORS.length - 1; i++) {
-                renderer.quad(sectionX, y, sectionWidth, height, QuadColorState.of(HUE_COLORS[i], HUE_COLORS[i + 1], HUE_COLORS[i + 1], HUE_COLORS[i]));
+                renderer.quad(sectionX, y, sectionWidth, height, QuadColorState.of(HUE_COLORS[i], HUE_COLORS[i], HUE_COLORS[i + 1], HUE_COLORS[i + 1]));
                 sectionX += sectionWidth;
             }
             
