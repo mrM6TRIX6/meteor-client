@@ -15,6 +15,7 @@ public class BoatMoveEvent {
     
     public static BoatMoveEvent get(AbstractBoatEntity entity) {
         INSTANCE.boat = entity;
+        
         return INSTANCE;
     }
     

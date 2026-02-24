@@ -9,6 +9,7 @@ import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
 import net.minecraft.client.gl.GpuSampler;
+import net.minecraft.client.texture.GlTexture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -260,7 +261,7 @@ public class Renderer2D {
                 .smoothness(smoothness)
                 .next(),
             
-            rectangleMesh.vec2(x + width, y)
+            rectangleMesh.vec2(x, y + height)
                 .color(color.colorBottomLeft())
                 .uv(0, 1)
                 .size(width, height)
@@ -286,7 +287,7 @@ public class Renderer2D {
                 .smoothness(smoothness)
                 .next(),
             
-            rectangleMesh.vec2(x, y + height)
+            rectangleMesh.vec2(x + width, y)
                 .color(color.colorTopRight())
                 .uv(1, 0)
                 .size(width, height)
