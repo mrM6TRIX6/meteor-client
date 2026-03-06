@@ -31,4 +31,5 @@ public enum ShapeMode implements IDisplayName {
     public String getDisplayName() {
         return displayName;
     }
+    
 }

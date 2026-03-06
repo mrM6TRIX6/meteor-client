@@ -23,6 +23,8 @@ import java.util.regex.Pattern;
 
 public class AutoChatGame extends Module {
     
+    private static final Pattern PATTERN = Pattern.compile("(\\d+)\\s*([+\\-*/])\\s*(\\d+)");
+    
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Range> delay = sgGeneral.add(new RangeSetting.Builder()
@@ -41,7 +43,6 @@ public class AutoChatGame extends Module {
         .build()
     );
     
-    private final Pattern pattern = Pattern.compile("(\\d+)\\s*([+\\-*/])\\s*(\\d+)");
     private final Timer timer = new Timer();
     
     public AutoChatGame() {
@@ -52,7 +53,7 @@ public class AutoChatGame extends Module {
     private void onMessageReceive(MessageEvent.Receive event) {
         String message = event.getMessage().getString();
         if (message.startsWith("Chat Game »")) {
-            Matcher matcher = pattern.matcher(message);
+            Matcher matcher = PATTERN.matcher(message);
             
             if (matcher.find()) {
                 StringBuilder result = new StringBuilder();
@@ -82,8 +83,8 @@ public class AutoChatGame extends Module {
             case "+" -> a + b;
             case "-" -> a - b;
             case "*" -> a * b;
-            case "/" -> b != 0 ? a / b : 0;
-            default -> throw new IllegalArgumentException("Unsupported operator: '" + operator + "'.");
+            case "/" -> a / b;
+            default -> -1;
         };
     }
     

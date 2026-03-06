@@ -50,6 +50,7 @@ public record FontInfo(String family, Type type) {
                 default -> REGULAR;
             };
         }
+        
     }
     
 }

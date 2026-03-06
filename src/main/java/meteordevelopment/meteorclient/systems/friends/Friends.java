@@ -45,6 +45,7 @@ public class Friends extends System<Friends> implements Iterable<Friend> {
             
             return true;
         }
+        
         return false;
     }
     
@@ -53,6 +54,7 @@ public class Friends extends System<Friends> implements Iterable<Friend> {
             save();
             return true;
         }
+        
         return false;
     }
     
@@ -62,12 +64,8 @@ public class Friends extends System<Friends> implements Iterable<Friend> {
                 return friend;
             }
         }
+        
         return null;
-    }
-    
-    public void clear() {
-        friends.clear();
-        save();
     }
     
     public Friend get(PlayerEntity player) {
@@ -76,6 +74,10 @@ public class Friends extends System<Friends> implements Iterable<Friend> {
     
     public Friend get(PlayerListEntry player) {
         return get(player.getProfile().name());
+    }
+    
+    public boolean isFriend(String name) {
+        return get(name) != null;
     }
     
     public boolean isFriend(PlayerEntity player) {
@@ -88,6 +90,11 @@ public class Friends extends System<Friends> implements Iterable<Friend> {
     
     public boolean shouldAttack(PlayerEntity player) {
         return !isFriend(player);
+    }
+    
+    public void clear() {
+        friends.clear();
+        save();
     }
     
     public int getCount() {

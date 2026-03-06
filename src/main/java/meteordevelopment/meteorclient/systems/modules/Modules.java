@@ -575,6 +575,7 @@ public class Modules extends System<Modules> {
     
     private void initMisc() {
         add(new AntiPacketKick());
+        add(new AutoAccept());
         add(new AutoChatGame());
         add(new AutoLog());
         add(new AutoReconnect());
