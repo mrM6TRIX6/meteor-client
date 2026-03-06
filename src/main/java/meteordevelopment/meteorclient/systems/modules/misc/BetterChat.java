@@ -33,23 +33,22 @@ import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.PlayerSkinDrawer;
+import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
+import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.text.HoverEvent;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class BetterChat extends Module {
     
@@ -119,6 +118,22 @@ public class BetterChat extends Module {
         .name("copying-messages")
         .description("Copying messages from a chat by clicking the middle mouse button.")
         .defaultValue(true)
+        .build()
+    );
+    
+    private final Setting<Boolean> notify = sgGeneral.add(new BoolSetting.Builder()
+        .name("notify")
+        .description("Notify about copied messages.")
+        .defaultValue(false)
+        .visible(copyingMessages::get)
+        .build()
+    );
+    
+    private final Setting<Boolean> highlight = sgGeneral.add(new BoolSetting.Builder()
+        .name("highlight")
+        .description("Highlight copied messages.")
+        .defaultValue(false)
+        .visible(copyingMessages::get)
         .build()
     );
     
@@ -655,8 +670,33 @@ public class BetterChat extends Module {
     
     // Copying messages
     
+    public void copyMessage(Deque<ChatHudLine.Visible> messageParts, int button) {
+        final StringBuilder builder = new StringBuilder();
+        
+        CharacterVisitor visitor = (index, style, codePoint) -> {
+            builder.append((char) codePoint);
+            return true;
+        };
+        
+        for (ChatHudLine.Visible line : messageParts) {
+            line.content().accept(visitor);
+        }
+        
+        if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
+            mc.keyboard.setClipboard(builder.toString());
+            
+            if (notify.get()) {
+                info(Text.literal("The line is copied!").formatted(Formatting.GREEN));
+            }
+        }
+    }
+    
     public boolean copyingMessages() {
         return isActive() && copyingMessages.get();
+    }
+    
+    public boolean highlight() {
+        return isActive() && copyingMessages.get() && highlight.get();
     }
     
     // Unicode arguments

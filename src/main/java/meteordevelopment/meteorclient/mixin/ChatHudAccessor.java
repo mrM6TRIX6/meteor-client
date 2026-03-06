@@ -26,15 +26,12 @@ public interface ChatHudAccessor {
     int meteor$getScrolledLines();
     
     @Invoker("getLineHeight")
-    int meteor$getLineHeight();
+    int meteor$invokeGetLineHeight();
     
     @Invoker("getChatScale")
-    double meteor$getChatScale();
+    double meteor$invokeGetScale();
     
     @Invoker("getWidth")
-    int meteor$getWidth();
-    
-    @Invoker("isChatHidden")
-    boolean meteor$isChatHidden();
+    int meteor$invokeGetWidth();
     
 }

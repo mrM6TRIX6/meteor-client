@@ -17,6 +17,8 @@ import meteordevelopment.meteorclient.mixininterface.IMessageHandler;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
@@ -33,6 +35,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
+import static meteordevelopment.meteorclient.MeteorClient.mc;
+
 @Mixin(ChatHud.class)
 public abstract class ChatHudMixin implements IChatHud {
     
@@ -47,6 +51,9 @@ public abstract class ChatHudMixin implements IChatHud {
     @Shadow
     @Final
     private List<ChatHudLine> messages;
+    
+    @Shadow
+    private int scrolledLines;
     
     @Unique
     private BetterChat betterChat;
@@ -184,6 +191,74 @@ public abstract class ChatHudMixin implements IChatHud {
     @Inject(method = "refresh", at = @At("HEAD"))
     private void onRefresh(CallbackInfo ci) {
         getBetterChat().lines.clear();
+    }
+    
+    // Copying messages
+    
+    @Inject(method = "render(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/client/font/TextRenderer;IIIZZ)V", at = @At("TAIL"))
+    private void hookRenderCopyHighlight(
+        DrawContext context,
+        TextRenderer textRenderer,
+        int currentTick,
+        int mouseX,
+        int mouseY,
+        boolean interactable,
+        boolean bl,
+        CallbackInfo ci
+    ) {
+        if (!interactable) {
+            return;
+        }
+        
+        BetterChat betterChat = getBetterChat();
+        if (!betterChat.highlight()) {
+            return;
+        }
+        
+        if (visibleMessages.isEmpty()) {
+            return;
+        }
+        
+        ChatHudAccessor accessor = (ChatHudAccessor) this;
+        
+        double chatScale = accessor.meteor$invokeGetScale();
+        
+        if (chatScale <= 0.0) {
+            return;
+        }
+        
+        int chatWidth = (int) Math.ceil(accessor.meteor$invokeGetWidth() / chatScale);
+        double localMouseX = mouseX / chatScale - 4.0;
+        
+        if (localMouseX < 0.0 || localMouseX > chatWidth) {
+            return;
+        }
+        
+        int lineHeight = accessor.meteor$invokeGetLineHeight();
+        
+        if (lineHeight <= 0) {
+            return;
+        }
+        
+        int guiHeight = mc.getWindow().getScaledHeight();
+        int chatBottom = (int) Math.floor((guiHeight - 40) / chatScale);
+        int lineIndex = (int) Math.floor((chatBottom - mouseY / chatScale) / lineHeight);
+        
+        if (lineIndex < 0) {
+            return;
+        }
+        
+        int messageIndex = lineIndex + scrolledLines;
+        if (messageIndex < 0 || messageIndex <= visibleMessages.size()) {
+            return;
+        }
+        
+        int left = (int) Math.floor(4.0 * chatScale);
+        int right = (int) Math.ceil((chatWidth + 4.0) * chatScale);
+        int top = (int) Math.floor((chatBottom - (lineIndex + 1) * lineHeight) * chatScale);
+        int bottom = (int) Math.ceil((chatBottom - lineIndex * lineHeight) * chatScale);
+        
+        context.fill(left, top, right, bottom, 0x4422AAFF);
     }
     
     // Other
