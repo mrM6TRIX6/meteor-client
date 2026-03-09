@@ -269,10 +269,6 @@ public class ServerCommand extends Command {
         } else {
             error("No plugins found.");
         }
-        
-        waitingPlugins = false;
-        ticks = 0;
-        plugins.clear();
     }
     
     private String formatPluginName(String pluginName) {
@@ -337,6 +333,10 @@ public class ServerCommand extends Command {
         } catch (Exception e) {
             error("An error occurred while trying to get plugins.");
         }
+        
+        waitingPlugins = false;
+        ticks = 0;
+        plugins.clear();
     }
     
     // Ports scanning
