@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import java.util.function.Consumer;
 
 public class IntSetting extends Setting<Integer> {
-    // test 2
+    // test 3
     public final int min, max;
     public final int sliderMin, sliderMax;
     public final boolean noSlider;
