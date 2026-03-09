@@ -8,7 +8,6 @@ out
 run
 bin
 logs
-todolist.txt
 .github/builds/node_modules
 .github/moderation/node_modules
 *.iws
@@ -17,3 +16,4 @@ todolist.txt
 .idea/*
 !.idea/copyright/*
 !.idea/scopes/*
+/designing/
