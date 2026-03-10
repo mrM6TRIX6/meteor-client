@@ -255,7 +255,7 @@ public class NoFall extends Module {
     
     @Override
     public String getInfoString() {
-        return mode.get().toString();
+        return mode.get().getDisplayName();
     }
     
     private enum Mode implements IDisplayName {

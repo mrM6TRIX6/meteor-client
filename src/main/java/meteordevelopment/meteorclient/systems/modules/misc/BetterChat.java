@@ -31,13 +31,15 @@ import meteordevelopment.meteorclient.utils.misc.text.TextVisitor;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gl.RenderPipelines;
+import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.PlayerSkinDrawer;
-import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
-import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.text.*;
+import net.minecraft.text.HoverEvent;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -47,8 +49,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class BetterChat extends Module {
     
@@ -124,14 +124,6 @@ public class BetterChat extends Module {
     private final Setting<Boolean> notify = sgGeneral.add(new BoolSetting.Builder()
         .name("notify")
         .description("Notify about copied messages.")
-        .defaultValue(false)
-        .visible(copyingMessages::get)
-        .build()
-    );
-    
-    private final Setting<Boolean> highlight = sgGeneral.add(new BoolSetting.Builder()
-        .name("highlight")
-        .description("Highlight copied messages.")
         .defaultValue(false)
         .visible(copyingMessages::get)
         .build()
@@ -449,7 +441,9 @@ public class BetterChat extends Module {
     
     // Player Heads
     
-    private record CustomHeadEntry(String prefix, Identifier texture) {}
+    private record CustomHeadEntry(String prefix, Identifier texture) {
+    
+    }
     
     private static final List<CustomHeadEntry> CUSTOM_HEAD_ENTRIES = new ArrayList<>();
     
@@ -506,7 +500,8 @@ public class BetterChat extends Module {
             if (m.find()) {
                 startOffset = m.end() + 1;
             }
-        } catch (IllegalStateException ignored) {}
+        } catch (IllegalStateException ignored) {
+        }
         
         for (CustomHeadEntry entry : CUSTOM_HEAD_ENTRIES) {
             // Check prefix
@@ -670,33 +665,25 @@ public class BetterChat extends Module {
     
     // Copying messages
     
-    public void copyMessage(Deque<ChatHudLine.Visible> messageParts, int button) {
-        final StringBuilder builder = new StringBuilder();
-        
-        CharacterVisitor visitor = (index, style, codePoint) -> {
-            builder.append((char) codePoint);
-            return true;
-        };
-        
-        for (ChatHudLine.Visible line : messageParts) {
-            line.content().accept(visitor);
-        }
-        
-        if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-            mc.keyboard.setClipboard(builder.toString());
+    public void copyMessage(Deque<ChatHudLine.Visible> parts, Click click) {
+        // String
+        if (click.button() == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
+            StringBuilder sb = new StringBuilder();
+            
+            for (ChatHudLine.Visible line : parts) {
+                sb.append(((IChatHudLineVisible) (Object) line).meteor$getText());
+            }
+            
+            mc.keyboard.setClipboard(sb.toString());
             
             if (notify.get()) {
-                info(Text.literal("The line is copied!").formatted(Formatting.GREEN));
+                info(Text.literal("The message is copied!").formatted(Formatting.GREEN));
             }
         }
     }
     
     public boolean copyingMessages() {
         return isActive() && copyingMessages.get();
-    }
-    
-    public boolean highlight() {
-        return isActive() && copyingMessages.get() && highlight.get();
     }
     
     // Unicode arguments

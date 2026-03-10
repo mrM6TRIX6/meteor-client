@@ -5,13 +5,16 @@
 
 package meteordevelopment.meteorclient.mixin;
 
+import meteordevelopment.meteorclient.mixininterface.IChatHudLineVisible;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
+import meteordevelopment.meteorclient.utils.misc.Range;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.util.collection.ArrayListDeque;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,7 +24,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 
@@ -53,51 +55,97 @@ public abstract class ChatScreenMixin {
             return;
         }
         
-        ChatHud chatHud = mc.inGameHud.getChatHud();
-        ChatHudAccessor accessor = (ChatHudAccessor) chatHud;
+        ChatHudAccessor accessor = (ChatHudAccessor) mc.inGameHud.getChatHud();
         
         List<ChatHudLine.Visible> visibleMessages = accessor.meteor$getVisibleMessages();
-        Deque<ChatHudLine.Visible> messageParts = new ArrayDeque<>();
-        messageParts.add(visibleMessages.get(activeMessage));
+        Range messageBounds = resolveMessageBounds(visibleMessages, activeMessage);
+        Deque<ChatHudLine.Visible> messageParts = new ArrayListDeque<>(messageBounds.to - messageBounds.from + 1);
         
-        for (int index = activeMessage + 1; index < visibleMessages.size(); index++) {
-            if (visibleMessages.get(index).endOfEntry()) {
-                break;
-            }
-            
-            messageParts.addFirst(visibleMessages.get(index));
+        for (int index = messageBounds.to; index >= messageBounds.from; index--) {
+            messageParts.addLast(visibleMessages.get(index));
         }
         
         if (messageParts.isEmpty()) {
             return;
         }
         
-        betterChat.copyMessage(messageParts, click.button());
+        betterChat.copyMessage(messageParts, click);
+    }
+    
+    /**
+     * Resolves the contiguous wrapped-line range for the message at [index].
+     */
+    @Unique
+    private Range resolveMessageBounds(List<ChatHudLine.Visible> visibleMessages, int index) {
+        IChatHudLineVisible line = (IChatHudLineVisible) (Object) visibleMessages.get(index);
+        int id = line.meteor$getId();
+        
+        if (id != 0) {
+            int start = index;
+            while (start > 0) {
+                IChatHudLineVisible previousLine = (IChatHudLineVisible) (Object) visibleMessages.get(start - 1);
+                int previousId = previousLine.meteor$getId();
+                
+                if (id != previousId) {
+                    break;
+                }
+                start--;
+            }
+            
+            int end = index;
+            int lastIndex = visibleMessages.size() - 1;
+            
+            while (end < lastIndex) {
+                IChatHudLineVisible nextLine = (IChatHudLineVisible) (Object) visibleMessages.get(end + 1);
+                int nextId = nextLine.meteor$getId();
+                if (id != nextId) {
+                    break;
+                }
+                end++;
+            }
+            
+            return Range.of(start, end);
+        }
+        
+        int start = index;
+        
+        while (start > 0 && !visibleMessages.get(start).endOfEntry()) {
+            start--;
+        }
+        
+        int end = index;
+        int lastIndex = visibleMessages.size() - 1;
+        while (end < lastIndex && !visibleMessages.get(end + 1).endOfEntry()) {
+            end++;
+        }
+        
+        return Range.of(start, end);
     }
     
     @Unique
     private @Nullable Integer getActiveMessage(Click click) {
-        ChatHudAccessor chatHud = (ChatHudAccessor) mc.inGameHud.getChatHud();
-        List<ChatHudLine.Visible> visibleMessages = chatHud.meteor$getVisibleMessages();
+        ChatHud chatHud = mc.inGameHud.getChatHud();
+        ChatHudAccessor accessor = (ChatHudAccessor) chatHud;
+        List<ChatHudLine.Visible> visibleMessages = accessor.meteor$getVisibleMessages();
         
         if (visibleMessages.isEmpty()) {
             return null;
         }
         
-        double chatScale = chatHud.meteor$invokeGetScale();
+        double chatScale = accessor.meteor$invokeGetScale();
         
         if (chatScale <= 0.0) {
             return null;
         }
         
-        int chatWidth = (int) Math.ceil(chatHud.meteor$invokeGetWidth() / chatScale);
+        int chatWidth = (int) Math.ceil(accessor.meteor$invokeGetWidth() / chatScale);
         double localMouseX = click.x() / chatScale - 4.0;
         
         if (localMouseX < 0.0 || localMouseX > chatWidth) {
             return null;
         }
         
-        int lineHeight = chatHud.meteor$invokeGetLineHeight();
+        int lineHeight = accessor.meteor$invokeGetLineHeight();
         
         if (lineHeight <= 0) {
             return null;
@@ -105,13 +153,21 @@ public abstract class ChatScreenMixin {
         
         int guiHeight = mc.getWindow().getScaledHeight();
         int chatBottom = (int) Math.floor((guiHeight - 40) / chatScale);
-        int lineIndex = (int) Math.floor((chatBottom - click.y() / chatScale) / lineHeight);
+        double localMouseY = chatBottom - click.y() / chatScale;
         
-        if (lineIndex < 0) {
+        if (localMouseY < 0.0) {
             return null;
         }
         
-        int messageIndex = lineIndex + chatHud.meteor$getScrolledLines();
+        int lineIndex = (int) Math.floor(localMouseY / lineHeight);
+        int visibleLineCount = Math.min(chatHud.getVisibleLineCount(), visibleMessages.size() - accessor.meteor$getScrolledLines());
+        
+        if (lineIndex < 0 || lineIndex >= visibleLineCount) {
+            return null;
+        }
+        
+        int messageIndex = lineIndex + accessor.meteor$getScrolledLines();
+        
         return messageIndex >= 0 && messageIndex < visibleMessages.size() ? messageIndex : null;
     }
     

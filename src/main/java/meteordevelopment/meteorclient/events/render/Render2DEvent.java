@@ -13,7 +13,8 @@ public class Render2DEvent {
     private static final Render2DEvent INSTANCE = new Render2DEvent();
     
     public DrawContext drawContext;
-    public int screenWidth, screenHeight;
+    public int screenWidth;
+    public int screenHeight;
     public double frameTime;
     public float tickDelta;
     
