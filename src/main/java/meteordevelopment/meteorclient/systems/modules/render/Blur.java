@@ -225,7 +225,7 @@ public class Blur extends Module {
         // Render output
         MeshRenderer.begin()
             .attachments(mc.getFramebuffer())
-            .pipeline(MeteorRenderPipelines.BLUR_PASSTHROUGH)
+            .pipeline(MeteorRenderPipelines.PASSTHROUGH)
             .fullscreen()
             .sampler("u_Texture", fbos[0], RenderSystem.getSamplerCache().get(FilterMode.LINEAR)) // todo ???
             .end();

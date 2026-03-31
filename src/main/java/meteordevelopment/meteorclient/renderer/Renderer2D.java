@@ -1,5 +1,7 @@
 package meteordevelopment.meteorclient.renderer;
 
+import com.mojang.blaze3d.buffers.Std140Builder;
+import com.mojang.blaze3d.buffers.Std140SizeCalculator;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
@@ -8,11 +10,12 @@ import meteordevelopment.meteorclient.utils.PreInit;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
+import net.minecraft.client.gl.DynamicUniformStorage;
 import net.minecraft.client.gl.GpuSampler;
-import net.minecraft.client.texture.GlTexture;
+import org.joml.Vector4f;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.ByteBuffer;
+import java.util.HashMap;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
@@ -22,20 +25,17 @@ public class Renderer2D {
     public static Renderer2D TEXTURE;
     
     private final KawaseBlur blur = new KawaseBlur();
+    
     private final boolean textured;
     
     public final MeshBuilder triangles;
     public final MeshBuilder lines;
-    public final MeshBuilder rectangleMesh;
-    
-    public final List<BlurTask> blurTasks = new ArrayList<>();
     
     public Renderer2D(boolean textured) {
         this.textured = textured;
         
         triangles = new MeshBuilder(textured ? MeteorRenderPipelines.UI_TEXTURED : MeteorRenderPipelines.UI_COLORED);
         lines = new MeshBuilder(MeteorRenderPipelines.UI_COLORED_LINES);
-        rectangleMesh = new MeshBuilder(MeteorRenderPipelines.UI_RECTANGLE);
     }
     
     @PreInit
@@ -51,13 +51,11 @@ public class Renderer2D {
     public void begin() {
         triangles.begin();
         lines.begin();
-        rectangleMesh.begin();
     }
     
     public void end() {
         triangles.end();
         lines.end();
-        rectangleMesh.end();
     }
     
     public void render() {
@@ -79,37 +77,6 @@ public class Renderer2D {
         if (triangles.isBuilding()) {
             triangles.end();
         }
-        if (rectangleMesh.isBuilding()) {
-            rectangleMesh.end();
-        }
-        
-        // Render blur tasks firstly
-        
-        for (BlurTask task : blurTasks) {
-            blur.ensure(
-                mc.getFramebuffer().textureWidth,
-                mc.getFramebuffer().textureHeight
-            );
-            
-            MeshRenderer.begin()
-                .attachments(blur.getSource(), null)
-                .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
-                .clearColor(Color.CLEAR)
-                .fullscreen()
-                .mesh(task.mesh)
-                .end();
-            
-            GpuTextureView blurred = blur.blur(task.passes, (float) task.offset);
-            
-            MeshRenderer.begin()
-                .attachments(mc.getFramebuffer())
-                .pipeline(MeteorRenderPipelines.BLUR_PASSTHROUGH)
-                .fullscreen()
-                .sampler("u_Texture", blurred, RenderSystem.getSamplerCache().get(FilterMode.LINEAR))
-                .end();
-        }
-        
-        blurTasks.clear();
         
         MeshRenderer.begin()
             .attachments(mc.getFramebuffer())
@@ -123,12 +90,6 @@ public class Renderer2D {
             .mesh(triangles)
             .sampler(samplerName, samplerView, sampler)
             .end();
-        
-        MeshRenderer.begin()
-            .attachments(mc.getFramebuffer())
-            .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
-            .mesh(rectangleMesh)
-            .end();
     }
     
     // Tris
@@ -137,9 +98,9 @@ public class Renderer2D {
         triangles.ensureTriCapacity();
         
         triangles.triangle(
-            triangles.vec2(x1, y1).color(color).next(),
-            triangles.vec2(x2, y2).color(color).next(),
-            triangles.vec2(x3, y3).color(color).next()
+            triangles.pos(x1, y1).color(color).next(),
+            triangles.pos(x2, y2).color(color).next(),
+            triangles.pos(x3, y3).color(color).next()
         );
     }
     
@@ -149,18 +110,18 @@ public class Renderer2D {
         lines.ensureLineCapacity();
         
         lines.line(
-            lines.vec2(x1, y1).color(color).next(),
-            lines.vec2(x2, y2).color(color).next()
+            lines.pos(x1, y1).color(color).next(),
+            lines.pos(x2, y2).color(color).next()
         );
     }
     
     public void boxLines(double x, double y, double width, double height, Color color) {
         lines.ensureCapacity(4, 8);
         
-        int i1 = lines.vec2(x, y).color(color).next();
-        int i2 = lines.vec2(x, y + height).color(color).next();
-        int i3 = lines.vec2(x + width, y + height).color(color).next();
-        int i4 = lines.vec2(x + width, y).color(color).next();
+        int i1 = lines.pos(x, y).color(color).next();
+        int i2 = lines.pos(x, y + height).color(color).next();
+        int i3 = lines.pos(x + width, y + height).color(color).next();
+        int i4 = lines.pos(x + width, y).color(color).next();
         
         lines.line(i1, i2);
         lines.line(i2, i3);
@@ -174,10 +135,10 @@ public class Renderer2D {
         triangles.ensureQuadCapacity();
         
         triangles.quad(
-            triangles.vec2(x, y).color(color.colorTopLeft()).next(),
-            triangles.vec2(x, y + height).color(color.colorBottomLeft()).next(),
-            triangles.vec2(x + width, y + height).color(color.colorBottomRight()).next(),
-            triangles.vec2(x + width, y).color(color.colorTopRight()).next()
+            triangles.pos(x, y).color(color.colorTopLeft()).next(),
+            triangles.pos(x, y + height).color(color.colorBottomLeft()).next(),
+            triangles.pos(x + width, y + height).color(color.colorBottomRight()).next(),
+            triangles.pos(x + width, y).color(color.colorTopRight()).next()
         );
     }
     
@@ -191,10 +152,10 @@ public class Renderer2D {
         triangles.ensureQuadCapacity();
         
         triangles.quad(
-            triangles.vec2(x, y).vec2(0, 0).color(color).next(),
-            triangles.vec2(x, y + height).vec2(0, 1).color(color).next(),
-            triangles.vec2(x + width, y + height).vec2(1, 1).color(color).next(),
-            triangles.vec2(x + width, y).vec2(1, 0).color(color).next()
+            triangles.pos(x, y).pos(0, 0).color(color).next(),
+            triangles.pos(x, y + height).pos(0, 1).color(color).next(),
+            triangles.pos(x + width, y + height).pos(1, 1).color(color).next(),
+            triangles.pos(x + width, y).pos(1, 0).color(color).next()
         );
     }
     
@@ -202,10 +163,10 @@ public class Renderer2D {
         triangles.ensureQuadCapacity();
         
         triangles.quad(
-            triangles.vec2(x, y).vec2(texture.x1, texture.y1).color(color).next(),
-            triangles.vec2(x, y + height).vec2(texture.x1, texture.y2).color(color).next(),
-            triangles.vec2(x + width, y + height).vec2(texture.x2, texture.y2).color(color).next(),
-            triangles.vec2(x + width, y).vec2(texture.x2, texture.y1).color(color).next()
+            triangles.pos(x, y).pos(texture.x1, texture.y1).color(color).next(),
+            triangles.pos(x, y + height).pos(texture.x1, texture.y2).color(color).next(),
+            triangles.pos(x + width, y + height).pos(texture.x2, texture.y2).color(color).next(),
+            triangles.pos(x + width, y).pos(texture.x2, texture.y1).color(color).next()
         );
     }
     
@@ -221,19 +182,19 @@ public class Renderer2D {
         
         double _x1 = ((x - oX) * cos) - ((y - oY) * sin) + oX;
         double _y1 = ((y - oY) * cos) + ((x - oX) * sin) + oY;
-        int i1 = triangles.vec2(_x1, _y1).vec2(texX1, texY1).color(color).next();
+        int i1 = triangles.pos(_x1, _y1).pos(texX1, texY1).color(color).next();
         
         double _x2 = ((x - oX) * cos) - ((y + height - oY) * sin) + oX;
         double _y2 = ((y + height - oY) * cos) + ((x - oX) * sin) + oY;
-        int i2 = triangles.vec2(_x2, _y2).vec2(texX1, texY2).color(color).next();
+        int i2 = triangles.pos(_x2, _y2).pos(texX1, texY2).color(color).next();
         
         double _x3 = ((x + width - oX) * cos) - ((y + height - oY) * sin) + oX;
         double _y3 = ((y + height - oY) * cos) + ((x + width - oX) * sin) + oY;
-        int i3 = triangles.vec2(_x3, _y3).vec2(texX2, texY2).color(color).next();
+        int i3 = triangles.pos(_x3, _y3).pos(texX2, texY2).color(color).next();
         
         double _x4 = ((x + width - oX) * cos) - ((y - oY) * sin) + oX;
         double _y4 = ((y - oY) * cos) + ((x + width - oX) * sin) + oY;
-        int i4 = triangles.vec2(_x4, _y4).vec2(texX2, texY1).color(color).next();
+        int i4 = triangles.pos(_x4, _y4).pos(texX2, texY1).color(color).next();
         
         triangles.quad(i1, i2, i3, i4);
     }
@@ -242,132 +203,390 @@ public class Renderer2D {
         texQuad(x, y, width, height, rotation, region.x1, region.y1, region.x2, region.y2, color);
     }
     
-    // Test
+    // Rectangle
+    
+    private static final FixedUniformStorage<RectangleUniformData> RECTANGLE_UNIFORM_STORAGE = new FixedUniformStorage<>(
+        "RectangleUBO",
+        new Std140SizeCalculator()
+            .putVec2() // size
+            .putVec4() // radius
+            .putFloat() // smoothness
+            .get(),
+        16
+    );
+    
+    private record RectangleUniformData(float width, float height, Vector4f radius, float smoothness) implements DynamicUniformStorage.Uploadable {
+        
+        @Override
+        public void write(ByteBuffer buf) {
+            Std140Builder.intoBuffer(buf)
+                .putVec2(width, height)
+                .putVec4(radius)
+                .putFloat(smoothness);
+        }
+        
+    }
     
     public void rectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness) {
-        rectangleMesh.ensureQuadCapacity();
+        MeshBuilder mesh = new MeshBuilder(MeteorRenderPipelines.UI_RECTANGLE);
         
-        rectangleMesh.quad(
-            rectangleMesh.vec2(x, y)
+        mesh.begin();
+        
+        mesh.ensureQuadCapacity();
+        
+        mesh.quad(
+            mesh.pos(x, y)
+                .texture(0, 0)
                 .color(color.colorTopLeft())
-                .uv(0, 0)
-                .size(width, height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusBottomLeft(),
-                    radius.radiusBottomRight(),
-                    radius.radiusTopRight()
-                )
-                .smoothness(smoothness)
                 .next(),
-            
-            rectangleMesh.vec2(x, y + height)
+            mesh.pos(x, y + height)
+                .texture(0, 1)
                 .color(color.colorBottomLeft())
-                .uv(0, 1)
-                .size(width, height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusBottomLeft(),
-                    radius.radiusBottomRight(),
-                    radius.radiusTopRight()
-                )
-                .smoothness(smoothness)
                 .next(),
-            
-            rectangleMesh.vec2(x + width, y + height)
+            mesh.pos(x + width, y + height)
+                .texture(1, 1)
                 .color(color.colorBottomRight())
-                .uv(1, 1)
-                .size(width, height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusBottomLeft(),
-                    radius.radiusBottomRight(),
-                    radius.radiusTopRight()
-                )
-                .smoothness(smoothness)
                 .next(),
-            
-            rectangleMesh.vec2(x + width, y)
+            mesh.pos(x + width, y)
+                .texture(1, 0)
                 .color(color.colorTopRight())
-                .uv(1, 0)
-                .size(width, height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusBottomLeft(),
-                    radius.radiusBottomRight(),
-                    radius.radiusTopRight()
-                )
-                .smoothness(smoothness)
-                .next()
-        );
-    }
-    
-    public void blurredRectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int passes, double offset) {
-        BlurTask task = new BlurTask(x, y, width, height, passes, offset, new MeshBuilder(MeteorRenderPipelines.UI_RECTANGLE));
-        
-        task.mesh.begin();
-        
-        task.mesh.ensureQuadCapacity();
-        
-        task.mesh.quad(
-            task.mesh.vec2(x, y)
-                .color(color.colorTopLeft())
-                .uv(0,0)
-                .size(width, height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusBottomLeft(),
-                    radius.radiusBottomRight(),
-                    radius.radiusTopRight()
-                )
-                .smoothness(smoothness)
-                .next(),
-            
-            task.mesh.vec2(x, y + height)
-                .color(color.colorBottomLeft())
-                .uv(0,1)
-                .size(width,height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusBottomLeft(),
-                    radius.radiusBottomRight(),
-                    radius.radiusTopRight()
-                )
-                .smoothness(smoothness)
-                .next(),
-            
-            task.mesh.vec2(x + width, y + height)
-                .color(color.colorBottomRight())
-                .uv(1,1)
-                .size(width,height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusBottomLeft(),
-                    radius.radiusBottomRight(),
-                    radius.radiusTopRight()
-                )
-                .smoothness(smoothness)
-                .next(),
-            
-            task.mesh.vec2(x + width, y)
-                .color(color.colorTopRight())
-                .uv(1,0)
-                .size(width,height)
-                .radius(
-                    radius.radiusTopLeft(),
-                    radius.radiusBottomLeft(),
-                    radius.radiusBottomRight(),
-                    radius.radiusTopRight()
-                )
-                .smoothness(smoothness)
                 .next()
         );
         
-        task.mesh.end();
+        mesh.end();
         
-        blurTasks.add(task);
+        RECTANGLE_UNIFORM_STORAGE.clear();
+        
+        MeshRenderer.begin()
+            .attachments(mc.getFramebuffer())
+            .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
+            .mesh(mesh)
+            .uniform("RectangleData", RECTANGLE_UNIFORM_STORAGE.write(
+                new RectangleUniformData(
+                    (float) width,
+                    (float) height,
+                    radius.getVec4f(),
+                    (float) smoothness
+                )
+            ))
+            .end();
     }
     
-     private record BlurTask(double x, double y, double width, double height, int passes, double offset, MeshBuilder mesh) {}
+    // Shadow
+    
+    public void shadow(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int passes, double offset) {
+        MeshBuilder mesh = new MeshBuilder(MeteorRenderPipelines.UI_RECTANGLE);
+        
+        mesh.begin();
+        
+        mesh.ensureQuadCapacity();
+        
+        mesh.quad(
+            mesh.pos(x, y)
+                .texture(0, 0)
+                .color(color.colorTopLeft())
+                .next(),
+            mesh.pos(x, y + height)
+                .texture(0, 1)
+                .color(color.colorBottomLeft())
+                .next(),
+            mesh.pos(x + width, y + height)
+                .texture(1, 1)
+                .color(color.colorBottomRight())
+                .next(),
+            mesh.pos(x + width, y)
+                .texture(1, 0)
+                .color(color.colorTopRight())
+                .next()
+        );
+        
+        mesh.end();
+        
+        blur.ensure(
+            mc.getFramebuffer().textureWidth,
+            mc.getFramebuffer().textureHeight
+        );
+        
+        RECTANGLE_UNIFORM_STORAGE.clear();
+        
+        MeshRenderer.begin()
+            .attachments(blur.getSource(), null)
+            .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
+            .clearColor(Color.CLEAR)
+            .fullscreen()
+            .mesh(mesh)
+            .uniform("RectangleData", RECTANGLE_UNIFORM_STORAGE.write(
+                new RectangleUniformData(
+                    (float) width,
+                    (float) height,
+                    radius.getVec4f(),
+                    (float) smoothness
+                )
+            ))
+            .end();
+        
+        GpuTextureView blurred = blur.blur(passes, (float) offset);
+        
+        MeshRenderer.begin()
+            .attachments(mc.getFramebuffer())
+            .pipeline(MeteorRenderPipelines.PASSTHROUGH)
+            .fullscreen()
+            .sampler("u_Texture", blurred, RenderSystem.getSamplerCache().get(FilterMode.LINEAR))
+            .end();
+    }
+    
+    private final HashMap<Integer, GpuTextureView> shadowCache = new HashMap<>();
+    
+//    public void shadow2(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int passes, double offset) {
+//
+//        // 👉 padding под блюр (очень важно)
+//        double pad = passes * offset * 2.0;
+//
+//        int texW = (int) Math.ceil(width + pad * 2);
+//        int texH = (int) Math.ceil(height + pad * 2);
+//
+//        int id = Objects.hash(texW, texH, radius, smoothness, passes, offset);
+//
+//        GpuTextureView blurred;
+//
+//        shadowCache.clear(); // TEST
+//
+//        if (shadowCache.containsKey(id)) {
+//            blurred = shadowCache.get(id);
+//        } else {
+//            // 🔥 1. создаём меш В ЛОКАЛЬНЫХ координатах (0..size)
+//            MeshBuilder mesh = new MeshBuilder(MeteorRenderPipelines.UI_RECTANGLE);
+//
+//            mesh.begin();
+//            mesh.ensureQuadCapacity();
+//
+//            double x0 = pad + x;
+//            double y0 = pad + y;
+//            double x1 = pad + width + x;
+//            double y1 = pad + height + y;
+//
+//            mesh.quad(
+//                mesh.pos(x, y)
+//                    .texture(0, 0)
+//                    .color(Color.WHITE)
+//                    .next(),
+//                mesh.pos(x, y + height)
+//                    .texture(0, 1)
+//                    .color(Color.WHITE)
+//                    .next(),
+//                mesh.pos(x + width, y + height)
+//                    .texture(1, 1)
+//                    .color(Color.WHITE)
+//                    .next(),
+//                mesh.pos(x + width, y)
+//                    .texture(1, 0)
+//                    .color(Color.WHITE)
+//                    .next()
+//            );
+//
+//            mesh.end();
+//
+//            // 🔥 2. создаём blur под РАЗМЕР ТЕКСТУРЫ, а не экрана
+////            blur.ensure(
+////                (int) width,
+////                (int) height
+////            );
+//
+//            RECTANGLE_UNIFORM_STORAGE.clear();
+//
+//
+////            blurred = RenderSystem.getDevice().createTexture(
+////                "kawase",
+////                15,
+////                TextureFormat.RGBA8,
+////                (int) width,
+////                (int) height,
+////                1,
+////                1
+////            );
+//
+//            // 🔥 3. рендерим БЕЗ fullscreen()
+//            MeshRenderer.begin()
+//                //.attachments(blurred, null)
+//                .pipeline(MeteorRenderPipelines.UI_RECTANGLE)
+//                .clearColor(Color.CLEAR)
+//                .mesh(mesh)
+//                .uniform("RectangleData", RECTANGLE_UNIFORM_STORAGE.write(
+//                    new RectangleUniformData(
+//                        (float) width,
+//                        (float) height,
+//                        radius.getVec4f(),
+//                        (float) smoothness
+//                    )
+//                ))
+//                .end();
+//
+//            // 🔥 4. блюрим
+//
+//            // blurred = blur.blur(passes, (float) offset);
+//
+//            //shadowCache.put(id, blurred);
+//        }
+//
+////        MeshRenderer.begin()
+////            .attachments(mc.getFramebuffer())
+////            .pipeline(MeteorRenderPipelines.PASSTHROUGH)
+////            .sampler("u_Texture", blurred, RenderSystem.getSamplerCache().get(FilterMode.LINEAR))
+////            .end();
+//
+//        // 🔥 5. выводим с учётом padding
+//        // Texture
+//
+//        MeshBuilder textureMesh = new MeshBuilder(MeteorRenderPipelines.UI_TEXTURE);
+//
+//        textureMesh.begin();
+//
+//        textureMesh.ensureQuadCapacity();
+//
+//        textureMesh.quad(
+//            textureMesh.pos(x, y)
+//                .texture(0, 0)
+//                .color(color.colorTopLeft())
+//                .next(),
+//            textureMesh.pos(x, y + height)
+//                .texture(0, 1)
+//                .color(color.colorBottomLeft())
+//                .next(),
+//            textureMesh.pos(x + width, y + height)
+//                .texture(1, 1)
+//                .color(color.colorBottomRight())
+//                .next(),
+//            textureMesh.pos(x + width, y)
+//                .texture(1, 0)
+//                .color(color.colorTopRight())
+//                .next()
+//        );
+//
+//        textureMesh.end();
+//
+//        RECTANGLE_UNIFORM_STORAGE.clear();
+//
+//        MeshRenderer.begin()
+//            .attachments(mc.getFramebuffer())
+//            .pipeline(MeteorRenderPipelines.UI_TEXTURE)
+//            .mesh(textureMesh)
+//            //.sampler("u_Texture", blurred, RenderSystem.getSamplerCache().get(FilterMode.LINEAR))
+//            .uniform("TextureData", RECTANGLE_UNIFORM_STORAGE.write(
+//                new RectangleUniformData(
+//                    (float) width,
+//                    (float) height,
+//                    radius.getVec4f(),
+//                    (float) smoothness
+//                )
+//            ))
+//            .end();
+//    }
+    
+    public void blur(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int passes, double offset) {
+        int fbWidth = mc.getFramebuffer().textureWidth;
+        int fbHeight = mc.getFramebuffer().textureHeight;
+        
+        // Y inversion
+        double invY = fbHeight - y - height;
+        
+        // UV
+        float u0 = (float) (x / fbWidth);
+        float v0 = (float) ((invY + height) / fbHeight);
+        float u1 = (float) ((x + width) / fbWidth);
+        float v1 = (float) (invY / fbHeight);
+        
+        // Mesh
+        MeshBuilder mesh = new MeshBuilder(MeteorRenderPipelines.BLIT);
+
+        mesh.begin();
+        
+        mesh.ensureQuadCapacity();
+        
+        mesh.quad(
+            mesh.pos(-1, -1).texture(u0, v0).next(),
+            mesh.pos(-1,  1).texture(u0, v1).next(),
+            mesh.pos( 1,  1).texture(u1, v1).next(),
+            mesh.pos( 1, -1).texture(u1, v0).next()
+        );
+
+        mesh.end();
+        
+        blur.ensure(
+            (int) width,
+            (int) height
+        );
+        
+        MeshRenderer.begin()
+            .attachments(blur.getSource(), null)
+            .pipeline(MeteorRenderPipelines.BLIT)
+            .clearColor(Color.BLACK)
+            .mesh(mesh)
+            .sampler(
+                "u_Texture",
+                mc.getFramebuffer().getColorAttachmentView(),
+                RenderSystem.getSamplerCache().get(FilterMode.LINEAR)
+            )
+            .end();
+        
+        GpuTextureView blurred = blur.blur(passes, (float) offset);
+        
+        texture(
+            x,
+            y,
+            width,
+            height,
+            color,
+            radius,
+            smoothness,
+            blurred,
+            RenderSystem.getSamplerCache().get(FilterMode.LINEAR)
+        );
+    }
+    
+    public void texture(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, GpuTextureView textureView, GpuSampler sampler) {
+        MeshBuilder mesh = new MeshBuilder(MeteorRenderPipelines.UI_TEXTURE);
+        
+        mesh.begin();
+        
+        mesh.ensureQuadCapacity();
+        
+        mesh.quad(
+            mesh.pos(x, y)
+                .texture(0, 0)
+                .color(color.colorTopLeft())
+                .next(),
+            mesh.pos(x, y + height)
+                .texture(0, 1)
+                .color(color.colorBottomLeft())
+                .next(),
+            mesh.pos(x + width, y + height)
+                .texture(1, 1)
+                .color(color.colorBottomRight())
+                .next(),
+            mesh.pos(x + width, y)
+                .texture(1, 0)
+                .color(color.colorTopRight())
+                .next()
+        );
+        
+        mesh.end();
+        
+        RECTANGLE_UNIFORM_STORAGE.clear();
+        
+        MeshRenderer.begin()
+            .attachments(mc.getFramebuffer())
+            .pipeline(MeteorRenderPipelines.UI_TEXTURE)
+            .mesh(mesh)
+            .sampler("u_Texture", textureView, sampler)
+            .uniform("TextureData", RECTANGLE_UNIFORM_STORAGE.write(
+                new RectangleUniformData(
+                    (float) width,
+                    (float) height,
+                    radius.getVec4f(),
+                    (float) smoothness
+                )
+            ))
+            .end();
+    }
     
 }

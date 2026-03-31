@@ -113,10 +113,10 @@ public class Breadcrumbs extends Module {
             event.renderer.lines.ensureLineCapacity();
             
             if (iLast == -1) {
-                iLast = event.renderer.lines.vec3(section.x1, section.y1, section.z1).color(color.get()).next();
+                iLast = event.renderer.lines.pos(section.x1, section.y1, section.z1).color(color.get()).next();
             }
             
-            int i = event.renderer.lines.vec3(section.x2, section.y2, section.z2).color(color.get()).next();
+            int i = event.renderer.lines.pos(section.x2, section.y2, section.z2).color(color.get()).next();
             event.renderer.lines.line(iLast, i);
             iLast = i;
         }

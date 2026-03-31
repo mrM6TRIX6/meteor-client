@@ -151,6 +151,7 @@ public class MeshRenderer {
                 && pipeline != MeteorRenderPipelines.UI_TEXTURED
                 && pipeline != MeteorRenderPipelines.UI_TEXT
                 && pipeline != MeteorRenderPipelines.UI_RECTANGLE
+                && pipeline != MeteorRenderPipelines.UI_TEXTURE
             ) {
                 applyCameraPos();
             }

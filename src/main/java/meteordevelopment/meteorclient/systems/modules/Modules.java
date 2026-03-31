@@ -24,6 +24,7 @@ import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.modules.combat.*;
 import meteordevelopment.meteorclient.systems.modules.exploit.*;
+import meteordevelopment.meteorclient.systems.modules.exploit.servercrasher.ServerCrasher;
 import meteordevelopment.meteorclient.systems.modules.fun.*;
 import meteordevelopment.meteorclient.systems.modules.misc.*;
 import meteordevelopment.meteorclient.systems.modules.misc.swarm.Swarm;
@@ -605,7 +606,10 @@ public class Modules extends System<Modules> {
         add(new OffhandCrash());
         add(new Phase());
         add(new PingSpoof());
+        add(new ServerCrasher());
         add(new ServerSpoof());
+        add(new SuperBow());
+        add(new WorldGuardBypass());
     }
     
     private void initFun() {

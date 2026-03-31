@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.utils.render.state;
 
+import org.joml.Vector4f;
+
 public record QuadRadiusState(double radiusTopLeft, double radiusBottomLeft, double radiusBottomRight, double radiusTopRight) {
     
     public static QuadRadiusState of(double radius) {
@@ -21,6 +23,15 @@ public record QuadRadiusState(double radiusTopLeft, double radiusBottomLeft, dou
     
     public static QuadRadiusState ofHorizontal(double left, double right) {
         return new QuadRadiusState(left, left, right, right);
+    }
+    
+    public Vector4f getVec4f() {
+        return new Vector4f(
+            (float) radiusTopLeft,
+            (float) radiusBottomLeft,
+            (float) radiusBottomRight,
+            (float) radiusTopRight
+        );
     }
     
 }

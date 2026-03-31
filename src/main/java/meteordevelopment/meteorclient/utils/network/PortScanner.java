@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 public class PortScanner {
     
-    public static List<ScanRunner> scans = new ArrayList<>();
+    public static final List<ScanRunner> scans = new ArrayList<>();
     
     public static void killAllScans() {
         for (ScanRunner runner : scans) {
@@ -61,6 +61,7 @@ public class PortScanner {
         
         public boolean running = true;
         public int portsScanned = 0;
+        
         ExecutorService es;
         List<Future<ScanResult>> futures = new ArrayList<>();
         Thread runner;

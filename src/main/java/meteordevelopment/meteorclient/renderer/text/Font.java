@@ -134,10 +134,10 @@ public class Font {
             }
             
             mesh.quad(
-                mesh.vec2(x + c.x0 * scale, y + c.y0 * scale).vec2(c.u0, c.v0).color(color).next(),
-                mesh.vec2(x + c.x0 * scale, y + c.y1 * scale).vec2(c.u0, c.v1).color(color).next(),
-                mesh.vec2(x + c.x1 * scale, y + c.y1 * scale).vec2(c.u1, c.v1).color(color).next(),
-                mesh.vec2(x + c.x1 * scale, y + c.y0 * scale).vec2(c.u1, c.v0).color(color).next()
+                mesh.pos(x + c.x0 * scale, y + c.y0 * scale).pos(c.u0, c.v0).color(color).next(),
+                mesh.pos(x + c.x0 * scale, y + c.y1 * scale).pos(c.u0, c.v1).color(color).next(),
+                mesh.pos(x + c.x1 * scale, y + c.y1 * scale).pos(c.u1, c.v1).color(color).next(),
+                mesh.pos(x + c.x1 * scale, y + c.y0 * scale).pos(c.u1, c.v0).color(color).next()
             );
             
             x += c.xAdvance * scale;

@@ -62,8 +62,8 @@ public class GuiDebugRenderer {
         mesh.ensureLineCapacity();
         
         mesh.line(
-            mesh.vec3(x1, y1, 0).color(color).next(),
-            mesh.vec3(x2, y2, 0).color(color).next()
+            mesh.pos(x1, y1, 0).color(color).next(),
+            mesh.pos(x2, y2, 0).color(color).next()
         );
     }
     

@@ -16,9 +16,9 @@ import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
 
-public class RectangleHUD extends HUDElement {
+public class BlurHUD extends HUDElement {
     
-    public static final HUDElementInfo<RectangleHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "rectangle", "HUD element test.", RectangleHUD::new);
+    public static final HUDElementInfo<BlurHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "blur", "HUD element test.", BlurHUD::new);
     
     private static final IntFloatImmutablePair[] STRENGTHS = new IntFloatImmutablePair[] {
         IntFloatImmutablePair.of(1, 1.25f), // LVL 1
@@ -128,7 +128,7 @@ public class RectangleHUD extends HUDElement {
         .description("Radius used for the rectangle.")
         .defaultValue(10)
         .min(0)
-        .sliderRange(0, 1000)
+        .sliderRange(0, 20)
         .visible(() -> !radiusEachVertex.get())
         .build()
     );
@@ -180,43 +180,17 @@ public class RectangleHUD extends HUDElement {
         .description("Smoothing edges by alpha channel interpolation.")
         .defaultValue(1)
         .min(0)
-        .sliderRange(0, 500)
+        .sliderRange(0, 20)
         .build()
     );
     
     // Blur
-    
-    private final Setting<Boolean> shadow = sgGeneral.add(new BoolSetting.Builder()
-        .name("shadow")
-        .description("Enable shadow.")
-        .defaultValue(false)
-        .build()
-    );
-    
-    private final Setting<Boolean> onlyShadow = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-shadow")
-        .description("Render only shadow without rectangle.")
-        .defaultValue(false)
-        .visible(shadow::get)
-        .build()
-    );
-    
-    private final Setting<Double> spread = sgGeneral.add(new DoubleSetting.Builder()
-        .name("spread")
-        .description("Shadow spread.")
-        .defaultValue(3)
-        .min(0)
-        .sliderRange(0, 50)
-        .visible(() -> shadow.get() && !onlyShadow.get())
-        .build()
-    );
     
     private final Setting<Integer> passes = sgGeneral.add(new IntSetting.Builder()
         .name("passes")
         .description("Blur passes.")
         .defaultValue(1)
         .range(0, KawaseBlur.MAX_PASSES)
-        .visible(shadow::get)
         .build()
     );
     
@@ -226,11 +200,10 @@ public class RectangleHUD extends HUDElement {
         .defaultValue(1)
         .min(0)
         .sliderRange(0, 20)
-        .visible(shadow::get)
         .build()
     );
     
-    public RectangleHUD() {
+    public BlurHUD() {
         super(INFO);
     }
     
@@ -256,47 +229,17 @@ public class RectangleHUD extends HUDElement {
             )
             : QuadRadiusState.of(radius.get());
         
-        if (shadow.get()) {
-            if (onlyShadow.get()) {
-                renderer.shadow(
-                    x,
-                    y,
-                    width.get(),
-                    height.get(),
-                    colorState,
-                    radiusState,
-                    smoothness.get(),
-                    passes.get(),
-                    offset.get()
-                );
-            } else {
-                double s = spread.get();
-                
-                renderer.shadow(
-                    x - s,
-                    y - s,
-                    width.get() + s * 2,
-                    height.get() + s * 2,
-                    colorState,
-                    radiusState,
-                    smoothness.get(),
-                    passes.get(),
-                    offset.get()
-                );
-            }
-        }
-        
-        if (!(shadow.get() && onlyShadow.get())) {
-            renderer.rectangle(
-                x,
-                y,
-                width.get(),
-                height.get(),
-                colorState,
-                radiusState,
-                smoothness.get()
-            );
-        }
+        renderer.blur(
+            x,
+            y,
+            width.get(),
+            height.get(),
+            colorState,
+            radiusState,
+            smoothness.get(),
+            passes.get(),
+            offset.get()
+        );
     }
     
 }

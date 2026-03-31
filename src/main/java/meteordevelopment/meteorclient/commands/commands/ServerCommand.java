@@ -111,14 +111,14 @@ public class ServerCommand extends Command {
         });
         
         builder.then(literal("info")
-            .executes(ctx -> {
+            .executes(context -> {
                 basicInfo();
                 return SINGLE_SUCCESS;
             })
         );
         
         builder.then(literal("plugins")
-            .executes(ctx -> {
+            .executes(context -> {
                 if (!waitingPlugins) {
                     completionId = random.nextInt(0, 32767);
                     mc.getNetworkHandler().sendPacket(new RequestCommandCompletionsC2SPacket(completionId, "/"));
@@ -130,7 +130,7 @@ public class ServerCommand extends Command {
         );
         
         builder.then(literal("tps")
-            .executes(ctx -> {
+            .executes(context -> {
                 float tps = TickRate.INSTANCE.getTickRate();
                 Formatting color;
                 
@@ -149,23 +149,25 @@ public class ServerCommand extends Command {
         );
         
         builder.then(literal("ports")
-            .executes(ctx -> {
-                scanKnownPorts(getAddress());
-                return SINGLE_SUCCESS;
-            })
-            .then(literal("known")
-                .executes(ctx -> {
+            .then(literal("start")
+                .executes(context -> {
                     scanKnownPorts(getAddress());
                     return SINGLE_SUCCESS;
                 })
-            )
-            .then(argument("from", IntegerArgumentType.integer(0))
-                .then(argument("to", IntegerArgumentType.integer(1))
-                    .executes(ctx -> {
-                        scanRange(getAddress(), IntegerArgumentType.getInteger(ctx, "from"), IntegerArgumentType.getInteger(ctx, "to"));
-                        return SINGLE_SUCCESS;
-                    })
+                .then(argument("from", IntegerArgumentType.integer(0))
+                    .then(argument("to", IntegerArgumentType.integer(1))
+                        .executes(context -> {
+                            scanRange(getAddress(), IntegerArgumentType.getInteger(context, "from"), IntegerArgumentType.getInteger(context, "to"));
+                            return SINGLE_SUCCESS;
+                        })
+                    )
                 )
+            )
+            .then(literal("stop")
+                .executes(context -> {
+                    PortScanner.killAllScans();
+                    return SINGLE_SUCCESS;
+                })
             )
         );
     }
@@ -192,7 +194,8 @@ public class ServerCommand extends Command {
         String ipv4 = "";
         try {
             ipv4 = InetAddress.getByName(server.address).getHostAddress();
-        } catch (UnknownHostException ignored) {}
+        } catch (UnknownHostException ignored) {
+        }
         
         MutableText ipText;
         
@@ -385,10 +388,13 @@ public class ServerCommand extends Command {
         if (max < min) {
             throw INVALID_RANGE.create();
         }
+        
         List<Integer> port_list = new LinkedList<>();
+        
         for (int i = min; i <= max; i++) {
             port_list.add(i);
         }
+        
         scanPorts(address, port_list);
     }
     

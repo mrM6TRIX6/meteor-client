@@ -13,6 +13,7 @@ import net.minecraft.client.gl.DynamicUniformStorage;
 
 import java.nio.ByteBuffer;
 
+// EXPERIMENTAL
 public class KawaseBlur {
     
     public static final int MAX_PASSES = 8;

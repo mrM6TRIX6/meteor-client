@@ -140,8 +140,22 @@ public class HUDRenderer {
         );
     }
     
-    public void blurredRectangle(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int passes, double offset) {
-        Renderer2D.COLOR.blurredRectangle(
+    public void shadow(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int passes, double offset) {
+        Renderer2D.COLOR.shadow(
+            x,
+            y,
+            width,
+            height,
+            color,
+            radius,
+            smoothness,
+            passes,
+            offset
+        );
+    }
+    
+    public void blur(double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness, int passes, double offset) {
+        Renderer2D.COLOR.blur(
             x,
             y,
             width,
@@ -162,6 +176,20 @@ public class HUDRenderer {
         Renderer2D.TEXTURE.begin();
         Renderer2D.TEXTURE.texQuad(x, y, width, height, color);
         Renderer2D.TEXTURE.render(mc.getTextureManager().getTexture(id).getGlTextureView(), mc.getTextureManager().getTexture(id).getSampler());
+    }
+    
+    public void textureTest(Identifier id, double x, double y, double width, double height, QuadColorState color, QuadRadiusState radius, double smoothness) {
+        Renderer2D.COLOR.texture(
+            x,
+            y,
+            width,
+            height,
+            color,
+            radius,
+            smoothness,
+            mc.getTextureManager().getTexture(id).getGlTextureView(),
+            mc.getTextureManager().getTexture(id).getSampler()
+        );
     }
     
     public double text(String text, double x, double y, Color color, boolean shadow, double scale) {

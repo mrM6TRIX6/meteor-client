@@ -17,30 +17,6 @@ public abstract class MeteorVertexFormatElements {
         2
     );
     
-    public static final VertexFormatElement RADIUS = VertexFormatElement.register(
-        getNextVertexFormatElementId(),
-        0,
-        VertexFormatElement.Type.FLOAT,
-        VertexFormatElement.Usage.GENERIC,
-        4
-    );
-    
-    public static final VertexFormatElement SIZE = VertexFormatElement.register(
-        getNextVertexFormatElementId(),
-        0,
-        VertexFormatElement.Type.FLOAT,
-        VertexFormatElement.Usage.GENERIC,
-        2
-    );
-    
-    public static final VertexFormatElement SMOOTHNESS = VertexFormatElement.register(
-        getNextVertexFormatElementId(),
-        0,
-        VertexFormatElement.Type.FLOAT,
-        VertexFormatElement.Usage.GENERIC,
-        1
-    );
-    
     private MeteorVertexFormatElements() {}
     
     private static int getNextVertexFormatElementId() {

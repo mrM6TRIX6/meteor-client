@@ -666,7 +666,6 @@ public class BetterChat extends Module {
     // Copying messages
     
     public void copyMessage(Deque<ChatHudLine.Visible> parts, Click click) {
-        // String
         if (click.button() == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
             StringBuilder sb = new StringBuilder();
             

@@ -5,7 +5,9 @@ in vec4 v_Color;
 
 out vec4 FragColor;
 
-layout(std140) uniform RectangleData {
+uniform sampler2D u_Texture;
+
+layout(std140) uniform TextureData {
     vec2 u_Size;
     vec4 u_Radius;
     float u_Smoothness;
@@ -27,7 +29,7 @@ float ralpha(vec2 size, vec2 coord, vec4 radius, float smoothness) {
 
 void main() {
     float alpha = ralpha(u_Size, v_Uv, u_Radius, u_Smoothness);
-    vec4 color = vec4(v_Color.rgb, v_Color.a * alpha);
+    vec4 color = vec4(1.0, 1.0, 1.0, alpha) * texture(u_Texture, v_Uv) * v_Color;
 
     if (color.a == 0.0) { // alpha test
         discard;

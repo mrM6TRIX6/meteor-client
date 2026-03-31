@@ -120,6 +120,8 @@ public class HUD extends Module implements Iterable<HUDElement> {
         register(CombatHUD.INFO);
         register(MapHUD.INFO);
         register(RectangleHUD.INFO);
+        register(TextureHUD.INFO);
+        register(BlurHUD.INFO);
     }
     
     public static HUD get() {

@@ -1,13 +1,8 @@
 package meteordevelopment.meteorclient.systems.modules.render.hud.elements;
 
-import it.unimi.dsi.fastutil.ints.IntFloatImmutablePair;
-import meteordevelopment.meteorclient.renderer.KawaseBlur;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.ColorSetting;
-import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.IntSetting;
+import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
@@ -15,35 +10,23 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
+import net.minecraft.util.Identifier;
 
-public class RectangleHUD extends HUDElement {
+public class TextureHUD extends HUDElement {
     
-    public static final HUDElementInfo<RectangleHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "rectangle", "HUD element test.", RectangleHUD::new);
-    
-    private static final IntFloatImmutablePair[] STRENGTHS = new IntFloatImmutablePair[] {
-        IntFloatImmutablePair.of(1, 1.25f), // LVL 1
-        IntFloatImmutablePair.of(1, 2.25f), // LVL 2
-        IntFloatImmutablePair.of(2, 2.0f), // LVL 3
-        IntFloatImmutablePair.of(2, 3.0f), // LVL 4
-        IntFloatImmutablePair.of(2, 4.25f), // LVL 5
-        IntFloatImmutablePair.of(3, 2.5f), // LVL 6
-        IntFloatImmutablePair.of(3, 3.25f), // LVL 7
-        IntFloatImmutablePair.of(3, 4.25f), // LVL 8
-        IntFloatImmutablePair.of(3, 5.5f), // LVL 9
-        IntFloatImmutablePair.of(4, 3.25f), // LVL 10
-        IntFloatImmutablePair.of(4, 4.0f), // LVL 11
-        IntFloatImmutablePair.of(4, 5.0f), // LVL 12
-        IntFloatImmutablePair.of(4, 6.0f), // LVL 13
-        IntFloatImmutablePair.of(4, 7.25f), // LVL 14
-        IntFloatImmutablePair.of(4, 8.25f), // LVL 15
-        IntFloatImmutablePair.of(5, 4.5f), // LVL 16
-        IntFloatImmutablePair.of(5, 5.25f), // LVL 17
-        IntFloatImmutablePair.of(5, 6.25f), // LVL 18
-        IntFloatImmutablePair.of(5, 7.25f), // LVL 19
-        IntFloatImmutablePair.of(5, 8.5f) // LVL 20
-    };
+    public static final HUDElementInfo<TextureHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "texture", "HUD element test.", TextureHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
+    
+    
+    // Texture
+    
+    public final Setting<String> texture = sgGeneral.add(new StringSetting.Builder()
+        .name("texture")
+        .description("The texture resource path.")
+        .defaultValue("meteor-client:textures/meteor.png")
+        .build()
+    );
     
     // Size
     
@@ -128,7 +111,7 @@ public class RectangleHUD extends HUDElement {
         .description("Radius used for the rectangle.")
         .defaultValue(10)
         .min(0)
-        .sliderRange(0, 1000)
+        .sliderRange(0, 20)
         .visible(() -> !radiusEachVertex.get())
         .build()
     );
@@ -180,57 +163,11 @@ public class RectangleHUD extends HUDElement {
         .description("Smoothing edges by alpha channel interpolation.")
         .defaultValue(1)
         .min(0)
-        .sliderRange(0, 500)
-        .build()
-    );
-    
-    // Blur
-    
-    private final Setting<Boolean> shadow = sgGeneral.add(new BoolSetting.Builder()
-        .name("shadow")
-        .description("Enable shadow.")
-        .defaultValue(false)
-        .build()
-    );
-    
-    private final Setting<Boolean> onlyShadow = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-shadow")
-        .description("Render only shadow without rectangle.")
-        .defaultValue(false)
-        .visible(shadow::get)
-        .build()
-    );
-    
-    private final Setting<Double> spread = sgGeneral.add(new DoubleSetting.Builder()
-        .name("spread")
-        .description("Shadow spread.")
-        .defaultValue(3)
-        .min(0)
-        .sliderRange(0, 50)
-        .visible(() -> shadow.get() && !onlyShadow.get())
-        .build()
-    );
-    
-    private final Setting<Integer> passes = sgGeneral.add(new IntSetting.Builder()
-        .name("passes")
-        .description("Blur passes.")
-        .defaultValue(1)
-        .range(0, KawaseBlur.MAX_PASSES)
-        .visible(shadow::get)
-        .build()
-    );
-    
-    private final Setting<Double> offset = sgGeneral.add(new DoubleSetting.Builder()
-        .name("offset")
-        .description("Blur offset.")
-        .defaultValue(1)
-        .min(0)
         .sliderRange(0, 20)
-        .visible(shadow::get)
         .build()
     );
     
-    public RectangleHUD() {
+    public TextureHUD() {
         super(INFO);
     }
     
@@ -256,47 +193,22 @@ public class RectangleHUD extends HUDElement {
             )
             : QuadRadiusState.of(radius.get());
         
-        if (shadow.get()) {
-            if (onlyShadow.get()) {
-                renderer.shadow(
-                    x,
-                    y,
-                    width.get(),
-                    height.get(),
-                    colorState,
-                    radiusState,
-                    smoothness.get(),
-                    passes.get(),
-                    offset.get()
-                );
-            } else {
-                double s = spread.get();
-                
-                renderer.shadow(
-                    x - s,
-                    y - s,
-                    width.get() + s * 2,
-                    height.get() + s * 2,
-                    colorState,
-                    radiusState,
-                    smoothness.get(),
-                    passes.get(),
-                    offset.get()
-                );
-            }
+        Identifier id = Identifier.tryParse(texture.get());
+        
+        if (id == null) {
+            return;
         }
         
-        if (!(shadow.get() && onlyShadow.get())) {
-            renderer.rectangle(
-                x,
-                y,
-                width.get(),
-                height.get(),
-                colorState,
-                radiusState,
-                smoothness.get()
-            );
-        }
+        renderer.textureTest(
+            id,
+            x,
+            y,
+            width.get(),
+            height.get(),
+            colorState,
+            radiusState,
+            smoothness.get()
+        );
     }
     
 }

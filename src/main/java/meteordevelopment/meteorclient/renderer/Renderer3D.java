@@ -58,8 +58,8 @@ public class Renderer3D {
         lines.ensureLineCapacity();
         
         lines.line(
-            lines.vec3(x1, y1, z1).color(color1).next(),
-            lines.vec3(x2, y2, z2).color(color2).next()
+            lines.pos(x1, y1, z1).color(color1).next(),
+            lines.pos(x2, y2, z2).color(color2).next()
         );
     }
     
@@ -71,14 +71,14 @@ public class Renderer3D {
     public void boxLines(double x1, double y1, double z1, double x2, double y2, double z2, Color color, int excludeDir) {
         lines.ensureCapacity(8, 24);
         
-        int blb = lines.vec3(x1, y1, z1).color(color).next();
-        int blf = lines.vec3(x1, y1, z2).color(color).next();
-        int brb = lines.vec3(x2, y1, z1).color(color).next();
-        int brf = lines.vec3(x2, y1, z2).color(color).next();
-        int tlb = lines.vec3(x1, y2, z1).color(color).next();
-        int tlf = lines.vec3(x1, y2, z2).color(color).next();
-        int trb = lines.vec3(x2, y2, z1).color(color).next();
-        int trf = lines.vec3(x2, y2, z2).color(color).next();
+        int blb = lines.pos(x1, y1, z1).color(color).next();
+        int blf = lines.pos(x1, y1, z2).color(color).next();
+        int brb = lines.pos(x2, y1, z1).color(color).next();
+        int brf = lines.pos(x2, y1, z2).color(color).next();
+        int tlb = lines.pos(x1, y2, z1).color(color).next();
+        int tlf = lines.pos(x1, y2, z2).color(color).next();
+        int trb = lines.pos(x2, y2, z1).color(color).next();
+        int trf = lines.pos(x2, y2, z2).color(color).next();
         
         if (excludeDir == 0) {
             // Bottom to top
@@ -153,10 +153,10 @@ public class Renderer3D {
         triangles.ensureQuadCapacity();
         
         triangles.quad(
-            triangles.vec3(x1, y1, z1).color(bottomLeft).next(),
-            triangles.vec3(x2, y2, z2).color(topLeft).next(),
-            triangles.vec3(x3, y3, z3).color(topRight).next(),
-            triangles.vec3(x4, y4, z4).color(bottomRight).next()
+            triangles.pos(x1, y1, z1).color(bottomLeft).next(),
+            triangles.pos(x2, y2, z2).color(topLeft).next(),
+            triangles.pos(x3, y3, z3).color(topRight).next(),
+            triangles.pos(x4, y4, z4).color(bottomRight).next()
         );
     }
     
@@ -183,10 +183,10 @@ public class Renderer3D {
         lines.ensureCapacity(4, 8);
         
         if (mode.lines()) {
-            int i1 = lines.vec3(x1, y1, z1).color(lineColor).next();
-            int i2 = lines.vec3(x2, y2, z2).color(lineColor).next();
-            int i3 = lines.vec3(x3, y3, z3).color(lineColor).next();
-            int i4 = lines.vec3(x4, y4, z4).color(lineColor).next();
+            int i1 = lines.pos(x1, y1, z1).color(lineColor).next();
+            int i2 = lines.pos(x2, y2, z2).color(lineColor).next();
+            int i3 = lines.pos(x3, y3, z3).color(lineColor).next();
+            int i4 = lines.pos(x4, y4, z4).color(lineColor).next();
             
             lines.line(i1, i2);
             lines.line(i2, i3);
@@ -213,14 +213,14 @@ public class Renderer3D {
     public void boxSides(double x1, double y1, double z1, double x2, double y2, double z2, Color color, int excludeDir) {
         triangles.ensureCapacity(8, 36);
         
-        int blb = triangles.vec3(x1, y1, z1).color(color).next();
-        int blf = triangles.vec3(x1, y1, z2).color(color).next();
-        int brb = triangles.vec3(x2, y1, z1).color(color).next();
-        int brf = triangles.vec3(x2, y1, z2).color(color).next();
-        int tlb = triangles.vec3(x1, y2, z1).color(color).next();
-        int tlf = triangles.vec3(x1, y2, z2).color(color).next();
-        int trb = triangles.vec3(x2, y2, z1).color(color).next();
-        int trf = triangles.vec3(x2, y2, z2).color(color).next();
+        int blb = triangles.pos(x1, y1, z1).color(color).next();
+        int blf = triangles.pos(x1, y1, z2).color(color).next();
+        int brb = triangles.pos(x2, y1, z1).color(color).next();
+        int brf = triangles.pos(x2, y1, z2).color(color).next();
+        int tlb = triangles.pos(x1, y2, z1).color(color).next();
+        int tlf = triangles.pos(x1, y2, z2).color(color).next();
+        int trb = triangles.pos(x2, y2, z1).color(color).next();
+        int trf = triangles.pos(x2, y2, z2).color(color).next();
         
         if (excludeDir == 0) {
             // Bottom to top

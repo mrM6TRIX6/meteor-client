@@ -78,7 +78,19 @@ public class MeshBuilder {
         }
     }
     
-    public MeshBuilder vec3(double x, double y, double z) {
+    public MeshBuilder pos(double x, double y) {
+        debugVertexBufferCapacity();
+        
+        long pointer = verticesPointer;
+        
+        memPutFloat(pointer, (float) x);
+        memPutFloat(pointer + 4, (float) y);
+        
+        verticesPointer += 8;
+        return this;
+    }
+    
+    public MeshBuilder pos(double x, double y, double z) {
         debugVertexBufferCapacity();
         
         long pointer = verticesPointer;
@@ -88,18 +100,6 @@ public class MeshBuilder {
         memPutFloat(pointer + 8, (float) (z - cameraZ));
         
         verticesPointer += 12;
-        return this;
-    }
-    
-    public MeshBuilder vec2(double x, double y) {
-        debugVertexBufferCapacity();
-        
-        long pointer = verticesPointer;
-        
-        memPutFloat(pointer, (float) x);
-        memPutFloat(pointer + 4, (float) y);
-        
-        verticesPointer += 8;
         return this;
     }
     
@@ -117,52 +117,15 @@ public class MeshBuilder {
         return this;
     }
     
-    public MeshBuilder uv(double x, double y){
+    public MeshBuilder texture(double u, double v) {
         debugVertexBufferCapacity();
         
-        long p = verticesPointer;
+        long pointer = verticesPointer;
         
-        memPutFloat(p, (float) x);
-        memPutFloat(p + 4, (float) y);
+        memPutFloat(pointer, (float) u);
+        memPutFloat(pointer + 4, (float) v);
         
         verticesPointer += 8;
-        return this;
-    }
-    
-    public MeshBuilder size(double w, double h){
-        debugVertexBufferCapacity();
-        
-        long p = verticesPointer;
-        
-        memPutFloat(p, (float) w);
-        memPutFloat(p + 4, (float) h);
-        
-        verticesPointer += 8;
-        return this;
-    }
-    
-    public MeshBuilder radius(double r1, double r2, double r3, double r4){
-        debugVertexBufferCapacity();
-        
-        long p = verticesPointer;
-        
-        memPutFloat(p, (float) r1);
-        memPutFloat(p + 4, (float) r2);
-        memPutFloat(p + 8, (float) r3);
-        memPutFloat(p + 12, (float) r4);
-        
-        verticesPointer += 16;
-        return this;
-    }
-    
-    public MeshBuilder smoothness(double smoothness){
-        debugVertexBufferCapacity();
-        
-        long p = verticesPointer;
-        
-        memPutFloat(p, (float) smoothness);
-        
-        verticesPointer += 4;
         return this;
     }
     

@@ -30,10 +30,10 @@ public class FullScreenRenderer {
         mesh.begin();
         
         mesh.quad(
-            mesh.vec2(-1, -1).next(),
-            mesh.vec2(-1, 1).next(),
-            mesh.vec2(1, 1).next(),
-            mesh.vec2(1, -1).next()
+            mesh.pos(-1, -1).next(),
+            mesh.pos(-1, 1).next(),
+            mesh.pos(1, 1).next(),
+            mesh.pos(1, -1).next()
         );
         
         mesh.end();
