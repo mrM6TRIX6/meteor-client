@@ -25,7 +25,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.utils.misc.IRunInMainMenu;
+import meteordevelopment.meteorclient.utils.misc.IActivable;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -249,7 +249,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         reset(table, setting, () -> dropdown.set(setting.get()));
     }
     
-    private <T extends Enum<T> & IDisplayName & ModeEnumChoiceSetting.IModeImpl<P>, P extends IRunInMainMenu> void modeEnumW(WTable table, ModeEnumChoiceSetting<T, P> setting) {
+    private <T extends Enum<T> & IDisplayName & ModeEnumChoiceSetting.IModeImpl<P>, P extends IActivable> void modeEnumW(WTable table, ModeEnumChoiceSetting<T, P> setting) {
         WDropdown<T> dropdown = table.add(theme.dropdown(setting.get())).expandCellX().widget();
         dropdown.action = () -> setting.set(dropdown.get());
         

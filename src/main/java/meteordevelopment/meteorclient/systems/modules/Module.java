@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.IRunInMainMenu;
+import meteordevelopment.meteorclient.utils.misc.IActivable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public abstract class Module implements ISerializable<Module>, Comparable<Module>, IRunInMainMenu {
+public abstract class Module implements ISerializable<Module>, Comparable<Module>, IActivable {
     
     protected final MinecraftClient mc;
     
@@ -138,6 +138,7 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         ChatUtils.errorPrefix(name, message, args);
     }
     
+    @Override
     public boolean isActive() {
         return active;
     }

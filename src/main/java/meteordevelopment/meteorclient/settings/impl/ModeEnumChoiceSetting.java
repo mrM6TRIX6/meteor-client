@@ -10,9 +10,9 @@ import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.IParent;
-import meteordevelopment.meteorclient.utils.misc.IRunInMainMenu;
+import meteordevelopment.meteorclient.utils.misc.IActivable;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.misc.IParent;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.function.Consumer;
@@ -23,7 +23,7 @@ import java.util.function.Supplier;
  *
  * @param <T> enum, which implements {@link IDisplayName}
  */
-public class ModeEnumChoiceSetting<T extends Enum<T> & IDisplayName & ModeEnumChoiceSetting.IModeImpl<P>, P extends IRunInMainMenu> extends EnumChoiceSetting<T> {
+public class ModeEnumChoiceSetting<T extends Enum<T> & IDisplayName & ModeEnumChoiceSetting.IModeImpl<P>, P extends IActivable> extends EnumChoiceSetting<T> {
     
     public ModeEnumChoiceSetting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
         super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
@@ -70,7 +70,7 @@ public class ModeEnumChoiceSetting<T extends Enum<T> & IDisplayName & ModeEnumCh
         
         if (this.value != null) {
             ModeImpl<P> modeImpl = this.value.getModeImpl();
-            boolean shouldSubscribe = modeImpl.getParent().getRunInMainMenu() || Utils.canUpdate();
+            boolean shouldSubscribe =  modeImpl.getParent().isActive() && (modeImpl.getParent().getRunInMainMenu() || Utils.canUpdate());
             
             // Unsubscribe old value ModeImpl
             if (modeImpl.subscribed && shouldSubscribe) {
@@ -96,7 +96,7 @@ public class ModeEnumChoiceSetting<T extends Enum<T> & IDisplayName & ModeEnumCh
         return true;
     }
     
-    public static class Builder<T extends Enum<T> & IDisplayName & IModeImpl<P>, P extends IRunInMainMenu> extends SettingBuilder<Builder<T, P>, T, ModeEnumChoiceSetting<T, P>> {
+    public static class Builder<T extends Enum<T> & IDisplayName & IModeImpl<P>, P extends IActivable> extends SettingBuilder<Builder<T, P>, T, ModeEnumChoiceSetting<T, P>> {
         
         public Builder() {
             super(null);
@@ -109,7 +109,7 @@ public class ModeEnumChoiceSetting<T extends Enum<T> & IDisplayName & ModeEnumCh
         
     }
     
-    public interface IModeImpl<P extends IRunInMainMenu> {
+    public interface IModeImpl<P extends IActivable> {
         
         ModeImpl<P> getModeImpl();
         
@@ -120,7 +120,7 @@ public class ModeEnumChoiceSetting<T extends Enum<T> & IDisplayName & ModeEnumCh
      *
      * @param <P> activable parent.
      */
-    public static abstract class ModeImpl<P extends IRunInMainMenu> implements IParent<P> {
+    public static abstract class ModeImpl<P extends IActivable> implements IParent<P> {
         
         protected static final MinecraftClient mc = MeteorClient.mc;
         

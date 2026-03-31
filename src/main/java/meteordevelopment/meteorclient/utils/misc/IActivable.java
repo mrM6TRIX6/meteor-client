@@ -5,7 +5,9 @@
 
 package meteordevelopment.meteorclient.utils.misc;
 
-public interface IRunInMainMenu {
+public interface IActivable {
+    
+    boolean isActive();
     
     boolean getRunInMainMenu();
     
