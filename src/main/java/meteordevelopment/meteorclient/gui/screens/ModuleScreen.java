@@ -37,7 +37,7 @@ public class ModuleScreen extends WindowScreen {
     private WCheckbox active;
     
     public ModuleScreen(GuiTheme theme, Module module) {
-        super(theme, theme.favorite(module.favorite), module.getDisplayName());
+        super(theme, theme.favorite(module.favorite), module.name);
         ((WFavorite) window.icon).action = () -> module.favorite = ((WFavorite) window.icon).checked;
         
         this.module = module;

@@ -27,11 +27,9 @@ import net.minecraft.item.map.MapState;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2fStack;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class MapHUD extends HUDElement {
     
-    public static final HUDElementInfo<MapHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "map", "Displays the contents of a map on your Hud.", MapHUD::new);
+    public static final HUDElementInfo<MapHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Map", "Displays the contents of a map on your Hud.", MapHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgVisual = settings.createGroup("Visual");

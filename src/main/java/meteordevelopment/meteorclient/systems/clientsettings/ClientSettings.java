@@ -14,7 +14,6 @@ import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
-import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 
@@ -93,13 +92,6 @@ public class ClientSettings extends System<ClientSettings> {
         .name("sync-list-setting-widths")
         .description("Prevents the list setting screens from moving around as you add & remove elements.")
         .defaultValue(false)
-        .build()
-    );
-    
-    public final Setting<Boolean> separateNames = sgVisual.add(new BoolSetting.Builder()
-        .name("separate-names")
-        .description("Separate the displayed names of modules, commands, and HUD elements with a space.")
-        .defaultValue(true)
         .build()
     );
     

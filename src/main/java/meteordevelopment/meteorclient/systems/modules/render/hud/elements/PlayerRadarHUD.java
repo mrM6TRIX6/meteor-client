@@ -20,11 +20,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class PlayerRadarHUD extends HUDElement {
     
-    public static final HUDElementInfo<PlayerRadarHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "player-radar", "Displays players in your visual range.", PlayerRadarHUD::new);
+    public static final HUDElementInfo<PlayerRadarHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "PlayerRadar", "Displays players in your visual range.", PlayerRadarHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgScale = settings.createGroup("Scale");

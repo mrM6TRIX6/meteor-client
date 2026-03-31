@@ -21,7 +21,7 @@ import meteordevelopment.meteorclient.utils.world.TickRate;
 
 public class LagNotifierHUD extends HUDElement {
     
-    public static final HUDElementInfo<LagNotifierHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "lag-notifier", "Displays if the server is lagging in ticks.", LagNotifierHUD::new);
+    public static final HUDElementInfo<LagNotifierHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "LagNotifier", "Displays if the server is lagging in ticks.", LagNotifierHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgScale = settings.createGroup("Scale");

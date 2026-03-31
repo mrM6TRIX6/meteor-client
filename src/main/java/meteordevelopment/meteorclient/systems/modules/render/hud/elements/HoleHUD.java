@@ -25,11 +25,9 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class HoleHUD extends HUDElement {
     
-    public static final HUDElementInfo<HoleHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "hole", "Displays information about the hole you are standing in.", HoleHUD::new);
+    public static final HUDElementInfo<HoleHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Hole", "Displays information about the hole you are standing in.", HoleHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgScale = settings.createGroup("Scale");

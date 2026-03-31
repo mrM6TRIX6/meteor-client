@@ -24,7 +24,7 @@ import java.util.List;
 
 public class ModuleInfosHUD extends HUDElement {
     
-    public static final HUDElementInfo<ModuleInfosHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "module-infos", "Displays if selected modules are enabled or disabled.", ModuleInfosHUD::new);
+    public static final HUDElementInfo<ModuleInfosHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "ModuleInfos", "Displays if selected modules are enabled or disabled.", ModuleInfosHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
@@ -96,7 +96,7 @@ public class ModuleInfosHUD extends HUDElement {
         
         int i = 0;
         for (Module module : modules.get()) {
-            double moduleWidth = renderer.textWidth(module.getDisplayName()) + renderer.textWidth(" ");
+            double moduleWidth = renderer.textWidth(module.name) + renderer.textWidth(" ");
             String text = null;
             
             if (module.isActive()) {
@@ -116,7 +116,7 @@ public class ModuleInfosHUD extends HUDElement {
             moduleWidth += renderer.textWidth(text);
             
             double x = this.x + alignX(moduleWidth, alignment.get());
-            x = renderer.text(module.getDisplayName(), x, y, moduleColor.get(), textShadow.get());
+            x = renderer.text(module.name, x, y, moduleColor.get(), textShadow.get());
             renderer.text(text, x + renderer.textWidth(" "), y, module.isActive() ? onColor.get() : offColor.get(), textShadow.get());
             y += renderer.textHeight() + 2;
             

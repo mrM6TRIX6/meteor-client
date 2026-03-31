@@ -50,8 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 // TODO: Rewrite this to use the hud renderer system
 public class CombatHUD extends HUDElement {
     
@@ -59,7 +57,7 @@ public class CombatHUD extends HUDElement {
     private static final Color RED = new Color(255, 15, 15);
     private static final Color BLACK = new Color(0, 0, 0, 255);
     
-    public static final HUDElementInfo<CombatHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "combat", "Displays information about your combat target.", CombatHUD::new);
+    public static final HUDElementInfo<CombatHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Combat", "Displays information about your combat target.", CombatHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgEnchantments = settings.createGroup("Enchantments");

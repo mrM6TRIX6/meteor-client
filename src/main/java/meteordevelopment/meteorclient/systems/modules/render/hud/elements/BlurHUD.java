@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
 
 public class BlurHUD extends HUDElement {
     
-    public static final HUDElementInfo<BlurHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "blur", "HUD element test.", BlurHUD::new);
+    public static final HUDElementInfo<BlurHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Blur", "HUD element test.", BlurHUD::new);
     
     private static final IntFloatImmutablePair[] STRENGTHS = new IntFloatImmutablePair[] {
         IntFloatImmutablePair.of(1, 1.25f), // LVL 1

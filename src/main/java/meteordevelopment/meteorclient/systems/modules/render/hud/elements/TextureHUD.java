@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 
 public class TextureHUD extends HUDElement {
     
-    public static final HUDElementInfo<TextureHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "texture", "HUD element test.", TextureHUD::new);
+    public static final HUDElementInfo<TextureHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Texture", "HUD element test.", TextureHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     

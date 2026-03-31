@@ -22,11 +22,9 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class ArmorHUD extends HUDElement {
     
-    public static final HUDElementInfo<ArmorHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "armor", "Displays your armor.", ArmorHUD::new);
+    public static final HUDElementInfo<ArmorHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Armor", "Displays your armor.", ArmorHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgDurability = settings.createGroup("Durability");

@@ -162,7 +162,7 @@ public class Modules extends System<Modules> {
         Map<Pair<Module, String>, Integer> modules = new HashMap<>();
         
         for (Module module : this.moduleInstances.values()) {
-            String title = module.getDisplayName();
+            String title = module.name;
             int score = Utils.searchLevenshteinDefault(title, text, false);
             
             modules.put(new Pair<>(module, title), score);

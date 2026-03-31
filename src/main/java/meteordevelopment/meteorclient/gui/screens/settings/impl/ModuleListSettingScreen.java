@@ -22,12 +22,12 @@ public class ModuleListSettingScreen extends CollectionListSettingScreen<Module>
     
     @Override
     protected WWidget getValueWidget(Module value) {
-        return theme.label(value.getDisplayName());
+        return theme.label(value.name);
     }
     
     @Override
     protected String[] getValueNames(Module value) {
-        return new String[] { value.getDisplayName() };
+        return new String[] { value.name };
     }
     
 }

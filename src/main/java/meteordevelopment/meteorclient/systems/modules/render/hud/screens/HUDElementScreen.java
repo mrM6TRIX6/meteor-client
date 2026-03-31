@@ -34,7 +34,7 @@ public class HUDElementScreen extends WindowScreen {
     private final Settings settings;
     
     public HUDElementScreen(GuiTheme theme, HUDElement element) {
-        super(theme, element.info.title);
+        super(theme, element.info.name);
         
         this.element = element;
         
@@ -143,7 +143,7 @@ public class HUDElementScreen extends WindowScreen {
     
     @Override
     public boolean toClipboard() {
-        return JsonUtils.toClipboard(element.info.title, element.toJson());
+        return JsonUtils.toClipboard(element.info.name, element.toJson());
     }
     
     @Override

@@ -40,27 +40,27 @@ public class HelpCommand extends Command {
         // Hover tooltip
         MutableText tooltip = Text.literal("");
         
-        tooltip.append(Text.literal(command.getDisplayName()).formatted(Formatting.BLUE, Formatting.BOLD)).append("\n");
+        tooltip.append(Text.literal(command.name).formatted(Formatting.BLUE, Formatting.BOLD)).append("\n");
         
         MutableText aliases = Text.literal(command.toString());
-        if (!command.getAliases().isEmpty()) {
+        if (!command.aliases.isEmpty()) {
             aliases.append(", ");
-            for (String alias : command.getAliases()) {
+            for (String alias : command.aliases) {
                 if (alias.isEmpty()) {
                     continue;
                 }
                 aliases.append(ClientSettings.get().prefix.get() + alias);
-                if (!alias.equalsIgnoreCase(command.getAliases().getLast())) {
+                if (!alias.equalsIgnoreCase(command.aliases.getLast())) {
                     aliases.append(", ");
                 }
             }
         }
         tooltip.append(aliases.formatted(Formatting.GRAY)).append("\n\n");
         
-        tooltip.append(Text.literal(command.getDescription()).formatted(Formatting.WHITE));
+        tooltip.append(Text.literal(command.description).formatted(Formatting.WHITE));
         
         // Text
-        MutableText text = Text.literal(command.getDisplayName());
+        MutableText text = Text.literal(command.name);
         if (command != CommandManager.getAll().getLast()) {
             text.append(Text.literal(", ").formatted(Formatting.GRAY));
         }

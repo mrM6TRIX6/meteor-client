@@ -179,7 +179,7 @@ public class ModulesScreen extends TabScreen {
             }
         }
         
-        modules.sort((o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.getDisplayName(), o2.getDisplayName()));
+        modules.sort((o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.name, o2.name));
         
         for (Module module : modules) {
             window.add(theme.module(module)).expandX();

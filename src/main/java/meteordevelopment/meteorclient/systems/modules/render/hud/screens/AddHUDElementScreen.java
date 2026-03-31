@@ -63,13 +63,13 @@ public class AddHUDElementScreen extends WindowScreen {
         for (HUDElementInfo<?> info : hud.infos.values()) {
             if (info.hasPresets() && !searchBar.get().isEmpty()) {
                 for (HUDElementInfo<?>.Preset preset : info.presets) {
-                    String title = info.title + "  -  " + preset.title;
+                    String title = info.name + "  -  " + preset.name;
                     if (Utils.searchTextDefault(title, searchBar.get(), false)) {
                         grouped.computeIfAbsent(info.group, HUDGroup -> new ArrayList<>()).add(new Item(title, info.description, preset));
                     }
                 }
-            } else if (Utils.searchTextDefault(info.title, searchBar.get(), false)) {
-                grouped.computeIfAbsent(info.group, HUDGroup -> new ArrayList<>()).add(new Item(info.title, info.description, info));
+            } else if (Utils.searchTextDefault(info.name, searchBar.get(), false)) {
+                grouped.computeIfAbsent(info.group, HUDGroup -> new ArrayList<>()).add(new Item(info.name, info.description, info));
             }
         }
         

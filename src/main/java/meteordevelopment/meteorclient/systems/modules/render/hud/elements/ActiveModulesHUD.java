@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ActiveModulesHUD extends HUDElement {
     
-    public static final HUDElementInfo<ActiveModulesHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "active-modules", "Displays your active modules.", ActiveModulesHUD::new);
+    public static final HUDElementInfo<ActiveModulesHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "ActiveModules", "Displays your active modules.", ActiveModulesHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgColor = settings.createGroup("Color");
@@ -218,7 +218,7 @@ public class ActiveModulesHUD extends HUDElement {
         }
         
         modules.sort((e1, e2) -> switch (sort.get()) {
-            case ALPHABETICAL -> e1.getDisplayName().compareTo(e2.getDisplayName());
+            case ALPHABETICAL -> e1.name.compareTo(e2.name);
             case BIGGEST -> Double.compare(getModuleWidth(renderer, e2), getModuleWidth(renderer, e1));
             case SMALLEST -> Double.compare(getModuleWidth(renderer, e1), getModuleWidth(renderer, e2));
         });
@@ -283,10 +283,10 @@ public class ActiveModulesHUD extends HUDElement {
             }
         }
         
-        renderer.text(module.getDisplayName(), x, y, color, shadow.get(), getScale());
+        renderer.text(module.name, x, y, color, shadow.get(), getScale());
         
         double textHeight = renderer.textHeight(shadow.get(), getScale());
-        double textLength = renderer.textWidth(module.getDisplayName(), shadow.get(), getScale());
+        double textLength = renderer.textWidth(module.name, shadow.get(), getScale());
         
         double lineStartY = y;
         double lineHeight = textHeight;
@@ -347,7 +347,7 @@ public class ActiveModulesHUD extends HUDElement {
     }
     
     private double getModuleWidth(HUDRenderer renderer, Module module) {
-        double width = renderer.textWidth(module.getDisplayName(), shadow.get(), getScale());
+        double width = renderer.textWidth(module.name, shadow.get(), getScale());
         
         if (showKeybind.get() && module.keybind.isSet()) {
             width += renderer.textWidth(" [" + module.keybind + "]", shadow.get(), getScale());

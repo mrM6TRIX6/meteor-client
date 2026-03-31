@@ -85,15 +85,15 @@ public class CommandManager {
         add(new VClipCommand());
         add(new WaspCommand());
         
-        commands.sort(Comparator.comparing(Command::getName));
+        commands.sort(Comparator.comparing(command -> command.name));
         
         MeteorClient.EVENT_BUS.subscribe(CommandManager.class);
     }
     
     public static void add(Command command) {
         commands.forEach(existing -> {
-            if (existing.getName().equalsIgnoreCase(command.getName())) {
-                throw new IllegalArgumentException("Command with name '%s' already exists".formatted(command.getName()));
+            if (existing.name.equalsIgnoreCase(command.name)) {
+                throw new IllegalArgumentException("Command with name '%s' already exists".formatted(command.name));
             }
         });
         
@@ -116,7 +116,7 @@ public class CommandManager {
     
     public static Command get(String name) {
         for (Command command : commands) {
-            if (command.getName().equalsIgnoreCase(name)) {
+            if (command.name.equalsIgnoreCase(name)) {
                 return command;
             }
         }

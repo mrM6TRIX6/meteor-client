@@ -18,11 +18,9 @@ import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class PlayerModelHUD extends HUDElement {
     
-    public static final HUDElementInfo<PlayerModelHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "player-model", "Displays a model of your player.", PlayerModelHUD::new);
+    public static final HUDElementInfo<PlayerModelHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "PlayerModel", "Displays a model of your player.", PlayerModelHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgScale = settings.createGroup("Scale");

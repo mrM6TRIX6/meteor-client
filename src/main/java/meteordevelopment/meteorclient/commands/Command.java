@@ -11,8 +11,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
-import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandRegistryAccess;
@@ -24,24 +22,18 @@ import net.minecraft.text.Text;
 import java.util.List;
 import java.util.stream.Stream;
 
-public abstract class Command implements IDisplayName {
+public abstract class Command {
     
     protected static CommandRegistryAccess REGISTRY_ACCESS = CommandManager.createRegistryAccess(BuiltinRegistries.createWrapperLookup());
     protected static final int SINGLE_SUCCESS = com.mojang.brigadier.Command.SINGLE_SUCCESS;
     protected static final MinecraftClient mc = MeteorClient.mc;
     
-    private final String name;
-    private final String separatedName;
-    private final String description;
-    private final List<String> aliases;
+    public final String name;
+    public final String description;
+    public final List<String> aliases;
     
     public Command(String name, String description, String... aliases) {
-        if (name.contains(" ")) {
-            throw new IllegalArgumentException("Command '%s' contains invalid characters in name.".formatted(name));
-        }
-        
-        this.name = name;
-        this.separatedName = Utils.separateName(this.name);
+        this.name = name.replace(" ", "");
         this.description = description;
         this.aliases = Stream.of(aliases)
             .map(String::toLowerCase)
@@ -73,18 +65,6 @@ public abstract class Command implements IDisplayName {
     
     public abstract void build(LiteralArgumentBuilder<CommandSource> builder);
     
-    public String getName() {
-        return name;
-    }
-    
-    public String getDescription() {
-        return description;
-    }
-    
-    public List<String> getAliases() {
-        return aliases;
-    }
-    
     public String toString() {
         return ClientSettings.get().prefix.get() + name.toLowerCase();
     }
@@ -99,27 +79,22 @@ public abstract class Command implements IDisplayName {
     
     public void info(Text message) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.sendMsg(getDisplayName(), message);
+        ChatUtils.sendMsg(name, message);
     }
     
     public void info(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.infoPrefix(getDisplayName(), message, args);
+        ChatUtils.infoPrefix(name, message, args);
     }
     
     public void warning(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.warningPrefix(getDisplayName(), message, args);
+        ChatUtils.warningPrefix(name, message, args);
     }
     
     public void error(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.errorPrefix(getDisplayName(), message, args);
-    }
-    
-    @Override
-    public String getDisplayName() {
-        return ClientSettings.get().separateNames.get() ? separatedName : name;
+        ChatUtils.errorPrefix(name, message, args);
     }
     
 }

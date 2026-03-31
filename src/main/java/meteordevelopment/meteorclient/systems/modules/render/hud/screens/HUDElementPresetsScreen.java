@@ -27,7 +27,7 @@ public class HUDElementPresetsScreen extends WindowScreen {
     private HUDElementInfo<?>.Preset firstPreset;
     
     public HUDElementPresetsScreen(GuiTheme theme, HUDElementInfo<?> info, int x, int y) {
-        super(theme, "Select preset for " + info.title);
+        super(theme, "Select preset for " + info.name);
         
         this.info = info;
         this.x = x + 9;
@@ -58,13 +58,13 @@ public class HUDElementPresetsScreen extends WindowScreen {
         
         // Presets
         for (HUDElementInfo<?>.Preset preset : info.presets) {
-            if (!Utils.searchTextDefault(preset.title, searchBar.get(), false)) {
+            if (!Utils.searchTextDefault(preset.name, searchBar.get(), false)) {
                 continue;
             }
             
             WHorizontalList l = add(theme.horizontalList()).expandX().widget();
             
-            l.add(theme.label(preset.title));
+            l.add(theme.label(preset.name));
             
             WPlus add = l.add(theme.plus()).expandCellX().right().widget();
             add.action = () -> {

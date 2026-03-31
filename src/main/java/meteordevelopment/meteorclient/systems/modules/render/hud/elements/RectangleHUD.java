@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
 
 public class RectangleHUD extends HUDElement {
     
-    public static final HUDElementInfo<RectangleHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "rectangle", "HUD element test.", RectangleHUD::new);
+    public static final HUDElementInfo<RectangleHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Rectangle", "HUD element test.", RectangleHUD::new);
     
     private static final IntFloatImmutablePair[] STRENGTHS = new IntFloatImmutablePair[] {
         IntFloatImmutablePair.of(1, 1.25f), // LVL 1

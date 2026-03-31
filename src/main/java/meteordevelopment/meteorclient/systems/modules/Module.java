@@ -15,7 +15,6 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.IRunInMainMenu;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
@@ -28,13 +27,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public abstract class Module implements ISerializable<Module>, Comparable<Module>, IDisplayName, IRunInMainMenu {
+public abstract class Module implements ISerializable<Module>, Comparable<Module>, IRunInMainMenu {
     
     protected final MinecraftClient mc;
     
     public final Category category;
     public final String name;
-    public final String separatedName;
     public final String description;
     public final Color color;
     
@@ -52,14 +50,9 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     public boolean favorite = false;
     
     public Module(Category category, String name, String description) {
-        if (name.contains(" ")) {
-            throw new IllegalArgumentException("Module '%s' contains invalid characters in name.".formatted(name));
-        }
-        
         this.mc = MinecraftClient.getInstance();
         this.category = category;
-        this.name = name;
-        this.separatedName = Utils.separateName(this.name);
+        this.name = name.replace(" ", "");
         this.description = description;
         this.color = Color.fromHsv(Utils.random(0.0, 360.0), 0.35, 1);
         
@@ -121,28 +114,28 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     public void sendToggledMsg() {
         if (ClientSettings.get().chatFeedback.get() && chatFeedback) {
             ChatUtils.forceNextPrefixClass(getClass());
-            ChatUtils.sendMsg(this.hashCode(), Formatting.GRAY, "Toggled (highlight)%s(default) %s(default).", getDisplayName(), isActive() ? Formatting.GREEN + "on" : Formatting.RED + "off");
+            ChatUtils.sendMsg(this.hashCode(), Formatting.GRAY, "Toggled (highlight)%s(default) %s(default).", name, isActive() ? Formatting.GREEN + "on" : Formatting.RED + "off");
         }
     }
     
     public void info(Text message) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.sendMsg(getDisplayName(), message);
+        ChatUtils.sendMsg(name, message);
     }
     
     public void info(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.infoPrefix(getDisplayName(), message, args);
+        ChatUtils.infoPrefix(name, message, args);
     }
     
     public void warning(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.warningPrefix(getDisplayName(), message, args);
+        ChatUtils.warningPrefix(name, message, args);
     }
     
     public void error(String message, Object... args) {
         ChatUtils.forceNextPrefixClass(getClass());
-        ChatUtils.errorPrefix(getDisplayName(), message, args);
+        ChatUtils.errorPrefix(name, message, args);
     }
     
     public boolean isActive() {
@@ -151,11 +144,6 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     public String getInfoString() {
         return null;
-    }
-    
-    @Override
-    public String getDisplayName() {
-        return ClientSettings.get().separateNames.get() ? separatedName : name;
     }
     
     @Override

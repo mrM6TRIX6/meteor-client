@@ -22,7 +22,7 @@ import net.minecraft.item.Items;
 
 public class ItemHUD extends HUDElement {
     
-    public static final HUDElementInfo<ItemHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "item", "Displays the item count.", ItemHUD::new);
+    public static final HUDElementInfo<ItemHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Item", "Displays the item count.", ItemHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgScale = settings.createGroup("Scale");

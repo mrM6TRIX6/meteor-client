@@ -24,11 +24,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class InventoryHUD extends HUDElement {
     
-    public static final HUDElementInfo<InventoryHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "inventory", "Displays your inventory.", InventoryHUD::new);
+    public static final HUDElementInfo<InventoryHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Inventory", "Displays your inventory.", InventoryHUD::new);
     
     private static final Identifier TEXTURE = MeteorClient.identifier("textures/container.png");
     private static final Identifier TEXTURE_TRANSPARENT = MeteorClient.identifier("textures/container-transparent.png");

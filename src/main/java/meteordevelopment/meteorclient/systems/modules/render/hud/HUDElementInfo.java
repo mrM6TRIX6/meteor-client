@@ -5,47 +5,35 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
-import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class HUDElementInfo<T extends HUDElement> implements IDisplayName {
+public class HUDElementInfo<T extends HUDElement> {
     
     public final HUDGroup group;
     public final String name;
-    public final String separatedName;
-    public final String title;
     public final String description;
     
     public final Supplier<T> factory;
     public final List<Preset> presets;
     
-    public HUDElementInfo(HUDGroup group, String name, String title, String description, Supplier<T> factory) {
+    public HUDElementInfo(HUDGroup group, String name, String description, Supplier<T> factory) {
         this.group = group;
-        this.name = name;
-        this.separatedName = Utils.separateName(this.name);
-        this.title = title;
+        this.name = name.replace(" ", "");
         this.description = description;
         
         this.factory = factory;
         this.presets = new ArrayList<>();
     }
     
-    public HUDElementInfo(HUDGroup group, String name, String description, Supplier<T> factory) {
-        this(group, name, Utils.nameToTitle(name), description, factory);
-    }
-    
     public Preset addPreset(String title, Consumer<T> callback) {
         Preset preset = new Preset(this, title, callback);
         
         presets.add(preset);
-        presets.sort(Comparator.comparing(p -> p.title));
+        presets.sort(Comparator.comparing(p -> p.name));
         
         return preset;
     }
@@ -58,20 +46,15 @@ public class HUDElementInfo<T extends HUDElement> implements IDisplayName {
         return factory.get();
     }
     
-    @Override
-    public String getDisplayName() {
-        return ClientSettings.get().separateNames.get() ? separatedName : name;
-    }
-    
     public class Preset {
         
         public final HUDElementInfo<?> info;
-        public final String title;
+        public final String name;
         public final Consumer<T> callback;
         
-        public Preset(HUDElementInfo<?> info, String title, Consumer<T> callback) {
+        public Preset(HUDElementInfo<?> info, String name, Consumer<T> callback) {
             this.info = info;
-            this.title = title;
+            this.name = name;
             this.callback = callback;
         }
         

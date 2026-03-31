@@ -19,11 +19,9 @@ import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.util.math.MathHelper;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class CompassHUD extends HUDElement {
     
-    public static final HUDElementInfo<CompassHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "compass", "Displays a compass.", CompassHUD::new);
+    public static final HUDElementInfo<CompassHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Compass", "Displays a compass.", CompassHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgScale = settings.createGroup("Scale");

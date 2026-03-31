@@ -22,11 +22,9 @@ import net.minecraft.entity.effect.StatusEffectUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class PotionTimersHUD extends HUDElement {
     
-    public static final HUDElementInfo<PotionTimersHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "potion-timers", "Displays active potion effects with timers.", PotionTimersHUD::new);
+    public static final HUDElementInfo<PotionTimersHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "PotionTimers", "Displays active potion effects with timers.", PotionTimersHUD::new);
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgScale = settings.createGroup("Scale");
