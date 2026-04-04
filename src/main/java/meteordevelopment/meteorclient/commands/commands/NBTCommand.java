@@ -8,17 +8,21 @@ package meteordevelopment.meteorclient.commands.commands;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.ComponentMapArgumentType;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.text.MeteorClickEvent;
 import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.RegistryKeyArgumentType;
 import net.minecraft.component.*;
 import net.minecraft.component.type.LoreComponent;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
@@ -26,15 +30,23 @@ import net.minecraft.nbt.NbtHelper;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.storage.NbtWriteView;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.ErrorReporter;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.*;
 
 public class NBTCommand extends Command {
+    
+    private static final SimpleCommandExceptionType NOT_HAVE_NBT = new SimpleCommandExceptionType(Text.literal("That item does not have NBT."));
+    private static final SimpleCommandExceptionType NOT_BLOCK_ENTITY = new SimpleCommandExceptionType(Text.literal("That block is not a block entity."));
     
     public NBTCommand() {
         super("NBT", "NBT data tools for an item, example: .nbt add [minecraft:item_name=\"Test\"]'");
@@ -144,21 +156,54 @@ public class NBTCommand extends Command {
         
         builder.then(literal("get")
             .executes(context -> {
-                ItemStack stack = mc.player.getInventory().getSelectedStack();
+                String nbtString;
+                MutableText nbtText;
+                String prefix;
                 
-                Optional<NbtElement> stackNbtOptional = Utils.encodeToNbt(stack).result();
-                // Is modified or has NBT
-                if (stack.getComponentChanges().isEmpty()
-                    || stackNbtOptional.isEmpty()
-                    || !(stackNbtOptional.get() instanceof NbtCompound nbt)
-                    || !nbt.contains("components")
-                ) {
-                    error("That item does not have NBT.");
-                    return SINGLE_SUCCESS;
+                if (!mc.player.getInventory().getSelectedStack().isEmpty()) {
+                    ItemStack stack = mc.player.getInventory().getSelectedStack();
+                    
+                    Optional<NbtElement> stackNbtOptional = Utils.encodeToNbt(stack).result();
+                    // Is modified or has NBT
+                    if (stack.getComponentChanges().isEmpty()
+                        || stackNbtOptional.isEmpty()
+                        || !(stackNbtOptional.get() instanceof NbtCompound nbt)
+                        || !nbt.contains("components")
+                    ) {
+                        throw NOT_HAVE_NBT.create();
+                    }
+                    
+                    nbtString = toFormatedComponent(nbt.getCompoundOrEmpty("components"), false).getString();
+                    nbtText = nbtToText(nbt, nbtString);
+                    prefix = stack.getItem().toString();
+                } else if (mc.crosshairTarget instanceof EntityHitResult result) {
+                    Entity entity = result.getEntity();
+                    NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY, mc.player.getRegistryManager());
+                    entity.writeData(view);
+                    nbtString = view.getNbt().toString();
+                    nbtText = (MutableText) NbtHelper.toPrettyPrintedText(view.getNbt());
+                    prefix = entity.isPlayer() ? ((PlayerEntity) entity).getGameProfile().name() : entity.getType().toString();
+                } else if (mc.crosshairTarget instanceof BlockHitResult result) {
+                    BlockPos blockPos = result.getBlockPos();
+                    BlockEntity blockEntity = mc.world.getBlockEntity(blockPos);
+                    if (blockEntity == null) {
+                        throw NOT_BLOCK_ENTITY.create();
+                    }
+                    
+                    NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY, mc.player.getRegistryManager());
+                    blockEntity.writeFullData(view);
+                    nbtString = view.getNbt().toString();
+                    nbtText = (MutableText) NbtHelper.toPrettyPrintedText(view.getNbt());
+                    prefix = Registries.BLOCK_ENTITY_TYPE.getId(blockEntity.getType()).toString();
+                } else {
+                    NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY, mc.player.getRegistryManager());
+                    mc.player.writeData(view);
+                    nbtString = view.getNbt().toString();
+                    nbtText = (MutableText) NbtHelper.toPrettyPrintedText(view.getNbt());
+                    prefix = mc.player.getGameProfile().name();
                 }
                 
                 final int MAX_HOVER_LENGTH = 15000;
-                String nbtString = toFormatedComponent(nbt.getCompoundOrEmpty("components"), false).getString();
                 String nbtStringHover = nbtString;
                 nbtString = TextUtils.removeUnpairedMultibyte(nbtString);
                 int nbtLength = nbtString.length();
@@ -168,11 +213,13 @@ public class NBTCommand extends Command {
                     nbtStringHover = "..." + nbtStringHover.substring(nbtLength - MAX_HOVER_LENGTH, nbtLength);
                 }
                 
-                Text length = Text.literal(String.valueOf(nbtLength)).setStyle(Style.EMPTY.withColor(Formatting.WHITE));
-                MutableText lengthMessage = Text.literal("Length: ").setStyle(Style.EMPTY.withColor(Formatting.GRAY)).append(length);
+                Text length = Text.literal(String.valueOf(nbtLength))
+                    .formatted(Formatting.WHITE);
+                MutableText lengthMessage = Text.literal("Length: ")
+                    .formatted(Formatting.GRAY)
+                    .append(length);
                 
-                MutableText nbtText = nbtToText(nbt, nbtString);
-                MutableText message = nbtChatMessageOf(stack, nbtText, nbtString, nbtStringHover);
+                MutableText message = nbtChatMessageOf(prefix, nbtText, nbtString, nbtStringHover);
                 
                 info(message.append("\n").append(lengthMessage));
                 return SINGLE_SUCCESS;
@@ -188,7 +235,7 @@ public class NBTCommand extends Command {
                         int count = IntegerArgumentType.getInteger(context, "amount");
                         stack.setCount(count);
                         InventoryUtils.clickCreativeStack(stack, mc.player.getInventory().getSelectedSlot());
-                        info("Set mainhand stack amount to %s.", count);
+                        info("Set mainhand stack amount to (highlight)%s(default).", count);
                     }
                     
                     return SINGLE_SUCCESS;
@@ -285,17 +332,20 @@ public class NBTCommand extends Command {
         final int MAX_CHAT_LINES = 90; // vanilla chat lines = 100
         if (mc.textRenderer.getWidth(nbtString) > ChatHud.getWidth(mc.options.getChatWidth().getValue()) * MAX_CHAT_LINES) {
             String message = String.format("[%s]", Text.literal("Nbt too long for chat").getString());
-            return Text.literal(message).setStyle(Style.EMPTY.withColor(Formatting.WHITE));
+            return Text.literal(message).formatted(Formatting.WHITE);
         } else {
             return toFormatedComponent(nbt.getCompoundOrEmpty("components"), true);
         }
     }
     
-    private MutableText nbtChatMessageOf(ItemStack stack, MutableText nbtMessage, String nbtString, String nbtStringHover) {
-        Text clickToCopyMessage = Text.literal(" (").append(Text.literal("Click to copy")).append(")")
-            .setStyle(Style.EMPTY.withColor(Formatting.GRAY));
+    private MutableText nbtChatMessageOf(String prefix, MutableText nbtMessage, String nbtString, String nbtStringHover) {
+        Text clickToCopyMessage = Text.literal(" (")
+            .append(Text.literal("Click to copy"))
+            .append(")")
+            .formatted(Formatting.GRAY);
         
-        return Text.literal(stack.getItem().toString()).setStyle(Style.EMPTY.withColor(Formatting.WHITE))
+        return Text.literal(prefix)
+            .formatted(Formatting.WHITE)
             .append(nbtMessage.copy().append(clickToCopyMessage)
                 .setStyle(nbtMessage.getStyle()
                     .withClickEvent(new MeteorClickEvent.CopyToClipboard(nbtString))
