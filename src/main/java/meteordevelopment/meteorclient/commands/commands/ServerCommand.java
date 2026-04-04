@@ -15,14 +15,13 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.network.PortScanner;
 import meteordevelopment.meteorclient.utils.world.TickRate;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ServerAddress;
 import net.minecraft.client.network.ServerInfo;
 import net.minecraft.command.CommandSource;
-import net.minecraft.command.DefaultPermissions;
-import net.minecraft.command.permission.PermissionPredicate;
 import net.minecraft.network.packet.c2s.play.RequestCommandCompletionsC2SPacket;
 import net.minecraft.network.packet.s2c.play.CommandSuggestionsS2CPacket;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -242,23 +241,7 @@ public class ServerCommand extends Command {
         );
         info("Day: %d", mc.world.getTimeOfDay() / 24000L);
         
-        info("Permission level: %s", formatPerms());
-    }
-    
-    public String formatPerms() {
-        PermissionPredicate permissions = mc.player.getPermissions();
-        
-        if (permissions.hasPermission(DefaultPermissions.OWNERS)) {
-            return "4 (Owner)";
-        } else if (permissions.hasPermission(DefaultPermissions.ADMINS)) {
-            return "3 (Admin)";
-        } else if (permissions.hasPermission(DefaultPermissions.GAMEMASTERS)) {
-            return "2 (Gamemaster)";
-        } else if (permissions.hasPermission(DefaultPermissions.MODERATORS)) {
-            return "1 (Moderator)";
-        } else {
-            return "0 (No Perms)";
-        }
+        info("Permission level: %s", Utils.formatPerms(mc.player.getPermissions()));
     }
     
     // Plugins scanning

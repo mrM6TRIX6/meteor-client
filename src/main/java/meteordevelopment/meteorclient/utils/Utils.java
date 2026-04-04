@@ -33,6 +33,8 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.resource.ResourceReloadLogger;
+import net.minecraft.command.DefaultPermissions;
+import net.minecraft.command.permission.PermissionPredicate;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
@@ -429,42 +431,25 @@ public class Utils {
         return "";
     }
     
+    public static String formatPerms(PermissionPredicate permissions) {
+        if (permissions.hasPermission(DefaultPermissions.OWNERS)) {
+            return "4 (Owner)";
+        } else if (permissions.hasPermission(DefaultPermissions.ADMINS)) {
+            return "3 (Admin)";
+        } else if (permissions.hasPermission(DefaultPermissions.GAMEMASTERS)) {
+            return "2 (Gamemaster)";
+        } else if (permissions.hasPermission(DefaultPermissions.MODERATORS)) {
+            return "1 (Moderator)";
+        } else {
+            return "0 (No Perms)";
+        }
+    }
+    
     public static String nameToTitle(String name) {
         return Arrays.stream(name.split("[_-]"))
             .map(String::toLowerCase)
             .map(StringUtils::capitalize)
             .collect(Collectors.joining(" "));
-    }
-    
-    public static String separateName(String input) {
-        if (input == null || input.isBlank()) {
-            return input;
-        }
-        
-        StringBuilder result = new StringBuilder();
-        char[] chars = input.toCharArray();
-        
-        for (int i = 0; i < chars.length; i++) {
-            char current = chars[i];
-            
-            result.append(current);
-            
-            if (i < chars.length - 1) {
-                char next = chars[i + 1];
-                if (Character.isLowerCase(current) && Character.isUpperCase(next)) {
-                    result.append(' ');
-                } else if (Character.isUpperCase(current) && Character.isUpperCase(next)) {
-                    if (i < chars.length - 2) {
-                        char afterNext = chars[i + 2];
-                        if (Character.isLowerCase(afterNext)) {
-                            result.append(' ');
-                        }
-                    }
-                }
-            }
-        }
-        
-        return result.toString();
     }
     
     public static String getKeyName(int key) {
