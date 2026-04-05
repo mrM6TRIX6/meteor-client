@@ -284,37 +284,42 @@ public class BetterTooltips extends Module {
         
         // Item size tooltip
         if (byteSize.get()) {
-            switch (ItemStack.CODEC.encodeStart(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), event.itemStack())) {
-                case DataResult.Success<NbtElement> success -> {
-                    try {
-                        success.value().write(ByteCountDataOutput.INSTANCE);
-                        
-                        int byteCount = ByteCountDataOutput.INSTANCE.getCount();
-                        String count = switch (sizeType.get()) {
-                            case BYTES -> String.format("%d bytes", byteCount);
-                            case KILOBYTES -> String.format("%.2f kB", byteCount / 1024f);
-                            case MEGABYTES -> String.format("%.4f MB", byteCount / 1048576f);
-                            case AUTO -> {
-                                if (byteCount >= 1048576) {
-                                    yield String.format("%.2f MB", byteCount / 1048576f);
-                                } else if (byteCount >= 1024) {
-                                    yield String.format("%.2f kB", byteCount / 1024f);
-                                } else {
-                                    yield String.format("%d bytes", byteCount);
+            try {
+                switch (ItemStack.CODEC.encodeStart(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), event.itemStack())) {
+                    case DataResult.Success<NbtElement> success -> {
+                        try {
+                            success.value().write(ByteCountDataOutput.INSTANCE);
+                            
+                            int byteCount = ByteCountDataOutput.INSTANCE.getCount();
+                            String count = switch (sizeType.get()) {
+                                case BYTES -> String.format("%d bytes", byteCount);
+                                case KILOBYTES -> String.format("%.2f kB", byteCount / 1024f);
+                                case MEGABYTES -> String.format("%.4f MB", byteCount / 1048576f);
+                                case AUTO -> {
+                                    if (byteCount >= 1048576) {
+                                        yield String.format("%.2f MB", byteCount / 1048576f);
+                                    } else if (byteCount >= 1024) {
+                                        yield String.format("%.2f kB", byteCount / 1024f);
+                                    } else {
+                                        yield String.format("%d bytes", byteCount);
+                                    }
                                 }
-                            }
-                        };
-                        
-                        ByteCountDataOutput.INSTANCE.reset();
-                        
-                        event.appendEnd(Text.literal(count).formatted(Formatting.DARK_GRAY));
-                    } catch (Exception e) {
-                        event.appendEnd(Text.literal("Error getting bytes.").formatted(Formatting.RED));
+                            };
+                            
+                            ByteCountDataOutput.INSTANCE.reset();
+                            
+                            event.appendEnd(Text.literal(count).formatted(Formatting.DARK_GRAY));
+                            
+                        } catch (Exception e) {
+                            event.appendEnd(Text.literal("Error getting bytes.").formatted(Formatting.RED));
+                        }
                     }
+                    case DataResult.Error<NbtElement> ignored -> event.appendEnd(Text.literal("Error getting bytes.").formatted(Formatting.RED));
+                    default -> throw new MatchException(null, null);
                 }
-                case DataResult.Error<NbtElement> ignored ->
-                    event.appendEnd(Text.literal("Error getting bytes.").formatted(Formatting.RED));
-                default -> throw new MatchException(null, null);
+            } catch (StackOverflowError e) {
+                // Too deep
+                event.appendEnd(Text.literal("Error getting bytes.").formatted(Formatting.RED));
             }
         }
         
