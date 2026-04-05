@@ -441,7 +441,7 @@ public class Utils {
         } else if (permissions.hasPermission(DefaultPermissions.MODERATORS)) {
             return "1 (Moderator)";
         } else {
-            return "0 (No Perms)";
+            return "0 (No perms)";
         }
     }
     

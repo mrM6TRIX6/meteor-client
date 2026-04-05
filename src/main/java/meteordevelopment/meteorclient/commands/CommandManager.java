@@ -65,6 +65,7 @@ public class CommandManager {
         add(new NBTCommand());
         add(new NotebotCommand());
         add(new PeekCommand());
+        add(new PermissionsCommand());
         add(new PingCommand());
         add(new ReconnectCommand());
         add(new ReloadCommand());

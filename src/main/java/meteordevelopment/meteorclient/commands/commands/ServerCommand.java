@@ -210,9 +210,9 @@ public class ServerCommand extends Command {
         
         info("Port: %d", ServerAddress.parse(server.address).getPort());
         
-        info(Text.literal("Type: ").append(mc.getNetworkHandler().getBrand() != null ? TextUtils.copyable(mc.getNetworkHandler().getBrand()) : Text.literal("unknown")));
+        info(Text.literal("Type: ").append(mc.getNetworkHandler().getBrand() != null ? TextUtils.copyable(mc.getNetworkHandler().getBrand()) : Text.literal("unknown")).formatted(Formatting.GRAY));
         
-        info(Text.literal("Motd: ").append(server.label != null ? TextUtils.copyable(server.label) : Text.literal("unknown")));
+        info(Text.literal("Motd: ").formatted(Formatting.GRAY).append(server.label != null ? TextUtils.copyable(server.label) : Text.literal("unknown")));
         
         info("Version: %s", server.version.getString());
         
