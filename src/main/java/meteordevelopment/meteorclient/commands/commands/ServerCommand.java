@@ -16,6 +16,7 @@ import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
 import meteordevelopment.meteorclient.utils.network.PortScanner;
 import meteordevelopment.meteorclient.utils.world.TickRate;
 import meteordevelopment.orbit.EventHandler;
@@ -72,7 +73,8 @@ public class ServerCommand extends Command {
         "guardianac",
         "ggintegrity",
         "lightanticheat",
-        "anarchyexploitfixes"
+        "anarchyexploitfixes",
+        "polar"
     );
     
     private final List<String> plugins = new ArrayList<>();
@@ -193,38 +195,24 @@ public class ServerCommand extends Command {
         String ipv4 = "";
         try {
             ipv4 = InetAddress.getByName(server.address).getHostAddress();
-        } catch (UnknownHostException ignored) {
-        }
+        } catch (UnknownHostException ignored) {}
         
         MutableText ipText;
         
         if (ipv4.isEmpty()) {
-            ipText = Text.literal(Formatting.GRAY + server.address);
-            ipText.setStyle(ipText.getStyle()
-                .withClickEvent(new ClickEvent.CopyToClipboard(server.address))
-                .withHoverEvent(new HoverEvent.ShowText(Text.literal("Copy to clipboard")))
-            );
+            ipText = TextUtils.copyable(Text.literal(Formatting.GRAY + server.address), server.address);
         } else {
-            ipText = Text.literal(Formatting.GRAY + server.address);
-            ipText.setStyle(ipText.getStyle()
-                .withClickEvent(new ClickEvent.CopyToClipboard(server.address))
-                .withHoverEvent(new HoverEvent.ShowText(Text.literal("Copy to clipboard")))
-            );
-            MutableText ipv4Text = Text.literal(String.format("%s (%s)", Formatting.GRAY, ipv4));
-            ipv4Text.setStyle(ipText.getStyle()
-                .withClickEvent(new ClickEvent.CopyToClipboard(ipv4))
-                .withHoverEvent(new HoverEvent.ShowText(Text.literal("Copy to clipboard")))
-            );
-            ipText.append(ipv4Text);
+            ipText = TextUtils.copyable(Text.literal(Formatting.GRAY + server.address), server.address);
+            ipText.append(TextUtils.copyable(Text.literal(String.format("%s (%s)", Formatting.GRAY, ipv4)), ipv4));
         }
         
         info(Text.literal(String.format("%sIP: ", Formatting.GRAY)).append(ipText));
         
         info("Port: %d", ServerAddress.parse(server.address).getPort());
         
-        info("Type: %s", mc.getNetworkHandler().getBrand() != null ? mc.getNetworkHandler().getBrand() : "unknown");
+        info(Text.literal("Type: ").append(mc.getNetworkHandler().getBrand() != null ? TextUtils.copyable(mc.getNetworkHandler().getBrand()) : Text.literal("unknown")));
         
-        info("Motd: %s", server.label != null ? server.label.getString() : "unknown");
+        info(Text.literal("Motd: ").append(server.label != null ? TextUtils.copyable(server.label) : Text.literal("unknown")));
         
         info("Version: %s", server.version.getString());
         

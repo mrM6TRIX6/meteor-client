@@ -8,10 +8,7 @@ package meteordevelopment.meteorclient.utils.misc.text;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import meteordevelopment.meteorclient.utils.render.color.Color;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TextColor;
+import net.minecraft.text.*;
 
 import java.util.*;
 
@@ -166,6 +163,58 @@ public class TextUtils {
         }
         
         return builder.toString();
+    }
+    
+    /**
+     * Adds the {@link HoverEvent.ShowText} and {@link ClickEvent.CopyToClipboard}
+     * interactive events to the text in order to make this message copyable.
+     * This will overwrite existing events.
+     */
+    public static MutableText copyable(Text text) {
+        return text.copy().styled(
+            style -> style.withHoverEvent(new HoverEvent.ShowText(Text.literal("Copy to clipboard")))
+                .withClickEvent(new ClickEvent.CopyToClipboard(text.getString()))
+        );
+    }
+    
+    /**
+     * Adds the {@link HoverEvent.ShowText} and {@link ClickEvent.CopyToClipboard}
+     * interactive events to the text in order to make this message copyable.
+     * This will overwrite existing events.
+     */
+    public static MutableText copyable(String text) {
+        return Text.literal(text).styled(
+            style -> style.withHoverEvent(new HoverEvent.ShowText(Text.literal("Copy to clipboard")))
+                .withClickEvent(new ClickEvent.CopyToClipboard(text))
+        );
+    }
+    
+    /**
+     * Adds the {@link HoverEvent.ShowText} and {@link ClickEvent.CopyToClipboard}
+     * interactive events to the text in order to make this message copyable.
+     * This will overwrite existing events.
+     *
+     * <p>With a custom message that will be copied.
+     */
+    public static MutableText copyable(Text text, String message) {
+        return text.copy().styled(
+            style -> style.withHoverEvent(new HoverEvent.ShowText(Text.literal("Copy to clipboard")))
+                .withClickEvent(new ClickEvent.CopyToClipboard(message))
+        );
+    }
+    
+    /**
+     * Adds the {@link HoverEvent.ShowText} and {@link ClickEvent.CopyToClipboard}
+     * interactive events to the text in order to make this message copyable.
+     * This will overwrite existing events.
+     *
+     * <p>With a custom message that will be copied.
+     */
+    public static MutableText copyable(String text, String message) {
+        return Text.literal(text).styled(
+            style -> style.withHoverEvent(new HoverEvent.ShowText(Text.literal("Copy to clipboard")))
+                .withClickEvent(new ClickEvent.CopyToClipboard(message))
+        );
     }
     
 }
