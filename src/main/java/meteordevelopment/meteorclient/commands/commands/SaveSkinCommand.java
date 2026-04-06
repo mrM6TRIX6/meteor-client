@@ -32,7 +32,6 @@ public class SaveSkinCommand extends Command {
     
     public SaveSkinCommand() {
         super("SaveSkin", "Saves the skin of the player.");
-        FOLDER.mkdirs();
     }
     
     @Override
@@ -42,6 +41,7 @@ public class SaveSkinCommand extends Command {
                 PlayerListEntry player = PlayerListEntryArgumentType.get(context, "player");
                 String playerName = player.getProfile().name();
                 
+                FOLDER.mkdirs();
                 File playerFolder = new File(FOLDER, playerName + "-" + System.currentTimeMillis());
                 
                 if (!playerFolder.mkdirs()) {

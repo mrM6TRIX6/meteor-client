@@ -6,6 +6,7 @@
 package meteordevelopment.meteorclient.commands.commands;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
@@ -36,6 +37,10 @@ import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.dimension.DimensionType;
 import org.apache.commons.lang3.Strings;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
@@ -77,13 +82,15 @@ public class ServerCommand extends Command {
         "polar"
     );
     
-    private final List<String> plugins = new ArrayList<>();
+    private static final File SUGGESTIONS_FOLDER = new File(MeteorClient.FOLDER, "suggestions");
+    
     private final HashMap<Integer, String> ports = new HashMap<>();
     private final Random random = new Random();
     
     private int ticks = 0;
-    private boolean waitingPlugins = false;
+    private boolean waitingSuggestions = false;
     private int completionId;
+    private boolean plugins;
     
     public ServerCommand() {
         super("Server", "Prints server information.");
@@ -118,12 +125,38 @@ public class ServerCommand extends Command {
             })
         );
         
-        builder.then(literal("plugins")
+        builder.then(literal("suggestions")
             .executes(context -> {
-                if (!waitingPlugins) {
+                if (!waitingSuggestions) {
                     completionId = random.nextInt(0, 32767);
                     mc.getNetworkHandler().sendPacket(new RequestCommandCompletionsC2SPacket(completionId, "/"));
-                    waitingPlugins = true;
+                    plugins = false;
+                    waitingSuggestions = true;
+                }
+                
+                return SINGLE_SUCCESS;
+            })
+            .then(argument("partial", StringArgumentType.greedyString())
+                .executes(context -> {
+                    if (!waitingSuggestions) {
+                        completionId = random.nextInt(0, 32767);
+                        mc.getNetworkHandler().sendPacket(new RequestCommandCompletionsC2SPacket(completionId, StringArgumentType.getString(context, "partial")));
+                        plugins = false;
+                        waitingSuggestions = true;
+                    }
+                    
+                    return SINGLE_SUCCESS;
+                })
+            )
+        );
+        
+        builder.then(literal("plugins")
+            .executes(context -> {
+                if (!waitingSuggestions) {
+                    completionId = random.nextInt(0, 32767);
+                    mc.getNetworkHandler().sendPacket(new RequestCommandCompletionsC2SPacket(completionId, "/"));
+                    plugins = true;
+                    waitingSuggestions = true;
                 }
                 
                 return SINGLE_SUCCESS;
@@ -237,7 +270,7 @@ public class ServerCommand extends Command {
     
     // Plugins scanning
     
-    private void printPlugins() {
+    private void printPlugins(List<String> plugins) {
         plugins.sort(String.CASE_INSENSITIVE_ORDER);
         plugins.replaceAll(this::formatPluginName);
         
@@ -262,39 +295,40 @@ public class ServerCommand extends Command {
     
     @EventHandler
     private void onTick(TickEvent.Post event) {
-        if (!waitingPlugins) {
+        if (!waitingSuggestions) {
             return;
         }
         if (++ticks >= 100) {
-            error("Timeout for get plugins.");
+            error("Timeout for get command suggestions.");
             
-            waitingPlugins = false;
+            waitingSuggestions = false;
             ticks = 0;
-            plugins.clear();
         }
     }
     
     @EventHandler
     private void onPacketSend(PacketEvent.Send event) {
-        if (waitingPlugins && event.packet instanceof RequestCommandCompletionsC2SPacket) {
+        if (waitingSuggestions && event.packet instanceof RequestCommandCompletionsC2SPacket) {
             event.cancel();
         }
     }
     
     @EventHandler
     private void onPacketReceive(PacketEvent.Receive event) {
-        if (!waitingPlugins) {
+        if (!waitingSuggestions) {
             return;
         }
         
-        try {
-            if (event.packet instanceof CommandSuggestionsS2CPacket packet) {
-                Suggestions matches = packet.getSuggestions();
-                
-                if (matches.isEmpty()) {
-                    info("No plugins found.");
-                    return;
-                }
+        if (event.packet instanceof CommandSuggestionsS2CPacket packet) {
+            Suggestions matches = packet.getSuggestions();
+            
+            if (matches.isEmpty()) {
+                info("No command suggestions found.");
+                return;
+            }
+            
+            if (plugins) {
+                List<String> plugins = new ArrayList<>();
                 
                 for (Suggestion suggestion : matches.getList()) {
                     String[] command = suggestion.getText().split(":");
@@ -305,15 +339,29 @@ public class ServerCommand extends Command {
                         }
                     }
                 }
-                printPlugins();
+                
+                printPlugins(plugins);
+            } else {
+                SUGGESTIONS_FOLDER.mkdirs();
+                File file = new File(SUGGESTIONS_FOLDER, System.currentTimeMillis() + ".txt");
+                
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+                    for (Suggestion suggestion : matches.getList()) {
+                        writer.write(suggestion.getText());
+                        writer.newLine();
+                    }
+                    
+                    info(Text.literal("Command suggestions saved to: ").formatted(Formatting.GRAY)
+                        .append(TextUtils.copyable(file.getAbsolutePath()).formatted(Formatting.WHITE))
+                        .append(Text.literal(".").formatted(Formatting.GRAY)));
+                } catch (IOException e) {
+                    error("Failed write command suggestions to a file.");
+                }
             }
-        } catch (Exception e) {
-            error("An error occurred while trying to get plugins.");
+            
+            waitingSuggestions = false;
+            ticks = 0;
         }
-        
-        waitingPlugins = false;
-        ticks = 0;
-        plugins.clear();
     }
     
     // Ports scanning
