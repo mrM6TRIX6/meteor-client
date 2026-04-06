@@ -73,6 +73,7 @@ public class CommandManager {
         add(new RotationCommand());
         add(new SaveMapCommand());
         add(new SayCommand());
+        add(new SaveSkinCommand());
         add(new ServerCommand());
         add(new SetBlockCommand());
         add(new SettingCommand());

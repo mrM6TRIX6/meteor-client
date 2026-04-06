@@ -30,7 +30,7 @@ public class UUIDCommand extends Command {
                 
                 info(
                     Text.literal(playerName + "'s UUID: ").formatted(Formatting.GRAY)
-                        .append(TextUtils.copyable(uuid))
+                        .append(TextUtils.copyable(uuid).formatted(Formatting.WHITE))
                         .append(Text.literal(".").formatted(Formatting.GRAY))
                 );
                 

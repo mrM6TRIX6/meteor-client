@@ -210,7 +210,9 @@ public class ServerCommand extends Command {
         
         info("Port: %d", ServerAddress.parse(server.address).getPort());
         
-        info(Text.literal("Type: ").append(mc.getNetworkHandler().getBrand() != null ? TextUtils.copyable(mc.getNetworkHandler().getBrand()) : Text.literal("unknown")).formatted(Formatting.GRAY));
+        info(Text.literal("Brand: ").append(mc.getNetworkHandler().getBrand() != null ? TextUtils.copyable(mc.getNetworkHandler().getBrand()) : Text.literal("unknown")).formatted(Formatting.GRAY));
+        
+        info("Mode: %s", mc.getNetworkHandler().getConnection().isEncrypted() ? "Online" : "Cracked");
         
         info(Text.literal("Motd: ").formatted(Formatting.GRAY).append(server.label != null ? TextUtils.copyable(server.label) : Text.literal("unknown")));
         
@@ -227,6 +229,7 @@ public class ServerCommand extends Command {
                 DimensionType.MOON_SIZES[mc.world.getEnvironmentAttributes().getAttributeValue(EnvironmentAttributes.MOON_PHASE_VISUAL, mc.player.getBlockPos()).getIndex()] // lol
             ).getLocalDifficulty()
         );
+        
         info("Day: %d", mc.world.getTimeOfDay() / 24000L);
         
         info("Permission level: %s", Utils.formatPerms(mc.player.getPermissions()));

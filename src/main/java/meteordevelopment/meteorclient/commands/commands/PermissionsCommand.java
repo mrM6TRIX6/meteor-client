@@ -22,7 +22,7 @@ public class PermissionsCommand extends Command {
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.executes(context -> {
             info(
-                String.format("Your permission level: (highlight)%s(default).",
+                String.format("Your permission level: %s.",
                     Utils.formatPerms(mc.player.getPermissions())
                 )
             );
@@ -35,7 +35,7 @@ public class PermissionsCommand extends Command {
                 PlayerEntity player = PlayerArgumentType.get(context, "player");
                 
                 info(
-                    String.format("%s's permission level: (highlight)%s(default).",
+                    String.format("%s's permission level: %s.",
                         player.getGameProfile().name(),
                         Utils.formatPerms(player.getPermissions())
                     )
