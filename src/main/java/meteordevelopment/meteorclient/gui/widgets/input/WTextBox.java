@@ -40,7 +40,6 @@ public abstract class WTextBox extends WWidget {
     
     protected final Renderer renderer;
     
-    protected boolean focused;
     protected DoubleList textWidths = new DoubleArrayList();
     
     protected int cursor;

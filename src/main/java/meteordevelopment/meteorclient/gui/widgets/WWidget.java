@@ -178,7 +178,9 @@ public abstract class WWidget implements BaseWidget {
     }
     
     public void setFocused(boolean focused) {
-        if (this.focused != focused) this.focused = focused;
+        if (this.focused != focused) {
+            this.focused = focused;
+        }
     }
     
 }
