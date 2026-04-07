@@ -12,6 +12,7 @@ import meteordevelopment.meteorclient.events.entity.player.InteractEntityEvent;
 import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
+import meteordevelopment.meteorclient.events.packets.InventoryEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.HandledScreenAccessor;
@@ -35,7 +36,6 @@ import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.CloseHandledScreenC2SPacket;
-import net.minecraft.network.packet.s2c.play.OpenScreenS2CPacket;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
@@ -580,19 +580,17 @@ public class InventoryTweaks extends Module {
     }
     
     @EventHandler
-    private void onOpenScreen(PacketEvent.Receive event) {
-        if (event.packet instanceof OpenScreenS2CPacket packet) {
-            mc.execute(() -> {
-                ScreenHandler handler = mc.player.currentScreenHandler;
-                if (canSteal(handler) && packet.getSyncId() == handler.syncId) {
-                    if (autoSteal.get()) {
-                        steal(handler);
-                    } else if (autoDump.get()) {
-                        dump(handler);
-                    }
+    private void onInventory(InventoryEvent event) {
+        mc.execute(() -> {
+            ScreenHandler handler = mc.player.currentScreenHandler;
+            if (canSteal(handler) && event.packet.syncId() == handler.syncId) {
+                if (autoSteal.get()) {
+                    steal(handler);
+                } else if (autoDump.get()) {
+                    dump(handler);
                 }
-            });
-        }
+            }
+        });
     }
     
     private enum ListMode implements IDisplayName {
