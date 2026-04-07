@@ -601,6 +601,7 @@ public class Modules extends System<Modules> {
     
     private void initExploit() {
         add(new BungeeCordSpoof());
+        add(new ChatBypass());
         add(new NoPitchLimit());
         add(new NoSignLimit());
         add(new OffhandCrash());
