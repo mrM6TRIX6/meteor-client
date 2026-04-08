@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.utils.misc.text;
+package meteordevelopment.meteorclient.utils.text;
 
 import meteordevelopment.meteorclient.utils.render.color.Color;
 

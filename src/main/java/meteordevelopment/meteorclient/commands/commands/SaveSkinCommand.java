@@ -10,7 +10,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.PlayerListEntryArgumentType;
-import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
+import meteordevelopment.meteorclient.utils.text.TextUtils;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.NativeImage;

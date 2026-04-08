@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.commands.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.PlayerListEntryArgumentType;
-import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
+import meteordevelopment.meteorclient.utils.text.TextUtils;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.command.CommandSource;
 import net.minecraft.text.Text;
