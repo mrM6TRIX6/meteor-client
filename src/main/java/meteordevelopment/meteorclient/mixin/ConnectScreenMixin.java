@@ -10,6 +10,7 @@ import meteordevelopment.meteorclient.events.world.ServerConnectBeginEvent;
 import meteordevelopment.meteorclient.systems.proxies.Proxies;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
 import net.minecraft.client.network.CookieStorage;
 import net.minecraft.client.network.ServerAddress;
@@ -31,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.net.InetSocketAddress;
 
 @Mixin(ConnectScreen.class)
-public abstract class ConnectScreenMixin extends ScreenMixin {
+public abstract class ConnectScreenMixin extends Screen {
     
     @Shadow
     @Nullable
@@ -39,6 +40,10 @@ public abstract class ConnectScreenMixin extends ScreenMixin {
     
     @Unique
     private ServerAddress serverAddress = null;
+    
+    protected ConnectScreenMixin(Text title) {
+        super(title);
+    }
     
     @Inject(method = "connect(Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/network/ServerAddress;Lnet/minecraft/client/network/ServerInfo;Lnet/minecraft/client/network/CookieStorage;)V", at = @At("HEAD"))
     private void onConnect(MinecraftClient client, ServerAddress address, ServerInfo info, CookieStorage cookieStorage, CallbackInfo ci) {

@@ -124,6 +124,7 @@
     "KeyboardInputMixin",
     "KeyboardMixin",
     "LayerRenderStateAccessor",
+    "LevelLoadingScreenMixin",
     "LightmapTextureManagerMixin",
     "LightningEntityRendererMixin",
     "LivingEntityAccessor",

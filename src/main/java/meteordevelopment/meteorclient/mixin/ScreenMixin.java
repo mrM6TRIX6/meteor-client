@@ -16,14 +16,11 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.text.MeteorClickEvent;
 import meteordevelopment.meteorclient.utils.text.RunnableClickEvent;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.text.ClickEvent;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -35,12 +32,6 @@ import static net.minecraft.client.util.InputUtil.*;
 
 @Mixin(value = Screen.class, priority = 500) // Needs to be before baritone
 public abstract class ScreenMixin {
-    
-    @Shadow @Final protected TextRenderer textRenderer;
-    
-    @Shadow public int width;
-    
-    @Shadow public int height;
     
     @Inject(method = "handleBasicClickEvent", at = @At(value = "INVOKE", target = "Lorg/slf4j/Logger;error(Ljava/lang/String;Ljava/lang/Object;)V", remap = false), cancellable = true)
     private static void onHandleBasicClickEvent(ClickEvent clickEvent, MinecraftClient client, Screen screen, CallbackInfo ci) {
