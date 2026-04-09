@@ -52,7 +52,7 @@ public class InventoryTweaks extends Module {
     private final SettingGroup sgAntiDrop = settings.createGroup("Anti Drop");
     private final SettingGroup sgAutoDrop = settings.createGroup("Auto Drop");
     private final SettingGroup sgStealDump = settings.createGroup("Steal and Dump");
-    private final SettingGroup sgAutoSteal = settings.createGroup("Auto Steal");
+    private final SettingGroup sgAuto = settings.createGroup("Auto");
     
     // General
     
@@ -247,46 +247,48 @@ public class InventoryTweaks extends Module {
         .build()
     );
     
-    // Auto Steal
+    // Auto
     
-    private final Setting<Boolean> autoSteal = sgAutoSteal.add(new BoolSetting.Builder()
-        .name("auto-steal")
-        .description("Automatically removes all possible items when you open a container.")
+    private final Setting<Boolean> enableAuto = sgAuto.add(new BoolSetting.Builder()
+        .name("enable-auto")
+        .description("Steals / dumps items automatically.")
         .defaultValue(false)
-        .onChanged(val -> checkAutoStealSettings())
         .build()
     );
     
-    private final Setting<Boolean> autoDump = sgAutoSteal.add(new BoolSetting.Builder()
-        .name("auto-dump")
-        .description("Automatically dumps all possible items when you open a container.")
-        .defaultValue(false)
-        .onChanged(val -> checkAutoStealSettings())
+    private final Setting<Action> autoAction = sgAuto.add(new EnumChoiceSetting.Builder<Action>()
+        .name("action")
+        .description("Automatic action.")
+        .defaultValue(Action.STEAL)
+        .visible(enableAuto::get)
         .build()
     );
     
-    private final Setting<Integer> autoStealDelay = sgAutoSteal.add(new IntSetting.Builder()
+    private final Setting<Integer> autoDelay = sgAuto.add(new IntSetting.Builder()
         .name("delay")
         .description("The minimum delay between stealing the next stack in milliseconds.")
         .defaultValue(20)
         .sliderMax(1000)
+        .visible(enableAuto::get)
         .build()
     );
     
-    private final Setting<Integer> autoStealInitDelay = sgAutoSteal.add(new IntSetting.Builder()
+    private final Setting<Integer> autoInitDelay = sgAuto.add(new IntSetting.Builder()
         .name("initial-delay")
         .description("The initial delay before stealing in milliseconds. 0 to use normal delay instead.")
         .defaultValue(50)
         .sliderMax(1000)
+        .visible(enableAuto::get)
         .build()
     );
     
-    private final Setting<Integer> autoStealRandomDelay = sgAutoSteal.add(new IntSetting.Builder()
+    private final Setting<Integer> autoRandomDelay = sgAuto.add(new IntSetting.Builder()
         .name("random")
         .description("Randomly adds a delay of up to the specified time in milliseconds.")
         .min(0)
         .sliderMax(1000)
         .defaultValue(50)
+        .visible(enableAuto::get)
         .build()
     );
     
@@ -462,19 +464,12 @@ public class InventoryTweaks extends Module {
     
     // Auto Steal
     
-    private void checkAutoStealSettings() {
-        if (autoSteal.get() && autoDump.get()) {
-            error("You can't enable Auto Steal and Auto Dump at the same time!");
-            autoDump.set(false);
-        }
-    }
-    
     private int getSleepTime() {
-        return autoStealDelay.get() + (autoStealRandomDelay.get() > 0 ? ThreadLocalRandom.current().nextInt(0, autoStealRandomDelay.get()) : 0);
+        return autoDelay.get() + (autoRandomDelay.get() > 0 ? ThreadLocalRandom.current().nextInt(0, autoRandomDelay.get()) : 0);
     }
     
     private void moveSlots(ScreenHandler handler, int start, int end, boolean steal) {
-        boolean initial = autoStealInitDelay.get() != 0;
+        boolean initial = autoInitDelay.get() != 0;
         for (int i = start; i < end; i++) {
             if (!handler.getSlot(i).hasStack()) {
                 continue;
@@ -504,7 +499,7 @@ public class InventoryTweaks extends Module {
             
             int sleep;
             if (initial) {
-                sleep = autoStealInitDelay.get();
+                sleep = autoInitDelay.get();
                 initial = false;
             } else {
                 sleep = getSleepTime();
@@ -581,16 +576,13 @@ public class InventoryTweaks extends Module {
     
     @EventHandler
     private void onInventory(InventoryEvent event) {
-        mc.execute(() -> {
-            ScreenHandler handler = mc.player.currentScreenHandler;
-            if (canSteal(handler) && event.packet.syncId() == handler.syncId) {
-                if (autoSteal.get()) {
-                    steal(handler);
-                } else if (autoDump.get()) {
-                    dump(handler);
-                }
+        ScreenHandler handler = mc.player.currentScreenHandler;
+        if (enableAuto.get() && canSteal(handler) && event.packet.syncId() == handler.syncId) {
+            switch (autoAction.get()) {
+                case STEAL -> steal(handler);
+                case DUMP -> dump(handler);
             }
-        });
+        }
     }
     
     private enum ListMode implements IDisplayName {
@@ -602,6 +594,24 @@ public class InventoryTweaks extends Module {
         private final String displayName;
         
         ListMode(String displayName) {
+            this.displayName = displayName;
+        }
+        
+        @Override
+        public String getDisplayName() {
+            return displayName;
+        }
+        
+    }
+    
+    private enum Action implements IDisplayName {
+        
+        STEAL("Steal"),
+        DUMP("Dump");
+        
+        private final String displayName;
+        
+        Action(String displayName) {
             this.displayName = displayName;
         }
         
