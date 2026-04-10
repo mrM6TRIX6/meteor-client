@@ -17,6 +17,7 @@ import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import meteordevelopment.meteorclient.utils.network.PortScanner;
 import meteordevelopment.meteorclient.utils.text.TextUtils;
 import meteordevelopment.meteorclient.utils.world.TickRate;
@@ -36,6 +37,10 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.dimension.DimensionType;
 import org.apache.commons.lang3.Strings;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.PointerBuffer;
+import org.lwjgl.system.MemoryUtil;
+import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -44,6 +49,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 import java.util.*;
 
 public class ServerCommand extends Command {
@@ -82,10 +88,10 @@ public class ServerCommand extends Command {
         "polar"
     );
     
-    private static final File SUGGESTIONS_FOLDER = new File(MeteorClient.FOLDER, "suggestions");
-    
     private final HashMap<Integer, String> ports = new HashMap<>();
     private final Random random = new Random();
+    
+    private final PointerBuffer filters;
     
     private int ticks = 0;
     private boolean waitingSuggestions = false;
@@ -107,6 +113,13 @@ public class ServerCommand extends Command {
         ports.put(25566, "Minequery");
         ports.put(3306, "MySQL");
         ports.put(3389, "RDP");
+        
+        filters = BufferUtils.createPointerBuffer(1);
+        
+        ByteBuffer txtFilter = MemoryUtil.memASCII("*.txt");
+        
+        filters.put(txtFilter);
+        filters.rewind();
         
         MeteorClient.EVENT_BUS.subscribe(this);
     }
@@ -176,7 +189,7 @@ public class ServerCommand extends Command {
                     color = Formatting.RED;
                 }
                 
-                info("Current TPS: %s%.2f(default).", color, tps);
+                info("Current TPS: %s%.2f(default)", color, tps);
                 
                 return SINGLE_SUCCESS;
             })
@@ -221,7 +234,7 @@ public class ServerCommand extends Command {
         ServerInfo server = mc.getCurrentServerEntry();
         
         if (server == null) {
-            info("Couldn't obtain any server information.");
+            info("Couldn't obtain any server information");
             return;
         }
         
@@ -277,7 +290,7 @@ public class ServerCommand extends Command {
         if (!plugins.isEmpty()) {
             info("Plugins ((highlight)%d(default)): %s.", plugins.size(), String.join(", ", plugins.toArray(new String[0])));
         } else {
-            error("No plugins found.");
+            error("No plugins found");
         }
     }
     
@@ -299,7 +312,7 @@ public class ServerCommand extends Command {
             return;
         }
         if (++ticks >= 100) {
-            error("Timeout for get command suggestions.");
+            error("Timeout for get command suggestions");
             
             waitingSuggestions = false;
             ticks = 0;
@@ -323,7 +336,7 @@ public class ServerCommand extends Command {
             Suggestions matches = packet.getSuggestions();
             
             if (matches.isEmpty()) {
-                info("No command suggestions found.");
+                info("No command suggestions found");
                 return;
             }
             
@@ -342,21 +355,28 @@ public class ServerCommand extends Command {
                 
                 printPlugins(plugins);
             } else {
-                SUGGESTIONS_FOLDER.mkdirs();
-                File file = new File(SUGGESTIONS_FOLDER, System.currentTimeMillis() + ".txt");
-                
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
-                    for (Suggestion suggestion : matches.getList()) {
-                        writer.write(suggestion.getText());
-                        writer.newLine();
+                MeteorExecutor.execute(() -> {
+                    String path = TinyFileDialogs.tinyfd_saveFileDialog("Save file", null, filters, null);
+                    
+                    if (path == null) {
+                        error("Invalid path");
+                        return;
                     }
                     
-                    info(Text.literal("Command suggestions saved to: ").formatted(Formatting.GRAY)
-                        .append(TextUtils.copyable(file.getAbsolutePath()).formatted(Formatting.WHITE))
-                        .append(Text.literal(".").formatted(Formatting.GRAY)));
-                } catch (IOException e) {
-                    error("Failed write command suggestions to a file.");
-                }
+                    File file = new File(path);
+                    
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+                        for (Suggestion suggestion : matches.getList()) {
+                            writer.write(suggestion.getText());
+                            writer.newLine();
+                        }
+                        
+                        info(Text.literal("Command suggestions saved to: ").formatted(Formatting.GRAY)
+                            .append(TextUtils.copyable(file.getAbsolutePath()).formatted(Formatting.WHITE)));
+                    } catch (IOException e) {
+                        error("Failed write command suggestions to the file");
+                    }
+                });
             }
             
             waitingSuggestions = false;

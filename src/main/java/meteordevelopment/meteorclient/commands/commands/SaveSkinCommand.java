@@ -6,10 +6,9 @@
 package meteordevelopment.meteorclient.commands.commands;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
-import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.PlayerListEntryArgumentType;
+import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import meteordevelopment.meteorclient.utils.text.TextUtils;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.client.texture.AbstractTexture;
@@ -19,19 +18,28 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.AssetInfo;
 import net.minecraft.util.Formatting;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.PointerBuffer;
+import org.lwjgl.system.MemoryUtil;
+import org.lwjgl.util.tinyfd.TinyFileDialogs;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 public class SaveSkinCommand extends Command {
     
-    private static final SimpleCommandExceptionType FOLDER_ERROR = new SimpleCommandExceptionType(Text.literal("Failed to create folder"));
-    private static final SimpleCommandExceptionType NO_TEXTURES_SAVED = new SimpleCommandExceptionType(Text.literal("No textures were saved"));
-    
-    private static final File FOLDER = new File(MeteorClient.FOLDER, "skins");
+    private final PointerBuffer filters;
     
     public SaveSkinCommand() {
         super("SaveSkin", "Saves the skin of the player.");
+        
+        filters = BufferUtils.createPointerBuffer(1);
+        
+        ByteBuffer pngFilter = MemoryUtil.memASCII("*.png");
+        
+        filters.put(pngFilter);
+        filters.rewind();
     }
     
     @Override
@@ -39,62 +47,70 @@ public class SaveSkinCommand extends Command {
         builder.then(argument("player", PlayerListEntryArgumentType.create())
             .executes(context -> {
                 PlayerListEntry player = PlayerListEntryArgumentType.get(context, "player");
-                String playerName = player.getProfile().name();
-                
-                FOLDER.mkdirs();
-                File playerFolder = new File(FOLDER, playerName + "-" + System.currentTimeMillis());
-                
-                if (!playerFolder.mkdirs()) {
-                    throw FOLDER_ERROR.create();
-                }
-                
-                AssetInfo.TextureAsset body = player.getSkinTextures().body();
-                AssetInfo.TextureAsset cape = player.getSkinTextures().cape();
-                AssetInfo.TextureAsset elytra = player.getSkinTextures().elytra();
-                
-                int saved = 0;
-                
-                saved += saveTexture(body, new File(playerFolder, "body.png"));
-                saved += saveTexture(cape, new File(playerFolder, "cape.png"));
-                saved += saveTexture(elytra, new File(playerFolder, "elytra.png"));
-                
-                if (saved == 0) {
-                    throw NO_TEXTURES_SAVED.create();
-                }
-                
-                info(
-                    Text.literal(playerName + "'s skin saved to: ").formatted(Formatting.GRAY)
-                        .append(TextUtils.copyable(playerFolder.getAbsolutePath()).formatted(Formatting.WHITE))
-                        .append(Text.literal(". (" + saved + " files)").formatted(Formatting.GRAY))
-                );
-                
+                saveTexture(player.getProfile().name(), player.getSkinTextures().body());
                 return SINGLE_SUCCESS;
             })
+            .then(literal("body")
+                .executes(context -> {
+                    PlayerListEntry player = PlayerListEntryArgumentType.get(context, "player");
+                    saveTexture(player.getProfile().name(), player.getSkinTextures().body());
+                    return SINGLE_SUCCESS;
+                })
+            )
+            .then(literal("cape")
+                .executes(context -> {
+                    PlayerListEntry player = PlayerListEntryArgumentType.get(context, "player");
+                    saveTexture(player.getProfile().name(), player.getSkinTextures().cape());
+                    return SINGLE_SUCCESS;
+                })
+            )
+            .then(literal("elytra")
+                .executes(context -> {
+                    PlayerListEntry player = PlayerListEntryArgumentType.get(context, "player");
+                    saveTexture(player.getProfile().name(), player.getSkinTextures().elytra());
+                    return SINGLE_SUCCESS;
+                })
+            )
         );
     }
     
-    private int saveTexture(AssetInfo.TextureAsset asset, File file) {
+    private void saveTexture(String playerName, AssetInfo.TextureAsset asset) {
         if (asset == null) {
-            return 0;
+            error(playerName + " doesn't have this skin texture");
+            return;
         }
         
         AbstractTexture texture = mc.getTextureManager().getTexture(asset.texturePath());
         if (!(texture instanceof NativeImageBackedTexture tex)) {
-            return 0;
+            error("Invalid skin texture");
+            return;
         }
         
         NativeImage image = tex.getImage();
         if (image == null) {
-            return 0;
+            error("Invalid skin texture");
+            return;
         }
         
-        try {
-            image.writeTo(file);
-            return 1;
-        } catch (IOException e) {
-            error("Failed to write %s.", file.getName());
-            return 0;
-        }
+        MeteorExecutor.execute(() -> {
+            String path = TinyFileDialogs.tinyfd_saveFileDialog("Save image", null, filters, null);
+            if (path == null) {
+                error("Invalid path");
+                return;
+            }
+            
+            File file = new File(path);
+            
+            try {
+                image.writeTo(file);
+                info(
+                    Text.literal(playerName + "'s skin saved to: ").formatted(Formatting.GRAY)
+                        .append(TextUtils.copyable(file.getAbsolutePath()).formatted(Formatting.WHITE))
+                );
+            } catch (IOException e) {
+                error("Failed to write %s", file.getName());
+            }
+        });
     }
     
 }
