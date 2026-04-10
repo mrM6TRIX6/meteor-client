@@ -62,6 +62,7 @@ public class CommandManager {
         add(new MemoryCommand());
         add(new ModulesCommand());
         add(new NameHistoryCommand());
+        add(new NameCollectCommand());
         add(new NBTCommand());
         add(new NotebotCommand());
         add(new PeekCommand());
