@@ -12,9 +12,9 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.ComponentMapArgumentType;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.text.MeteorClickEvent;
-import meteordevelopment.meteorclient.utils.misc.text.TextUtils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
+import meteordevelopment.meteorclient.utils.text.MeteorClickEvent;
+import meteordevelopment.meteorclient.utils.text.TextUtils;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.command.CommandSource;
@@ -176,31 +176,44 @@ public class NBTCommand extends Command {
                     nbtString = toFormatedComponent(nbt.getCompoundOrEmpty("components"), false).getString();
                     nbtText = nbtToText(nbt, nbtString);
                     prefix = stack.getItem().toString();
-                } else if (mc.crosshairTarget instanceof EntityHitResult result) {
-                    Entity entity = result.getEntity();
-                    NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY, mc.player.getRegistryManager());
-                    entity.writeData(view);
-                    nbtString = view.getNbt().toString();
-                    nbtText = (MutableText) NbtHelper.toPrettyPrintedText(view.getNbt());
-                    prefix = entity.isPlayer() ? ((PlayerEntity) entity).getGameProfile().name() : entity.getType().toString();
-                } else if (mc.crosshairTarget instanceof BlockHitResult result) {
-                    BlockPos blockPos = result.getBlockPos();
-                    BlockEntity blockEntity = mc.world.getBlockEntity(blockPos);
-                    if (blockEntity == null) {
-                        throw NOT_BLOCK_ENTITY.create();
-                    }
-                    
-                    NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY, mc.player.getRegistryManager());
-                    blockEntity.writeFullData(view);
-                    nbtString = view.getNbt().toString();
-                    nbtText = (MutableText) NbtHelper.toPrettyPrintedText(view.getNbt());
-                    prefix = Registries.BLOCK_ENTITY_TYPE.getId(blockEntity.getType()).toString();
                 } else {
-                    NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY, mc.player.getRegistryManager());
-                    mc.player.writeData(view);
-                    nbtString = view.getNbt().toString();
-                    nbtText = (MutableText) NbtHelper.toPrettyPrintedText(view.getNbt());
-                    prefix = mc.player.getGameProfile().name();
+                    switch (mc.crosshairTarget.getType()) {
+                        case ENTITY -> {
+                            Entity entity = ((EntityHitResult) mc.crosshairTarget).getEntity();
+                            NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY, mc.player.getRegistryManager());
+                            entity.writeData(view);
+                            nbtString = view.getNbt().toString();
+                            nbtText = (MutableText) NbtHelper.toPrettyPrintedText(view.getNbt());
+                            prefix = entity.isPlayer() ? ((PlayerEntity) entity).getGameProfile().name() : Registries.ENTITY_TYPE.getId(entity.getType()).toString();
+                        }
+                        
+                        case BLOCK -> {
+                            BlockPos blockPos = ((BlockHitResult) mc.crosshairTarget).getBlockPos();
+                            BlockEntity blockEntity = mc.world.getBlockEntity(blockPos);
+                            
+                            if (blockEntity == null) {
+                                throw NOT_BLOCK_ENTITY.create();
+                            }
+                            
+                            NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY, mc.player.getRegistryManager());
+                            blockEntity.writeFullData(view);
+                            nbtString = view.getNbt().toString();
+                            nbtText = (MutableText) NbtHelper.toPrettyPrintedText(view.getNbt());
+                            prefix = Registries.BLOCK_ENTITY_TYPE.getId(blockEntity.getType()).toString();
+                        }
+                        
+                        case MISS -> {
+                            NbtWriteView view = NbtWriteView.create(ErrorReporter.EMPTY, mc.player.getRegistryManager());
+                            mc.player.writeData(view);
+                            nbtString = view.getNbt().toString();
+                            nbtText = (MutableText) NbtHelper.toPrettyPrintedText(view.getNbt());
+                            prefix = mc.player.getGameProfile().name();
+                        }
+                        
+                        default -> {
+                            return 0;
+                        }
+                    }
                 }
                 
                 final int MAX_HOVER_LENGTH = 15000;
@@ -243,7 +256,7 @@ public class NBTCommand extends Command {
             )
         );
         
-        builder.then(literal("pastelore")
+        builder.then(literal("paste_lore")
             .executes(context -> {
                 pasteLore(
                     16777215,
@@ -302,7 +315,8 @@ public class NBTCommand extends Command {
         
         stack.applyComponentsFrom(ComponentMap.builder()
             .add(DataComponentTypes.LORE, new LoreComponent(lore))
-            .build());
+            .build()
+        );
         
         InventoryUtils.clickCreativeStack(stack, mc.player.getInventory().getSelectedSlot());
     }
