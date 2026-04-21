@@ -19,7 +19,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -58,7 +58,7 @@ public class ParkourBot extends Module {
         super(Categories.MOVEMENT, "ParkourBot", "The powerful bot for MineBlaze parkour.");
     }
     
-    private final ArrayDeque<BlockPos> visitedBlockPoses = new ArrayDeque<>();
+    private final ArrayList<BlockPos> visitedBlockPoses = new ArrayList<>();
     
     private int ticks = 0;
     private BlockPos prevBlockPos;
@@ -104,7 +104,7 @@ public class ParkourBot extends Module {
                     blockPos.getZ() + 0.5
                 );
                 
-                addVisitedBlockPos(blockPos);
+                visitedBlockPoses.add(blockPos);
             });
             
             ticks = 0;
@@ -114,7 +114,7 @@ public class ParkourBot extends Module {
     @EventHandler
     private void onMessageReceive(MessageEvent.Receive event) {
         if (event.getMessage().getString().startsWith("| Вы проиграли со счетом")) {
-            info("The bot has fallen. Disabling...");
+            // info("The bot has fallen. Disabling...");
             toggle();
         }
     }
@@ -141,13 +141,6 @@ public class ParkourBot extends Module {
         }
         
         return closest;
-    }
-    
-    private void addVisitedBlockPos(BlockPos blockPos) {
-        if (visitedBlockPoses.size() >= 5) {
-            visitedBlockPoses.pollFirst();
-        }
-        visitedBlockPoses.addLast(blockPos);
     }
     
     private boolean isCurrentBlockPos(BlockPos blockPos) {
