@@ -33,7 +33,7 @@ public abstract class CrashReportMixin {
         
         if (Modules.get() != null) {
             boolean modulesActive = false;
-            for (Category category : Modules.loopCategories()) {
+            for (Category category : Category.values()) {
                 List<Module> modules = Modules.get().getGroup(category);
                 boolean categoryActive = false;
                 

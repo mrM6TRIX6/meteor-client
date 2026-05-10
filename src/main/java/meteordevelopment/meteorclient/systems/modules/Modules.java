@@ -55,8 +55,6 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class Modules extends System<Modules> {
     
-    private static final List<Category> CATEGORIES = new ArrayList<>();
-    
     private final Map<Class<? extends Module>, Module> moduleInstances = new Reference2ReferenceOpenHashMap<>();
     private final Map<Category, List<Module>> groups = new Reference2ReferenceOpenHashMap<>();
     
@@ -101,10 +99,6 @@ public class Modules extends System<Modules> {
         for (List<Module> modules : groups.values()) {
             modules.sort(Comparator.comparing(module -> module.name));
         }
-    }
-    
-    public static Iterable<Category> loopCategories() {
-        return CATEGORIES;
     }
     
     @SuppressWarnings("unchecked")
