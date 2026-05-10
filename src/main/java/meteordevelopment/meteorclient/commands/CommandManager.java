@@ -84,6 +84,7 @@ public class CommandManager {
         add(new SwarmCommand());
         add(new TeleportCommand());
         add(new ToggleCommand());
+        add(new UndressCommand());
         add(new UUIDCommand());
         add(new VClipCommand());
         add(new WaspCommand());
