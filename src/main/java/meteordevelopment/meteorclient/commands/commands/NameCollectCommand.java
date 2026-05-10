@@ -23,6 +23,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NameCollectCommand extends Command {
     
@@ -42,30 +46,92 @@ public class NameCollectCommand extends Command {
     @Override
     public void build(LiteralArgumentBuilder<CommandSource> builder) {
         builder.executes(context -> {
-            MeteorExecutor.execute(() -> {
-                String path = TinyFileDialogs.tinyfd_saveFileDialog("Save file", null, filters, null);
+            executeSimple();
+            return SINGLE_SUCCESS;
+        });
+        
+        builder.then(literal("simple")
+            .executes(context -> {
+                executeSimple();
+                return SINGLE_SUCCESS;
+            })
+        );
+        
+        builder.then(literal("advanced")
+            .executes(context -> {
+                executeAdvanced();
+                return SINGLE_SUCCESS;
+            })
+        );
+    }
+    
+    private void executeSimple() {
+        MeteorExecutor.execute(() -> {
+            String path = TinyFileDialogs.tinyfd_saveFileDialog("Save file", null, filters, null);
+            
+            if (path == null) {
+                error("Invalid path");
+                return;
+            }
+            
+            File file = new File(path);
+            
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+                for (PlayerListEntry player : mc.getNetworkHandler().getPlayerList()) {
+                    writer.write(player.getProfile().name());
+                    writer.newLine();
+                }
                 
-                if (path == null) {
-                    error("Invalid path");
+                info(Text.literal("Player names saved to: ").formatted(Formatting.GRAY)
+                    .append(TextUtils.copyable(file.getAbsolutePath()).formatted(Formatting.WHITE)));
+            } catch (IOException e) {
+                error("Failed write player names to the file");
+            }
+        });
+    }
+    
+    private void executeAdvanced() {
+        MeteorExecutor.execute(() -> {
+            String path = TinyFileDialogs.tinyfd_selectFolderDialog("Select folder", "NULL");
+            
+            if (path == null) {
+                error("Invalid path");
+                return;
+            }
+            
+            File folder = new File(path);
+            if (!folder.exists()) {
+                if (!folder.mkdirs()) {
+                    error("Failed to create folder");
                     return;
                 }
                 
-                File file = new File(path);
+            }
+            
+            Map<String, List<String>> groups = new HashMap<>();
+            
+            for (PlayerListEntry player : mc.getNetworkHandler().getPlayerList()) {
+                String group = player.getScoreboardTeam() != null ? player.getScoreboardTeam().getPrefix().getString() : "NONE";
+                String name = player.getProfile().name();
+                
+                groups.computeIfAbsent(group, k -> new ArrayList<>()).add(name);
+            }
+            
+            for (Map.Entry<String, List<String>> entry : groups.entrySet()) {
+                String groupName = entry.getKey();
+                File file = new File(folder, groupName + ".txt");
                 
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
-                    for (PlayerListEntry player : mc.getNetworkHandler().getPlayerList()) {
-                        writer.write(player.getProfile().name());
-                        writer.newLine();
+                    for (String playerName : entry.getValue()) {
+                        writer.write(playerName + System.lineSeparator());
                     }
-                    
-                    info(Text.literal("Player names saved to: ").formatted(Formatting.GRAY)
-                        .append(TextUtils.copyable(file.getAbsolutePath()).formatted(Formatting.WHITE)));
                 } catch (IOException e) {
-                    error("Failed write player names to the file");
+                    error("Failed write player names to the file (%s)".formatted(file.getName()));
                 }
-            });
+            }
             
-            return SINGLE_SUCCESS;
+            info(Text.literal("Player names saved to: ").formatted(Formatting.GRAY)
+                .append(TextUtils.copyable(folder.getAbsolutePath()).formatted(Formatting.WHITE)));
         });
     }
     
