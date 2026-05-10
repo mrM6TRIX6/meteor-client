@@ -72,6 +72,7 @@ public class CustomHead extends Module {
     );
     
     // Extra
+    
     private final Setting<Boolean> toggleOnLog = sgExtra.add(new BoolSetting.Builder()
         .name("toggle-on-log")
         .description("Disables when you disconnect from a server.")

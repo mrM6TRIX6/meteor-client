@@ -6,15 +6,12 @@
 package meteordevelopment.meteorclient.systems.modules.fun;
 
 import meteordevelopment.meteorclient.events.render.EntityRenderAfterTranslateEvent;
-import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 
 public class BadTrip extends Module {
-    
-    private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public BadTrip() {
         super(Categories.FUN, "BadTrip", "Makes the players wobble.");
