@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.PacketListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.network.PacketUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -39,7 +39,7 @@ public class PacketCanceller extends Module {
     );
     
     public PacketCanceller() {
-        super(Categories.MISC, "PacketCanceller", "Allows you to cancel certain packets.");
+        super(Category.MISC, "PacketCanceller", "Allows you to cancel certain packets.");
         runInMainMenu = true;
     }
     

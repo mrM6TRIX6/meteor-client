@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.mixin.HandledScreenAccessor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -296,7 +296,7 @@ public class InventoryTweaks extends Module {
     private boolean invOpened;
     
     public InventoryTweaks() {
-        super(Categories.MISC, "InventoryTweaks", "Various inventory related utilities.");
+        super(Category.MISC, "InventoryTweaks", "Various inventory related utilities.");
     }
     
     @Override

@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 
@@ -41,7 +41,7 @@ public class Twerk extends Module {
     private boolean sneaking;
     
     public Twerk() {
-        super(Categories.FUN, "Twerk", "Automatically sneaks and stands.");
+        super(Category.FUN, "Twerk", "Automatically sneaks and stands.");
     }
     
     @Override

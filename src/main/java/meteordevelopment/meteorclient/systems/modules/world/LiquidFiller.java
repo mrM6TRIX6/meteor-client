@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -124,7 +124,7 @@ public class LiquidFiller extends Module {
     private int timer;
     
     public LiquidFiller() {
-        super(Categories.WORLD, "LiquidFiller", "Places blocks inside of liquid source blocks within range of you.");
+        super(Category.WORLD, "LiquidFiller", "Places blocks inside of liquid source blocks within range of you.");
     }
     
     @Override

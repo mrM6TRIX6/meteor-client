@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gui.hud.ClientBossBar;
@@ -49,7 +49,7 @@ public class BossStack extends Module {
     public static final Map<ClientBossBar, Integer> barMap = new WeakHashMap<>();
     
     public BossStack() {
-        super(Categories.RENDER, "BossStack", "Stacks boss bars to make your HUD less cluttered.");
+        super(Category.RENDER, "BossStack", "Stacks boss bars to make your HUD less cluttered.");
     }
     
     @EventHandler

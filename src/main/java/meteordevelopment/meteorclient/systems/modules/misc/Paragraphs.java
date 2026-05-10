@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.misc;
 
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
 /**
@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 public class Paragraphs extends Module {
     
     public Paragraphs() {
-        super(Categories.MISC, "Paragraphs", "Makes you able to write §. (normally \"illegal\" character).");
+        super(Category.MISC, "Paragraphs", "Makes you able to write §. (normally \"illegal\" character).");
     }
     
 }

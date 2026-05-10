@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.movement;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 
@@ -24,7 +24,7 @@ public class Sneak extends Module {
     );
     
     public Sneak() {
-        super(Categories.MOVEMENT, "Sneak", "Sneaks for you.");
+        super(Category.MOVEMENT, "Sneak", "Sneaks for you.");
     }
     
     public boolean doPacket() {

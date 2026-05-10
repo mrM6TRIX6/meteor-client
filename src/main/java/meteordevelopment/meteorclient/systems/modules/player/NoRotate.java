@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.player;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.EntityPosition;
@@ -15,7 +15,7 @@ import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
 public class NoRotate extends Module {
     
     public NoRotate() {
-        super(Categories.PLAYER, "NoRotate", "Attempts to block rotations sent from server to client.");
+        super(Category.PLAYER, "NoRotate", "Attempts to block rotations sent from server to client.");
     }
     
     @EventHandler

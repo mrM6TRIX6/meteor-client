@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.mixin.LayerRenderStateAccessor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.render.OverlayTexture;
@@ -45,7 +45,7 @@ public class ItemPhysics extends Module {
     private boolean skipTransformation;
     
     public ItemPhysics() {
-        super(Categories.RENDER, "ItemPhysics", "Applies physics to items on the ground.");
+        super(Category.RENDER, "ItemPhysics", "Applies physics to items on the ground.");
     }
     
     @EventHandler

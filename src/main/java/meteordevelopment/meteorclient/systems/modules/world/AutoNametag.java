@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
@@ -78,7 +78,7 @@ public class AutoNametag extends Module {
     private boolean offHand;
     
     public AutoNametag() {
-        super(Categories.WORLD, "AutoNametag", "Automatically uses nametags on entities without a nametag. WILL nametag ALL entities in the specified distance.");
+        super(Category.WORLD, "AutoNametag", "Automatically uses nametags on entities without a nametag. WILL nametag ALL entities in the specified distance.");
     }
     
     @Override

@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.packet.c2s.common.CommonPongC2SPacket;
@@ -59,7 +59,7 @@ public class Freeze extends Module {
     private boolean warpInProgress;
     
     public Freeze() {
-        super(Categories.MOVEMENT, "Freeze", "Allows you to freeze yourself without the server knowing.");
+        super(Category.MOVEMENT, "Freeze", "Allows you to freeze yourself without the server knowing.");
     }
     
     @Override

@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
@@ -44,7 +44,7 @@ public class AutoJump extends Module {
     );
     
     public AutoJump() {
-        super(Categories.MOVEMENT, "AutoJump", "Automatically jumps.");
+        super(Category.MOVEMENT, "AutoJump", "Automatically jumps.");
     }
     
     private boolean jump() {

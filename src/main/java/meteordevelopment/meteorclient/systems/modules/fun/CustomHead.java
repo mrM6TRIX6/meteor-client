@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ComponentMapReader;
 import meteordevelopment.orbit.EventHandler;
@@ -91,7 +91,7 @@ public class CustomHead extends Module {
     private int currentItemIndex, currentComponentsIndex, timer;
     
     public CustomHead() {
-        super(Categories.FUN, "CustomHead", "Sets custom item in head slot.");
+        super(Category.FUN, "CustomHead", "Sets custom item in head slot.");
     }
     
     @Override

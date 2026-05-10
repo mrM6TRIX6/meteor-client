@@ -5,13 +5,13 @@
 
 package meteordevelopment.meteorclient.systems.modules.render;
 
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
 public class Debug extends Module {
     
     public Debug() {
-        super(Categories.RENDER, "Debug", "Various debugging tools for developers.");
+        super(Category.RENDER, "Debug", "Various debugging tools for developers.");
     }
     
 }

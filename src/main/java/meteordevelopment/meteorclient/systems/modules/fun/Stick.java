@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.Vector3dSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
@@ -76,7 +76,7 @@ public class Stick extends Module {
     private Entity target;
     
     public Stick() {
-        super(Categories.FUN, "Stick", "Stick to a player.");
+        super(Category.FUN, "Stick", "Stick to a player.");
     }
     
     @Override

@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerManager;
@@ -50,7 +50,7 @@ public class FakePlayer extends Module {
     private WTable table;
     
     public FakePlayer() {
-        super(Categories.PLAYER, "FakePlayer", "Spawns a client-side fake player for testing usages. No need to be active.");
+        super(Category.PLAYER, "FakePlayer", "Spawns a client-side fake player for testing usages. No need to be active.");
     }
     
     @Override

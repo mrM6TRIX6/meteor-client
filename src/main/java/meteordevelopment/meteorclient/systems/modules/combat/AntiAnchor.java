@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
@@ -37,7 +37,7 @@ public class AntiAnchor extends Module {
     );
     
     public AntiAnchor() {
-        super(Categories.COMBAT, "AntiAnchor", "Automatically prevents Anchor Aura by placing a slab on your head.");
+        super(Category.COMBAT, "AntiAnchor", "Automatically prevents Anchor Aura by placing a slab on your head.");
     }
     
     @EventHandler

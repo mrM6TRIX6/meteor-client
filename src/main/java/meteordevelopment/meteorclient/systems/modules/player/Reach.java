@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.RenderUtils;
 
@@ -33,7 +33,7 @@ public class Reach extends Module {
     );
     
     public Reach() {
-        super(Categories.PLAYER, "Reach", "Gives you super long arms.");
+        super(Category.PLAYER, "Reach", "Gives you super long arms.");
     }
     
     @Override

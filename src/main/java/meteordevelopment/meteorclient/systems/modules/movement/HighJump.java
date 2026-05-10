@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.entity.player.JumpVelocityMultiplie
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 
@@ -26,7 +26,7 @@ public class HighJump extends Module {
     );
     
     public HighJump() {
-        super(Categories.MOVEMENT, "HighJump", "Makes you jump higher than normal.");
+        super(Category.MOVEMENT, "HighJump", "Makes you jump higher than normal.");
     }
     
     @EventHandler

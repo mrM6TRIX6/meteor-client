@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import net.minecraft.item.BlockItem;
@@ -56,7 +56,7 @@ public class FastUse extends Module {
     );
     
     public FastUse() {
-        super(Categories.PLAYER, "FastUse", "Allows you to use items at very high speeds.");
+        super(Category.PLAYER, "FastUse", "Allows you to use items at very high speeds.");
     }
     
     public int getItemUseCooldown(ItemStack itemStack) {

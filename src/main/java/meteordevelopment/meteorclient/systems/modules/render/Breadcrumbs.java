@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -59,7 +59,7 @@ public class Breadcrumbs extends Module {
     private DimensionType lastDimension;
     
     public Breadcrumbs() {
-        super(Categories.RENDER, "Breadcrumbs", "Displays a trail behind where you have walked.");
+        super(Category.RENDER, "Breadcrumbs", "Displays a trail behind where you have walked.");
     }
     
     @Override

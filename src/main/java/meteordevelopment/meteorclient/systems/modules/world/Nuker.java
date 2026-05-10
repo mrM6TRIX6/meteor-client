@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -305,7 +305,7 @@ public class Nuker extends Module {
     int maxV = 0;
     
     public Nuker() {
-        super(Categories.WORLD, "Nuker", "Breaks blocks around you.");
+        super(Category.WORLD, "Nuker", "Breaks blocks around you.");
     }
     
     @Override

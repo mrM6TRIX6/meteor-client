@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.BreakIndicators;
@@ -127,7 +127,7 @@ public class PacketMine extends Module {
     private boolean swapped, shouldUpdateSlot;
     
     public PacketMine() {
-        super(Categories.WORLD, "PacketMine", "Sends packets to mine blocks without the mining animation.");
+        super(Category.WORLD, "PacketMine", "Sends packets to mine blocks without the mining animation.");
     }
     
     @Override

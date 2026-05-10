@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.renderer.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.network.Http;
@@ -51,7 +51,7 @@ public class EntityOwner extends Module {
     private final Map<UUID, String> uuidToName = new HashMap<>();
     
     public EntityOwner() {
-        super(Categories.RENDER, "EntityOwner", "Displays the name of the player who owns the entity you're looking at.");
+        super(Category.RENDER, "EntityOwner", "Displays the name of the player who owns the entity you're looking at.");
     }
     
     @Override

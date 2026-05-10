@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -107,7 +107,7 @@ public class ArrowDodge extends Module {
     private final List<Vector3d> points = new ArrayList<>();
     
     public ArrowDodge() {
-        super(Categories.COMBAT, "ArrowDodge", "Tries to dodge arrows coming at you.");
+        super(Category.COMBAT, "ArrowDodge", "Tries to dodge arrows coming at you.");
     }
     
     @EventHandler

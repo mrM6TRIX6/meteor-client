@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
@@ -136,7 +136,7 @@ public class Velocity extends Module {
     );
     
     public Velocity() {
-        super(Categories.MOVEMENT, "Velocity", "Prevents you from being moved by external forces.");
+        super(Category.MOVEMENT, "Velocity", "Prevents you from being moved by external forces.");
     }
     
     @EventHandler

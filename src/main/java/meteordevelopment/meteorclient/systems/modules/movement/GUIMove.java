@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
@@ -97,7 +97,7 @@ public class GUIMove extends Module {
     );
     
     public GUIMove() {
-        super(Categories.MOVEMENT, "GUIMove", "Allows you to perform various actions while in GUIs.");
+        super(Category.MOVEMENT, "GUIMove", "Allows you to perform various actions while in GUIs.");
     }
     
     @Override

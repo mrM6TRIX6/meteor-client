@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.systems.modules.player;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import meteordevelopment.meteorclient.events.entity.player.DoItemUseEvent;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.ActionResult;
@@ -24,7 +24,7 @@ public class GhostHand extends Module {
     private final Set<BlockPos> posList = new ObjectOpenHashSet<>();
     
     public GhostHand() {
-        super(Categories.PLAYER, "GhostHand", "Opens containers through walls.");
+        super(Category.PLAYER, "GhostHand", "Opens containers through walls.");
     }
     
     @EventHandler

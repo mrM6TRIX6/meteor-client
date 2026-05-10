@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -101,7 +101,7 @@ public class Flight extends Module {
     private double lastPacketY = Double.MAX_VALUE;
     
     public Flight() {
-        super(Categories.MOVEMENT, "Flight", "FLYYYY! NoFall is recommended with this module.");
+        super(Category.MOVEMENT, "Flight", "FLYYYY! NoFall is recommended with this module.");
     }
     
     @Override

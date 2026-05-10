@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -48,7 +48,7 @@ public class EntitySpeed extends Module {
     );
     
     public EntitySpeed() {
-        super(Categories.MOVEMENT, "EntitySpeed", "Makes you go faster when riding entities.");
+        super(Category.MOVEMENT, "EntitySpeed", "Makes you go faster when riding entities.");
     }
     
     @EventHandler

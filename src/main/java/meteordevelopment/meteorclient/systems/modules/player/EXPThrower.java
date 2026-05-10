@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.player;
 
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -17,7 +17,7 @@ import net.minecraft.item.Items;
 public class EXPThrower extends Module {
     
     public EXPThrower() {
-        super(Categories.PLAYER, "ExpThrower", "Automatically throws XP bottles from your hotbar.");
+        super(Category.PLAYER, "ExpThrower", "Automatically throws XP bottles from your hotbar.");
     }
     
     @EventHandler

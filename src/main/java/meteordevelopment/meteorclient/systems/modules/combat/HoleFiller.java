@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
@@ -234,7 +234,7 @@ public class HoleFiller extends Module {
     private int timer;
     
     public HoleFiller() {
-        super(Categories.COMBAT, "HoleFiller", "Fills holes with specified blocks.");
+        super(Category.COMBAT, "HoleFiller", "Fills holes with specified blocks.");
     }
     
     @Override

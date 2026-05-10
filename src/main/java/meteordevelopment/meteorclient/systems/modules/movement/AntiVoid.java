@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -31,7 +31,7 @@ public class AntiVoid extends Module {
     private boolean wasFlightEnabled, hasRun;
     
     public AntiVoid() {
-        super(Categories.MOVEMENT, "AntiVoid", "Attempts to prevent you from falling into the void.");
+        super(Category.MOVEMENT, "AntiVoid", "Attempts to prevent you from falling into the void.");
     }
     
     @Override

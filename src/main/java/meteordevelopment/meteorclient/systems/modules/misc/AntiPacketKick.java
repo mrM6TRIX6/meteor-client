@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.misc;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
 public class AntiPacketKick extends Module {
@@ -31,7 +31,7 @@ public class AntiPacketKick extends Module {
     );
     
     public AntiPacketKick() {
-        super(Categories.MISC, "AntiPacketKick", "Attempts to prevent you from being disconnected by large packets.");
+        super(Category.MISC, "AntiPacketKick", "Attempts to prevent you from being disconnected by large packets.");
     }
     
     public boolean catchExceptions() {

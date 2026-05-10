@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ParticleTypeListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.particle.ParticleEffect;
@@ -38,7 +38,7 @@ public class Trail extends Module {
     );
     
     public Trail() {
-        super(Categories.RENDER, "Trail", "Renders a customizable trail behind your player.");
+        super(Category.RENDER, "Trail", "Renders a customizable trail behind your player.");
     }
     
     @EventHandler

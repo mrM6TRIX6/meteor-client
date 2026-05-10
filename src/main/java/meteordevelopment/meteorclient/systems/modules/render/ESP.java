@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -190,7 +190,7 @@ public class ESP extends Module {
     private int count;
     
     public ESP() {
-        super(Categories.RENDER, "ESP", "Renders entities through walls.");
+        super(Category.RENDER, "ESP", "Renders entities through walls.");
     }
     
     // Box

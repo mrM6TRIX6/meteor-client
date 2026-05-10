@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.settings.impl.BlockDataSetting;
 import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.GenericSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.render.color.RainbowColors;
@@ -93,7 +93,7 @@ public class BlockESP extends Module {
     private DimensionType lastDimension;
     
     public BlockESP() {
-        super(Categories.RENDER, "BlockESP", "Renders specified blocks through walls.");
+        super(Category.RENDER, "BlockESP", "Renders specified blocks through walls.");
         
         RainbowColors.register(this::onTickRainbow);
     }

@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Xray;
@@ -126,7 +126,7 @@ public class AutoTool extends Module {
     private int bestSlot;
     
     public AutoTool() {
-        super(Categories.PLAYER, "AutoTool", "Automatically switches to the most effective tool when performing an action.");
+        super(Category.PLAYER, "AutoTool", "Automatically switches to the most effective tool when performing an action.");
     }
     
     @EventHandler

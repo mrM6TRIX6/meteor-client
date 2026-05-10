@@ -17,7 +17,6 @@ import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.gui.tabs.impl.ModulesTab;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
-import meteordevelopment.meteorclient.systems.modules.Categories;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.DiscordPresence;
 import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
@@ -117,9 +116,6 @@ public class MeteorClient implements ClientModInitializer {
         
         // Pre init
         ReflectInit.init(PreInit.class);
-        
-        // Register module categories
-        Categories.init();
         
         // Load systems
         Systems.init();

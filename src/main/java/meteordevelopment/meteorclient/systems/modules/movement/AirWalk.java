@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.world.CollisionShapeEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +35,7 @@ public class AirWalk extends Module {
     );
     
     public AirWalk() {
-        super(Categories.MOVEMENT, "AirWalk", "Lets you walk on air.");
+        super(Category.MOVEMENT, "AirWalk", "Lets you walk on air.");
     }
     
     @EventHandler

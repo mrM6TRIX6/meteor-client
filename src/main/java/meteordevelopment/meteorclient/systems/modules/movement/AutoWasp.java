@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.Vector3dSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
@@ -93,7 +93,7 @@ public class AutoWasp extends Module {
     private boolean incrementJumpTimer = false;
     
     public AutoWasp() {
-        super(Categories.MOVEMENT, "AutoWasp", "Wasps for you. Unable to traverse around blocks, assumes a clear straight line to the target.");
+        super(Category.MOVEMENT, "AutoWasp", "Wasps for you. Unable to traverse around blocks, assumes a clear straight line to the target.");
     }
     
     @Override

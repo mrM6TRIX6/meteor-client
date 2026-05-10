@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
@@ -105,7 +105,7 @@ public class Aimbot extends Module {
     private Entity target;
     
     public Aimbot() {
-        super(Categories.COMBAT, "Aimbot", "Automatically aims at entities.");
+        super(Category.COMBAT, "Aimbot", "Automatically aims at entities.");
     }
     
     @EventHandler

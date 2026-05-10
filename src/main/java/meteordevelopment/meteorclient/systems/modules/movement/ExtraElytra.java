@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.EquipmentSlot;
@@ -65,7 +65,7 @@ public class ExtraElytra extends Module {
     }
     
     public ExtraElytra() {
-        super(Categories.MOVEMENT, "ExtraElytra", "Easier elytra.");
+        super(Category.MOVEMENT, "ExtraElytra", "Easier elytra.");
     }
     
     @EventHandler

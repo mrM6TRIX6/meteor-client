@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.speed.modes.Strafe;
@@ -100,7 +100,7 @@ public class Speed extends Module {
     private SpeedMode currentMode;
     
     public Speed() {
-        super(Categories.MOVEMENT, "Speed", "Modifies your movement speed when moving on the ground.");
+        super(Category.MOVEMENT, "Speed", "Modifies your movement speed when moving on the ground.");
         
         onSpeedModeChanged(speedMode.get());
     }

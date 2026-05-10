@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -316,7 +316,7 @@ public class AttributeSwap extends Module {
     private boolean awaitingBack;
     
     public AttributeSwap() {
-        super(Categories.COMBAT, "AttributeSwap", "Swaps to a target slot when you attack.");
+        super(Category.COMBAT, "AttributeSwap", "Swaps to a target slot when you attack.");
     }
     
     @Override

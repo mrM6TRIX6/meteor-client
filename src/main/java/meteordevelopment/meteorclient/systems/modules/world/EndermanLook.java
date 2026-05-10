@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.Target;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -43,7 +43,7 @@ public class EndermanLook extends Module {
     );
     
     public EndermanLook() {
-        super(Categories.WORLD, "EndermanLook", "Either looks at all Endermen or prevents you from looking at Endermen.");
+        super(Category.WORLD, "EndermanLook", "Either looks at all Endermen or prevents you from looking at Endermen.");
     }
     
     @EventHandler

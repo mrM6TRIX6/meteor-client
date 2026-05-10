@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
@@ -79,7 +79,7 @@ public class BoatFly extends Module {
     );
     
     public BoatFly() {
-        super(Categories.MOVEMENT, "BoatFly", "Transforms your boat into a plane.");
+        super(Category.MOVEMENT, "BoatFly", "Transforms your boat into a plane.");
     }
     
     @Override

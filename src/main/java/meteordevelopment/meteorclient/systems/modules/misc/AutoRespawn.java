@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.misc;
 
 import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
@@ -15,7 +15,7 @@ import net.minecraft.client.gui.screen.DeathScreen;
 public class AutoRespawn extends Module {
     
     public AutoRespawn() {
-        super(Categories.PLAYER, "AutoRespawn", "Automatically respawns after death.");
+        super(Category.PLAYER, "AutoRespawn", "Automatically respawns after death.");
     }
     
     @EventHandler(priority = EventPriority.HIGH)

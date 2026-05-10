@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
@@ -70,7 +70,7 @@ public class BlockSelection extends Module {
     );
     
     public BlockSelection() {
-        super(Categories.RENDER, "BlockSelection", "Modifies how your block selection is rendered.");
+        super(Category.RENDER, "BlockSelection", "Modifies how your block selection is rendered.");
     }
     
     @EventHandler

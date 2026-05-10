@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
@@ -276,7 +276,7 @@ public class KillAura extends Module {
     public static int previousSlot;
     
     public KillAura() {
-        super(Categories.COMBAT, "KillAura", "Attacks specified entities around you.");
+        super(Category.COMBAT, "KillAura", "Attacks specified entities around you.");
     }
     
     @Override

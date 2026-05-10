@@ -5,13 +5,13 @@
 
 package meteordevelopment.meteorclient.systems.modules.player;
 
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
 public class LiquidInteract extends Module {
     
     public LiquidInteract() {
-        super(Categories.PLAYER, "LiquidInteract", "Allows you to interact with liquids.");
+        super(Category.PLAYER, "LiquidInteract", "Allows you to interact with liquids.");
     }
     
 }

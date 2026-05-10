@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.PacketListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.network.PacketUtils;
@@ -61,7 +61,7 @@ public class PacketDebugger extends Module {
     );
     
     public PacketDebugger() {
-        super(Categories.MISC, "PacketDebugger", "Logging network packets.");
+        super(Category.MISC, "PacketDebugger", "Logging network packets.");
         runInMainMenu = true;
     }
     

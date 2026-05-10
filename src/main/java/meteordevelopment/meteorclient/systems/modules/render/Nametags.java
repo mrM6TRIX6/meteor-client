@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -300,7 +300,7 @@ public class Nametags extends Module {
     private final List<Entity> entityList = new ArrayList<>();
     
     public Nametags() {
-        super(Categories.RENDER, "Nametags", "Displays customizable nametags above players, items and other entities.");
+        super(Category.RENDER, "Nametags", "Displays customizable nametags above players, items and other entities.");
     }
     
     private static String ticksToTime(int ticks) {

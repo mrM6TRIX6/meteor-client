@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
@@ -37,7 +37,7 @@ public class AntiAnvil extends Module {
     );
     
     public AntiAnvil() {
-        super(Categories.COMBAT, "AntiAnvil", "Automatically prevents Auto Anvil by placing between you and the anvil.");
+        super(Category.COMBAT, "AntiAnvil", "Automatically prevents Auto Anvil by placing between you and the anvil.");
     }
     
     @EventHandler

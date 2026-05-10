@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
@@ -186,7 +186,7 @@ public class Scaffold extends Module {
     private final BlockPos.Mutable bp = new BlockPos.Mutable();
     
     public Scaffold() {
-        super(Categories.MOVEMENT, "Scaffold", "Automatically places blocks under you.");
+        super(Category.MOVEMENT, "Scaffold", "Automatically places blocks under you.");
     }
     
     @EventHandler

@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.combat.AutoTotem;
@@ -78,7 +78,7 @@ public class AutoReplenish extends Module {
     private int tickDelayLeft;
     
     public AutoReplenish() {
-        super(Categories.PLAYER, "AutoReplenish", "Automatically refills items in your hotbar, main hand, or offhand.");
+        super(Category.PLAYER, "AutoReplenish", "Automatically refills items in your hotbar, main hand, or offhand.");
         
         for (int i = 0; i < items.length; i++) {
             items[i] = new ItemStack(Items.AIR);

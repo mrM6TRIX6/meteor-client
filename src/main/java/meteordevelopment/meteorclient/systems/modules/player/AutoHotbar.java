@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -112,7 +112,7 @@ public class AutoHotbar extends Module {
     private int currentSlot;
     
     public AutoHotbar() {
-        super(Categories.PLAYER, "AutoHotbar", "Automatically swaps between slots in the hotbar.");
+        super(Category.PLAYER, "AutoHotbar", "Automatically swaps between slots in the hotbar.");
     }
     
     @Override

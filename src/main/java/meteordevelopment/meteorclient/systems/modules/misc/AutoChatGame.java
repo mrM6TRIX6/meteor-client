@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.RangeSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Range;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
@@ -46,7 +46,7 @@ public class AutoChatGame extends Module {
     private final Timer timer = new Timer();
     
     public AutoChatGame() {
-        super(Categories.MISC, "AutoChatGame", "Automatically solves chat games on MineBlaze.");
+        super(Category.MISC, "AutoChatGame", "Automatically solves chat games on MineBlaze.");
     }
     
     @EventHandler

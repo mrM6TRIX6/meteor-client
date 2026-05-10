@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.StatusEffectListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import net.minecraft.entity.effect.StatusEffect;
@@ -52,7 +52,7 @@ public class PotionSaver extends Module {
     );
     
     public PotionSaver() {
-        super(Categories.PLAYER, "PotionSaver", "Stops potion effects ticking when you stand still.");
+        super(Category.PLAYER, "PotionSaver", "Stops potion effects ticking when you stand still.");
     }
     
     public boolean shouldFreeze(StatusEffect effect) {

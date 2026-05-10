@@ -21,7 +21,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
@@ -85,7 +85,7 @@ public class TunnelESP extends Module {
     private final Long2ObjectMap<TChunk> chunks = new Long2ObjectOpenHashMap<>();
     
     public TunnelESP() {
-        super(Categories.RENDER, "TunnelESP", "Highlights tunnels.");
+        super(Category.RENDER, "TunnelESP", "Highlights tunnels.");
     }
     
     @Override

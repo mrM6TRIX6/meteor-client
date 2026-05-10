@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
@@ -96,7 +96,7 @@ public class Xray extends Module {
         .build());
     
     public Xray() {
-        super(Categories.RENDER, "Xray", "Only renders specified blocks. Good for mining.");
+        super(Category.RENDER, "Xray", "Only renders specified blocks. Good for mining.");
     }
     
     @Override

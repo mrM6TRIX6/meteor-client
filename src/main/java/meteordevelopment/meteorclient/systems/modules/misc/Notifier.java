@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -246,7 +246,7 @@ public class Notifier extends Module {
     private final Random random = new Random();
     
     public Notifier() {
-        super(Categories.MISC, "Notifier", "Notifies you of different events.");
+        super(Category.MISC, "Notifier", "Notifies you of different events.");
     }
     
     // Visual Range

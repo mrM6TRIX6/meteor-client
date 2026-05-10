@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StatusEffectListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
@@ -112,7 +112,7 @@ public class Quiver extends Module {
     private final BlockPos.Mutable testPos = new BlockPos.Mutable();
     
     public Quiver() {
-        super(Categories.COMBAT, "Quiver", "Shoots arrows at yourself.");
+        super(Category.COMBAT, "Quiver", "Shoots arrows at yourself.");
     }
     
     @Override

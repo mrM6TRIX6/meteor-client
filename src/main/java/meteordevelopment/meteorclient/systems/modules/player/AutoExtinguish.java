@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
@@ -98,7 +98,7 @@ public class AutoExtinguish extends Module {
     private static final StatusEffect FIRE_RESISTANCE = Registries.STATUS_EFFECT.get(Identifier.of("fire_resistance"));
     
     public AutoExtinguish() {
-        super(Categories.PLAYER, "AutoExtinguish", "Automatically extinguishes fire around you.");
+        super(Category.PLAYER, "AutoExtinguish", "Automatically extinguishes fire around you.");
     }
     
     @EventHandler

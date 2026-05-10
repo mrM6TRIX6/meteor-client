@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.KeybindSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
@@ -83,7 +83,7 @@ public class Excavator extends Module {
     private BetterBlockPos start, end;
     
     public Excavator() {
-        super(Categories.WORLD, "Excavator", "Excavate a selection area.");
+        super(Category.WORLD, "Excavator", "Excavate a selection area.");
     }
     
     @Override

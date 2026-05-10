@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.events.entity.player.PlaceBlockEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
@@ -34,7 +34,7 @@ public class NoGhostBlocks extends Module {
     );
     
     public NoGhostBlocks() {
-        super(Categories.WORLD, "NoGhostBlocks", "Attempts to prevent ghost blocks arising.");
+        super(Category.WORLD, "NoGhostBlocks", "Attempts to prevent ghost blocks arising.");
     }
     
     @EventHandler

@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -183,7 +183,7 @@ public class StorageESP extends Module {
     private final MeshBuilderVertexConsumerProvider vertexConsumerProvider;
     
     public StorageESP() {
-        super(Categories.RENDER, "StorageESP", "Renders all specified storage blocks.");
+        super(Category.RENDER, "StorageESP", "Renders all specified storage blocks.");
         
         mesh = new MeshBuilder(MeteorRenderPipelines.WORLD_COLORED);
         vertexConsumerProvider = new MeshBuilderVertexConsumerProvider(mesh);

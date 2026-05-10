@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
@@ -53,7 +53,7 @@ public class HandDerp extends Module {
     private int timer;
     
     public HandDerp() {
-        super(Categories.FUN, "HandDerp", "Switches your main hand.");
+        super(Category.FUN, "HandDerp", "Switches your main hand.");
     }
     
     @Override

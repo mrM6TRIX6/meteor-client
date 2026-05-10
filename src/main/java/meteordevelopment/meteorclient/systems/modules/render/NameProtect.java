@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
 public class NameProtect extends Module {
@@ -41,7 +41,7 @@ public class NameProtect extends Module {
     private String username = "If you see this, something is wrong.";
     
     public NameProtect() {
-        super(Categories.RENDER, "NameProtect", "Hide player names and skins.");
+        super(Category.RENDER, "NameProtect", "Hide player names and skins.");
     }
     
     @Override

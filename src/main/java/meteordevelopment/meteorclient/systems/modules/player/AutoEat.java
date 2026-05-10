@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.combat.AnchorAura;
@@ -111,7 +111,7 @@ public class AutoEat extends Module {
     private boolean wasBaritone = false;
     
     public AutoEat() {
-        super(Categories.PLAYER, "AutoEat", "Automatically eats food.");
+        super(Category.PLAYER, "AutoEat", "Automatically eats food.");
     }
     
     @Override

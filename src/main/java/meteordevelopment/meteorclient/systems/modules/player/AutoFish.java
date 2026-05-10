@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -85,7 +85,7 @@ public class AutoFish extends Module {
     );
     
     public AutoFish() {
-        super(Categories.PLAYER, "AutoFish", "Automatically fishes for you.");
+        super(Category.PLAYER, "AutoFish", "Automatically fishes for you.");
     }
     
     private double castDelayLeft = 0.0;

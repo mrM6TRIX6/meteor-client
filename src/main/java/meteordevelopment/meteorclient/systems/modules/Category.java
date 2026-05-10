@@ -5,45 +5,41 @@
 
 package meteordevelopment.meteorclient.systems.modules;
 
+import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
-public class Category {
+public enum Category implements IDisplayName {
+    
+    COMBAT("Combat"),
+    PLAYER("Player"),
+    MOVEMENT("Movement"),
+    RENDER("Render"),
+    WORLD("World"),
+    MISC("Misc"),
+    EXPLOIT("Exploit"),
+    FUN("Fun");
     
     public final String name;
     public final ItemStack icon;
-    private final int nameHash;
     
-    public Category(String name, ItemStack icon) {
+    Category(String name, ItemStack icon) {
         this.name = name;
-        this.nameHash = name.hashCode();
         this.icon = icon == null ? Items.AIR.getDefaultStack() : icon;
     }
     
-    public Category(String name) {
+    Category(String name) {
         this(name, null);
+    }
+    
+    @Override
+    public String getDisplayName() {
+        return name;
     }
     
     @Override
     public String toString() {
         return name;
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Category category = (Category) o;
-        return nameHash == category.nameHash;
-    }
-    
-    @Override
-    public int hashCode() {
-        return nameHash;
     }
     
 }

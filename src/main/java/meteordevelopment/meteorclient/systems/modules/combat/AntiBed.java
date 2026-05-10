@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -59,7 +59,7 @@ public class AntiBed extends Module {
     private boolean breaking;
     
     public AntiBed() {
-        super(Categories.COMBAT, "AntiBed", "Places string to prevent beds being placed on you.");
+        super(Category.COMBAT, "AntiBed", "Places string to prevent beds being placed on you.");
     }
     
     @EventHandler

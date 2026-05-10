@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.fun;
 
 import meteordevelopment.meteorclient.events.render.EntityRenderAfterTranslateEvent;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
@@ -14,7 +14,7 @@ import net.minecraft.client.render.entity.state.PlayerEntityRenderState;
 public class BadTrip extends Module {
     
     public BadTrip() {
-        super(Categories.FUN, "BadTrip", "Makes the players wobble.");
+        super(Category.FUN, "BadTrip", "Makes the players wobble.");
     }
     
     @EventHandler

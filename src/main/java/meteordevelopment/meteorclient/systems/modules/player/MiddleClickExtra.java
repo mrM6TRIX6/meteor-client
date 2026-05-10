@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
 import meteordevelopment.meteorclient.systems.friends.Friend;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
@@ -99,7 +99,7 @@ public class MiddleClickExtra extends Module {
     private int selectedSlot;
     
     public MiddleClickExtra() {
-        super(Categories.PLAYER, "MiddleClickExtra", "Perform various actions when you middle click.");
+        super(Category.PLAYER, "MiddleClickExtra", "Perform various actions when you middle click.");
     }
     
     @Override

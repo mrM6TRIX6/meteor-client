@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -63,7 +63,7 @@ public class AutoAccept extends Module {
     );
     
     public AutoAccept() {
-        super(Categories.MISC, "AutoAccept", "Automatically accepts various requests on MineBlaze.");
+        super(Category.MISC, "AutoAccept", "Automatically accepts various requests on MineBlaze.");
     }
     
     @EventHandler

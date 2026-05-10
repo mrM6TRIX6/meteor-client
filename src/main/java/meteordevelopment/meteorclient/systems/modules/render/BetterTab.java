@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -91,7 +91,7 @@ public class BetterTab extends Module {
     );
     
     public BetterTab() {
-        super(Categories.RENDER, "BetterTab", "Various improvements to the player list hud.");
+        super(Category.RENDER, "BetterTab", "Various improvements to the player list hud.");
     }
     
     public boolean autoTabSize() {

@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.item.Item;
@@ -40,7 +40,7 @@ public class ArrowDamage extends Module {
     
     
     public ArrowDamage() {
-        super(Categories.COMBAT, "ArrowDamage", "Massively increases arrow damage, but also consumes a lot of hunger and reduces accuracy. Does not work with crossbows and seems to be patched on Paper servers.");
+        super(Category.COMBAT, "ArrowDamage", "Massively increases arrow damage, but also consumes a lot of hunger and reduces accuracy. Does not work with crossbows and seems to be patched on Paper servers.");
     }
     
     @EventHandler

@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket;
@@ -41,7 +41,7 @@ public class TimeChanger extends Module {
     private long oldTime;
     
     public TimeChanger() {
-        super(Categories.RENDER, "TimeChanger", "Makes you able to set a custom time.");
+        super(Category.RENDER, "TimeChanger", "Makes you able to set a custom time.");
     }
     
     @Override

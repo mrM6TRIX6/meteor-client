@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -178,7 +178,7 @@ public class Ambience extends Module {
     );
     
     public Ambience() {
-        super(Categories.RENDER, "Ambience", "Change the color of various pieces of the environment.");
+        super(Category.RENDER, "Ambience", "Change the color of various pieces of the environment.");
     }
     
     @Override

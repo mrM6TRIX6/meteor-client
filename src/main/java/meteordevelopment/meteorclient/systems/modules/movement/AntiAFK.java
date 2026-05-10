@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -150,7 +150,7 @@ public class AntiAFK extends Module {
     );
     
     public AntiAFK() {
-        super(Categories.PLAYER, "AntiAFK", "Performs different actions to prevent getting kicked while AFK.");
+        super(Category.PLAYER, "AntiAFK", "Performs different actions to prevent getting kicked while AFK.");
     }
     
     private final Random random = new Random();

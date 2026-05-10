@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorListSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -148,7 +148,7 @@ public class RainbowArmor extends Module {
     private int linearI;
     
     public RainbowArmor() {
-        super(Categories.FUN, "RainbowArmor", "Gives you Rainbow Leather Armor with various modes.");
+        super(Category.FUN, "RainbowArmor", "Gives you Rainbow Leather Armor with various modes.");
     }
     
     @Override

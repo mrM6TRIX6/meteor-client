@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -96,7 +96,7 @@ public class Flamethrower extends Module {
     private Hand hand;
     
     public Flamethrower() {
-        super(Categories.WORLD, "Flamethrower", "Ignites every alive piece of food.");
+        super(Category.WORLD, "Flamethrower", "Ignites every alive piece of food.");
     }
     
     @Override

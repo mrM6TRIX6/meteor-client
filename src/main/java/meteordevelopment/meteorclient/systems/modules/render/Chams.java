@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -179,7 +179,7 @@ public class Chams extends Module {
     public static final Identifier BLANK = MeteorClient.identifier("textures/blank.png");
     
     public Chams() {
-        super(Categories.RENDER, "Chams", "Tweaks rendering of entities.");
+        super(Category.RENDER, "Chams", "Tweaks rendering of entities.");
     }
     
     public boolean shouldRender(Entity entity) {

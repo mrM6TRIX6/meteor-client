@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -152,7 +152,7 @@ public class AutoLog extends Module {
     private int pops;
     
     public AutoLog() {
-        super(Categories.COMBAT, "AutoLog", "Automatically disconnects you when certain requirements are met.");
+        super(Category.COMBAT, "AutoLog", "Automatically disconnects you when certain requirements are met.");
     }
     
     @Override

@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import net.minecraft.entity.Entity;
@@ -121,7 +121,7 @@ public class Hitboxes extends Module {
     );
     
     public Hitboxes() {
-        super(Categories.COMBAT, "Hitboxes", "Expands an entity's hitboxes.");
+        super(Category.COMBAT, "Hitboxes", "Expands an entity's hitboxes.");
     }
     
     public double getEntityValue(Entity entity) {

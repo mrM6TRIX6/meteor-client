@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -66,7 +66,7 @@ public class CommandAura extends Module {
     );
     
     public CommandAura() {
-        super(Categories.MISC, "CommandAura", "Sends a message when players come in render distance.");
+        super(Category.MISC, "CommandAura", "Sends a message when players come in render distance.");
     }
     
     @EventHandler

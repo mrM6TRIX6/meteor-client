@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.HandWithDisplayName;
@@ -69,7 +69,7 @@ public class AutoBreed extends Module {
     private final List<Entity> animalsFed = new ArrayList<>();
     
     public AutoBreed() {
-        super(Categories.WORLD, "AutoBreed", "Automatically breeds specified animals.");
+        super(Category.WORLD, "AutoBreed", "Automatically breeds specified animals.");
     }
     
     @Override

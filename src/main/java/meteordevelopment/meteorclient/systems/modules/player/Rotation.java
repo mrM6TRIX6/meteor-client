@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
@@ -59,7 +59,7 @@ public class Rotation extends Module {
     );
     
     public Rotation() {
-        super(Categories.PLAYER, "Rotation", "Changes/locks your yaw and pitch.");
+        super(Category.PLAYER, "Rotation", "Changes/locks your yaw and pitch.");
     }
     
     @Override

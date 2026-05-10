@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.ModeEnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.movement.spider.modes.Polar;
 import meteordevelopment.meteorclient.systems.modules.movement.spider.modes.Vanilla;
@@ -46,7 +46,7 @@ public class Spider extends Module {
     );
     
     public Spider() {
-        super(Categories.MOVEMENT, "Spider", "Allows you to climb walls like a spider.");
+        super(Category.MOVEMENT, "Spider", "Allows you to climb walls like a spider.");
     }
     
     public double speed() {

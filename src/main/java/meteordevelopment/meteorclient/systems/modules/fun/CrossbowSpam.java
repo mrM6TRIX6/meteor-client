@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ComponentMapReader;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -67,7 +67,7 @@ public class CrossbowSpam extends Module {
     private int timer;
     
     public CrossbowSpam() {
-        super(Categories.FUN, "CrossbowSpam", "Automatically shoots a crossbow very fast. Creative mode only.");
+        super(Category.FUN, "CrossbowSpam", "Automatically shoots a crossbow very fast. Creative mode only.");
     }
     
     @Override

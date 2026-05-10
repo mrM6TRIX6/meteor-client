@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.ServerAddress;
@@ -42,7 +42,7 @@ public class AutoReconnect extends Module {
     public Pair<ServerAddress, ServerInfo> lastServerConnection;
     
     public AutoReconnect() {
-        super(Categories.MISC, "AutoReconnect", "Automatically reconnects when disconnected from a server.");
+        super(Category.MISC, "AutoReconnect", "Automatically reconnects when disconnected from a server.");
         MeteorClient.EVENT_BUS.subscribe(new StaticListener());
     }
     

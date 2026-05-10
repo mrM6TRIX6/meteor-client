@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
 public class TridentBoost extends Module {
@@ -33,7 +33,7 @@ public class TridentBoost extends Module {
     );
     
     public TridentBoost() {
-        super(Categories.MOVEMENT, "TridentBoost", "Boosts you when using riptide with a trident.");
+        super(Category.MOVEMENT, "TridentBoost", "Boosts you when using riptide with a trident.");
     }
     
     public double getMultiplier() {

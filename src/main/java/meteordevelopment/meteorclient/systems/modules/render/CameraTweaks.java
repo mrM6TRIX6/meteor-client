@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.KeybindSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.orbit.EventHandler;
@@ -71,7 +71,7 @@ public class CameraTweaks extends Module {
     public double distance;
     
     public CameraTweaks() {
-        super(Categories.RENDER, "CameraTweaks", "Allows modification of the third person camera.");
+        super(Category.RENDER, "CameraTweaks", "Allows modification of the third person camera.");
     }
     
     @Override

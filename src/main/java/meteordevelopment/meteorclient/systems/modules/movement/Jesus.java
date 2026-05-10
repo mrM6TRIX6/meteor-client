@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
@@ -161,7 +161,7 @@ public class Jesus extends Module {
     public boolean isInBubbleColumn = false;
     
     public Jesus() {
-        super(Categories.MOVEMENT, "Jesus", "Walk on liquids and powder snow like Jesus.");
+        super(Category.MOVEMENT, "Jesus", "Walk on liquids and powder snow like Jesus.");
     }
     
     @Override

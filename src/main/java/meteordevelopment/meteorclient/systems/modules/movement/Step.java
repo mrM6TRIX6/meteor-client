@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -69,7 +69,7 @@ public class Step extends Module {
     private boolean prevPathManagerStep;
     
     public Step() {
-        super(Categories.MOVEMENT, "Step", "Allows you to walk up full blocks instantly.");
+        super(Category.MOVEMENT, "Step", "Allows you to walk up full blocks instantly.");
     }
     
     @Override

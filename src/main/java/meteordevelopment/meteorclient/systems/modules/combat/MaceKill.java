@@ -7,7 +7,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
@@ -59,7 +59,7 @@ public class MaceKill extends Module {
     private Vec3d previousPos;
     
     public MaceKill() {
-        super(Categories.COMBAT, "MaceKill", "Makes the mace powerful by faking fall height.");
+        super(Category.COMBAT, "MaceKill", "Makes the mace powerful by faking fall height.");
     }
     
     @EventHandler

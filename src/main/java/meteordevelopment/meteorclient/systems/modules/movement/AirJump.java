@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
@@ -31,7 +31,7 @@ public class AirJump extends Module {
     private int level;
     
     public AirJump() {
-        super(Categories.MOVEMENT, "AirJump", "Lets you jump in the air.");
+        super(Category.MOVEMENT, "AirJump", "Lets you jump in the air.");
     }
     
     @Override

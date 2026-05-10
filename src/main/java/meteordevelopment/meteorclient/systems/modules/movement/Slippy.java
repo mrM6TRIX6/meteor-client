@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import net.minecraft.block.Block;
@@ -52,7 +52,7 @@ public class Slippy extends Module {
     );
     
     public Slippy() {
-        super(Categories.MOVEMENT, "Slippy", "Changes the base friction level of blocks.");
+        super(Category.MOVEMENT, "Slippy", "Changes the base friction level of blocks.");
     }
     
     public enum ListMode implements IDisplayName {

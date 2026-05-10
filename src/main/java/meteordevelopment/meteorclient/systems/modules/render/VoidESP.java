@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -101,7 +101,7 @@ public class VoidESP extends Module {
     private final List<Void> voidHoles = new ArrayList<>();
     
     public VoidESP() {
-        super(Categories.RENDER, "VoidESP", "Renders holes in bedrock layers that lead to the void.");
+        super(Category.RENDER, "VoidESP", "Renders holes in bedrock layers that lead to the void.");
     }
     
     @EventHandler

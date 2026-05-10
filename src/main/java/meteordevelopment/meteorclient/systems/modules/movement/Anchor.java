@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
@@ -77,7 +77,7 @@ public class Anchor extends Module {
     public double deltaX, deltaZ;
     
     public Anchor() {
-        super(Categories.MOVEMENT, "Anchor", "Helps you get into holes by stopping your movement completely over a hole.");
+        super(Category.MOVEMENT, "Anchor", "Helps you get into holes by stopping your movement completely over a hole.");
     }
     
     @Override

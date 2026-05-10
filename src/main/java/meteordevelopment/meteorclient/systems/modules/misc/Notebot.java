@@ -21,7 +21,7 @@ import meteordevelopment.meteorclient.renderer.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.notebot.NotebotUtils;
@@ -255,7 +255,7 @@ public class Notebot extends Module {
     
     
     public Notebot() {
-        super(Categories.MISC, "Notebot", "Plays noteblock nicely");
+        super(Category.MISC, "Notebot", "Plays noteblock nicely");
         
         for (NoteBlockInstrument inst : NoteBlockInstrument.values()) {
             NotebotUtils.OptionalInstrument optionalInstrument = NotebotUtils.OptionalInstrument.fromMinecraftInstrument(inst);

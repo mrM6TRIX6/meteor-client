@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.events.world.ParticleEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
@@ -377,7 +377,7 @@ public class NoRender extends Module {
     );
     
     public NoRender() {
-        super(Categories.RENDER, "NoRender", "Disables certain animations or overlays from rendering.");
+        super(Category.RENDER, "NoRender", "Disables certain animations or overlays from rendering.");
     }
     
     @Override

@@ -20,7 +20,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
@@ -119,7 +119,7 @@ public class BookBot extends Module {
     private final Random random = new Random();
     
     public BookBot() {
-        super(Categories.MISC, "BookBot", "Automatically writes in books.");
+        super(Category.MISC, "BookBot", "Automatically writes in books.");
         
         if (!file.exists()) {
             file = null;

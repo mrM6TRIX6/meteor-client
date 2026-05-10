@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
@@ -112,7 +112,7 @@ public class InfinityMiner extends Module {
     private boolean repairing;
     
     public InfinityMiner() {
-        super(Categories.WORLD, "InfinityMiner", "Allows you to essentially mine forever by mining repair blocks when the durability gets low. Needs a mending pickaxe.");
+        super(Category.WORLD, "InfinityMiner", "Allows you to essentially mine forever by mining repair blocks when the durability gets low. Needs a mending pickaxe.");
     }
     
     @Override

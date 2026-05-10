@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.mixin.ClientPlayerEntityAccessor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 
@@ -28,7 +28,7 @@ public class EntityControl extends Module {
     );
     
     public EntityControl() {
-        super(Categories.MOVEMENT, "EntityControl", "Lets you control rideable entities without a saddle.");
+        super(Category.MOVEMENT, "EntityControl", "Lets you control rideable entities without a saddle.");
     }
     
     @EventHandler

@@ -5,13 +5,13 @@
 
 package meteordevelopment.meteorclient.systems.modules.render;
 
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
 public class Fullbright extends Module {
     
     public Fullbright() {
-        super(Categories.RENDER, "Fullbright", "Lights up your world!");
+        super(Category.RENDER, "Fullbright", "Lights up your world!");
     }
     
 }

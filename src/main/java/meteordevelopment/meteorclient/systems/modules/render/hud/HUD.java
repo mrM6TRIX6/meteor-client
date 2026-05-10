@@ -22,7 +22,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorListSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.hud.elements.*;
@@ -101,7 +101,7 @@ public class HUD extends Module implements Iterable<HUDElement> {
     );
     
     public HUD() {
-        super(Categories.RENDER, "HUD", "The client in-game dashboard.");
+        super(Category.RENDER, "HUD", "The client in-game dashboard.");
         
         settings.registerColorSettings(null);
         

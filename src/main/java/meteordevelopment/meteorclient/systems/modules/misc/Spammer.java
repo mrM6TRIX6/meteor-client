@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.RangeSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.Range;
@@ -129,7 +129,7 @@ public class Spammer extends Module {
     private String text;
     
     public Spammer() {
-        super(Categories.MISC, "Spammer", "Spams specified messages in chat.");
+        super(Category.MISC, "Spammer", "Spams specified messages in chat.");
     }
     
     @Override

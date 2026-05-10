@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.movement;
 
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
@@ -28,7 +28,7 @@ import net.minecraft.world.RaycastContext;
 public class ClickTP extends Module {
     
     public ClickTP() {
-        super(Categories.MOVEMENT, "ClickTP", "Teleports you to the block you click on.");
+        super(Category.MOVEMENT, "ClickTP", "Teleports you to the block you click on.");
     }
     
     @EventHandler

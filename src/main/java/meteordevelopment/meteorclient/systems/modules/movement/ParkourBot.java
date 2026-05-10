@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.orbit.EventHandler;
@@ -55,7 +55,7 @@ public class ParkourBot extends Module {
     );
     
     public ParkourBot() {
-        super(Categories.MOVEMENT, "ParkourBot", "The powerful bot for MineBlaze parkour.");
+        super(Category.MOVEMENT, "ParkourBot", "The powerful bot for MineBlaze parkour.");
     }
     
     private final ArrayList<BlockPos> visitedBlockPoses = new ArrayList<>();

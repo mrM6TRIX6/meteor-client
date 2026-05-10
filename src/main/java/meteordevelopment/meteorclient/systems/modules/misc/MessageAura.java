@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -36,7 +36,7 @@ public class MessageAura extends Module {
     );
     
     public MessageAura() {
-        super(Categories.MISC, "MessageAura", "Sends a specified message to any player that enters render distance.");
+        super(Category.MISC, "MessageAura", "Sends a specified message to any player that enters render distance.");
     }
     
     @EventHandler

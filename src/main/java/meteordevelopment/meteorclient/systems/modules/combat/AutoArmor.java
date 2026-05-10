@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnchantmentListSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.player.ChestSwap;
@@ -95,7 +95,7 @@ public class AutoArmor extends Module {
     private int timer;
     
     public AutoArmor() {
-        super(Categories.COMBAT, "AutoArmor", "Automatically equips armor.");
+        super(Category.COMBAT, "AutoArmor", "Automatically equips armor.");
         
         armorPieces[0] = helmet;
         armorPieces[1] = chestplate;

@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
@@ -213,7 +213,7 @@ public class Tracers extends Module {
     private final Instant initTimer = Instant.now();
     
     public Tracers() {
-        super(Categories.RENDER, "Tracers", "Displays tracer lines to specified entities.");
+        super(Category.RENDER, "Tracers", "Displays tracer lines to specified entities.");
     }
     
     private boolean shouldBeIgnored(Entity entity) {

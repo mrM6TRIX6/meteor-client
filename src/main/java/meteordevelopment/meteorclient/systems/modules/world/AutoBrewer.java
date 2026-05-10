@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.world;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.PotionChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.MyPotion;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
@@ -36,7 +36,7 @@ public class AutoBrewer extends Module {
     private int timer;
     
     public AutoBrewer() {
-        super(Categories.WORLD, "AutoBrewer", "Automatically brews the specified potion.");
+        super(Category.WORLD, "AutoBrewer", "Automatically brews the specified potion.");
     }
     
     @Override

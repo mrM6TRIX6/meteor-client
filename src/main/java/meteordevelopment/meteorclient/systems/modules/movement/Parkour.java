@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.math.Box;
@@ -31,7 +31,7 @@ public class Parkour extends Module {
     );
     
     public Parkour() {
-        super(Categories.MOVEMENT, "Parkour", "Automatically jumps at the edges of blocks.");
+        super(Category.MOVEMENT, "Parkour", "Automatically jumps at the edges of blocks.");
     }
     
     @EventHandler

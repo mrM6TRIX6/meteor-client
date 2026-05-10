@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.world;
 import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.mixin.AbstractSignEditScreenAccessor;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.entity.SignBlockEntity;
@@ -20,7 +20,7 @@ public class AutoSign extends Module {
     private String[] text;
     
     public AutoSign() {
-        super(Categories.WORLD, "AutoSign", "Automatically writes signs. The first sign's text will be used.");
+        super(Category.WORLD, "AutoSign", "Automatically writes signs. The first sign's text will be used.");
     }
     
     @Override

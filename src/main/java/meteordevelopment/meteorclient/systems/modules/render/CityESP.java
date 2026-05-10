@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
@@ -52,7 +52,7 @@ public class CityESP extends Module {
     private BlockPos target;
     
     public CityESP() {
-        super(Categories.RENDER, "CityESP", "Displays blocks that can be broken in order to city another player.");
+        super(Category.RENDER, "CityESP", "Displays blocks that can be broken in order to city another player.");
     }
     
     @EventHandler

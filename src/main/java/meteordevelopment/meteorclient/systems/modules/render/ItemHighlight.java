@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.item.Item;
@@ -35,7 +35,7 @@ public class ItemHighlight extends Module {
     );
     
     public ItemHighlight() {
-        super(Categories.RENDER, "ItemHighlight", "Highlights selected items when in guis");
+        super(Category.RENDER, "ItemHighlight", "Highlights selected items when in guis");
     }
     
     public int getColor(ItemStack stack) {

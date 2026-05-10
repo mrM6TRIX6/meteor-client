@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -48,7 +48,7 @@ public class BowSpam extends Module {
     private boolean wasHoldingRightClick = false;
     
     public BowSpam() {
-        super(Categories.COMBAT, "BowSpam", "Spams arrows and tridents.");
+        super(Category.COMBAT, "BowSpam", "Spams arrows and tridents.");
     }
     
     @Override

@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.orbit.EventHandler;
@@ -39,7 +39,7 @@ public class BreakDelay extends Module {
     private boolean breakBlockCooldown = false;
     
     public BreakDelay() {
-        super(Categories.PLAYER, "BreakDelay", "Changes the delay between breaking blocks.");
+        super(Category.PLAYER, "BreakDelay", "Changes the delay between breaking blocks.");
     }
     
     @EventHandler

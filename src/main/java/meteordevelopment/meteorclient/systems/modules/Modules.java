@@ -103,14 +103,6 @@ public class Modules extends System<Modules> {
         }
     }
     
-    public static void registerCategory(Category category) {
-        if (!Categories.isRegistering()) {
-            throw new RuntimeException("Modules.registerCategory - Cannot register category outside of categories init.");
-        }
-        
-        CATEGORIES.add(category);
-    }
-    
     public static Iterable<Category> loopCategories() {
         return CATEGORIES;
     }
@@ -386,11 +378,6 @@ public class Modules extends System<Modules> {
     // INIT MODULES
     
     public void add(Module module) {
-        // Check if the module's category is registered
-        if (!CATEGORIES.contains(module.category)) {
-            throw new RuntimeException("Modules.add - Module's category was not registered.");
-        }
-        
         // Check if the module with that name not exists
         moduleInstances.values().forEach(existing -> {
             if (existing.name.equalsIgnoreCase(module.name)) {

@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.events.render.HeldItemRendererEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.Rotations;
@@ -176,7 +176,7 @@ public class HandView extends Module {
     );
     
     public HandView() {
-        super(Categories.RENDER, "HandView", "Alters the way items are rendered in your hands.");
+        super(Category.RENDER, "HandView", "Alters the way items are rendered in your hands.");
     }
     
     @EventHandler

@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
@@ -199,7 +199,7 @@ public class BedAura extends Module {
     private int timer;
     
     public BedAura() {
-        super(Categories.COMBAT, "BedAura", "Automatically places and explodes beds in the Nether and End.");
+        super(Category.COMBAT, "BedAura", "Automatically places and explodes beds in the Nether and End.");
     }
     
     @Override

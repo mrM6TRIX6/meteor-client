@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
@@ -106,7 +106,7 @@ public class Confuse extends Module {
     private Entity target = null;
     
     public Confuse() {
-        super(Categories.COMBAT, "Confuse", "Makes your enemies shit themselves.");
+        super(Category.COMBAT, "Confuse", "Makes your enemies shit themselves.");
     }
     
     @Override

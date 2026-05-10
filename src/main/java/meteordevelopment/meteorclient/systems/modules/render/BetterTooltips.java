@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.KeybindSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ByteCountDataOutput;
@@ -241,7 +241,7 @@ public class BetterTooltips extends Module {
     private static final ItemStack[] PEEK_SCREEN = new ItemStack[27];
     
     public BetterTooltips() {
-        super(Categories.RENDER, "BetterTooltips", "Displays more useful tooltips for certain items.");
+        super(Category.RENDER, "BetterTooltips", "Displays more useful tooltips for certain items.");
     }
     
     @EventHandler

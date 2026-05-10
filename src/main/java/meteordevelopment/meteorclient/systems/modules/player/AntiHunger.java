@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.mixin.PlayerMoveC2SPacketAccessor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
@@ -38,7 +38,7 @@ public class AntiHunger extends Module {
     private boolean lastOnGround, ignorePacket;
     
     public AntiHunger() {
-        super(Categories.PLAYER, "AntiHunger", "Reduces (does NOT remove) hunger consumption.");
+        super(Category.PLAYER, "AntiHunger", "Reduces (does NOT remove) hunger consumption.");
     }
     
     @Override

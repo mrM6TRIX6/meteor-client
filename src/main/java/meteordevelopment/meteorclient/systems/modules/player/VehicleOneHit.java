@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
@@ -33,7 +33,7 @@ public class VehicleOneHit extends Module {
     private boolean sendingPackets = false;
     
     public VehicleOneHit() {
-        super(Categories.PLAYER, "VehicleOneHit", "Destroy vehicles with one hit.");
+        super(Category.PLAYER, "VehicleOneHit", "Destroy vehicles with one hit.");
     }
     
     @EventHandler

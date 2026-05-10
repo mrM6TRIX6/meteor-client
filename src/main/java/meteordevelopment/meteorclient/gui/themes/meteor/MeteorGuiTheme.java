@@ -81,7 +81,7 @@ public class MeteorGuiTheme extends GuiTheme {
     
     public final Setting<Boolean> categoryIcons = sgGeneral.add(new BoolSetting.Builder()
         .name("category-icons")
-        .description("Adds item icons to module categories.")
+        .description("Adds item icons to module Category.")
         .defaultValue(false)
         .build()
     );

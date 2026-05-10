@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -86,7 +86,7 @@ public class AirPlace extends Module {
     private HitResult hitResult;
     
     public AirPlace() {
-        super(Categories.PLAYER, "AirPlace", "Places a block where your crosshair is pointing at.");
+        super(Category.PLAYER, "AirPlace", "Places a block where your crosshair is pointing at.");
     }
     
     @EventHandler

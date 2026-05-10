@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.player.PlayerModelPart;
@@ -93,7 +93,7 @@ public class SkinDerp extends Module {
     private int timer;
     
     public SkinDerp() {
-        super(Categories.FUN, "SkinDerp", "Makes your skin blink (Requires multi-layer skin).");
+        super(Category.FUN, "SkinDerp", "Makes your skin blink (Requires multi-layer skin).");
     }
     
     @Override

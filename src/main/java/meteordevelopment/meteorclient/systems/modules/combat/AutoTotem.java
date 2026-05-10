@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
@@ -83,7 +83,7 @@ public class AutoTotem extends Module {
     private int totems, ticks;
     
     public AutoTotem() {
-        super(Categories.COMBAT, "AutoTotem", "Automatically equips a totem in your offhand.");
+        super(Category.COMBAT, "AutoTotem", "Automatically equips a totem in your offhand.");
     }
     
     @EventHandler(priority = EventPriority.HIGHEST)

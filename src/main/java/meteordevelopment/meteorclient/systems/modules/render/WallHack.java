@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.irisshaders.iris.api.v0.IrisApi;
@@ -60,7 +60,7 @@ public class WallHack extends Module {
     );
     
     public WallHack() {
-        super(Categories.RENDER, "WallHack", "Makes blocks translucent.");
+        super(Category.RENDER, "WallHack", "Makes blocks translucent.");
     }
     
     @Override

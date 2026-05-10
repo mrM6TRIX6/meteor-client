@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator;
@@ -159,7 +159,7 @@ public class Trajectories extends Module {
     private final List<Path> paths = new ArrayList<>();
     
     public Trajectories() {
-        super(Categories.RENDER, "Trajectories", "Predicts the trajectory of throwable items.");
+        super(Category.RENDER, "Trajectories", "Predicts the trajectory of throwable items.");
     }
     
     private boolean itemFilter(Item item) {

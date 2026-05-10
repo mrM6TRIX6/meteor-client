@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
@@ -56,7 +56,7 @@ public class Swarm extends Module {
     public SwarmWorker worker;
     
     public Swarm() {
-        super(Categories.MISC, "Swarm", "Allows you to control multiple instances of Meteor from one central host.");
+        super(Category.MISC, "Swarm", "Allows you to control multiple instances of Meteor from one central host.");
     }
     
     @Override

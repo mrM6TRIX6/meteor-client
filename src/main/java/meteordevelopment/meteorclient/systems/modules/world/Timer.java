@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.world;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
 public class Timer extends Module {
@@ -28,7 +28,7 @@ public class Timer extends Module {
     private double override = 1;
     
     public Timer() {
-        super(Categories.WORLD, "Timer", "Changes the speed of everything in your game.");
+        super(Category.WORLD, "Timer", "Changes the speed of everything in your game.");
     }
     
     public double getMultiplier() {

@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.KeybindSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
@@ -69,7 +69,7 @@ public class ElytraBoost extends Module {
     private final List<FireworkRocketEntity> fireworks = new ArrayList<>();
     
     public ElytraBoost() {
-        super(Categories.MOVEMENT, "ElytraBoost", "Boosts your elytra as if you used a firework.");
+        super(Category.MOVEMENT, "ElytraBoost", "Boosts your elytra as if you used a firework.");
     }
     
     @Override

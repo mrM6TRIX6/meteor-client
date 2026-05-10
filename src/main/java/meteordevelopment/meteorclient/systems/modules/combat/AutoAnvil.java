@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
@@ -103,7 +103,7 @@ public class AutoAnvil extends Module {
     private int timer;
     
     public AutoAnvil() {
-        super(Categories.COMBAT, "AutoAnvil", "Automatically places anvils above players to destroy helmets.");
+        super(Category.COMBAT, "AutoAnvil", "Automatically places anvils above players to destroy helmets.");
     }
     
     @Override

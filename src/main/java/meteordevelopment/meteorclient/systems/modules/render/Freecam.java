@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.GUIMove;
@@ -158,7 +158,7 @@ public class Freecam extends Module {
     private long clickTs = 0;
     
     public Freecam() {
-        super(Categories.RENDER, "Freecam", "Allows the camera to move away from the player.");
+        super(Category.RENDER, "Freecam", "Allows the camera to move away from the player.");
     }
     
     @Override

@@ -22,7 +22,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
@@ -605,7 +605,7 @@ public class CrystalAura extends Module {
     private double renderDamage;
     
     public CrystalAura() {
-        super(Categories.COMBAT, "CrystalAura", "Automatically places and attacks crystals.");
+        super(Category.COMBAT, "CrystalAura", "Automatically places and attacks crystals.");
     }
     
     @Override

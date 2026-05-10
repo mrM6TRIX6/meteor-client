@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -63,7 +63,7 @@ public class Sprint extends Module {
     );
     
     public Sprint() {
-        super(Categories.MOVEMENT, "Sprint", "Automatically sprints.");
+        super(Category.MOVEMENT, "Sprint", "Automatically sprints.");
     }
     
     @EventHandler(priority = EventPriority.HIGH)

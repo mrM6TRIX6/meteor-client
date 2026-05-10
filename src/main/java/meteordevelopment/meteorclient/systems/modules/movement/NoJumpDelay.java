@@ -2,14 +2,14 @@ package meteordevelopment.meteorclient.systems.modules.movement;
 
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.LivingEntityAccessor;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 
 public class NoJumpDelay extends Module {
     
     public NoJumpDelay() {
-        super(Categories.MOVEMENT, "NoJumpDelay", "Removes the cooldown for jumps.");
+        super(Category.MOVEMENT, "NoJumpDelay", "Removes the cooldown for jumps.");
     }
     
     @EventHandler

@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
 import meteordevelopment.meteorclient.utils.render.WireframeEntityRenderer;
@@ -97,7 +97,7 @@ public class PopChams extends Module {
     private final List<GhostPlayer> ghosts = new ArrayList<>();
     
     public PopChams() {
-        super(Categories.RENDER, "PopChams", "Renders a ghost where players pop totem.");
+        super(Category.RENDER, "PopChams", "Renders a ghost where players pop totem.");
     }
     
     @Override

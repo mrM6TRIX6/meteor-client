@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.mixin.ClientPlayerInteractionManagerAccess
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
@@ -87,7 +87,7 @@ public class SpeedMine extends Module {
     );
     
     public SpeedMine() {
-        super(Categories.PLAYER, "SpeedMine", "Allows you to quickly mine blocks.");
+        super(Category.PLAYER, "SpeedMine", "Allows you to quickly mine blocks.");
     }
     
     @Override

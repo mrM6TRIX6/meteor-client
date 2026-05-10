@@ -8,7 +8,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
@@ -83,7 +83,7 @@ public class SafeWalk extends Module {
     );
     
     public SafeWalk() {
-        super(Categories.MOVEMENT, "SafeWalk", "Prevents you from walking off blocks.");
+        super(Category.MOVEMENT, "SafeWalk", "Prevents you from walking off blocks.");
     }
     
     @EventHandler

@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
@@ -131,7 +131,7 @@ public class NoInteract extends Module {
     );
     
     public NoInteract() {
-        super(Categories.PLAYER, "NoInteract", "Blocks interactions with certain types of inputs.");
+        super(Category.PLAYER, "NoInteract", "Blocks interactions with certain types of inputs.");
     }
     
     @EventHandler(priority = EventPriority.HIGH)

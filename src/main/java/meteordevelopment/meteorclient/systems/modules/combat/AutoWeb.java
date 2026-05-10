@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
@@ -141,7 +141,7 @@ public class AutoWeb extends Module {
     private PlayerEntity target = null;
     
     public AutoWeb() {
-        super(Categories.COMBAT, "AutoWeb", "Automatically places webs on other players.");
+        super(Category.COMBAT, "AutoWeb", "Automatically places webs on other players.");
     }
     
     @Override

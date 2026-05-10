@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.combat.AnchorAura;
@@ -142,7 +142,7 @@ public class AutoGap extends Module {
     private boolean wasBaritone;
     
     public AutoGap() {
-        super(Categories.PLAYER, "AutoGap", "Automatically eats Gaps or E-Gaps.");
+        super(Category.PLAYER, "AutoGap", "Automatically eats Gaps or E-Gaps.");
     }
     
     @Override

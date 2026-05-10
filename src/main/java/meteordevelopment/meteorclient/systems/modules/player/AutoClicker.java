@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
@@ -65,7 +65,7 @@ public class AutoClicker extends Module {
     private int rightClickTimer, leftClickTimer;
     
     public AutoClicker() {
-        super(Categories.PLAYER, "AutoClicker", "Automatically clicks.");
+        super(Category.PLAYER, "AutoClicker", "Automatically clicks.");
     }
     
     @Override

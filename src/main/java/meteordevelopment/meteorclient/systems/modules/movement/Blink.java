@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
@@ -50,7 +50,7 @@ public class Blink extends Module {
     private boolean sendingPackets;
     
     public Blink() {
-        super(Categories.MOVEMENT, "Blink", "Allows you to essentially teleport while suspending motion updates.");
+        super(Category.MOVEMENT, "Blink", "Allows you to essentially teleport while suspending motion updates.");
     }
     
     @Override

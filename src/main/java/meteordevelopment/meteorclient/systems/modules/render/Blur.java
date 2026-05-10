@@ -25,7 +25,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.listeners.ConsumerListener;
 import net.minecraft.client.gl.DynamicUniformStorage;
@@ -122,7 +122,7 @@ public class Blur extends Module {
     private float previousOffset = -1;
     
     public Blur() {
-        super(Categories.RENDER, "Blur", "Blurs background when in GUI screens.");
+        super(Category.RENDER, "Blur", "Blurs background when in GUI screens.");
         
         // Initialize fbos for the first time
         for (int i = 0; i < fbos.length; i++) {

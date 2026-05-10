@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.player;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 
 public class MultiActions extends Module {
@@ -23,7 +23,7 @@ public class MultiActions extends Module {
     );
     
     public MultiActions() {
-        super(Categories.PLAYER, "MultiActions", "Lets you use items and attack at the same time.");
+        super(Category.PLAYER, "MultiActions", "Lets you use items and attack at the same time.");
     }
     
     public boolean attackingEntities() {

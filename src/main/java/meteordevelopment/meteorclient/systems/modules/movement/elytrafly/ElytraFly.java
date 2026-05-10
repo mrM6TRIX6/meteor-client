@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.modes.Bounce;
@@ -350,7 +350,7 @@ public class ElytraFly extends Module {
     private ElytraFlyMode currentMode = new Vanilla();
     
     public ElytraFly() {
-        super(Categories.MOVEMENT, "ElytraFly", "Gives you more control over your elytra.");
+        super(Category.MOVEMENT, "ElytraFly", "Gives you more control over your elytra.");
     }
     
     @Override

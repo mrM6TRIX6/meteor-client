@@ -14,7 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EntityTypeListSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
@@ -88,7 +88,7 @@ public class BowAimbot extends Module {
     private Entity target;
     
     public BowAimbot() {
-        super(Categories.COMBAT, "BowAimbot", "Automatically aims your bow for you.");
+        super(Category.COMBAT, "BowAimbot", "Automatically aims your bow for you.");
     }
     
     @Override

@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
@@ -91,7 +91,7 @@ public class InstantRebreak extends Module {
     private Direction direction;
     
     public InstantRebreak() {
-        super(Categories.PLAYER, "InstantRebreak", "Instantly re-breaks blocks in the same position.");
+        super(Category.PLAYER, "InstantRebreak", "Instantly re-breaks blocks in the same position.");
     }
     
     @Override

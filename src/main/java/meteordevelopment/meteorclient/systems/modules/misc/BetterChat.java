@@ -23,7 +23,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
@@ -273,7 +273,7 @@ public class BetterChat extends Module {
     public final IntList lines = new IntArrayList();
     
     public BetterChat() {
-        super(Categories.MISC, "BetterChat", "Improves your chat experience in various ways.");
+        super(Category.MISC, "BetterChat", "Improves your chat experience in various ways.");
         
         String[] a = "abcdefghijklmnopqrstuvwxyz".split("");
         String[] b = "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴩqʀꜱᴛᴜᴠᴡxyᴢ".split("");

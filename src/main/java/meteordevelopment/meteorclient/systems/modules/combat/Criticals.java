@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
@@ -74,7 +74,7 @@ public class Criticals extends Module {
     private boolean waitingForPeak;
     
     public Criticals() {
-        super(Categories.COMBAT, "Criticals", "Performs critical attacks when you hit your target.");
+        super(Category.COMBAT, "Criticals", "Performs critical attacks when you hit your target.");
     }
     
     @Override

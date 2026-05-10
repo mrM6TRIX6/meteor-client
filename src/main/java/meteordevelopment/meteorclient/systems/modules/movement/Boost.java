@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.math.Vec3d;
@@ -47,7 +47,7 @@ public class Boost extends Module {
     private int timer = 0;
     
     public Boost() {
-        super(Categories.MOVEMENT, "Boost", "Works like a dash move.");
+        super(Category.MOVEMENT, "Boost", "Works like a dash move.");
     }
     
     @Override

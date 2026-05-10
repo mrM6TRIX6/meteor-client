@@ -13,7 +13,7 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.*;
@@ -56,7 +56,7 @@ public class Collisions extends Module {
     );
     
     public Collisions() {
-        super(Categories.WORLD, "Collisions", "Adds collision boxes to certain blocks/areas.");
+        super(Category.WORLD, "Collisions", "Adds collision boxes to certain blocks/areas.");
     }
     
     @EventHandler

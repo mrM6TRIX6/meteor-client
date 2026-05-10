@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.NametagUtils;
@@ -107,7 +107,7 @@ public class LogoutSpots extends Module {
     private DimensionType lastDimension;
     
     public LogoutSpots() {
-        super(Categories.RENDER, "LogoutSpots", "Displays a box where another player has logged out at.");
+        super(Category.RENDER, "LogoutSpots", "Displays a box where another player has logged out at.");
         lineColor.onChanged();
     }
     

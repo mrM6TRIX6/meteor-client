@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.renderer.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
@@ -98,7 +98,7 @@ public class OnSightCommand extends Module {
     private final List<Entity> targets = new ArrayList<>();
     
     public OnSightCommand() {
-        super(Categories.MISC, "OnSightCommand", "Executes commands on players on sight.");
+        super(Category.MISC, "OnSightCommand", "Executes commands on players on sight.");
     }
     
     @Override

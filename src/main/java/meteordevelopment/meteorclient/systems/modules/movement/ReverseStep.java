@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BedBlock;
@@ -37,7 +37,7 @@ public class ReverseStep extends Module {
     );
     
     public ReverseStep() {
-        super(Categories.MOVEMENT, "ReverseStep", "Allows you to fall down blocks at a greater speed.");
+        super(Category.MOVEMENT, "ReverseStep", "Allows you to fall down blocks at a greater speed.");
     }
     
     @EventHandler

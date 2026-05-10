@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.modules.Categories;
+import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
@@ -180,7 +180,7 @@ public class SexAura extends Module {
     private Entity target = null;
     
     public SexAura() {
-        super(Categories.FUN, "SexAura", "Automatic Minecraft Sex RP.");
+        super(Category.FUN, "SexAura", "Automatic Minecraft Sex RP.");
     }
     
     @Override
