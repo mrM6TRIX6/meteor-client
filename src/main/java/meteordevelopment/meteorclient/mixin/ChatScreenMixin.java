@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -40,6 +41,11 @@ public abstract class ChatScreenMixin {
         if (Modules.get().get(BetterChat.class).isInfiniteChatBox()) {
             chatField.setMaxLength(Integer.MAX_VALUE);
         }
+    }
+    
+    @Redirect(method = "sendMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ChatScreen;normalize(Ljava/lang/String;)Ljava/lang/String;"))
+    private String bypassNormalize(ChatScreen instance, String chatText) {
+        return Modules.get().get(BetterChat.class).bypassNormalize() ? chatText : instance.normalize(chatText);
     }
     
     @Inject(method = "mouseClicked", at = @At("HEAD"))

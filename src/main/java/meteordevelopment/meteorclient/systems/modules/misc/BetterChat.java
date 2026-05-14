@@ -132,7 +132,14 @@ public class BetterChat extends Module {
     private final Setting<Boolean> unicodeArguments = sgGeneral.add(new BoolSetting.Builder()
         .name("unicode-arguments")
         .description("Allows you to use non-English characters in command arguments.")
-        .defaultValue(true)
+        .defaultValue(false)
+        .build()
+    );
+    
+    private final Setting<Boolean> bypassNormalize = sgGeneral.add(new BoolSetting.Builder()
+        .name("bypass-normalize")
+        .description("Prevents normalize your message (for example, remove unnecessary spaces).")
+        .defaultValue(false)
         .build()
     );
     
@@ -689,6 +696,12 @@ public class BetterChat extends Module {
     
     public boolean unicodeArguments() {
         return isActive() && unicodeArguments.get();
+    }
+    
+    // Prevent normalize
+    
+    public boolean bypassNormalize() {
+        return isActive() && bypassNormalize.get();
     }
     
 }
