@@ -8,12 +8,14 @@ package meteordevelopment.meteorclient.commands.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import meteordevelopment.meteorclient.commands.Command;
 import meteordevelopment.meteorclient.commands.arguments.PlayerListEntryArgumentType;
+import meteordevelopment.meteorclient.commands.arguments.UUIDArgumentType;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.SpectatorTeleport;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.command.CommandSource;
 import net.minecraft.network.packet.c2s.play.SpectatorTeleportC2SPacket;
+import net.minecraft.util.hit.EntityHitResult;
 
 import java.util.UUID;
 import java.util.concurrent.Executors;
@@ -36,6 +38,14 @@ public class SPTPCommand extends Command {
                 UUID uuid = lookUpTarget.getProfile().id();
                 sendTeleportPacket(uuid);
                 
+                return SINGLE_SUCCESS;
+            })
+        );
+        
+        builder.then(argument("uuid", UUIDArgumentType.uuid())
+            .executes(context -> {
+                info(((EntityHitResult) mc.crosshairTarget).getEntity().getUuidAsString());
+                sendTeleportPacket(UUIDArgumentType.getUUID(context, "uuid"));
                 return SINGLE_SUCCESS;
             })
         );
