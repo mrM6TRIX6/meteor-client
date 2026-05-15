@@ -51,6 +51,8 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.text.Text;
+import net.minecraft.text.TextCodecs;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -71,6 +73,7 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -257,7 +260,9 @@ public class Utils {
             }
         } else if (components.contains(DataComponentTypes.BLOCK_ENTITY_DATA)) {
             TypedEntityData<BlockEntityType<?>> blockEntityData = components.get(DataComponentTypes.BLOCK_ENTITY_DATA);
-            if (blockEntityData == null) return;
+            if (blockEntityData == null) {
+                return;
+            }
             NbtList nbt3 = blockEntityData.copyNbtWithoutId().getListOrEmpty("Items");
             
             for (int i = 0; i < nbt3.size(); i++) {
@@ -541,11 +546,19 @@ public class Utils {
         }
     }
     
-    public static DataResult<NbtElement> encodeToNbt(ItemStack stack) {
+    public static DataResult<NbtElement> encodeTextToNbt(Text text) {
+        return TextCodecs.CODEC.encodeStart(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), text);
+    }
+    
+    public static DataResult<Text> decodeTextFromNbt(NbtElement nbt) {
+        return TextCodecs.CODEC.decode(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), nbt).map(Pair::getFirst);
+    }
+    
+    public static DataResult<NbtElement> encodeStackToNbt(ItemStack stack) {
         return ItemStack.CODEC.encodeStart(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), stack);
     }
     
-    public static DataResult<ItemStack> decodeFromNbt(NbtElement nbt) {
+    public static DataResult<ItemStack> decodeStackFromNbt(NbtElement nbt) {
         return ItemStack.CODEC.decode(mc.player.getRegistryManager().getOps(NbtOps.INSTANCE), nbt).map(Pair::getFirst);
     }
     
@@ -571,6 +584,39 @@ public class Utils {
     
     public static double random(double min, double max) {
         return min + (max - min) * ThreadLocalRandom.current().nextDouble();
+    }
+    
+    /**
+     * Executes a {@link Runnable} task the specified number of times. Wrapper of {@code fori}
+     *
+     * @param count how many times to execute the task
+     * @param task {@link Runnable} task to execute
+     */
+    public static void repeat(int count, Runnable task) {
+        if (count < 1 || task == null) {
+            return;
+        }
+        
+        for (int i = 0; i < count; i++) {
+            task.run();
+        }
+    }
+    
+    /**
+     * Executes a {@link Consumer} task the specified number of times with passing the current repetition to your
+     * lambda. Wrapper of {@code fori}
+     *
+     * @param count how many times to execute the task
+     * @param task {@link Consumer} with {@link Integer} type task to execute with param {@code i}
+     */
+    public static void repeat(int count, Consumer<Integer> task) {
+        if (count < 1 || task == null) {
+            return;
+        }
+        
+        for (int i = 0; i < count; i++) {
+            task.accept(i);
+        }
     }
     
     public static boolean isShulker(Item item) {
