@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import meteordevelopment.meteorclient.mixininterface.IChatHudLineVisible;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
@@ -21,7 +23,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -43,9 +44,12 @@ public abstract class ChatScreenMixin {
         }
     }
     
-    @Redirect(method = "sendMessage", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ChatScreen;normalize(Ljava/lang/String;)Ljava/lang/String;"))
-    private String bypassNormalize(ChatScreen instance, String chatText) {
-        return Modules.get().get(BetterChat.class).bypassNormalize() ? chatText : instance.normalize(chatText);
+    @ModifyReturnValue(method = "normalize", at = @At("RETURN"))
+    private String onNormalizeChat(String original, @Local(argsOnly = true) String chatText) {
+        if (Modules.get().get(BetterChat.class).bypassNormalize()) {
+            return chatText;
+        }
+        return original;
     }
     
     @Inject(method = "mouseClicked", at = @At("HEAD"))

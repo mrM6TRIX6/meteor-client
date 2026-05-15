@@ -81,7 +81,7 @@ public class ParkourBot extends Module {
         if (++ticks > delay.get()) {
             Set<BlockPos> possibleBlockPoses = new HashSet<>();
             
-            BlockIterator.register(5, 5, (
+            BlockIterator.register(10, 5, (
                 (blockPos, blockState) -> {
                     if (!isCurrentBlockPos(blockPos)
                         && !isPrevBlockPos(blockPos)
@@ -114,7 +114,6 @@ public class ParkourBot extends Module {
     @EventHandler
     private void onMessageReceive(MessageEvent.Receive event) {
         if (event.getMessage().getString().startsWith("| Вы проиграли со счетом")) {
-            // info("The bot has fallen. Disabling...");
             toggle();
         }
     }
