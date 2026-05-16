@@ -34,7 +34,6 @@ public class Freeze extends Module {
     
     private final Setting<Boolean> cancelC0B = sgGeneral.add(new BoolSetting.Builder()
         .name("cancel-C0B")
-        .title("Cancel C0B")
         .defaultValue(true)
         .build()
     );

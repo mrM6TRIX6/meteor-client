@@ -21,8 +21,7 @@ public class AirWalk extends Module {
     
     private final Setting<Boolean> allowJumping = sgGeneral.add(new BoolSetting.Builder()
         .name("allow-jumping")
-        .title("Ease Jumping (Buggy)")
-        .description("Makes getting up easier.")
+        .description("Makes getting up easier (Buggy).")
         .defaultValue(false)
         .build()
     );

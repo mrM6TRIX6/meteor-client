@@ -25,8 +25,8 @@ import java.util.function.Supplier;
  */
 public class ModeEnumChoiceSetting<T extends Enum<T> & IDisplayName & ModeEnumChoiceSetting.IModeImpl<P>, P extends IActivable> extends EnumChoiceSetting<T> {
     
-    public ModeEnumChoiceSetting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
-        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
+    public ModeEnumChoiceSetting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
+        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     /**
@@ -104,7 +104,7 @@ public class ModeEnumChoiceSetting<T extends Enum<T> & IDisplayName & ModeEnumCh
         
         @Override
         public ModeEnumChoiceSetting<T, P> build() {
-            return new ModeEnumChoiceSetting<>(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new ModeEnumChoiceSetting<>(name, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

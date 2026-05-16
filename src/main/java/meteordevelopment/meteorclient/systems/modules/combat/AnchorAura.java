@@ -202,7 +202,6 @@ public class AnchorAura extends Module {
     
     private final Setting<Boolean> pauseOnCA = sgPause.add(new BoolSetting.Builder()
         .name("pause-on-ca")
-        .title("Pause On CA")
         .description("Pauses while CrystalAura is placing.")
         .defaultValue(true)
         .build()

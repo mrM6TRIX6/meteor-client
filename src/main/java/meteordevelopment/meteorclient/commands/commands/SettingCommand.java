@@ -46,7 +46,7 @@ public class SettingCommand extends Command {
                     Module module = ModuleArgumentType.get(context, "module");
                     Setting<?> setting = SettingArgumentType.get(context);
                     
-                    module.info("Setting (highlight)%s(default) is (highlight)%s(default).", setting.title, setting.get());
+                    module.info("Setting (highlight)%s(default) is (highlight)%s(default).", setting.name, setting.get());
                     
                     return SINGLE_SUCCESS;
                 })
@@ -58,9 +58,9 @@ public class SettingCommand extends Command {
                         String value = SettingValueArgumentType.get(context, "value");
                         
                         if (setting.parse(value)) {
-                            module.info("Setting (highlight)%s(default) changed to (highlight)%s(default).", setting.title, value);
+                            module.info("Setting (highlight)%s(default) changed to (highlight)%s(default).", setting.name, value);
                         } else {
-                            module.info("Failed to parse value (highlight)%s(default) for setting (highlight)%s(default)", value, setting.title);
+                            module.info("Failed to parse value (highlight)%s(default) for setting (highlight)%s(default)", value, setting.name);
                         }
                         
                         return SINGLE_SUCCESS;

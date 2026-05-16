@@ -25,8 +25,8 @@ public class EnumChoiceSetting<T extends Enum<T> & IDisplayName> extends Setting
     private final T[] values;
     private final List<String> suggestions;
     
-    public EnumChoiceSetting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
-        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
+    public EnumChoiceSetting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
+        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
         
         values = defaultValue.getDeclaringClass().getEnumConstants();
         suggestions = Arrays.stream(values).map(Object::toString).toList();
@@ -79,7 +79,7 @@ public class EnumChoiceSetting<T extends Enum<T> & IDisplayName> extends Setting
         
         @Override
         public EnumChoiceSetting<T> build() {
-            return new EnumChoiceSetting<>(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new EnumChoiceSetting<>(name, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
     }

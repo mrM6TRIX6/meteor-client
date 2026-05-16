@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.settings;
 
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IGetter;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import net.minecraft.registry.Registry;
@@ -23,7 +22,7 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
     
     private static final List<String> NO_SUGGESTIONS = new ArrayList<>(0);
     
-    public final String name, title, description;
+    public final String name, description;
     
     private final IVisible visible;
     
@@ -36,13 +35,12 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
     public Module module;
     public boolean lastWasVisible;
     
-    public Setting(String name, String title, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
+    public Setting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
         if (name.contains(" ")) {
             throw new IllegalArgumentException("Setting '%s' contains invalid characters in name.".formatted(name));
         }
         
         this.name = name;
-        this.title = title != null ? title : Utils.nameToTitle(name);
         this.description = description;
         this.defaultValue = defaultValue;
         this.onChanged = onChanged;
@@ -200,11 +198,6 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
         
         public B name(String name) {
             this.name = name;
-            return (B) this;
-        }
-        
-        public B title(String title) {
-            this.title = title;
             return (B) this;
         }
         

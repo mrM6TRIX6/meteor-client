@@ -27,8 +27,8 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class EnchantmentListSetting extends Setting<Set<RegistryKey<Enchantment>>> {
     
-    public EnchantmentListSetting(String name, String title, String description, Set<RegistryKey<Enchantment>> defaultValue, Consumer<Set<RegistryKey<Enchantment>>> onChanged, Consumer<Setting<Set<RegistryKey<Enchantment>>>> onModuleActivated, IVisible visible) {
-        super(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
+    public EnchantmentListSetting(String name, String description, Set<RegistryKey<Enchantment>> defaultValue, Consumer<Set<RegistryKey<Enchantment>>> onChanged, Consumer<Setting<Set<RegistryKey<Enchantment>>>> onModuleActivated, IVisible visible) {
+        super(name, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
     @Override
@@ -112,7 +112,7 @@ public class EnchantmentListSetting extends Setting<Set<RegistryKey<Enchantment>
         
         @Override
         public EnchantmentListSetting build() {
-            return new EnchantmentListSetting(name, title, description, defaultValue, onChanged, onModuleActivated, visible);
+            return new EnchantmentListSetting(name, description, defaultValue, onChanged, onModuleActivated, visible);
         }
         
         static {

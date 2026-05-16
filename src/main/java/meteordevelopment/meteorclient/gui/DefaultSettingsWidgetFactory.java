@@ -117,7 +117,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         RemoveInfo removeInfo = null;
         
         for (Setting<?> setting : group) {
-            if (!Strings.CI.contains(setting.title, filter)) {
+            if (!Strings.CI.contains(setting.name, filter)) {
                 continue;
             }
             
@@ -130,7 +130,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
                 removeInfo.markRowForRemoval();
             }
             
-            table.add(theme.label(setting.title)).top().marginTop(settingTitleTopMargin()).widget().tooltip = setting.description;
+            table.add(theme.label(setting.name)).top().marginTop(settingTitleTopMargin()).widget().tooltip = setting.description;
             
             Factory factory = getFactory(setting.getClass());
             if (factory != null) {
@@ -457,7 +457,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
                     defaultValue = setting.getDefaultValue().get(_i);
                 }
                 
-                ColorSetting set = new ColorSetting(setting.name, setting.title, setting.description, defaultValue, settingColor -> {
+                ColorSetting set = new ColorSetting(setting.name, setting.description, defaultValue, settingColor -> {
                     setting.get().get(_i).set(settingColor);
                     setting.onChanged();
                 }, null, null);

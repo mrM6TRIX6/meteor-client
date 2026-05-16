@@ -25,8 +25,7 @@ public class MaceKill extends Module {
     
     private final Setting<Boolean> maxPower = sgGeneral.add(new BoolSetting.Builder()
         .name("max-power")
-        .title("Maximum Mace Power (Paper/Spigot servers only)")
-        .description("Simulates a fall from the highest air gap within 170 blocks")
+        .description("Simulates a fall from the highest air gap within 170 blocks (Paper/Spigot servers only).")
         .defaultValue(false)
         .build()
     );
