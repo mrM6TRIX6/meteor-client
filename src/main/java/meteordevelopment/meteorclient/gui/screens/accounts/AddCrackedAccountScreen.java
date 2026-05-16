@@ -49,7 +49,7 @@ public class AddCrackedAccountScreen extends AddAccountScreen {
         // Random
         WButton random = list.add(theme.button("Random")).expandX().widget();
         random.action = () -> name.set(
-            RandomStringUtils.insecure().nextAlphanumeric(7, 13)
+            RandomStringUtils.insecure().nextAlphanumeric(7, 15)
         );
         
         enterAction = add.action;
