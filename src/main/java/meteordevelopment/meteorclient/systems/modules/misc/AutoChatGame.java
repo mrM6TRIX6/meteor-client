@@ -83,7 +83,6 @@ public class AutoChatGame extends Module {
             case "+" -> a + b;
             case "-" -> a - b;
             case "*" -> a * b;
-            case "/" -> a / b;
             default -> -1;
         };
     }
