@@ -599,6 +599,7 @@ public class Modules extends System<Modules> {
         add(new BadTrip());
         add(new CrossbowSpam());
         add(new CustomHead());
+        add(new Fling());
         add(new HandDerp());
         add(new RainbowArmor());
         add(new SexAura());
