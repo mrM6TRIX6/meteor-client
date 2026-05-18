@@ -14,6 +14,7 @@ import meteordevelopment.meteorclient.mixininterface.IChatHud;
 import meteordevelopment.meteorclient.mixininterface.IChatHudLine;
 import meteordevelopment.meteorclient.mixininterface.IChatHudLineVisible;
 import meteordevelopment.meteorclient.mixininterface.IMessageHandler;
+import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
 import net.minecraft.client.MinecraftClient;
@@ -29,6 +30,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
@@ -187,6 +189,11 @@ public abstract class ChatHudMixin implements IChatHud {
     }
     
     // Other
+    
+    @Redirect(method = "addToMessageHistory", at = @At(value = "INVOKE", target = "Ljava/lang/String;startsWith(Ljava/lang/String;)Z"))
+    private boolean onCheckPrefix(String message, String prefix) {
+        return message.startsWith("/") || message.startsWith(ClientSettings.get().prefix.get());
+    }
     
     @Unique
     private BetterChat getBetterChat() {

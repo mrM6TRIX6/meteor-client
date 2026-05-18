@@ -45,7 +45,7 @@ public abstract class ChatScreenMixin {
     }
     
     @ModifyReturnValue(method = "normalize", at = @At("RETURN"))
-    private String onNormalizeChat(String original, @Local(argsOnly = true) String chatText) {
+    private String bypassNormalize(String original, @Local(argsOnly = true) String chatText) {
         if (Modules.get().get(BetterChat.class).bypassNormalize()) {
             return chatText;
         }
