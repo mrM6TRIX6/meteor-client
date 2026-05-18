@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Block.class)
+@Mixin(value = Block.class, priority = 1100)
 public abstract class BlockMixin extends AbstractBlock implements ItemConvertible {
     
     public BlockMixin(Settings settings) {
@@ -29,7 +29,7 @@ public abstract class BlockMixin extends AbstractBlock implements ItemConvertibl
     }
     
     @ModifyReturnValue(method = "getSlipperiness", at = @At("RETURN"))
-    public float getSlipperiness(float original) {
+    public float modifySlipperiness(float original) {
         // For some retarded reason Tweakeroo calls this method before meteor is initialized
         if (Modules.get() == null) {
             return original;
