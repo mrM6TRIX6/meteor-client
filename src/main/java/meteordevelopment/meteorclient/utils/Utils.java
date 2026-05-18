@@ -68,10 +68,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
@@ -653,6 +650,37 @@ public class Utils {
     public static boolean isLoading() {
         ResourceReloadLogger.ReloadState state = ((ResourceReloadLoggerAccessor) ((MinecraftClientAccessor) mc).meteor$getResourceReloadLogger()).meteor$getReloadState();
         return state == null || !((ReloadStateAccessor) state).meteor$isFinished();
+    }
+    
+    /**
+     * Validates that the given string represents a valid name.
+     * <p>
+     * The method performs the following checks:
+     * <ul>
+     *   <li>The string must not be {@code null}</li>
+     *   <li>The string must not be blank (according to {@link String#isBlank()})</li>
+     *   <li>The string must not contain any spaces</li>
+     * </ul>
+     * If any of these conditions is violated, an appropriate exception with
+     * a detailed error message is thrown.
+     *
+     * @param string the input string to validate, must not be {@code null}
+     * @return the original unchanged string if all validation checks pass
+     * @throws NullPointerException     if the input string is {@code null}
+     * @throws IllegalArgumentException if the string is blank or contains spaces
+     */
+    public static String validateName(String string) {
+        Objects.requireNonNull(string, "Name cannot be null");
+        
+        if (string.isBlank()) {
+            throw new IllegalArgumentException("Name cannot be blank");
+        }
+        
+        if (string.contains(" ")) {
+            throw new IllegalArgumentException("Name cannot contain spaces: '%s'".formatted(string));
+        }
+        
+        return string;
     }
     
     public static int parsePort(String full) {

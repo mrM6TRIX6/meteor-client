@@ -123,7 +123,7 @@ public class MeteorClient implements ClientModInitializer {
         // Subscribe after systems are loaded
         EVENT_BUS.subscribe(this);
         
-        // Initialise addons
+        // Initialize addons
         AddonManager.ADDONS.forEach(MeteorAddon::onInitialize);
         
         // Sort modules after addons have added their own
@@ -136,11 +136,13 @@ public class MeteorClient implements ClientModInitializer {
         ReflectInit.init(PostInit.class);
         
         // Save on shutdown
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            OnlinePlayers.leave();
-            Systems.save();
-            GuiThemes.save();
-        }));
+        Runtime.getRuntime().addShutdownHook(
+            new Thread(() -> {
+                OnlinePlayers.leave();
+                Systems.save();
+                GuiThemes.save();
+            })
+        );
     }
     
     @EventHandler

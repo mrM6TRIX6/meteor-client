@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
+import meteordevelopment.meteorclient.utils.Utils;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -22,7 +24,7 @@ public class HUDElementInfo<T extends HUDElement> {
     
     public HUDElementInfo(HUDGroup group, String name, String description, Supplier<T> factory) {
         this.group = group;
-        this.name = name.replace(" ", "");
+        this.name = Utils.validateName(name);
         this.description = description;
         
         this.factory = factory;

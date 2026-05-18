@@ -11,6 +11,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
+import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.command.CommandRegistryAccess;
@@ -33,7 +34,7 @@ public abstract class Command {
     public final List<String> aliases;
     
     public Command(String name, String description, String... aliases) {
-        this.name = name.replace(" ", "");
+        this.name = Utils.validateName(name);
         this.description = description;
         this.aliases = Stream.of(aliases)
             .map(String::toLowerCase)

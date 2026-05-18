@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.settings;
 
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IGetter;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import net.minecraft.registry.Registry;
@@ -22,7 +23,8 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
     
     private static final List<String> NO_SUGGESTIONS = new ArrayList<>(0);
     
-    public final String name, description;
+    public final String name;
+    public final String description;
     
     private final IVisible visible;
     
@@ -36,11 +38,7 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
     public boolean lastWasVisible;
     
     public Setting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
-        if (name.contains(" ")) {
-            throw new IllegalArgumentException("Setting '%s' contains invalid characters in name.".formatted(name));
-        }
-        
-        this.name = name;
+        this.name = Utils.validateName(name);
         this.description = description;
         this.defaultValue = defaultValue;
         this.onChanged = onChanged;
@@ -186,7 +184,8 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
     @SuppressWarnings("unchecked")
     public abstract static class SettingBuilder<B, V, S> {
         
-        protected String name = "undefined-" + String.valueOf(hashCode()).substring(0, 5), title, description = "";
+        protected String name;
+        protected String description;
         protected V defaultValue;
         protected IVisible visible;
         protected Consumer<V> onChanged;
