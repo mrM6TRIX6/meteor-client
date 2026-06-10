@@ -18,13 +18,15 @@ import meteordevelopment.meteorclient.settings.impl.StringSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ComponentMapReader;
-import meteordevelopment.meteorclient.utils.player.PlayerUtils;
+import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.network.packet.c2s.play.PlayerInteractItemC2SPacket;
+import net.minecraft.util.Hand;
 
 public class CrossbowSpam extends Module {
     
@@ -118,10 +120,17 @@ public class CrossbowSpam extends Module {
                 toggle();
             }
             
-            mc.player.getInventory().setStack(mc.player.getInventory().getSelectedSlot(), itemStack);
-            mc.interactionManager.clickCreativeStack(itemStack, mc.player.getInventory().getSelectedSlot() + 36);
+            InventoryUtils.clickCreativeStack(itemStack, mc.player.getInventory().getSelectedSlot());
             
-            PlayerUtils.rightClick();
+            mc.interactionManager.sendSequencedPacket(
+                mc.world,
+                sequence -> new PlayerInteractItemC2SPacket(
+                    Hand.MAIN_HAND,
+                    sequence,
+                    mc.player.getYaw(),
+                    mc.player.getPitch()
+                )
+            );
             
             timer = 0;
         }
