@@ -671,7 +671,7 @@ public class Utils {
      */
     public static String validateName(String string) {
         Objects.requireNonNull(string, "Name cannot be null");
-        
+        // todo whitelist
         if (string.isBlank()) {
             throw new IllegalArgumentException("Name cannot be blank");
         }

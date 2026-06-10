@@ -22,21 +22,23 @@ import java.util.function.Consumer;
  */
 public class EnumChoiceSetting<T extends Enum<T> & IDisplayName> extends Setting<T> {
     
-    private final T[] values;
-    private final List<String> suggestions;
+    private final List<T> choices;
     
     public EnumChoiceSetting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
         super(name, description, defaultValue, onChanged, onModuleActivated, visible);
         
-        values = defaultValue.getDeclaringClass().getEnumConstants();
-        suggestions = Arrays.stream(values).map(Object::toString).toList();
+        choices = Arrays.asList(defaultValue.getDeclaringClass().getEnumConstants());
+    }
+    
+    public List<T> getChoices() {
+        return choices;
     }
     
     @Override
     protected T parseImpl(String str) {
-        for (T possibleValue : values) {
-            if (str.equalsIgnoreCase(possibleValue.toString())) {
-                return possibleValue;
+        for (T choice : choices) {
+            if (str.equalsIgnoreCase(choice.toString())) {
+                return choice;
             }
         }
         
@@ -47,14 +49,16 @@ public class EnumChoiceSetting<T extends Enum<T> & IDisplayName> extends Setting
     protected boolean isValueValid(T value) {
         /*
          * Since value is guaranteed to be an enum (T) constant used for this setting,
-         * there's no need to double-check whether it is contained in the values array.
+         * there's no need to double-check whether it is contained in the list.
          */
         return true;
     }
     
     @Override
     public List<String> getSuggestions() {
-        return suggestions;
+        return choices.stream()
+            .map(Object::toString)
+            .toList();
     }
     
     @Override

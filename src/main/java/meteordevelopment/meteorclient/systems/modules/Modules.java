@@ -31,7 +31,6 @@ import meteordevelopment.meteorclient.systems.modules.misc.swarm.Swarm;
 import meteordevelopment.meteorclient.systems.modules.movement.*;
 import meteordevelopment.meteorclient.systems.modules.movement.elytrafly.ElytraFly;
 import meteordevelopment.meteorclient.systems.modules.movement.speed.Speed;
-import meteordevelopment.meteorclient.systems.modules.movement.spider.Spider;
 import meteordevelopment.meteorclient.systems.modules.player.*;
 import meteordevelopment.meteorclient.systems.modules.render.*;
 import meteordevelopment.meteorclient.systems.modules.render.blockesp.BlockESP;
@@ -309,7 +308,6 @@ public class Modules extends System<Modules> {
             for (Module module : getAll()) {
                 if (module.isActive() && !module.runInMainMenu) {
                     MeteorClient.EVENT_BUS.subscribe(module);
-                    module.settings.updateModesState(true);
                     module.onActivate();
                 }
             }
@@ -322,7 +320,6 @@ public class Modules extends System<Modules> {
             for (Module module : getAll()) {
                 if (module.isActive() && !module.runInMainMenu) {
                     MeteorClient.EVENT_BUS.unsubscribe(module);
-                    module.settings.updateModesState(false);
                     module.onDeactivate();
                 }
             }

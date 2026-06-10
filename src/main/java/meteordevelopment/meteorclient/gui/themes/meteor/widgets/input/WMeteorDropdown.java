@@ -12,10 +12,12 @@ import meteordevelopment.meteorclient.gui.widgets.input.WDropdown;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.render.color.Color;
 
+import java.util.List;
+
 public class WMeteorDropdown<T extends IDisplayName> extends WDropdown<T> implements MeteorWidget {
     
-    public WMeteorDropdown(T[] values, T value) {
-        super(values, value);
+    public WMeteorDropdown(List<T> choices, T choice) {
+        super(choices, choice);
     }
     
     @Override

@@ -31,7 +31,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class GuiTheme implements ISerializable<GuiTheme> {
@@ -127,12 +129,13 @@ public abstract class GuiTheme implements ISerializable<GuiTheme> {
         return textBox(text, (text1, c) -> true, null);
     }
     
-    public abstract <T extends IDisplayName> WDropdown<T> dropdown(T[] values, T value);
+    public abstract <T extends IDisplayName> WDropdown<T> dropdown(List<T> choices, T choice);
     
-    public <T extends Enum<T> & IDisplayName> WDropdown<T> dropdown(T value) {
-        Class<?> clazz = value.getDeclaringClass();
-        T[] values = (T[]) clazz.getEnumConstants();
-        return dropdown(values, value);
+    @Deprecated
+    public <T extends Enum<T> & IDisplayName> WDropdown<T> dropdown(T choice) {
+        Class<?> clazz = choice.getDeclaringClass();
+        T[] choices = (T[]) clazz.getEnumConstants();
+        return dropdown(Arrays.asList(choices), choice);
     }
     
     public abstract WTriangle triangle();

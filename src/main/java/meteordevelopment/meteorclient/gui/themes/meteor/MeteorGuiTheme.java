@@ -41,6 +41,8 @@ import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 import net.minecraft.client.util.MacWindowUtil;
 
+import java.util.List;
+
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class MeteorGuiTheme extends GuiTheme {
@@ -258,8 +260,8 @@ public class MeteorGuiTheme extends GuiTheme {
     }
     
     @Override
-    public <T extends IDisplayName> WDropdown<T> dropdown(T[] values, T value) {
-        return w(new WMeteorDropdown<>(values, value));
+    public <T extends IDisplayName> WDropdown<T> dropdown(List<T> choices, T choice) {
+        return w(new WMeteorDropdown<>(choices, choice));
     }
     
     @Override

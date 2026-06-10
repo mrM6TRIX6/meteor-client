@@ -17,12 +17,14 @@ import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.util.math.MathHelper;
 
+import java.util.List;
+
 public abstract class WDropdown<T extends IDisplayName> extends WPressable {
     
     public Runnable action;
     
-    protected T[] values;
-    protected T value;
+    protected List<T> choices;
+    protected T choice;
     
     protected double maxValueWidth;
     
@@ -30,10 +32,10 @@ public abstract class WDropdown<T extends IDisplayName> extends WPressable {
     protected boolean expanded;
     protected double animProgress;
     
-    public WDropdown(T[] values, T value) {
-        this.values = values;
+    public WDropdown(List<T> choices, T choice) {
+        this.choices = choices;
         
-        set(value);
+        set(choice);
     }
     
     @Override
@@ -42,13 +44,13 @@ public abstract class WDropdown<T extends IDisplayName> extends WPressable {
         root.theme = theme;
         root.spacing = 0;
         
-        for (int i = 0; i < values.length; i++) {
+        for (int i = 0; i < choices.size(); i++) {
             WDropdownValue widget = createValueWidget();
             widget.theme = theme;
-            widget.value = values[i];
+            widget.value = choices.get(i);
             
             Cell<?> cell = root.add(widget).padHorizontal(2).expandWidgetX();
-            if (i >= values.length - 1) {
+            if (i >= choices.size() - 1) {
                 cell.padBottom(2);
             }
         }
@@ -63,7 +65,7 @@ public abstract class WDropdown<T extends IDisplayName> extends WPressable {
         double pad = pad();
         
         maxValueWidth = 0;
-        for (T value : values) {
+        for (T value : choices) {
             double valueWidth = theme.textWidth(value.toString());
             maxValueWidth = Math.max(maxValueWidth, valueWidth);
         }
@@ -94,11 +96,11 @@ public abstract class WDropdown<T extends IDisplayName> extends WPressable {
     }
     
     public T get() {
-        return value;
+        return choice;
     }
     
     public void set(T value) {
-        this.value = value;
+        this.choice = value;
     }
     
     @Override
@@ -227,9 +229,9 @@ public abstract class WDropdown<T extends IDisplayName> extends WPressable {
         
         @Override
         protected void onPressed(int button) {
-            boolean isNew = !WDropdown.this.value.equals(value);
+            boolean isNew = !WDropdown.this.choice.equals(value);
             
-            WDropdown.this.value = value;
+            WDropdown.this.choice = value;
             expanded = false;
             
             if (isNew && WDropdown.this.action != null) {
