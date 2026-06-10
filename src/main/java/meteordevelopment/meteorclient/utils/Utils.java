@@ -80,6 +80,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Utils {
     
     public static final Pattern FILE_NAME_INVALID_CHARS_PATTERN = Pattern.compile("[\\s\\\\/:*?\"<>|]");
+    public static final Pattern VALID_NAME_PATTERN = Pattern.compile("^[A-Za-z0-9-]+$");
     
     public static Screen screenToOpen;
     
@@ -653,31 +654,17 @@ public class Utils {
     }
     
     /**
-     * Validates that the given string represents a valid name.
-     * <p>
-     * The method performs the following checks:
-     * <ul>
-     *   <li>The string must not be {@code null}</li>
-     *   <li>The string must not be blank (according to {@link String#isBlank()})</li>
-     *   <li>The string must not contain any spaces</li>
-     * </ul>
-     * If any of these conditions is violated, an appropriate exception with
-     * a detailed error message is thrown.
-     *
-     * @param string the input string to validate, must not be {@code null}
-     * @return the original unchanged string if all validation checks pass
-     * @throws NullPointerException     if the input string is {@code null}
-     * @throws IllegalArgumentException if the string is blank or contains spaces
+     * Validates that the given string represents a valid name using a whitelist approach
      */
     public static String validateName(String string) {
         Objects.requireNonNull(string, "Name cannot be null");
-        // todo whitelist
-        if (string.isBlank()) {
-            throw new IllegalArgumentException("Name cannot be blank");
-        }
         
-        if (string.contains(" ")) {
-            throw new IllegalArgumentException("Name cannot contain spaces: '%s'".formatted(string));
+        if (!VALID_NAME_PATTERN.matcher(string).matches()) {
+            throw new IllegalArgumentException(
+                String.format("Name contains invalid characters. " +
+                    "Only letters (A-Z, a-z), numbers (0-9), and hyphens (-) are allowed. " +
+                    "Invalid input: '%s'", string)
+            );
         }
         
         return string;
