@@ -236,7 +236,7 @@ public class CrystalAura extends Module {
     );
     
     private final Setting<Boolean> placement112 = sgPlace.add(new BoolSetting.Builder()
-        .name("1.12-placement")
+        .name("1-12-placement")
         .description("Uses 1.12 crystal placement.")
         .defaultValue(false)
         .build()
