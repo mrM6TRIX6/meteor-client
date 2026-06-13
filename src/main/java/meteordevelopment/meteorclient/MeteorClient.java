@@ -60,6 +60,8 @@ public class MeteorClient implements ClientModInitializer {
     public static final File FOLDER = FabricLoader.getInstance().getGameDir().resolve(MOD_ID).toFile();
     public static final Logger LOG;
     
+    public static long initTime;
+    
     static {
         MOD_META = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow().getMetadata();
         
@@ -88,6 +90,8 @@ public class MeteorClient implements ClientModInitializer {
         }
         
         LOG.info("Initializing {}", NAME);
+        
+        initTime = System.currentTimeMillis();
         
         // Global minecraft client accessor
         mc = MinecraftClient.getInstance();
