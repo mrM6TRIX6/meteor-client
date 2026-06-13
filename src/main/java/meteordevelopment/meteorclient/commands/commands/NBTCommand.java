@@ -165,7 +165,7 @@ public class NBTCommand extends Command {
                 if (!mc.player.getInventory().getSelectedStack().isEmpty()) {
                     ItemStack stack = mc.player.getInventory().getSelectedStack();
                     
-                    Optional<NbtElement> stackNbtOptional = Utils.encodeToNbt(stack).result();
+                    Optional<NbtElement> stackNbtOptional = Utils.encodeStackToNbt(stack).result();
                     // Is modified or has NBT
                     if (stack.getComponentChanges().isEmpty()
                         || stackNbtOptional.isEmpty()
