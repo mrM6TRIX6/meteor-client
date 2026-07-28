@@ -29,7 +29,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.elements.*;
 import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
-import meteordevelopment.meteorclient.utils.render.color.SettingColor;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import org.jetbrains.annotations.NotNull;
 

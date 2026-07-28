@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.text;
 
-import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.renderer.color.Color;
 
 /**
  * Encapsulates a string and the color it should have. See {@link TextUtils}

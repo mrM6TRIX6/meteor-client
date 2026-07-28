@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.events.render;
 
-import meteordevelopment.meteorclient.utils.render.RenderUtils;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
 import net.minecraft.client.gui.DrawContext;
 
 public class Render2DEvent {

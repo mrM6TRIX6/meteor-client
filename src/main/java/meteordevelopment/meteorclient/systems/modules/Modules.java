@@ -507,8 +507,8 @@ public class Modules extends System<Modules> {
         add(new Fullbright());
         add(new HandView());
         add(new HUD());
-        add(new ItemPhysics());
         add(new ItemHighlight());
+        add(new ItemPhysics());
         add(new LogoutSpots());
         add(new NameProtect());
         add(new Nametags());

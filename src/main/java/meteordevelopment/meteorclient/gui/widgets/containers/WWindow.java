@@ -15,8 +15,8 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.function.Consumer;
 
-import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowHeight;
-import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowWidth;
+import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowHeight;
+import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowWidth;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT;
 
 public abstract class WWindow extends WVerticalList {

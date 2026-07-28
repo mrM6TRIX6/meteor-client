@@ -11,7 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.System;
-import meteordevelopment.meteorclient.utils.render.prompts.OkPrompt;
+import meteordevelopment.meteorclient.gui.prompts.OkPrompt;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

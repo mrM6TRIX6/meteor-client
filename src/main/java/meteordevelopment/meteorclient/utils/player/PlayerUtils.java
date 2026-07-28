@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.systems.modules.movement.NoFall;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.DamageUtils;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
-import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.utils.text.TextUtils;
 import meteordevelopment.meteorclient.utils.world.Dimension;
 import net.minecraft.block.BlockState;

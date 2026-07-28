@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.gui.renderer.operations;
 
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderOperation;
-import meteordevelopment.meteorclient.renderer.text.TextRenderer;
+import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 
 public class TextOperation extends GuiRenderOperation<TextOperation> {
     

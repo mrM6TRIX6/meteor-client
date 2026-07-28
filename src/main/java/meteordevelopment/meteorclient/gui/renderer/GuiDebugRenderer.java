@@ -9,10 +9,10 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
-import meteordevelopment.meteorclient.renderer.MeshBuilder;
-import meteordevelopment.meteorclient.renderer.MeshRenderer;
-import meteordevelopment.meteorclient.renderer.MeteorRenderPipelines;
-import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.renderer.engine.MeshBuilder;
+import meteordevelopment.meteorclient.renderer.engine.MeshRenderer;
+import meteordevelopment.meteorclient.renderer.engine.MeteorRenderPipelines;
+import meteordevelopment.meteorclient.renderer.color.Color;
 import net.minecraft.client.gui.Click;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;

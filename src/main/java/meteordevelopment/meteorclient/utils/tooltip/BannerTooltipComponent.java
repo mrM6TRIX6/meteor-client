@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.utils.tooltip;
 
 import meteordevelopment.meteorclient.mixin.DrawContextAccessor;
-import meteordevelopment.meteorclient.utils.render.CustomBannerGuiElementRenderState;
+import meteordevelopment.meteorclient.renderer.CustomBannerGuiElementRenderState;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.tooltip.TooltipComponent;

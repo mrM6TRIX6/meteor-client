@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.events.render;
 
-import meteordevelopment.meteorclient.renderer.Renderer3D;
-import meteordevelopment.meteorclient.utils.render.RenderUtils;
+import meteordevelopment.meteorclient.renderer.engine.Renderer3D;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
 import net.minecraft.client.util.math.MatrixStack;
 
 public class Render3DEvent {

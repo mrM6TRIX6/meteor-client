@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.gui.widgets.containers;
 
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import meteordevelopment.meteorclient.utils.render.RenderUtils;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
 import net.minecraft.client.gui.Click;
 import net.minecraft.util.math.MathHelper;
 

@@ -16,7 +16,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
-import meteordevelopment.meteorclient.utils.render.color.SettingColor;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import net.minecraft.util.math.MathHelper;
 
 public class CompassHUD extends HUDElement {

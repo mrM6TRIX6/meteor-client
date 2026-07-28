@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.systems.modules.render.hud.elements.TextHUD;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
-import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.renderer.color.Color;
 import org.meteordev.starscript.utils.SemanticToken;
 import org.meteordev.starscript.utils.SemanticTokenProvider;
 import org.meteordev.starscript.utils.SemanticTokenType;

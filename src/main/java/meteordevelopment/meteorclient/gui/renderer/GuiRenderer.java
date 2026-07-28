@@ -13,13 +13,13 @@ import meteordevelopment.meteorclient.gui.renderer.operations.TextOperation;
 import meteordevelopment.meteorclient.gui.renderer.packer.GuiTexture;
 import meteordevelopment.meteorclient.gui.renderer.packer.TexturePacker;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import meteordevelopment.meteorclient.renderer.Renderer2D;
-import meteordevelopment.meteorclient.renderer.Texture;
+import meteordevelopment.meteorclient.renderer.engine.Renderer2D;
+import meteordevelopment.meteorclient.renderer.engine.Texture;
 import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.misc.Pool;
-import meteordevelopment.meteorclient.utils.render.RenderUtils;
-import meteordevelopment.meteorclient.utils.render.color.Color;
-import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.state.QuadColorState;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -28,8 +28,8 @@ import net.minecraft.util.math.MathHelper;
 import java.util.List;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
-import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowHeight;
-import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowWidth;
+import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowHeight;
+import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowWidth;
 
 public class GuiRenderer {
     

@@ -11,8 +11,8 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.network.FailedHttpResponse;
 import meteordevelopment.meteorclient.utils.network.Http;
-import meteordevelopment.meteorclient.utils.render.PlayerHeadTexture;
-import meteordevelopment.meteorclient.utils.render.PlayerHeadUtils;
+import meteordevelopment.meteorclient.renderer.PlayerHeadTexture;
+import meteordevelopment.meteorclient.renderer.PlayerHeadUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 

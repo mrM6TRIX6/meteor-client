@@ -8,13 +8,13 @@ package meteordevelopment.meteorclient.systems.modules.render.blockesp;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.renderer.ShapeMode;
+import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.IBlockData;
 import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.settings.impl.BlockDataSetting;
 import meteordevelopment.meteorclient.settings.impl.GenericSetting;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
-import meteordevelopment.meteorclient.utils.render.color.SettingColor;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import net.minecraft.block.Block;
 
 public class ESPBlockData implements IGeneric<ESPBlockData>, IChangeable, IBlockData<ESPBlockData> {

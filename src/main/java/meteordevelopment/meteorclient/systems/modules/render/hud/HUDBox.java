@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.systems.modules.render.hud;
 
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import meteordevelopment.meteorclient.utils.render.RenderUtils;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
 
 public class HUDBox implements ISerializable<HUDBox> {
     

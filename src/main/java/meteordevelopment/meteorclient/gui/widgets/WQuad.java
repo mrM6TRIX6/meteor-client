@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.widgets;
 
-import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.renderer.color.Color;
 
 public abstract class WQuad extends WWidget {
     

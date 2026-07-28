@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.mixininterface.IGpuDevice;
 import java.util.ArrayList;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowHeight;
+import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowHeight;
 
 public class Scissor {
     

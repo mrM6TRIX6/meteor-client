@@ -6,10 +6,10 @@
 package meteordevelopment.meteorclient.settings.impl;
 
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.renderer.Fonts;
-import meteordevelopment.meteorclient.renderer.text.FontFace;
-import meteordevelopment.meteorclient.renderer.text.FontFamily;
-import meteordevelopment.meteorclient.renderer.text.FontInfo;
+import meteordevelopment.meteorclient.renderer.engine.Fonts;
+import meteordevelopment.meteorclient.renderer.engine.text.FontFace;
+import meteordevelopment.meteorclient.renderer.engine.text.FontFamily;
+import meteordevelopment.meteorclient.renderer.engine.text.FontInfo;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 

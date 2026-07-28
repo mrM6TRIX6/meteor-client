@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.gui.themes.meteor;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.utils.BaseWidget;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.renderer.color.Color;
 
 public interface MeteorWidget extends BaseWidget {
     

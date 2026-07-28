@@ -15,8 +15,8 @@ import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
-import meteordevelopment.meteorclient.utils.render.color.RainbowColors;
-import meteordevelopment.meteorclient.utils.render.color.SettingColor;
+import meteordevelopment.meteorclient.renderer.color.RainbowColors;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

@@ -15,9 +15,9 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WView;
 import meteordevelopment.meteorclient.gui.widgets.input.WDropdown;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.renderer.Fonts;
-import meteordevelopment.meteorclient.renderer.text.FontFamily;
-import meteordevelopment.meteorclient.renderer.text.FontInfo;
+import meteordevelopment.meteorclient.renderer.engine.Fonts;
+import meteordevelopment.meteorclient.renderer.engine.text.FontFamily;
+import meteordevelopment.meteorclient.renderer.engine.text.FontInfo;
 import meteordevelopment.meteorclient.settings.impl.FontFaceSetting;
 import org.apache.commons.lang3.Strings;
 

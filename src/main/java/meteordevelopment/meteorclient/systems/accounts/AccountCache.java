@@ -8,9 +8,9 @@ package meteordevelopment.meteorclient.systems.accounts;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.util.UndashedUuid;
+import meteordevelopment.meteorclient.renderer.PlayerHeadTexture;
+import meteordevelopment.meteorclient.renderer.PlayerHeadUtils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import meteordevelopment.meteorclient.utils.render.PlayerHeadTexture;
-import meteordevelopment.meteorclient.utils.render.PlayerHeadUtils;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 

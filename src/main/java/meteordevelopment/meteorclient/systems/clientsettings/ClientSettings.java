@@ -6,8 +6,9 @@
 package meteordevelopment.meteorclient.systems.clientsettings;
 
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.renderer.Fonts;
-import meteordevelopment.meteorclient.renderer.text.FontFace;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
+import meteordevelopment.meteorclient.renderer.engine.Fonts;
+import meteordevelopment.meteorclient.renderer.engine.text.FontFace;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
@@ -15,7 +16,6 @@ import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
-import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -7,9 +7,9 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
-import meteordevelopment.meteorclient.utils.render.color.SettingColor;
-import meteordevelopment.meteorclient.utils.render.state.QuadColorState;
-import meteordevelopment.meteorclient.utils.render.state.QuadRadiusState;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
+import meteordevelopment.meteorclient.renderer.state.QuadColorState;
+import meteordevelopment.meteorclient.renderer.state.QuadRadiusState;
 import net.minecraft.util.Identifier;
 
 public class TextureHUD extends HUDElement {

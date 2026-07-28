@@ -6,10 +6,10 @@
 package meteordevelopment.meteorclient.settings.impl;
 
 import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.utils.render.color.Color;
-import meteordevelopment.meteorclient.utils.render.color.SettingColor;
 
 import java.util.List;
 import java.util.function.Consumer;

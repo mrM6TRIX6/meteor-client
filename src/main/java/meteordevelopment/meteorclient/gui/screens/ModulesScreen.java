@@ -27,8 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowHeight;
-import static meteordevelopment.meteorclient.utils.render.RenderUtils.getWindowWidth;
+import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowHeight;
+import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowWidth;
 
 public class ModulesScreen extends TabScreen {
     
