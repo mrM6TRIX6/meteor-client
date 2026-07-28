@@ -11,8 +11,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.gui.themes.meteor.MeteorGuiTheme;
-import meteordevelopment.meteorclient.utils.PostInit;
-import meteordevelopment.meteorclient.utils.PreInit;
+import meteordevelopment.meteorclient.utils.reflect.PostInit;
+import meteordevelopment.meteorclient.utils.reflect.PreInit;
 
 import java.io.*;
 import java.nio.file.Files;

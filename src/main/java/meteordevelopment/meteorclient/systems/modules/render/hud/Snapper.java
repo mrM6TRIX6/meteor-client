@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.utils.other;
+package meteordevelopment.meteorclient.systems.modules.render.hud;
 
 public class Snapper {
     

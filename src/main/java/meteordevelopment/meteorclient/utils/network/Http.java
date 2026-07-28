@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.utils.network;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import meteordevelopment.meteorclient.utils.other.JsonDateDeserializer;
+import meteordevelopment.meteorclient.utils.misc.JsonDateDeserializer;
 
 import javax.annotation.Nullable;
 import java.io.IOException;

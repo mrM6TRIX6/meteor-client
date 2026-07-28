@@ -3,10 +3,10 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.pathing;
+package meteordevelopment.meteorclient.utils.pathing;
 
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.utils.PreInit;
+import meteordevelopment.meteorclient.utils.reflect.PreInit;
 
 import java.lang.reflect.InvocationTargetException;
 

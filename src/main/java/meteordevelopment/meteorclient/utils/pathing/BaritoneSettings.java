@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.pathing;
+package meteordevelopment.meteorclient.utils.pathing;
 
 import baritone.api.BaritoneAPI;
 import baritone.api.utils.SettingsUtil;

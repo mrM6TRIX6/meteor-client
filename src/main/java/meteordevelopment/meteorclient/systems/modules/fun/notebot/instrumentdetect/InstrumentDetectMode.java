@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.utils.notebot.instrumentdetect;
+package meteordevelopment.meteorclient.systems.modules.fun.notebot.instrumentdetect;
 
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import net.minecraft.block.NoteBlock;

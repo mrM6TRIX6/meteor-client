@@ -2,7 +2,7 @@ package meteordevelopment.meteorclient.renderer.engine.postprocess;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
-import meteordevelopment.meteorclient.utils.PreInit;
+import meteordevelopment.meteorclient.utils.reflect.PreInit;
 import meteordevelopment.orbit.EventHandler;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;

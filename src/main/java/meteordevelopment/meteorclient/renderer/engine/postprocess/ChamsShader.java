@@ -18,7 +18,7 @@ import meteordevelopment.meteorclient.renderer.engine.MeteorRenderPipelines;
 import meteordevelopment.meteorclient.renderer.engine.Texture;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Chams;
-import meteordevelopment.meteorclient.utils.PostInit;
+import meteordevelopment.meteorclient.utils.reflect.PostInit;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gl.DynamicUniformStorage;
 import net.minecraft.entity.Entity;

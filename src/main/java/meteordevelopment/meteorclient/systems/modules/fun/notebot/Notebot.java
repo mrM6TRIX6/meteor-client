@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.systems.modules.misc;
+package meteordevelopment.meteorclient.systems.modules.fun.notebot;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
@@ -16,6 +16,9 @@ import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
+import meteordevelopment.meteorclient.renderer.NametagUtils;
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -23,17 +26,13 @@ import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.systems.modules.fun.notebot.decoder.SongDecoder;
+import meteordevelopment.meteorclient.systems.modules.fun.notebot.decoder.SongDecoders;
+import meteordevelopment.meteorclient.systems.modules.fun.notebot.instrumentdetect.InstrumentDetectMode;
+import meteordevelopment.meteorclient.systems.modules.fun.notebot.song.Note;
+import meteordevelopment.meteorclient.systems.modules.fun.notebot.song.Song;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
-import meteordevelopment.meteorclient.utils.notebot.NotebotUtils;
-import meteordevelopment.meteorclient.utils.notebot.decoder.SongDecoder;
-import meteordevelopment.meteorclient.utils.notebot.decoder.SongDecoders;
-import meteordevelopment.meteorclient.utils.notebot.instrumentdetect.InstrumentDetectMode;
-import meteordevelopment.meteorclient.utils.notebot.song.Note;
-import meteordevelopment.meteorclient.utils.notebot.song.Song;
 import meteordevelopment.meteorclient.utils.player.Rotations;
-import meteordevelopment.meteorclient.renderer.NametagUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -59,7 +58,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
 
 public class Notebot extends Module {
     
@@ -255,7 +253,7 @@ public class Notebot extends Module {
     
     
     public Notebot() {
-        super(Category.MISC, "Notebot", "Plays noteblock nicely");
+        super(Category.FUN, "Notebot", "Plays noteblock nicely");
         
         for (NoteBlockInstrument inst : NoteBlockInstrument.values()) {
             NotebotUtils.OptionalInstrument optionalInstrument = NotebotUtils.OptionalInstrument.fromMinecraftInstrument(inst);

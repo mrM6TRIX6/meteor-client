@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.utils.misc;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.ResourcePacksReloadedEvent;
-import meteordevelopment.meteorclient.utils.PreInit;
+import meteordevelopment.meteorclient.utils.reflect.PreInit;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.network.ClientPlayNetworkHandler;

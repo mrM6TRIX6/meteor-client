@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.utils.files.StreamUtils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
+import meteordevelopment.meteorclient.utils.misc.StreamUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;

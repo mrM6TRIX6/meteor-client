@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.systems.modules.combat;
 
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.pathing.PathManagers;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
@@ -21,6 +20,7 @@ import meteordevelopment.meteorclient.utils.entity.Target;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.pathing.PathManagers;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;

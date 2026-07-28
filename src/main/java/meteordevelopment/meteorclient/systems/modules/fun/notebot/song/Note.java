@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.utils.notebot.song;
+package meteordevelopment.meteorclient.systems.modules.fun.notebot.song;
 
 import net.minecraft.block.enums.NoteBlockInstrument;
 

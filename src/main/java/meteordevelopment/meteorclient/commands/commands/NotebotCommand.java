@@ -15,8 +15,8 @@ import meteordevelopment.meteorclient.commands.arguments.NotebotSongArgumentType
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.misc.Notebot;
-import meteordevelopment.meteorclient.utils.notebot.song.Note;
+import meteordevelopment.meteorclient.systems.modules.fun.notebot.Notebot;
+import meteordevelopment.meteorclient.systems.modules.fun.notebot.song.Note;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.command.CommandSource;

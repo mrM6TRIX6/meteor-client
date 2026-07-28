@@ -7,8 +7,8 @@ package meteordevelopment.meteorclient.gui.tabs;
 
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.gui.tabs.impl.*;
-import meteordevelopment.meteorclient.pathing.PathManagers;
-import meteordevelopment.meteorclient.utils.PreInit;
+import meteordevelopment.meteorclient.utils.pathing.PathManagers;
+import meteordevelopment.meteorclient.utils.reflect.PreInit;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -13,8 +13,8 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
-import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.misc.UnorderedArrayList;
+import meteordevelopment.meteorclient.utils.reflect.PostInit;
 import meteordevelopment.orbit.EventHandler;
 
 import java.util.List;

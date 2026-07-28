@@ -13,7 +13,6 @@ import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import meteordevelopment.meteorclient.utils.other.Snapper;
 import net.minecraft.client.MinecraftClient;
 
 import java.util.Optional;

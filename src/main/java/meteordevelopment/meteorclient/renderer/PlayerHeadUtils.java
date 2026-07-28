@@ -9,8 +9,8 @@ import com.google.gson.Gson;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.accounts.TexturesJson;
 import meteordevelopment.meteorclient.systems.accounts.UUIDToProfileResponse;
-import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.network.Http;
+import meteordevelopment.meteorclient.utils.reflect.PostInit;
 
 import java.util.Base64;
 import java.util.UUID;

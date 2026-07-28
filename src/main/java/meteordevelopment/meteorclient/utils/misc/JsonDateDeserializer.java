@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.utils.other;
+package meteordevelopment.meteorclient.utils.misc;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

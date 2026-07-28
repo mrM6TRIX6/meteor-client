@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.misc.swarm;
 
 import meteordevelopment.meteorclient.commands.CommandManager;
-import meteordevelopment.meteorclient.pathing.PathManagers;
+import meteordevelopment.meteorclient.utils.pathing.PathManagers;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.block.Block;
 

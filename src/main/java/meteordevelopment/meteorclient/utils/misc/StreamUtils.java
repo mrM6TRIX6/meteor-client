@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.utils.files;
+package meteordevelopment.meteorclient.utils.misc;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import org.apache.commons.io.IOUtils;

@@ -7,8 +7,8 @@ package meteordevelopment.meteorclient.config;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
-import meteordevelopment.meteorclient.utils.PostInit;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.reflect.PostInit;
 import meteordevelopment.orbit.EventHandler;
 import org.jetbrains.annotations.NotNull;
 

@@ -8,13 +8,13 @@ package meteordevelopment.meteorclient.renderer.engine;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
+import meteordevelopment.meteorclient.renderer.FontUtils;
 import meteordevelopment.meteorclient.renderer.engine.text.CustomTextRenderer;
 import meteordevelopment.meteorclient.renderer.engine.text.FontFace;
 import meteordevelopment.meteorclient.renderer.engine.text.FontFamily;
 import meteordevelopment.meteorclient.renderer.engine.text.FontInfo;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
-import meteordevelopment.meteorclient.utils.PreInit;
-import meteordevelopment.meteorclient.renderer.FontUtils;
+import meteordevelopment.meteorclient.utils.reflect.PreInit;
 
 import java.util.ArrayList;
 import java.util.Comparator;
