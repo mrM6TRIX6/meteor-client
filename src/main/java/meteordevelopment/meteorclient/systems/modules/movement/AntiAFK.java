@@ -222,7 +222,7 @@ public class AntiAFK extends Module {
         
         // Spin
         if (spin.get()) {
-            lastYaw += spinSpeed.get();
+            lastYaw += spinSpeed.get() + Utils.random(-5, 5); // AC bypass
             switch (spinMode.get()) {
                 case CLIENT -> mc.player.setYaw(lastYaw);
                 case SERVER -> Rotations.rotate(lastYaw, pitch.get(), -15);
