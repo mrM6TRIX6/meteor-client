@@ -51,10 +51,10 @@ public class TheAlteningAccount extends Account<TheAlteningAccount> implements T
             
             return true;
         } catch (InvalidCredentialsException e) {
-            MeteorClient.LOG.error("Invalid TheAltening credentials.");
+            MeteorClient.LOGGER.error("Invalid TheAltening credentials.");
             return false;
         } catch (Exception e) {
-            MeteorClient.LOG.error("Failed to fetch info for TheAltening account!");
+            MeteorClient.LOGGER.error("Failed to fetch info for TheAltening account!");
             return false;
         }
     }
@@ -78,7 +78,7 @@ public class TheAlteningAccount extends Account<TheAlteningAccount> implements T
             );
             return true;
         } catch (Exception e) {
-            MeteorClient.LOG.error("Failed to login with TheAltening.");
+            MeteorClient.LOGGER.error("Failed to login with TheAltening.");
             return false;
         }
     }

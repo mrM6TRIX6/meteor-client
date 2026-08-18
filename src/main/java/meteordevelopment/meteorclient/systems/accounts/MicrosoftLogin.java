@@ -115,7 +115,7 @@ public class MicrosoftLogin {
             server.setExecutor(Executors.newVirtualThreadPerTaskExecutor());
             server.start();
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error starting Microsoft login server", e);
+            MeteorClient.LOGGER.error("Error starting Microsoft login server", e);
             stopServer();
         }
     }

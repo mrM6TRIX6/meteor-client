@@ -37,7 +37,7 @@ public class PathManagers {
             }
         }
         
-        MeteorClient.LOG.info("Path Manager: {}", INSTANCE.getName());
+        MeteorClient.LOGGER.info("Path Manager: {}", INSTANCE.getName());
     }
     
     private static boolean exists(String name) {

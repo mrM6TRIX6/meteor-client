@@ -72,7 +72,7 @@ public class FontUtils {
         
         FontFace fontFace = new FontFace(fontInfo, font);
         if (!addFont(fontList, fontFace)) {
-            MeteorClient.LOG.warn("Failed to load font {}", fontFace);
+            MeteorClient.LOGGER.warn("Failed to load font {}", fontFace);
         }
     }
     

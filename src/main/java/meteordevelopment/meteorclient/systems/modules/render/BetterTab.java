@@ -14,6 +14,13 @@ import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.network.PlayerListEntry;
+import net.minecraft.util.math.MathHelper;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class BetterTab extends Module {
     
@@ -92,6 +99,40 @@ public class BetterTab extends Module {
     
     public BetterTab() {
         super(Category.RENDER, "BetterTab", "Various improvements to the player list hud.");
+    }
+    
+    public void onRenderLatencyIcon(DrawContext context, int width, int x, int y, PlayerListEntry entry, CallbackInfo ci) {
+        if (pingNumbers()) {
+            int latency = MathHelper.clamp(entry.getLatency(), 0, 9999);
+            int color = latency < 150 ? 0xFF00E970 : latency < 300 ? 0xFFE7D020 : 0xFFD74238;
+            
+            Render2D.withVanilla(() -> {
+                Render2D.beginFrame(context, Render2D.Space.VANILLA);
+                try {
+                    Render2D.msdf(
+                        new BuiltMsdf(
+                            MsdfFont.MONTSERRAT_SEMIBOLD,
+                            String.valueOf(latency),
+                            x + width - (int) MsdfFont.MONTSERRAT_SEMIBOLD.width(
+                                String.valueOf(latency),
+                                7
+                            ),
+                            y,
+                            7,
+                            color
+                        ).withOutline(
+                            0.05f,
+                            0xFF000000
+                        )
+                    );
+                    Render2D.flush();
+                } finally {
+                    Render2D.endFrame();
+                }
+            });
+            
+            ci.cancel();
+        }
     }
     
     public boolean autoTabSize() {

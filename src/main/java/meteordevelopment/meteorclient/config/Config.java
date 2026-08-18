@@ -100,7 +100,7 @@ public class Config implements ISerializable<Config> {
                 Macros.get().fromJson(root.getAsJsonObject("macros"));
             }
         } catch (Exception e) {
-            MeteorClient.LOG.error("Error loading config file {}", file, e);
+            MeteorClient.LOGGER.error("Error loading config file {}", file, e);
         }
     }
     
@@ -124,7 +124,7 @@ public class Config implements ISerializable<Config> {
         try (FileWriter writer = new FileWriter(file)) {
             GSON.toJson(root, writer);
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error saving config file {}", file, e);
+            MeteorClient.LOGGER.error("Error saving config file {}", file, e);
         }
     }
     
@@ -132,7 +132,7 @@ public class Config implements ISerializable<Config> {
         try {
             Files.deleteIfExists(getFile().toPath());
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error deleting config file {}", getFile(), e);
+            MeteorClient.LOGGER.error("Error deleting config file {}", getFile(), e);
         }
     }
     

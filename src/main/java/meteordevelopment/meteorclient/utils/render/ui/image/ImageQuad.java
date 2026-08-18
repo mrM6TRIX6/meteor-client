@@ -1,0 +1,23 @@
+package meteordevelopment.meteorclient.utils.render.ui.image;
+
+record ImageQuad(
+    float x,
+    float y,
+    float width,
+    float height,
+    float radius,
+    float smoothness,
+    float rotationDegrees,
+    float rotationOriginX,
+    float rotationOriginY,
+    float rotationCos,
+    float rotationSin,
+    float u0,
+    float v0,
+    float u1,
+    float v1,
+    int colorTopLeft,
+    int colorTopRight,
+    int colorBottomRight,
+    int colorBottomLeft
+) {}

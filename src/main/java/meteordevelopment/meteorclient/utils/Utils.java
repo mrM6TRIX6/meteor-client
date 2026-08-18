@@ -29,6 +29,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -538,7 +539,7 @@ public class Utils {
         try {
             return in.readAllBytes();
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error reading from stream", e);
+            MeteorClient.LOGGER.error("Error reading from stream", e);
             return new byte[0];
         } finally {
             IOUtils.closeQuietly(in);
@@ -649,6 +650,29 @@ public class Utils {
         );
     }
     
+    public static double interpolate(double prev, double to) {
+        return MathHelper.lerp(tickDelta(), prev, to);
+    }
+    
+    public static Vec3d interpolate(Entity entity) {
+        if (entity == null) {
+            return Vec3d.ZERO;
+        }
+        return new Vec3d(
+            interpolate(entity.lastX, entity.getX()),
+            interpolate(entity.lastY, entity.getY()),
+            interpolate(entity.lastZ, entity.getZ())
+        );
+    }
+    
+    private static float tickDelta() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client == null || client.getRenderTickCounter() == null) {
+            return 1.0f;
+        }
+        return client.getRenderTickCounter().getTickProgress(false);
+    }
+    
     public static boolean isLoading() {
         ResourceReloadLogger.ReloadState state = ((ResourceReloadLoggerAccessor) ((MinecraftClientAccessor) mc).meteor$getResourceReloadLogger()).meteor$getReloadState();
         return state == null || !((ReloadStateAccessor) state).meteor$isFinished();
@@ -657,18 +681,17 @@ public class Utils {
     /**
      * Validates that the given string represents a valid name using a whitelist approach
      */
-    public static String validateName(String string) {
-        Objects.requireNonNull(string, "Name cannot be null");
+    public static String validateName(String name) {
+        Objects.requireNonNull(name, "Name cannot be null");
         
-        if (!VALID_NAME_PATTERN.matcher(string).matches()) {
-            throw new IllegalArgumentException(
-                String.format("Name contains invalid characters. " +
-                    "Only letters (A-Z, a-z), numbers (0-9), and hyphens (-) are allowed. " +
-                    "Invalid input: '%s'", string)
+        if (!VALID_NAME_PATTERN.matcher(name).matches()) {
+            throw new IllegalStateException(
+                String.format("Name '%s' contains invalid characters. " +
+                    "Only letters (A-Z, a-z), numbers (0-9), and hyphens (-) are allowed. ", name)
             );
         }
         
-        return string;
+        return name;
     }
     
     public static int parsePort(String full) {

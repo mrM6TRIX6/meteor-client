@@ -14,9 +14,9 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface DrawContextAccessor {
     
     @Accessor("state")
-    GuiRenderState getState();
+    GuiRenderState meteor$getState();
     
     @Accessor("scissorStack")
-    DrawContext.ScissorStack getScissorStack();
+    DrawContext.ScissorStack meteor$getScissorStack();
     
 }

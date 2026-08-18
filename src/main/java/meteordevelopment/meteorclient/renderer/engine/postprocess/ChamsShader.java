@@ -79,7 +79,7 @@ public class ChamsShader extends EntityShader {
                 STBImage.stbi_set_flip_vertically_on_load(false);
             }
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error loading the chams shader", e);
+            MeteorClient.LOGGER.error("Error loading the chams shader", e);
         }
     }
     

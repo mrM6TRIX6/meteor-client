@@ -16,6 +16,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.systems.modules.render.hud.Snapper;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -341,20 +342,26 @@ public class HUDEditorScreen extends WidgetScreen implements Snapper.Container {
         boolean inactiveOnly = Utils.canUpdate() && hud.isActive();
         
         HUDRenderer.INSTANCE.begin(drawContext);
+        Render2D.beginFrame(drawContext);
         
-        for (HUDElement element : hud) {
-            element.updatePos();
-            
-            if (inactiveOnly) {
-                if (!element.isActive()) {
+        try {
+            for (HUDElement element : hud) {
+                element.updatePos();
+                
+                if (inactiveOnly) {
+                    if (!element.isActive()) {
+                        element.render(HUDRenderer.INSTANCE);
+                    }
+                } else {
                     element.render(HUDRenderer.INSTANCE);
                 }
-            } else {
-                element.render(HUDRenderer.INSTANCE);
             }
+            
+            HUDRenderer.INSTANCE.end();
+            Render2D.flush();
+        } finally {
+            Render2D.endFrame();
         }
-        
-        HUDRenderer.INSTANCE.end();
     }
     
     private void renderSplitLines(boolean increment, double delta) {

@@ -182,10 +182,10 @@ public abstract class MeteorRenderPipelines {
         
         // Post Process
         POST_OUTLINE = add(new ExtendedRenderPipelineBuilder()
-            .withLocation(MeteorClient.identifier("pipeline/post/outline"))
+            .withLocation(MeteorClient.identifier("pipeline/post_old/outline"))
             .withVertexFormat(MeteorVertexFormats.POS2, VertexFormat.DrawMode.TRIANGLES)
-            .withVertexShader(MeteorClient.identifier("shaders/post/base.vert"))
-            .withFragmentShader(MeteorClient.identifier("shaders/post/outline.frag"))
+            .withVertexShader(MeteorClient.identifier("shaders/post_old/base.vert"))
+            .withFragmentShader(MeteorClient.identifier("shaders/post_old/outline.frag"))
             .withSampler("u_Texture")
             .withUniform("PostData", UniformType.UNIFORM_BUFFER)
             .withUniform("OutlineData", UniformType.UNIFORM_BUFFER)
@@ -197,10 +197,10 @@ public abstract class MeteorRenderPipelines {
         );
         
         POST_IMAGE = add(new ExtendedRenderPipelineBuilder(MESH_UNIFORMS)
-            .withLocation(MeteorClient.identifier("pipeline/post/image"))
+            .withLocation(MeteorClient.identifier("pipeline/post_old/image"))
             .withVertexFormat(MeteorVertexFormats.POS2, VertexFormat.DrawMode.TRIANGLES)
-            .withVertexShader(MeteorClient.identifier("shaders/post/base.vert"))
-            .withFragmentShader(MeteorClient.identifier("shaders/post/image.frag"))
+            .withVertexShader(MeteorClient.identifier("shaders/post_old/base.vert"))
+            .withFragmentShader(MeteorClient.identifier("shaders/post_old/image.frag"))
             .withSampler("u_Texture")
             .withSampler("u_TextureI")
             .withUniform("PostData", UniformType.UNIFORM_BUFFER)

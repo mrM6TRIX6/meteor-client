@@ -150,7 +150,7 @@ public class ConfigManager {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             } catch (IOException e) {
-                MeteorClient.LOG.error("Config watcher failed", e);
+                MeteorClient.LOGGER.error("Config watcher failed", e);
             }
         }
         

@@ -1,0 +1,483 @@
+{
+  "font": "mainmenuicons",
+  "glyphs": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0",
+  "icons": [
+    {
+      "index": 1,
+      "name": "3d",
+      "file": "3d.png",
+      "unicode": 97,
+      "codepoint": "U+0061",
+      "letter": "a",
+      "javaString": "a"
+    },
+    {
+      "index": 2,
+      "name": "animation",
+      "file": "animation.png",
+      "unicode": 98,
+      "codepoint": "U+0062",
+      "letter": "b",
+      "javaString": "b"
+    },
+    {
+      "index": 3,
+      "name": "businessman",
+      "file": "businessman.png",
+      "unicode": 99,
+      "codepoint": "U+0063",
+      "letter": "c",
+      "javaString": "c"
+    },
+    {
+      "index": 4,
+      "name": "button",
+      "file": "button.png",
+      "unicode": 100,
+      "codepoint": "U+0064",
+      "letter": "d",
+      "javaString": "d"
+    },
+    {
+      "index": 5,
+      "name": "cardiogram",
+      "file": "cardiogram.png",
+      "unicode": 101,
+      "codepoint": "U+0065",
+      "letter": "e",
+      "javaString": "e"
+    },
+    {
+      "index": 6,
+      "name": "logo",
+      "file": "logo.png",
+      "unicode": 102,
+      "codepoint": "U+0066",
+      "letter": "f",
+      "javaString": "f"
+    },
+    {
+      "index": 7,
+      "name": "chatgpt_image_may_17_2026_02_46_28_pm",
+      "file": "ChatGPT Image May 17, 2026, 02_46_28 PM.png",
+      "unicode": 103,
+      "codepoint": "U+0067",
+      "letter": "g",
+      "javaString": "g"
+    },
+    {
+      "index": 8,
+      "name": "clock",
+      "file": "clock.png",
+      "unicode": 104,
+      "codepoint": "U+0068",
+      "letter": "h",
+      "javaString": "h"
+    },
+    {
+      "index": 9,
+      "name": "close",
+      "file": "close.png",
+      "unicode": 105,
+      "codepoint": "U+0069",
+      "letter": "i",
+      "javaString": "i"
+    },
+    {
+      "index": 10,
+      "name": "directions",
+      "file": "directions.png",
+      "unicode": 106,
+      "codepoint": "U+006A",
+      "letter": "j",
+      "javaString": "j"
+    },
+    {
+      "index": 11,
+      "name": "event",
+      "file": "event.png",
+      "unicode": 107,
+      "codepoint": "U+006B",
+      "letter": "k",
+      "javaString": "k"
+    },
+    {
+      "index": 12,
+      "name": "hour_glass",
+      "file": "hour-glass.png",
+      "unicode": 108,
+      "codepoint": "U+006C",
+      "letter": "l",
+      "javaString": "l"
+    },
+    {
+      "index": 13,
+      "name": "keyboard",
+      "file": "keyboard.png",
+      "unicode": 109,
+      "codepoint": "U+006D",
+      "letter": "m",
+      "javaString": "m"
+    },
+    {
+      "index": 14,
+      "name": "next_button",
+      "file": "next-button.png",
+      "unicode": 110,
+      "codepoint": "U+006E",
+      "letter": "n",
+      "javaString": "n"
+    },
+    {
+      "index": 15,
+      "name": "pause",
+      "file": "pause.png",
+      "unicode": 111,
+      "codepoint": "U+006F",
+      "letter": "o",
+      "javaString": "o"
+    },
+    {
+      "index": 16,
+      "name": "play_button",
+      "file": "play-button.png",
+      "unicode": 112,
+      "codepoint": "U+0070",
+      "letter": "p",
+      "javaString": "p"
+    },
+    {
+      "index": 17,
+      "name": "potion",
+      "file": "potion.png",
+      "unicode": 113,
+      "codepoint": "U+0071",
+      "letter": "q",
+      "javaString": "q"
+    },
+    {
+      "index": 18,
+      "name": "sword",
+      "file": "sword.png",
+      "unicode": 114,
+      "codepoint": "U+0072",
+      "letter": "r",
+      "javaString": "r"
+    },
+    {
+      "index": 19,
+      "name": "ui",
+      "file": "ui.png",
+      "unicode": 115,
+      "codepoint": "U+0073",
+      "letter": "s",
+      "javaString": "s"
+    },
+    {
+      "index": 20,
+      "name": "user",
+      "file": "user.png",
+      "unicode": 116,
+      "codepoint": "U+0074",
+      "letter": "t",
+      "javaString": "t"
+    },
+    {
+      "index": 21,
+      "name": "vinyl",
+      "file": "vinyl.png",
+      "unicode": 117,
+      "codepoint": "U+0075",
+      "letter": "u",
+      "javaString": "u"
+    },
+    {
+      "index": 22,
+      "name": "about",
+      "file": "about.png",
+      "unicode": 118,
+      "codepoint": "U+0076",
+      "letter": "v",
+      "javaString": "v"
+    },
+    {
+      "index": 23,
+      "name": "bell",
+      "file": "bell.png",
+      "unicode": 119,
+      "codepoint": "U+0077",
+      "letter": "w",
+      "javaString": "w"
+    },
+    {
+      "index": 24,
+      "name": "earth",
+      "file": "earth.png",
+      "unicode": 120,
+      "codepoint": "U+0078",
+      "letter": "x",
+      "javaString": "x"
+    },
+    {
+      "index": 25,
+      "name": "network_signal",
+      "file": "network-signal.png",
+      "unicode": 121,
+      "codepoint": "U+0079",
+      "letter": "y",
+      "javaString": "y"
+    },
+    {
+      "index": 26,
+      "name": "server",
+      "file": "server.png",
+      "unicode": 122,
+      "codepoint": "U+007A",
+      "letter": "z",
+      "javaString": "z"
+    },
+    {
+      "index": 27,
+      "name": "speedometer",
+      "file": "speedometer.png",
+      "unicode": 65,
+      "codepoint": "U+0041",
+      "letter": "A",
+      "javaString": "A"
+    },
+    {
+      "index": 28,
+      "name": "school_bag",
+      "file": "school-bag.png",
+      "unicode": 66,
+      "codepoint": "U+0042",
+      "letter": "B",
+      "javaString": "B"
+    },
+    {
+      "index": 29,
+      "name": "apps_add",
+      "file": "newicons/apps-add.png",
+      "unicode": 67,
+      "codepoint": "U+0043",
+      "letter": "C",
+      "javaString": "C"
+    },
+    {
+      "index": 30,
+      "name": "ballot",
+      "file": "newicons/ballot.png",
+      "unicode": 68,
+      "codepoint": "U+0044",
+      "letter": "D",
+      "javaString": "D"
+    },
+    {
+      "index": 31,
+      "name": "brightness",
+      "file": "newicons/brightness.png",
+      "unicode": 69,
+      "codepoint": "U+0045",
+      "letter": "E",
+      "javaString": "E"
+    },
+    {
+      "index": 32,
+      "name": "check_1",
+      "file": "newicons/check (1).png",
+      "unicode": 70,
+      "codepoint": "U+0046",
+      "letter": "F",
+      "javaString": "F"
+    },
+    {
+      "index": 33,
+      "name": "check",
+      "file": "newicons/check.png",
+      "unicode": 71,
+      "codepoint": "U+0047",
+      "letter": "G",
+      "javaString": "G"
+    },
+    {
+      "index": 34,
+      "name": "cloud",
+      "file": "newicons/cloud.png",
+      "unicode": 72,
+      "codepoint": "U+0048",
+      "letter": "H",
+      "javaString": "H"
+    },
+    {
+      "index": 35,
+      "name": "copy",
+      "file": "newicons/copy.png",
+      "unicode": 73,
+      "codepoint": "U+0049",
+      "letter": "I",
+      "javaString": "I"
+    },
+    {
+      "index": 36,
+      "name": "filter",
+      "file": "newicons/filter.png",
+      "unicode": 74,
+      "codepoint": "U+004A",
+      "letter": "J",
+      "javaString": "J"
+    },
+    {
+      "index": 37,
+      "name": "flower",
+      "file": "newicons/flower.png",
+      "unicode": 75,
+      "codepoint": "U+004B",
+      "letter": "K",
+      "javaString": "K"
+    },
+    {
+      "index": 38,
+      "name": "information",
+      "file": "newicons/information.png",
+      "unicode": 76,
+      "codepoint": "U+004C",
+      "letter": "L",
+      "javaString": "L"
+    },
+    {
+      "index": 39,
+      "name": "layer",
+      "file": "newicons/layer.png",
+      "unicode": 77,
+      "codepoint": "U+004D",
+      "letter": "M",
+      "javaString": "M"
+    },
+    {
+      "index": 40,
+      "name": "marker",
+      "file": "newicons/marker.png",
+      "unicode": 78,
+      "codepoint": "U+004E",
+      "letter": "N",
+      "javaString": "N"
+    },
+    {
+      "index": 41,
+      "name": "modules",
+      "file": "newicons/modules.png",
+      "unicode": 79,
+      "codepoint": "U+004F",
+      "letter": "O",
+      "javaString": "O"
+    },
+    {
+      "index": 42,
+      "name": "moon_stars",
+      "file": "newicons/moon-stars.png",
+      "unicode": 80,
+      "codepoint": "U+0050",
+      "letter": "P",
+      "javaString": "P"
+    },
+    {
+      "index": 43,
+      "name": "mug_hot_alt",
+      "file": "newicons/mug-hot-alt.png",
+      "unicode": 81,
+      "codepoint": "U+0051",
+      "letter": "Q",
+      "javaString": "Q"
+    },
+    {
+      "index": 44,
+      "name": "objects_column",
+      "file": "newicons/objects-column.png",
+      "unicode": 82,
+      "codepoint": "U+0052",
+      "letter": "R",
+      "javaString": "R"
+    },
+    {
+      "index": 45,
+      "name": "play_circle",
+      "file": "newicons/play-circle.png",
+      "unicode": 83,
+      "codepoint": "U+0053",
+      "letter": "S",
+      "javaString": "S"
+    },
+    {
+      "index": 46,
+      "name": "power",
+      "file": "newicons/power.png",
+      "unicode": 84,
+      "codepoint": "U+0054",
+      "letter": "T",
+      "javaString": "T"
+    },
+    {
+      "index": 47,
+      "name": "select",
+      "file": "newicons/select.png",
+      "unicode": 85,
+      "codepoint": "U+0055",
+      "letter": "U",
+      "javaString": "U"
+    },
+    {
+      "index": 48,
+      "name": "send_back",
+      "file": "newicons/send-back.png",
+      "unicode": 86,
+      "codepoint": "U+0056",
+      "letter": "V",
+      "javaString": "V"
+    },
+    {
+      "index": 49,
+      "name": "send_backward",
+      "file": "newicons/send-backward.png",
+      "unicode": 87,
+      "codepoint": "U+0057",
+      "letter": "W",
+      "javaString": "W"
+    },
+    {
+      "index": 50,
+      "name": "slack",
+      "file": "newicons/slack.png",
+      "unicode": 88,
+      "codepoint": "U+0058",
+      "letter": "X",
+      "javaString": "X"
+    },
+    {
+      "index": 51,
+      "name": "star",
+      "file": "newicons/star.png",
+      "unicode": 89,
+      "codepoint": "U+0059",
+      "letter": "Y",
+      "javaString": "Y"
+    },
+    {
+      "index": 52,
+      "name": "toggle_on",
+      "file": "newicons/toggle-on.png",
+      "unicode": 90,
+      "codepoint": "U+005A",
+      "letter": "Z",
+      "javaString": "Z"
+    },
+    {
+      "index": 53,
+      "name": "up_arrow",
+      "file": "newicons/up-arrow.png",
+      "unicode": 48,
+      "codepoint": "U+0030",
+      "letter": "0",
+      "javaString": "0"
+    }
+  ]
+}

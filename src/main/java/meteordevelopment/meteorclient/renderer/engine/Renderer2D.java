@@ -145,6 +145,8 @@ public class Renderer2D {
             triangles.pos(x + width, y + height).color(color.colorBottomRight()).next(),
             triangles.pos(x + width, y).color(color.colorTopRight()).next()
         );
+        // Render2D.rect((float) x,(float) y, (float)width,(float) height, 0f, color.colorTopLeft().getPacked(), color.colorTopRight().getPacked(), color.colorBottomRight().getPacked(), color.colorBottomLeft().getPacked());
+        
     }
     
     public void quad(double x, double y, double width, double height, Color color) {

@@ -51,17 +51,17 @@ public class GuiThemes {
                 if (jsonObject != null && jsonObject.has("currentTheme")) {
                     select(jsonObject.get("currentTheme").getAsString());
                 } else {
-                    MeteorClient.LOG.warn("Theme config file is missing 'currentTheme' field, using default");
+                    MeteorClient.LOGGER.warn("Theme config file is missing 'currentTheme' field, using default");
                     select("Meteor");
                 }
             } catch (IOException e) {
-                MeteorClient.LOG.error("Failed to load theme configuration", e);
+                MeteorClient.LOGGER.error("Failed to load theme configuration", e);
                 select("Meteor");
             } catch (JsonSyntaxException e) {
-                MeteorClient.LOG.error("Theme config file contains invalid JSON", e);
+                MeteorClient.LOGGER.error("Theme config file contains invalid JSON", e);
                 select("Meteor");
             } catch (Exception e) {
-                MeteorClient.LOG.error("Unexpected error while loading theme configuration", e);
+                MeteorClient.LOGGER.error("Unexpected error while loading theme configuration", e);
                 select("Meteor");
             }
         } else {
@@ -69,7 +69,7 @@ public class GuiThemes {
         }
         
         if (theme == null) {
-            MeteorClient.LOG.warn("Theme was not initialized, forcing default theme");
+            MeteorClient.LOGGER.warn("Theme was not initialized, forcing default theme");
             select("Meteor");
         }
     }
@@ -80,7 +80,7 @@ public class GuiThemes {
                 // Replace the old one with same name
                 it.set(theme);
                 
-                MeteorClient.LOG.error("Theme with the name '{}' has already been added.", theme.name);
+                MeteorClient.LOGGER.error("Theme with the name '{}' has already been added.", theme.name);
                 return;
             }
         }
@@ -117,24 +117,24 @@ public class GuiThemes {
                         if (jsonObject != null) {
                             get().fromJson(jsonObject);
                         } else {
-                            MeteorClient.LOG.warn("Theme config file is empty or invalid: {}", file.getName());
+                            MeteorClient.LOGGER.warn("Theme config file is empty or invalid: {}", file.getName());
                         }
                     }
                 } else {
-                    MeteorClient.LOG.info("Theme config file not found, using default settings: {}", file.getName());
+                    MeteorClient.LOGGER.info("Theme config file not found, using default settings: {}", file.getName());
                 }
             } catch (IOException e) {
-                MeteorClient.LOG.error("Failed to load theme configuration for: {}", get().name, e);
+                MeteorClient.LOGGER.error("Failed to load theme configuration for: {}", get().name, e);
             } catch (JsonSyntaxException e) {
-                MeteorClient.LOG.error("Theme config file contains invalid JSON: {}", get().name, e);
+                MeteorClient.LOGGER.error("Theme config file contains invalid JSON: {}", get().name, e);
             } catch (Exception e) {
-                MeteorClient.LOG.error("Unexpected error while loading theme: {}", get().name, e);
+                MeteorClient.LOGGER.error("Unexpected error while loading theme: {}", get().name, e);
             }
             
             // Save global gui settings with the new theme
             saveGlobal();
         } else {
-            MeteorClient.LOG.warn("Theme not found: {}", name);
+            MeteorClient.LOGGER.warn("Theme not found: {}", name);
         }
     }
     
@@ -159,7 +159,7 @@ public class GuiThemes {
             try {
                 JsonObject jsonObject = get().toJson();
                 if (jsonObject == null) {
-                    MeteorClient.LOG.warn("Failed to serialize theme to JSON: {}", get().name);
+                    MeteorClient.LOGGER.warn("Failed to serialize theme to JSON: {}", get().name);
                     return;
                 }
                 
@@ -171,11 +171,11 @@ public class GuiThemes {
                     GSON.toJson(jsonObject, writer);
                 }
                 
-                MeteorClient.LOG.debug("Successfully saved theme: {}", get().name);
+                MeteorClient.LOGGER.debug("Successfully saved theme: {}", get().name);
             } catch (IOException e) {
-                MeteorClient.LOG.error("Failed to save theme configuration: {}", get().name, e);
+                MeteorClient.LOGGER.error("Failed to save theme configuration: {}", get().name, e);
             } catch (Exception e) {
-                MeteorClient.LOG.error("Unexpected error while saving theme: {}", get().name, e);
+                MeteorClient.LOGGER.error("Unexpected error while saving theme: {}", get().name, e);
             }
         }
     }
@@ -199,9 +199,9 @@ public class GuiThemes {
                 Files.move(tempFile.toPath(), FILE.toPath());
             }
             
-            MeteorClient.LOG.debug("Successfully saved global theme settings");
+            MeteorClient.LOGGER.debug("Successfully saved global theme settings");
         } catch (IOException e) {
-            MeteorClient.LOG.error("Failed to save global theme settings", e);
+            MeteorClient.LOGGER.error("Failed to save global theme settings", e);
             
             try {
                 File tempFile = new File(FILE.getParentFile(), FILE.getName() + ".tmp");
@@ -210,7 +210,7 @@ public class GuiThemes {
                 }
             } catch (Exception ex) {}
         } catch (Exception e) {
-            MeteorClient.LOG.error("Unexpected error while saving global theme settings", e);
+            MeteorClient.LOGGER.error("Unexpected error while saving global theme settings", e);
         }
     }
     

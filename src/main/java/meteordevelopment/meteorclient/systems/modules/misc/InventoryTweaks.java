@@ -508,7 +508,7 @@ public class InventoryTweaks extends Module {
                 try {
                     Thread.sleep(sleep);
                 } catch (InterruptedException e) {
-                    MeteorClient.LOG.error("Error when sleeping the slot mover", e);
+                    MeteorClient.LOGGER.error("Error when sleeping the slot mover", e);
                 }
             }
             

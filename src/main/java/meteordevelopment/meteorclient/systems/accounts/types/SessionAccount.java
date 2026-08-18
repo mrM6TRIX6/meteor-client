@@ -37,7 +37,7 @@ public class SessionAccount extends Account<SessionAccount> implements TokenAcco
                 .bearer(accessToken)
                 .sendJson(ProfileResponse.class);
         } catch (IllegalArgumentException e) {
-            MeteorClient.LOG.error("Invalid session account token", e);
+            MeteorClient.LOGGER.error("Invalid session account token", e);
             return false;
         }
         

@@ -12,12 +12,10 @@ import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.BetterTab;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.PlayerListHud;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.network.ClientConnection;
-import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -75,14 +73,7 @@ public abstract class PlayerListHudMixin {
     
     @Inject(method = "renderLatencyIcon", at = @At("HEAD"), cancellable = true)
     private void onRenderLatencyIcon(DrawContext context, int width, int x, int y, PlayerListEntry entry, CallbackInfo ci) {
-        if (getBetterTab().pingNumbers()) {
-            TextRenderer textRenderer = mc.textRenderer;
-            
-            int latency = MathHelper.clamp(entry.getLatency(), 0, 9999);
-            int color = latency < 150 ? 0xFF00E970 : latency < 300 ? 0xFFE7D020 : 0xFFD74238;
-            context.drawTextWithShadow(textRenderer, String.valueOf(latency), x + width - textRenderer.getWidth(String.valueOf(latency)), y, color);
-            ci.cancel();
-        }
+        betterTab.onRenderLatencyIcon(context, width, x, y, entry, ci);
     }
     
     @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V", ordinal = 2))

@@ -14,15 +14,15 @@ import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.render.RenderAfterWorldEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
+import meteordevelopment.meteorclient.renderer.CustomBannerGuiElementRenderer;
+import meteordevelopment.meteorclient.renderer.NametagUtils;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.renderer.engine.MeteorRenderPipelines;
 import meteordevelopment.meteorclient.renderer.engine.Renderer3D;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.renderer.CustomBannerGuiElementRenderer;
-import meteordevelopment.meteorclient.renderer.NametagUtils;
-import meteordevelopment.meteorclient.renderer.RenderUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.render.GuiRenderer;
@@ -196,6 +196,26 @@ public abstract class GameRendererMixin {
             guiRenderer.incrementFrame();
         }
     }
+    
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/render/GuiRenderer;render(Lcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", shift = At.Shift.BEFORE))
+    private void hookRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+        // тут рендерим gui
+        //HUDRenderLayer.renderGameHud(client, meteor$newGuiGraphics(), tickCounter.getTickProgress(false));
+    }
+    
+    @Unique
+    private DrawContext meteor$newGuiGraphics() {
+        int mouseX = client.mouse == null || client.getWindow() == null
+            ? 0
+            : (int) Math.round(client.mouse.getScaledX(client.getWindow()));
+        
+        int mouseY = client.mouse == null || client.getWindow() == null
+            ? 0
+            : (int) Math.round(client.mouse.getScaledY(client.getWindow()));
+        
+        return new DrawContext(client, guiState, mouseX, mouseY);
+    }
+    
     
     @Inject(method = "showFloatingItem", at = @At("HEAD"), cancellable = true)
     private void onShowFloatingItem(ItemStack floatingItem, CallbackInfo ci) {

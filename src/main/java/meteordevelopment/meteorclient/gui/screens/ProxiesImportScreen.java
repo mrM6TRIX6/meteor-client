@@ -10,10 +10,10 @@ import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
+import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.systems.proxies.Proxies;
 import meteordevelopment.meteorclient.systems.proxies.Proxy;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.renderer.color.Color;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,10 +46,10 @@ public class ProxiesImportScreen extends WindowScreen {
                     Matcher matcher = Proxies.PROXY_PATTERN.matcher(line);
                     
                     if (matcher.matches()) {
-                        String address = matcher.group(2).replaceAll("\\b0+\\B", "");
-                        int port = Integer.parseInt(matcher.group(3));
-                        String login = matcher.group(4);
-                        String password = matcher.group(5);
+                        String address = matcher.group("host").replaceAll("\\b0+\\B", "");
+                        int port = Integer.parseInt(matcher.group("port"));
+                        String login = matcher.group("user");
+                        String password = matcher.group("pass");
                         
                         Proxy proxy = new Proxy.Builder()
                             .address(address)
@@ -75,7 +75,7 @@ public class ProxiesImportScreen extends WindowScreen {
                     .color(Utils.lerp(Color.RED, Color.GREEN, (float) success / (success + fail)))
                 );
             } catch (IOException e) {
-                MeteorClient.LOG.error("An error occurred while importing the proxy file", e);
+                MeteorClient.LOGGER.error("An error occurred while importing the proxy file", e);
             }
         } else {
             add(theme.label("Invalid File!"));

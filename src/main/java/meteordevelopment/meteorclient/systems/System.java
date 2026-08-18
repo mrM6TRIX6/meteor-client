@@ -71,7 +71,7 @@ public abstract class System<T> implements ISerializable<T> {
             }
             tempFile.delete();
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error saving {}. Possibly corrupted?", this.name, e);
+            MeteorClient.LOGGER.error("Error saving {}. Possibly corrupted?", this.name, e);
         }
     }
     
@@ -100,12 +100,12 @@ public abstract class System<T> implements ISerializable<T> {
                         StreamUtils.copy(file, backup);
                     }
                     
-                    MeteorClient.LOG.error("Error loading {}. Possibly corrupted?", this.name, e);
-                    MeteorClient.LOG.info("Saved settings backup to '{}'.", backup);
+                    MeteorClient.LOGGER.error("Error loading {}. Possibly corrupted?", this.name, e);
+                    MeteorClient.LOGGER.info("Saved settings backup to '{}'.", backup);
                 }
             }
         } catch (IOException e) {
-            MeteorClient.LOG.error("Error loading {}.", this.name, e);
+            MeteorClient.LOGGER.error("Error loading {}.", this.name, e);
         }
     }
     

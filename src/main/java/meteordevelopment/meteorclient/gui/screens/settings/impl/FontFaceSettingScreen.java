@@ -33,7 +33,7 @@ public class FontFaceSettingScreen extends WindowScreen {
     private String filterText = "";
     
     public FontFaceSettingScreen(GuiTheme theme, FontFaceSetting setting) {
-        super(theme, "Select Font");
+        super(theme, "Select MsdfFont");
         
         this.setting = setting;
     }

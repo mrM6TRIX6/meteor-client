@@ -65,18 +65,18 @@ public class Systems {
     
     public static void save() {
         long start = java.lang.System.currentTimeMillis();
-        MeteorClient.LOG.info("Saving");
+        MeteorClient.LOGGER.info("Saving");
         
         for (System<?> system : systems.values()) {
             system.save();
         }
         
-        MeteorClient.LOG.info("Saved in {} milliseconds.", java.lang.System.currentTimeMillis() - start);
+        MeteorClient.LOGGER.info("Saved in {} milliseconds.", java.lang.System.currentTimeMillis() - start);
     }
     
     public static void load() {
         long start = java.lang.System.currentTimeMillis();
-        MeteorClient.LOG.info("Loading");
+        MeteorClient.LOGGER.info("Loading");
         
         for (Runnable task : preLoadTasks) {
             task.run();
@@ -85,7 +85,7 @@ public class Systems {
             system.load();
         }
         
-        MeteorClient.LOG.info("Loaded in {} milliseconds", java.lang.System.currentTimeMillis() - start);
+        MeteorClient.LOGGER.info("Loaded in {} milliseconds", java.lang.System.currentTimeMillis() - start);
     }
     
     @SuppressWarnings("unchecked")

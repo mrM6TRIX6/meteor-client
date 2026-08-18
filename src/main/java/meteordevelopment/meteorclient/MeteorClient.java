@@ -46,6 +46,8 @@ import java.lang.invoke.MethodHandles;
 
 public class MeteorClient implements ClientModInitializer {
     
+    public static MinecraftClient mc;
+    
     public static final String MOD_ID = "meteor-client";
     public static final ModMetadata MOD_META;
     public static final String NAME;
@@ -55,10 +57,9 @@ public class MeteorClient implements ClientModInitializer {
     public static MeteorClient INSTANCE;
     public static MeteorAddon ADDON;
     
-    public static MinecraftClient mc;
     public static final IEventBus EVENT_BUS = new EventBus();
     public static final File FOLDER = FabricLoader.getInstance().getGameDir().resolve(MOD_ID).toFile();
-    public static final Logger LOG;
+    public static final Logger LOGGER;
     
     public static long initTime;
     
@@ -66,7 +67,7 @@ public class MeteorClient implements ClientModInitializer {
         MOD_META = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow().getMetadata();
         
         NAME = MOD_META.getName();
-        LOG = LoggerFactory.getLogger(NAME);
+        LOGGER = LoggerFactory.getLogger(NAME);
         
         String versionString = MOD_META.getVersion().getFriendlyString();
         if (versionString.contains("-")) {
@@ -89,7 +90,7 @@ public class MeteorClient implements ClientModInitializer {
             return;
         }
         
-        LOG.info("Initializing {}", NAME);
+        LOGGER.info("Initializing {}", NAME);
         
         initTime = System.currentTimeMillis();
         

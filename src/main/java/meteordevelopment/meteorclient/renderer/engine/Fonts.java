@@ -44,7 +44,7 @@ public class Fonts {
         
         FONT_FAMILIES.sort(Comparator.comparing(FontFamily::getName));
         
-        MeteorClient.LOG.info("Found {} font families.", FONT_FAMILIES.size());
+        MeteorClient.LOGGER.info("Found {} font families.", FONT_FAMILIES.size());
         
         DEFAULT_FONT_FAMILY = FontUtils.getFontInfo(FontUtils.stream(FONTS[0])).family();
         DEFAULT_FONT = getFamily(DEFAULT_FONT_FAMILY).get(FontInfo.Type.REGULAR);
@@ -70,7 +70,7 @@ public class Fonts {
                 throw new RuntimeException("Failed to load default font: " + fontFace, e);
             }
             
-            MeteorClient.LOG.error("Failed to load font: {}", fontFace, e);
+            MeteorClient.LOGGER.error("Failed to load font: {}", fontFace, e);
             load(Fonts.DEFAULT_FONT);
         }
         

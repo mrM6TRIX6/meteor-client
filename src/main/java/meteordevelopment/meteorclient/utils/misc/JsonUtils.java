@@ -10,8 +10,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.systems.System;
 import meteordevelopment.meteorclient.gui.prompts.OkPrompt;
+import meteordevelopment.meteorclient.systems.System;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -80,7 +80,7 @@ public class JsonUtils {
             mc.keyboard.setClipboard(Base64.getEncoder().encodeToString(jsonString.getBytes(StandardCharsets.UTF_8)));
             return true;
         } catch (Exception e) {
-            MeteorClient.LOG.error("Error copying {} JSON to clipboard!", name);
+            MeteorClient.LOGGER.error("Error copying {} JSON to clipboard!", name);
             
             OkPrompt.create()
                 .title(String.format("Error copying %s JSON to clipboard!", name))
@@ -124,7 +124,7 @@ public class JsonUtils {
             
             return pasted;
         } catch (Exception e) {
-            MeteorClient.LOG.error("Invalid JSON data pasted!");
+            MeteorClient.LOGGER.error("Invalid JSON data pasted!");
             
             OkPrompt.create()
                 .title("Error pasting JSON data!")

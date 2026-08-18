@@ -14,9 +14,10 @@ import meteordevelopment.meteorclient.gui.widgets.WRoot;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.utils.misc.CursorStyle;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
-import meteordevelopment.meteorclient.renderer.RenderUtils;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -303,10 +304,14 @@ public abstract class WidgetScreen extends Screen {
         theme.beforeRender();
         
         RENDERER.begin(context);
+        Render2D.beginFrame(context);
+        
         RENDERER.setAlpha(animProgress);
         root.render(RENDERER, mouseX, mouseY, delta / 20);
         RENDERER.setAlpha(1);
+        
         RENDERER.end();
+        Render2D.flush();
         
         boolean tooltip = RENDERER.renderTooltip(context, mouseX, mouseY, delta / 20);
         

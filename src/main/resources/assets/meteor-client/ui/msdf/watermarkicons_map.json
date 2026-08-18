@@ -1,0 +1,258 @@
+{
+  "font": "watermarkicons",
+  "glyphs": "abcdefghijklmnopqrstuvwxyzAB",
+  "icons": [
+    {
+      "index": 1,
+      "name": "3d",
+      "file": "3d.png",
+      "unicode": 97,
+      "codepoint": "U+0061",
+      "letter": "a",
+      "javaString": "a"
+    },
+    {
+      "index": 2,
+      "name": "animation",
+      "file": "animation.png",
+      "unicode": 98,
+      "codepoint": "U+0062",
+      "letter": "b",
+      "javaString": "b"
+    },
+    {
+      "index": 3,
+      "name": "businessman",
+      "file": "businessman.png",
+      "unicode": 99,
+      "codepoint": "U+0063",
+      "letter": "c",
+      "javaString": "c"
+    },
+    {
+      "index": 4,
+      "name": "button",
+      "file": "button.png",
+      "unicode": 100,
+      "codepoint": "U+0064",
+      "letter": "d",
+      "javaString": "d"
+    },
+    {
+      "index": 5,
+      "name": "cardiogram",
+      "file": "cardiogram.png",
+      "unicode": 101,
+      "codepoint": "U+0065",
+      "letter": "e",
+      "javaString": "e"
+    },
+    {
+      "index": 6,
+      "name": "chatgpt_image_may_18_2026_10_34_36_pm",
+      "file": "ChatGPT Image May 18, 2026, 10_34_36 PM.png",
+      "unicode": 102,
+      "codepoint": "U+0066",
+      "letter": "f",
+      "javaString": "f"
+    },
+    {
+      "index": 7,
+      "name": "chatgpt_image_may_17_2026_02_46_28_pm",
+      "file": "ChatGPT Image May 17, 2026, 02_46_28 PM.png",
+      "unicode": 103,
+      "codepoint": "U+0067",
+      "letter": "g",
+      "javaString": "g"
+    },
+    {
+      "index": 8,
+      "name": "clock",
+      "file": "clock.png",
+      "unicode": 104,
+      "codepoint": "U+0068",
+      "letter": "h",
+      "javaString": "h"
+    },
+    {
+      "index": 9,
+      "name": "close",
+      "file": "close.png",
+      "unicode": 105,
+      "codepoint": "U+0069",
+      "letter": "i",
+      "javaString": "i"
+    },
+    {
+      "index": 10,
+      "name": "directions",
+      "file": "directions.png",
+      "unicode": 106,
+      "codepoint": "U+006A",
+      "letter": "j",
+      "javaString": "j"
+    },
+    {
+      "index": 11,
+      "name": "event",
+      "file": "event.png",
+      "unicode": 107,
+      "codepoint": "U+006B",
+      "letter": "k",
+      "javaString": "k"
+    },
+    {
+      "index": 12,
+      "name": "hour_glass",
+      "file": "hour-glass.png",
+      "unicode": 108,
+      "codepoint": "U+006C",
+      "letter": "l",
+      "javaString": "l"
+    },
+    {
+      "index": 13,
+      "name": "keyboard",
+      "file": "keyboard.png",
+      "unicode": 109,
+      "codepoint": "U+006D",
+      "letter": "m",
+      "javaString": "m"
+    },
+    {
+      "index": 14,
+      "name": "next_button",
+      "file": "next-button.png",
+      "unicode": 110,
+      "codepoint": "U+006E",
+      "letter": "n",
+      "javaString": "n"
+    },
+    {
+      "index": 15,
+      "name": "pause",
+      "file": "pause.png",
+      "unicode": 111,
+      "codepoint": "U+006F",
+      "letter": "o",
+      "javaString": "o"
+    },
+    {
+      "index": 16,
+      "name": "play_button",
+      "file": "play-button.png",
+      "unicode": 112,
+      "codepoint": "U+0070",
+      "letter": "p",
+      "javaString": "p"
+    },
+    {
+      "index": 17,
+      "name": "potion",
+      "file": "potion.png",
+      "unicode": 113,
+      "codepoint": "U+0071",
+      "letter": "q",
+      "javaString": "q"
+    },
+    {
+      "index": 18,
+      "name": "sword",
+      "file": "sword.png",
+      "unicode": 114,
+      "codepoint": "U+0072",
+      "letter": "r",
+      "javaString": "r"
+    },
+    {
+      "index": 19,
+      "name": "ui",
+      "file": "ui.png",
+      "unicode": 115,
+      "codepoint": "U+0073",
+      "letter": "s",
+      "javaString": "s"
+    },
+    {
+      "index": 20,
+      "name": "user",
+      "file": "user.png",
+      "unicode": 116,
+      "codepoint": "U+0074",
+      "letter": "t",
+      "javaString": "t"
+    },
+    {
+      "index": 21,
+      "name": "vinyl",
+      "file": "vinyl.png",
+      "unicode": 117,
+      "codepoint": "U+0075",
+      "letter": "u",
+      "javaString": "u"
+    },
+    {
+      "index": 22,
+      "name": "about",
+      "file": "about.png",
+      "unicode": 118,
+      "codepoint": "U+0076",
+      "letter": "v",
+      "javaString": "v"
+    },
+    {
+      "index": 23,
+      "name": "bell",
+      "file": "bell.png",
+      "unicode": 119,
+      "codepoint": "U+0077",
+      "letter": "w",
+      "javaString": "w"
+    },
+    {
+      "index": 24,
+      "name": "earth",
+      "file": "earth.png",
+      "unicode": 120,
+      "codepoint": "U+0078",
+      "letter": "x",
+      "javaString": "x"
+    },
+    {
+      "index": 25,
+      "name": "network_signal",
+      "file": "network-signal.png",
+      "unicode": 121,
+      "codepoint": "U+0079",
+      "letter": "y",
+      "javaString": "y"
+    },
+    {
+      "index": 26,
+      "name": "server",
+      "file": "server.png",
+      "unicode": 122,
+      "codepoint": "U+007A",
+      "letter": "z",
+      "javaString": "z"
+    },
+    {
+      "index": 27,
+      "name": "speedometer",
+      "file": "speedometer.png",
+      "unicode": 65,
+      "codepoint": "U+0041",
+      "letter": "A",
+      "javaString": "A"
+    },
+    {
+      "index": 28,
+      "name": "school_bag",
+      "file": "school-bag.png",
+      "unicode": 66,
+      "codepoint": "U+0042",
+      "letter": "B",
+      "javaString": "B"
+    }
+  ]
+}

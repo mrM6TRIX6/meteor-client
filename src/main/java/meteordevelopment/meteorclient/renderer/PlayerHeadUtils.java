@@ -37,7 +37,7 @@ public class PlayerHeadUtils {
     
     public static String getSkinUrl(UUID id) {
         UUIDToProfileResponse res2 = Http.get("https://sessionserver.mojang.com/session/minecraft/profile/" + id)
-            .exceptionHandler(e -> MeteorClient.LOG.error("Could not contact mojang session servers.", e))
+            .exceptionHandler(e -> MeteorClient.LOGGER.error("Could not contact mojang session servers.", e))
             .sendJson(UUIDToProfileResponse.class);
         if (res2 == null) {
             return null;

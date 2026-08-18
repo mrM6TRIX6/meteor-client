@@ -78,7 +78,7 @@ public class Asm {
                 new File(path.toUri()).getParentFile().mkdirs();
                 Files.write(path, bytes);
             } catch (IOException e) {
-                MeteorClient.LOG.error("Failed to export transformer '{}': ", name, e);
+                MeteorClient.LOGGER.error("Failed to export transformer '{}': ", name, e);
             }
         }
     }

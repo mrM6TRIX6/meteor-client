@@ -1,0 +1,1142 @@
+{
+  "font": "regularnew",
+  "glyphCount": 142,
+  "characters": [
+    {
+      "index": 1,
+      "unicode": 32,
+      "codepoint": "U+0020",
+      "letter": " ",
+      "javaString": " ",
+      "drawable": false
+    },
+    {
+      "index": 2,
+      "unicode": 33,
+      "codepoint": "U+0021",
+      "letter": "!",
+      "javaString": "!",
+      "drawable": true
+    },
+    {
+      "index": 3,
+      "unicode": 34,
+      "codepoint": "U+0022",
+      "letter": "\"",
+      "javaString": "\"",
+      "drawable": true
+    },
+    {
+      "index": 4,
+      "unicode": 39,
+      "codepoint": "U+0027",
+      "letter": "'",
+      "javaString": "'",
+      "drawable": true
+    },
+    {
+      "index": 5,
+      "unicode": 44,
+      "codepoint": "U+002C",
+      "letter": ",",
+      "javaString": ",",
+      "drawable": true
+    },
+    {
+      "index": 6,
+      "unicode": 45,
+      "codepoint": "U+002D",
+      "letter": "-",
+      "javaString": "-",
+      "drawable": true
+    },
+    {
+      "index": 7,
+      "unicode": 46,
+      "codepoint": "U+002E",
+      "letter": ".",
+      "javaString": ".",
+      "drawable": true
+    },
+    {
+      "index": 8,
+      "unicode": 47,
+      "codepoint": "U+002F",
+      "letter": "/",
+      "javaString": "/",
+      "drawable": true
+    },
+    {
+      "index": 9,
+      "unicode": 48,
+      "codepoint": "U+0030",
+      "letter": "0",
+      "javaString": "0",
+      "drawable": true
+    },
+    {
+      "index": 10,
+      "unicode": 49,
+      "codepoint": "U+0031",
+      "letter": "1",
+      "javaString": "1",
+      "drawable": true
+    },
+    {
+      "index": 11,
+      "unicode": 50,
+      "codepoint": "U+0032",
+      "letter": "2",
+      "javaString": "2",
+      "drawable": true
+    },
+    {
+      "index": 12,
+      "unicode": 51,
+      "codepoint": "U+0033",
+      "letter": "3",
+      "javaString": "3",
+      "drawable": true
+    },
+    {
+      "index": 13,
+      "unicode": 52,
+      "codepoint": "U+0034",
+      "letter": "4",
+      "javaString": "4",
+      "drawable": true
+    },
+    {
+      "index": 14,
+      "unicode": 53,
+      "codepoint": "U+0035",
+      "letter": "5",
+      "javaString": "5",
+      "drawable": true
+    },
+    {
+      "index": 15,
+      "unicode": 54,
+      "codepoint": "U+0036",
+      "letter": "6",
+      "javaString": "6",
+      "drawable": true
+    },
+    {
+      "index": 16,
+      "unicode": 55,
+      "codepoint": "U+0037",
+      "letter": "7",
+      "javaString": "7",
+      "drawable": true
+    },
+    {
+      "index": 17,
+      "unicode": 56,
+      "codepoint": "U+0038",
+      "letter": "8",
+      "javaString": "8",
+      "drawable": true
+    },
+    {
+      "index": 18,
+      "unicode": 57,
+      "codepoint": "U+0039",
+      "letter": "9",
+      "javaString": "9",
+      "drawable": true
+    },
+    {
+      "index": 19,
+      "unicode": 58,
+      "codepoint": "U+003A",
+      "letter": ":",
+      "javaString": ":",
+      "drawable": true
+    },
+    {
+      "index": 20,
+      "unicode": 59,
+      "codepoint": "U+003B",
+      "letter": ";",
+      "javaString": ";",
+      "drawable": true
+    },
+    {
+      "index": 21,
+      "unicode": 63,
+      "codepoint": "U+003F",
+      "letter": "?",
+      "javaString": "?",
+      "drawable": true
+    },
+    {
+      "index": 22,
+      "unicode": 65,
+      "codepoint": "U+0041",
+      "letter": "A",
+      "javaString": "A",
+      "drawable": true
+    },
+    {
+      "index": 23,
+      "unicode": 66,
+      "codepoint": "U+0042",
+      "letter": "B",
+      "javaString": "B",
+      "drawable": true
+    },
+    {
+      "index": 24,
+      "unicode": 67,
+      "codepoint": "U+0043",
+      "letter": "C",
+      "javaString": "C",
+      "drawable": true
+    },
+    {
+      "index": 25,
+      "unicode": 68,
+      "codepoint": "U+0044",
+      "letter": "D",
+      "javaString": "D",
+      "drawable": true
+    },
+    {
+      "index": 26,
+      "unicode": 69,
+      "codepoint": "U+0045",
+      "letter": "E",
+      "javaString": "E",
+      "drawable": true
+    },
+    {
+      "index": 27,
+      "unicode": 70,
+      "codepoint": "U+0046",
+      "letter": "F",
+      "javaString": "F",
+      "drawable": true
+    },
+    {
+      "index": 28,
+      "unicode": 71,
+      "codepoint": "U+0047",
+      "letter": "G",
+      "javaString": "G",
+      "drawable": true
+    },
+    {
+      "index": 29,
+      "unicode": 72,
+      "codepoint": "U+0048",
+      "letter": "H",
+      "javaString": "H",
+      "drawable": true
+    },
+    {
+      "index": 30,
+      "unicode": 73,
+      "codepoint": "U+0049",
+      "letter": "I",
+      "javaString": "I",
+      "drawable": true
+    },
+    {
+      "index": 31,
+      "unicode": 74,
+      "codepoint": "U+004A",
+      "letter": "J",
+      "javaString": "J",
+      "drawable": true
+    },
+    {
+      "index": 32,
+      "unicode": 75,
+      "codepoint": "U+004B",
+      "letter": "K",
+      "javaString": "K",
+      "drawable": true
+    },
+    {
+      "index": 33,
+      "unicode": 76,
+      "codepoint": "U+004C",
+      "letter": "L",
+      "javaString": "L",
+      "drawable": true
+    },
+    {
+      "index": 34,
+      "unicode": 77,
+      "codepoint": "U+004D",
+      "letter": "M",
+      "javaString": "M",
+      "drawable": true
+    },
+    {
+      "index": 35,
+      "unicode": 78,
+      "codepoint": "U+004E",
+      "letter": "N",
+      "javaString": "N",
+      "drawable": true
+    },
+    {
+      "index": 36,
+      "unicode": 79,
+      "codepoint": "U+004F",
+      "letter": "O",
+      "javaString": "O",
+      "drawable": true
+    },
+    {
+      "index": 37,
+      "unicode": 80,
+      "codepoint": "U+0050",
+      "letter": "P",
+      "javaString": "P",
+      "drawable": true
+    },
+    {
+      "index": 38,
+      "unicode": 81,
+      "codepoint": "U+0051",
+      "letter": "Q",
+      "javaString": "Q",
+      "drawable": true
+    },
+    {
+      "index": 39,
+      "unicode": 82,
+      "codepoint": "U+0052",
+      "letter": "R",
+      "javaString": "R",
+      "drawable": true
+    },
+    {
+      "index": 40,
+      "unicode": 83,
+      "codepoint": "U+0053",
+      "letter": "S",
+      "javaString": "S",
+      "drawable": true
+    },
+    {
+      "index": 41,
+      "unicode": 84,
+      "codepoint": "U+0054",
+      "letter": "T",
+      "javaString": "T",
+      "drawable": true
+    },
+    {
+      "index": 42,
+      "unicode": 85,
+      "codepoint": "U+0055",
+      "letter": "U",
+      "javaString": "U",
+      "drawable": true
+    },
+    {
+      "index": 43,
+      "unicode": 86,
+      "codepoint": "U+0056",
+      "letter": "V",
+      "javaString": "V",
+      "drawable": true
+    },
+    {
+      "index": 44,
+      "unicode": 87,
+      "codepoint": "U+0057",
+      "letter": "W",
+      "javaString": "W",
+      "drawable": true
+    },
+    {
+      "index": 45,
+      "unicode": 88,
+      "codepoint": "U+0058",
+      "letter": "X",
+      "javaString": "X",
+      "drawable": true
+    },
+    {
+      "index": 46,
+      "unicode": 89,
+      "codepoint": "U+0059",
+      "letter": "Y",
+      "javaString": "Y",
+      "drawable": true
+    },
+    {
+      "index": 47,
+      "unicode": 90,
+      "codepoint": "U+005A",
+      "letter": "Z",
+      "javaString": "Z",
+      "drawable": true
+    },
+    {
+      "index": 48,
+      "unicode": 92,
+      "codepoint": "U+005C",
+      "letter": "\\",
+      "javaString": "\\",
+      "drawable": true
+    },
+    {
+      "index": 49,
+      "unicode": 97,
+      "codepoint": "U+0061",
+      "letter": "a",
+      "javaString": "a",
+      "drawable": true
+    },
+    {
+      "index": 50,
+      "unicode": 98,
+      "codepoint": "U+0062",
+      "letter": "b",
+      "javaString": "b",
+      "drawable": true
+    },
+    {
+      "index": 51,
+      "unicode": 99,
+      "codepoint": "U+0063",
+      "letter": "c",
+      "javaString": "c",
+      "drawable": true
+    },
+    {
+      "index": 52,
+      "unicode": 100,
+      "codepoint": "U+0064",
+      "letter": "d",
+      "javaString": "d",
+      "drawable": true
+    },
+    {
+      "index": 53,
+      "unicode": 101,
+      "codepoint": "U+0065",
+      "letter": "e",
+      "javaString": "e",
+      "drawable": true
+    },
+    {
+      "index": 54,
+      "unicode": 102,
+      "codepoint": "U+0066",
+      "letter": "f",
+      "javaString": "f",
+      "drawable": true
+    },
+    {
+      "index": 55,
+      "unicode": 103,
+      "codepoint": "U+0067",
+      "letter": "g",
+      "javaString": "g",
+      "drawable": true
+    },
+    {
+      "index": 56,
+      "unicode": 104,
+      "codepoint": "U+0068",
+      "letter": "h",
+      "javaString": "h",
+      "drawable": true
+    },
+    {
+      "index": 57,
+      "unicode": 105,
+      "codepoint": "U+0069",
+      "letter": "i",
+      "javaString": "i",
+      "drawable": true
+    },
+    {
+      "index": 58,
+      "unicode": 106,
+      "codepoint": "U+006A",
+      "letter": "j",
+      "javaString": "j",
+      "drawable": true
+    },
+    {
+      "index": 59,
+      "unicode": 107,
+      "codepoint": "U+006B",
+      "letter": "k",
+      "javaString": "k",
+      "drawable": true
+    },
+    {
+      "index": 60,
+      "unicode": 108,
+      "codepoint": "U+006C",
+      "letter": "l",
+      "javaString": "l",
+      "drawable": true
+    },
+    {
+      "index": 61,
+      "unicode": 109,
+      "codepoint": "U+006D",
+      "letter": "m",
+      "javaString": "m",
+      "drawable": true
+    },
+    {
+      "index": 62,
+      "unicode": 110,
+      "codepoint": "U+006E",
+      "letter": "n",
+      "javaString": "n",
+      "drawable": true
+    },
+    {
+      "index": 63,
+      "unicode": 111,
+      "codepoint": "U+006F",
+      "letter": "o",
+      "javaString": "o",
+      "drawable": true
+    },
+    {
+      "index": 64,
+      "unicode": 112,
+      "codepoint": "U+0070",
+      "letter": "p",
+      "javaString": "p",
+      "drawable": true
+    },
+    {
+      "index": 65,
+      "unicode": 113,
+      "codepoint": "U+0071",
+      "letter": "q",
+      "javaString": "q",
+      "drawable": true
+    },
+    {
+      "index": 66,
+      "unicode": 114,
+      "codepoint": "U+0072",
+      "letter": "r",
+      "javaString": "r",
+      "drawable": true
+    },
+    {
+      "index": 67,
+      "unicode": 115,
+      "codepoint": "U+0073",
+      "letter": "s",
+      "javaString": "s",
+      "drawable": true
+    },
+    {
+      "index": 68,
+      "unicode": 116,
+      "codepoint": "U+0074",
+      "letter": "t",
+      "javaString": "t",
+      "drawable": true
+    },
+    {
+      "index": 69,
+      "unicode": 117,
+      "codepoint": "U+0075",
+      "letter": "u",
+      "javaString": "u",
+      "drawable": true
+    },
+    {
+      "index": 70,
+      "unicode": 118,
+      "codepoint": "U+0076",
+      "letter": "v",
+      "javaString": "v",
+      "drawable": true
+    },
+    {
+      "index": 71,
+      "unicode": 119,
+      "codepoint": "U+0077",
+      "letter": "w",
+      "javaString": "w",
+      "drawable": true
+    },
+    {
+      "index": 72,
+      "unicode": 120,
+      "codepoint": "U+0078",
+      "letter": "x",
+      "javaString": "x",
+      "drawable": true
+    },
+    {
+      "index": 73,
+      "unicode": 121,
+      "codepoint": "U+0079",
+      "letter": "y",
+      "javaString": "y",
+      "drawable": true
+    },
+    {
+      "index": 74,
+      "unicode": 122,
+      "codepoint": "U+007A",
+      "letter": "z",
+      "javaString": "z",
+      "drawable": true
+    },
+    {
+      "index": 75,
+      "unicode": 1025,
+      "codepoint": "U+0401",
+      "letter": "Ё",
+      "javaString": "Ё",
+      "drawable": true
+    },
+    {
+      "index": 76,
+      "unicode": 1040,
+      "codepoint": "U+0410",
+      "letter": "А",
+      "javaString": "А",
+      "drawable": true
+    },
+    {
+      "index": 77,
+      "unicode": 1041,
+      "codepoint": "U+0411",
+      "letter": "Б",
+      "javaString": "Б",
+      "drawable": true
+    },
+    {
+      "index": 78,
+      "unicode": 1042,
+      "codepoint": "U+0412",
+      "letter": "В",
+      "javaString": "В",
+      "drawable": true
+    },
+    {
+      "index": 79,
+      "unicode": 1043,
+      "codepoint": "U+0413",
+      "letter": "Г",
+      "javaString": "Г",
+      "drawable": true
+    },
+    {
+      "index": 80,
+      "unicode": 1044,
+      "codepoint": "U+0414",
+      "letter": "Д",
+      "javaString": "Д",
+      "drawable": true
+    },
+    {
+      "index": 81,
+      "unicode": 1045,
+      "codepoint": "U+0415",
+      "letter": "Е",
+      "javaString": "Е",
+      "drawable": true
+    },
+    {
+      "index": 82,
+      "unicode": 1046,
+      "codepoint": "U+0416",
+      "letter": "Ж",
+      "javaString": "Ж",
+      "drawable": true
+    },
+    {
+      "index": 83,
+      "unicode": 1047,
+      "codepoint": "U+0417",
+      "letter": "З",
+      "javaString": "З",
+      "drawable": true
+    },
+    {
+      "index": 84,
+      "unicode": 1048,
+      "codepoint": "U+0418",
+      "letter": "И",
+      "javaString": "И",
+      "drawable": true
+    },
+    {
+      "index": 85,
+      "unicode": 1049,
+      "codepoint": "U+0419",
+      "letter": "Й",
+      "javaString": "Й",
+      "drawable": true
+    },
+    {
+      "index": 86,
+      "unicode": 1050,
+      "codepoint": "U+041A",
+      "letter": "К",
+      "javaString": "К",
+      "drawable": true
+    },
+    {
+      "index": 87,
+      "unicode": 1051,
+      "codepoint": "U+041B",
+      "letter": "Л",
+      "javaString": "Л",
+      "drawable": true
+    },
+    {
+      "index": 88,
+      "unicode": 1052,
+      "codepoint": "U+041C",
+      "letter": "М",
+      "javaString": "М",
+      "drawable": true
+    },
+    {
+      "index": 89,
+      "unicode": 1053,
+      "codepoint": "U+041D",
+      "letter": "Н",
+      "javaString": "Н",
+      "drawable": true
+    },
+    {
+      "index": 90,
+      "unicode": 1054,
+      "codepoint": "U+041E",
+      "letter": "О",
+      "javaString": "О",
+      "drawable": true
+    },
+    {
+      "index": 91,
+      "unicode": 1055,
+      "codepoint": "U+041F",
+      "letter": "П",
+      "javaString": "П",
+      "drawable": true
+    },
+    {
+      "index": 92,
+      "unicode": 1056,
+      "codepoint": "U+0420",
+      "letter": "Р",
+      "javaString": "Р",
+      "drawable": true
+    },
+    {
+      "index": 93,
+      "unicode": 1057,
+      "codepoint": "U+0421",
+      "letter": "С",
+      "javaString": "С",
+      "drawable": true
+    },
+    {
+      "index": 94,
+      "unicode": 1058,
+      "codepoint": "U+0422",
+      "letter": "Т",
+      "javaString": "Т",
+      "drawable": true
+    },
+    {
+      "index": 95,
+      "unicode": 1059,
+      "codepoint": "U+0423",
+      "letter": "У",
+      "javaString": "У",
+      "drawable": true
+    },
+    {
+      "index": 96,
+      "unicode": 1060,
+      "codepoint": "U+0424",
+      "letter": "Ф",
+      "javaString": "Ф",
+      "drawable": true
+    },
+    {
+      "index": 97,
+      "unicode": 1061,
+      "codepoint": "U+0425",
+      "letter": "Х",
+      "javaString": "Х",
+      "drawable": true
+    },
+    {
+      "index": 98,
+      "unicode": 1062,
+      "codepoint": "U+0426",
+      "letter": "Ц",
+      "javaString": "Ц",
+      "drawable": true
+    },
+    {
+      "index": 99,
+      "unicode": 1063,
+      "codepoint": "U+0427",
+      "letter": "Ч",
+      "javaString": "Ч",
+      "drawable": true
+    },
+    {
+      "index": 100,
+      "unicode": 1064,
+      "codepoint": "U+0428",
+      "letter": "Ш",
+      "javaString": "Ш",
+      "drawable": true
+    },
+    {
+      "index": 101,
+      "unicode": 1065,
+      "codepoint": "U+0429",
+      "letter": "Щ",
+      "javaString": "Щ",
+      "drawable": true
+    },
+    {
+      "index": 102,
+      "unicode": 1066,
+      "codepoint": "U+042A",
+      "letter": "Ъ",
+      "javaString": "Ъ",
+      "drawable": true
+    },
+    {
+      "index": 103,
+      "unicode": 1067,
+      "codepoint": "U+042B",
+      "letter": "Ы",
+      "javaString": "Ы",
+      "drawable": true
+    },
+    {
+      "index": 104,
+      "unicode": 1068,
+      "codepoint": "U+042C",
+      "letter": "Ь",
+      "javaString": "Ь",
+      "drawable": true
+    },
+    {
+      "index": 105,
+      "unicode": 1069,
+      "codepoint": "U+042D",
+      "letter": "Э",
+      "javaString": "Э",
+      "drawable": true
+    },
+    {
+      "index": 106,
+      "unicode": 1070,
+      "codepoint": "U+042E",
+      "letter": "Ю",
+      "javaString": "Ю",
+      "drawable": true
+    },
+    {
+      "index": 107,
+      "unicode": 1071,
+      "codepoint": "U+042F",
+      "letter": "Я",
+      "javaString": "Я",
+      "drawable": true
+    },
+    {
+      "index": 108,
+      "unicode": 1072,
+      "codepoint": "U+0430",
+      "letter": "а",
+      "javaString": "а",
+      "drawable": true
+    },
+    {
+      "index": 109,
+      "unicode": 1073,
+      "codepoint": "U+0431",
+      "letter": "б",
+      "javaString": "б",
+      "drawable": true
+    },
+    {
+      "index": 110,
+      "unicode": 1074,
+      "codepoint": "U+0432",
+      "letter": "в",
+      "javaString": "в",
+      "drawable": true
+    },
+    {
+      "index": 111,
+      "unicode": 1075,
+      "codepoint": "U+0433",
+      "letter": "г",
+      "javaString": "г",
+      "drawable": true
+    },
+    {
+      "index": 112,
+      "unicode": 1076,
+      "codepoint": "U+0434",
+      "letter": "д",
+      "javaString": "д",
+      "drawable": true
+    },
+    {
+      "index": 113,
+      "unicode": 1077,
+      "codepoint": "U+0435",
+      "letter": "е",
+      "javaString": "е",
+      "drawable": true
+    },
+    {
+      "index": 114,
+      "unicode": 1078,
+      "codepoint": "U+0436",
+      "letter": "ж",
+      "javaString": "ж",
+      "drawable": true
+    },
+    {
+      "index": 115,
+      "unicode": 1079,
+      "codepoint": "U+0437",
+      "letter": "з",
+      "javaString": "з",
+      "drawable": true
+    },
+    {
+      "index": 116,
+      "unicode": 1080,
+      "codepoint": "U+0438",
+      "letter": "и",
+      "javaString": "и",
+      "drawable": true
+    },
+    {
+      "index": 117,
+      "unicode": 1081,
+      "codepoint": "U+0439",
+      "letter": "й",
+      "javaString": "й",
+      "drawable": true
+    },
+    {
+      "index": 118,
+      "unicode": 1082,
+      "codepoint": "U+043A",
+      "letter": "к",
+      "javaString": "к",
+      "drawable": true
+    },
+    {
+      "index": 119,
+      "unicode": 1083,
+      "codepoint": "U+043B",
+      "letter": "л",
+      "javaString": "л",
+      "drawable": true
+    },
+    {
+      "index": 120,
+      "unicode": 1084,
+      "codepoint": "U+043C",
+      "letter": "м",
+      "javaString": "м",
+      "drawable": true
+    },
+    {
+      "index": 121,
+      "unicode": 1085,
+      "codepoint": "U+043D",
+      "letter": "н",
+      "javaString": "н",
+      "drawable": true
+    },
+    {
+      "index": 122,
+      "unicode": 1086,
+      "codepoint": "U+043E",
+      "letter": "о",
+      "javaString": "о",
+      "drawable": true
+    },
+    {
+      "index": 123,
+      "unicode": 1087,
+      "codepoint": "U+043F",
+      "letter": "п",
+      "javaString": "п",
+      "drawable": true
+    },
+    {
+      "index": 124,
+      "unicode": 1088,
+      "codepoint": "U+0440",
+      "letter": "р",
+      "javaString": "р",
+      "drawable": true
+    },
+    {
+      "index": 125,
+      "unicode": 1089,
+      "codepoint": "U+0441",
+      "letter": "с",
+      "javaString": "с",
+      "drawable": true
+    },
+    {
+      "index": 126,
+      "unicode": 1090,
+      "codepoint": "U+0442",
+      "letter": "т",
+      "javaString": "т",
+      "drawable": true
+    },
+    {
+      "index": 127,
+      "unicode": 1091,
+      "codepoint": "U+0443",
+      "letter": "у",
+      "javaString": "у",
+      "drawable": true
+    },
+    {
+      "index": 128,
+      "unicode": 1092,
+      "codepoint": "U+0444",
+      "letter": "ф",
+      "javaString": "ф",
+      "drawable": true
+    },
+    {
+      "index": 129,
+      "unicode": 1093,
+      "codepoint": "U+0445",
+      "letter": "х",
+      "javaString": "х",
+      "drawable": true
+    },
+    {
+      "index": 130,
+      "unicode": 1094,
+      "codepoint": "U+0446",
+      "letter": "ц",
+      "javaString": "ц",
+      "drawable": true
+    },
+    {
+      "index": 131,
+      "unicode": 1095,
+      "codepoint": "U+0447",
+      "letter": "ч",
+      "javaString": "ч",
+      "drawable": true
+    },
+    {
+      "index": 132,
+      "unicode": 1096,
+      "codepoint": "U+0448",
+      "letter": "ш",
+      "javaString": "ш",
+      "drawable": true
+    },
+    {
+      "index": 133,
+      "unicode": 1097,
+      "codepoint": "U+0449",
+      "letter": "щ",
+      "javaString": "щ",
+      "drawable": true
+    },
+    {
+      "index": 134,
+      "unicode": 1098,
+      "codepoint": "U+044A",
+      "letter": "ъ",
+      "javaString": "ъ",
+      "drawable": true
+    },
+    {
+      "index": 135,
+      "unicode": 1099,
+      "codepoint": "U+044B",
+      "letter": "ы",
+      "javaString": "ы",
+      "drawable": true
+    },
+    {
+      "index": 136,
+      "unicode": 1100,
+      "codepoint": "U+044C",
+      "letter": "ь",
+      "javaString": "ь",
+      "drawable": true
+    },
+    {
+      "index": 137,
+      "unicode": 1101,
+      "codepoint": "U+044D",
+      "letter": "э",
+      "javaString": "э",
+      "drawable": true
+    },
+    {
+      "index": 138,
+      "unicode": 1102,
+      "codepoint": "U+044E",
+      "letter": "ю",
+      "javaString": "ю",
+      "drawable": true
+    },
+    {
+      "index": 139,
+      "unicode": 1103,
+      "codepoint": "U+044F",
+      "letter": "я",
+      "javaString": "я",
+      "drawable": true
+    },
+    {
+      "index": 140,
+      "unicode": 1105,
+      "codepoint": "U+0451",
+      "letter": "ё",
+      "javaString": "ё",
+      "drawable": true
+    },
+    {
+      "index": 141,
+      "unicode": 129104,
+      "codepoint": "U+1F850",
+      "letter": "🡐",
+      "javaString": "\\uD83E\\uDC50",
+      "drawable": true
+    },
+    {
+      "index": 142,
+      "unicode": 129106,
+      "codepoint": "U+1F852",
+      "letter": "🡒",
+      "javaString": "\\uD83E\\uDC52",
+      "drawable": true
+    }
+  ]
+}

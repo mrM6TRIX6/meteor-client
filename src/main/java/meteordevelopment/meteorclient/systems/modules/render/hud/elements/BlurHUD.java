@@ -1,10 +1,6 @@
 package meteordevelopment.meteorclient.systems.modules.render.hud.elements;
 
-import it.unimi.dsi.fastutil.ints.IntFloatImmutablePair;
 import meteordevelopment.meteorclient.renderer.color.SettingColor;
-import meteordevelopment.meteorclient.renderer.engine.KawaseBlur;
-import meteordevelopment.meteorclient.renderer.state.QuadColorState;
-import meteordevelopment.meteorclient.renderer.state.QuadRadiusState;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -15,33 +11,12 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.blur.BuiltBlur;
 
 public class BlurHUD extends HUDElement {
     
     public static final HUDElementInfo<BlurHUD> INFO = new HUDElementInfo<>(HUD.GROUP, "Blur", "HUD element test.", BlurHUD::new);
-    
-    private static final IntFloatImmutablePair[] STRENGTHS = new IntFloatImmutablePair[] {
-        IntFloatImmutablePair.of(1, 1.25f), // LVL 1
-        IntFloatImmutablePair.of(1, 2.25f), // LVL 2
-        IntFloatImmutablePair.of(2, 2.0f), // LVL 3
-        IntFloatImmutablePair.of(2, 3.0f), // LVL 4
-        IntFloatImmutablePair.of(2, 4.25f), // LVL 5
-        IntFloatImmutablePair.of(3, 2.5f), // LVL 6
-        IntFloatImmutablePair.of(3, 3.25f), // LVL 7
-        IntFloatImmutablePair.of(3, 4.25f), // LVL 8
-        IntFloatImmutablePair.of(3, 5.5f), // LVL 9
-        IntFloatImmutablePair.of(4, 3.25f), // LVL 10
-        IntFloatImmutablePair.of(4, 4.0f), // LVL 11
-        IntFloatImmutablePair.of(4, 5.0f), // LVL 12
-        IntFloatImmutablePair.of(4, 6.0f), // LVL 13
-        IntFloatImmutablePair.of(4, 7.25f), // LVL 14
-        IntFloatImmutablePair.of(4, 8.25f), // LVL 15
-        IntFloatImmutablePair.of(5, 4.5f), // LVL 16
-        IntFloatImmutablePair.of(5, 5.25f), // LVL 17
-        IntFloatImmutablePair.of(5, 6.25f), // LVL 18
-        IntFloatImmutablePair.of(5, 7.25f), // LVL 19
-        IntFloatImmutablePair.of(5, 8.5f) // LVL 20
-    };
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
@@ -186,20 +161,12 @@ public class BlurHUD extends HUDElement {
     
     // Blur
     
-    private final Setting<Integer> passes = sgGeneral.add(new IntSetting.Builder()
-        .name("passes")
-        .description("Blur passes.")
-        .defaultValue(1)
-        .range(0, KawaseBlur.MAX_PASSES)
-        .build()
-    );
-    
-    private final Setting<Double> offset = sgGeneral.add(new DoubleSetting.Builder()
-        .name("offset")
-        .description("Blur offset.")
+    private final Setting<Double> blurRadius = sgGeneral.add(new DoubleSetting.Builder()
+        .name("blur-radius")
+        .description("Blur radius.")
         .defaultValue(1)
         .min(0)
-        .sliderRange(0, 20)
+        .sliderRange(0, 100)
         .build()
     );
     
@@ -211,35 +178,18 @@ public class BlurHUD extends HUDElement {
     public void render(HUDRenderer renderer) {
         setSize(width.get(), height.get());
         
-        QuadColorState colorState = colorEachVertex.get()
-            ? QuadColorState.of(
-                colorTopLeft.get(),
-                colorBottomLeft.get(),
-                colorBottomRight.get(),
-                colorTopRight.get()
-            )
-            : QuadColorState.of(color.get());
-        
-        QuadRadiusState radiusState = radiusEachVertex.get()
-            ? QuadRadiusState.of(
-                radiusTopLeft.get(),
-                radiusBottomLeft.get(),
-                radiusBottomRight.get(),
-                radiusTopRight.get()
-            )
-            : QuadRadiusState.of(radius.get());
-        
-        renderer.blur(
-            x,
-            y,
-            width.get(),
-            height.get(),
-            colorState,
-            radiusState,
-            smoothness.get(),
-            passes.get(),
-            offset.get()
+        Render2D.blur(
+            new BuiltBlur(
+                x,
+                y,
+                width.get(),
+                height.get(),
+                radius.get().floatValue(),
+                smoothness.get().floatValue(),
+                blurRadius.get().floatValue()
+            ).withColor(color.get().getPacked())
         );
+        
     }
     
 }

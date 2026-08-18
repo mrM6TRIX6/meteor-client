@@ -65,7 +65,7 @@ public class BannerTooltipComponent implements MeteorTooltipData, TooltipCompone
         
         DrawContextAccessor contextAccessor = (DrawContextAccessor) context;
         
-        contextAccessor.getState().addSpecialElement(
+        contextAccessor.meteor$getState().addSpecialElement(
             new CustomBannerGuiElementRenderState(
                 bannerFlag,
                 color,
@@ -74,7 +74,7 @@ public class BannerTooltipComponent implements MeteorTooltipData, TooltipCompone
                 y,
                 centerX + x + getWidth(null),
                 y + getHeight(null),
-                contextAccessor.getScissorStack().peekLast(),
+                contextAccessor.meteor$getScissorStack().peekLast(),
                 16 * 2
             )
         );

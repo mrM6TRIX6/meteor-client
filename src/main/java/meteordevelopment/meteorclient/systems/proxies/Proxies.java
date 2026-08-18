@@ -14,13 +14,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Proxies extends System<Proxies> implements Iterable<Proxy> {
     
-    // https://regex101.com/r/gRHjnd/latest
-    public static final Pattern PROXY_PATTERN = Pattern.compile("^(?:([\\w\\s]+)=)?((?:0*(?:\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])(?:\\.(?!:)|)){4}):(?!0)(\\d{1,4}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])(?::([^:]+):([^:]+))?$", Pattern.MULTILINE);
+    public static final Pattern PROXY_PATTERN = Pattern.compile("^(?<user>[^:@\\s]+):(?<pass>[^:@\\s]+)@(?<host>[a-zA-Z0-9.-]+):(?<port>6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-9][0-9]{0,3})$", Pattern.MULTILINE);
     
     private List<Proxy> proxies = new ArrayList<>();
     
@@ -33,12 +31,6 @@ public class Proxies extends System<Proxies> implements Iterable<Proxy> {
     }
     
     public boolean add(Proxy proxy) {
-        for (Proxy proxy1 : proxies) {
-            if (proxy1.address.get().equals(proxy.address.get()) && Objects.equals(proxy1.port.get(), proxy.port.get())) {
-                return false;
-            }
-        }
-        
         if (proxies.isEmpty()) {
             proxy.enabled.set(true);
         }

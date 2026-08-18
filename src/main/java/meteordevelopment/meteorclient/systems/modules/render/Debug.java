@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
+import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.renderer.engine.MeteorRenderPipelines;
 import meteordevelopment.meteorclient.systems.modules.Category;
@@ -20,10 +21,13 @@ public class Debug extends Module {
     
     @Override
     public WWidget getWidget(GuiTheme theme) {
-        WButton reloadBtn = theme.button("Reload shaders");
-        reloadBtn.action = MeteorRenderPipelines::reload;
+        WTable table = theme.table();
         
-        return reloadBtn;
+        WButton reloadBtn = theme.button("Reload shaders");
+        reloadBtn.action = (MeteorRenderPipelines::reload);
+        table.add(reloadBtn);
+        
+        return table;
     }
     
 }

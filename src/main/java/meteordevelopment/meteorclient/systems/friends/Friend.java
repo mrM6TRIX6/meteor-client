@@ -8,11 +8,11 @@ package meteordevelopment.meteorclient.systems.friends;
 import com.google.gson.JsonObject;
 import com.mojang.util.UndashedUuid;
 import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.renderer.PlayerHeadTexture;
+import meteordevelopment.meteorclient.renderer.PlayerHeadUtils;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.network.FailedHttpResponse;
 import meteordevelopment.meteorclient.utils.network.Http;
-import meteordevelopment.meteorclient.renderer.PlayerHeadTexture;
-import meteordevelopment.meteorclient.renderer.PlayerHeadUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,14 +58,14 @@ public class Friend implements ISerializable<Friend>, Comparable<Friend> {
         
         if (uuid != null) {
             res = Http.get("https://sessionserver.mojang.com/session/minecraft/profile/" + UndashedUuid.toString(uuid))
-                .exceptionHandler(e -> MeteorClient.LOG.error("Error while trying to connect session server for friend '{}'", name))
+                .exceptionHandler(e -> MeteorClient.LOGGER.error("Error while trying to connect session server for friend '{}'", name))
                 .sendJsonResponse(APIResponse.class);
         }
         
         // Fallback to name-based lookup
         if (res == null || res.statusCode() != 200) {
             res = Http.get("https://api.mojang.com/users/profiles/minecraft/" + name)
-                .exceptionHandler(e -> MeteorClient.LOG.error("Error while trying to update info for friend '{}'", name))
+                .exceptionHandler(e -> MeteorClient.LOGGER.error("Error while trying to update info for friend '{}'", name))
                 .sendJsonResponse(APIResponse.class);
         }
         

@@ -792,7 +792,7 @@ public class Notebot extends Module {
                     error("Loading song '" + FilenameUtils.getBaseName(file.getName()) + "' was cancelled.");
                 } else {
                     error("An error occurred while loading song '" + FilenameUtils.getBaseName(file.getName()) + "'. See the logs for more details.");
-                    MeteorClient.LOG.error("An error occurred while loading song '{}'", FilenameUtils.getBaseName(file.getName()), ex);
+                    MeteorClient.LOGGER.error("An error occurred while loading song '{}'", FilenameUtils.getBaseName(file.getName()), ex);
                     onSongEnd();
                 }
             }

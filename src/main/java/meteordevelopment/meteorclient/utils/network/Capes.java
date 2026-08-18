@@ -48,7 +48,7 @@ public class Capes {
         MeteorExecutor.execute(() -> {
             // Cape owners
             Stream<String> lines = Http.get(CAPE_OWNERS_URL)
-                .exceptionHandler(e -> MeteorClient.LOG.error("Could not load capes: {}", e.getMessage()))
+                .exceptionHandler(e -> MeteorClient.LOGGER.error("Could not load capes: {}", e.getMessage()))
                 .sendLines();
             if (lines != null) {
                 lines.forEach(s -> {
@@ -183,7 +183,7 @@ public class Capes {
                         TO_REGISTER.add(this);
                     }
                 } catch (IOException e) {
-                    MeteorClient.LOG.error("Failed to download cape '{}'", name, e);
+                    MeteorClient.LOGGER.error("Failed to download cape '{}'", name, e);
                 }
             });
         }

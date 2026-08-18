@@ -106,7 +106,7 @@ public class PacketDebugger extends Module {
                 params
             );
         } else {
-            MeteorClient.LOG.info("[PacketDebugger] [{}/{}] {}",
+            MeteorClient.LOGGER.info("[PacketDebugger] [{}/{}] {}",
                 packet.getPacketType().side(),
                 packet.getPacketType().id(),
                 name + params

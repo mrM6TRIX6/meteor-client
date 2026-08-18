@@ -16,6 +16,7 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -29,7 +30,8 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.elements.*;
 import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
+import meteordevelopment.meteorclient.utils.render.LoadingVisualGuard;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import meteordevelopment.orbit.EventHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -119,9 +121,12 @@ public class HUD extends Module implements Iterable<HUDElement> {
         register(PotionTimersHUD.INFO);
         register(CombatHUD.INFO);
         register(MapHUD.INFO);
-        register(RectangleHUD.INFO);
         register(TextureHUD.INFO);
         register(BlurHUD.INFO);
+        register(Rectangle.INFO);
+        register(GradientRectangle.INFO);
+        register(Zippy.INFO);
+        register(RotatingGradientRectangle.INFO);
     }
     
     public static HUD get() {
@@ -219,6 +224,10 @@ public class HUD extends Module implements Iterable<HUDElement> {
             return;
         }
         
+        if (LoadingVisualGuard.shouldSuppressHud(mc)) {
+            return;
+        }
+        
         if (!isActive() || shouldHideHud()) {
             return;
         }
@@ -227,16 +236,22 @@ public class HUD extends Module implements Iterable<HUDElement> {
         }
         
         HUDRenderer.INSTANCE.begin(event.drawContext);
+        Render2D.beginFrame(event.drawContext);
         
-        for (HUDElement element : elements) {
-            element.updatePos();
-            
-            if (element.isActive() || element.isInEditor()) {
-                element.render(HUDRenderer.INSTANCE);
+        try {
+            for (HUDElement element : elements) {
+                element.updatePos();
+                
+                if (element.isActive() || element.isInEditor()) {
+                    element.render(HUDRenderer.INSTANCE);
+                }
             }
+            
+            HUDRenderer.INSTANCE.end();
+            Render2D.flush();
+        } finally {
+            Render2D.endFrame();
         }
-        
-        HUDRenderer.INSTANCE.end();
     }
     
     private boolean shouldHideHud() {
