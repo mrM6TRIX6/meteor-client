@@ -318,9 +318,9 @@ public final class GlowRenderer implements AutoCloseable {
             }
         }
         
-        n2 = 3;
-        // float f2 = MathHelper.clamp(effectiveRadius / 20.0f, 0.5f, 4.0f);
-        float f2 = effectiveRadius / 20f;
+        n2 =  effectiveRadius > 0 ? 3 : 0;
+        //float f2 = MathHelper.clamp(effectiveRadius / 20.0f, 0.0f, 4.0f);
+        float f2 = effectiveRadius / 20.0f;
         ensureScratchTargets(n4, n5, n2);
         SimpleFramebuffer[] simpleFramebufferArray = downPool.getFirst();
         SimpleFramebuffer[] simpleFramebufferArray2 = upPool.getFirst();
@@ -372,7 +372,7 @@ public final class GlowRenderer implements AutoCloseable {
         }
         try (MemoryStack memoryStack = MemoryStack.stackPush();) {
             ByteBuffer byteBuffer = buildUniformData(memoryStack);
-            RenderSystem.getDevice().createCommandEncoder().writeToBuffer(gpuBuffer.slice(0L, (long) byteBuffer.remaining()), byteBuffer);
+            RenderSystem.getDevice().createCommandEncoder().writeToBuffer(gpuBuffer.slice(0L, byteBuffer.remaining()), byteBuffer);
             paramsDirty = false;
         } catch (RuntimeException runtimeException) {
             paramsDirty = true;
