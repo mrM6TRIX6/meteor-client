@@ -33,6 +33,7 @@ import meteordevelopment.orbit.EventHandler;
 import meteordevelopment.orbit.EventPriority;
 import meteordevelopment.orbit.IEventBus;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.MinecraftClient;
@@ -141,13 +142,11 @@ public class MeteorClient implements ClientModInitializer {
         ReflectInit.init(PostInit.class);
         
         // Save on shutdown
-        Runtime.getRuntime().addShutdownHook(
-            new Thread(() -> {
-                OnlinePlayers.leave();
-                Systems.save();
-                GuiThemes.save();
-            })
-        );
+        ClientLifecycleEvents.CLIENT_STOPPING.register(mc -> {
+            OnlinePlayers.leave();
+            Systems.save();
+            GuiThemes.save();
+        });
     }
     
     @EventHandler
