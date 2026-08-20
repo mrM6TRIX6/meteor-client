@@ -15,6 +15,7 @@ import meteordevelopment.meteorclient.utils.render.ui.arc.ArcOutlineRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.arc.ArcRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.blur.BlurFramebuffer;
 import meteordevelopment.meteorclient.utils.render.ui.glass.GlassRenderer;
+import meteordevelopment.meteorclient.utils.render.ui.glow.GlowRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.image.ImageRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.outline.outline360.Outline360Renderer;
@@ -49,6 +50,9 @@ public abstract class GuiRendererMixin {
     
     @Unique
     private boolean meteor$glassOutlineDrawActive;
+    
+    @Unique
+    private boolean meteor$glowDrawActive;
     
     @Unique
     private boolean meteor$rectangleDrawActive;
@@ -104,6 +108,7 @@ public abstract class GuiRendererMixin {
         BlurFramebuffer.getInstance().beginGuiFrame();
         GlassRenderer.getInstance().beginGuiFrame();
         GlassOutlineRenderer.getInstance().beginGuiFrame();
+        GlowRenderer.getInstance().beginGuiFrame();
         DefaultRectangleRenderer.getInstance().beginGuiFrame();
         GradientRectangleRenderer.getInstance().beginGuiFrame();
         RotatingGradientRectangleRenderer.getInstance().beginGuiFrame();
@@ -122,6 +127,7 @@ public abstract class GuiRendererMixin {
     @Inject(method = "prepare", at = @At("HEAD"))
     private void meteor$preparePendingBlurResources(CallbackInfo ci) {
         BlurFramebuffer.getInstance().preparePending();
+        GlowRenderer.getInstance().preparePending();
     }
     
     @Inject(method = "prepare", at = @At("RETURN"))
@@ -129,6 +135,7 @@ public abstract class GuiRendererMixin {
         BlurFramebuffer.getInstance().prepareBuffers();
         GlassRenderer.getInstance().prepareBuffers();
         GlassOutlineRenderer.getInstance().prepareBuffers();
+        GlowRenderer.getInstance().prepareBuffers();
         DefaultRectangleRenderer.getInstance().prepareBuffers();
         GradientRectangleRenderer.getInstance().prepareBuffers();
         RotatingGradientRectangleRenderer.getInstance().prepareBuffers();
@@ -160,6 +167,7 @@ public abstract class GuiRendererMixin {
         meteor$blurDrawActive = BlurFramebuffer.getInstance().isBlurPipeline(pipeline);
         meteor$glassDrawActive = GlassRenderer.getInstance().isGlassPipeline(pipeline);
         meteor$glassOutlineDrawActive = GlassOutlineRenderer.getInstance().isGlassOutlinePipeline(pipeline);
+        meteor$glowDrawActive = GlowRenderer.getInstance().isGlowPipeline(pipeline);
         meteor$rectangleDrawActive = DefaultRectangleRenderer.getInstance().isRectanglePipeline(pipeline);
         meteor$gradientRectangleDrawActive = GradientRectangleRenderer.getInstance().isGradientRectanglePipeline(pipeline);
         meteor$rotatingGradientRectangleDrawActive = RotatingGradientRectangleRenderer.getInstance().isRotatingGradientRectanglePipeline(pipeline);
@@ -190,6 +198,9 @@ public abstract class GuiRendererMixin {
         }
         if (meteor$rectangleDrawActive && meteor$currentRenderPass != null) {
             DefaultRectangleRenderer.getInstance().bindParams(meteor$currentRenderPass);
+        }
+        if (meteor$glowDrawActive && meteor$currentRenderPass != null) {
+            GlowRenderer.getInstance().bindParams(meteor$currentRenderPass);
         }
         if (meteor$gradientRectangleDrawActive && meteor$currentRenderPass != null) {
             GradientRectangleRenderer.getInstance().bindParams(meteor$currentRenderPass);
@@ -235,6 +246,7 @@ public abstract class GuiRendererMixin {
         meteor$blurDrawActive = false;
         meteor$glassDrawActive = false;
         meteor$glassOutlineDrawActive = false;
+        meteor$glowDrawActive = false;
         meteor$rectangleDrawActive = false;
         meteor$gradientRectangleDrawActive = false;
         meteor$rotatingGradientRectangleDrawActive = false;

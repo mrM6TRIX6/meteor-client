@@ -18,8 +18,6 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.utils.render.color.ColorUtil;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
-import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
-import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import meteordevelopment.meteorclient.utils.render.ui.rectangle.rectdefault.BuiltRectangle;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
@@ -250,36 +248,67 @@ public class Rectangle extends HUDElement {
 //            ).withSmoothness(smoothness.get().floatValue())
 //        );
         
+        float pad = 3f;
+        int col = color.get().getPacked();
+        
+        // glow
+        
+//        Render2D.glow(
+//            x - pad,
+//            y - pad,
+//            width.get() + pad * 2,
+//            height.get() + pad * 2,
+//            radius.get().floatValue(),
+//            50,
+//            1,
+//            col
+//        );
+        
+        // outline
+        
+//        Render2D.rect(
+//            x - 1,
+//            y - 1,
+//            width.get() + 2,
+//            height.get() + 2,
+//            glowRadius.get().floatValue(),
+//            col
+//        );
+//
         Render2D.rect(
             new BuiltRectangle(
                 x,
                 y,
                 width.get(),
                 height.get(),
-                radius.get().floatValue(),
+                radiusEachVertex.get() ? radiusTopLeft.get().floatValue() : radius.get().floatValue(),
+                radiusEachVertex.get() ? radiusTopRight.get().floatValue() : radius.get().floatValue(),
+                radiusEachVertex.get() ? radiusBottomRight.get().floatValue() : radius.get().floatValue(),
+                radiusEachVertex.get() ? radiusBottomLeft.get().floatValue() : radius.get().floatValue(),
                 colorEachVertex.get() ? colorTopLeft.get().getPacked() : color.get().getPacked(),
                 colorEachVertex.get() ? colorTopRight.get().getPacked() : color.get().getPacked(),
                 colorEachVertex.get() ? colorBottomRight.get().getPacked() : color.get().getPacked(),
-                colorEachVertex.get() ? colorBottomLeft.get().getPacked() : color.get().getPacked()
-            ).withSmoothness(smoothness.get().floatValue())
+                colorEachVertex.get() ? colorBottomLeft.get().getPacked() : color.get().getPacked(),
+                smoothness.get().floatValue()
+            )
         );
         
-        Render2D.msdf(
-            new BuiltMsdf(
-                MsdfFont.MONTSERRAT_MEDIUM,
-                text,
-                x + 20,
-                y + 20,
-                16
-            )
-                .withFade(
-                x + 20,
-                x + 100,
-                10.0f,
-                1.0f,
-                1.0f
-            )
-        );
+//        Render2D.msdf(
+//            new BuiltMsdf(
+//                MsdfFont.MONTSERRAT_MEDIUM,
+//                text,
+//                x + 20,
+//                y + 20,
+//                16
+//            )
+//                .withFade(
+//                x + 20,
+//                x + 100,
+//                10.0f,
+//                1.0f,
+//                1.0f
+//            )
+        //);
     }
     
 }

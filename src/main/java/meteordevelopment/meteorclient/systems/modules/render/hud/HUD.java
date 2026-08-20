@@ -127,6 +127,7 @@ public class HUD extends Module implements Iterable<HUDElement> {
         register(GradientRectangle.INFO);
         register(Zippy.INFO);
         register(RotatingGradientRectangle.INFO);
+        register(GlowHUD.INFO);
     }
     
     public static HUD get() {

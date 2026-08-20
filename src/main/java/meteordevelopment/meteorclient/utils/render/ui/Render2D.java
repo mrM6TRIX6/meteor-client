@@ -15,6 +15,9 @@ import meteordevelopment.meteorclient.utils.render.ui.effecticon.BuiltEffectIcon
 import meteordevelopment.meteorclient.utils.render.ui.effecticon.EffectIconRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.glass.BuiltGlass;
 import meteordevelopment.meteorclient.utils.render.ui.glass.GlassRenderer;
+import meteordevelopment.meteorclient.utils.render.ui.glow.BuiltGlow;
+import meteordevelopment.meteorclient.utils.render.ui.glow.GlowBuilder;
+import meteordevelopment.meteorclient.utils.render.ui.glow.GlowRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.image.BuiltImage;
 import meteordevelopment.meteorclient.utils.render.ui.image.ImageRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
@@ -221,6 +224,7 @@ public final class Render2D {
         blur().beginFrame(context);
         glass().beginFrame(context);
         glassOutline().beginFrame(context);
+        glow().beginFrame(context);
         rectangle().beginFrame(context);
         gradientRectangle().beginFrame(context);
         rotatingGradientRectangle().beginFrame(context);
@@ -240,6 +244,7 @@ public final class Render2D {
         blur().flush();
         glass().flush();
         glassOutline().flush();
+        glow().flush();
         rectangle().flush();
         gradientRectangle().flush();
         rotatingGradientRectangle().flush();
@@ -570,6 +575,29 @@ public final class Render2D {
             squirt,
             0.0f
         );
+    }
+    
+    public static void glow(float x, float y, float width, float height, float radius) {
+        glow(x, y, width, height, radius, 8.0f, 1.0f, ColorUtil.WHITE);
+    }
+    
+    public static void glow(float x, float y, float width, float height, float radius, float glowRadius) {
+        glow(x, y, width, height, radius, glowRadius, 1.0f, ColorUtil.WHITE);
+    }
+    
+    public static void glow(float x, float y, float width, float height, float radius, float glowRadius, float intensity, int color) {
+        imageBarrier();
+        float[] radii = new float[]{radius, radius, radius, radius};
+        glow().enqueue(new BuiltGlow(x, y, width, height, radii, color, intensity, glowRadius, 1.0f));
+    }
+    
+    public static void glow(BuiltGlow glow) {
+        imageBarrier();
+        Render2D.glow().enqueue(glow);
+    }
+    
+    public static GlowBuilder glowBuilder() {
+        return new GlowBuilder();
     }
     
     public static void rect(float x, float y, float width, float height, int color) {
@@ -1284,6 +1312,7 @@ public final class Render2D {
         BlurFramebuffer.closeInstance();
         GlassRenderer.closeInstance();
         GlassOutlineRenderer.closeInstance();
+        GlowRenderer.closeInstance();
         DefaultRectangleRenderer.closeInstance();
         GradientRectangleRenderer.closeInstance();
         RotatingGradientRectangleRenderer.closeInstance();
@@ -1309,6 +1338,10 @@ public final class Render2D {
     
     private static GlassOutlineRenderer glassOutline() {
         return GlassOutlineRenderer.getInstance();
+    }
+    
+    private static GlowRenderer glow() {
+        return GlowRenderer.getInstance();
     }
     
     private static DefaultRectangleRenderer rectangle() {

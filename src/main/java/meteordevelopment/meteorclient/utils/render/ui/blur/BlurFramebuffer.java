@@ -53,6 +53,7 @@ public final class BlurFramebuffer implements AutoCloseable {
     private static final float MIN_BLUR_RENDER_SCALE = 0.4f;
     
     private static volatile BlurFramebuffer instance;
+    
     private static float skyFallbackRed = 0.55f;
     private static float skyFallbackGreen = 0.65f;
     private static float skyFallbackBlue = 0.78f;
