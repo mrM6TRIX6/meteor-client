@@ -9,11 +9,11 @@ in float LineWidth;
 
 out vec2 TexCoord;
 out vec4 VertexColor;
-flat out int StyleIndex;
+flat out int MsdfIndex;
 
 void main() {
     TexCoord = UV0;
     VertexColor = Color;
-    StyleIndex = int(LineWidth + 0.5);
+    MsdfIndex = int(LineWidth + 0.5);
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 }

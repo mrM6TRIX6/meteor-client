@@ -6,7 +6,7 @@ import net.minecraft.text.Text;
 
 public record BuiltMsdf(
     MsdfFont font,
-    Either<String, Text> text, // что это за хуйня
+    Either<String, Text> text,
     float x,
     float y,
     float size,

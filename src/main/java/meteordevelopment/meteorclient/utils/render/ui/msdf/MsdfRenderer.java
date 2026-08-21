@@ -31,9 +31,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class MsdfRenderer implements AutoCloseable {
     
-    private static final int MAX_STYLES = 256;
-    private static final int VEC4_PER_STYLE = 2;
-    private static final int UNIFORM_BYTES = MAX_STYLES * VEC4_PER_STYLE * 4 * Float.BYTES;
+    private static final int MAX_MSDF = 1024;
+    private static final int VEC4_PER_MSDF = 2;
+    private static final int UNIFORM_BYTES = MAX_MSDF * VEC4_PER_MSDF * 4 * Float.BYTES;
     
     private static volatile MsdfRenderer instance;
     
@@ -59,13 +59,12 @@ public final class MsdfRenderer implements AutoCloseable {
         .build();
     
     private final Map<FrameBatchKey, MsdfRenderState> frameBatches = new LinkedHashMap<>(32);
-    private final List<StyleEntry> preparedStyles = new ArrayList<>(32);
+    private final List<MsdfEntry> preparedMsdf = new ArrayList<>(32);
     private DrawContext activeContext;
     private GpuBuffer paramsBuffer;
     private boolean paramsDirty = true;
     
-    private MsdfRenderer() {
-    }
+    private MsdfRenderer() {}
     
     public static MsdfRenderer getInstance() {
         MsdfRenderer local = instance;
@@ -101,8 +100,12 @@ public final class MsdfRenderer implements AutoCloseable {
         frameBatches.clear();
     }
     
+    public void barrier() {
+        frameBatches.clear();
+    }
+
     public void beginGuiFrame() {
-        preparedStyles.clear();
+        preparedMsdf.clear();
         paramsDirty = false;
     }
     
@@ -111,7 +114,7 @@ public final class MsdfRenderer implements AutoCloseable {
     }
     
     public void bindParams(RenderPass renderPass) {
-        if (renderPass == null || preparedStyles.isEmpty()) {
+        if (renderPass == null || preparedMsdf.isEmpty()) {
             return;
         }
         GpuBuffer buffer = ensureParamsBuffer();
@@ -121,7 +124,7 @@ public final class MsdfRenderer implements AutoCloseable {
     }
     
     public void prepareBuffers() {
-        if (preparedStyles.isEmpty() || !paramsDirty) {
+        if (preparedMsdf.isEmpty() || !paramsDirty) {
             return;
         }
         GpuBuffer buffer = ensureWritableParamsBuffer();
@@ -129,7 +132,7 @@ public final class MsdfRenderer implements AutoCloseable {
             return;
         }
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            ByteBuffer uniformData = buildUniformData(stack, preparedStyles);
+            ByteBuffer uniformData = buildUniformData(stack, preparedMsdf);
             RenderSystem.getDevice()
                 .createCommandEncoder()
                 .writeToBuffer(buffer.slice(0, uniformData.remaining()), uniformData);
@@ -153,11 +156,11 @@ public final class MsdfRenderer implements AutoCloseable {
     }
     
     int reserve(float range, BuiltMsdf built) {
-        int index = preparedStyles.size();
-        if (index >= MAX_STYLES) {
+        int index = preparedMsdf.size();
+        if (index >= MAX_MSDF) {
             return -1;
         }
-        preparedStyles.add(new StyleEntry(range, built));
+        preparedMsdf.add(new MsdfEntry(range, built));
         paramsDirty = true;
         return index;
     }
@@ -280,7 +283,7 @@ public final class MsdfRenderer implements AutoCloseable {
         }
         closeParamsBuffer();
         try (MemoryStack stack = MemoryStack.stackPush()) {
-            ByteBuffer uniformData = buildUniformData(stack, preparedStyles);
+            ByteBuffer uniformData = buildUniformData(stack, preparedMsdf);
             paramsBuffer = RenderSystem.getDevice().createBuffer(
                 () -> "meteor_msdf_params",
                 GpuBuffer.USAGE_UNIFORM,
@@ -310,13 +313,13 @@ public final class MsdfRenderer implements AutoCloseable {
         }
     }
     
-    private ByteBuffer buildUniformData(MemoryStack stack, List<StyleEntry> batch) {
-        int usedBytes = Math.max(1, batch.size()) * VEC4_PER_STYLE * 4 * Float.BYTES;
+    private ByteBuffer buildUniformData(MemoryStack stack, List<MsdfEntry> batch) {
+        int usedBytes = Math.max(1, batch.size()) * VEC4_PER_MSDF * 4 * Float.BYTES;
         ByteBuffer data = stack.calloc(usedBytes);
         for (int i = 0; i < batch.size(); i++) {
-            StyleEntry entry = batch.get(i);
+            MsdfEntry entry = batch.get(i);
             BuiltMsdf built = entry.built();
-            int off = i * VEC4_PER_STYLE * 16;
+            int off = i * VEC4_PER_MSDF * 16;
             
             data.putFloat(off, entry.range());
             data.putFloat(off + 4, built.thickness());
@@ -344,11 +347,11 @@ public final class MsdfRenderer implements AutoCloseable {
     public void close() {
         closeParamsBuffer();
         frameBatches.clear();
-        preparedStyles.clear();
+        preparedMsdf.clear();
         activeContext = null;
     }
     
-    private record StyleEntry(float range, BuiltMsdf built) {
+    private record MsdfEntry(float range, BuiltMsdf built) {
     
     }
     

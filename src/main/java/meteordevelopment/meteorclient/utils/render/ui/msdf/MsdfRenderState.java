@@ -108,11 +108,11 @@ final class MsdfRenderState implements SimpleGuiElementRenderState {
     
     @Override
     public void setupVertices(VertexConsumer consumer) {
-        int styleIndex = MsdfRenderer.getInstance().reserve(distanceRange, built);
-        if (styleIndex < 0) {
+        int msdfIndex = MsdfRenderer.getInstance().reserve(distanceRange, built);
+        if (msdfIndex < 0) {
             return;
         }
-        float indexAsLineWidth = styleIndex;
+        float indexAsLineWidth = msdfIndex;
         
         for (int i = 0; i < quadCount; i++) {
             int positionIndex = i * 8;
@@ -129,11 +129,11 @@ final class MsdfRenderState implements SimpleGuiElementRenderState {
         }
     }
     
-    private void vertex(VertexConsumer consumer, float x, float y, float u, float v, int color, float styleIndex) {
+    private void vertex(VertexConsumer consumer, float x, float y, float u, float v, int color, float msdfIndex) {
         consumer.vertex(pose, x, y)
             .texture(u, v)
             .color(color)
-            .lineWidth(styleIndex);
+            .lineWidth(msdfIndex);
     }
     
     @Override

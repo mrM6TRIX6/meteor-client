@@ -4,12 +4,12 @@
 uniform sampler2D Sampler0;
 
 layout(std140) uniform MsdfParamsArray {
-    vec4 params[512];
+    vec4 params[2048];
 };
 
 in vec2 TexCoord;
 in vec4 VertexColor;
-flat in int StyleIndex;
+flat in int MsdfIndex;
 
 out vec4 OutColor;
 
@@ -18,7 +18,7 @@ float median(vec3 c) {
 }
 
 void main() {
-    int base = StyleIndex * 2;
+    int base = MsdfIndex * 2;
     vec4 a = params[base];
     vec4 b = params[base + 1];
 
