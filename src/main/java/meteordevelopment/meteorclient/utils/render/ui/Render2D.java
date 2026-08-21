@@ -18,6 +18,7 @@ import meteordevelopment.meteorclient.utils.render.ui.glass.GlassRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.glow.BuiltGlow;
 import meteordevelopment.meteorclient.utils.render.ui.glow.GlowBuilder;
 import meteordevelopment.meteorclient.utils.render.ui.glow.GlowRenderer;
+import meteordevelopment.meteorclient.utils.render.ui.glow.GlowShapeOptions;
 import meteordevelopment.meteorclient.utils.render.ui.image.BuiltImage;
 import meteordevelopment.meteorclient.utils.render.ui.image.ImageRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
@@ -661,6 +662,25 @@ public final class Render2D {
         return new GlowBuilder();
     }
     
+    public static void glowShape(Runnable shape) {
+        imageBarrier();
+        glow().addShape(shape);
+    }
+
+    public static void glowShape(float glowRadius, Runnable shape) {
+        imageBarrier();
+        glow().addShape(glowRadius, shape);
+    }
+
+    public static void glowShape(GlowShapeOptions options, Runnable shape) {
+        imageBarrier();
+        glow().addShape(options, shape);
+    }
+
+    public static GlowShapeOptions glowShapeOptions() {
+        return new GlowShapeOptions();
+    }
+
     public static void rect(float x, float y, float width, float height, int color) {
         rect(x, y, width, height, 0.0f, color);
     }
@@ -738,6 +758,39 @@ public final class Render2D {
             colorBottomRight,
             colorBottomLeft,
             BuiltRectangle.DEFAULT_SMOOTHNESS
+        ));
+    }
+    
+    public static void rect(
+        float x,
+        float y,
+        float width,
+        float height,
+        float radiusTopLeft,
+        float radiusTopRight,
+        float radiusBottomRight,
+        float radiusBottomLeft,
+        int colorTopLeft,
+        int colorTopRight,
+        int colorBottomRight,
+        int colorBottomLeft,
+        float smoothness
+    ) {
+        imageBarrier();
+        rectangle().enqueue(new BuiltRectangle(
+            x,
+            y,
+            width,
+            height,
+            radiusTopLeft,
+            radiusTopRight,
+            radiusBottomRight,
+            radiusBottomLeft,
+            colorTopLeft,
+            colorTopRight,
+            colorBottomRight,
+            colorBottomLeft,
+            smoothness
         ));
     }
     
@@ -1460,6 +1513,11 @@ public final class Render2D {
     private static void imageBarrier() {
         ImageRenderer.getInstance().barrier();
         EffectIconRenderer.getInstance().barrier();
+    }
+    
+    public static void batchBarrier() {
+        imageBarrier();
+        MsdfRenderer.getInstance().barrier();
     }
     
     private static float boldOffset(float size) {

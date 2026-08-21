@@ -6,7 +6,9 @@
 package meteordevelopment.meteorclient.mixin;
 
 import meteordevelopment.meteorclient.mixininterface.IGuiRenderStateLayer;
+import meteordevelopment.meteorclient.utils.render.ui.glow.GlowCaptureScope;
 import net.minecraft.client.gui.render.state.GuiRenderState;
+import net.minecraft.client.gui.render.state.SimpleGuiElementRenderState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,5 +40,19 @@ public abstract class GuiRenderStateMixin implements IGuiRenderStateLayer {
     private void meteor$resetLayerSerial(CallbackInfo ci) {
         meteor$layerSerial = 0;
     }
-    
+
+    @Inject(method = "addSimpleElement", at = @At("HEAD"), cancellable = true)
+    private void meteor$captureSimpleElement(SimpleGuiElementRenderState state, CallbackInfo ci) {
+        if (GlowCaptureScope.intercept(state)) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "addPreparedTextElement", at = @At("HEAD"), cancellable = true)
+    private void meteor$capturePreparedTextElement(SimpleGuiElementRenderState state, CallbackInfo ci) {
+        if (GlowCaptureScope.intercept(state)) {
+            ci.cancel();
+        }
+    }
+
 }

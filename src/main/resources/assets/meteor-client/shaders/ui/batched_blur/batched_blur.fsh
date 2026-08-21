@@ -37,7 +37,6 @@ void main() {
     // multipling
 
     vec3 multiplied = blurred * FragColor.rgb;
-
     vec4 color = vec4(multiplied, FragColor.a);
     color.a *= ralpha(Size, FragCoord, Radius, Smoothness);
 

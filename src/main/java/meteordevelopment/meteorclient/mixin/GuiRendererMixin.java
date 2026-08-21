@@ -149,6 +149,10 @@ public abstract class GuiRendererMixin {
         ImageRenderer.getInstance().prepareBuffers();
         RippleRenderer.getInstance().prepareBuffers();
         RenderItem.prepareBuffers();
+
+        // Has to be dead last: replaying a captured element into the glow atlas reads the very uniform blocks the
+        // calls above just uploaded.
+        GlowRenderer.getInstance().renderPending();
     }
     
     @Inject(method = "renderPreparedDraws", at = @At("HEAD"))
