@@ -109,21 +109,36 @@ public class BetterTab extends Module {
             Render2D.withVanilla(() -> {
                 Render2D.beginFrame(context, Render2D.Space.VANILLA);
                 try {
+                    int size = 7;
+                    String text = String.valueOf(latency);
+                    int x2 = x + width - (int) MsdfFont.MONTSERRAT_SEMIBOLD.width(String.valueOf(latency), size);
+                    
+                    Render2D.glowShape(
+                        Render2D.glowShapeOptions().radius(10).intensity(4).cutout(false),
+                        () -> Render2D.msdf(
+                            new BuiltMsdf(
+                                MsdfFont.MONTSERRAT_SEMIBOLD,
+                                text,
+                                x2,
+                                y,
+                                size,
+                                color
+                            )
+                        )
+                    );
+                    
                     Render2D.msdf(
                         new BuiltMsdf(
                             MsdfFont.MONTSERRAT_SEMIBOLD,
                             String.valueOf(latency),
-                            x + width - (int) MsdfFont.MONTSERRAT_SEMIBOLD.width(
-                                String.valueOf(latency),
-                                7
-                            ),
+                            x2,
                             y,
-                            7,
+                            size,
                             color
-                        ).withOutline(
-                            0.05f,
-                            0xFF000000
-                        )
+                        )//.withOutline(
+//                            0.05f,
+//                            0xFF000000
+//                        )
                     );
                     Render2D.flush();
                 } finally {
