@@ -52,7 +52,7 @@ public class AutoChatGame extends Module {
     @EventHandler
     private void onMessageReceive(MessageEvent.Receive event) {
         String message = event.getMessage().getString();
-        if (message.startsWith("Chat Game »")) {
+        if (message.contains("Chat Game »")) {
             Matcher matcher = PATTERN.matcher(message);
             
             if (matcher.find()) {
