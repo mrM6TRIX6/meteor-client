@@ -12,15 +12,16 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
+import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.renderer.engine.*;
 import meteordevelopment.meteorclient.renderer.engine.text.CustomTextRenderer;
 import meteordevelopment.meteorclient.renderer.engine.text.Font;
 import meteordevelopment.meteorclient.renderer.engine.text.VanillaTextRenderer;
-import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.renderer.state.QuadColorState;
 import meteordevelopment.meteorclient.renderer.state.QuadRadiusState;
+import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.entity.state.LivingEntityRenderState;
@@ -305,7 +306,7 @@ public class HUDRenderer {
         entity.lastHeadYaw = lastLastHeadYaw;
         entity.headYaw = lastHeadYaw;
         
-        float s = 1.0f / mc.getWindow().getScaleFactor();
+        float s = Render2D.scaleFactor();
         int x1 = (int) (x * s);
         int y1 = (int) (y * s);
         int x2 = (int) ((x + width) * s);

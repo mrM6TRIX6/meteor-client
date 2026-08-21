@@ -7,6 +7,10 @@ package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
+import meteordevelopment.meteorclient.renderer.NametagUtils;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.Renderer2D;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -20,10 +24,6 @@ import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.Target;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import meteordevelopment.meteorclient.renderer.NametagUtils;
-import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -304,12 +304,16 @@ public class Tracers extends Module {
                 color.a = (int) (color.a * getAlpha());
             }
             
-            Vec2f screenCenter = new Vec2f(mc.getWindow().getFramebufferWidth() / 2.f, mc.getWindow().getFramebufferHeight() / 2.f);
+            // to2D outputs independent units, so the bounds have to be in the same space
+            int screenWidth = RenderUtils.getWindowWidth();
+            int screenHeight = RenderUtils.getWindowHeight();
+            
+            Vec2f screenCenter = new Vec2f(screenWidth / 2.f, screenHeight / 2.f);
             
             Vector3d projection = new Vector3d(entity.lastX, entity.lastY, entity.lastZ);
             boolean projSucceeded = NametagUtils.to2D(projection, 1, false, false);
             
-            if (projSucceeded && projection.x > 0.f && projection.x < mc.getWindow().getFramebufferWidth() && projection.y > 0.f && projection.y < mc.getWindow().getFramebufferHeight()) {
+            if (projSucceeded && projection.x > 0.f && projection.x < screenWidth && projection.y > 0.f && projection.y < screenHeight) {
                 continue;
             }
             

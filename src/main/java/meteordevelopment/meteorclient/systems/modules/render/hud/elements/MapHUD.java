@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud.elements;
 
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
@@ -17,7 +18,7 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.render.MapRenderState;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.MapIdComponent;
@@ -161,7 +162,7 @@ public class MapHUD extends HUDElement {
             
             Matrix3x2fStack matrices = renderer.drawContext.getMatrices();
             matrices.pushMatrix();
-            matrices.scale(1F / mc.getWindow().getScaleFactor());
+            matrices.scale(Render2D.scaleFactor());
             matrices.translate(this.x, this.y);
             matrices.scale(scale.get().floatValue());
             renderer.drawContext.drawMap(renderState);

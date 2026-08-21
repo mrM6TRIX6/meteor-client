@@ -26,6 +26,8 @@ import meteordevelopment.meteorclient.gui.widgets.input.WRangeSlider;
 import meteordevelopment.meteorclient.gui.widgets.input.WSlider;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.*;
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -37,9 +39,6 @@ import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.misc.Range;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
-import net.minecraft.client.util.MacWindowUtil;
 
 import java.util.List;
 
@@ -382,13 +381,8 @@ public class MeteorGuiTheme extends GuiTheme {
     
     @Override
     public double scale(double value) {
-        double scaled = value * scale.get();
-        
-        if (MacWindowUtil.IS_MAC) {
-            scaled /= (double) mc.getWindow().getWidth() / mc.getWindow().getFramebufferWidth();
-        }
-        
-        return scaled;
+        // No hidpi correction needed, the independent space is already derived from the framebuffer size
+        return value * scale.get();
     }
     
     @Override

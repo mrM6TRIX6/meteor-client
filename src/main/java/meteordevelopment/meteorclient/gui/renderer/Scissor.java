@@ -7,11 +7,10 @@ package meteordevelopment.meteorclient.gui.renderer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import meteordevelopment.meteorclient.mixininterface.IGpuDevice;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowHeight;
 
 public class Scissor {
     
@@ -39,7 +38,16 @@ public class Scissor {
     }
     
     public void push() {
-        ((IGpuDevice) RenderSystem.getDevice()).meteor$pushScissor(x, getWindowHeight() - y - height, width, height);
+        // The gl scissor box is in physical framebuffer pixels with a bottom left origin,
+        // so the independent units have to be converted back manually here.
+        float s = Render2D.uiScale();
+        
+        int scissorX = Math.round(x * s);
+        int scissorY = Math.round(y * s);
+        int scissorWidth = Math.round(width * s);
+        int scissorHeight = Math.round(height * s);
+        
+        ((IGpuDevice) RenderSystem.getDevice()).meteor$pushScissor(scissorX, Render2D.height() - scissorY - scissorHeight, scissorWidth, scissorHeight);
     }
     
     public void pop() {

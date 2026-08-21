@@ -70,13 +70,8 @@ public class HUDEditorScreen extends WidgetScreen implements Snapper.Container {
     
     @Override
     public boolean mouseClicked(Click click, boolean doubled) {
-        double s = mc.getWindow().getScaleFactor();
-        
-        double mouseX = click.x();
-        double mouseY = click.y();
-        
-        mouseX *= s;
-        mouseY *= s;
+        double mouseX = Render2D.toIndependent(click.x());
+        double mouseY = Render2D.toIndependent(click.y());
         
         if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             pressed = true;
@@ -103,10 +98,8 @@ public class HUDEditorScreen extends WidgetScreen implements Snapper.Container {
     
     @Override
     public void mouseMoved(double mouseX, double mouseY) {
-        double s = mc.getWindow().getScaleFactor();
-        
-        mouseX *= s;
-        mouseY *= s;
+        mouseX = Render2D.toIndependent(mouseX);
+        mouseY = Render2D.toIndependent(mouseY);
         
         if (dragging && !selection.isEmpty()) {
             if (selectionSnapBox == null) {
@@ -125,13 +118,8 @@ public class HUDEditorScreen extends WidgetScreen implements Snapper.Container {
     
     @Override
     public boolean mouseReleased(Click click) {
-        double s = mc.getWindow().getScaleFactor();
-        
-        double mouseX = click.x();
-        double mouseY = click.y();
-        
-        mouseX *= s;
-        mouseY *= s;
+        double mouseX = Render2D.toIndependent(click.x());
+        double mouseY = Render2D.toIndependent(click.y());
         
         if (click.button() == GLFW.GLFW_MOUSE_BUTTON_LEFT) {
             pressed = false;
@@ -316,10 +304,8 @@ public class HUDEditorScreen extends WidgetScreen implements Snapper.Container {
     
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        int s = mc.getWindow().getScaleFactor();
-        
-        mouseX *= s;
-        mouseY *= s;
+        mouseX = (int) Math.round(Render2D.toIndependent(mouseX));
+        mouseY = (int) Math.round(Render2D.toIndependent(mouseY));
         
         RenderUtils.unscaledProjection();
         

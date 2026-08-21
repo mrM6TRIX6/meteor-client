@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.renderer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 import org.joml.*;
@@ -77,7 +78,10 @@ public class NametagUtils {
             return false;
         }
         
-        pos.set(x / windowScale, mc.getWindow().getFramebufferHeight() - y / windowScale, allowBehind ? pmMat4.w : pmMat4.z);
+        // Nametags are drawn in the independent space, so convert out of framebuffer pixels
+        double scale2D = windowScale * Render2D.uiScale();
+        
+        pos.set(x / scale2D, (mc.getWindow().getFramebufferHeight() - y) / scale2D, allowBehind ? pmMat4.w : pmMat4.z);
         return true;
     }
     
@@ -91,7 +95,7 @@ public class NametagUtils {
         
         Matrix3x2fStack matrices = drawContext.getMatrices();
         matrices.pushMatrix();
-        matrices.scale(1.0f / mc.getWindow().getScaleFactor());
+        matrices.scale(Render2D.scaleFactor());
         matrices.translate((float) pos.x, (float) pos.y);
         matrices.scale((float) scale, (float) scale);
     }

@@ -57,7 +57,10 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public final class Render2D {
     
-    private static final float SCALE = 2.0f;
+    private static final float REFERENCE_WIDTH = 1920.0f;
+    private static final float REFERENCE_HEIGHT = 1080.0f;
+    private static final float SCALE = 1.0f;
+    
     private static final Deque<Space> SPACE_STACK = new ArrayDeque<>();
     private static final PointProjector IDENTITY_PROJECTOR = ProjectedPoint::new;
     private static final Deque<Matrix4f> PROJECTION_OVERRIDES = new ArrayDeque<>();
@@ -114,12 +117,32 @@ public final class Render2D {
         return pose;
     }
     
+    public static float uiScale() {
+        if (mc == null || mc.getWindow() == null) {
+            return 1;
+        }
+        
+        int width = width();
+        int height = height();
+        
+        if (width <= 0 || height <= 0) {
+            return 1;
+        }
+        
+        float scale = Math.min(width / REFERENCE_WIDTH, height / REFERENCE_HEIGHT) / SCALE;
+        
+        // with auto size
+        // return scale > 0 ? scale : 1;
+        
+        // with fixed size
+        return SCALE;
+    }
+    
     public static float scaleFactor() {
         if (mc == null || mc.getWindow() == null) {
             return 1;
         }
-        return 1f / Math.max(1, mc.getWindow().getScaleFactor());
-        //return Math.min(width() / 1920f, height() / 1080f) / SCALE;
+        return uiScale() / Math.max(1, mc.getWindow().getScaleFactor());
     }
     
     public static int width() {
@@ -131,35 +154,65 @@ public final class Render2D {
     }
     
     public static int independentWidth() {
-        return width();
+        return Math.max(1, Math.round(width() / uiScale()));
     }
     
     public static int independentHeight() {
-        return height();
+        return Math.max(1, Math.round(height() / uiScale()));
     }
     
     public static int vanillaWidth() {
-        return Math.max(1, (int) Math.ceil((double) width() / scaleFactor()));
+        return Math.max(1, (int) Math.ceil((double) width() / Math.max(1, mc.getWindow().getScaleFactor())));
     }
     
     public static int vanillaHeight() {
-        return Math.max(1, (int) Math.ceil((double) height() / scaleFactor()));
+        return Math.max(1, (int) Math.ceil((double) height() / Math.max(1, mc.getWindow().getScaleFactor())));
+    }
+    
+    public static double toIndependent(double vanilla) {
+        return vanilla / scaleFactor();
+    }
+    
+    public static double toVanilla(double independent) {
+        return independent * scaleFactor();
     }
     
     public static float toIndependentX(float vanillaX) {
-        return vanillaX * scaleFactor();
+        return vanillaX / scaleFactor();
     }
     
     public static float toIndependentY(float vanillaY) {
-        return vanillaY * scaleFactor();
+        return vanillaY / scaleFactor();
     }
     
     public static float toVanillaX(float independentX) {
-        return independentX / scaleFactor();
+        return independentX * scaleFactor();
     }
     
     public static float toVanillaY(float independentY) {
-        return independentY / scaleFactor();
+        return independentY * scaleFactor();
+    }
+    
+    public static double windowToIndependentX(double windowX) {
+        if (mc == null || mc.getWindow() == null) {
+            return windowX;
+        }
+        return windowX * ((double) width() / Math.max(1, mc.getWindow().getWidth())) / uiScale();
+    }
+    
+    public static double windowToIndependentY(double windowY) {
+        if (mc == null || mc.getWindow() == null) {
+            return windowY;
+        }
+        return windowY * ((double) height() / Math.max(1, mc.getWindow().getHeight())) / uiScale();
+    }
+    
+    public static double windowToVanillaX(double windowX) {
+        return toVanilla(windowToIndependentX(windowX));
+    }
+    
+    public static double windowToVanillaY(double windowY) {
+        return toVanilla(windowToIndependentY(windowY));
     }
     
     public static float mouseX(float screenMouseX) {
@@ -168,6 +221,14 @@ public final class Render2D {
     
     public static float mouseY(float screenMouseY) {
         return currentSpace() == Space.INDEPENDENT ? toIndependentY(screenMouseY) : screenMouseY;
+    }
+    
+    public static double mouseX(double screenMouseX) {
+        return currentSpace() == Space.INDEPENDENT ? toIndependent(screenMouseX) : screenMouseX;
+    }
+    
+    public static double mouseY(double screenMouseY) {
+        return currentSpace() == Space.INDEPENDENT ? toIndependent(screenMouseY) : screenMouseY;
     }
     
     public static PointProjector getCurrentProjector() {
@@ -1284,7 +1345,7 @@ public final class Render2D {
             scissorY = projected.y();
             scissorWidth = projected.width();
             scissorHeight = projected.height();
-        } else if (currentSpace() == Space.VANILLA) {
+        } else if (currentSpace() == Space.INDEPENDENT) {
             float s = scaleFactor();
             scissorX *= s;
             scissorY *= s;
@@ -1413,11 +1474,11 @@ public final class Render2D {
     }
     
     public record ProjectedPoint(float x, float y) {
-    
+        
     }
     
     public record ProjectedRect(float x, float y, float width, float height) {
-    
+        
     }
     
     public enum Space {

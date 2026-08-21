@@ -15,6 +15,7 @@ import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.renderer.state.QuadColorState;
 import meteordevelopment.meteorclient.renderer.state.QuadRadiusState;
 import meteordevelopment.meteorclient.utils.reflect.PreInit;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gl.DynamicUniformStorage;
 import net.minecraft.client.gl.GpuSampler;
 import org.joml.Vector4f;
@@ -493,18 +494,26 @@ public class Renderer2D {
         int fbWidth = mc.getFramebuffer().textureWidth;
         int fbHeight = mc.getFramebuffer().textureHeight;
         
+        // The region is given in independent units, the framebuffer is sampled in physical pixels
+        double uiScale = Render2D.uiScale();
+        
+        double pxX = x * uiScale;
+        double pxY = y * uiScale;
+        double pxWidth = width * uiScale;
+        double pxHeight = height * uiScale;
+        
         // Y inversion
-        double invY = fbHeight - y - height;
+        double invY = fbHeight - pxY - pxHeight;
         
         // UV
-        float u0 = (float) (x / fbWidth);
-        float v0 = (float) ((invY + height) / fbHeight);
-        float u1 = (float) ((x + width) / fbWidth);
+        float u0 = (float) (pxX / fbWidth);
+        float v0 = (float) ((invY + pxHeight) / fbHeight);
+        float u1 = (float) ((pxX + pxWidth) / fbWidth);
         float v1 = (float) (invY / fbHeight);
         
         // Mesh
         MeshBuilder mesh = new MeshBuilder(MeteorRenderPipelines.BLIT);
-
+        
         mesh.begin();
         
         mesh.ensureQuadCapacity();
@@ -515,12 +524,12 @@ public class Renderer2D {
             mesh.pos( 1,  1).texture(u1, v1).next(),
             mesh.pos( 1, -1).texture(u1, v0).next()
         );
-
+        
         mesh.end();
         
         blur.ensure(
-            (int) width,
-            (int) height
+            Math.max(1, (int) pxWidth),
+            Math.max(1, (int) pxHeight)
         );
         
         MeshRenderer.begin()

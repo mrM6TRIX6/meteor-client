@@ -20,6 +20,7 @@ import meteordevelopment.meteorclient.renderer.engine.Texture;
 import meteordevelopment.meteorclient.renderer.state.QuadColorState;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.reflect.PostInit;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -27,7 +28,6 @@ import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowHeight;
 import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowWidth;
 
@@ -83,7 +83,7 @@ public class GuiRenderer {
         
         var matrices = drawContext.getMatrices();
         matrices.pushMatrix();
-        matrices.scale(1.0f / mc.getWindow().getScaleFactor());
+        matrices.scale(Render2D.scaleFactor());
         
         scissorStart(0, 0, getWindowWidth(), getWindowHeight());
     }

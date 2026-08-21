@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.gui.widgets.containers;
 import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.input.CharInput;
@@ -63,7 +64,9 @@ public abstract class WContainer extends WWidget {
             cell.move(deltaX, deltaY);
             
             Mouse mouse = mc.mouse;
-            cell.widget().mouseMoved(mouse.getX(), mouse.getY(), mouse.getX(), mouse.getY());
+            double mouseX = Render2D.windowToIndependentX(mouse.getX());
+            double mouseY = Render2D.windowToIndependentY(mouse.getY());
+            cell.widget().mouseMoved(mouseX, mouseY, mouseX, mouseY);
         }
     }
     

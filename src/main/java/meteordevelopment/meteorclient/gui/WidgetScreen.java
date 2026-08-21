@@ -128,12 +128,8 @@ public abstract class WidgetScreen extends Screen {
             return false;
         }
         
-        double mouseX = click.x();
-        double mouseY = click.y();
-        double s = mc.getWindow().getScaleFactor();
-        
-        mouseX *= s;
-        mouseY *= s;
+        double mouseX = Render2D.toIndependent(click.x());
+        double mouseY = Render2D.toIndependent(click.y());
         
         return root.mouseClicked(new Click(mouseX, mouseY, click.buttonInfo()), doubled);
     }
@@ -144,12 +140,8 @@ public abstract class WidgetScreen extends Screen {
             return false;
         }
         
-        double mouseX = click.x();
-        double mouseY = click.y();
-        double s = mc.getWindow().getScaleFactor();
-        
-        mouseX *= s;
-        mouseY *= s;
+        double mouseX = Render2D.toIndependent(click.x());
+        double mouseY = Render2D.toIndependent(click.y());
         
         if (debug && click.button() == GLFW_MOUSE_BUTTON_RIGHT) {
             DEBUG_RENDERER.mouseReleased(root, new Click(mouseX, mouseY, click.buttonInfo()), 0);
@@ -164,9 +156,8 @@ public abstract class WidgetScreen extends Screen {
             return;
         }
         
-        double s = mc.getWindow().getScaleFactor();
-        mouseX *= s;
-        mouseY *= s;
+        mouseX = Render2D.toIndependent(mouseX);
+        mouseY = Render2D.toIndependent(mouseY);
         
         root.mouseMoved(mouseX, mouseY, lastMouseX, lastMouseY);
         
@@ -282,9 +273,8 @@ public abstract class WidgetScreen extends Screen {
     }
     
     public void renderCustom(DrawContext context, int mouseX, int mouseY, float delta) {
-        int scaleFactor = mc.getWindow().getScaleFactor();
-        mouseX *= scaleFactor;
-        mouseY *= scaleFactor;
+        double independentMouseX = Render2D.toIndependent(mouseX);
+        double independentMouseY = Render2D.toIndependent(mouseY);
         
         animProgress += (delta / 20 * 14) * (closing ? -1 : 1);
         animProgress = MathHelper.clamp(animProgress, 0, 1);
@@ -307,13 +297,13 @@ public abstract class WidgetScreen extends Screen {
         Render2D.beginFrame(context);
         
         RENDERER.setAlpha(animProgress);
-        root.render(RENDERER, mouseX, mouseY, delta / 20);
+        root.render(RENDERER, independentMouseX, independentMouseY, delta / 20);
         RENDERER.setAlpha(1);
         
         RENDERER.end();
         Render2D.flush();
         
-        boolean tooltip = RENDERER.renderTooltip(context, mouseX, mouseY, delta / 20);
+        boolean tooltip = RENDERER.renderTooltip(context, independentMouseX, independentMouseY, delta / 20);
         
         if (debug) {
             DEBUG_RENDERER.render(root);
@@ -455,7 +445,10 @@ public abstract class WidgetScreen extends Screen {
                 calculateWidgetPositions();
                 
                 valid = true;
-                mouseMoved(mc.mouse.getX(), mc.mouse.getY(), mc.mouse.getX(), mc.mouse.getY());
+                
+                double cursorX = Render2D.windowToIndependentX(mc.mouse.getX());
+                double cursorY = Render2D.windowToIndependentY(mc.mouse.getY());
+                mouseMoved(cursorX, cursorY, cursorX, cursorY);
             }
             
             return super.render(renderer, mouseX, mouseY, delta);

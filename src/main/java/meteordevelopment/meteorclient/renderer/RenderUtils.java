@@ -16,6 +16,7 @@ import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.reflect.PostInit;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import meteordevelopment.orbit.EventHandler;
 import net.irisshaders.iris.api.v0.IrisApi;
 import net.minecraft.client.gui.DrawContext;
@@ -51,16 +52,16 @@ public class RenderUtils {
     }
     
     public static int getWindowWidth() {
-        return mc.getWindow().getFramebufferWidth();
+        return Render2D.independentWidth();
     }
     
     public static int getWindowHeight() {
-        return mc.getWindow().getFramebufferHeight();
+        return Render2D.independentHeight();
     }
     
     public static void unscaledProjection() {
-        float width = mc.getWindow().getFramebufferWidth();
-        float height = mc.getWindow().getFramebufferHeight();
+        float width = Render2D.independentWidth();
+        float height = Render2D.independentHeight();
         
         RenderSystem.setProjectionMatrix(matrix.set(width, height), ProjectionType.ORTHOGRAPHIC);
         PROJECTION.set(((ProjectionMatrix2Accessor) matrix).meteor$callGetMatrix(width, height));
@@ -89,7 +90,7 @@ public class RenderUtils {
         matrices.pushMatrix();
         
         if (disableGuiScale) {
-            matrices.scale(1.0f / mc.getWindow().getScaleFactor());
+            matrices.scale(Render2D.scaleFactor());
         }
         
         matrices.scale(scale, scale);

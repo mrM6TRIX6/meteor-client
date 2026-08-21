@@ -22,6 +22,7 @@ import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.InventoryTweaks;
@@ -32,7 +33,7 @@ import meteordevelopment.meteorclient.systems.modules.render.ESP;
 import meteordevelopment.meteorclient.utils.misc.CPSUtils;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
 import meteordevelopment.meteorclient.utils.network.OnlinePlayers;
-import meteordevelopment.meteorclient.renderer.RenderUtils;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.gl.Framebuffer;
@@ -41,7 +42,6 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.Window;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -79,10 +79,6 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
     @Shadow
     @Final
     public Mouse mouse;
-    
-    @Shadow
-    @Final
-    private Window window;
     
     @Shadow
     public Screen currentScreen;
@@ -166,7 +162,7 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
     @Inject(method = "setScreen", at = @At("HEAD"), cancellable = true)
     private void onSetScreen(Screen screen, CallbackInfo ci) {
         if (screen instanceof WidgetScreen) {
-            screen.mouseMoved(mouse.getX() * window.getScaleFactor(), mouse.getY() * window.getScaleFactor());
+            screen.mouseMoved(Render2D.windowToVanillaX(mouse.getX()), Render2D.windowToVanillaY(mouse.getY()));
         }
         
         ScreenOpenEvent event = ScreenOpenEvent.get(screen);
