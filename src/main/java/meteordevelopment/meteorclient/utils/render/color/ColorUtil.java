@@ -1,9 +1,6 @@
 package meteordevelopment.meteorclient.utils.render.color;
 
 import meteordevelopment.meteorclient.MeteorClient;
-import net.minecraft.util.math.MathHelper;
-
-import java.awt.*;
 
 public final class ColorUtil {
     
@@ -124,48 +121,22 @@ public final class ColorUtil {
         );
     }
     
-    public static int gradientAlt(int index, float speed, int... colors) {
-        if (colors == null || colors.length == 0) {
-            return 0;
-        }
-        if (colors.length == 1) {
-            return colors[0];
-        }
-        
-        index /= colors.length;
-        speed /= colors.length;
-        
-        int angle = (int) (((System.currentTimeMillis() - MeteorClient.initTime) * (speed / 10) + index) % 360);
-        angle = (angle > 180 ? 360 - angle : angle) + 180;
-        
-        float progress = MathHelper.clamp(angle / 180f - 1f, 0f, 1f);
-        
-        float scaled = progress * (colors.length - 1);
-        
-        int index1 = (int) Math.floor(scaled);
-        int index2 = Math.min(index1 + 1, colors.length - 1);
-        
-        float localProgress = scaled - index1;
-        
-        int color = interpolateColor(
-            colors[index1],
-            colors[index2],
-            localProgress
-        );
-        
-        float[] hs = rgba(color);
-        
-        float[] hsb = Color.RGBtoHSB(
-            (int) (hs[0] * 255),
-            (int) (hs[1] * 255),
-            (int) (hs[2] * 255),
-            null
-        );
-        
-        hsb[1] *= 1.5F;
-        hsb[1] = Math.min(hsb[1], 1.0f);
-        
-        return Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+    public static int[] gradientRectHorizontal(int speed, int... colors) {
+        return new int[] {
+            gradient(90 , speed, false, colors),
+            gradient(180, speed, false, colors),
+            gradient(180, speed, false, colors),
+            gradient(90, speed, false, colors)
+        };
+    }
+    
+    public static int[] gradientRectRotation(int speed, int... colors) {
+        return new int[] {
+            gradient(0 , speed, false, colors),
+            gradient(90, speed, false, colors),
+            gradient(180, speed, false, colors),
+            gradient(270, speed, false, colors)
+        };
     }
     
     private static int clamp(int value) {
