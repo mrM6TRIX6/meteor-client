@@ -5,13 +5,15 @@
 
 package meteordevelopment.meteorclient.systems.modules.render;
 
-import meteordevelopment.meteorclient.renderer.color.Color;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
+import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
@@ -19,22 +21,24 @@ import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.PlayerListEntry;
-import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
+import java.util.Objects;
 
 public class BetterTab extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> autoTabSize = sgGeneral.add(new BoolSetting.Builder()
-        .name("auto-tab-size")
+        .name("AutoTabSize")
         .description("Tab size will automatically adjust to the count of players.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> tabSize = sgGeneral.add(new IntSetting.Builder()
-        .name("tab-size")
+        .name("TabSize")
         .description("How many players in total to display in the tab.")
         .defaultValue(80)
         .min(1)
@@ -44,7 +48,7 @@ public class BetterTab extends Module {
     );
     
     private final Setting<Integer> columnHeight = sgGeneral.add(new IntSetting.Builder()
-        .name("column-height")
+        .name("ColumnHeight")
         .description("How many players to display in one column.")
         .defaultValue(20)
         .min(1)
@@ -54,14 +58,14 @@ public class BetterTab extends Module {
     );
     
     private final Setting<Boolean> highlightSelf = sgGeneral.add(new BoolSetting.Builder()
-        .name("highlight-self")
+        .name("HighlightSelf")
         .description("Highlights yourself in the tab.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> selfColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("self-color")
+        .name("SelfColor")
         .description("The color to highlight your name with.")
         .defaultValue(new SettingColor(50, 193, 50, 100))
         .visible(highlightSelf::get)
@@ -69,14 +73,14 @@ public class BetterTab extends Module {
     );
     
     private final Setting<Boolean> highlightFriends = sgGeneral.add(new BoolSetting.Builder()
-        .name("highlight-friends")
+        .name("HighlightFriends")
         .description("Highlights friends in the tab.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> friendsColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("friends-color")
+        .name("FriendsColor")
         .description("The color to highlight friends with.")
         .defaultValue(new SettingColor(16, 89, 203, 100))
         .visible(highlightFriends::get)
@@ -84,14 +88,14 @@ public class BetterTab extends Module {
     );
     
     private final Setting<Boolean> pingNumbers = sgGeneral.add(new BoolSetting.Builder()
-        .name("ping-numbers")
+        .name("PingNumbers")
         .description("Shows ping as a number in the tab.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> offlineHeads = sgGeneral.add(new BoolSetting.Builder()
-        .name("offline-heads")
+        .name("OfflineHeads")
         .description("Render player heads on offline servers.")
         .defaultValue(true)
         .build()
@@ -101,10 +105,38 @@ public class BetterTab extends Module {
         super(Category.RENDER, "BetterTab", "Various improvements to the player list hud.");
     }
     
+    public long modifyCount(long count) {
+        if (isActive()) {
+            return (!autoTabSize.get()) ? tabSize.get() : mc.getNetworkHandler().getListedPlayerListEntries().size();
+        }
+        return count;
+    }
+    
+    public void modifyHeight(LocalIntRef o, LocalIntRef p, int size) {
+        if (!isActive()) {
+            return;
+        }
+        
+        int newO;
+        int newP = 1;
+        int totalPlayers = newO = size;
+        
+        while (newO > (!autoTabSize.get() ? columnHeight.get() : (totalPlayers <= 100 ? 20 : 20 + totalPlayers / 10))) {
+            newO = (totalPlayers + ++newP - 1) / newP;
+        }
+        
+        o.set(newO);
+        p.set(newP);
+    }
+    
+    public boolean redirectIsEncrypted(boolean isEncrypted) {
+        return (isActive() && offlineHeads.get()) || isEncrypted;
+    }
+    
     public void onRenderLatencyIcon(DrawContext context, int width, int x, int y, PlayerListEntry entry, CallbackInfo ci) {
-        if (pingNumbers()) {
-            int latency = MathHelper.clamp(entry.getLatency(), 0, 9999);
-            int color = latency < 150 ? 0xFF00E970 : latency < 300 ? 0xFFE7D020 : 0xFFD74238;
+        if (isActive() && pingNumbers.get()) {
+            final int latency = entry.getLatency();
+            final int color = latency < 150 ? 0xFF00E970 : latency < 300 ? 0xFFE7D020 : 0xFFD74238;
             
             Render2D.withVanilla(() -> {
                 Render2D.beginFrame(context, Render2D.Space.VANILLA);
@@ -150,40 +182,24 @@ public class BetterTab extends Module {
         }
     }
     
-    public boolean autoTabSize() {
-        return isActive() && autoTabSize.get();
-    }
-    
-    public int tabSize() {
-        return tabSize.get();
-    }
-    
-    public int columnHeight() {
-        return columnHeight.get();
-    }
-    
-    public boolean highlightSelf() {
-        return isActive() && highlightSelf.get();
-    }
-    
-    public Color selfColor() {
-        return selfColor.get();
-    }
-    
-    public boolean highlightFriends() {
-        return isActive() && highlightFriends.get();
-    }
-    
-    public Color friendsColor() {
-        return friendsColor.get();
-    }
-    
-    public boolean pingNumbers() {
-        return isActive() && pingNumbers.get();
-    }
-    
-    public boolean offlineHeads() {
-        return isActive() && offlineHeads.get();
+    public void onRenderPlayerBackground(DrawContext context, int x1, int y1, int x2, int y2, int color, Operation<Void> original, int w, List<PlayerListEntry> entries) {
+        if (!isActive()) {
+            return;
+        }
+        
+        int drawColor = color;
+        
+        if ((highlightSelf.get() || highlightFriends.get()) && w < entries.size()) {
+            PlayerListEntry entry = entries.get(w);
+            
+            if (highlightSelf.get() && Objects.equals(entry.getProfile().name(), mc.player.getGameProfile().name())) {
+                drawColor = selfColor.get().getPacked();
+            } else if (highlightFriends.get() && Friends.get().isFriend(entry)) {
+                drawColor = friendsColor.get().getPacked();
+            }
+        }
+        
+        original.call(context, x1, y1, x2, y2, drawColor);
     }
     
 }

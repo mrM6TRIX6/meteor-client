@@ -682,7 +682,7 @@ public final class Render2D implements IMinecraft {
     }
 
     public static void rect(float x, float y, float width, float height, int color) {
-        rect(x, y, width, height, 0.0f, color);
+        rect(x, y, width, height, 0f, 0f, 0f, 0f, color, color, color, color, 0);
     }
     
     public static void rect(float x, float y, float width, float height, int colorTopLeft, int colorTopRight, int colorBottomRight, int colorBottomLeft) {
