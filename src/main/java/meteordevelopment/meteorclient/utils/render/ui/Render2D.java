@@ -47,6 +47,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.Identifier;
 import org.joml.Matrix3x2f;
 import org.joml.Matrix4f;
 
@@ -684,6 +685,10 @@ public final class Render2D implements IMinecraft {
         rect(x, y, width, height, 0.0f, color);
     }
     
+    public static void rect(float x, float y, float width, float height, int colorTopLeft, int colorTopRight, int colorBottomRight, int colorBottomLeft) {
+        rect(x, y, width, height, 0.0f, colorTopLeft, colorTopRight, colorBottomRight, colorBottomLeft);
+    }
+    
     public static void rect(float x, float y, float width, float height, float radius, int color) {
         imageBarrier();
         rectangle().enqueue(new BuiltRectangle(x, y, width, height, radius, color));
@@ -1292,55 +1297,69 @@ public final class Render2D implements IMinecraft {
         ));
     }
     
-    public static void image(String texture, float x, float y, float size, float radius) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, size, radius));
+    public static void image(Identifier texture, float x, float y, float size, float radius) {
+        image().enqueue(new BuiltImage(texture, x, y, size, radius));
     }
     
-    public static void image(String texture, float x, float y, float size, float radius, int color) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, size, radius, color));
+    public static void image(Identifier texture, float x, float y, float size, float radius, int color) {
+        image().enqueue(new BuiltImage(texture, x, y, size, radius, color));
     }
     
-    public static void image(String texture, float x, float y, float size, float radius, int... colors) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, size, radius).withColors(colors));
+    public static void image(Identifier texture, float x, float y, float size, float radius, int... colors) {
+        image().enqueue(new BuiltImage(texture, x, y, size, radius).withColors(colors));
     }
     
-    public static void image(String texture, float x, float y, float width, float height, float radius, int color) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, width, height, radius, color));
+    public static void image(Identifier texture, float x, float y, float width, float height, float radius, int color) {
+        image().enqueue(new BuiltImage(texture, x, y, width, height, radius, color));
     }
     
-    public static void image(String texture, float x, float y, float width, float height, float radius, int... colors) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, width, height, radius).withColors(colors));
+    public static void image(Identifier texture, float x, float y, float width, float height, float radius, int... colors) {
+        image().enqueue(new BuiltImage(texture, x, y, width, height, radius).withColors(colors));
     }
     
-    public static void imageUv(String texture, float x, float y, float width, float height, float radius, float u0, float v0, float u1, float v1, int color) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, width, height, radius, color).withUv(u0, v0, u1, v1));
+    public static void imageUv(Identifier texture, float x, float y, float width, float height, float radius, float u0, float v0, float u1, float v1, int color) {
+        image().enqueue(new BuiltImage(texture, x, y, width, height, radius, color).withUv(u0, v0, u1, v1));
     }
     
-    public static void imageUv(String texture, float x, float y, float width, float height, float radius, float u0, float v0, float u1, float v1, int... colors) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, width, height, radius).withUv(u0, v0, u1, v1).withColors(colors));
+    public static void imageUv(Identifier texture, float x, float y, float width, float height, float radius, float u0, float v0, float u1, float v1, int... colors) {
+        image().enqueue(new BuiltImage(texture, x, y, width, height, radius).withUv(u0, v0, u1, v1).withColors(colors));
     }
     
-    public static void imageUvNearest(String texture, float x, float y, float width, float height, float radius, float smoothness, float u0, float v0, float u1, float v1, int color) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, width, height, radius, color)
+    public static void imageUvNearest(Identifier texture, float x, float y, float width, float height, float radius, float smoothness, float u0, float v0, float u1, float v1, int color) {
+        image().enqueue(new BuiltImage(texture, x, y, width, height, radius, color)
             .withSmoothness(smoothness)
             .withNearestFilter()
             .withUv(u0, v0, u1, v1));
     }
     
-    public static void imageUvNearest(String texture, float x, float y, float width, float height, float radius, float smoothness, float u0, float v0, float u1, float v1, int... colors) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, width, height, radius)
+    public static void imageUvNearest(Identifier texture, float x, float y, float width, float height, float radius, float smoothness, float u0, float v0, float u1, float v1, int... colors) {
+        image().enqueue(new BuiltImage(texture, x, y, width, height, radius)
             .withSmoothness(smoothness)
             .withNearestFilter()
             .withUv(u0, v0, u1, v1)
             .withColors(colors));
     }
     
-    public static void image(String texture, float x, float y, float size, float radius, float rotationDegrees, float originX, float originY, int color) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, size, radius, color).withRotation(rotationDegrees, originX, originY));
+    public static void image(Identifier texture, float x, float y, float size, float radius, float rotationDegrees, float originX, float originY, int color) {
+        image().enqueue(new BuiltImage(texture, x, y, size, radius, color).withRotation(rotationDegrees, originX, originY));
     }
     
-    public static void image(String texture, float x, float y, float size, float radius, float rotationDegrees, float originX, float originY, int... colors) {
-        Render2D.image().enqueue(new BuiltImage(texture, x, y, size, radius).withColors(colors).withRotation(rotationDegrees, originX, originY));
+    public static void image(Identifier texture, float x, float y, float size, float radius, float rotationDegrees, float originX, float originY, int... colors) {
+        image().enqueue(new BuiltImage(texture, x, y, size, radius).withColors(colors).withRotation(rotationDegrees, originX, originY));
+    }
+    
+    public static void image(BuiltImage built) {
+        image().enqueue(built);
+    }
+    
+    public static void image(DrawContext context, BuiltImage built) {
+        beginFrame(context);
+        try {
+            image(built);
+            flush();
+        } finally {
+            endFrame();
+        }
     }
     
     public static void effectIcon(RegistryEntry<StatusEffect> effect, float x, float y, float size) {

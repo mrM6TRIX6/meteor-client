@@ -1,9 +1,10 @@
 package meteordevelopment.meteorclient.utils.render.ui.image;
 
 import meteordevelopment.meteorclient.utils.render.color.ColorUtil;
+import net.minecraft.util.Identifier;
 
 public record BuiltImage(
-    String texture,
+    Identifier texture,
     float x,
     float y,
     float size,
@@ -28,25 +29,24 @@ public record BuiltImage(
     public static final int DEFAULT_COLOR = ColorUtil.WHITE;
     public static final float DEFAULT_SMOOTHNESS = 1.0f;
     
-    public BuiltImage(String texture, float x, float y, float size, float radius) {
+    public BuiltImage(Identifier texture, float x, float y, float size, float radius) {
         this(texture, x, y, size, 0.0f, 0.0f, radius, DEFAULT_SMOOTHNESS, false, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR);
     }
     
-    public BuiltImage(String texture, float x, float y, float size, float radius, int color) {
+    public BuiltImage(Identifier texture, float x, float y, float size, float radius, int color) {
         this(texture, x, y, size, 0.0f, 0.0f, radius, DEFAULT_SMOOTHNESS, false, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, color, color, color, color);
     }
     
-    public BuiltImage(String texture, float x, float y, float width, float height, float radius) {
+    public BuiltImage(Identifier texture, float x, float y, float width, float height, float radius) {
         this(texture, x, y, 0.0f, width, height, radius, DEFAULT_SMOOTHNESS, false, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR, DEFAULT_COLOR);
     }
     
-    public BuiltImage(String texture, float x, float y, float width, float height, float radius, int color) {
+    public BuiltImage(Identifier texture, float x, float y, float width, float height, float radius, int color) {
         this(texture, x, y, 0.0f, width, height, radius, DEFAULT_SMOOTHNESS, false, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, color, color, color, color);
     }
     
     public boolean visible() {
         return texture != null
-            && !texture.isBlank()
             && (size > 0.0f || (explicitWidth > 0.0f && explicitHeight > 0.0f))
             && (effectiveAlpha(colorTopLeft) > 0 || effectiveAlpha(colorTopRight) > 0 || effectiveAlpha(colorBottomRight) > 0 || effectiveAlpha(colorBottomLeft) > 0);
     }

@@ -224,9 +224,8 @@ public final class ImageRenderer implements AutoCloseable {
         }
     }
     
-    private ImageTexture resolveTexture(String path, boolean nearestFilter) {
-        Identifier id = resolveIdentifier(path);
-        if (id == null) {
+    private ImageTexture resolveTexture(Identifier identifier, boolean nearestFilter) {
+        if (identifier == null) {
             return null;
         }
         
@@ -240,12 +239,12 @@ public final class ImageRenderer implements AutoCloseable {
             return null;
         }
         
-        AbstractTexture texture = textureManager.getTexture(id);
+        AbstractTexture texture = textureManager.getTexture(identifier);
         if (texture == null || texture.getGlTextureView() == null || texture.getGlTexture() == null) {
             return null;
         }
         
-        TextureCacheKey key = new TextureCacheKey(id, nearestFilter);
+        TextureCacheKey key = new TextureCacheKey(identifier, nearestFilter);
         CachedTexture cached = textures.get(key);
         if (cached != null && cached.texture() == texture) {
             return cached.value();
@@ -257,39 +256,9 @@ public final class ImageRenderer implements AutoCloseable {
             texture.getGlTextureView(),
             RenderSystem.getSamplerCache().get(nearestFilter ? FilterMode.NEAREST : FilterMode.LINEAR)
         );
-        ImageTexture value = new ImageTexture(id, setup, nearestFilter, width, height);
+        ImageTexture value = new ImageTexture(identifier, setup, nearestFilter, width, height);
         textures.put(key, new CachedTexture(texture, value));
         return value;
-    }
-    
-    private Identifier resolveIdentifier(String rawPath) {
-        if (rawPath == null || rawPath.isBlank()) {
-            return null;
-        }
-        
-        String path = rawPath.trim().replace('\\', '/');
-        if (path.startsWith("/")) {
-            path = path.substring(1);
-        }
-        if (path.startsWith("assets/")) {
-            path = path.substring("assets/".length());
-            int slash = path.indexOf('/');
-            if (slash >= 0) {
-                String namespace = path.substring(0, slash);
-                String resourcePath = path.substring(slash + 1);
-                return Identifier.of(namespace, resourcePath);
-            }
-        }
-        if (path.indexOf(':') >= 0) {
-            return Identifier.tryParse(path);
-        }
-        if (!path.startsWith("images/")) {
-            path = "images/" + path;
-        }
-        if (!path.contains(".")) {
-            path += ".png";
-        }
-        return Identifier.of("meteor", path);
     }
     
     private GpuBuffer ensureParamsBuffer() {

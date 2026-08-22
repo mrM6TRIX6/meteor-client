@@ -1,6 +1,5 @@
 package meteordevelopment.meteorclient.utils.render.ui.rectangle.rectdefault;
 
-import meteordevelopment.meteorclient.utils.render.color.ColorUtil;
 import net.minecraft.client.gui.DrawContext;
 
 public record BuiltRectangle(
@@ -20,7 +19,6 @@ public record BuiltRectangle(
 ) {
     
     public static final float DEFAULT_SMOOTHNESS = 1.0f;
-    public static final int DEFAULT_COLOR = ColorUtil.WHITE;
     
     public BuiltRectangle(float x, float y, float width, float height, float radius, int color) {
         this(x, y, width, height, radius, radius, radius, radius, color, color, color, color, DEFAULT_SMOOTHNESS);
