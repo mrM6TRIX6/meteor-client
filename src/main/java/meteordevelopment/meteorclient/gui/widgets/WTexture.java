@@ -5,31 +5,41 @@
 
 package meteordevelopment.meteorclient.gui.widgets;
 
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
-import meteordevelopment.meteorclient.renderer.engine.Texture;
+import meteordevelopment.meteorclient.gui.GuiConstants;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.image.BuiltImage;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.util.Identifier;
 
 public class WTexture extends WWidget {
-    
-    private final double width, height;
+
+    private final double textureWidth, textureHeight;
     private final double rotation;
-    private final Texture texture;
-    
-    public WTexture(double width, double height, double rotation, Texture texture) {
-        this.width = width;
-        this.height = height;
+    private final Identifier texture;
+
+    public WTexture(double width, double height, double rotation, Identifier texture) {
+        this.textureWidth = width;
+        this.textureHeight = height;
         this.rotation = rotation;
         this.texture = texture;
     }
-    
+
     @Override
     protected void onCalculateSize() {
-        super.width = theme.scale(width);
-        super.height = theme.scale(height);
+        width = GuiConstants.scale(textureWidth);
+        height = GuiConstants.scale(textureHeight);
     }
-    
+
     @Override
-    protected void onRender(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
-        renderer.texture(x, y, super.width, super.height, rotation, texture);
+    protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
+        if (texture == null) {
+            return;
+        }
+
+        // Nearest filtering because these are tiny textures (player heads) drawn a lot bigger than they are.
+        Render2D.image(new BuiltImage(texture, (float) x, (float) y, (float) width, (float) height, 0, GuiConstants.color(GuiConstants.TEXT))
+            .withNearestFilter()
+            .withRotation((float) rotation, (float) (x + width / 2), (float) (y + height / 2)));
     }
-    
+
 }

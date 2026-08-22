@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.gui.tabs;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import net.minecraft.client.gui.screen.Screen;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
@@ -18,11 +17,11 @@ public abstract class Tab {
         this.name = name;
     }
     
-    public void openScreen(GuiTheme theme) {
-        mc.setScreen(this.createScreen(theme));
+    public void openScreen() {
+        mc.setScreen(this.createScreen());
     }
     
-    public abstract TabScreen createScreen(GuiTheme theme);
+    public abstract TabScreen createScreen();
     
     public abstract boolean isScreen(Screen screen);
     

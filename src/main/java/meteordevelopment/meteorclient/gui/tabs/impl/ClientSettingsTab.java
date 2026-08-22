@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.tabs.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.DefaultSettingsWidgetFactory;
 import meteordevelopment.meteorclient.gui.tabs.Tab;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.tabs.WindowTabScreen;
@@ -21,8 +21,8 @@ public class ClientSettingsTab extends Tab {
     }
     
     @Override
-    public TabScreen createScreen(GuiTheme theme) {
-        return new ClientSettingsScreen(theme, this);
+    public TabScreen createScreen() {
+        return new ClientSettingsScreen(this);
     }
     
     @Override
@@ -34,8 +34,8 @@ public class ClientSettingsTab extends Tab {
         
         private final Settings settings;
         
-        public ClientSettingsScreen(GuiTheme theme, Tab tab) {
-            super(theme, tab);
+        public ClientSettingsScreen(Tab tab) {
+            super(tab);
             
             settings = ClientSettings.get().settings;
             settings.onActivated();
@@ -43,14 +43,14 @@ public class ClientSettingsTab extends Tab {
         
         @Override
         public void initWidgets() {
-            add(theme.settings(settings)).expandX();
+            add(DefaultSettingsWidgetFactory.settings(settings)).expandX();
         }
         
         @Override
         public void tick() {
             super.tick();
             
-            settings.tick(window, theme);
+            settings.tick(window);
         }
         
         @Override

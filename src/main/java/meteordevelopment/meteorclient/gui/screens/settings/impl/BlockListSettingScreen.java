@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
+import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
 import meteordevelopment.meteorclient.utils.misc.Names;
@@ -19,8 +19,8 @@ import java.util.function.Predicate;
 
 public class BlockListSettingScreen extends CollectionListSettingScreen<Block> {
     
-    public BlockListSettingScreen(GuiTheme theme, BlockListSetting setting) {
-        super(theme, "Select Blocks", setting, setting.get(), Registries.BLOCK);
+    public BlockListSettingScreen(BlockListSetting setting) {
+        super("Select Blocks", setting, setting.get(), Registries.BLOCK);
     }
     
     @Override
@@ -39,7 +39,7 @@ public class BlockListSettingScreen extends CollectionListSettingScreen<Block> {
     
     @Override
     protected WWidget getValueWidget(Block value) {
-        return theme.itemWithLabel(value.asItem().getDefaultStack(), Names.get(value));
+        return new WItemWithLabel(value.asItem().getDefaultStack(), Names.get(value));
     }
     
     protected String[] getValueNames(Block value) {

@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
+import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
 import meteordevelopment.meteorclient.utils.misc.Names;
@@ -18,8 +18,8 @@ import java.util.function.Predicate;
 
 public class ItemListSettingScreen extends CollectionListSettingScreen<Item> {
     
-    public ItemListSettingScreen(GuiTheme theme, ItemListSetting setting) {
-        super(theme, "Select Items", setting, setting.get(), Registries.ITEM);
+    public ItemListSettingScreen(ItemListSetting setting) {
+        super("Select Items", setting, setting.get(), Registries.ITEM);
     }
     
     @Override
@@ -34,7 +34,7 @@ public class ItemListSettingScreen extends CollectionListSettingScreen<Item> {
     
     @Override
     protected WWidget getValueWidget(Item value) {
-        return theme.itemWithLabel(value.getDefaultStack());
+        return new WItemWithLabel(value.getDefaultStack());
     }
     
     protected String[] getValueNames(Item value) {

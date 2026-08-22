@@ -6,10 +6,11 @@
 package meteordevelopment.meteorclient.gui.screens.settings;
 
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WPlus;
 import meteordevelopment.meteorclient.settings.Setting;
 import net.minecraft.registry.BuiltinRegistries;
 import net.minecraft.registry.Registry;
@@ -22,14 +23,12 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public abstract class DynamicRegistryListSettingScreen<T> extends CollectionListSettingScreen<RegistryKey<T>> {
     
     protected final RegistryKey<Registry<T>> registryKey;
     
-    public DynamicRegistryListSettingScreen(GuiTheme theme, String title, Setting<?> setting, Collection<RegistryKey<T>> collection, RegistryKey<Registry<T>> registryKey) {
-        super(theme, title, setting, collection, createUniverse(collection, registryKey));
+    public DynamicRegistryListSettingScreen(String title, Setting<?> setting, Collection<RegistryKey<T>> collection, RegistryKey<Registry<T>> registryKey) {
+        super(title, setting, collection, createUniverse(collection, registryKey));
         
         this.registryKey = registryKey;
     }
@@ -50,13 +49,13 @@ public abstract class DynamicRegistryListSettingScreen<T> extends CollectionList
     @Override
     protected void postWidgets(WTable left, WTable right) {
         if (!left.cells.isEmpty()) {
-            left.add(theme.horizontalSeparator()).expandX();
+            left.add(new WHorizontalSeparator()).expandX();
             left.row();
         }
         
-        WHorizontalList manualEntry = left.add(theme.horizontalList()).expandX().widget();
-        WTextBox textBox = manualEntry.add(theme.textBox("minecraft:")).expandX().minWidth(120d).widget();
-        manualEntry.add(theme.plus()).expandCellX().right().widget().action = () -> {
+        WHorizontalList manualEntry = left.add(new WHorizontalList()).expandX().widget();
+        WTextBox textBox = manualEntry.add(new WTextBox("minecraft:")).expandX().minWidth(120d).widget();
+        manualEntry.add(new WPlus()).expandCellX().right().widget().action = () -> {
             String entry = textBox.get().trim();
             try {
                 Identifier id = entry.contains(":") ? Identifier.of(entry) : Identifier.ofVanilla(entry);

@@ -5,11 +5,13 @@
 
 package meteordevelopment.meteorclient.gui.screens;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.gui.tabs.impl.ModulesTab;
 import meteordevelopment.meteorclient.gui.utils.Cell;
+import meteordevelopment.meteorclient.gui.widgets.WItem;
+import meteordevelopment.meteorclient.gui.widgets.WModule;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.containers.WSection;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
@@ -34,8 +36,8 @@ public class ModulesScreen extends TabScreen {
     
     private WCategoryController controller;
     
-    public ModulesScreen(GuiTheme theme) {
-        super(theme, Tabs.get(ModulesTab.class));
+    public ModulesScreen() {
+        super(Tabs.get(ModulesTab.class));
     }
     
     @Override
@@ -52,14 +54,14 @@ public class ModulesScreen extends TabScreen {
     // Category
     
     protected WWindow createCategory(WContainer container, Category category, List<Module> moduleList) {
-        WWindow window = theme.window(category.name);
+        WWindow window = new WWindow(category.name);
         window.id = category.name;
         window.minWidth = 175;
         window.padding = 0;
         window.spacing = 0;
         
-        if (theme.categoryIcons()) {
-            window.beforeHeaderInit = wContainer -> wContainer.add(theme.item(category.icon)).pad(2);
+        if (GuiConstants.CATEGORY_ICONS) {
+            window.beforeHeaderInit = wContainer -> wContainer.add(new WItem(category.icon)).pad(2);
         }
         
         container.add(window);
@@ -68,7 +70,7 @@ public class ModulesScreen extends TabScreen {
         window.view.spacing = 0;
         
         for (Module module : moduleList) {
-            window.add(theme.module(module)).expandX();
+            window.add(new WModule(module)).expandX();
         }
         
         return window;
@@ -82,7 +84,7 @@ public class ModulesScreen extends TabScreen {
             List<Pair<Module, String>> modules = Modules.get().searchNames(text);
             
             if (!modules.isEmpty()) {
-                WSection section = container.add(theme.section("Modules")).expandX().widget();
+                WSection section = container.add(new WSection("Modules")).expandX().widget();
                 section.spacing = 0;
                 
                 int count = 0;
@@ -90,7 +92,7 @@ public class ModulesScreen extends TabScreen {
                     if (count >= ClientSettings.get().moduleSearchCount.get() || count >= modules.size()) {
                         break;
                     }
-                    section.add(theme.module(p.getLeft(), p.getRight())).expandX();
+                    section.add(new WModule(p.getLeft(), p.getRight())).expandX();
                     count++;
                 }
             }
@@ -99,7 +101,7 @@ public class ModulesScreen extends TabScreen {
             Set<Module> settings = Modules.get().searchSettingNames(text);
             
             if (!settings.isEmpty()) {
-                WSection section = container.add(theme.section("Settings")).expandX().widget();
+                WSection section = container.add(new WSection("Settings")).expandX().widget();
                 section.spacing = 0;
                 
                 int count = 0;
@@ -107,7 +109,7 @@ public class ModulesScreen extends TabScreen {
                     if (count >= ClientSettings.get().moduleSearchCount.get() || count >= settings.size()) {
                         break;
                     }
-                    section.add(theme.module(module)).expandX();
+                    section.add(new WModule(module)).expandX();
                     count++;
                 }
             }
@@ -115,12 +117,12 @@ public class ModulesScreen extends TabScreen {
     }
     
     protected WWindow createSearch(WContainer container) {
-        WWindow search = theme.window("Search");
+        WWindow search = new WWindow("Search");
         search.id = "search";
         search.minWidth = 175;
         
-        if (theme.categoryIcons()) {
-            search.beforeHeaderInit = wContainer -> wContainer.add(theme.item(Items.COMPASS.getDefaultStack())).pad(2);
+        if (GuiConstants.CATEGORY_ICONS) {
+            search.beforeHeaderInit = wContainer -> wContainer.add(new WItem(Items.COMPASS.getDefaultStack())).pad(2);
         }
         
         container.add(search);
@@ -128,9 +130,9 @@ public class ModulesScreen extends TabScreen {
         search.view.hasScrollBar = false;
         search.view.maxHeight -= 20;
         
-        WVerticalList list = theme.verticalList();
+        WVerticalList list = new WVerticalList();
         
-        WTextBox text = search.add(theme.textBox("")).minWidth(140).expandX().widget();
+        WTextBox text = search.add(new WTextBox("")).minWidth(140).expandX().widget();
         text.setFocused(true);
         text.action = () -> {
             list.clear();
@@ -151,14 +153,14 @@ public class ModulesScreen extends TabScreen {
             return null;
         }
         
-        WWindow favorites = theme.window("Favorites");
+        WWindow favorites = new WWindow("Favorites");
         favorites.id = "favorites";
         favorites.minWidth = 175;
         favorites.padding = 0;
         favorites.spacing = 0;
         
-        if (theme.categoryIcons()) {
-            favorites.beforeHeaderInit = wContainer -> wContainer.add(theme.item(Items.NETHER_STAR.getDefaultStack())).pad(2);
+        if (GuiConstants.CATEGORY_ICONS) {
+            favorites.beforeHeaderInit = wContainer -> wContainer.add(new WItem(Items.NETHER_STAR.getDefaultStack())).pad(2);
         }
         
         Cell<WWindow> cell = container.add(favorites);
@@ -182,7 +184,7 @@ public class ModulesScreen extends TabScreen {
         modules.sort((o1, o2) -> String.CASE_INSENSITIVE_ORDER.compare(o1.name, o2.name));
         
         for (Module module : modules) {
-            window.add(theme.module(module)).expandX();
+            window.add(new WModule(module)).expandX();
         }
         
         return !modules.isEmpty();
@@ -243,8 +245,8 @@ public class ModulesScreen extends TabScreen {
         
         @Override
         protected void onCalculateWidgetPositions() {
-            double pad = theme.scale(4);
-            double h = theme.scale(40);
+            double pad = GuiConstants.scale(4);
+            double h = GuiConstants.scale(40);
             
             double x = this.x + pad;
             double y = this.y;

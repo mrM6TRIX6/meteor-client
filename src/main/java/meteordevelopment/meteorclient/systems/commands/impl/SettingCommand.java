@@ -6,8 +6,8 @@
 package meteordevelopment.meteorclient.systems.commands.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
+import meteordevelopment.meteorclient.gui.screens.ModuleScreen;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.systems.commands.Command;
 import meteordevelopment.meteorclient.systems.commands.arguments.ModuleArgumentType;
@@ -30,7 +30,7 @@ public class SettingCommand extends Command {
             .executes(context -> {
                 Module module = context.getArgument("module", Module.class);
                 
-                WidgetScreen screen = GuiThemes.get().moduleScreen(module);
+                WidgetScreen screen = new ModuleScreen(module);
                 screen.parent = null;
                 
                 Utils.screenToOpen = screen;

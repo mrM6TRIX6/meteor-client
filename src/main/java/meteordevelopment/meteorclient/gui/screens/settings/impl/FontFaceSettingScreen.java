@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
@@ -32,15 +31,15 @@ public class FontFaceSettingScreen extends WindowScreen {
     private WTextBox filter;
     private String filterText = "";
     
-    public FontFaceSettingScreen(GuiTheme theme, FontFaceSetting setting) {
-        super(theme, "Select MsdfFont");
+    public FontFaceSettingScreen(FontFaceSetting setting) {
+        super("Select MsdfFont");
         
         this.setting = setting;
     }
     
     @Override
     public void initWidgets() {
-        filter = add(theme.textBox("")).expandX().widget();
+        filter = add(new WTextBox("")).expandX().widget();
         filter.setFocused(true);
         filter.action = () -> {
             filterText = filter.get().trim();
@@ -63,13 +62,13 @@ public class FontFaceSettingScreen extends WindowScreen {
             }
         };
         
-        WView view = add(theme.view()).expandX().widget();
+        WView view = add(new WView()).expandX().widget();
         
         // Prevents double scrolling for view-in-view scenario
         view.maxHeight = window.view.maxHeight - 128;
         
         view.scrollOnlyWhenMouseOver = false;
-        table = view.add(theme.table()).expandX().widget();
+        table = view.add(new WTable()).expandX().widget();
         
         initTable();
     }
@@ -78,15 +77,15 @@ public class FontFaceSettingScreen extends WindowScreen {
         for (FontFamily fontFamily : Fonts.FONT_FAMILIES) {
             String name = fontFamily.getName();
             
-            WLabel item = theme.label(name);
+            WLabel item = new WLabel(name);
             if (!filterText.isEmpty() && !Strings.CI.contains(name, filterText)) {
                 continue;
             }
             table.add(item);
             
-            WDropdown<FontInfo.Type> dropdown = table.add(theme.dropdown(FontInfo.Type.REGULAR)).right().widget();
+            WDropdown<FontInfo.Type> dropdown = table.add(WDropdown.of(FontInfo.Type.REGULAR)).right().widget();
             
-            WButton select = table.add(theme.button("Select")).expandCellX().right().widget();
+            WButton select = table.add(new WButton("Select")).expandCellX().right().widget();
             select.action = () -> {
                 setting.set(fontFamily.get(dropdown.get()));
                 close();

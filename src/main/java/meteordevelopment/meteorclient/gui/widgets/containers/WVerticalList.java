@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.widgets.containers;
 
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 
 public class WVerticalList extends WContainer {
@@ -14,7 +15,7 @@ public class WVerticalList extends WContainer {
     protected double widthRemove;
     
     protected double spacing() {
-        return theme.scale(spacing);
+        return GuiConstants.scale(spacing);
     }
     
     @Override

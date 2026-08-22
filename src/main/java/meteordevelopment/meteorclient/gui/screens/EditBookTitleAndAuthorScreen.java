@@ -5,10 +5,11 @@
 
 package meteordevelopment.meteorclient.gui.screens;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.WrittenBookContentComponent;
@@ -21,32 +22,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class EditBookTitleAndAuthorScreen extends WindowScreen {
     
     private final ItemStack itemStack;
     private final Hand hand;
     
-    public EditBookTitleAndAuthorScreen(GuiTheme theme, ItemStack itemStack, Hand hand) {
-        super(theme, "Edit title & author");
+    public EditBookTitleAndAuthorScreen(ItemStack itemStack, Hand hand) {
+        super("Edit title & author");
         this.itemStack = itemStack;
         this.hand = hand;
     }
     
     @Override
     public void initWidgets() {
-        WTable table = add(theme.table()).expandX().widget();
+        WTable table = add(new WTable()).expandX().widget();
         
-        table.add(theme.label("Title"));
-        WTextBox title = table.add(theme.textBox(itemStack.get(DataComponentTypes.WRITTEN_BOOK_CONTENT).title().get(mc.shouldFilterText()))).minWidth(220).expandX().widget();
+        table.add(new WLabel("Title"));
+        WTextBox title = table.add(new WTextBox(itemStack.get(DataComponentTypes.WRITTEN_BOOK_CONTENT).title().get(mc.shouldFilterText()))).minWidth(220).expandX().widget();
         table.row();
         
-        table.add(theme.label("Author"));
-        WTextBox author = table.add(theme.textBox(itemStack.get(DataComponentTypes.WRITTEN_BOOK_CONTENT).author())).minWidth(220).expandX().widget();
+        table.add(new WLabel("Author"));
+        WTextBox author = table.add(new WTextBox(itemStack.get(DataComponentTypes.WRITTEN_BOOK_CONTENT).author())).minWidth(220).expandX().widget();
         table.row();
         
-        table.add(theme.button("Done")).expandX().widget().action = () -> {
+        table.add(new WButton("Done")).expandX().widget().action = () -> {
             WrittenBookContentComponent component = itemStack.get(DataComponentTypes.WRITTEN_BOOK_CONTENT);
             WrittenBookContentComponent newComponent = new WrittenBookContentComponent(RawFilteredPair.of(title.get()), author.get(), component.generation(), component.pages(), component.resolved());
             itemStack.set(DataComponentTypes.WRITTEN_BOOK_CONTENT, newComponent);

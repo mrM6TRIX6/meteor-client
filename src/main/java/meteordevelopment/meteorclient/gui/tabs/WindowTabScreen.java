@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.gui.tabs;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WWindow;
@@ -14,10 +13,10 @@ public abstract class WindowTabScreen extends TabScreen {
     
     protected final WWindow window;
     
-    public WindowTabScreen(GuiTheme theme, Tab tab) {
-        super(theme, tab);
+    public WindowTabScreen(Tab tab) {
+        super(tab);
         
-        window = super.add(theme.window(tab.name)).center().widget();
+        window = super.add(new WWindow(tab.name)).center().widget();
     }
     
     @Override

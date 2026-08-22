@@ -7,14 +7,19 @@ package meteordevelopment.meteorclient.gui.widgets.input;
 
 import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 import it.unimi.dsi.fastutil.doubles.DoubleList;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.GuiKeyEvents;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
+import meteordevelopment.meteorclient.gui.GuiOverlays;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.utils.CharFilter;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
+import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.Click;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.util.MacWindowUtil;
@@ -27,66 +32,83 @@ import java.util.List;
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static org.lwjgl.glfw.GLFW.*;
 
-public abstract class WTextBox extends WWidget {
-    
-    private static final Renderer DEFAULT_RENDERER = (renderer, x, y, text, color) -> renderer.text(text, x, y, color, false);
-    
+public class WTextBox extends WWidget {
+
+    private static final Renderer DEFAULT_RENDERER = (context, x, y, text, color) -> GuiConstants.text(text, x, y, color);
+
     public Runnable action;
     public Runnable actionOnUnfocused;
-    
+
     protected String text;
     protected String placeholder;
     protected CharFilter filter;
-    
+
     protected final Renderer renderer;
-    
+
     protected DoubleList textWidths = new DoubleArrayList();
-    
+
     protected int cursor;
     protected double textStart;
-    
+
     protected boolean selecting, doubleClick;
     protected int selectionStart, selectionEnd;
     private int preSelectionCursor;
-    
+
     private List<String> completions;
     private int completionsStart;
     private WContainer completionsW;
-    
+
+    private boolean cursorVisible;
+    private double cursorTimer;
+    private double cursorAnimProgress;
+
+    public WTextBox(String text) {
+        this(text, null, (t, c) -> true, null);
+    }
+
+    public WTextBox(String text, String placeholder) {
+        this(text, placeholder, (t, c) -> true, null);
+    }
+
+    public WTextBox(String text, CharFilter filter) {
+        this(text, null, filter, null);
+    }
+
+    public WTextBox(String text, String placeholder, CharFilter filter) {
+        this(text, placeholder, filter, null);
+    }
+
     public WTextBox(String text, CharFilter filter, Class<? extends Renderer> renderer) {
         this(text, null, filter, renderer);
     }
-    
+
     public WTextBox(String text, String placeholder, CharFilter filter, Class<? extends Renderer> renderer) {
         this.text = text;
         this.placeholder = placeholder;
         this.filter = filter;
-        
+
         try {
             this.renderer = renderer != null ? renderer.getDeclaredConstructor().newInstance() : DEFAULT_RENDERER;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
-    
-    protected abstract WContainer createCompletionsRootWidget();
-    
-    protected abstract <T extends WWidget & ICompletionItem> T createCompletionsValueWidth(String completion, boolean selected);
-    
+
     @Override
     protected void onCalculateSize() {
         double pad = pad();
-        double s = theme.textHeight();
-        
+        double s = GuiConstants.textHeight();
+
         width = pad + s + pad;
         height = pad + s + pad;
-        
+
         calculateTextWidths();
-        
+
         if (completionsW != null) {
             completionsW.calculateSize();
         }
     }
+
     
     @Override
     public void calculateWidgetPositions() {
@@ -590,20 +612,59 @@ public abstract class WTextBox extends WWidget {
     }
     
     @Override
-    public boolean render(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
+    public boolean render(DrawContext context, double mouseX, double mouseY, double delta) {
         if (isFocused()) {
             GuiKeyEvents.canUseKeys = false;
         }
-        
+
         if (completionsW != null && focused) {
-            renderer.absolutePost(() -> {
-                renderer.beginRender();
-                completionsW.render(renderer, mouseX, mouseY, delta);
-                renderer.endRender();
-            });
+            WContainer completions = completionsW;
+            GuiOverlays.add(() -> completions.render(context, mouseX, mouseY, delta));
         }
-        
-        return super.render(renderer, mouseX, mouseY, delta);
+
+        return super.render(context, mouseX, mouseY, delta);
+    }
+
+    @Override
+    protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
+        if (cursorTimer >= 1) {
+            cursorVisible = !cursorVisible;
+            cursorTimer = 0;
+        } else {
+            cursorTimer += delta * 1.75;
+        }
+
+        renderBackground(false, false);
+
+        double pad = pad();
+        double overflowWidth = getOverflowWidthForRender();
+
+        pushScissor(context, x + pad, y + pad, width - pad * 2, height - pad * 2);
+
+        // Text content
+        if (!text.isEmpty()) {
+            this.renderer.render(context, x + pad - overflowWidth, y + pad, text, GuiConstants.TEXT);
+        } else if (placeholder != null) {
+            this.renderer.render(context, x + pad - overflowWidth, y + pad, placeholder, GuiConstants.PLACEHOLDER);
+        }
+
+        // Text highlighting
+        if (focused && (cursor != selectionStart || cursor != selectionEnd)) {
+            double selStart = x + pad + getTextWidth(selectionStart) - overflowWidth;
+            double selEnd = x + pad + getTextWidth(selectionEnd) - overflowWidth;
+
+            rect(selStart, y + pad, selEnd - selStart, GuiConstants.textHeight(), GuiConstants.TEXT_HIGHLIGHT);
+        }
+
+        // Cursor
+        cursorAnimProgress += delta * 10 * (focused && cursorVisible ? 1 : -1);
+        cursorAnimProgress = MathHelper.clamp(cursorAnimProgress, 0, 1);
+
+        if ((focused && cursorVisible) || cursorAnimProgress > 0) {
+            Render2D.rect((float) (x + pad + getTextWidth(cursor) - overflowWidth), (float) (y + pad), (float) GuiConstants.scale(1), (float) GuiConstants.textHeight(), GuiConstants.color(GuiConstants.TEXT, (float) cursorAnimProgress));
+        }
+
+        popScissor(context);
     }
     
     private void clearSelection() {
@@ -663,9 +724,9 @@ public abstract class WTextBox extends WWidget {
     
     private void calculateTextWidths() {
         textWidths.clear();
-        
+
         for (int i = 0; i <= text.length(); i++) {
-            textWidths.add(theme.textWidth(text, i, false));
+            textWidths.add(GuiConstants.textWidth(text, i, false));
         }
     }
     
@@ -706,27 +767,82 @@ public abstract class WTextBox extends WWidget {
         }
     }
     
-    protected void onCursorChanged() {}
-    
+    protected void onCursorChanged() {
+        cursorVisible = true;
+        cursorTimer = 0;
+    }
+
     private void createCompletions(int selected) {
-        completionsW = createCompletionsRootWidget();
-        completionsW.theme = theme;
-        
+        completionsW = new WCompletions();
+
         int max = Math.min(completions.size(), completionsStart + 6);
         for (int i = completionsStart; i < max; i++) {
-            WWidget widget = createCompletionsValueWidth(completions.get(i), i == selected);
-            widget.theme = theme;
-            
-            Cell<?> cell = completionsW.add(widget).expandX().padHorizontal(4);
+            Cell<?> cell = completionsW.add(new WCompletionItem(completions.get(i), i == selected)).expandX().padHorizontal(4);
             if (i == max - 1) {
                 cell.padBottom(4);
             }
         }
-        
+
         completionsW.calculateSize();
         completionsW.x = Math.min(Math.max(x - pad() * 2 + getTextWidth(cursor) - getOverflowWidthForRender(), x), x + width - completionsW.width);
         completionsW.y = y + height;
         completionsW.calculateWidgetPositions();
+    }
+
+    /**
+     * The popup below the text box. Drawn brighter than a normal background because it sits on top of one.
+     */
+    protected static class WCompletions extends WVerticalList {
+
+        @Override
+        protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
+            double s = GuiConstants.scale(2);
+            int c = GuiConstants.color(GuiConstants.OUTLINE.get());
+
+            Render2D.rect((float) x, (float) y, (float) width, (float) height, GuiConstants.brighter(GuiConstants.BACKGROUND.get()));
+
+            Render2D.rect((float) x, (float) (y + height - s), (float) width, (float) s, c);
+            Render2D.rect((float) x, (float) y, (float) s, (float) (height - s), c);
+            Render2D.rect((float) (x + width - s), (float) y, (float) s, (float) (height - s), c);
+        }
+
+    }
+
+    protected static class WCompletionItem extends WLabel implements ICompletionItem {
+
+        private static final Color SELECTED_COLOR = new Color(255, 255, 255, 15);
+
+        private boolean selected;
+
+        public WCompletionItem(String text, boolean selected) {
+            super(text);
+            this.selected = selected;
+        }
+
+        @Override
+        protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
+            super.onRender(context, mouseX, mouseY, delta);
+
+            if (selected) {
+                rect(SELECTED_COLOR);
+            }
+        }
+
+        @Override
+        public boolean isSelected() {
+            return selected;
+        }
+
+        @Override
+        public void setSelected(boolean selected) {
+            this.selected = selected;
+        }
+
+        @Override
+        public String getCompletion() {
+            return text;
+        }
+
     }
     
     protected double getTextWidth(int pos) {
@@ -788,13 +904,13 @@ public abstract class WTextBox extends WWidget {
     }
     
     public interface Renderer {
-        
-        void render(GuiRenderer renderer, double x, double y, String text, Color color);
-        
+
+        void render(DrawContext context, double x, double y, String text, Color color);
+
         default List<String> getCompletions(String text, int position) {
             return null;
         }
-        
+
     }
     
     public interface ICompletionItem {

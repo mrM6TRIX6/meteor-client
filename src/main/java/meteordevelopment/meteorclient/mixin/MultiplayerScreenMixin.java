@@ -5,12 +5,13 @@
 
 package meteordevelopment.meteorclient.mixin;
 
-import meteordevelopment.meteorclient.gui.GuiThemes;
+import meteordevelopment.meteorclient.gui.screens.ProxiesScreen;
+import meteordevelopment.meteorclient.gui.screens.accounts.AccountsScreen;
+import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.NameProtect;
 import meteordevelopment.meteorclient.systems.proxies.Proxies;
 import meteordevelopment.meteorclient.systems.proxies.Proxy;
-import meteordevelopment.meteorclient.renderer.color.Color;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -61,7 +62,7 @@ public abstract class MultiplayerScreenMixin extends Screen {
             accounts = addDrawableChild(
                 new ButtonWidget.Builder(
                     Text.literal("Accounts"),
-                    button -> client.setScreen(GuiThemes.get().accountsScreen())
+                    button -> client.setScreen(new AccountsScreen())
                 )
                 .size(75, 20)
                 .build()
@@ -73,7 +74,7 @@ public abstract class MultiplayerScreenMixin extends Screen {
             proxies = addDrawableChild(
                 new ButtonWidget.Builder(
                     Text.literal("Proxies"),
-                    button -> client.setScreen(GuiThemes.get().proxiesScreen())
+                    button -> client.setScreen(new ProxiesScreen())
                 )
                 .size(75, 20)
                 .build()

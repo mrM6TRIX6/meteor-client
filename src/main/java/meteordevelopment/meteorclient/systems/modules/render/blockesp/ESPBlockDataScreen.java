@@ -5,14 +5,14 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.blockesp;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.DefaultSettingsWidgetFactory;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import net.minecraft.block.Block;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,16 +22,16 @@ public class ESPBlockDataScreen extends WindowScreen {
     private final Setting<?> setting;
     private final @Nullable Runnable firstChangeConsumer;
     
-    public ESPBlockDataScreen(GuiTheme theme, ESPBlockData blockData, Block block, BlockDataSetting<ESPBlockData> setting) {
-        this(theme, blockData, setting, () -> setting.get().put(block, blockData));
+    public ESPBlockDataScreen(ESPBlockData blockData, Block block, BlockDataSetting<ESPBlockData> setting) {
+        this(blockData, setting, () -> setting.get().put(block, blockData));
     }
     
-    public ESPBlockDataScreen(GuiTheme theme, ESPBlockData blockData, GenericSetting<ESPBlockData> setting) {
-        this(theme, blockData, setting, null);
+    public ESPBlockDataScreen(ESPBlockData blockData, GenericSetting<ESPBlockData> setting) {
+        this(blockData, setting, null);
     }
     
-    private ESPBlockDataScreen(GuiTheme theme, ESPBlockData blockData, Setting<?> setting, @Nullable Runnable firstChangeConsumer) {
-        super(theme, "Configure Block");
+    private ESPBlockDataScreen(ESPBlockData blockData, Setting<?> setting, @Nullable Runnable firstChangeConsumer) {
+        super("Configure Block");
         
         this.blockData = blockData;
         this.setting = setting;
@@ -115,7 +115,7 @@ public class ESPBlockDataScreen extends WindowScreen {
         );
         
         settings.onActivated();
-        add(theme.settings(settings)).expandX();
+        add(DefaultSettingsWidgetFactory.settings(settings)).expandX();
     }
     
     private void onChanged() {

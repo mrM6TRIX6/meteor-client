@@ -5,17 +5,17 @@
 
 package meteordevelopment.meteorclient.gui.tabs;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
+import meteordevelopment.meteorclient.gui.widgets.WTopBar;
 
 public abstract class TabScreen extends WidgetScreen {
     
     public final Tab tab;
     
-    public TabScreen(GuiTheme theme, Tab tab) {
-        super(theme, tab.name);
+    public TabScreen(Tab tab) {
+        super(tab.name);
         
-        super.add(theme.topBar()).top().centerX();
+        super.add(new WTopBar()).top().centerX();
         
         this.tab = tab;
     }

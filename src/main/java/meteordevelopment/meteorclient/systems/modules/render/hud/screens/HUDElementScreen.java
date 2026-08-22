@@ -6,12 +6,15 @@
 package meteordevelopment.meteorclient.systems.modules.render.hud.screens;
 
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.DefaultSettingsWidgetFactory;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.utils.Cell;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
+import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -33,8 +36,8 @@ public class HUDElementScreen extends WindowScreen {
     private WContainer settingsC1, settingsC2;
     private final Settings settings;
     
-    public HUDElementScreen(GuiTheme theme, HUDElement element) {
-        super(theme, element.info.name);
+    public HUDElementScreen(HUDElement element) {
+        super(element.info.name);
         
         this.element = element;
         
@@ -76,41 +79,41 @@ public class HUDElementScreen extends WindowScreen {
     @Override
     public void initWidgets() {
         // Description
-        add(theme.label(element.info.description, getWindowWidth() / 2.0));
+        add(new WLabel(element.info.description, getWindowWidth() / 2.0));
         
         // Settings
         if (element.settings.sizeGroups() > 0) {
             element.settings.onActivated();
             
-            settingsC1 = add(theme.verticalList()).expandX().widget();
-            settingsC1.add(theme.settings(element.settings)).expandX();
+            settingsC1 = add(new WVerticalList()).expandX().widget();
+            settingsC1.add(DefaultSettingsWidgetFactory.settings(element.settings)).expandX();
         }
         
         // Anchors
         settings.onActivated();
         
-        settingsC2 = add(theme.verticalList()).expandX().widget();
-        settingsC2.add(theme.settings(settings)).expandX();
+        settingsC2 = add(new WVerticalList()).expandX().widget();
+        settingsC2.add(DefaultSettingsWidgetFactory.settings(settings)).expandX();
         
-        add(theme.horizontalSeparator()).expandX();
+        add(new WHorizontalSeparator()).expandX();
         
         // Custom widget
-        WWidget widget = element.getWidget(theme);
+        WWidget widget = element.getWidget();
         
         if (widget != null) {
             Cell<WWidget> cell = add(widget);
             if (widget instanceof WContainer) {
                 cell.expandX();
             }
-            add(theme.horizontalSeparator()).expandX();
+            add(new WHorizontalSeparator()).expandX();
         }
         
         // Bottom
-        WHorizontalList bottomList = add(theme.horizontalList()).expandX().widget();
+        WHorizontalList bottomList = add(new WHorizontalList()).expandX().widget();
         
         // Active
-        bottomList.add(theme.label("Active:"));
-        WCheckbox active = bottomList.add(theme.checkbox(element.isActive())).widget();
+        bottomList.add(new WLabel("Active:"));
+        WCheckbox active = bottomList.add(new WCheckbox(element.isActive())).widget();
         active.action = () -> {
             if (element.isActive() != active.checked) {
                 element.toggle();
@@ -118,7 +121,7 @@ public class HUDElementScreen extends WindowScreen {
         };
         
         // Remove
-        WMinus remove = bottomList.add(theme.minus()).expandCellX().right().widget();
+        WMinus remove = bottomList.add(new WMinus()).expandCellX().right().widget();
         remove.action = () -> {
             element.remove();
             close();
@@ -130,10 +133,10 @@ public class HUDElementScreen extends WindowScreen {
         super.tick();
         
         if (settingsC1 != null) {
-            element.settings.tick(settingsC1, theme);
+            element.settings.tick(settingsC1);
         }
         
-        settings.tick(settingsC2, theme);
+        settings.tick(settingsC2);
     }
     
     @Override

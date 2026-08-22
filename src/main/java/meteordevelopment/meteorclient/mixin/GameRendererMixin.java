@@ -197,12 +197,6 @@ public abstract class GameRendererMixin {
         }
     }
     
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/render/GuiRenderer;render(Lcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", shift = At.Shift.BEFORE))
-    private void hookRender(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
-        // тут рендерим gui
-        //HUDRenderLayer.renderGameHud(client, meteor$newGuiGraphics(), tickCounter.getTickProgress(false));
-    }
-    
     @Unique
     private DrawContext meteor$newGuiGraphics() {
         int mouseX = client.mouse == null || client.getWindow() == null

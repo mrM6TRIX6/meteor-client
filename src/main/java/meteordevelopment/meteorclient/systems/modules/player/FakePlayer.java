@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.player;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
@@ -62,37 +62,37 @@ public class FakePlayer extends Module {
     }
     
     @Override
-    public WWidget getWidget(GuiTheme theme) {
-        table = theme.table();
-        fillTable(theme, table);
+    public WWidget getWidget() {
+        table = new WTable();
+        fillTable(table);
         
         return table;
     }
     
-    private void fillTable(GuiTheme theme, WTable table) {
+    private void fillTable(WTable table) {
         for (FakePlayerEntity fakePlayer : FakePlayerManager.getFakePlayers()) {
-            table.add(theme.label(fakePlayer.getName().getString()));
-            WMinus delete = table.add(theme.minus()).expandCellX().right().widget();
+            table.add(new WLabel(fakePlayer.getName().getString()));
+            WMinus delete = table.add(new WMinus()).expandCellX().right().widget();
             delete.action = () -> {
                 FakePlayerManager.remove(fakePlayer);
                 table.clear();
-                fillTable(theme, table);
+                fillTable(table);
             };
             table.row();
         }
         
-        WButton spawn = table.add(theme.button("Spawn")).expandCellX().right().widget();
+        WButton spawn = table.add(new WButton("Spawn")).expandCellX().right().widget();
         spawn.action = () -> {
             FakePlayerManager.add(name.get(), health.get(), copyInv.get());
             table.clear();
-            fillTable(theme, table);
+            fillTable(table);
         };
         
-        WButton clear = table.add(theme.button("Clear All")).right().widget();
+        WButton clear = table.add(new WButton("Clear All")).right().widget();
         clear.action = () -> {
             FakePlayerManager.clear();
             table.clear();
-            fillTable(theme, table);
+            fillTable(table);
         };
     }
     

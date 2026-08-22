@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.WindowScreen;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WQuad;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
@@ -15,14 +15,13 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WIntEdit;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
-import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.renderer.color.SettingColor;
-import meteordevelopment.meteorclient.renderer.state.QuadColorState;
+import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.Click;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class ColorSettingScreen extends WindowScreen {
     
@@ -48,8 +47,8 @@ public class ColorSettingScreen extends WindowScreen {
     private WIntEdit rItb, gItb, bItb, aItb;
     private WCheckbox rainbow;
     
-    public ColorSettingScreen(GuiTheme theme, Setting<SettingColor> setting) {
-        super(theme, "Select Color");
+    public ColorSettingScreen(Setting<SettingColor> setting) {
+        super("Select Color");
         
         this.setting = setting;
     }
@@ -129,38 +128,38 @@ public class ColorSettingScreen extends WindowScreen {
     @Override
     public void initWidgets() {
         // Top
-        displayQuad = add(theme.quad(setting.get())).expandX().widget();
+        displayQuad = add(new WQuad(setting.get())).expandX().widget();
         
         brightnessQuad = add(new WBrightnessQuad()).expandX().widget();
         
         hueQuad = add(new WHueQuad()).expandX().widget();
         
         // RGBA
-        WTable rgbaTable = add(theme.table()).expandX().widget();
+        WTable rgbaTable = add(new WTable()).expandX().widget();
         
-        rgbaTable.add(theme.label("R:"));
-        rItb = rgbaTable.add(theme.intEdit(setting.get().r, 0, 255, 0, 255, false)).expandX().widget();
+        rgbaTable.add(new WLabel("R:"));
+        rItb = rgbaTable.add(new WIntEdit(setting.get().r, 0, 255, 0, 255, false)).expandX().widget();
         rItb.action = this::rgbaChanged;
         rgbaTable.row();
         
-        rgbaTable.add(theme.label("G:"));
-        gItb = rgbaTable.add(theme.intEdit(setting.get().g, 0, 255, 0, 255, false)).expandX().widget();
+        rgbaTable.add(new WLabel("G:"));
+        gItb = rgbaTable.add(new WIntEdit(setting.get().g, 0, 255, 0, 255, false)).expandX().widget();
         gItb.action = this::rgbaChanged;
         rgbaTable.row();
         
-        rgbaTable.add(theme.label("B:"));
-        bItb = rgbaTable.add(theme.intEdit(setting.get().b, 0, 255, 0, 255, false)).expandX().widget();
+        rgbaTable.add(new WLabel("B:"));
+        bItb = rgbaTable.add(new WIntEdit(setting.get().b, 0, 255, 0, 255, false)).expandX().widget();
         bItb.action = this::rgbaChanged;
         rgbaTable.row();
         
-        rgbaTable.add(theme.label("A:"));
-        aItb = rgbaTable.add(theme.intEdit(setting.get().a, 0, 255, 0, 255, false)).expandX().widget();
+        rgbaTable.add(new WLabel("A:"));
+        aItb = rgbaTable.add(new WIntEdit(setting.get().a, 0, 255, 0, 255, false)).expandX().widget();
         aItb.action = this::rgbaChanged;
         
         // Rainbow
-        WHorizontalList rainbowList = add(theme.horizontalList()).expandX().widget();
-        rainbowList.add(theme.label("Rainbow: "));
-        rainbow = theme.checkbox(setting.get().rainbow);
+        WHorizontalList rainbowList = add(new WHorizontalList()).expandX().widget();
+        rainbowList.add(new WLabel("Rainbow: "));
+        rainbow = new WCheckbox(setting.get().rainbow);
         rainbow.action = () -> {
             setting.get().rainbow = rainbow.checked;
             setting.onChanged();
@@ -168,12 +167,12 @@ public class ColorSettingScreen extends WindowScreen {
         rainbowList.add(rainbow).expandCellX().right();
         
         // Bottom
-        WHorizontalList bottomList = add(theme.horizontalList()).expandX().widget();
+        WHorizontalList bottomList = add(new WHorizontalList()).expandX().widget();
         
-        WButton backButton = bottomList.add(theme.button("Back")).expandX().widget();
+        WButton backButton = bottomList.add(new WButton("Back")).expandX().widget();
         backButton.action = this::close;
         
-        WButton resetButton = bottomList.add(theme.button(GuiRenderer.RESET)).widget();
+        WButton resetButton = bottomList.add(new WButton(GuiConstants.RESET)).widget();
         resetButton.action = () -> {
             setting.reset();
             setFromSetting();
@@ -343,7 +342,7 @@ public class ColorSettingScreen extends WindowScreen {
         
         @Override
         protected void onCalculateSize() {
-            double s = theme.scale(75);
+            double s = GuiConstants.scale(75);
             
             width = s;
             height = s;
@@ -444,21 +443,23 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         @Override
-        protected void onRender(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
+        protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
             if (height != width) {
                 fixedHeight = width;
                 invalidate();
-                
+
                 handleX = saturation * width;
                 handleY = (1 - value) * fixedHeight;
             }
-            
+
             hueQuad.calculateColor();
-            
-            renderer.quad(x, y, width, height, QuadColorState.of(Color.WHITE, Color.BLACK, Color.BLACK, hueQuad.color));
-            
-            double s = theme.scale(2);
-            renderer.quad(x + handleX - s / 2, y + handleY - s / 2, s, s, Color.WHITE);
+
+            // White in the top left corner fading to the hue in the top right one, black along the bottom edge.
+            Render2D.rect((float) x, (float) y, (float) width, (float) height,
+                GuiConstants.color(Color.WHITE), GuiConstants.color(hueQuad.color), GuiConstants.color(Color.BLACK), GuiConstants.color(Color.BLACK));
+
+            double s = GuiConstants.scale(2);
+            rect(x + handleX - s / 2, y + handleY - s / 2, s, s, Color.WHITE);
         }
         
     }
@@ -477,8 +478,8 @@ public class ColorSettingScreen extends WindowScreen {
         
         @Override
         protected void onCalculateSize() {
-            width = theme.scale(75);
-            height = theme.scale(10);
+            width = GuiConstants.scale(75);
+            height = GuiConstants.scale(10);
         }
         
         void calculateFromSetting(boolean calculateNow) {
@@ -659,17 +660,20 @@ public class ColorSettingScreen extends WindowScreen {
         }
         
         @Override
-        protected void onRender(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
+        protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
             double sectionWidth = (width) / (HUE_COLORS.length - 1);
             double sectionX = x;
-            
+
             for (int i = 0; i < HUE_COLORS.length - 1; i++) {
-                renderer.quad(sectionX, y, sectionWidth, height, QuadColorState.of(HUE_COLORS[i], HUE_COLORS[i], HUE_COLORS[i + 1], HUE_COLORS[i + 1]));
+                int left = GuiConstants.color(HUE_COLORS[i]);
+                int right = GuiConstants.color(HUE_COLORS[i + 1]);
+
+                Render2D.rect((float) sectionX, (float) y, (float) sectionWidth, (float) height, left, right, right, left);
                 sectionX += sectionWidth;
             }
-            
-            double s = theme.scale(2);
-            renderer.quad(x + handleX - s / 2, y, s, height, Color.WHITE);
+
+            double s = GuiConstants.scale(2);
+            rect(x + handleX - s / 2, y, s, height, Color.WHITE);
         }
         
     }

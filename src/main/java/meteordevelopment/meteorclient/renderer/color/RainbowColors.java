@@ -7,19 +7,13 @@ package meteordevelopment.meteorclient.renderer.color;
 
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.GuiThemes;
-import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.misc.UnorderedArrayList;
 import meteordevelopment.meteorclient.utils.reflect.PostInit;
 import meteordevelopment.orbit.EventHandler;
 
 import java.util.List;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class RainbowColors {
     
@@ -84,20 +78,10 @@ public class RainbowColors {
         for (SettingColor color : colors) {
             color.update();
         }
-        
-        if (mc.currentScreen instanceof WidgetScreen) {
-            for (SettingGroup group : GuiThemes.get().settings) {
-                for (Setting<?> setting : group) {
-                    if (setting instanceof ColorSetting) {
-                        ((SettingColor) setting.get()).update();
-                    }
-                }
-            }
-        }
-        
+
         for (Runnable listener : listeners) {
             listener.run();
         }
     }
-    
+
 }

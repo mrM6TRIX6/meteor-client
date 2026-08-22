@@ -5,29 +5,30 @@
 
 package meteordevelopment.meteorclient.gui.screens.accounts;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.types.SessionAccount;
 
 public class AddSessionAccountScreen extends AddAccountScreen {
     
-    public AddSessionAccountScreen(GuiTheme theme, AccountsScreen parent) {
-        super(theme, "Add Session Account", parent);
+    public AddSessionAccountScreen(AccountsScreen parent) {
+        super("Add Session Account", parent);
     }
     
     @Override
     public void initWidgets() {
-        WTable t = add(theme.table()).widget();
+        WTable t = add(new WTable()).widget();
         
         // Access token
-        t.add(theme.label("Access Token: "));
-        WTextBox token = t.add(theme.textBox("")).minWidth(400).expandX().widget();
+        t.add(new WLabel("Access Token: "));
+        WTextBox token = t.add(new WTextBox("")).minWidth(400).expandX().widget();
         token.setFocused(true);
         t.row();
         
         // Add
-        add = t.add(theme.button("Add")).expandX().widget();
+        add = t.add(new WButton("Add")).expandX().widget();
         add.action = () -> {
             if (!token.get().isEmpty()) {
                 SessionAccount account = new SessionAccount(token.get());

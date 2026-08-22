@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
@@ -27,15 +26,15 @@ public class BlockSettingScreen extends WindowScreen {
     private WTextBox filter;
     private String filterText = "";
     
-    public BlockSettingScreen(GuiTheme theme, BlockSetting setting) {
-        super(theme, "Select Block");
+    public BlockSettingScreen(BlockSetting setting) {
+        super("Select Block");
         
         this.setting = setting;
     }
     
     @Override
     public void initWidgets() {
-        filter = add(theme.textBox("")).minWidth(400).expandX().widget();
+        filter = add(new WTextBox("")).minWidth(400).expandX().widget();
         filter.setFocused(true);
         filter.action = () -> {
             filterText = filter.get().trim();
@@ -44,7 +43,7 @@ public class BlockSettingScreen extends WindowScreen {
             initTable();
         };
         
-        table = add(theme.table()).expandX().widget();
+        table = add(new WTable()).expandX().widget();
         
         initTable();
     }
@@ -58,13 +57,13 @@ public class BlockSettingScreen extends WindowScreen {
                 continue;
             }
             
-            WItemWithLabel item = theme.itemWithLabel(block.asItem().getDefaultStack(), Names.get(block));
+            WItemWithLabel item = new WItemWithLabel(block.asItem().getDefaultStack(), Names.get(block));
             if (!filterText.isEmpty() && !Strings.CI.contains(item.getLabelText(), filterText)) {
                 continue;
             }
             table.add(item);
             
-            WButton select = table.add(theme.button("Select")).expandCellX().right().widget();
+            WButton select = table.add(new WButton("Select")).expandCellX().right().widget();
             select.action = () -> {
                 setting.set(block);
                 close();

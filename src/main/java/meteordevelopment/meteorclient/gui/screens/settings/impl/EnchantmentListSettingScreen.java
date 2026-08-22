@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.DynamicRegistryListSettingScreen;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.misc.Names;
@@ -18,13 +18,13 @@ import java.util.Set;
 
 public class EnchantmentListSettingScreen extends DynamicRegistryListSettingScreen<Enchantment> {
     
-    public EnchantmentListSettingScreen(GuiTheme theme, Setting<Set<RegistryKey<Enchantment>>> setting) {
-        super(theme, "Select Enchantments", setting, setting.get(), RegistryKeys.ENCHANTMENT);
+    public EnchantmentListSettingScreen(Setting<Set<RegistryKey<Enchantment>>> setting) {
+        super("Select Enchantments", setting, setting.get(), RegistryKeys.ENCHANTMENT);
     }
     
     @Override
     protected WWidget getValueWidget(RegistryKey<Enchantment> value) {
-        return theme.label(Names.get(value));
+        return new WLabel(Names.get(value));
     }
     
     protected String[] getValueNames(RegistryKey<Enchantment> value) {

@@ -1,8 +1,10 @@
 package meteordevelopment.meteorclient.gui.screens;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.DefaultSettingsWidgetFactory;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
+import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.settings.Settings;
 
@@ -13,8 +15,8 @@ public abstract class EditSystemScreen<T> extends WindowScreen {
     protected final boolean isNew;
     private final Runnable reload;
     
-    public EditSystemScreen(GuiTheme theme, T value, Runnable reload) {
-        super(theme, value == null ? "New" : "Edit");
+    public EditSystemScreen(T value, Runnable reload) {
+        super(value == null ? "New" : "Edit");
         
         this.isNew = value == null;
         this.value = isNew ? create() : value;
@@ -23,12 +25,12 @@ public abstract class EditSystemScreen<T> extends WindowScreen {
     
     @Override
     public void initWidgets() {
-        settingsContainer = add(theme.verticalList()).expandX().minWidth(400).widget();
-        settingsContainer.add(theme.settings(getSettings())).expandX();
+        settingsContainer = add(new WVerticalList()).expandX().minWidth(400).widget();
+        settingsContainer.add(DefaultSettingsWidgetFactory.settings(getSettings())).expandX();
         
-        add(theme.horizontalSeparator()).expandX();
+        add(new WHorizontalSeparator()).expandX();
         
-        WButton done = add(theme.button(isNew ? "Create" : "Save")).expandX().widget();
+        WButton done = add(new WButton(isNew ? "Create" : "Save")).expandX().widget();
         done.action = () -> {
             if (save()) {
                 close();
@@ -40,7 +42,7 @@ public abstract class EditSystemScreen<T> extends WindowScreen {
     
     @Override
     public void tick() {
-        getSettings().tick(settingsContainer, theme);
+        getSettings().tick(settingsContainer);
     }
     
     @Override

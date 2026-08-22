@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.systems.modules.render.hud;
 
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
@@ -111,7 +110,7 @@ public abstract class HUDElement implements Snapper.Element, ISerializable<HUDEl
     
     public void onFontChanged() {}
     
-    public WWidget getWidget(GuiTheme theme) {
+    public WWidget getWidget() {
         return null;
     }
     

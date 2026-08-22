@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud.screens;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPlus;
@@ -26,14 +26,14 @@ public class HUDElementPresetsScreen extends WindowScreen {
     @Nullable
     private HUDElementInfo<?>.Preset firstPreset;
     
-    public HUDElementPresetsScreen(GuiTheme theme, HUDElementInfo<?> info, int x, int y) {
-        super(theme, "Select preset for " + info.name);
+    public HUDElementPresetsScreen(HUDElementInfo<?> info, int x, int y) {
+        super("Select preset for " + info.name);
         
         this.info = info;
         this.x = x + 9;
         this.y = y;
         
-        searchBar = theme.textBox("");
+        searchBar = new WTextBox("");
         searchBar.action = () -> {
             clear();
             initWidgets();
@@ -62,11 +62,11 @@ public class HUDElementPresetsScreen extends WindowScreen {
                 continue;
             }
             
-            WHorizontalList l = add(theme.horizontalList()).expandX().widget();
+            WHorizontalList l = add(new WHorizontalList()).expandX().widget();
             
-            l.add(theme.label(preset.name));
+            l.add(new WLabel(preset.name));
             
-            WPlus add = l.add(theme.plus()).expandCellX().right().widget();
+            WPlus add = l.add(new WPlus()).expandCellX().right().widget();
             add.action = () -> {
                 HUD.get().add(preset, x, y);
                 close();

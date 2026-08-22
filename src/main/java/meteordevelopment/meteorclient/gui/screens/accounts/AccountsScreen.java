@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.gui.screens.accounts;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.WAccount;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
@@ -17,31 +17,29 @@ import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import org.jetbrains.annotations.Nullable;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class AccountsScreen extends WindowScreen {
     
-    public AccountsScreen(GuiTheme theme) {
-        super(theme, "Accounts");
+    public AccountsScreen() {
+        super("Accounts");
     }
     
     @Override
     public void initWidgets() {
         // Accounts
         for (Account<?> account : Accounts.get()) {
-            WAccount wAccount = add(theme.account(this, account)).expandX().minWidth(400).widget();
+            WAccount wAccount = add(new WAccount(this, account)).expandX().minWidth(400).widget();
             wAccount.refreshScreenAction = this::reload;
         }
         
-        add(theme.horizontalSeparator()).expandX();
+        add(new WHorizontalSeparator()).expandX();
         
         // Add account
-        WHorizontalList list = add(theme.horizontalList()).expandX().minWidth(400).widget();
+        WHorizontalList list = add(new WHorizontalList()).expandX().minWidth(400).widget();
         
-        addButton(list, "Cracked", () -> mc.setScreen(new AddCrackedAccountScreen(theme, this)));
-        addButton(list, "Altening", () -> mc.setScreen(new AddAlteningAccountScreen(theme, this)));
-        addButton(list, "Session", () -> mc.setScreen(new AddSessionAccountScreen(theme, this)));
-        addButton(list, "Microsoft", () -> mc.setScreen(new AddMicrosoftAccountScreen(theme, this)));
+        addButton(list, "Cracked", () -> mc.setScreen(new AddCrackedAccountScreen(this)));
+        addButton(list, "Altening", () -> mc.setScreen(new AddAlteningAccountScreen(this)));
+        addButton(list, "Session", () -> mc.setScreen(new AddSessionAccountScreen(this)));
+        addButton(list, "Microsoft", () -> mc.setScreen(new AddMicrosoftAccountScreen(this)));
         
         // Clear
         addButton(this.window, "Clear", () -> {
@@ -51,7 +49,7 @@ public class AccountsScreen extends WindowScreen {
     }
     
     private void addButton(WContainer container, String text, Runnable action) {
-        WButton button = container.add(theme.button(text)).expandX().widget();
+        WButton button = container.add(new WButton(text)).expandX().widget();
         button.action = action;
     }
     

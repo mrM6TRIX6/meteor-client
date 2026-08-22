@@ -6,6 +6,7 @@
 package meteordevelopment.meteorclient.gui.widgets.input;
 
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 
 import java.util.Locale;
 
@@ -26,6 +27,14 @@ public class WDoubleEdit extends WHorizontalList {
     private WTextBox textBox;
     private WSlider slider;
     
+    public WDoubleEdit(double value, double min, double max) {
+        this(value, min, max, 0, 10, 3, false);
+    }
+
+    public WDoubleEdit(double value, double min, double max, double sliderMin, double sliderMax) {
+        this(value, min, max, sliderMin, sliderMax, 3, false);
+    }
+
     public WDoubleEdit(double value, double min, double max, double sliderMin, double sliderMax, int decimalPlaces, boolean noSlider) {
         this.value = value;
         this.min = min;
@@ -33,21 +42,21 @@ public class WDoubleEdit extends WHorizontalList {
         this.decimalPlaces = decimalPlaces;
         this.sliderMin = sliderMin;
         this.sliderMax = sliderMax;
-        
+
         if (noSlider || (sliderMin == 0 && sliderMax == 0)) {
             this.noSlider = true;
         }
     }
-    
+
     @Override
     public void init() {
-        textBox = add(theme.textBox(valueString(), this::filter)).minWidth(75).widget();
-        
+        textBox = add(new WTextBox(valueString(), this::filter)).minWidth(75).widget();
+
         if (noSlider) {
-            add(theme.button("+")).widget().action = () -> setButton(get() + 1);
-            add(theme.button("-")).widget().action = () -> setButton(get() - 1);
+            add(new WButton("+")).widget().action = () -> setButton(get() + 1);
+            add(new WButton("-")).widget().action = () -> setButton(get() - 1);
         } else {
-            slider = add(theme.slider(value, sliderMin, sliderMax)).minWidth(small ? 200 - 75 - spacing : 200).centerY().expandX().widget();
+            slider = add(new WSlider(value, sliderMin, sliderMax)).minWidth(small ? 200 - 75 - spacing : 200).centerY().expandX().widget();
         }
         
         textBox.actionOnUnfocused = () -> {

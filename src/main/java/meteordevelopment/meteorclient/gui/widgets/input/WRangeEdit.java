@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.widgets.input;
 
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.utils.misc.Range;
 
@@ -23,6 +24,14 @@ public class WRangeEdit extends WHorizontalList {
     private WTextBox toTextBox;
     private WRangeSlider rangeSlider;
     
+    public WRangeEdit(Range value, int min, int max, int sliderMin, int sliderMax) {
+        this(value, min, max, sliderMin, sliderMax, false);
+    }
+
+    public WRangeEdit(Range value, int min, int max, boolean noSlider) {
+        this(value, min, max, 0, 0, noSlider);
+    }
+
     public WRangeEdit(Range value, int min, int max, int sliderMin, int sliderMax, boolean noSlider) {
         this.value = value != null ? validateRange(value, min, max) : Range.of(min, max);
         this.min = min;
@@ -31,22 +40,22 @@ public class WRangeEdit extends WHorizontalList {
         this.sliderMax = sliderMax;
         this.noSlider = noSlider;
     }
-    
+
     private Range validateRange(Range range, int min, int max) {
         return Range.of(
             Math.max(min, Math.min(range.from, max)),
             Math.max(min, Math.min(range.to, max))
         );
     }
-    
+
     @Override
     public void init() {
-        fromTextBox = add(theme.textBox(Integer.toString(value.from), this::filter)).minWidth(75).widget();
-        add(theme.label("-")).centerY();
-        toTextBox = add(theme.textBox(Integer.toString(value.to), this::filter)).minWidth(75).widget();
-        
+        fromTextBox = add(new WTextBox(Integer.toString(value.from), this::filter)).minWidth(75).widget();
+        add(new WLabel("-")).centerY();
+        toTextBox = add(new WTextBox(Integer.toString(value.to), this::filter)).minWidth(75).widget();
+
         if (!noSlider) {
-            rangeSlider = add(theme.rangeSlider(value, sliderMin, sliderMax)).minWidth(200).centerY().expandX().widget();
+            rangeSlider = add(new WRangeSlider(value, sliderMin, sliderMax)).minWidth(200).centerY().expandX().widget();
             setupSliderActions();
         }
         setupTextBoxActions();

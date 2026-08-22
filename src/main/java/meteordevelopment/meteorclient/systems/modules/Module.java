@@ -11,7 +11,6 @@ import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.addons.AddonManager;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.settings.Settings;
@@ -64,7 +63,7 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         this.addon = null;
     }
     
-    public WWidget getWidget(GuiTheme theme) {
+    public WWidget getWidget() {
         return null;
     }
     

@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.settings.impl.GameModeListSetting;
@@ -20,20 +20,20 @@ public class GameModeListSettingScreen extends WindowScreen {
     private final GameModeListSetting setting;
     private final WTable table;
     
-    public GameModeListSettingScreen(GuiTheme theme, GameModeListSetting setting) {
-        super(theme, "Select Gamemodes");
+    public GameModeListSettingScreen(GameModeListSetting setting) {
+        super("Select Gamemodes");
         this.setting = setting;
-        table = super.add(theme.table()).expandX().widget();
+        table = super.add(new WTable()).expandX().widget();
     }
     
     @Override
     public void initWidgets() {
         List<GameMode> gms = setting.get();
         for (GameMode gameMode : GameMode.values()) {
-            table.add(theme.label(Utils.nameToTitle(gameMode.getId()))).expandCellX();
+            table.add(new WLabel(Utils.nameToTitle(gameMode.getId()))).expandCellX();
             
             boolean contains = setting.get().contains(gameMode);
-            WCheckbox checkbox = table.add(theme.checkbox(contains)).widget();
+            WCheckbox checkbox = table.add(new WCheckbox(contains)).widget();
             checkbox.action = () -> {
                 if (contains) {
                     gms.remove(gameMode);

@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.systems.modules.render;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
@@ -20,10 +19,10 @@ public class Debug extends Module {
     }
     
     @Override
-    public WWidget getWidget(GuiTheme theme) {
-        WTable table = theme.table();
+    public WWidget getWidget() {
+        WTable table = new WTable();
         
-        WButton reloadBtn = theme.button("Reload shaders");
+        WButton reloadBtn = new WButton("Reload shaders");
         reloadBtn.action = (MeteorRenderPipelines::reload);
         table.add(reloadBtn);
         

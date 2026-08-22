@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.MixinPlugin;
 import meteordevelopment.meteorclient.events.render.RenderBlockEntityEvent;
 import meteordevelopment.meteorclient.events.world.AmbientOcclusionEvent;
 import meteordevelopment.meteorclient.events.world.ChunkOcclusionEvent;
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -110,9 +110,9 @@ public class Xray extends Module {
     }
     
     @Override
-    public WWidget getWidget(GuiTheme theme) {
+    public WWidget getWidget() {
         if (MixinPlugin.isIrisPresent() && IrisApi.getInstance().isShaderPackInUse()) {
-            return theme.label("Warning: Due to shaders in use, opacity is overridden to 0.");
+            return new WLabel("Warning: Due to shaders in use, opacity is overridden to 0.");
         }
         
         return null;

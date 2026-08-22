@@ -25,6 +25,10 @@ public class WItemWithLabel extends WHorizontalList {
     private WItem item;
     private WLabel label;
     
+    public WItemWithLabel(ItemStack itemStack) {
+        this(itemStack, Names.get(itemStack.getItem()));
+    }
+
     public WItemWithLabel(ItemStack itemStack, String name) {
         this.itemStack = itemStack;
         this.name = name;
@@ -32,8 +36,8 @@ public class WItemWithLabel extends WHorizontalList {
     
     @Override
     public void init() {
-        item = add(theme.item(itemStack)).widget();
-        label = add(theme.label(name + getStringToAppend())).widget();
+        item = add(new WItem(itemStack)).widget();
+        label = add(new WLabel(name + getStringToAppend())).widget();
     }
     
     private String getStringToAppend() {

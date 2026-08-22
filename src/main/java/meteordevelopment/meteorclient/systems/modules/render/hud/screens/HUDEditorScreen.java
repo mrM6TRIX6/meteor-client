@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud.screens;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.renderer.color.Color;
@@ -27,8 +26,6 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class HUDEditorScreen extends WidgetScreen implements Snapper.Container {
     
@@ -58,8 +55,8 @@ public class HUDEditorScreen extends WidgetScreen implements Snapper.Container {
     
     private double splitLinesAnimation;
     
-    public HUDEditorScreen(GuiTheme theme) {
-        super(theme, "Hud Editor");
+    public HUDEditorScreen() {
+        super("Hud Editor");
         
         hud = HUD.get();
         snapper = new Snapper(this);
@@ -144,9 +141,9 @@ public class HUDEditorScreen extends WidgetScreen implements Snapper.Container {
                 HUDElement hovered = getHovered((int) mouseX, (int) mouseY);
                 
                 if (hovered != null) {
-                    mc.setScreen(new HUDElementScreen(theme, hovered));
+                    mc.setScreen(new HUDElementScreen(hovered));
                 } else {
-                    mc.setScreen(new AddHUDElementScreen(theme, lastMouseX, lastMouseY));
+                    mc.setScreen(new AddHUDElementScreen(lastMouseX, lastMouseY));
                 }
             }
         }

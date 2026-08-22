@@ -8,7 +8,6 @@ package meteordevelopment.meteorclient.systems.modules.misc;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
@@ -134,12 +133,12 @@ public class BookBot extends Module {
     }
     
     @Override
-    public WWidget getWidget(GuiTheme theme) {
-        WHorizontalList list = theme.horizontalList();
+    public WWidget getWidget() {
+        WHorizontalList list = new WHorizontalList();
         
-        WButton selectFile = list.add(theme.button("Select File")).widget();
+        WButton selectFile = list.add(new WButton("Select File")).widget();
         
-        WLabel fileName = list.add(theme.label((file != null && file.exists()) ? file.getName() : "No file selected.")).widget();
+        WLabel fileName = list.add(new WLabel((file != null && file.exists()) ? file.getName() : "No file selected.")).widget();
         
         selectFile.action = () -> {
             String path = TinyFileDialogs.tinyfd_openFileDialog(

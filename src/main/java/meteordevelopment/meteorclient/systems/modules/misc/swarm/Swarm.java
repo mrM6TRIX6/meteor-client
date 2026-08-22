@@ -8,7 +8,6 @@ package meteordevelopment.meteorclient.systems.modules.misc.swarm;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
@@ -60,12 +59,12 @@ public class Swarm extends Module {
     }
     
     @Override
-    public WWidget getWidget(GuiTheme theme) {
-        WVerticalList list = theme.verticalList();
+    public WWidget getWidget() {
+        WVerticalList list = new WVerticalList();
         
-        WHorizontalList b = list.add(theme.horizontalList()).expandX().widget();
+        WHorizontalList b = list.add(new WHorizontalList()).expandX().widget();
         
-        WButton start = b.add(theme.button("Start")).expandX().widget();
+        WButton start = b.add(new WButton("Start")).expandX().widget();
         start.action = () -> {
             if (!isActive()) {
                 return;
@@ -79,10 +78,10 @@ public class Swarm extends Module {
             }
         };
         
-        WButton stop = b.add(theme.button("Stop")).expandX().widget();
+        WButton stop = b.add(new WButton("Stop")).expandX().widget();
         stop.action = this::close;
         
-        WButton guide = list.add(theme.button("Guide")).expandX().widget();
+        WButton guide = list.add(new WButton("Guide")).expandX().widget();
         guide.action = () -> Util.getOperatingSystem().open("https://github.com/MeteorDevelopment/meteor-client/wiki/Swarm-Guide");
         
         return list;

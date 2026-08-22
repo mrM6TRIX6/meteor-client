@@ -6,6 +6,7 @@
 package meteordevelopment.meteorclient.gui.widgets.input;
 
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 
 public class WIntEdit extends WHorizontalList {
     
@@ -22,6 +23,14 @@ public class WIntEdit extends WHorizontalList {
     private WTextBox textBox;
     private WSlider slider;
     
+    public WIntEdit(int value, int min, int max, int sliderMin, int sliderMax) {
+        this(value, min, max, sliderMin, sliderMax, false);
+    }
+
+    public WIntEdit(int value, int min, int max, boolean noSlider) {
+        this(value, min, max, 0, 0, noSlider);
+    }
+
     public WIntEdit(int value, int min, int max, int sliderMin, int sliderMax, boolean noSlider) {
         this.value = value;
         this.min = min;
@@ -36,13 +45,13 @@ public class WIntEdit extends WHorizontalList {
     
     @Override
     public void init() {
-        textBox = add(theme.textBox(Integer.toString(value), this::filter)).minWidth(75).widget();
-        
+        textBox = add(new WTextBox(Integer.toString(value), this::filter)).minWidth(75).widget();
+
         if (noSlider) {
-            add(theme.button("+")).widget().action = () -> setButton(get() + 1);
-            add(theme.button("-")).widget().action = () -> setButton(get() - 1);
+            add(new WButton("+")).widget().action = () -> setButton(get() + 1);
+            add(new WButton("-")).widget().action = () -> setButton(get() - 1);
         } else {
-            slider = add(theme.slider(value, sliderMin, sliderMax)).minWidth(small ? 200 - 75 - spacing : 200).centerY().expandX().widget();
+            slider = add(new WSlider(value, sliderMin, sliderMax)).minWidth(small ? 200 - 75 - spacing : 200).centerY().expandX().widget();
         }
         
         textBox.actionOnUnfocused = () -> {

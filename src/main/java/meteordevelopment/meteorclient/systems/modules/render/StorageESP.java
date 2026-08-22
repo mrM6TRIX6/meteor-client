@@ -7,14 +7,19 @@ package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.events.entity.player.InteractBlockEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
+import meteordevelopment.meteorclient.renderer.MeshBuilderVertexConsumerProvider;
+import meteordevelopment.meteorclient.renderer.RenderUtils;
+import meteordevelopment.meteorclient.renderer.SimpleBlockRenderer;
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.MeshBuilder;
 import meteordevelopment.meteorclient.renderer.engine.MeshRenderer;
 import meteordevelopment.meteorclient.renderer.engine.MeteorRenderPipelines;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
+import meteordevelopment.meteorclient.renderer.engine.postprocess.PostProcessShaders;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
@@ -23,12 +28,6 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import meteordevelopment.meteorclient.renderer.MeshBuilderVertexConsumerProvider;
-import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.SimpleBlockRenderer;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
-import meteordevelopment.meteorclient.renderer.engine.postprocess.PostProcessShaders;
 import meteordevelopment.meteorclient.utils.world.Dir;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
@@ -221,11 +220,11 @@ public class StorageESP extends Module {
     }
     
     @Override
-    public WWidget getWidget(GuiTheme theme) {
-        WVerticalList list = theme.verticalList();
+    public WWidget getWidget() {
+        WVerticalList list = new WVerticalList();
         
         // Button to Clear Interacted Blocks
-        WButton clear = list.add(theme.button("Clear Rendering Cache")).expandX().widget();
+        WButton clear = list.add(new WButton("Clear Rendering Cache")).expandX().widget();
         
         clear.action = interactedBlocks::clear;
         

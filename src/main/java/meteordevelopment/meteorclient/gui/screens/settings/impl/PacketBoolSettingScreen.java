@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.impl.PacketListSetting;
@@ -18,8 +18,8 @@ import java.util.function.Predicate;
 
 public class PacketBoolSettingScreen extends CollectionListSettingScreen<Class<? extends Packet<?>>> {
     
-    public PacketBoolSettingScreen(GuiTheme theme, Setting<Set<Class<? extends Packet<?>>>> setting) {
-        super(theme, "Select Packets", setting, setting.get(), PacketUtils.PACKETS);
+    public PacketBoolSettingScreen(Setting<Set<Class<? extends Packet<?>>>> setting) {
+        super("Select Packets", setting, setting.get(), PacketUtils.PACKETS);
     }
     
     @Override
@@ -34,7 +34,7 @@ public class PacketBoolSettingScreen extends CollectionListSettingScreen<Class<?
     
     @Override
     protected WWidget getValueWidget(Class<? extends Packet<?>> value) {
-        return theme.label(PacketUtils.getName(value));
+        return new WLabel(PacketUtils.getName(value));
     }
     
     protected String[] getValueNames(Class<? extends Packet<?>> value) {

@@ -10,7 +10,6 @@ import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
@@ -135,17 +134,17 @@ public class HUD extends Module implements Iterable<HUDElement> {
     }
     
     @Override
-    public WWidget getWidget(GuiTheme theme) {
-        WTable table = theme.table();
+    public WWidget getWidget() {
+        WTable table = new WTable();
         
-        WHorizontalList buttons = table.add(theme.horizontalList()).expandX().widget();
+        WHorizontalList buttons = table.add(new WHorizontalList()).expandX().widget();
         
         // Edit
-        WButton openEditor = buttons.add(theme.button("Edit")).expandX().widget();
-        openEditor.action = () -> mc.setScreen(new HUDEditorScreen(theme));
+        WButton openEditor = buttons.add(new WButton("Edit")).expandX().widget();
+        openEditor.action = () -> mc.setScreen(new HUDEditorScreen());
         
         // Clear
-        WButton clearBtn = buttons.add(theme.button("Clear")).expandX().widget();
+        WButton clearBtn = buttons.add(new WButton("Clear")).expandX().widget();
         clearBtn.action = this::clear;
         
         return table;

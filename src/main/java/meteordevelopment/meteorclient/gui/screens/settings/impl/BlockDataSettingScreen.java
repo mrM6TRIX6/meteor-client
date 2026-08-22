@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionMapSettingScreen;
+import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.settings.IBlockData;
@@ -22,15 +22,13 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.registry.Registries;
 import org.jetbrains.annotations.Nullable;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class BlockDataSettingScreen<T extends ICopyable<T> & ISerializable<T> & IChangeable & IBlockData<T>> extends CollectionMapSettingScreen<Block, T> {
     
     private final BlockDataSetting<T> setting;
     private boolean invalidate;
     
-    public BlockDataSettingScreen(GuiTheme theme, BlockDataSetting<T> setting) {
-        super(theme, "Configure Blocks", setting, setting.get(), Registries.BLOCK);
+    public BlockDataSettingScreen(BlockDataSetting<T> setting) {
+        super("Configure Blocks", setting, setting.get(), Registries.BLOCK);
         
         this.setting = setting;
     }
@@ -41,19 +39,19 @@ public class BlockDataSettingScreen<T extends ICopyable<T> & ISerializable<T> & 
     
     @Override
     protected WWidget getValueWidget(Block block) {
-        return theme.itemWithLabel(block.asItem().getDefaultStack(), Names.get(block));
+        return new WItemWithLabel(block.asItem().getDefaultStack(), Names.get(block));
     }
     
     @Override
     protected WWidget getDataWidget(Block block, @Nullable T blockData) {
-        WButton edit = theme.button(GuiRenderer.EDIT);
+        WButton edit = new WButton(GuiConstants.EDIT);
         edit.action = () -> {
             T data = blockData;
             if (data == null) {
                 data = setting.defaultData.get().copy();
             }
             
-            mc.setScreen(data.createScreen(theme, block, setting));
+            mc.setScreen(data.createScreen(block, setting));
             invalidate = true;
         };
         return edit;

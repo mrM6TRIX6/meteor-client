@@ -7,10 +7,13 @@ package meteordevelopment.meteorclient.gui.screens;
 
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.utils.network.Http;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import net.minecraft.util.Util;
@@ -25,8 +28,8 @@ public class CommitsScreen extends WindowScreen {
     private Commit[] commits;
     private int statusCode;
     
-    public CommitsScreen(GuiTheme theme, MeteorAddon addon) {
-        super(theme, "Commits for " + addon.name);
+    public CommitsScreen(MeteorAddon addon) {
+        super("Commits for " + addon.name);
         
         this.addon = addon;
         
@@ -62,16 +65,16 @@ public class CommitsScreen extends WindowScreen {
     }
     
     private void populateHeader(String headerMessage) {
-        WHorizontalList l = add(theme.horizontalList()).expandX().widget();
+        WHorizontalList l = add(new WHorizontalList()).expandX().widget();
         
-        l.add(theme.label(headerMessage)).expandX();
+        l.add(new WLabel(headerMessage)).expandX();
         
         String website = addon.getWebsite();
         if (website != null) {
-            l.add(theme.button("Website")).widget().action = () -> Util.getOperatingSystem().open(website);
+            l.add(new WButton("Website")).widget().action = () -> Util.getOperatingSystem().open(website);
         }
         
-        l.add(theme.button("GitHub")).widget().action = () -> {
+        l.add(new WButton("GitHub")).widget().action = () -> {
             GithubRepo repo = addon.getRepo();
             Util.getOperatingSystem().open(String.format("https://github.com/%s/tree/%s", repo.getOwnerName(), repo.branch()));
         };
@@ -89,11 +92,11 @@ public class CommitsScreen extends WindowScreen {
         populateHeader("There was an error fetching commits: " + errorMessage);
         
         if (statusCode == Http.UNAUTHORIZED) {
-            add(theme.horizontalSeparator()).padVertical(theme.scale(8)).expandX();
-            WHorizontalList l = add(theme.horizontalList()).expandX().widget();
+            add(new WHorizontalSeparator()).padVertical(GuiConstants.scale(8)).expandX();
+            WHorizontalList l = add(new WHorizontalList()).expandX().widget();
             
-            l.add(theme.label("Consider using an authentication token: ")).expandX();
-            l.add(theme.button("Authorization Guide")).widget().action = () -> {
+            l.add(new WLabel("Consider using an authentication token: ")).expandX();
+            l.add(new WButton("Authorization Guide")).widget().action = () -> {
                 Util.getOperatingSystem().open("https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens");
             };
         }
@@ -111,16 +114,16 @@ public class CommitsScreen extends WindowScreen {
         
         // Commits
         if (commits.length > 0) {
-            add(theme.horizontalSeparator()).padVertical(theme.scale(8)).expandX();
+            add(new WHorizontalSeparator()).padVertical(GuiConstants.scale(8)).expandX();
             
-            WTable t = add(theme.table()).expandX().widget();
+            WTable t = add(new WTable()).expandX().widget();
             t.horizontalSpacing = 0;
             
             for (Commit commit : commits) {
                 String date = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME.parse(commit.commit.committer.date));
-                t.add(theme.label(date)).top().right().widget().color = theme.textSecondaryColor();
+                t.add(new WLabel(date)).top().right().widget().color = GuiConstants.TEXT_SECONDARY;
                 
-                t.add(theme.label(getMessage(commit))).widget().action = () -> Util.getOperatingSystem().open(String.format("https://github.com/%s/commit/%s", addon.getRepo().getOwnerName(), commit.sha));
+                t.add(new WLabel(getMessage(commit))).widget().action = () -> Util.getOperatingSystem().open(String.format("https://github.com/%s/commit/%s", addon.getRepo().getOwnerName(), commit.sha));
                 t.row();
             }
         }

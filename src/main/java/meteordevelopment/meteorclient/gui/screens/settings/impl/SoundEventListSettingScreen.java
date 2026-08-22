@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Setting;
 import net.minecraft.client.resource.language.I18n;
@@ -17,13 +17,13 @@ import java.util.List;
 
 public class SoundEventListSettingScreen extends CollectionListSettingScreen<SoundEvent> {
     
-    public SoundEventListSettingScreen(GuiTheme theme, Setting<List<SoundEvent>> setting) {
-        super(theme, "Select Sounds", setting, setting.get(), Registries.SOUND_EVENT);
+    public SoundEventListSettingScreen(Setting<List<SoundEvent>> setting) {
+        super("Select Sounds", setting, setting.get(), Registries.SOUND_EVENT);
     }
     
     @Override
     protected WWidget getValueWidget(SoundEvent value) {
-        return theme.label(value.id().getPath());
+        return new WLabel(value.id().getPath());
     }
     
     @Override

@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
@@ -27,15 +26,15 @@ public class ItemSettingScreen extends WindowScreen {
     private WTextBox filter;
     private String filterText = "";
     
-    public ItemSettingScreen(GuiTheme theme, ItemSetting setting) {
-        super(theme, "Select item");
+    public ItemSettingScreen(ItemSetting setting) {
+        super("Select item");
         
         this.setting = setting;
     }
     
     @Override
     public void initWidgets() {
-        filter = add(theme.textBox("")).minWidth(400).expandX().widget();
+        filter = add(new WTextBox("")).minWidth(400).expandX().widget();
         filter.setFocused(true);
         filter.action = () -> {
             filterText = filter.get().trim();
@@ -44,7 +43,7 @@ public class ItemSettingScreen extends WindowScreen {
             initTable();
         };
         
-        table = add(theme.table()).expandX().widget();
+        table = add(new WTable()).expandX().widget();
         initTable();
     }
     
@@ -57,13 +56,13 @@ public class ItemSettingScreen extends WindowScreen {
                 continue;
             }
             
-            WItemWithLabel itemLabel = theme.itemWithLabel(item.getDefaultStack(), Names.get(item));
+            WItemWithLabel itemLabel = new WItemWithLabel(item.getDefaultStack(), Names.get(item));
             if (!filterText.isEmpty() && !Strings.CI.contains(itemLabel.getLabelText(), filterText)) {
                 continue;
             }
             table.add(itemLabel);
             
-            WButton select = table.add(theme.button("Select")).expandCellX().right().widget();
+            WButton select = table.add(new WButton("Select")).expandCellX().right().widget();
             select.action = () -> {
                 setting.set(item);
                 close();

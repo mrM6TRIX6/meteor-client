@@ -9,15 +9,18 @@ import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.meteor.ActiveModulesChangedEvent;
 import meteordevelopment.meteorclient.events.meteor.ModuleBindChangedEvent;
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.DefaultSettingsWidgetFactory;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.WindowScreen;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.utils.Cell;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.WKeybind;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WSection;
+import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WFavorite;
@@ -36,8 +39,8 @@ public class ModuleScreen extends WindowScreen {
     private WKeybind keybind;
     private WCheckbox active;
     
-    public ModuleScreen(GuiTheme theme, Module module) {
-        super(theme, theme.favorite(module.favorite), module.name);
+    public ModuleScreen(Module module) {
+        super(new WFavorite(module.favorite), module.name);
         ((WFavorite) window.icon).action = () -> module.favorite = ((WFavorite) window.icon).checked;
         
         this.module = module;
@@ -46,19 +49,19 @@ public class ModuleScreen extends WindowScreen {
     @Override
     public void initWidgets() {
         // Description
-        add(theme.label(module.description, getWindowWidth() / 2.0));
+        add(new WLabel(module.description, getWindowWidth() / 2.0));
         
         // Settings
         if (!module.settings.groups.isEmpty()) {
-            settingsContainer = add(theme.verticalList()).expandX().widget();
-            settingsContainer.add(theme.settings(module.settings)).expandX();
+            settingsContainer = add(new WVerticalList()).expandX().widget();
+            settingsContainer.add(DefaultSettingsWidgetFactory.settings(module.settings)).expandX();
         }
         
         // Custom widget
-        WWidget widget = module.getWidget(theme);
+        WWidget widget = module.getWidget();
         
         if (widget != null) {
-            add(theme.horizontalSeparator()).expandX();
+            add(new WHorizontalSeparator()).expandX();
             Cell<WWidget> cell = add(widget);
             if (widget instanceof WContainer) {
                 cell.expandX();
@@ -66,41 +69,41 @@ public class ModuleScreen extends WindowScreen {
         }
         
         // Bind
-        WSection section = add(theme.section("Bind", true)).expandX().widget();
+        WSection section = add(new WSection("Bind", true)).expandX().widget();
         
         // Keybind
-        WHorizontalList bind = section.add(theme.horizontalList()).expandX().widget();
+        WHorizontalList bind = section.add(new WHorizontalList()).expandX().widget();
         
-        bind.add(theme.label("Bind: "));
-        keybind = bind.add(theme.keybind(module.keybind)).expandX().widget();
+        bind.add(new WLabel("Bind: "));
+        keybind = bind.add(new WKeybind(module.keybind)).expandX().widget();
         keybind.actionOnSet = () -> Modules.get().setModuleToBind(module);
         
-        WButton reset = bind.add(theme.button(GuiRenderer.RESET)).expandCellX().right().widget();
+        WButton reset = bind.add(new WButton(GuiConstants.RESET)).expandCellX().right().widget();
         reset.action = keybind::resetBind;
         reset.tooltip = "Reset";
         
         // Toggle on bind release
-        WHorizontalList tobr = section.add(theme.horizontalList()).widget();
+        WHorizontalList tobr = section.add(new WHorizontalList()).widget();
         
-        tobr.add(theme.label("Toggle on bind release: "));
-        WCheckbox tobrC = tobr.add(theme.checkbox(module.toggleOnBindRelease)).widget();
+        tobr.add(new WLabel("Toggle on bind release: "));
+        WCheckbox tobrC = tobr.add(new WCheckbox(module.toggleOnBindRelease)).widget();
         tobrC.action = () -> module.toggleOnBindRelease = tobrC.checked;
         
         // Chat feedback
-        WHorizontalList cf = section.add(theme.horizontalList()).widget();
+        WHorizontalList cf = section.add(new WHorizontalList()).widget();
         
-        cf.add(theme.label("Chat Feedback: "));
-        WCheckbox cfC = cf.add(theme.checkbox(module.chatFeedback)).widget();
+        cf.add(new WLabel("Chat Feedback: "));
+        WCheckbox cfC = cf.add(new WCheckbox(module.chatFeedback)).widget();
         cfC.action = () -> module.chatFeedback = cfC.checked;
         
-        add(theme.horizontalSeparator()).expandX();
+        add(new WHorizontalSeparator()).expandX();
         
         // Bottom
-        WHorizontalList bottom = add(theme.horizontalList()).expandX().widget();
+        WHorizontalList bottom = add(new WHorizontalList()).expandX().widget();
         
         // Active
-        bottom.add(theme.label("Active: "));
-        active = bottom.add(theme.checkbox(module.isActive())).expandCellX().widget();
+        bottom.add(new WLabel("Active: "));
+        active = bottom.add(new WCheckbox(module.isActive())).expandCellX().widget();
         active.action = () -> {
             if (module.isActive() != active.checked) {
                 module.toggle();
@@ -108,8 +111,8 @@ public class ModuleScreen extends WindowScreen {
         };
         
         if (module.addon != null && module.addon != MeteorClient.ADDON) {
-            bottom.add(theme.label("From: ")).right().widget();
-            bottom.add(theme.label(module.addon.name).color(theme.textSecondaryColor())).right().widget();
+            bottom.add(new WLabel("From: ")).right().widget();
+            bottom.add(new WLabel(module.addon.name).color(GuiConstants.TEXT_SECONDARY)).right().widget();
         }
     }
     
@@ -122,7 +125,7 @@ public class ModuleScreen extends WindowScreen {
     public void tick() {
         super.tick();
         
-        module.settings.tick(settingsContainer, theme);
+        module.settings.tick(settingsContainer);
     }
     
     @EventHandler

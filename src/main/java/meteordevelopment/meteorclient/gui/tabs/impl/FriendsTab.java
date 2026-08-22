@@ -5,10 +5,12 @@
 
 package meteordevelopment.meteorclient.gui.tabs.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.tabs.Tab;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.tabs.WindowTabScreen;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
+import meteordevelopment.meteorclient.gui.widgets.WTexture;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
@@ -21,8 +23,6 @@ import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import net.minecraft.client.gui.screen.Screen;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class FriendsTab extends Tab {
     
     public FriendsTab() {
@@ -30,8 +30,8 @@ public class FriendsTab extends Tab {
     }
     
     @Override
-    public TabScreen createScreen(GuiTheme theme) {
-        return new FriendsScreen(theme, this);
+    public TabScreen createScreen() {
+        return new FriendsScreen(this);
     }
     
     @Override
@@ -41,24 +41,24 @@ public class FriendsTab extends Tab {
     
     private static class FriendsScreen extends WindowTabScreen {
         
-        public FriendsScreen(GuiTheme theme, Tab tab) {
-            super(theme, tab);
+        public FriendsScreen(Tab tab) {
+            super(tab);
         }
         
         @Override
         public void initWidgets() {
-            WTable table = add(theme.table()).expandX().minWidth(400).widget();
+            WTable table = add(new WTable()).expandX().minWidth(400).widget();
             initTable(table);
             
-            add(theme.horizontalSeparator()).expandX();
+            add(new WHorizontalSeparator()).expandX();
             
             // New
-            WHorizontalList list = add(theme.horizontalList()).expandX().widget();
+            WHorizontalList list = add(new WHorizontalList()).expandX().widget();
             
-            WTextBox nameW = list.add(theme.textBox("", (text, c) -> c != ' ')).expandX().widget();
+            WTextBox nameW = list.add(new WTextBox("", (text, c) -> c != ' ')).expandX().widget();
             nameW.setFocused(true);
             
-            WPlus add = list.add(theme.plus()).widget();
+            WPlus add = list.add(new WPlus()).widget();
             add.action = () -> {
                 String name = nameW.get().trim();
                 Friend friend = new Friend(name);
@@ -76,7 +76,7 @@ public class FriendsTab extends Tab {
             enterAction = add.action;
             
             // Clear
-            WButton clearBtn = add(theme.button("Clear")).expandX().widget();
+            WButton clearBtn = add(new WButton("Clear")).expandX().widget();
             clearBtn.action = () -> {
                 Friends.get().clear();
                 reload();
@@ -98,10 +98,10 @@ public class FriendsTab extends Tab {
             );
             
             for (Friend friend : Friends.get()) {
-                table.add(theme.texture(32, 32, friend.getHead().needsRotate() ? 90 : 0, friend.getHead()));
-                table.add(theme.label(friend.getName()));
+                table.add(new WTexture(32, 32, 0, friend.getHead().identifier()));
+                table.add(new WLabel(friend.getName()));
                 
-                WMinus remove = table.add(theme.minus()).expandCellX().right().widget();
+                WMinus remove = table.add(new WMinus()).expandCellX().right().widget();
                 remove.action = () -> {
                     Friends.get().remove(friend);
                     reload();

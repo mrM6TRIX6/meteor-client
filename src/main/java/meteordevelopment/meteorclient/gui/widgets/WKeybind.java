@@ -21,6 +21,10 @@ public class WKeybind extends WHorizontalList {
     private final Keybind defaultValue;
     private boolean listening;
     
+    public WKeybind(Keybind keybind) {
+        this(keybind, Keybind.none());
+    }
+
     public WKeybind(Keybind keybind, Keybind defaultValue) {
         this.keybind = keybind;
         this.defaultValue = defaultValue;
@@ -28,7 +32,7 @@ public class WKeybind extends WHorizontalList {
     
     @Override
     public void init() {
-        button = add(theme.button("")).widget();
+        button = add(new WButton("")).widget();
         button.action = () -> {
             listening = true;
             button.set("...");

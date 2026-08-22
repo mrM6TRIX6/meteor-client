@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.settings.impl;
 
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.settings.IVisible;
@@ -20,8 +19,8 @@ public class GenericSetting<T extends IGeneric<T>> extends Setting<T> {
         super(name, description, defaultValue, onChanged, onModuleActivated, visible);
     }
     
-    public WidgetScreen createScreen(GuiTheme theme) {
-        return this.get().createScreen(theme, this);
+    public WidgetScreen createScreen() {
+        return this.get().createScreen(this);
     }
     
     @Override

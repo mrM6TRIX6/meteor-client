@@ -6,8 +6,9 @@
 package meteordevelopment.meteorclient.gui.screens;
 
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
@@ -31,18 +32,18 @@ public class NotebotSongsScreen extends WindowScreen {
     
     private WTable table;
     
-    public NotebotSongsScreen(GuiTheme theme) {
-        super(theme, "Notebot Songs");
+    public NotebotSongsScreen() {
+        super("Notebot Songs");
     }
     
     @Override
     public void initWidgets() {
         // Random Song
-        WButton randomSong = add(theme.button("Random Song")).minWidth(400).expandX().widget();
+        WButton randomSong = add(new WButton("Random Song")).minWidth(400).expandX().widget();
         randomSong.action = notebot::playRandomSong;
         
         // Filter
-        filter = add(theme.textBox("", "Search for the songs...")).minWidth(400).expandX().widget();
+        filter = add(new WTextBox("", "Search for the songs...")).minWidth(400).expandX().widget();
         filter.setFocused(true);
         filter.action = () -> {
             filterText = filter.get().trim();
@@ -51,7 +52,7 @@ public class NotebotSongsScreen extends WindowScreen {
             initSongsTable();
         };
         
-        table = add(theme.table()).widget();
+        table = add(new WTable()).widget();
         
         initSongsTable();
     }
@@ -70,23 +71,23 @@ public class NotebotSongsScreen extends WindowScreen {
                 }
             });
         } catch (IOException e) {
-            table.add(theme.label("Missing meteor-client/notebot folder.")).expandCellX();
+            table.add(new WLabel("Missing meteor-client/notebot folder.")).expandCellX();
             table.row();
         }
         
         if (noSongsFound.get()) {
-            table.add(theme.label("No songs found.")).expandCellX().center();
+            table.add(new WLabel("No songs found.")).expandCellX().center();
         }
     }
     
     private void addPath(Path path) {
-        table.add(theme.horizontalSeparator()).expandX().minWidth(400);
+        table.add(new WHorizontalSeparator()).expandX().minWidth(400);
         table.row();
         
-        table.add(theme.label(FilenameUtils.getBaseName(path.getFileName().toString()))).expandCellX();
-        WButton load = table.add(theme.button("Load")).right().widget();
+        table.add(new WLabel(FilenameUtils.getBaseName(path.getFileName().toString()))).expandCellX();
+        WButton load = table.add(new WButton("Load")).right().widget();
         load.action = () -> notebot.loadSong(path.toFile());
-        WButton preview = table.add(theme.button("Preview")).right().widget();
+        WButton preview = table.add(new WButton("Preview")).right().widget();
         preview.action = () -> notebot.previewSong(path.toFile());
         
         table.row();

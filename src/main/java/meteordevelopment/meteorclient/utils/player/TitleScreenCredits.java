@@ -9,7 +9,6 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.addons.AddonManager;
 import meteordevelopment.meteorclient.addons.GithubRepo;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
-import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.screens.CommitsScreen;
 import meteordevelopment.meteorclient.mixininterface.IText;
 import meteordevelopment.meteorclient.renderer.MeteorToast;
@@ -134,7 +133,7 @@ public class TitleScreenCredits {
             
             if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + mc.textRenderer.fontHeight + 2) {
                 if (credit.addon.getRepo() != null && credit.addon.getCommit() != null) {
-                    mc.setScreen(new CommitsScreen(GuiThemes.get(), credit.addon));
+                    mc.setScreen(new CommitsScreen(credit.addon));
                     return true;
                 }
             }

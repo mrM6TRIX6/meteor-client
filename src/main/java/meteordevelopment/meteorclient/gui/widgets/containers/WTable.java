@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 import it.unimi.dsi.fastutil.doubles.DoubleList;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 
@@ -81,11 +82,11 @@ public class WTable extends WContainer {
     }
     
     protected double horizontalSpacing() {
-        return theme.scale(horizontalSpacing);
+        return GuiConstants.scale(horizontalSpacing);
     }
     
     protected double verticalSpacing() {
-        return theme.scale(verticalSpacing);
+        return GuiConstants.scale(verticalSpacing);
     }
     
     @Override

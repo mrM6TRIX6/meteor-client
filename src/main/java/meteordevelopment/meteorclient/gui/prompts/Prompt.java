@@ -1,8 +1,9 @@
 package meteordevelopment.meteorclient.gui.prompts;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
@@ -15,8 +16,6 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 @SuppressWarnings("unchecked") // Cant instantiate a Prompt directly so this is fine
 public abstract class Prompt<T> {
-    
-    protected final GuiTheme theme;
     protected final Screen parent;
     
     protected String title = "";
@@ -24,8 +23,7 @@ public abstract class Prompt<T> {
     protected boolean dontShowAgainCheckboxVisible = true;
     protected String id = null;
     
-    protected Prompt(GuiTheme theme, Screen parent) {
-        this.theme = theme;
+    protected Prompt(Screen parent) {
         this.parent = parent;
     }
     
@@ -60,9 +58,9 @@ public abstract class Prompt<T> {
         }
         
         if (!RenderSystem.isOnRenderThread()) {
-            mc.execute(() -> mc.setScreen(new PromptScreen(theme)));
+            mc.execute(() -> mc.setScreen(new PromptScreen()));
         } else {
-            mc.setScreen(new PromptScreen(theme));
+            mc.setScreen(new PromptScreen());
         }
         
         return true;
@@ -81,8 +79,8 @@ public abstract class Prompt<T> {
         protected WCheckbox dontShowAgainCheckbox;
         protected WHorizontalList list;
         
-        public PromptScreen(GuiTheme theme) {
-            super(theme, Prompt.this.title);
+        public PromptScreen() {
+            super(Prompt.this.title);
             
             this.parent = Prompt.this.parent;
         }
@@ -90,19 +88,19 @@ public abstract class Prompt<T> {
         @Override
         public void initWidgets() {
             for (String line : messages) {
-                add(theme.label(line)).expandX();
+                add(new WLabel(line)).expandX();
             }
-            add(theme.horizontalSeparator()).expandX();
+            add(new WHorizontalSeparator()).expandX();
             
             if (dontShowAgainCheckboxVisible) {
-                WHorizontalList checkboxContainer = add(theme.horizontalList()).expandX().widget();
-                dontShowAgainCheckbox = checkboxContainer.add(theme.checkbox(false)).widget();
-                checkboxContainer.add(theme.label("Don't show this again.")).expandX();
+                WHorizontalList checkboxContainer = add(new WHorizontalList()).expandX().widget();
+                dontShowAgainCheckbox = checkboxContainer.add(new WCheckbox(false)).widget();
+                checkboxContainer.add(new WLabel("Don't show this again.")).expandX();
             } else {
                 dontShowAgainCheckbox = null;
             }
             
-            list = add(theme.horizontalList()).expandX().widget();
+            list = add(new WHorizontalList()).expandX().widget();
             
             initialiseWidgets(this);
         }

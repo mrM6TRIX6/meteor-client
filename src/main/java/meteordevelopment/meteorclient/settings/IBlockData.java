@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.settings;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.settings.impl.BlockDataSetting;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
@@ -15,6 +14,6 @@ import net.minecraft.block.Block;
 
 public interface IBlockData<T extends ICopyable<T> & ISerializable<T> & IChangeable & IBlockData<T>> {
     
-    WidgetScreen createScreen(GuiTheme theme, Block block, BlockDataSetting<T> setting);
+    WidgetScreen createScreen(Block block, BlockDataSetting<T> setting);
     
 }

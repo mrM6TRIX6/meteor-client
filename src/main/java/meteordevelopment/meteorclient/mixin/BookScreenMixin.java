@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.mixin;
 
 import it.unimi.dsi.fastutil.io.FastByteArrayOutputStream;
-import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.screens.EditBookTitleAndAuthorScreen;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.gui.screen.Screen;
@@ -103,7 +102,7 @@ public abstract class BookScreenMixin extends Screen {
         
         addDrawableChild(
             new ButtonWidget.Builder(Text.literal("Edit title & author"), button -> {
-                mc.setScreen(new EditBookTitleAndAuthorScreen(GuiThemes.get(), book, hand2));
+                mc.setScreen(new EditBookTitleAndAuthorScreen(book, hand2));
             })
                 .position(4, 4 + 20 + 2)
                 .size(120, 20)

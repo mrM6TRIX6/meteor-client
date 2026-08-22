@@ -5,16 +5,14 @@
 
 package meteordevelopment.meteorclient.gui;
 
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.gui.renderer.GuiDebugRenderer;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.widgets.WRoot;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
-import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.utils.misc.CursorStyle;
 import meteordevelopment.meteorclient.utils.misc.input.Input;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
@@ -33,51 +31,41 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowHeight;
 import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowWidth;
 import static org.lwjgl.glfw.GLFW.*;
 
-public abstract class WidgetScreen extends Screen {
-    
-    private static final GuiRenderer RENDERER = new GuiRenderer();
-    private static final GuiDebugRenderer DEBUG_RENDERER = new GuiDebugRenderer();
-    
+public abstract class WidgetScreen extends Screen implements IMinecraft {
+
     public Runnable taskAfterRender;
     protected Runnable enterAction;
-    
+
     public Screen parent;
     private final WContainer root;
-    
-    protected final GuiTheme theme;
-    
+
     public boolean locked, lockedAllowClose;
     private boolean closed;
     private boolean onClose;
-    private boolean debug;
-    
+
     private boolean closing;
-    
+
     private double lastMouseX, lastMouseY;
-    
+
     public double animProgress;
-    
+
     private List<Runnable> onClosed;
-    
+
     protected boolean firstInit = true;
-    
-    public WidgetScreen(GuiTheme theme, String title) {
+
+    public WidgetScreen(String title) {
         super(Text.literal(title));
-        
+
         this.parent = mc.currentScreen;
         this.root = new WFullScreenRoot();
-        this.theme = theme;
-        
-        root.theme = theme;
-        
+
         if (parent != null) {
             animProgress = 1;
-            
+
             if (this instanceof TabScreen && parent instanceof TabScreen) {
                 parent = ((TabScreen) parent).parent;
             }
@@ -142,11 +130,7 @@ public abstract class WidgetScreen extends Screen {
         
         double mouseX = Render2D.toIndependent(click.x());
         double mouseY = Render2D.toIndependent(click.y());
-        
-        if (debug && click.button() == GLFW_MOUSE_BUTTON_RIGHT) {
-            DEBUG_RENDERER.mouseReleased(root, new Click(mouseX, mouseY, click.buttonInfo()), 0);
-        }
-        
+
         return root.mouseReleased(new Click(mouseX, mouseY, click.buttonInfo()));
     }
     
@@ -181,17 +165,12 @@ public abstract class WidgetScreen extends Screen {
         if (locked) {
             return false;
         }
-        
-        if ((input.modifiers() == GLFW_MOD_CONTROL || input.modifiers() == GLFW_MOD_SUPER) && input.key() == GLFW_KEY_9) {
-            debug = !debug;
-            return true;
-        }
-        
+
         if ((input.key() == GLFW_KEY_ENTER || input.key() == GLFW_KEY_KP_ENTER) && enterAction != null) {
             enterAction.run();
             return true;
         }
-        
+
         return super.keyReleased(input);
     }
     
@@ -275,45 +254,39 @@ public abstract class WidgetScreen extends Screen {
     public void renderCustom(DrawContext context, int mouseX, int mouseY, float delta) {
         double independentMouseX = Render2D.toIndependent(mouseX);
         double independentMouseY = Render2D.toIndependent(mouseY);
-        
+
         animProgress += (delta / 20 * 14) * (closing ? -1 : 1);
         animProgress = MathHelper.clamp(animProgress, 0, 1);
-        
+
         if (closing && (animProgress == 0 || parent != null)) {
             closeInternal();
         }
-        
+
         GuiKeyEvents.canUseKeys = true;
-        
-        // Apply projection without scaling
-        RenderUtils.unscaledProjection();
-        
+
         onRenderBefore(context, delta);
-        
-        RENDERER.theme = theme;
-        theme.beforeRender();
-        
-        RENDERER.begin(context);
+
+        GuiConstants.beforeRender();
+        GuiOverlays.clear();
+
         Render2D.beginFrame(context);
-        
-        RENDERER.setAlpha(animProgress);
-        root.render(RENDERER, independentMouseX, independentMouseY, delta / 20);
-        RENDERER.setAlpha(1);
-        
-        RENDERER.end();
-        Render2D.flush();
-        
-        boolean tooltip = RENDERER.renderTooltip(context, independentMouseX, independentMouseY, delta / 20);
-        
-        if (debug) {
-            DEBUG_RENDERER.render(root);
-            if (tooltip) {
-                DEBUG_RENDERER.render(RENDERER.tooltipWidget);
-            }
+
+        try {
+            GuiConstants.alpha = (float) animProgress;
+
+            root.render(context, independentMouseX, independentMouseY, delta / 20);
+
+            // Widgets which draw on top of the tree (dropdowns, completions) queued themselves while rendering.
+            GuiOverlays.render();
+            GuiTooltips.render(context, independentMouseX, independentMouseY, delta / 20);
+
+            GuiConstants.alpha = 1;
+
+            Render2D.flush();
+        } finally {
+            Render2D.endFrame();
         }
-        
-        RenderUtils.scaledProjection();
-        
+
         runAfterRenderTasks();
     }
     
@@ -439,19 +412,19 @@ public abstract class WidgetScreen extends Screen {
         }
         
         @Override
-        public boolean render(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
+        public boolean render(DrawContext context, double mouseX, double mouseY, double delta) {
             if (!valid) {
                 calculateSize();
                 calculateWidgetPositions();
-                
+
                 valid = true;
-                
+
                 double cursorX = Render2D.windowToIndependentX(mc.mouse.getX());
                 double cursorY = Render2D.windowToIndependentY(mc.mouse.getY());
                 mouseMoved(cursorX, cursorY, cursorX, cursorY);
             }
-            
-            return super.render(renderer, mouseX, mouseY, delta);
+
+            return super.render(context, mouseX, mouseY, delta);
         }
         
     }

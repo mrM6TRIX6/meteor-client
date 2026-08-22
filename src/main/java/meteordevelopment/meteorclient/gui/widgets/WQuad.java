@@ -5,22 +5,29 @@
 
 package meteordevelopment.meteorclient.gui.widgets;
 
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.renderer.color.Color;
+import net.minecraft.client.gui.DrawContext;
 
-public abstract class WQuad extends WWidget {
-    
+public class WQuad extends WWidget {
+
     public Color color;
-    
+
     public WQuad(Color color) {
         this.color = color;
     }
-    
+
     @Override
     protected void onCalculateSize() {
-        double s = theme.scale(32);
-        
+        double s = GuiConstants.scale(32);
+
         width = s;
         height = s;
     }
-    
+
+    @Override
+    protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
+        rect(color);
+    }
+
 }

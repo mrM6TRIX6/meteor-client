@@ -8,9 +8,9 @@ package meteordevelopment.meteorclient.settings.impl;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.gui.GuiTheme;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.utils.CharFilter;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
@@ -75,7 +75,7 @@ public class StringListSetting extends Setting<List<String>> {
         value = new ArrayList<>(defaultValue);
     }
     
-    public static void fillTable(GuiTheme theme, WTable table, StringListSetting setting) {
+    public static void fillTable(WTable table, StringListSetting setting) {
         table.clear();
         
         ArrayList<String> strings = new ArrayList<>(setting.get());
@@ -85,39 +85,39 @@ public class StringListSetting extends Setting<List<String>> {
             int msgI = i;
             String message = setting.get().get(i);
             
-            WTextBox textBox = table.add(theme.textBox(message, filter, setting.renderer)).expandX().widget();
+            WTextBox textBox = table.add(new WTextBox(message, filter, setting.renderer)).expandX().widget();
             textBox.action = () -> strings.set(msgI, textBox.get());
             textBox.actionOnUnfocused = () -> setting.set(strings);
             
-            WMinus delete = table.add(theme.minus()).widget();
+            WMinus delete = table.add(new WMinus()).widget();
             delete.action = () -> {
                 strings.remove(msgI);
                 setting.set(strings);
                 
-                fillTable(theme, table, setting);
+                fillTable(table, setting);
             };
             
             table.row();
         }
         
         if (!setting.get().isEmpty()) {
-            table.add(theme.horizontalSeparator()).expandX();
+            table.add(new WHorizontalSeparator()).expandX();
             table.row();
         }
         
-        WButton add = table.add(theme.button("Add")).expandX().widget();
+        WButton add = table.add(new WButton("Add")).expandX().widget();
         add.action = () -> {
             strings.add("");
             setting.set(strings);
             
-            fillTable(theme, table, setting);
+            fillTable(table, setting);
         };
         
-        WButton reset = table.add(theme.button(GuiRenderer.RESET)).widget();
+        WButton reset = table.add(new WButton(GuiConstants.RESET)).widget();
         reset.action = () -> {
             setting.reset();
             
-            fillTable(theme, table, setting);
+            fillTable(table, setting);
         };
         reset.tooltip = "Reset";
     }

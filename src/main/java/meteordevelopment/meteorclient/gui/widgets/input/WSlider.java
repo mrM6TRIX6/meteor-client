@@ -5,11 +5,13 @@
 
 package meteordevelopment.meteorclient.gui.widgets.input;
 
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import net.minecraft.client.gui.Click;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 
-public abstract class WSlider extends WWidget {
+public class WSlider extends WWidget {
     
     public Runnable action;
     public Runnable actionOnRelease;
@@ -32,17 +34,34 @@ public abstract class WSlider extends WWidget {
     }
     
     protected double handleSize() {
-        return theme.textHeight();
+        return GuiConstants.textHeight();
     }
-    
+
     @Override
     protected void onCalculateSize() {
         double s = handleSize();
-        
+
         width = s;
         height = s;
     }
-    
+
+    @Override
+    protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
+        double valueWidth = valueWidth();
+        double handleSize = handleSize();
+
+        // Bar
+        double s = GuiConstants.scale(3);
+        double barX = x + handleSize / 2;
+        double barY = y + height / 2 - s / 2;
+
+        rect(barX, barY, valueWidth, s, GuiConstants.SLIDER_LEFT);
+        rect(barX + valueWidth, barY, width - valueWidth - handleSize, s, GuiConstants.SLIDER_RIGHT);
+
+        // Handle
+        icon(GuiConstants.CIRCLE, x + valueWidth, y, handleSize, GuiConstants.SLIDER_HANDLE.get(dragging, handleMouseOver));
+    }
+
     @Override
     public boolean onMouseClicked(Click click, boolean doubled) {
         if (mouseOver && !doubled) {

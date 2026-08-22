@@ -5,101 +5,74 @@
 
 package meteordevelopment.meteorclient.renderer;
 
-import com.mojang.blaze3d.platform.TextureUtil;
-import com.mojang.blaze3d.textures.FilterMode;
-import com.mojang.blaze3d.textures.TextureFormat;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.renderer.engine.Texture;
 import meteordevelopment.meteorclient.utils.network.Http;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.stb.STBImage;
-import org.lwjgl.system.MemoryStack;
-import org.lwjgl.system.MemoryUtil;
+import net.minecraft.client.texture.NativeImage;
+import net.minecraft.client.texture.NativeImageBackedTexture;
+import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
 
 import static meteordevelopment.meteorclient.MeteorClient.mc;
 
-public class PlayerHeadTexture extends Texture {
-    
-    private boolean needsRotate;
-    
+/**
+ * A player's head cut out of their skin, registered with the vanilla texture manager so it can be drawn by
+ * {@link meteordevelopment.meteorclient.utils.render.ui.Render2D}.
+ */
+public class PlayerHeadTexture {
+
+    private static int COUNT;
+
+    private @Nullable Identifier identifier;
+
     public PlayerHeadTexture(String url) {
-        super(8, 8, TextureFormat.RGBA8, FilterMode.NEAREST, FilterMode.NEAREST);
-        
         BufferedImage skin;
         try {
             skin = ImageIO.read(Http.get(url).sendInputStream());
         } catch (IOException e) {
-            e.printStackTrace();
+            MeteorClient.LOGGER.error("Failed to download player head from '{}'", url, e);
             return;
         }
-        
-        byte[] head = new byte[8 * 8 * 4];
-        int[] pixel = new int[4];
-        
-        int i = 0;
-        for (int x = 8; x < 16; x++) {
-            for (int y = 8; y < 16; y++) {
-                skin.getData().getPixel(x, y, pixel);
-                
-                for (int j = 0; j < 4; j++) {
-                    head[i] = (byte) pixel[j];
-                    i++;
+
+        NativeImage image = new NativeImage(NativeImage.Format.RGBA, 8, 8, false);
+
+        // The head, then the hat layer on top of it.
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                image.setColorArgb(x, y, skin.getRGB(8 + x, 8 + y));
+
+                int hat = skin.getRGB(40 + x, 8 + y);
+                if ((hat >>> 24) != 0) {
+                    image.setColorArgb(x, y, hat);
                 }
             }
         }
-        
-        i = 0;
-        for (int x = 40; x < 48; x++) {
-            for (int y = 8; y < 16; y++) {
-                skin.getData().getPixel(x, y, pixel);
-                
-                if (pixel[3] != 0) {
-                    for (int j = 0; j < 4; j++) {
-                        head[i] = (byte) pixel[j];
-                        i++;
-                    }
-                } else {
-                    i += 4;
-                }
-            }
-        }
-        
-        upload(BufferUtils.createByteBuffer(head.length).put(head));
-        
-        needsRotate = true;
+
+        register(image);
     }
-    
+
     public PlayerHeadTexture() {
-        super(8, 8, TextureFormat.RGBA8, FilterMode.NEAREST, FilterMode.NEAREST);
-        
         try (InputStream inputStream = mc.getResourceManager().getResource(MeteorClient.identifier("textures/steve.png")).get().getInputStream()) {
-            ByteBuffer data = TextureUtil.readResource(inputStream);
-            data.rewind();
-            
-            try (MemoryStack stack = MemoryStack.stackPush()) {
-                IntBuffer width = stack.mallocInt(1);
-                IntBuffer height = stack.mallocInt(1);
-                IntBuffer comp = stack.mallocInt(1);
-                
-                ByteBuffer image = STBImage.stbi_load_from_memory(data, width, height, comp, 4);
-                upload(image);
-                STBImage.stbi_image_free(image);
-            }
-            MemoryUtil.memFree(data);
+            register(NativeImage.read(inputStream));
         } catch (IOException e) {
-            e.printStackTrace();
+            MeteorClient.LOGGER.error("Failed to read the default player head", e);
         }
     }
-    
-    public boolean needsRotate() {
-        return needsRotate;
+
+    private void register(NativeImage image) {
+        identifier = MeteorClient.identifier("heads/" + COUNT++);
+        mc.getTextureManager().registerTexture(identifier, new NativeImageBackedTexture(null, image));
     }
-    
+
+    /**
+     * {@code null} when the skin could not be read, in which case there is nothing to draw.
+     */
+    public @Nullable Identifier identifier() {
+        return identifier;
+    }
+
 }

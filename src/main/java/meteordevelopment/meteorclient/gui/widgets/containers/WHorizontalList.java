@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.widgets.containers;
 
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 
 public class WHorizontalList extends WContainer {
@@ -15,7 +16,7 @@ public class WHorizontalList extends WContainer {
     protected int fillXCount;
     
     protected double spacing() {
-        return theme.scale(spacing);
+        return GuiConstants.scale(spacing);
     }
     
     @Override

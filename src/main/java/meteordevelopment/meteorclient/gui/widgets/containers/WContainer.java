@@ -5,12 +5,12 @@
 
 package meteordevelopment.meteorclient.gui.widgets.containers;
 
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.Mouse;
 import net.minecraft.client.gui.Click;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 
@@ -22,19 +22,18 @@ import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowHeight;
 
 public abstract class WContainer extends WWidget {
-    
+
     public final List<Cell<?>> cells = new ArrayList<>();
-    
+
     public <T extends WWidget> Cell<T> add(T widget) {
         widget.parent = this;
-        widget.theme = theme;
-        
+
         Cell<T> cell = new Cell<>(widget).centerY();
         cells.add(cell);
-        
+
         widget.init();
         invalidate();
-        
+
         return cell;
     }
     
@@ -125,35 +124,35 @@ public abstract class WContainer extends WWidget {
     // Rendering
     
     @Override
-    public boolean render(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
-        if (super.render(renderer, mouseX, mouseY, delta)) {
+    public boolean render(DrawContext context, double mouseX, double mouseY, double delta) {
+        if (super.render(context, mouseX, mouseY, delta)) {
             return true;
         }
-        
+
         WView view = getView();
         double windowHeight = getWindowHeight();
-        
+
         for (Cell<?> cell : cells) {
             WWidget widget = cell.widget();
-            
+
             if (widget.y > windowHeight) {
                 break;
             }
-            
+
             if (widget.y + widget.height <= 0) {
                 continue;
             }
-            
+
             if (shouldRenderWidget(widget, view)) {
-                renderWidget(widget, renderer, mouseX, mouseY, delta);
+                renderWidget(widget, context, mouseX, mouseY, delta);
             }
         }
-        
+
         return false;
     }
-    
-    protected void renderWidget(WWidget widget, GuiRenderer renderer, double mouseX, double mouseY, double delta) {
-        widget.render(renderer, mouseX, mouseY, delta);
+
+    protected void renderWidget(WWidget widget, DrawContext context, double mouseX, double mouseY, double delta) {
+        widget.render(context, mouseX, mouseY, delta);
     }
     
     private boolean shouldRenderWidget(WWidget widget, WView view) {

@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.WindowScreen;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
@@ -28,8 +28,8 @@ public abstract class CollectionMapSettingScreen<K, V> extends WindowScreen {
     private WTable table;
     private String filterText = "";
     
-    public CollectionMapSettingScreen(GuiTheme theme, String title, Setting<?> setting, Map<K, V> map, Iterable<K> registry) {
-        super(theme, title);
+    public CollectionMapSettingScreen(String title, Setting<?> setting, Map<K, V> map, Iterable<K> registry) {
+        super(title);
         
         this.setting = setting;
         this.map = map;
@@ -39,7 +39,7 @@ public abstract class CollectionMapSettingScreen<K, V> extends WindowScreen {
     @Override
     public void initWidgets() {
         // Filter
-        WTextBox filter = add(theme.textBox("")).minWidth(400).expandX().widget();
+        WTextBox filter = add(new WTextBox("")).minWidth(400).expandX().widget();
         filter.setFocused(true);
         filter.action = () -> {
             filterText = filter.get().trim();
@@ -48,7 +48,7 @@ public abstract class CollectionMapSettingScreen<K, V> extends WindowScreen {
             initTable();
         };
         
-        table = add(theme.table()).expandX().widget();
+        table = add(new WTable()).expandX().widget();
         
         initTable();
     }
@@ -62,10 +62,10 @@ public abstract class CollectionMapSettingScreen<K, V> extends WindowScreen {
             boolean isChanged = data instanceof IChangeable changeable && changeable.isChanged();
             
             table.add(getValueWidget(t)).expandCellX();
-            table.add(theme.label(isChanged ? "*" : " "));
+            table.add(new WLabel(isChanged ? "*" : " "));
             table.add(getDataWidget(t, data));
             
-            WButton reset = table.add(theme.button(GuiRenderer.RESET)).widget();
+            WButton reset = table.add(new WButton(GuiConstants.RESET)).widget();
             reset.action = () -> removeValue(t);
             reset.tooltip = "Reset";
             

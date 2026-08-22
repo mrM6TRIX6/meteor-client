@@ -6,15 +6,14 @@
 package meteordevelopment.meteorclient.systems.modules.render.blockesp;
 
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.IBlockData;
 import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.settings.impl.BlockDataSetting;
 import meteordevelopment.meteorclient.settings.impl.GenericSetting;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import net.minecraft.block.Block;
 
 public class ESPBlockData implements IGeneric<ESPBlockData>, IChangeable, IBlockData<ESPBlockData> {
@@ -38,13 +37,13 @@ public class ESPBlockData implements IGeneric<ESPBlockData>, IChangeable, IBlock
     }
     
     @Override
-    public WidgetScreen createScreen(GuiTheme theme, Block block, BlockDataSetting<ESPBlockData> setting) {
-        return new ESPBlockDataScreen(theme, this, block, setting);
+    public WidgetScreen createScreen(Block block, BlockDataSetting<ESPBlockData> setting) {
+        return new ESPBlockDataScreen(this, block, setting);
     }
     
     @Override
-    public WidgetScreen createScreen(GuiTheme theme, GenericSetting<ESPBlockData> setting) {
-        return new ESPBlockDataScreen(theme, this, setting);
+    public WidgetScreen createScreen(GenericSetting<ESPBlockData> setting) {
+        return new ESPBlockDataScreen(this, setting);
     }
     
     @Override

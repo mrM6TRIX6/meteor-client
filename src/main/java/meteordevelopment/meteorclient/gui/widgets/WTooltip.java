@@ -5,43 +5,49 @@
 
 package meteordevelopment.meteorclient.gui.widgets;
 
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
+import net.minecraft.client.gui.DrawContext;
 
-public abstract class WTooltip extends WContainer implements WRoot {
-    
+public class WTooltip extends WContainer implements WRoot {
+
     private boolean valid;
-    
+
     protected String text;
-    
+
     public WTooltip(String text) {
         this.text = text;
     }
-    
+
     @Override
     public void init() {
-        add(theme.label(text)).pad(4);
+        add(new WLabel(text)).pad(4);
     }
-    
+
     @Override
     public void invalidate() {
         valid = false;
     }
-    
+
     @Override
-    public boolean render(GuiRenderer renderer, double mouseX, double mouseY, double delta) {
-        if (text != null) {
-            if (!valid) {
-                calculateSize();
-                calculateWidgetPositions();
-                
-                valid = true;
-            }
-            
-            return super.render(renderer, mouseX, mouseY, delta);
+    public boolean render(DrawContext context, double mouseX, double mouseY, double delta) {
+        if (text == null) {
+            return false;
         }
-        
-        return false;
+
+        if (!valid) {
+            calculateSize();
+            calculateWidgetPositions();
+
+            valid = true;
+        }
+
+        return super.render(context, mouseX, mouseY, delta);
     }
-    
+
+    @Override
+    protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
+        rect(GuiConstants.BACKGROUND.get());
+    }
+
 }

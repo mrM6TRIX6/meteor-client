@@ -5,11 +5,13 @@
 
 package meteordevelopment.meteorclient.gui.widgets.input;
 
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.utils.misc.Range;
 import net.minecraft.client.gui.Click;
+import net.minecraft.client.gui.DrawContext;
 
-public abstract class WRangeSlider extends WWidget {
+public class WRangeSlider extends WWidget {
     
     protected Range value;
     protected final int min, max;
@@ -41,15 +43,33 @@ public abstract class WRangeSlider extends WWidget {
     }
     
     protected double handleSize() {
-        return theme.textHeight();
+        return GuiConstants.textHeight();
     }
-    
+
     @Override
     protected void onCalculateSize() {
         width = 200;
         height = handleSize();
     }
-    
+
+    @Override
+    protected void onRender(DrawContext context, double mouseX, double mouseY, double delta) {
+        handleFromX = calculateFromHandleX();
+        handleToX = calculateToHandleX();
+
+        double trackWidth = calculateTrackWidth();
+        double trackX = calculateTrackX();
+        double trackY = calculateTrackY();
+        double trackHeight = GuiConstants.scale(3);
+
+        rect(trackX, trackY, trackWidth, trackHeight, GuiConstants.SLIDER_RIGHT);
+        rect(handleFromX, trackY, handleToX - handleFromX, trackHeight, GuiConstants.SLIDER_LEFT);
+
+        double s = handleSize();
+        icon(GuiConstants.CIRCLE, handleFromX - s / 2, y, s, GuiConstants.SLIDER_HANDLE.get(draggingFrom, handleFromMouseOver));
+        icon(GuiConstants.CIRCLE, handleToX - s / 2, y, s, GuiConstants.SLIDER_HANDLE.get(draggingTo, handleToMouseOver));
+    }
+
     @Override
     public boolean onMouseClicked(Click click, boolean doubled) {
         if (doubled) {

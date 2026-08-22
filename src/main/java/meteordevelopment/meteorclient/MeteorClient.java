@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.GuiThemes;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.gui.tabs.impl.ModulesTab;
@@ -146,7 +146,6 @@ public class MeteorClient implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STOPPING.register(mc -> {
             OnlinePlayers.leave();
             Systems.save();
-            GuiThemes.save();
         });
     }
     
@@ -175,7 +174,7 @@ public class MeteorClient implements ClientModInitializer {
         if (Utils.canCloseGui()) {
             mc.currentScreen.close();
         } else if (Utils.canOpenGui()) {
-            Tabs.get(ModulesTab.class).openScreen(GuiThemes.get());
+            Tabs.get(ModulesTab.class).openScreen();
         }
     }
     
@@ -189,7 +188,7 @@ public class MeteorClient implements ClientModInitializer {
             if (!wasWidgetScreen) {
                 wasHudHiddenRoot = mc.options.hudHidden;
             }
-            if (GuiThemes.get().hideHUD() || wasHudHiddenRoot) {
+            if (GuiConstants.HIDE_HUD || wasHudHiddenRoot) {
                 // Always show the MC HUD in the HUD editor screen since people like
                 // to align some items with the hotbar or chat
                 mc.options.hudHidden = !(event.screen instanceof HUDEditorScreen);

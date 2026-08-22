@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.gui.screens.accounts;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 
@@ -15,8 +14,8 @@ public abstract class AddAccountScreen extends WindowScreen {
     public WButton add;
     private int timer;
     
-    protected AddAccountScreen(GuiTheme theme, String title, AccountsScreen parent) {
-        super(theme, title);
+    protected AddAccountScreen(String title, AccountsScreen parent) {
+        super(title);
         this.parent = parent;
     }
     

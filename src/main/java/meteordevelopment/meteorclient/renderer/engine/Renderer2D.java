@@ -10,7 +10,6 @@ import com.mojang.blaze3d.buffers.Std140SizeCalculator;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
 import com.mojang.blaze3d.textures.GpuTextureView;
-import meteordevelopment.meteorclient.gui.renderer.packer.TextureRegion;
 import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.renderer.state.QuadColorState;
 import meteordevelopment.meteorclient.renderer.state.QuadRadiusState;
@@ -167,17 +166,6 @@ public class Renderer2D {
         );
     }
     
-    public void texQuad(double x, double y, double width, double height, TextureRegion texture, Color color) {
-        triangles.ensureQuadCapacity();
-        
-        triangles.quad(
-            triangles.pos(x, y).pos(texture.x1, texture.y1).color(color).next(),
-            triangles.pos(x, y + height).pos(texture.x1, texture.y2).color(color).next(),
-            triangles.pos(x + width, y + height).pos(texture.x2, texture.y2).color(color).next(),
-            triangles.pos(x + width, y).pos(texture.x2, texture.y1).color(color).next()
-        );
-    }
-    
     public void texQuad(double x, double y, double width, double height, double rotation, double texX1, double texY1, double texX2, double texY2, Color color) {
         triangles.ensureQuadCapacity();
         
@@ -206,11 +194,7 @@ public class Renderer2D {
         
         triangles.quad(i1, i2, i3, i4);
     }
-    
-    public void texQuad(double x, double y, double width, double height, double rotation, TextureRegion region, Color color) {
-        texQuad(x, y, width, height, rotation, region.x1, region.y1, region.x2, region.y2, color);
-    }
-    
+
     // Rectangle
     
     private static final FixedUniformStorage<RectangleUniformData> RECTANGLE_UNIFORM_STORAGE = new FixedUniformStorage<>(

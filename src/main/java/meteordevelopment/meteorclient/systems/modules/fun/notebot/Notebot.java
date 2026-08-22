@@ -11,7 +11,7 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.screens.NotebotSongsScreen;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
@@ -579,17 +579,17 @@ public class Notebot extends Module {
     }
     
     @Override
-    public WWidget getWidget(GuiTheme theme) {
-        WTable table = theme.table();
+    public WWidget getWidget() {
+        WTable table = new WTable();
         
         // Open Song GUI
-        WButton openSongGUI = table.add(theme.button("Open Song GUI")).expandX().minWidth(100).widget();
-        openSongGUI.action = () -> mc.setScreen(theme.notebotSongs());
+        WButton openSongGUI = table.add(new WButton("Open Song GUI")).expandX().minWidth(100).widget();
+        openSongGUI.action = () -> mc.setScreen(new NotebotSongsScreen());
         
         table.row();
         
         // Align Center
-        WButton alignCenter = table.add(theme.button("Align Center")).expandX().minWidth(100).widget();
+        WButton alignCenter = table.add(new WButton("Align Center")).expandX().minWidth(100).widget();
         alignCenter.action = () -> {
             if (mc.player == null) {
                 return;
@@ -601,10 +601,10 @@ public class Notebot extends Module {
         table.row();
         
         // Label
-        status = table.add(theme.label(getStatus())).expandCellX().widget();
+        status = table.add(new WLabel(getStatus())).expandCellX().widget();
         
         // Pause
-        WButton pause = table.add(theme.button(isPlaying ? "Pause" : "Resume")).right().widget();
+        WButton pause = table.add(new WButton(isPlaying ? "Pause" : "Resume")).right().widget();
         pause.action = () -> {
             pause();
             pause.set(isPlaying ? "Pause" : "Resume");
@@ -612,7 +612,7 @@ public class Notebot extends Module {
         };
         
         // Stop
-        WButton stop = table.add(theme.button("Stop")).right().widget();
+        WButton stop = table.add(new WButton("Stop")).right().widget();
         stop.action = this::stop;
         
         return table;

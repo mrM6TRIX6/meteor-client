@@ -12,7 +12,6 @@ import meteordevelopment.discordipc.RichPresence;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.gui.utils.StarscriptTextBoxRenderer;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
@@ -327,8 +326,8 @@ public class DiscordPresence extends Module {
     }
     
     @Override
-    public WWidget getWidget(GuiTheme theme) {
-        WButton help = theme.button("Open documentation.");
+    public WWidget getWidget() {
+        WButton help = new WButton("Open documentation.");
         help.action = () -> Util.getOperatingSystem().open("https://github.com/MeteorDevelopment/meteor-client/wiki/Starscript");
         
         return help;

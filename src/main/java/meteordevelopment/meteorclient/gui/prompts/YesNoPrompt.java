@@ -5,8 +5,6 @@
 
 package meteordevelopment.meteorclient.gui.prompts;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
-import meteordevelopment.meteorclient.gui.GuiThemes;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import net.minecraft.client.gui.screen.Screen;
 
@@ -17,16 +15,16 @@ public class YesNoPrompt extends Prompt<YesNoPrompt> {
     private Runnable onYes = () -> {};
     private Runnable onNo = () -> {};
     
-    private YesNoPrompt(GuiTheme theme, Screen parent) {
-        super(theme, parent);
+    private YesNoPrompt(Screen parent) {
+        super(parent);
     }
     
     public static YesNoPrompt create() {
-        return new YesNoPrompt(GuiThemes.get(), mc.currentScreen);
+        return new YesNoPrompt(mc.currentScreen);
     }
     
-    public static YesNoPrompt create(GuiTheme theme, Screen parent) {
-        return new YesNoPrompt(theme, parent);
+    public static YesNoPrompt create(Screen parent) {
+        return new YesNoPrompt(parent);
     }
     
     public YesNoPrompt onYes(Runnable action) {
@@ -41,14 +39,14 @@ public class YesNoPrompt extends Prompt<YesNoPrompt> {
     
     @Override
     protected void initialiseWidgets(PromptScreen screen) {
-        WButton yesButton = screen.list.add(theme.button("Yes")).expandX().widget();
+        WButton yesButton = screen.list.add(new WButton("Yes")).expandX().widget();
         yesButton.action = () -> {
             dontShowAgain(screen);
             onYes.run();
             screen.close();
         };
         
-        WButton noButton = screen.list.add(theme.button("No")).expandX().widget();
+        WButton noButton = screen.list.add(new WButton("No")).expandX().widget();
         noButton.action = () -> {
             dontShowAgain(screen);
             onNo.run();

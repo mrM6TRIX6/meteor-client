@@ -5,8 +5,8 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
+import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.misc.Names;
@@ -22,13 +22,13 @@ import java.util.Optional;
 
 public class StatusEffectListSettingScreen extends CollectionListSettingScreen<StatusEffect> {
     
-    public StatusEffectListSettingScreen(GuiTheme theme, Setting<List<StatusEffect>> setting) {
-        super(theme, "Select Effects", setting, setting.get(), Registries.STATUS_EFFECT);
+    public StatusEffectListSettingScreen(Setting<List<StatusEffect>> setting) {
+        super("Select Effects", setting, setting.get(), Registries.STATUS_EFFECT);
     }
     
     @Override
     protected WWidget getValueWidget(StatusEffect value) {
-        return theme.itemWithLabel(getPotionStack(value), Names.get(value));
+        return new WItemWithLabel(getPotionStack(value), Names.get(value));
     }
     
     @Override

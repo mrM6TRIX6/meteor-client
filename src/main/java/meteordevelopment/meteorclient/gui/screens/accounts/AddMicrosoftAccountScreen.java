@@ -5,18 +5,16 @@
 
 package meteordevelopment.meteorclient.gui.screens.accounts;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.MicrosoftLogin;
 import meteordevelopment.meteorclient.systems.accounts.types.MicrosoftAccount;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class AddMicrosoftAccountScreen extends AddAccountScreen {
     
-    public AddMicrosoftAccountScreen(GuiTheme theme, AccountsScreen parent) {
-        super(theme, "Add Microsoft Account", parent);
+    public AddMicrosoftAccountScreen(AccountsScreen parent) {
+        super("Add Microsoft Account", parent);
     }
     
     @Override
@@ -29,15 +27,15 @@ public class AddMicrosoftAccountScreen extends AddAccountScreen {
             close();
         });
         
-        add(theme.label("Please select the account to log into in your browser."));
-        add(theme.label("If the link does not automatically open in a few seconds, copy it into your browser."));
+        add(new WLabel("Please select the account to log into in your browser."));
+        add(new WLabel("If the link does not automatically open in a few seconds, copy it into your browser."));
         
-        WHorizontalList list = add(theme.horizontalList()).expandX().widget();
+        WHorizontalList list = add(new WHorizontalList()).expandX().widget();
         
-        WButton copy = list.add(theme.button("Copy link")).expandX().widget();
+        WButton copy = list.add(new WButton("Copy link")).expandX().widget();
         copy.action = () -> mc.keyboard.setClipboard(url);
         
-        WButton cancel = list.add(theme.button("Cancel")).expandX().widget();
+        WButton cancel = list.add(new WButton("Cancel")).expandX().widget();
         cancel.action = () -> {
             MicrosoftLogin.stopServer();
             close();

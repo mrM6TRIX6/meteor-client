@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud.screens;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
@@ -24,8 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class AddHUDElementScreen extends WindowScreen {
     
     private final int x, y;
@@ -33,13 +30,13 @@ public class AddHUDElementScreen extends WindowScreen {
     
     private Object firstObject;
     
-    public AddHUDElementScreen(GuiTheme theme, int x, int y) {
-        super(theme, "Add Hud element");
+    public AddHUDElementScreen(int x, int y) {
+        super("Add Hud element");
         
         this.x = x;
         this.y = y;
         
-        searchBar = theme.textBox("");
+        searchBar = new WTextBox("");
         searchBar.action = () -> {
             clear();
             initWidgets();
@@ -75,16 +72,16 @@ public class AddHUDElementScreen extends WindowScreen {
         
         // Create widgets
         for (HUDGroup group : grouped.keySet()) {
-            WSection section = add(theme.section(group.title())).expandX().widget();
+            WSection section = add(new WSection(group.title())).expandX().widget();
             
             for (Item item : grouped.get(group)) {
-                WHorizontalList l = section.add(theme.horizontalList()).expandX().widget();
+                WHorizontalList l = section.add(new WHorizontalList()).expandX().widget();
                 
-                WLabel title = l.add(theme.label(item.title)).widget();
+                WLabel title = l.add(new WLabel(item.title)).widget();
                 title.tooltip = item.description;
                 
                 if (item.object instanceof HUDElementInfo<?>.Preset preset) {
-                    WPlus add = l.add(theme.plus()).expandCellX().right().widget();
+                    WPlus add = l.add(new WPlus()).expandCellX().right().widget();
                     add.action = () -> runObject(preset);
                     
                     if (firstObject == null) {
@@ -94,10 +91,10 @@ public class AddHUDElementScreen extends WindowScreen {
                     HUDElementInfo<?> info = (HUDElementInfo<?>) item.object;
                     
                     if (info.hasPresets()) {
-                        WButton open = l.add(theme.button(" > ")).expandCellX().right().widget();
+                        WButton open = l.add(new WButton(" > ")).expandCellX().right().widget();
                         open.action = () -> runObject(info);
                     } else {
-                        WPlus add = l.add(theme.plus()).expandCellX().right().widget();
+                        WPlus add = l.add(new WPlus()).expandCellX().right().widget();
                         add.action = () -> runObject(info);
                     }
                     
@@ -120,7 +117,7 @@ public class AddHUDElementScreen extends WindowScreen {
             HUDElementInfo<?> info = (HUDElementInfo<?>) object;
             
             if (info.hasPresets()) {
-                HUDElementPresetsScreen screen = new HUDElementPresetsScreen(theme, info, x, y);
+                HUDElementPresetsScreen screen = new HUDElementPresetsScreen(info, x, y);
                 screen.parent = parent;
                 
                 mc.setScreen(screen);

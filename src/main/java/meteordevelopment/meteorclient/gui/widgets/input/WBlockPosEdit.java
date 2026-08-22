@@ -42,7 +42,7 @@ public class WBlockPosEdit extends WHorizontalList {
         addTextBox();
         
         if (Utils.canUpdate()) {
-            WButton click = add(theme.button("Click")).expandX().widget();
+            WButton click = add(new WButton("Click")).expandX().widget();
             click.action = () -> {
                 ChatUtils.info("Click!\nRight click to pick a new position.\nLeft click to cancel.");
                 
@@ -52,7 +52,7 @@ public class WBlockPosEdit extends WHorizontalList {
                 mc.setScreen(null);
             };
             
-            WButton here = add(theme.button("Set Here")).expandX().widget();
+            WButton here = add(new WButton("Set Here")).expandX().widget();
             here.action = () -> {
                 lastValue = value;
                 set(new BlockPos(mc.player.getBlockPos()));
@@ -124,9 +124,9 @@ public class WBlockPosEdit extends WHorizontalList {
     }
     
     private void addTextBox() {
-        textBoxX = add(theme.textBox(Integer.toString(value.getX()), this::filter)).minWidth(75).widget();
-        textBoxY = add(theme.textBox(Integer.toString(value.getY()), this::filter)).minWidth(75).widget();
-        textBoxZ = add(theme.textBox(Integer.toString(value.getZ()), this::filter)).minWidth(75).widget();
+        textBoxX = add(new WTextBox(Integer.toString(value.getX()), this::filter)).minWidth(75).widget();
+        textBoxY = add(new WTextBox(Integer.toString(value.getY()), this::filter)).minWidth(75).widget();
+        textBoxZ = add(new WTextBox(Integer.toString(value.getZ()), this::filter)).minWidth(75).widget();
         
         textBoxX.actionOnUnfocused = () -> {
             lastValue = value;

@@ -5,12 +5,13 @@
 
 package meteordevelopment.meteorclient.gui.tabs.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.screens.EditSystemScreen;
 import meteordevelopment.meteorclient.gui.tabs.Tab;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.tabs.WindowTabScreen;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
@@ -21,8 +22,6 @@ import meteordevelopment.meteorclient.systems.macros.Macros;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import net.minecraft.client.gui.screen.Screen;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class MacrosTab extends Tab {
     
     public MacrosTab() {
@@ -30,8 +29,8 @@ public class MacrosTab extends Tab {
     }
     
     @Override
-    public TabScreen createScreen(GuiTheme theme) {
-        return new MacrosScreen(theme, this);
+    public TabScreen createScreen() {
+        return new MacrosScreen(this);
     }
     
     @Override
@@ -41,25 +40,25 @@ public class MacrosTab extends Tab {
     
     private static class MacrosScreen extends WindowTabScreen {
         
-        public MacrosScreen(GuiTheme theme, Tab tab) {
-            super(theme, tab);
+        public MacrosScreen(Tab tab) {
+            super(tab);
         }
         
         @Override
         public void initWidgets() {
-            WTable table = add(theme.table()).expandX().minWidth(400).widget();
+            WTable table = add(new WTable()).expandX().minWidth(400).widget();
             initTable(table);
             
-            add(theme.horizontalSeparator()).expandX();
+            add(new WHorizontalSeparator()).expandX();
             
-            WHorizontalList list = add(theme.horizontalList()).expandX().widget();
+            WHorizontalList list = add(new WHorizontalList()).expandX().widget();
             
             // Create
-            WButton create = list.add(theme.button("Create")).expandX().widget();
-            create.action = () -> mc.setScreen(new EditMacroScreen(theme, null, this::reload));
+            WButton create = list.add(new WButton("Create")).expandX().widget();
+            create.action = () -> mc.setScreen(new EditMacroScreen(null, this::reload));
             
             // Clear
-            WButton clearBtn = list.add(theme.button("Clear")).expandX().widget();
+            WButton clearBtn = list.add(new WButton("Clear")).expandX().widget();
             clearBtn.action = () -> {
                 Macros.get().clear();
                 reload();
@@ -73,12 +72,12 @@ public class MacrosTab extends Tab {
             }
             
             for (Macro macro : Macros.get()) {
-                table.add(theme.label(macro.name.get() + " (" + macro.keybind.get() + ")"));
+                table.add(new WLabel(macro.name.get() + " (" + macro.keybind.get() + ")"));
                 
-                WButton edit = table.add(theme.button(GuiRenderer.EDIT)).expandCellX().right().widget();
-                edit.action = () -> mc.setScreen(new EditMacroScreen(theme, macro, this::reload));
+                WButton edit = table.add(new WButton(GuiConstants.EDIT)).expandCellX().right().widget();
+                edit.action = () -> mc.setScreen(new EditMacroScreen(macro, this::reload));
                 
-                WMinus remove = table.add(theme.minus()).widget();
+                WMinus remove = table.add(new WMinus()).widget();
                 remove.action = () -> {
                     Macros.get().remove(macro);
                     reload();
@@ -102,8 +101,8 @@ public class MacrosTab extends Tab {
     
     private static class EditMacroScreen extends EditSystemScreen<Macro> {
         
-        public EditMacroScreen(GuiTheme theme, Macro value, Runnable reload) {
-            super(theme, value, reload);
+        public EditMacroScreen(Macro value, Runnable reload) {
+            super(value, reload);
         }
         
         @Override

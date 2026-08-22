@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.tabs.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.DefaultSettingsWidgetFactory;
 import meteordevelopment.meteorclient.gui.tabs.Tab;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.tabs.WindowTabScreen;
@@ -20,8 +20,8 @@ public class PathManagerTab extends Tab {
     }
     
     @Override
-    public TabScreen createScreen(GuiTheme theme) {
-        return new PathManagerScreen(theme, this);
+    public TabScreen createScreen() {
+        return new PathManagerScreen(this);
     }
     
     @Override
@@ -31,24 +31,24 @@ public class PathManagerTab extends Tab {
     
     private static class PathManagerScreen extends WindowTabScreen {
         
-        public PathManagerScreen(GuiTheme theme, Tab tab) {
-            super(theme, tab);
+        public PathManagerScreen(Tab tab) {
+            super(tab);
             
             PathManagers.get().getSettings().get().onActivated();
         }
         
         @Override
         public void initWidgets() {
-            WTextBox filter = add(theme.textBox("")).minWidth(400).expandX().widget();
+            WTextBox filter = add(new WTextBox("")).minWidth(400).expandX().widget();
             filter.setFocused(true);
             filter.action = () -> {
                 clear();
                 
                 add(filter);
-                add(theme.settings(PathManagers.get().getSettings().get(), filter.get().trim())).expandX();
+                add(DefaultSettingsWidgetFactory.settings(PathManagers.get().getSettings().get(), filter.get().trim())).expandX();
             };
             
-            add(theme.settings(PathManagers.get().getSettings().get(), filter.get().trim())).expandX();
+            add(DefaultSettingsWidgetFactory.settings(PathManagers.get().getSettings().get(), filter.get().trim())).expandX();
         }
         
         @Override

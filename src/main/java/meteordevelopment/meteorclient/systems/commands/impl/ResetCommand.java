@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.systems.commands.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import meteordevelopment.meteorclient.gui.GuiThemes;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.systems.commands.Command;
 import meteordevelopment.meteorclient.systems.commands.arguments.ModuleArgumentType;
@@ -43,7 +43,7 @@ public class ResetCommand extends Command {
         
         builder.then(literal("gui")
             .executes(context -> {
-                GuiThemes.get().clearWindowConfigs();
+                GuiConstants.clearWindowConfigs();
                 ChatUtils.info("Reset GUI positioning.");
                 return SINGLE_SUCCESS;
             })

@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.gui.screens;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.WindowScreen;
-import meteordevelopment.meteorclient.gui.renderer.GuiRenderer;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
@@ -28,28 +28,26 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class ProxiesScreen extends WindowScreen {
     
     private final List<WCheckbox> checkboxes = new ArrayList<>();
     
-    public ProxiesScreen(GuiTheme theme) {
-        super(theme, "Proxies");
+    public ProxiesScreen() {
+        super("Proxies");
     }
     
     @Override
     public void initWidgets() {
-        WTable table = add(theme.table()).expandX().minWidth(400).widget();
+        WTable table = add(new WTable()).expandX().minWidth(400).widget();
         initTable(table);
         
-        add(theme.horizontalSeparator()).expandX();
+        add(new WHorizontalSeparator()).expandX();
         
-        WHorizontalList list = add(theme.horizontalList()).expandX().widget();
+        WHorizontalList list = add(new WHorizontalList()).expandX().widget();
         
         // New
-        WButton newBtn = list.add(theme.button("New")).expandX().widget();
-        newBtn.action = () -> mc.setScreen(new EditProxyScreen(theme, null, this::reload));
+        WButton newBtn = list.add(new WButton("New")).expandX().widget();
+        newBtn.action = () -> mc.setScreen(new EditProxyScreen(null, this::reload));
         
         // Import
         PointerBuffer filters = BufferUtils.createPointerBuffer(1);
@@ -59,17 +57,17 @@ public class ProxiesScreen extends WindowScreen {
         filters.put(txtFilter);
         filters.rewind();
         
-        WButton importBtn = list.add(theme.button("Import")).expandX().widget();
+        WButton importBtn = list.add(new WButton("Import")).expandX().widget();
         importBtn.action = () -> {
             String selectedFile = TinyFileDialogs.tinyfd_openFileDialog("Import Proxies", null, filters, null, false);
             if (selectedFile != null) {
                 File file = new File(selectedFile);
-                mc.setScreen(new ProxiesImportScreen(theme, file));
+                mc.setScreen(new ProxiesImportScreen(file));
             }
         };
         
         // Clear
-        WButton clearBtn = list.add(theme.button("Clear")).expandX().widget();
+        WButton clearBtn = list.add(new WButton("Clear")).expandX().widget();
         clearBtn.action = () -> {
             Proxies.get().clear();
             reload();
@@ -83,7 +81,7 @@ public class ProxiesScreen extends WindowScreen {
         }
         
         for (Proxy proxy : Proxies.get()) {
-            WCheckbox enabled = table.add(theme.checkbox(proxy.enabled.get())).widget();
+            WCheckbox enabled = table.add(new WCheckbox(proxy.enabled.get())).widget();
             checkboxes.add(enabled);
             enabled.action = () -> {
                 boolean checked = enabled.checked;
@@ -95,20 +93,20 @@ public class ProxiesScreen extends WindowScreen {
                 enabled.checked = checked;
             };
             
-            WLabel name = table.add(theme.label(proxy.name.get())).widget();
-            name.color = theme.textColor();
+            WLabel name = table.add(new WLabel(proxy.name.get())).widget();
+            name.color = GuiConstants.TEXT;
             
-            WHorizontalList ipList = table.add(theme.horizontalList()).expandCellX().widget();
+            WHorizontalList ipList = table.add(new WHorizontalList()).expandCellX().widget();
             ipList.spacing = 0;
             
-            ipList.add(theme.label(proxy.address.get()));
-            ipList.add(theme.label(":")).widget().color = theme.textSecondaryColor();
-            ipList.add(theme.label(Integer.toString(proxy.port.get())));
+            ipList.add(new WLabel(proxy.address.get()));
+            ipList.add(new WLabel(":")).widget().color = GuiConstants.TEXT_SECONDARY;
+            ipList.add(new WLabel(Integer.toString(proxy.port.get())));
             
-            WButton edit = table.add(theme.button(GuiRenderer.EDIT)).widget();
-            edit.action = () -> mc.setScreen(new EditProxyScreen(theme, proxy, this::reload));
+            WButton edit = table.add(new WButton(GuiConstants.EDIT)).widget();
+            edit.action = () -> mc.setScreen(new EditProxyScreen(proxy, this::reload));
             
-            WMinus remove = table.add(theme.minus()).widget();
+            WMinus remove = table.add(new WMinus()).widget();
             remove.action = () -> {
                 Proxies.get().remove(proxy);
                 reload();
@@ -132,8 +130,8 @@ public class ProxiesScreen extends WindowScreen {
         
         private final boolean initialEnabled;
         
-        public EditProxyScreen(GuiTheme theme, Proxy value, Runnable reload) {
-            super(theme, value, reload);
+        public EditProxyScreen(Proxy value, Runnable reload) {
+            super(value, reload);
             this.initialEnabled = value != null ? value.enabled.get() : false;
         }
         

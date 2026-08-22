@@ -6,8 +6,8 @@
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSettingScreen;
+import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.impl.StorageBlockListSetting;
@@ -44,14 +44,14 @@ public class StorageBlockListSettingScreen extends CollectionListSettingScreen<B
         BLOCK_ENTITY_TYPE_INFO_MAP.put(BlockEntityType.TRAPPED_CHEST, new BlockEntityTypeInfo(Items.TRAPPED_CHEST, "Trapped Chest"));
     }
     
-    public StorageBlockListSettingScreen(GuiTheme theme, Setting<List<BlockEntityType<?>>> setting) {
-        super(theme, "Select Storage Blocks", setting, setting.get(), StorageBlockListSetting.REGISTRY);
+    public StorageBlockListSettingScreen(Setting<List<BlockEntityType<?>>> setting) {
+        super("Select Storage Blocks", setting, setting.get(), StorageBlockListSetting.REGISTRY);
     }
     
     @Override
     protected WWidget getValueWidget(BlockEntityType<?> value) {
         BlockEntityTypeInfo info = BLOCK_ENTITY_TYPE_INFO_MAP.getOrDefault(value, UNKNOWN);
-        return theme.itemWithLabel(info.item().getDefaultStack(), info.name());
+        return new WItemWithLabel(info.item().getDefaultStack(), info.name());
     }
     
     @Override

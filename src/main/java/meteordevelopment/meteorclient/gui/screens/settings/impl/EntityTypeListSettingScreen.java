@@ -5,9 +5,9 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.utils.Cell;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WSection;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
@@ -39,12 +39,12 @@ public class EntityTypeListSettingScreen extends WindowScreen {
     private WTable animalsT, waterAnimalsT, monstersT, ambientT, miscT;
     int hasAnimal = 0, hasWaterAnimal = 0, hasMonster = 0, hasAmbient = 0, hasMisc = 0;
     
-    public EntityTypeListSettingScreen(GuiTheme theme, EntityTypeListSetting setting) {
-        super(theme, "Select entities");
+    public EntityTypeListSettingScreen(EntityTypeListSetting setting) {
+        super("Select entities");
         this.setting = setting;
         
         // Filter
-        filter = super.add(theme.textBox("")).minWidth(400).expandX().widget();
+        filter = super.add(new WTextBox("")).minWidth(400).expandX().widget();
         filter.setFocused(true);
         filter.action = () -> {
             filterText = filter.get().trim();
@@ -53,7 +53,7 @@ public class EntityTypeListSettingScreen extends WindowScreen {
             initWidgets();
         };
         
-        list = super.add(theme.verticalList()).expandX().widget();
+        list = super.add(new WVerticalList()).expandX().widget();
         
     }
     
@@ -82,53 +82,53 @@ public class EntityTypeListSettingScreen extends WindowScreen {
         
         // Animals
         List<EntityType<?>> animalsE = new ArrayList<>();
-        WCheckbox animalsC = theme.checkbox(hasAnimal > 0);
+        WCheckbox animalsC = new WCheckbox(hasAnimal > 0);
         
-        animals = theme.section("Animals", animals != null && animals.isExpanded(), animalsC);
+        animals = new WSection("Animals", animals != null && animals.isExpanded(), animalsC);
         animalsC.action = () -> tableChecked(animalsE, animalsC.checked);
         
         Cell<WSection> animalsCell = add(animals).expandX();
-        animalsT = animals.add(theme.table()).expandX().widget();
+        animalsT = animals.add(new WTable()).expandX().widget();
         
         // Water animals
         List<EntityType<?>> waterAnimalsE = new ArrayList<>();
-        WCheckbox waterAnimalsC = theme.checkbox(hasWaterAnimal > 0);
+        WCheckbox waterAnimalsC = new WCheckbox(hasWaterAnimal > 0);
         
-        waterAnimals = theme.section("Water Animals", waterAnimals != null && waterAnimals.isExpanded(), waterAnimalsC);
+        waterAnimals = new WSection("Water Animals", waterAnimals != null && waterAnimals.isExpanded(), waterAnimalsC);
         waterAnimalsC.action = () -> tableChecked(waterAnimalsE, waterAnimalsC.checked);
         
         Cell<WSection> waterAnimalsCell = add(waterAnimals).expandX();
-        waterAnimalsT = waterAnimals.add(theme.table()).expandX().widget();
+        waterAnimalsT = waterAnimals.add(new WTable()).expandX().widget();
         
         // Monsters
         List<EntityType<?>> monstersE = new ArrayList<>();
-        WCheckbox monstersC = theme.checkbox(hasMonster > 0);
+        WCheckbox monstersC = new WCheckbox(hasMonster > 0);
         
-        monsters = theme.section("Monsters", monsters != null && monsters.isExpanded(), monstersC);
+        monsters = new WSection("Monsters", monsters != null && monsters.isExpanded(), monstersC);
         monstersC.action = () -> tableChecked(monstersE, monstersC.checked);
         
         Cell<WSection> monstersCell = add(monsters).expandX();
-        monstersT = monsters.add(theme.table()).expandX().widget();
+        monstersT = monsters.add(new WTable()).expandX().widget();
         
         // Ambient
         List<EntityType<?>> ambientE = new ArrayList<>();
-        WCheckbox ambientC = theme.checkbox(hasAmbient > 0);
+        WCheckbox ambientC = new WCheckbox(hasAmbient > 0);
         
-        ambient = theme.section("Ambient", ambient != null && ambient.isExpanded(), ambientC);
+        ambient = new WSection("Ambient", ambient != null && ambient.isExpanded(), ambientC);
         ambientC.action = () -> tableChecked(ambientE, ambientC.checked);
         
         Cell<WSection> ambientCell = add(ambient).expandX();
-        ambientT = ambient.add(theme.table()).expandX().widget();
+        ambientT = ambient.add(new WTable()).expandX().widget();
         
         // Misc
         List<EntityType<?>> miscE = new ArrayList<>();
-        WCheckbox miscC = theme.checkbox(hasMisc > 0);
+        WCheckbox miscC = new WCheckbox(hasMisc > 0);
         
-        misc = theme.section("Misc", misc != null && misc.isExpanded(), miscC);
+        misc = new WSection("Misc", misc != null && misc.isExpanded(), miscC);
         miscC.action = () -> tableChecked(miscE, miscC.checked);
         
         Cell<WSection> miscCell = add(misc).expandX();
-        miscT = misc.add(theme.table()).expandX().widget();
+        miscT = misc.add(new WTable()).expandX().widget();
         
         Consumer<EntityType<?>> entityTypeForEach = entityType -> {
             if (setting.filter == null || setting.filter.test(entityType)) {
@@ -253,9 +253,9 @@ public class EntityTypeListSettingScreen extends WindowScreen {
     }
     
     private void addEntityType(WTable table, WCheckbox tableCheckbox, EntityType<?> entityType) {
-        table.add(theme.label(Names.get(entityType)));
+        table.add(new WLabel(Names.get(entityType)));
         
-        WCheckbox a = table.add(theme.checkbox(setting.get().contains(entityType))).expandCellX().right().widget();
+        WCheckbox a = table.add(new WCheckbox(setting.get().contains(entityType))).expandCellX().right().widget();
         a.action = () -> {
             if (a.checked) {
                 setting.get().add(entityType);

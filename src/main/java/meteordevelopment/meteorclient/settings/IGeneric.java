@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.settings;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.settings.impl.GenericSetting;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
@@ -13,6 +12,6 @@ import meteordevelopment.meteorclient.utils.misc.ISerializable;
 
 public interface IGeneric<T extends IGeneric<T>> extends ICopyable<T>, ISerializable<T> {
     
-    WidgetScreen createScreen(GuiTheme theme, GenericSetting<T> setting);
+    WidgetScreen createScreen(GenericSetting<T> setting);
     
 }

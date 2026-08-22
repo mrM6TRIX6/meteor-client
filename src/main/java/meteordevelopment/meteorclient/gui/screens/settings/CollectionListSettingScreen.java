@@ -5,12 +5,14 @@
 
 package meteordevelopment.meteorclient.gui.screens.settings;
 
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.utils.Cell;
+import meteordevelopment.meteorclient.gui.widgets.WVerticalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
+import meteordevelopment.meteorclient.gui.widgets.pressable.WPlus;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPressable;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
@@ -28,8 +30,8 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
     private WTable table;
     private String filterText = "";
     
-    public CollectionListSettingScreen(GuiTheme theme, String title, Setting<?> setting, Collection<T> collection, Iterable<T> registry) {
-        super(theme, title);
+    public CollectionListSettingScreen(String title, Setting<?> setting, Collection<T> collection, Iterable<T> registry) {
+        super(title);
         
         this.registry = registry;
         this.setting = setting;
@@ -39,7 +41,7 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
     @Override
     public void initWidgets() {
         // Filter
-        WTextBox filter = add(theme.textBox("")).minWidth(400).expandX().widget();
+        WTextBox filter = add(new WTextBox("")).minWidth(400).expandX().widget();
         filter.setFocused(true);
         filter.action = () -> {
             filterText = filter.get().trim();
@@ -48,7 +50,7 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
             initTable();
         };
         
-        table = add(theme.table()).expandX().widget();
+        table = add(new WTable()).expandX().widget();
         
         initTable();
     }
@@ -65,7 +67,7 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
         });
         
         if (ClientSettings.get().syncListSettingWidths.get() || !left.cells.isEmpty()) {
-            table.add(theme.verticalSeparator()).expandWidgetY();
+            table.add(new WVerticalSeparator()).expandWidgetY();
         }
         
         // Right (selected)
@@ -83,7 +85,7 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
     
     private WTable abc(Iterable<T> iterable, boolean isLeft, Consumer<T> buttonAction) {
         // Create
-        Cell<WTable> cell = this.table.add(theme.table()).top();
+        Cell<WTable> cell = this.table.add(new WTable()).top();
         
         if (ClientSettings.get().syncListSettingWidths.get()) {
             cell.group("sync-width");
@@ -102,7 +104,7 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
             
             table.add(getValueWidget(t));
             
-            WPressable button = table.add(isLeft ? theme.plus() : theme.minus()).expandCellX().right().widget();
+            WPressable button = table.add(isLeft ? new WPlus() : new WMinus()).expandCellX().right().widget();
             button.action = () -> buttonAction.accept(t);
             
             table.row();

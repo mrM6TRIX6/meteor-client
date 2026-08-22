@@ -6,8 +6,10 @@
 package meteordevelopment.meteorclient.gui.screens;
 
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
+import meteordevelopment.meteorclient.gui.widgets.WLabel;
+import meteordevelopment.meteorclient.gui.widgets.containers.WSection;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.renderer.color.Color;
@@ -24,8 +26,8 @@ public class ProxiesImportScreen extends WindowScreen {
     
     private final File file;
     
-    public ProxiesImportScreen(GuiTheme theme, File file) {
-        super(theme, "Import Proxies");
+    public ProxiesImportScreen(File file) {
+        super("Import Proxies");
         this.file = file;
         this.onClosed(() -> {
             if (parent instanceof ProxiesScreen screen) {
@@ -37,8 +39,8 @@ public class ProxiesImportScreen extends WindowScreen {
     @Override
     public void initWidgets() {
         if (file.exists() && file.isFile()) {
-            add(theme.label("Importing proxies from " + file.getName() + "...").color(Color.GREEN));
-            WVerticalList list = add(theme.section("Log", false)).expandX().widget().add(theme.verticalList()).expandX().widget();
+            add(new WLabel("Importing proxies from " + file.getName() + "...").color(Color.GREEN));
+            WVerticalList list = add(new WSection("Log", false)).expandX().widget().add(new WVerticalList()).expandX().widget();
             Proxies proxies = Proxies.get();
             try {
                 int success = 0, fail = 0;
@@ -60,29 +62,29 @@ public class ProxiesImportScreen extends WindowScreen {
                             .build();
                         
                         if (proxies.add(proxy)) {
-                            list.add(theme.label("Imported proxy: " + proxy.name.get()).color(Color.GREEN));
+                            list.add(new WLabel("Imported proxy: " + proxy.name.get()).color(Color.GREEN));
                             success++;
                         } else {
-                            list.add(theme.label("Proxy already exists: " + proxy.name.get()).color(Color.ORANGE));
+                            list.add(new WLabel("Proxy already exists: " + proxy.name.get()).color(Color.ORANGE));
                             fail++;
                         }
                     } else {
-                        list.add(theme.label("Invalid proxy: " + line).color(Color.RED));
+                        list.add(new WLabel("Invalid proxy: " + line).color(Color.RED));
                         fail++;
                     }
                 }
-                add(theme.label("Successfully imported " + success + "/" + (fail + success) + " proxies.")
+                add(new WLabel("Successfully imported " + success + "/" + (fail + success) + " proxies.")
                     .color(Utils.lerp(Color.RED, Color.GREEN, (float) success / (success + fail)))
                 );
             } catch (IOException e) {
                 MeteorClient.LOGGER.error("An error occurred while importing the proxy file", e);
             }
         } else {
-            add(theme.label("Invalid File!"));
+            add(new WLabel("Invalid File!"));
         }
         
-        add(theme.horizontalSeparator()).expandX();
-        WButton btnBack = add(theme.button("Back")).expandX().widget();
+        add(new WHorizontalSeparator()).expandX();
+        WButton btnBack = add(new WButton("Back")).expandX().widget();
         btnBack.action = this::close;
     }
     

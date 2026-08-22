@@ -6,8 +6,8 @@
 package meteordevelopment.meteorclient.gui.screens.settings.impl;
 
 import it.unimi.dsi.fastutil.objects.Reference2IntMap;
-import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.WindowScreen;
+import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WIntEdit;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
@@ -33,15 +33,15 @@ public class StatusEffectAmplifierMapSettingScreen extends WindowScreen {
     
     private String filterText = "";
     
-    public StatusEffectAmplifierMapSettingScreen(GuiTheme theme, Setting<Reference2IntMap<StatusEffect>> setting) {
-        super(theme, "Modify Amplifiers");
+    public StatusEffectAmplifierMapSettingScreen(Setting<Reference2IntMap<StatusEffect>> setting) {
+        super("Modify Amplifiers");
         
         this.setting = setting;
     }
     
     @Override
     public void initWidgets() {
-        WTextBox filter = add(theme.textBox("")).minWidth(400).expandX().widget();
+        WTextBox filter = add(new WTextBox("")).minWidth(400).expandX().widget();
         filter.setFocused(true);
         filter.action = () -> {
             filterText = filter.get().trim();
@@ -50,7 +50,7 @@ public class StatusEffectAmplifierMapSettingScreen extends WindowScreen {
             initTable();
         };
         
-        table = add(theme.table()).expandX().widget();
+        table = add(new WTable()).expandX().widget();
         
         initTable();
     }
@@ -65,9 +65,9 @@ public class StatusEffectAmplifierMapSettingScreen extends WindowScreen {
                 continue;
             }
             
-            table.add(theme.itemWithLabel(getPotionStack(statusEffect), name)).expandCellX();
+            table.add(new WItemWithLabel(getPotionStack(statusEffect), name)).expandCellX();
             
-            WIntEdit level = theme.intEdit(setting.get().getInt(statusEffect), 0, Integer.MAX_VALUE, true);
+            WIntEdit level = new WIntEdit(setting.get().getInt(statusEffect), 0, Integer.MAX_VALUE, true);
             level.action = () -> {
                 setting.get().put(statusEffect, level.get());
                 setting.onChanged();
