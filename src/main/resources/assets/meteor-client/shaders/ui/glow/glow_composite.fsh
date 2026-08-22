@@ -6,16 +6,16 @@ in vec2 FragCoord;
 flat in int QuadIndex;
 
 layout(std140) uniform GlowParamsArray {
-    vec4 params[1120];
+    vec4 params[2048];
 };
 
 out vec4 OutColor;
 
 void main() {
-    int base = QuadIndex * 5;
+    int base = QuadIndex * 2;
 
-    vec4 colorVec = params[base + 2];
-    vec4 reg      = params[base + 3];
+    vec4 colorVec = params[base];
+    vec4 reg      = params[base + 1];
 
     vec2 halfTexel = 0.5 / vec2(textureSize(Sampler0, 0));
     vec2 lo = reg.xy + halfTexel;

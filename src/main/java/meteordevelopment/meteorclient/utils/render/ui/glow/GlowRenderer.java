@@ -30,44 +30,18 @@ import java.util.List;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 
-/**
- * Draws blurred halos for arbitrary ui content.
- * <p>
- * There are two ways in: {@link #enqueue(BuiltGlow)} for the procedural rounded rect that
- * {@code GLOW_SOURCE_PIPELINE} rasterises from an sdf, and {@link #addShape(GlowShapeOptions, Runnable)} for
- * "whatever this lambda draws". Both end up as a {@link GlowGroup}, and one group is one tile in a shared atlas with
- * its own blur radius.
- * <p>
- * Per frame the work is:
- * <ol>
- *     <li>quantise the requested radii into at most {@link #MAX_BUCKETS} buckets;</li>
- *     <li>shelf-pack every group into the atlas, forcing a new shelf whenever the bucket changes, so each bucket owns
- *     a contiguous band of atlas rows;</li>
- *     <li>rasterise procedural groups and replay captured ones into the shape atlas;</li>
- *     <li>run one kawase dual-filter chain over the whole atlas, six render passes total, where each pass issues one
- *     scissored draw per bucket - so a band only ever gets blurred with its own radius;</li>
- *     <li>subtract the body from the halo (the cutout pass) and let the composite quads sample their tile.</li>
- * </ol>
- * Everything transient - tile quads, per group sdf params, per bucket blur params - lives in one grow-only gpu buffer
- * that is written once and then bound as offset slices, so a frame with 200 glows still allocates nothing.
- */
 public final class GlowRenderer implements AutoCloseable {
 
     private static final int ATLAS_WIDTH = 2048;
     private static final int ATLAS_MAX_HEIGHT = 2048;
     private static final int ATLAS_HEIGHT_BUCKET = 256;
     private static final int MIN_TILE_GAP = 8;
-
-    /** Band edges are kept aligned so {@code bandY >> level} stays exact for every blur level. */
     private static final int BAND_ALIGN = 16;
-
-    private static final int MAX_GROUPS = 224;
+    private static final int MAX_GROUPS = 1024;
     private static final int MAX_BUCKETS = 8;
     private static final int BLUR_LEVELS = 3;
     private static final int BLUR_STAGES = 6;
-
-    /** The composite shader hardcodes {@code QuadIndex * 5} into a {@code vec4[1120]}, so this stride is fixed. */
-    private static final int COMPOSITE_STRIDE = 80;
+    private static final int COMPOSITE_STRIDE = 32;
     private static final int COMPOSITE_BYTES = MAX_GROUPS * COMPOSITE_STRIDE;
 
     private static final int KAWASE_BYTES = 48;
@@ -167,7 +141,7 @@ public final class GlowRenderer implements AutoCloseable {
     private int groupsUsed;
 
     private final List<GlowCapture> preparedCaptures = new ArrayList<>(32);
-    private float[] preparedAlpha = new float[MAX_GROUPS];
+    private final float[] preparedAlpha = new float[MAX_GROUPS];
 
     private final GlowReplay replay = new GlowReplay();
     private final GlowShapeOptions scratchOptions = new GlowShapeOptions();
@@ -228,11 +202,7 @@ public final class GlowRenderer implements AutoCloseable {
             instance = null;
         }
     }
-
-    // ------------------------------------------------------------------------------------------------------------
-    // submission
-    // ------------------------------------------------------------------------------------------------------------
-
+    
     public void beginFrame(DrawContext context) {
         activeGraphics = context;
     }
@@ -283,7 +253,6 @@ public final class GlowRenderer implements AutoCloseable {
         }
     }
 
-    /** Collects everything {@code shape} draws into one atlas tile and glows it with the default radius. */
     public void addShape(Runnable shape) {
         addShape(DEFAULT_OPTIONS, shape);
     }
@@ -291,14 +260,7 @@ public final class GlowRenderer implements AutoCloseable {
     public void addShape(float radius, Runnable shape) {
         addShape(scratchOptions.copyFrom(DEFAULT_OPTIONS).radius(radius), shape);
     }
-
-    /**
-     * Runs {@code shape} with every gui element it produces rerouted into this group's atlas tile instead of the
-     * screen, then submits a single composite quad that draws the blurred result.
-     * <p>
-     * Nested calls merge into the group that is already collecting, so a helper that glows internally does not
-     * multiply the number of tiles.
-     */
+    
     public void addShape(GlowShapeOptions options, Runnable shape) {
         if (shape == null) {
             return;
@@ -486,12 +448,12 @@ public final class GlowRenderer implements AutoCloseable {
             GlowCapture capture = preparedCaptures.get(i);
             int base = i * COMPOSITE_STRIDE;
             zero(staging, base, COMPOSITE_STRIDE);
-            // Only vec4[2].a and vec4[3] are read by glow_composite.fsh.
-            staging.putFloat(base + 44, capture.prepared ? preparedAlpha[i] : 0.0f);
-            staging.putFloat(base + 48, capture.regionU0);
-            staging.putFloat(base + 52, capture.regionV0);
-            staging.putFloat(base + 56, capture.regionUW);
-            staging.putFloat(base + 60, capture.regionVH);
+            // Only vec4[0].a and vec4[1] are read by glow_composite.fsh.
+            staging.putFloat(base + 12, capture.prepared ? preparedAlpha[i] : 0.0f);
+            staging.putFloat(base + 16, capture.regionU0);
+            staging.putFloat(base + 20, capture.regionV0);
+            staging.putFloat(base + 24, capture.regionUW);
+            staging.putFloat(base + 28, capture.regionVH);
         }
         return staging;
     }
