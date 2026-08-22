@@ -17,6 +17,7 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +38,7 @@ public class StringListSetting extends Setting<List<String>> {
     
     @Override
     protected List<String> parseImpl(String str) {
-        return Arrays.asList(str.split(","));
+        return Utils.splitWithEscape(str);
     }
     
     @Override

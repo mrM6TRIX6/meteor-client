@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.utils;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import it.unimi.dsi.fastutil.objects.*;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.tabs.TabScreen;
@@ -76,10 +77,9 @@ import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static org.lwjgl.glfw.GLFW.*;
 
-public class Utils {
+public class Utils implements IMinecraft {
     
     public static final Pattern FILE_NAME_INVALID_CHARS_PATTERN = Pattern.compile("[\\s\\\\/:*?\"<>|]");
     public static final Pattern VALID_NAME_PATTERN = Pattern.compile("^[A-Za-z0-9-]+$");
@@ -692,6 +692,43 @@ public class Utils {
         }
         
         return name;
+    }
+    
+    public static List<String> splitWithEscape(String str) {
+        if (str == null) {
+            return Collections.emptyList();
+        }
+        if (str.isEmpty()) {
+            return Collections.singletonList("");
+        }
+        
+        List<String> result = new ArrayList<>();
+        StringBuilder currentPart = new StringBuilder();
+        boolean isEscaped = false;
+        
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            
+            if (isEscaped) {
+                currentPart.append(c);
+                isEscaped = false;
+            } else if (c == '\\') {
+                isEscaped = true;
+            } else if (c == ',') {
+                result.add(currentPart.toString());
+                currentPart.setLength(0); // Очищаем буфер
+            } else {
+                currentPart.append(c);
+            }
+        }
+        
+        if (isEscaped) {
+            currentPart.append('\\');
+        }
+        
+        result.add(currentPart.toString());
+        
+        return result;
     }
     
     public static int parsePort(String full) {
