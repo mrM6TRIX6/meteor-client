@@ -20,8 +20,6 @@ import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class ClientSettings extends System<ClientSettings> {
     
     public final Settings settings = new Settings();
@@ -106,13 +104,6 @@ public class ClientSettings extends System<ClientSettings> {
     );
     
     // Chat
-    
-    public final Setting<String> prefix = sgChat.add(new StringSetting.Builder()
-        .name("prefix")
-        .description("Prefix.")
-        .defaultValue(".")
-        .build()
-    );
     
     public final Setting<Boolean> chatFeedback = sgChat.add(new BoolSetting.Builder()
         .name("chat-feedback")

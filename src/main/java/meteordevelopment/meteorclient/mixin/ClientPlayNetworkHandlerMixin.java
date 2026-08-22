@@ -11,7 +11,6 @@ import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.commands.CommandManager;
 import meteordevelopment.meteorclient.events.entity.EntityDestroyEvent;
 import meteordevelopment.meteorclient.events.entity.player.PickItemsEvent;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
@@ -22,7 +21,7 @@ import meteordevelopment.meteorclient.events.packets.InventoryEvent;
 import meteordevelopment.meteorclient.events.packets.PlaySoundPacketEvent;
 import meteordevelopment.meteorclient.events.world.ChunkDataEvent;
 import meteordevelopment.meteorclient.mixininterface.IExplosionS2CPacket;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
+import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.Velocity;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
@@ -137,7 +136,7 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
     
     @Inject(method = "sendChatMessage", at = @At("HEAD"), cancellable = true)
     private void onSendChatMessage(String message, CallbackInfo ci, @Local(argsOnly = true) LocalRef<String> messageRef) {
-        if (!message.startsWith(ClientSettings.get().prefix.get()) && !(BaritoneUtils.IS_AVAILABLE && message.startsWith(BaritoneUtils.getPrefix()))) {
+        if (!message.startsWith(Commands.get().getPrefix()) && !(BaritoneUtils.IS_AVAILABLE && message.startsWith(BaritoneUtils.getPrefix()))) {
             MessageEvent.Send event = MeteorClient.EVENT_BUS.post(MessageEvent.Send.get(message));
             
             if (!event.isCancelled()) {
@@ -148,9 +147,9 @@ public abstract class ClientPlayNetworkHandlerMixin extends ClientCommonNetworkH
             return;
         }
         
-        if (message.startsWith(ClientSettings.get().prefix.get())) {
+        if (message.startsWith(Commands.get().getPrefix())) {
             try {
-                CommandManager.dispatch(message.substring(ClientSettings.get().prefix.get().length()));
+                Commands.get().dispatch(message.substring(Commands.get().getPrefix().length()));
             } catch (CommandSyntaxException e) {
                 ChatUtils.error(e.getMessage());
             }

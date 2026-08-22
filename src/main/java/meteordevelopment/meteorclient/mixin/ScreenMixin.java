@@ -7,8 +7,7 @@ package meteordevelopment.meteorclient.mixin;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.commands.CommandManager;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
+import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.GUIMove;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
@@ -38,9 +37,9 @@ public abstract class ScreenMixin {
         if (clickEvent instanceof RunnableClickEvent runnableClickEvent) {
             runnableClickEvent.runnable.run();
             ci.cancel();
-        } else if (clickEvent instanceof MeteorClickEvent meteorClickEvent && meteorClickEvent.value.startsWith(ClientSettings.get().prefix.get())) {
+        } else if (clickEvent instanceof MeteorClickEvent meteorClickEvent && meteorClickEvent.value.startsWith(Commands.get().getPrefix())) {
             try {
-                CommandManager.dispatch(meteorClickEvent.value.substring(ClientSettings.get().prefix.get().length()));
+                Commands.get().dispatch(meteorClickEvent.value.substring(Commands.get().getPrefix().length()));
             } catch (CommandSyntaxException e) {
                 MeteorClient.LOGGER.error("Failed to run command", e);
             } finally {

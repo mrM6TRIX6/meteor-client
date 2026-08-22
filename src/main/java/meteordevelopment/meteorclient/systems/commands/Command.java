@@ -1,0 +1,98 @@
+/*
+ * This file is part of the Meteor Client distribution (https://github.com/MeteorDevelopment/meteor-client).
+ * Copyright (c) Meteor Development.
+ */
+
+package meteordevelopment.meteorclient.systems.commands;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import meteordevelopment.meteorclient.IMinecraft;
+import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.player.ChatUtils;
+import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.CommandSource;
+import net.minecraft.registry.BuiltinRegistries;
+import net.minecraft.server.command.CommandManager;
+import net.minecraft.text.Text;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+public abstract class Command implements IMinecraft {
+    
+    protected static CommandRegistryAccess REGISTRY_ACCESS = CommandManager.createRegistryAccess(BuiltinRegistries.createWrapperLookup());
+    protected static final int SINGLE_SUCCESS = com.mojang.brigadier.Command.SINGLE_SUCCESS;
+    
+    public final String name;
+    public final String description;
+    public final List<String> aliases;
+    
+    public Command(String name, String description, String... aliases) {
+        this.name = Utils.validateName(name);
+        this.description = description;
+        this.aliases = Stream.of(aliases)
+            .map(String::toLowerCase)
+            .distinct()
+            .toList();
+    }
+    
+    // Helper methods to painlessly infer the CommandSource generic type argument
+    protected static <T> RequiredArgumentBuilder<CommandSource, T> argument(final String name, final ArgumentType<T> type) {
+        return RequiredArgumentBuilder.argument(name, type);
+    }
+    
+    protected static LiteralArgumentBuilder<CommandSource> literal(final String name) {
+        return LiteralArgumentBuilder.literal(name);
+    }
+    
+    public final void registerTo(CommandDispatcher<CommandSource> dispatcher) {
+        register(dispatcher, name.toLowerCase());
+        for (String alias : aliases) {
+            register(dispatcher, alias);
+        }
+    }
+    
+    public void register(CommandDispatcher<CommandSource> dispatcher, String name) {
+        LiteralArgumentBuilder<CommandSource> builder = LiteralArgumentBuilder.literal(name);
+        build(builder);
+        dispatcher.register(builder);
+    }
+    
+    public abstract void build(LiteralArgumentBuilder<CommandSource> builder);
+    
+    public String toString() {
+        return Commands.get().getPrefix() + name.toLowerCase();
+    }
+    
+    public String toString(String... args) {
+        StringBuilder base = new StringBuilder(toString());
+        for (String arg : args) {
+            base.append(' ').append(arg);
+        }
+        return base.toString();
+    }
+    
+    public void info(Text message) {
+        ChatUtils.forceNextPrefixClass(getClass());
+        ChatUtils.sendMsg(name, message);
+    }
+    
+    public void info(String message, Object... args) {
+        ChatUtils.forceNextPrefixClass(getClass());
+        ChatUtils.infoPrefix(name, message, args);
+    }
+    
+    public void warning(String message, Object... args) {
+        ChatUtils.forceNextPrefixClass(getClass());
+        ChatUtils.warningPrefix(name, message, args);
+    }
+    
+    public void error(String message, Object... args) {
+        ChatUtils.forceNextPrefixClass(getClass());
+        ChatUtils.errorPrefix(name, message, args);
+    }
+    
+}

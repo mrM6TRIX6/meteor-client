@@ -51,8 +51,6 @@ import org.lwjgl.glfw.GLFW;
 
 import java.util.*;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 public class Modules extends System<Modules> {
     
     private final Map<Class<? extends Module>, Module> moduleInstances = new Reference2ReferenceOpenHashMap<>();
@@ -203,7 +201,7 @@ public class Modules extends System<Modules> {
     }
     
     /***
-     * @see meteordevelopment.meteorclient.commands.commands.BindCommand
+     * @see meteordevelopment.meteorclient.systems.commands.impl.BindCommand
      * For ensuring we don't instantly bind the module to the enter key.
      */
     public void awaitKeyRelease() {

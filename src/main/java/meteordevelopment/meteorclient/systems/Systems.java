@@ -10,6 +10,7 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
+import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.macros.Macros;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -39,6 +40,7 @@ public class Systems {
         // Registers the colors from client settings tab. This allows rainbow colours to work for friends.
         clientSettings.settings.registerColorSettings(null);
         
+        add(new Commands());
         add(new Modules());
         add(new Macros());
         add(new Friends());

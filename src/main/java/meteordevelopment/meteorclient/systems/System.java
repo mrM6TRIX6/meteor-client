@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.systems;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.StreamUtils;
@@ -24,7 +25,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public abstract class System<T> implements ISerializable<T> {
+public abstract class System<T> implements ISerializable<T>, IMinecraft {
     
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH.mm.ss", Locale.ROOT);
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();

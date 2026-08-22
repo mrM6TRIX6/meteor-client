@@ -9,8 +9,8 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.brigadier.ParseResults;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.suggestion.Suggestions;
-import meteordevelopment.meteorclient.commands.CommandManager;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
+import meteordevelopment.meteorclient.systems.commands.Commands;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatInputSuggestor;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.command.CommandSource;
@@ -23,10 +23,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.concurrent.CompletableFuture;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 @Mixin(ChatInputSuggestor.class)
 public abstract class ChatInputSuggestorMixin {
+    
+    @Final
+    @Shadow
+    MinecraftClient client;
     
     @Shadow
     private ParseResults<CommandSource> parse;
@@ -52,19 +54,19 @@ public abstract class ChatInputSuggestorMixin {
         cancellable = true
     )
     public void onRefresh(CallbackInfo ci, @Local StringReader reader) {
-        String prefix = ClientSettings.get().prefix.get();
+        String prefix = Commands.get().getPrefix();
         int length = prefix.length();
         
         if (reader.canRead(length) && reader.getString().startsWith(prefix, reader.getCursor())) {
             reader.setCursor(reader.getCursor() + length);
             
             if (this.parse == null) {
-                this.parse = CommandManager.getDispatcher().parse(reader, mc.getNetworkHandler().getCommandSource());
+                this.parse = Commands.get().getDispatcher().parse(reader, client.getNetworkHandler().getCommandSource());
             }
             
             int cursor = textField.getCursor();
             if (cursor >= length && (this.window == null || !this.completingSuggestions)) {
-                this.pendingSuggestions = CommandManager.getDispatcher().getCompletionSuggestions(this.parse, cursor);
+                this.pendingSuggestions = Commands.get().getDispatcher().getCompletionSuggestions(this.parse, cursor);
                 this.pendingSuggestions.thenRun(() -> {
                     if (this.pendingSuggestions.isDone()) {
                         this.showCommandSuggestions();

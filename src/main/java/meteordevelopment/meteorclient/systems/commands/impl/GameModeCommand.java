@@ -1,0 +1,32 @@
+/*
+ * This file is part of the Meteor Client distribution (https://github.com/MeteorDevelopment/meteor-client).
+ * Copyright (c) Meteor Development.
+ */
+
+package meteordevelopment.meteorclient.systems.commands.impl;
+
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import meteordevelopment.meteorclient.systems.commands.Command;
+import meteordevelopment.meteorclient.systems.commands.arguments.GameModeArgumentType;
+import net.minecraft.command.CommandSource;
+import net.minecraft.world.GameMode;
+
+public class GameModeCommand extends Command {
+    
+    public GameModeCommand() {
+        super("GameMode", "Changes your game mode client-side.", "gm");
+    }
+    
+    @Override
+    public void build(LiteralArgumentBuilder<CommandSource> builder) {
+        builder.then(argument("gamemode", GameModeArgumentType.create())
+            .executes(context -> {
+                GameMode gameMode = GameModeArgumentType.get(context, "gamemode");
+                mc.interactionManager.setGameMode(gameMode);
+                
+                return SINGLE_SUCCESS;
+            })
+        );
+    }
+    
+}
