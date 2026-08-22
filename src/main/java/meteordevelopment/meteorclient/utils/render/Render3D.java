@@ -5,6 +5,7 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.DepthTestFunction;
 import com.mojang.blaze3d.platform.DestFactor;
 import com.mojang.blaze3d.platform.SourceFactor;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -33,9 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public final class Render3D {
+public final class Render3D implements IMinecraft {
     
     private static final double MAX_SAFE_COORD = 30_000_000.0;
     private static final int TARGET_ESP_CIRCLE_SEGMENTS = 40;

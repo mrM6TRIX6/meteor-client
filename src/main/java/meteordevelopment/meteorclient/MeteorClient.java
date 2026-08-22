@@ -47,7 +47,8 @@ import java.lang.invoke.MethodHandles;
 
 public class MeteorClient implements ClientModInitializer {
     
-    public static MinecraftClient mc;
+    @Deprecated
+    public static MinecraftClient mc; // use IMinecraft
     
     public static final String MOD_ID = "meteor-client";
     public static final ModMetadata MOD_META;

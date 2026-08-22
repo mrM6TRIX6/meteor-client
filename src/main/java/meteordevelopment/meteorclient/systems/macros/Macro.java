@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.systems.macros;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.gui.utils.StarscriptTextBoxRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -24,9 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public class Macro implements ISerializable<Macro> {
+public class Macro implements ISerializable<Macro>, IMinecraft {
     
     public final Settings settings = new Settings();
     

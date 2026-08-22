@@ -1,5 +1,6 @@
 package meteordevelopment.meteorclient.utils.render.ui;
 
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.utils.reflect.PreInit;
 import meteordevelopment.meteorclient.utils.render.ScissorUtil;
@@ -54,9 +55,7 @@ import java.util.Arrays;
 import java.util.Deque;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public final class Render2D {
+public final class Render2D implements IMinecraft {
     
     private static final float REFERENCE_WIDTH = 1920.0f;
     private static final float REFERENCE_HEIGHT = 1080.0f;

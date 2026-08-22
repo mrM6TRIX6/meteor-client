@@ -7,11 +7,13 @@ package meteordevelopment.meteorclient.systems.modules;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.addons.AddonManager;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
 import meteordevelopment.meteorclient.gui.GuiTheme;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
+import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -19,17 +21,13 @@ import meteordevelopment.meteorclient.utils.misc.IActivable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public abstract class Module implements ISerializable<Module>, Comparable<Module>, IActivable {
-    
-    protected final MinecraftClient mc;
+public abstract class Module implements ISerializable<Module>, Comparable<Module>, IActivable, IMinecraft {
     
     public final Category category;
     public final String name;
@@ -50,7 +48,6 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     public boolean favorite = false;
     
     public Module(Category category, String name, String description) {
-        this.mc = MinecraftClient.getInstance();
         this.category = category;
         this.name = Utils.validateName(name);
         this.description = description;
