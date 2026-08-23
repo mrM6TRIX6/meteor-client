@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.gui.screens.settings.DynamicRegistryListSe
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.utils.misc.Names;
+import meteordevelopment.meteorclient.utils.name.Names;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;

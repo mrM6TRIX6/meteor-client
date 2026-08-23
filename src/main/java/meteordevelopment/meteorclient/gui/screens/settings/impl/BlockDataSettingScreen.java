@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.BlockDataSetting;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import meteordevelopment.meteorclient.utils.misc.Names;
+import meteordevelopment.meteorclient.utils.name.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.gui.DrawContext;

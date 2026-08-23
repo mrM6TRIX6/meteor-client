@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSetting
 import meteordevelopment.meteorclient.gui.widgets.WItemWithLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.impl.BlockListSetting;
-import meteordevelopment.meteorclient.utils.misc.Names;
+import meteordevelopment.meteorclient.utils.name.Names;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registries;

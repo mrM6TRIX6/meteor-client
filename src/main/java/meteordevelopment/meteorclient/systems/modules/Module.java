@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IActivable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
-import meteordevelopment.meteorclient.utils.misc.NameFormat;
+import meteordevelopment.meteorclient.utils.name.NameFormat;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;

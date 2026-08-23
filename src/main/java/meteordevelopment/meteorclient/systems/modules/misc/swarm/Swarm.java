@@ -19,7 +19,7 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.settings.impl.StringSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.Util;
 

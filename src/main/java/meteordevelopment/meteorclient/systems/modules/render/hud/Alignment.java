@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 
 public enum Alignment implements IDisplayName {
     

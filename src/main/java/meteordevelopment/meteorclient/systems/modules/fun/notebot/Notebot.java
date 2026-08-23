@@ -31,7 +31,7 @@ import meteordevelopment.meteorclient.systems.modules.fun.notebot.decoder.SongDe
 import meteordevelopment.meteorclient.systems.modules.fun.notebot.instrumentdetect.InstrumentDetectMode;
 import meteordevelopment.meteorclient.systems.modules.fun.notebot.song.Note;
 import meteordevelopment.meteorclient.systems.modules.fun.notebot.song.Song;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;

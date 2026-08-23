@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.gui.widgets;
 
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
-import meteordevelopment.meteorclient.utils.misc.Names;
+import meteordevelopment.meteorclient.utils.name.Names;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;
@@ -14,8 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
 import java.util.Iterator;
-
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 
 public class WItemWithLabel extends WHorizontalList {
     

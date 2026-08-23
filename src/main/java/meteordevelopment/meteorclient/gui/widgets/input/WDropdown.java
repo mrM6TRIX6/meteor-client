@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.gui.widgets.WRoot;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WView;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPressable;
-import meteordevelopment.meteorclient.utils.misc.Namer;
+import meteordevelopment.meteorclient.utils.name.Namer;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;

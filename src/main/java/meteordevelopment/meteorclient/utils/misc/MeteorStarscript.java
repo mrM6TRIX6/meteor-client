@@ -16,6 +16,7 @@ import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.name.Names;
 import meteordevelopment.meteorclient.utils.pathing.BaritoneUtils;
 import meteordevelopment.meteorclient.utils.pathing.PathManagers;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;

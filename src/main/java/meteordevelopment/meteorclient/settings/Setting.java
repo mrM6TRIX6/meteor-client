@@ -9,7 +9,7 @@ import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.IGetter;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
-import meteordevelopment.meteorclient.utils.misc.NameFormat;
+import meteordevelopment.meteorclient.utils.name.NameFormat;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;

@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.utils.misc;
+package meteordevelopment.meteorclient.utils.name;
 
 /**
  * A value that carries a human readable label for the gui.

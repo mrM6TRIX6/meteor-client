@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import net.minecraft.util.Hand;
 
 public enum HandWithDisplayName implements IDisplayName {

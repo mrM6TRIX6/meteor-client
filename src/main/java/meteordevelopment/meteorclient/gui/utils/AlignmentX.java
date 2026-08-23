@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.utils;
 
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 
 public enum AlignmentX implements IDisplayName {
     

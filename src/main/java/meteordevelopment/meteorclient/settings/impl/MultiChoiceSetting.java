@@ -10,30 +10,17 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.utils.misc.NameFormat;
-import meteordevelopment.meteorclient.utils.misc.Namer;
+import meteordevelopment.meteorclient.utils.name.NameFormat;
+import meteordevelopment.meteorclient.utils.name.Namer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-/**
- * Choice setting over an arbitrary set of values: pick any number of them.
- *
- * <p>{@code T} is deliberately unbounded. Names come from a {@link Namer} on the setting, not from an interface
- * the value type has to implement, so vanilla enums and registry objects can be offered as choices directly
- * instead of being wrapped in a Meteor owned type first.
- *
- * @param <T> the type to pick values of
- */
 public class MultiChoiceSetting<T> extends Setting<SequencedSet<T>> {
 
     private final SequencedSet<T> choices;
     private final Namer<T> namer;
-
-    /**
-     * Canonical id to choice. Populated once, so parsing and loading never rescan the choices.
-     */
     private final Map<String, T> choicesById;
 
     public final boolean canBeNone;
@@ -86,11 +73,7 @@ public class MultiChoiceSetting<T> extends Setting<SequencedSet<T>> {
     public Namer<T> getNamer() {
         return namer;
     }
-
-    /**
-     * The choice going by the given name, matched leniently, so an id, a raw enum constant name and the gui
-     * label all resolve to the same choice.
-     */
+    
     @Nullable
     public T getChoice(String name) {
         return name == null ? null : choicesById.get(NameFormat.canonical(name));
@@ -199,11 +182,7 @@ public class MultiChoiceSetting<T> extends Setting<SequencedSet<T>> {
         public final Builder<T> defaultValue(T... defaultValue) {
             return defaultValue(new LinkedHashSet<>(Arrays.asList(defaultValue)));
         }
-
-        /**
-         * Overrides how the choices are named. Required for types that carry no name of their own, see
-         * {@link Namer#auto()}.
-         */
+        
         public Builder<T> namer(Namer<T> namer) {
             this.namer = namer;
             return this;

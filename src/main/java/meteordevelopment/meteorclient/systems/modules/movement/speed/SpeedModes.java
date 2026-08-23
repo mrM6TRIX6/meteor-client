@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.movement.speed;
 
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 
 public enum SpeedModes implements IDisplayName {
     

@@ -17,7 +17,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;

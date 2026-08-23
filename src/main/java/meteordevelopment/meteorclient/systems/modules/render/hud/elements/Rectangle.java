@@ -19,6 +19,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.utils.render.color.ColorUtil;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import meteordevelopment.meteorclient.utils.render.ui.rectangle.rectdefault.BuiltRectangle;
+import meteordevelopment.meteorclient.utils.render.ui.rectangle.rectgradient.BuiltGradientRectangle;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -173,9 +174,14 @@ public class Rectangle extends HUDElement {
         String message = "Hello, World!";
         MutableText text = Text.empty();
         
-        int[] colors = {
+        int[] colorsPh = {
             Color.RED.getRGB(),
             Color.YELLOW.getRGB()
+        };
+        
+        int[] colorsBl = {
+            Color.WHITE.getRGB(),
+            Color.BLACK.getRGB()
         };
         
         int[] colorsRa = {
@@ -197,7 +203,8 @@ public class Rectangle extends HUDElement {
         int[] colorsCelka = {
             Color.CYAN.getRGB(),
             Color.BLUE.getRGB(),
-            Color.MAGENTA.getRGB()
+            Color.MAGENTA.getRGB(),
+            Color.BLUE.getRGB(),
         };
         
         int[] colorsTest = {
@@ -214,7 +221,7 @@ public class Rectangle extends HUDElement {
                             i * -32,
                             3f,
                             true,
-                            colorsRa
+                            colorsPh
                         )
                     ))
             );
@@ -248,33 +255,71 @@ public class Rectangle extends HUDElement {
 //            ).withSmoothness(smoothness.get().floatValue())
 //        );
         
-        float pad = 3f;
-        int col = color.get().getPacked();
-        
         // glow
         
+        int[] colorsRect = ColorUtil.gradientRectRotation(3, colorsPh);
+        
 //        Render2D.glow(
-//            x - pad,
-//            y - pad,
-//            width.get() + pad * 2,
-//            height.get() + pad * 2,
-//            radius.get().floatValue(),
-//            50,
-//            1,
-//            col
+//            Render2D.glowBuilder()
+//                .rectangle(
+//                    x,
+//                    y,
+//                    width.get(),
+//                    height.get(),
+//                    radius.getDefaultValue().floatValue()
+//                )
+//                .glowRadius(50f)
+//                .color(
+//                    colorsRect[2],
+//                    colorsRect[3],
+//                    colorsRect[0],
+//                    colorsRect[1]
+//                )
+//                .build()
 //        );
+        
+        Render2D.glowShape(
+            Render2D.glowShapeOptions().radius(25).intensity(1).cutout(false),
+            () -> {
+                Render2D.gradientRect(
+                    new BuiltGradientRectangle(
+                        x,
+                        y,
+                        width.get(),
+                        height.get(),
+                        radius.get().floatValue(),
+                        colorsPh[0],
+                        colorsPh[1],
+                        3,
+                        2
+                    )
+                );
+            }
+        );
+        
+        float outlineWidth = 1f;
         
         // outline
+        Render2D.gradientRect(
+            new BuiltGradientRectangle(
+                x - outlineWidth,
+                y - outlineWidth,
+                width.get() + outlineWidth * 2,
+                height.get() + outlineWidth * 2,
+                Math.max(0, radiusEachVertex.get() ? radiusTopLeft.get().floatValue() : radius.get().floatValue() + outlineWidth),
+                Math.max(0, radiusEachVertex.get() ? radiusTopRight.get().floatValue() : radius.get().floatValue() + outlineWidth),
+                Math.max(0, radiusEachVertex.get() ? radiusTopRight.get().floatValue() : radius.get().floatValue() + outlineWidth),
+                Math.max(0, radiusEachVertex.get() ? radiusBottomLeft.get().floatValue() : radius.get().floatValue() + outlineWidth),
+                colorsPh[0],
+                colorsPh[1],
+                (float) (smoothness.get() + outlineWidth),
+                3,
+                2,
+                0
+            )
+        );
         
-//        Render2D.rect(
-//            x - 1,
-//            y - 1,
-//            width.get() + 2,
-//            height.get() + 2,
-//            glowRadius.get().floatValue(),
-//            col
-//        );
-//
+        // main rect
         Render2D.rect(
             new BuiltRectangle(
                 x,
@@ -292,7 +337,37 @@ public class Rectangle extends HUDElement {
                 smoothness.get().floatValue()
             )
         );
+        // blur
+//        Render2D.blur(
+//            new BuiltBlur(
+//                x,
+//                y,
+//                width.get(),
+//                height.get(),
+//                radius.get().floatValue(),
+//                smoothness.get().floatValue(),
+//                35
+//            ).withColors(
+//                colorEachVertex.get() ? colorTopLeft.get().getPacked() : color.get().getPacked(),
+//                colorEachVertex.get() ? colorTopRight.get().getPacked() : color.get().getPacked(),
+//                colorEachVertex.get() ? colorBottomRight.get().getPacked() : color.get().getPacked(),
+//                colorEachVertex.get() ? colorBottomLeft.get().getPacked() : color.get().getPacked()
+//            )
+//        );
         
+//        Render2D.glowShape(
+//            Render2D.glowShapeOptions().radius(20).intensity(5).cutout(false),
+//            () -> Render2D.msdf(
+//                new BuiltMsdf(
+//                    MsdfFont.MONTSERRAT_MEDIUM,
+//                    text,
+//                    x + 20,
+//                    y + 20,
+//                    16
+//                )
+//            )
+//        );
+//
 //        Render2D.msdf(
 //            new BuiltMsdf(
 //                MsdfFont.MONTSERRAT_MEDIUM,
@@ -309,6 +384,26 @@ public class Rectangle extends HUDElement {
 //                1.0f
 //            )
         //);
+        
+        Render2D.glow(
+            x + 20f,
+            y + 20f,
+            100f,
+            100f,
+            10f,
+            50f,
+            1f,
+            0xFFFF0000
+        );
+        
+        Render2D.blur(
+            x + 20f,
+            y + 20f,
+            100f,
+            100f,
+            10f,
+            50
+        );
     }
     
 }

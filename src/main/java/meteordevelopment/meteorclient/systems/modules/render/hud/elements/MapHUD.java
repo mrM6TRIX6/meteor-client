@@ -15,7 +15,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
 import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;

@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.entity;
 
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import net.minecraft.entity.Entity;

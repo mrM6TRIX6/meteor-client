@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
-import meteordevelopment.meteorclient.utils.misc.NameFormat;
+import meteordevelopment.meteorclient.utils.name.NameFormat;
 
 import java.util.ArrayList;
 import java.util.Comparator;

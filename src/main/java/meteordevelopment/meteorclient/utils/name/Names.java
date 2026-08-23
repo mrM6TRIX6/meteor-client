@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.utils.misc;
+package meteordevelopment.meteorclient.utils.name;
 
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;

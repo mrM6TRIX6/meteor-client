@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.systems.modules.fun.notebot;
 
 import meteordevelopment.meteorclient.systems.modules.fun.notebot.instrumentdetect.InstrumentDetectFunction;
 import meteordevelopment.meteorclient.systems.modules.fun.notebot.song.Note;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.NoteBlock;
 import net.minecraft.block.enums.NoteBlockInstrument;

@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.utils.misc;
+package meteordevelopment.meteorclient.utils.name;
 
 public interface IName extends IDisplayName {
     

@@ -8,8 +8,8 @@ package meteordevelopment.meteorclient.settings.impl;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.utils.misc.NameFormat;
-import meteordevelopment.meteorclient.utils.misc.Namer;
+import meteordevelopment.meteorclient.utils.name.NameFormat;
+import meteordevelopment.meteorclient.utils.name.Namer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -101,10 +101,10 @@ public class EnumChoiceSetting<T extends Enum<T>> extends Setting<T> {
             super(null);
         }
         
-//        public Builder<T> namer(Namer<T> namer) {
-//            this.namer = namer;
-//            return this;
-//        }
+        public Builder<T> namer(Namer<T> namer) {
+            this.namer = namer;
+            return this;
+        }
 
         @Override
         public EnumChoiceSetting<T> build() {

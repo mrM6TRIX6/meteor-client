@@ -7,14 +7,14 @@ package meteordevelopment.meteorclient.systems.modules.render.hud.elements;
 
 import it.unimi.dsi.fastutil.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectObjectImmutablePair;
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.render.hud.*;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
-import meteordevelopment.meteorclient.utils.misc.Names;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.Names;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffectUtil;

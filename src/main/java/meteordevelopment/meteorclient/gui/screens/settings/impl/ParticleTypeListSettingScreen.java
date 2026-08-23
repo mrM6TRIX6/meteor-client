@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.gui.screens.settings.CollectionListSetting
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.utils.misc.Names;
+import meteordevelopment.meteorclient.utils.name.Names;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
 import net.minecraft.registry.Registries;

@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud.elements;
 
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
@@ -12,9 +14,7 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 

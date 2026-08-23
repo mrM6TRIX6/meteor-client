@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.renderer.engine.text;
 
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 
 public record FontInfo(String family, Type type) {
     

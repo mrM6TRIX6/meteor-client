@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.entity;
 
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.name.IDisplayName;
 
 public enum Target implements IDisplayName {
     
