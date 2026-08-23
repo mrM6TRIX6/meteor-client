@@ -10,7 +10,7 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import meteordevelopment.meteorclient.IMinecraft;
-import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.misc.NameFormat;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.CommandSource;
@@ -31,7 +31,7 @@ public abstract class Command implements IMinecraft {
     public final List<String> aliases;
     
     public Command(String name, String description, String... aliases) {
-        this.name = Utils.validateName(name);
+        this.name = NameFormat.validate(name);
         this.description = description;
         this.aliases = Stream.of(aliases)
             .map(String::toLowerCase)

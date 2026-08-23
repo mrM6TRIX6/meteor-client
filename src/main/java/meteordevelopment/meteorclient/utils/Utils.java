@@ -82,7 +82,6 @@ import static org.lwjgl.glfw.GLFW.*;
 public class Utils implements IMinecraft {
     
     public static final Pattern FILE_NAME_INVALID_CHARS_PATTERN = Pattern.compile("[\\s\\\\/:*?\"<>|]");
-    public static final Pattern VALID_NAME_PATTERN = Pattern.compile("^[A-Za-z0-9-]+$");
     
     public static Screen screenToOpen;
     
@@ -676,22 +675,6 @@ public class Utils implements IMinecraft {
     public static boolean isLoading() {
         ResourceReloadLogger.ReloadState state = ((ResourceReloadLoggerAccessor) ((MinecraftClientAccessor) mc).meteor$getResourceReloadLogger()).meteor$getReloadState();
         return state == null || !((ReloadStateAccessor) state).meteor$isFinished();
-    }
-    
-    /**
-     * Validates that the given string represents a valid name using a whitelist approach
-     */
-    public static String validateName(String name) {
-        Objects.requireNonNull(name, "Name cannot be null");
-        
-        if (!VALID_NAME_PATTERN.matcher(name).matches()) {
-            throw new IllegalStateException(
-                String.format("Name '%s' contains invalid characters. " +
-                    "Only letters (A-Z, a-z), numbers (0-9), and hyphens (-) are allowed. ", name)
-            );
-        }
-        
-        return name;
     }
     
     public static List<String> splitWithEscape(String str) {

@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.gui;
 
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.gui.screens.settings.impl.*;
 import meteordevelopment.meteorclient.gui.utils.Cell;
 import meteordevelopment.meteorclient.gui.utils.CharFilter;
@@ -25,7 +26,6 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
 import net.minecraft.client.gui.DrawContext;
 import org.apache.commons.lang3.Strings;
 
@@ -35,9 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
+public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implements IMinecraft {
 
     private static final SettingColor WHITE = new SettingColor();
 
@@ -50,6 +48,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         factories.put(DoubleSetting.class, (table, setting) -> doubleW(table, (DoubleSetting) setting));
         factories.put(StringSetting.class, (table, setting) -> stringW(table, (StringSetting) setting));
         factories.put(EnumChoiceSetting.class, (table, setting) -> enumW(table, (EnumChoiceSetting<? extends Enum<?>>) setting));
+        factories.put(MultiChoiceSetting.class, (table, setting) -> multiW(table, (MultiChoiceSetting<?>) setting));
         factories.put(GenericSetting.class, (table, setting) -> genericW(table, (GenericSetting<?>) setting));
         factories.put(ColorSetting.class, (table, setting) -> colorW(table, (ColorSetting) setting));
         factories.put(KeybindSetting.class, (table, setting) -> keybindW(table, (KeybindSetting) setting));
@@ -249,11 +248,30 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory {
         StringListSetting.fillTable(wtable, setting);
     }
 
-    private <T extends Enum<T> & IDisplayName> void enumW(WTable table, EnumChoiceSetting<T> setting) {
-        WDropdown<T> dropdown = table.add(new WDropdown<>(setting.getChoices(), setting.get())).expandCellX().widget();
+    private <T extends Enum<T>> void enumW(WTable table, EnumChoiceSetting<T> setting) {
+        WDropdown<T> dropdown = table.add(new WDropdown<>(setting.getChoices(), setting.get(), setting.getNamer())).expandCellX().widget();
         dropdown.action = () -> setting.set(dropdown.get());
 
         reset(table, setting, () -> dropdown.set(setting.get()));
+    }
+
+    private <T> void multiW(WTable table, MultiChoiceSetting<T> setting) {
+        WMultiChoice<T> multiChoice = table.add(
+            new WMultiChoice<>(
+                setting.getChoices(),
+                setting.get(),
+                setting.maxWidth,
+                setting.getNamer()
+            )
+        ).expandCellX().widget();
+
+        multiChoice.action = () -> {
+            if (!setting.set(multiChoice.get())) {
+                multiChoice.set(setting.get());
+            }
+        };
+
+        reset(table, setting, () -> multiChoice.set(setting.get()));
     }
 
     private void genericW(WTable table, GenericSetting<?> setting) {

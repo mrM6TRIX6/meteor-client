@@ -19,6 +19,7 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.IActivable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
+import meteordevelopment.meteorclient.utils.misc.NameFormat;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -48,7 +49,7 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     
     public Module(Category category, String name, String description) {
         this.category = category;
-        this.name = Utils.validateName(name);
+        this.name = NameFormat.validate(name);
         this.description = description;
         this.color = Color.fromHsv(Utils.random(0.0, 360.0), 0.35, 1);
         

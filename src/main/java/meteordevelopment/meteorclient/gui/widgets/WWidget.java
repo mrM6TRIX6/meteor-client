@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.gui.widgets;
 
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.GuiTooltips;
 import meteordevelopment.meteorclient.gui.widgets.containers.WView;
@@ -17,7 +18,7 @@ import net.minecraft.client.input.CharInput;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.util.Identifier;
 
-public abstract class WWidget {
+public abstract class WWidget implements IMinecraft {
 
     public boolean visible = true;
 

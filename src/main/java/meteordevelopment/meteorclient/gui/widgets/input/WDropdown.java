@@ -12,7 +12,7 @@ import meteordevelopment.meteorclient.gui.widgets.WRoot;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WView;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPressable;
-import meteordevelopment.meteorclient.utils.misc.IDisplayName;
+import meteordevelopment.meteorclient.utils.misc.Namer;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -23,12 +23,18 @@ import net.minecraft.util.math.MathHelper;
 import java.util.Arrays;
 import java.util.List;
 
-public class WDropdown<T extends IDisplayName> extends WPressable {
+public class WDropdown<T> extends WPressable {
 
     public Runnable action;
 
     protected List<T> choices;
     protected T choice;
+
+    /**
+     * Supplies the label of every choice, so the dropdown works for any type instead of only for ones that
+     * implement a naming interface.
+     */
+    protected final Namer<T> namer;
 
     protected double maxValueWidth;
 
@@ -37,7 +43,12 @@ public class WDropdown<T extends IDisplayName> extends WPressable {
     protected double animProgress;
 
     public WDropdown(List<T> choices, T choice) {
+        this(choices, choice, Namer.auto());
+    }
+
+    public WDropdown(List<T> choices, T choice, Namer<T> namer) {
         this.choices = choices;
+        this.namer = namer;
 
         set(choice);
     }
@@ -45,7 +56,7 @@ public class WDropdown<T extends IDisplayName> extends WPressable {
     /**
      * Every constant of the enum as choices.
      */
-    public static <E extends Enum<E> & IDisplayName> WDropdown<E> of(E choice) {
+    public static <E extends Enum<E>> WDropdown<E> of(E choice) {
         return new WDropdown<>(Arrays.asList(choice.getDeclaringClass().getEnumConstants()), choice);
     }
 
@@ -71,7 +82,7 @@ public class WDropdown<T extends IDisplayName> extends WPressable {
 
         maxValueWidth = 0;
         for (T value : choices) {
-            double valueWidth = GuiConstants.textWidth(value.toString());
+            double valueWidth = GuiConstants.textWidth(namer.display(value));
             maxValueWidth = Math.max(maxValueWidth, valueWidth);
         }
 
@@ -148,7 +159,7 @@ public class WDropdown<T extends IDisplayName> extends WPressable {
 
         renderBackground(pressed, mouseOver);
 
-        String text = get().getDisplayName();
+        String text = namer.display(get());
         text(text, x + pad + maxValueWidth / 2 - GuiConstants.textWidth(text) / 2, y + pad, GuiConstants.TEXT);
 
         icon(GuiConstants.TRIANGLE, x + pad + maxValueWidth + pad, y + pad, s, GuiConstants.TEXT);
@@ -272,7 +283,7 @@ public class WDropdown<T extends IDisplayName> extends WPressable {
         protected void onCalculateSize() {
             double pad = pad();
 
-            width = pad + GuiConstants.textWidth(value.getDisplayName()) + pad;
+            width = pad + GuiConstants.textWidth(namer.display(value)) + pad;
             height = pad + GuiConstants.textHeight() + pad;
         }
 
@@ -281,7 +292,7 @@ public class WDropdown<T extends IDisplayName> extends WPressable {
             // Brighter than a normal background because the list sits on top of one.
             Render2D.rect((float) x, (float) y, (float) width, (float) height, GuiConstants.brighter(GuiConstants.BACKGROUND.get(pressed, mouseOver, true)));
 
-            String text = value.getDisplayName();
+            String text = namer.display(value);
             text(text, x + width / 2 - GuiConstants.textWidth(text) / 2, y + pad(), GuiConstants.TEXT);
         }
 
