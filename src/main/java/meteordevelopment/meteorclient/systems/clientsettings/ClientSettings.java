@@ -7,8 +7,6 @@ package meteordevelopment.meteorclient.systems.clientsettings;
 
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.renderer.color.SettingColor;
-import meteordevelopment.meteorclient.renderer.engine.Fonts;
-import meteordevelopment.meteorclient.renderer.engine.text.FontFace;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
@@ -30,13 +28,6 @@ public class ClientSettings extends System<ClientSettings> {
     private final SettingGroup sgMisc = settings.createGroup("Misc");
     
     // Visual
-    
-    public final Setting<FontFace> font = sgVisual.add(new FontFaceSetting.Builder()
-        .name("font")
-        .description("Custom font to use.")
-        .onChanged(Fonts::load)
-        .build()
-    );
     
     public final Setting<Double> rainbowSpeed = sgVisual.add(new DoubleSetting.Builder()
         .name("rainbow-speed")

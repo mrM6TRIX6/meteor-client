@@ -12,9 +12,7 @@ import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.name.NameFormat;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +28,6 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
     
     private final IVisible visible;
     
-    @NotNull
     protected final T defaultValue;
     protected T value;
     
@@ -40,10 +37,10 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
     public Module module;
     public boolean lastWasVisible;
     
-    public Setting(String name, String description, @NotNull T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
+    public Setting(String name, String description, T defaultValue, Consumer<T> onChanged, Consumer<Setting<T>> onModuleActivated, IVisible visible) {
         this.name = NameFormat.validate(name);
         this.description = description;
-        this.defaultValue = defaultValue;
+        this.defaultValue = Objects.requireNonNull(defaultValue, "Default value cannot be null");
         this.onChanged = onChanged;
         this.onModuleActivated = onModuleActivated;
         this.visible = visible;
@@ -190,14 +187,13 @@ public abstract class Setting<T> implements IGetter<T>, ISerializable<T> {
         protected String name;
         protected String description;
         
-        @NotNull
         protected V defaultValue;
         
         protected IVisible visible;
         protected Consumer<V> onChanged;
         protected Consumer<Setting<V>> onModuleActivated;
         
-        protected SettingBuilder(@NonNull V defaultValue) {
+        protected SettingBuilder(V defaultValue) {
             this.defaultValue = defaultValue;
         }
         

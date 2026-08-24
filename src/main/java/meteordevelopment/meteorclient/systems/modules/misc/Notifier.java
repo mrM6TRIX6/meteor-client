@@ -203,9 +203,11 @@ public class Notifier extends Module {
         .build()
     );
     
-    private final Setting<List<GameMode>> gamemodes = sgGamemodeChanges.add(new GameModeListSetting.Builder()
+    private final Setting<SequencedSet<GameMode>> gamemodes = sgGamemodeChanges.add(new MultiChoiceSetting.Builder<GameMode>()
         .name("gamemodes")
         .description("Which gamemodes to notify.")
+        .choices(GameMode.values())
+        .defaultValue(GameMode.values())
         .build()
     );
     

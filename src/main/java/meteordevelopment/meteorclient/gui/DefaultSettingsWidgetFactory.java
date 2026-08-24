@@ -21,7 +21,6 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPlus;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.renderer.color.SettingColor;
-import meteordevelopment.meteorclient.renderer.engine.Fonts;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
@@ -68,11 +67,9 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implemen
         factories.put(ScreenHandlerListSetting.class, (table, setting) -> screenHandlerListW(table, (ScreenHandlerListSetting) setting));
         factories.put(BlockDataSetting.class, (table, setting) -> blockDataW(table, (BlockDataSetting<?>) setting));
         factories.put(PotionChoiceSetting.class, (table, setting) -> potionW(table, (PotionChoiceSetting) setting));
-        factories.put(GameModeListSetting.class, (table, setting) -> gameModeListW(table, (GameModeListSetting) setting));
         factories.put(StringListSetting.class, (table, setting) -> stringListW(table, (StringListSetting) setting));
         factories.put(BlockPosSetting.class, (table, setting) -> blockPosW(table, (BlockPosSetting) setting));
         factories.put(ColorListSetting.class, (table, setting) -> colorListW(table, (ColorListSetting) setting));
-        factories.put(FontFaceSetting.class, (table, setting) -> fontW(table, (FontFaceSetting) setting));
         factories.put(Vector3dSetting.class, (table, setting) -> vector3dW(table, (Vector3dSetting) setting));
     }
 
@@ -396,10 +393,6 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implemen
         selectW(table, setting, () -> mc.setScreen(new ScreenHandlerSettingScreen(setting)));
     }
 
-    private void gameModeListW(WTable table, GameModeListSetting setting) {
-        selectW(table, setting, () -> mc.setScreen(new GameModeListSettingScreen(setting)));
-    }
-
     private void blockDataW(WTable table, BlockDataSetting<?> setting) {
         WButton button = table.add(new WButton(GuiConstants.EDIT)).expandCellX().widget();
         button.action = () -> mc.setScreen(new BlockDataSettingScreen<>(setting));
@@ -420,21 +413,6 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implemen
         };
 
         reset(list, setting, () -> item.set(setting.get().potion));
-    }
-
-    private void fontW(WTable table, FontFaceSetting setting) {
-        WHorizontalList list = table.add(new WHorizontalList()).expandX().widget();
-        WLabel label = list.add(new WLabel(setting.get().info.family())).widget();
-
-        WButton button = list.add(new WButton("Select")).expandCellX().widget();
-        button.action = () -> {
-            WidgetScreen screen = new FontFaceSettingScreen(setting);
-            screen.onClosed(() -> label.set(setting.get().info.family()));
-
-            mc.setScreen(screen);
-        };
-
-        reset(list, setting, () -> label.set(Fonts.DEFAULT_FONT.info.family()));
     }
 
     private void colorListW(WTable table, ColorListSetting setting) {

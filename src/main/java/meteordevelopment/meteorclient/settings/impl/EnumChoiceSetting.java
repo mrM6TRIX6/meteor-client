@@ -98,7 +98,7 @@ public class EnumChoiceSetting<T extends Enum<T>> extends Setting<T> {
         protected Namer<T> namer;
 
         public Builder() {
-            super(null);
+            super(null); // not necessary
         }
         
         public Builder<T> namer(Namer<T> namer) {

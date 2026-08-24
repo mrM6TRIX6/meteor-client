@@ -13,7 +13,6 @@ import meteordevelopment.meteorclient.renderer.engine.text.CustomTextRenderer;
 import meteordevelopment.meteorclient.renderer.engine.text.FontFace;
 import meteordevelopment.meteorclient.renderer.engine.text.FontFamily;
 import meteordevelopment.meteorclient.renderer.engine.text.FontInfo;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.reflect.PreInit;
 
 import java.util.ArrayList;
@@ -49,8 +48,8 @@ public class Fonts {
         DEFAULT_FONT_FAMILY = FontUtils.getFontInfo(FontUtils.stream(FONTS[0])).family();
         DEFAULT_FONT = getFamily(DEFAULT_FONT_FAMILY).get(FontInfo.Type.REGULAR);
         
-        ClientSettings clientSettings = ClientSettings.get();
-        load(clientSettings != null ? clientSettings.font.get() : DEFAULT_FONT);
+//        ClientSettings clientSettings = ClientSettings.get();
+//        load(clientSettings != null ? clientSettings.font.get() : DEFAULT_FONT);
     }
     
     public static void load(FontFace fontFace) {
