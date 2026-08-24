@@ -34,6 +34,10 @@ repositories {
         name = "ViaVersion"
         url = uri("https://repo.viaversion.com")
     }
+    maven {
+        name = "Jitpack"
+        url = uri("https://jitpack.io")
+    }
     mavenCentral()
 
     exclusiveContent {
@@ -82,6 +86,9 @@ dependencies {
 
     // Compat fixes
     modCompileOnly(fabricApi.module("fabric-renderer-indigo", fapiVersion))
+    // Loom 1.16+ only applies transitive access wideners from mods present on both the compile and
+    // runtime classpaths, so Fabric API's has to be on the dev runtime as well.
+    modLocalRuntime(fabricApi.module("fabric-transitive-access-wideners-v1", fapiVersion))
     modCompileOnly(libs.sodium) { isTransitive = false }
     modCompileOnly(libs.lithium) { isTransitive = false }
     modCompileOnly(libs.iris) { isTransitive = false }
@@ -90,6 +97,9 @@ dependencies {
 
     modCompileOnly(libs.baritone)
     modCompileOnly(libs.modmenu)
+
+    modCompileOnly(libs.malilib) { isTransitive = false }
+    modCompileOnly(libs.litematica) { isTransitive = false }
 
     // Libraries (JAR-in-JAR)
     jij(libs.orbit)

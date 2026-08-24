@@ -7,7 +7,7 @@ fabric-api = "0.140.0+1.21.11"
 
 # Plugins
 # Loom (https://github.com/FabricMC/fabric-loom)
-loom = "1.14-SNAPSHOT"
+loom = "1.17.19"
 
 # Mods
 # Baritone (https://github.com/MeteorDevelopment/baritone)
@@ -34,6 +34,10 @@ netty = "4.2.7.Final"
 viafabricplus = "4.4.0"
 # WaybackAuthLib (https://github.com/FlorianMichael/WaybackAuthLib)
 waybackauthlib = "1.0.1"
+# MaLiLib (https://github.com/maruohon/malilib)
+malilib = "0.27.18"
+# Litematica (https://github.com/maruohon/litematica)
+litematica = "0.26.13"
 
 [libraries]
 # Fabric base
@@ -49,6 +53,8 @@ baritone = { module = "meteordevelopment:baritone", version.ref = "baritone" }
 modmenu = { module = "com.terraformersmc:modmenu", version.ref = "modmenu" }
 viafabricplus = { module = "com.viaversion:viafabricplus", version.ref = "viafabricplus" }
 viafabricplus-api = { module = "com.viaversion:viafabricplus-api", version.ref = "viafabricplus" }
+malilib = { module = "maven.modrinth:malilib", version.ref = "malilib" }
+litematica = { module = "maven.modrinth:litematica", version.ref = "litematica" }
 
 # Libraries
 orbit = { module = "meteordevelopment:orbit", version.ref = "orbit" }

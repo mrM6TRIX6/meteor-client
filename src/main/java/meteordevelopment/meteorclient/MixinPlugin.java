@@ -28,6 +28,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
     private static boolean isLithiumPresent;
     private static boolean isIrisPresent;
     private static boolean isVFPPresent;
+    private static boolean isLitematicaPresent;
     
     @Override
     public void onLoad(String mixinPackage) {
@@ -68,6 +69,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
         isLithiumPresent = FabricLoader.getInstance().isModLoaded("lithium");
         isIrisPresent = FabricLoader.getInstance().isModLoaded("iris");
         isVFPPresent = FabricLoader.getInstance().isModLoaded("viafabricplus");
+        isLitematicaPresent = FabricLoader.getInstance().isModLoaded("litematica");
         
         loaded = true;
     }
@@ -131,6 +133,10 @@ public class MixinPlugin implements IMixinConfigPlugin {
     
     public static boolean isOriginsPresent() {
         return isOriginsPresent;
+    }
+    
+    public static boolean isLitematicaPresent() {
+        return isLitematicaPresent;
     }
     
 }

@@ -10,6 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.MixinPlugin;
 import meteordevelopment.meteorclient.events.game.GameJoinEvent;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
@@ -37,6 +38,8 @@ import meteordevelopment.meteorclient.systems.modules.render.blockesp.BlockESP;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.world.*;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
+import meteordevelopment.meteorclient.systems.modules.world.litematica.LitematicaPrinter;
+import meteordevelopment.meteorclient.systems.modules.world.litematica.LitematicaShredder;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.ValueComparableMap;
@@ -548,6 +551,11 @@ public class Modules extends System<Modules> {
         if (BaritoneUtils.IS_AVAILABLE) {
             add(new Excavator());
             add(new InfinityMiner());
+        }
+
+        if (MixinPlugin.isLitematicaPresent()) {
+            add(new LitematicaPrinter());
+            add(new LitematicaShredder());
         }
     }
     

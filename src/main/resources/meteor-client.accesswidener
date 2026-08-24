@@ -45,3 +45,7 @@ mutable      field    net/minecraft/entity/EntityPosition yaw F
 
 accessible   field    net/minecraft/entity/EntityPosition pitch F
 mutable      field    net/minecraft/entity/EntityPosition pitch F
+
+accessible   method   net/minecraft/item/BlockItem getPlacementState (Lnet/minecraft/item/ItemPlacementContext;)Lnet/minecraft/block/BlockState;
+accessible   method   net/minecraft/item/VerticallyAttachableBlockItem getPlacementState (Lnet/minecraft/item/ItemPlacementContext;)Lnet/minecraft/block/BlockState;
+accessible   field    net/minecraft/item/VerticallyAttachableBlockItem verticalAttachmentDirection Lnet/minecraft/util/math/Direction;
