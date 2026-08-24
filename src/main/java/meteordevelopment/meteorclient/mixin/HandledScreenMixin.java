@@ -173,4 +173,13 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
         return original;
     }
     
+    // Slot Numbers
+    
+    @Inject(method = "drawSlotHighlightFront", at = @At("TAIL"))
+    private void onDrawSlotHighlightFront(DrawContext context, CallbackInfo ci) {
+        if (focusedSlot != null && focusedSlot.isEnabled()) {
+            Modules.get().get(InventoryTweaks.class).drawSlotNumber(context, focusedSlot);
+        }
+    }
+    
 }

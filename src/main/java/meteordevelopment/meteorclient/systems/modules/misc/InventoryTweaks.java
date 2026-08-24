@@ -27,9 +27,13 @@ import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
 import meteordevelopment.meteorclient.utils.player.*;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.DecoratedPotBlock;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.decoration.ItemFrameEntity;
@@ -80,6 +84,13 @@ public class InventoryTweaks extends Module {
     private final Setting<Boolean> fakeCloseButton = sgGeneral.add(new BoolSetting.Builder()
         .name("fake-close-button")
         .description("Adds a button that closes the inventory only on the client side (somewhat similar to XCarry).")
+        .defaultValue(false)
+        .build()
+    );
+    
+    private final Setting<Boolean> slotNumbers = sgGeneral.add(new BoolSetting.Builder()
+        .name("SlotNumbers")
+        .description("Shows slot number of hovered slot in inventories.")
         .defaultValue(false)
         .build()
     );
@@ -571,6 +582,36 @@ public class InventoryTweaks extends Module {
             return (stealScreens.get().contains(handler.getType()));
         } catch (UnsupportedOperationException e) {
             return false;
+        }
+    }
+    
+    public void drawSlotNumber(DrawContext context, Slot slot) {
+        if (isActive() && slotNumbers.get()) {
+            Render2D.withVanilla(() -> {
+                Render2D.beginFrame(context, Render2D.Space.VANILLA);
+                try {
+                    int color = 0xFF00FFFF;
+                    int size = 7;
+                    String text = String.valueOf(slot.id);
+
+                    Render2D.msdf(
+                        new BuiltMsdf(
+                            MsdfFont.MONTSERRAT_SEMIBOLD,
+                            text,
+                            slot.x + 1,
+                            slot.y,
+                            size,
+                            color
+                        ).withOutline(
+                            0.05f,
+                            0xFF000000
+                        )
+                    );
+                    Render2D.flush();
+                } finally {
+                    Render2D.endFrame();
+                }
+            });
         }
     }
     
