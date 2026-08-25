@@ -10,7 +10,6 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormatElement;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.mixin.DrawContextAccessor;
-import meteordevelopment.meteorclient.mixininterface.IGuiRenderStateLayer;
 import meteordevelopment.meteorclient.utils.render.ScissorUtil;
 import meteordevelopment.meteorclient.utils.render.color.ColorUtil;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
@@ -24,9 +23,7 @@ import org.lwjgl.system.MemoryStack;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class MsdfRenderer implements AutoCloseable {
@@ -58,14 +55,13 @@ public final class MsdfRenderer implements AutoCloseable {
         .withUniform("MsdfParamsArray", UniformType.UNIFORM_BUFFER)
         .build();
     
-    private final Map<FrameBatchKey, MsdfRenderState> frameBatches = new LinkedHashMap<>(32);
     private final List<MsdfEntry> preparedMsdf = new ArrayList<>(32);
     private DrawContext activeContext;
     private GpuBuffer paramsBuffer;
     private boolean paramsDirty = true;
-    
+
     private MsdfRenderer() {}
-    
+
     public static MsdfRenderer getInstance() {
         MsdfRenderer local = instance;
         if (local == null) {
@@ -79,7 +75,7 @@ public final class MsdfRenderer implements AutoCloseable {
         }
         return local;
     }
-    
+
     public static void closeInstance() {
         MsdfRenderer local = instance;
         if (local != null) {
@@ -87,21 +83,13 @@ public final class MsdfRenderer implements AutoCloseable {
             instance = null;
         }
     }
-    
+
     public void beginFrame(DrawContext context) {
-        if (activeContext != context) {
-            frameBatches.clear();
-        }
         activeContext = context;
     }
-    
+
     public void flush() {
         activeContext = null;
-        frameBatches.clear();
-    }
-    
-    public void barrier() {
-        frameBatches.clear();
     }
 
     public void beginGuiFrame() {
@@ -169,7 +157,7 @@ public final class MsdfRenderer implements AutoCloseable {
         if (context == null || built == null || !built.visible()) {
             return;
         }
-        
+
         try {
             MsdfFont font = built.font();
             MsdfAtlas atlas = font.atlas();
@@ -177,29 +165,13 @@ public final class MsdfRenderer implements AutoCloseable {
             if (setup == null) {
                 return;
             }
-            
+
             GuiRenderState guiState = ((DrawContextAccessor) context).meteor$getState();
-            int layerSerial = ((IGuiRenderStateLayer) guiState).meteor$getLayerSerial();
             Matrix3x2f pose = Render2D.pose(context);
             ScreenRect scissorArea = ScissorUtil.current();
-            
-            FrameBatchKey key = new FrameBatchKey(
-                guiState,
-                layerSerial,
-                PoseKey.of(pose),
-                scissorArea,
-                setup,
-                built
-            );
-            
-            MsdfRenderState state = frameBatches.get(key);
-            if (state == null) {
-                state = new MsdfRenderState(pose, setup, scissorArea, atlas.distanceRange(), built);
-                frameBatches.put(key, state);
-                guiState.addPreparedTextElement(state);
-            }
-            
-            MsdfRenderState finalState = state;
+
+            MsdfRenderState state = new MsdfRenderState(pose, setup, scissorArea, atlas.distanceRange(), built);
+
             built.text().ifLeft(text -> {
                 float cursorX = built.x();
                 float scale = built.size() / atlas.fontSize();
@@ -212,7 +184,7 @@ public final class MsdfRenderer implements AutoCloseable {
                         continue;
                     }
                     if (glyph.drawable()) {
-                        finalState.add(
+                        state.add(
                             cursorX + glyph.xOffset() * scale,
                             built.y() + glyph.yOffset() * scale,
                             glyph.width() * scale,
@@ -233,10 +205,10 @@ public final class MsdfRenderer implements AutoCloseable {
                     }
                     cursorX += glyph.advance() * scale;
                 }
-            }).ifRight(text -> { // РАДИАЦИЯ ОПАСНО ОПАСНО!!!
+            }).ifRight(text -> {
                 AtomicReference<Float> cursorX = new AtomicReference<>(built.x());
                 float scale = built.size() / atlas.fontSize();
-                
+
                 text.asOrderedText().accept(
                     (index, style, codePoint) -> {
                         MsdfGlyph glyph = font.glyph(codePoint);
@@ -245,7 +217,7 @@ public final class MsdfRenderer implements AutoCloseable {
                         }
                         if (glyph.drawable()) {
                             int color = style.getColor() != null ? ColorUtil.withAlpha(style.getColor().getRgb(), 0xFF) : built.color();
-                            finalState.add(
+                            state.add(
                                 cursorX.get() + glyph.xOffset() * scale,
                                 built.y() + glyph.yOffset() * scale,
                                 glyph.width() * scale,
@@ -269,8 +241,9 @@ public final class MsdfRenderer implements AutoCloseable {
                     }
                 );
             });
-        } catch (RuntimeException ignored) {
-        }
+            
+            guiState.addSimpleElement(state);
+        } catch (RuntimeException ignored) {}
     }
     
     private GpuBuffer ensureParamsBuffer() {
@@ -346,32 +319,12 @@ public final class MsdfRenderer implements AutoCloseable {
     @Override
     public void close() {
         closeParamsBuffer();
-        frameBatches.clear();
         preparedMsdf.clear();
         activeContext = null;
     }
-    
+
     private record MsdfEntry(float range, BuiltMsdf built) {
-    
+
     }
-    
-    private record FrameBatchKey(
-        GuiRenderState state,
-        int layerSerial,
-        PoseKey pose,
-        ScreenRect scissorArea,
-        TextureSetup textureSetup,
-        BuiltMsdf built
-    ) {
-    
-    }
-    
-    private record PoseKey(float m00, float m01, float m10, float m11, float m20, float m21) {
-        
-        static PoseKey of(Matrix3x2f matrix) {
-            return new PoseKey(matrix.m00(), matrix.m01(), matrix.m10(), matrix.m11(), matrix.m20(), matrix.m21());
-        }
-        
-    }
-    
+
 }

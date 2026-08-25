@@ -1535,7 +1535,6 @@ public final class Render2D implements IMinecraft {
     
     public static void batchBarrier() {
         imageBarrier();
-        MsdfRenderer.getInstance().barrier();
     }
     
     private static float boldOffset(float size) {

@@ -29,8 +29,8 @@ public final class GlowCaptureScope {
 
     static void begin(List<SimpleGuiElementRenderState> target) {
         if (depth++ == 0) {
-            // Cross-submit batchers (msdf text, images) keep their render state open between submits, so an
-            // already open batch would happily absorb captured glyphs and end up in the atlas instead of on screen.
+            // Cross-submit batchers (images) keep their render state open between submits, so an already open
+            // batch would happily absorb captured quads and end up in the atlas instead of on screen.
             Render2D.batchBarrier();
             sink = target;
         }

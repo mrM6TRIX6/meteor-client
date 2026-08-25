@@ -24,6 +24,9 @@ final class MsdfRenderState implements SimpleGuiElementRenderState {
     private float minY = Float.MAX_VALUE;
     private float maxX = -Float.MAX_VALUE;
     private float maxY = -Float.MAX_VALUE;
+
+    private ScreenRect cachedBounds;
+    private boolean boundsCached;
     
     MsdfRenderState(
         Matrix3x2f pose,
@@ -151,17 +154,27 @@ final class MsdfRenderState implements SimpleGuiElementRenderState {
         return scissorArea;
     }
     
+    /**
+     * Vanilla decides the draw layer of every element from this rect, so it has to be final before the state is
+     * handed to {@code GuiRenderState} and it must never under-cover the glyphs - a rect that misses by a pixel
+     * lets a later element land in the same layer and win the draw order.
+     */
     @Override
     public ScreenRect bounds() {
-        if (quadCount == 0) {
-            return new ScreenRect(0, 0, 1, 1);
+        if (boundsCached) {
+            return cachedBounds;
         }
-        int x = (int) Math.floor(minX);
-        int y = (int) Math.floor(minY);
-        int width = Math.max(1, (int) Math.ceil(maxX - minX));
-        int height = Math.max(1, (int) Math.ceil(maxY - minY));
-        ScreenRect transformedBounds = new ScreenRect(x, y, width, height).transformEachVertex(pose);
-        return scissorArea == null ? transformedBounds : scissorArea.intersection(transformedBounds);
+        boundsCached = true;
+        if (quadCount == 0) {
+            return null;
+        }
+        int left = (int) Math.floor(minX);
+        int top = (int) Math.floor(minY);
+        int width = Math.max(1, (int) Math.ceil(maxX) - left);
+        int height = Math.max(1, (int) Math.ceil(maxY) - top);
+        ScreenRect transformedBounds = new ScreenRect(left, top, width, height).transformEachVertex(pose);
+        cachedBounds = scissorArea == null ? transformedBounds : scissorArea.intersection(transformedBounds);
+        return cachedBounds;
     }
     
     private void ensureCapacity(int needed) {
