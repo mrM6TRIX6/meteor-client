@@ -183,10 +183,6 @@ public class BetterTab extends Module {
     }
     
     public void onRenderPlayerBackground(DrawContext context, int x1, int y1, int x2, int y2, int color, Operation<Void> original, int w, List<PlayerListEntry> entries) {
-        if (!isActive()) {
-            return;
-        }
-        
         int drawColor = color;
         
         if ((highlightSelf.get() || highlightFriends.get()) && w < entries.size()) {
