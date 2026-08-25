@@ -38,6 +38,11 @@ repositories {
         name = "Jitpack"
         url = uri("https://jitpack.io")
     }
+    maven {
+        name = "Wispforest"
+        url = uri("https://maven.wispforest.io")
+    }
+
     mavenCentral()
 
     exclusiveContent {
@@ -83,6 +88,9 @@ dependencies {
     val fapiVersion = libs.versions.fabric.api.get()
     modInclude(fabricApi.module("fabric-api-base", fapiVersion))
     modInclude(fabricApi.module("fabric-resource-loader-v1", fapiVersion))
+
+    // Fix owo compatibility in dev env
+    modRuntimeOnly(libs.owo)
 
     // Compat fixes
     modCompileOnly(fabricApi.module("fabric-renderer-indigo", fapiVersion))

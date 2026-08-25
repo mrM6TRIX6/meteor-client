@@ -38,6 +38,8 @@ waybackauthlib = "1.0.1"
 malilib = "0.27.18"
 # Litematica (https://github.com/maruohon/litematica)
 litematica = "0.26.13"
+# Owo lib (https://github.com/wisp-forest/owo-lib)
+owo = "0.13.0+1.21.11"
 
 [libraries]
 # Fabric base
@@ -55,6 +57,7 @@ viafabricplus = { module = "com.viaversion:viafabricplus", version.ref = "viafab
 viafabricplus-api = { module = "com.viaversion:viafabricplus-api", version.ref = "viafabricplus" }
 malilib = { module = "maven.modrinth:malilib", version.ref = "malilib" }
 litematica = { module = "maven.modrinth:litematica", version.ref = "litematica" }
+owo = { module = "io.wispforest:owo-lib", version.ref = "owo" }
 
 # Libraries
 orbit = { module = "meteordevelopment:orbit", version.ref = "orbit" }
