@@ -591,7 +591,7 @@ public class InventoryTweaks extends Module {
                 Render2D.beginFrame(context, Render2D.Space.VANILLA);
                 try {
                     int color = 0xFF00FFFF;
-                    int size = 7;
+                    int size = 6;
                     String text = String.valueOf(slot.getIndex());
 
                     Render2D.msdf(
