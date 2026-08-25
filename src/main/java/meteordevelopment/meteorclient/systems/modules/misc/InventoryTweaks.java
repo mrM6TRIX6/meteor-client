@@ -592,7 +592,7 @@ public class InventoryTweaks extends Module {
                 try {
                     int color = 0xFF00FFFF;
                     int size = 7;
-                    String text = String.valueOf(slot.id);
+                    String text = String.valueOf(slot.getIndex());
 
                     Render2D.msdf(
                         new BuiltMsdf(
