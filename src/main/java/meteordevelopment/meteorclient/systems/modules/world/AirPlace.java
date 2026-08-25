@@ -86,7 +86,7 @@ public class AirPlace extends Module {
     private HitResult hitResult;
     
     public AirPlace() {
-        super(Category.PLAYER, "AirPlace", "Places a block where your crosshair is pointing at.");
+        super(Category.WORLD, "AirPlace", "Places a block where your crosshair is pointing at.");
     }
     
     @EventHandler
