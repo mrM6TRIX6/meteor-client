@@ -50,7 +50,6 @@ public class AutoHotbar extends Module {
             .name("Slots")
             .description("Enabled slots to switch.")
             .choices(0, 1, 2, 3, 4, 5, 6, 7, 8)
-            .canBeNone(false)
             .namer(Namer.of(slot -> "Slot" + (slot + 1), slot -> "Slot " + (slot + 1)))
             .defaultValue(0, 1, 2, 3, 4, 5, 6, 7, 8)
             .build()
