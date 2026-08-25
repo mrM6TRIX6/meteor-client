@@ -5,6 +5,7 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.mixininterface.IClientPlayerInteractionManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
@@ -15,9 +16,7 @@ import net.minecraft.screen.slot.SlotActionType;
 
 import java.util.function.Predicate;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public class InventoryUtils {
+public class InventoryUtils implements IMinecraft {
     
     private static final Action ACTION = new Action();
     public static int previousSlot = -1;

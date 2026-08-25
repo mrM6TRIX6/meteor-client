@@ -604,6 +604,7 @@ public class Modules extends System<Modules> {
         add(new CustomHead());
         add(new Fling());
         add(new HandDerp());
+        add(new ItemGenerator());
         add(new Notebot());
         add(new RainbowArmor());
         add(new SexAura());

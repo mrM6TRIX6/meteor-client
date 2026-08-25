@@ -19,6 +19,7 @@ import meteordevelopment.meteorclient.settings.impl.StringListSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ComponentMapReader;
+import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.item.Item;
@@ -164,8 +165,7 @@ public class CustomHead extends Module {
                 }
             }
             
-            mc.player.getInventory().setStack(39, itemStack);
-            mc.interactionManager.clickCreativeStack(itemStack, 5);
+            InventoryUtils.clickCreativeStack(itemStack, 5, true);
             
             currentItemIndex = (currentItemIndex + 1) % currentItems.size();
             if (customNBT.get() && !currentComponents.isEmpty()) {
