@@ -33,13 +33,24 @@ public abstract class WPressable extends WWidget {
             if (action != null) {
                 action.run();
             }
-            
+
             pressed = false;
         }
-        
+
         return false;
     }
-    
+
+    /**
+     * Being held counts as focused so the release still arrives after the cursor has left the view around this widget,
+     * which is what {@link meteordevelopment.meteorclient.gui.widgets.containers.WView#propagateEvents} goes by. Without
+     * it the press would never be cleared and, since {@link #onMouseClicked} reports it, the next click anywhere would
+     * be swallowed and run this action instead.
+     */
+    @Override
+    public boolean isFocused() {
+        return pressed || super.isFocused();
+    }
+
     protected void onPressed(int button) {}
     
 }

@@ -96,6 +96,19 @@ public class WView extends WVerticalList {
         return false;
     }
 
+    /**
+     * A view nested in another one only gets events while the cursor is inside its parent, so a drag started on the
+     * handle would never be released once the cursor leaves it. Counting as focused while dragging keeps the moves and
+     * the release coming, the same way {@link meteordevelopment.meteorclient.gui.widgets.input.WSlider} focuses itself.
+     *
+     * <p>{@link WContainer#isFocused()} reports whether any child is focused and ignores the container's own flag,
+     * hence the override instead of a {@link #setFocused(boolean)} call.
+     */
+    @Override
+    public boolean isFocused() {
+        return handlePressed || super.isFocused();
+    }
+
     @Override
     public void onMouseMoved(double mouseX, double mouseY, double lastMouseX, double lastMouseY) {
         handleMouseOver = false;
@@ -113,7 +126,10 @@ public class WView extends WVerticalList {
             double preScroll = scroll;
             double mouseDelta = mouseY - lastMouseY;
 
-            scroll += Math.round(mouseDelta * ((actualHeight - handleHeight() / 2) / height));
+            // The handle is drawn at (height - handleHeight()) * (scroll / (actualHeight - height)) and handleHeight()
+            // is height * height / actualHeight, so inverting that mapping to make the handle follow the cursor exactly
+            // leaves nothing but the ratio of the content to the visible part
+            scroll += Math.round(mouseDelta * (actualHeight / height));
             scroll = MathHelper.clamp(scroll, 0, actualHeight - height);
 
             targetScroll = scroll;
@@ -127,13 +143,18 @@ public class WView extends WVerticalList {
 
     @Override
     public boolean onMouseScrolled(double amount) {
-        if (!scrollOnlyWhenMouseOver || mouseOver) {
-            targetScroll -= Math.round(GuiConstants.scale(amount * 40));
-            targetScroll = MathHelper.clamp(targetScroll, 0, actualHeight - height);
-            return true;
+        if (scrollOnlyWhenMouseOver && !mouseOver) {
+            return false;
         }
 
-        return false;
+        double preTargetScroll = targetScroll;
+
+        targetScroll -= Math.round(GuiConstants.scale(amount * 40));
+        targetScroll = MathHelper.clamp(targetScroll, 0, actualHeight - height);
+
+        // A nested view that has nothing left to scroll lets the one around it take over instead of swallowing the
+        // scroll, so the cursor sitting on a short list doesn't lock the window in place
+        return targetScroll != preTargetScroll;
     }
 
     @Override

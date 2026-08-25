@@ -12,6 +12,7 @@ import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.WTexture;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
+import meteordevelopment.meteorclient.gui.widgets.containers.WListView;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
@@ -47,7 +48,8 @@ public class FriendsTab extends Tab {
         
         @Override
         public void initWidgets() {
-            WTable table = add(new WTable()).expandX().minWidth(400).widget();
+            WListView listView = add(new WListView()).expandX().minWidth(400).widget();
+            WTable table = listView.add(new WTable()).expandX().widget();
             initTable(table);
             
             add(new WHorizontalSeparator()).expandX();

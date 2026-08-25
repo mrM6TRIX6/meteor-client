@@ -15,10 +15,7 @@ import meteordevelopment.meteorclient.gui.tabs.TabScreen;
 import meteordevelopment.meteorclient.gui.tabs.WindowTabScreen;
 import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
-import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
-import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
-import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
-import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
+import meteordevelopment.meteorclient.gui.widgets.containers.*;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -51,7 +48,8 @@ public class ConfigsTab extends Tab {
         
         @Override
         public void initWidgets() {
-            WTable table = add(new WTable()).expandX().minWidth(400).widget();
+            WListView listView = add(new WListView()).expandX().minWidth(400).widget();
+            WTable table = listView.add(new WTable()).expandX().widget();
             initTable(table);
             
             add(new WHorizontalSeparator()).expandX();

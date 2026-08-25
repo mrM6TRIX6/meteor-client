@@ -85,20 +85,16 @@ public abstract class ClientConnectionMixin {
         if (side != NetworkSide.CLIENTBOUND || local) {
             return;
         }
-        
-        Proxy proxy = Proxies.get().getEnabled();
+        Proxy proxy = Proxies.get().getCurrent();
         if (proxy == null) {
             return;
         }
-        
+
         pipeline.addFirst(
             new Socks5ProxyHandler(
-                new InetSocketAddress(
-                    proxy.address.get(),
-                    proxy.port.get()
-                ),
-                proxy.username.get(),
-                proxy.password.get()
+                new InetSocketAddress(proxy.address, proxy.port),
+                proxy.username,
+                proxy.password
             )
         );
     }

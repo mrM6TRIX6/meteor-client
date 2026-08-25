@@ -6,6 +6,7 @@
 package meteordevelopment.meteorclient.gui.screens;
 
 import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
@@ -20,12 +21,11 @@ import meteordevelopment.meteorclient.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.regex.Matcher;
 
 public class ProxiesImportScreen extends WindowScreen {
-    
+
     private final File file;
-    
+
     public ProxiesImportScreen(File file) {
         super("Import Proxies");
         this.file = file;
@@ -35,46 +35,39 @@ public class ProxiesImportScreen extends WindowScreen {
             }
         });
     }
-    
+
     @Override
     public void initWidgets() {
         if (file.exists() && file.isFile()) {
             add(new WLabel("Importing proxies from " + file.getName() + "...").color(Color.GREEN));
+            add(new WLabel("One per line, " + Proxy.FORMAT).color(GuiConstants.TEXT_SECONDARY));
             WVerticalList list = add(new WSection("Log", false)).expandX().widget().add(new WVerticalList()).expandX().widget();
             Proxies proxies = Proxies.get();
             try {
                 int success = 0, fail = 0;
                 for (String line : Files.readAllLines(file.toPath())) {
-                    Matcher matcher = Proxies.PROXY_PATTERN.matcher(line);
-                    
-                    if (matcher.matches()) {
-                        String address = matcher.group("host").replaceAll("\\b0+\\B", "");
-                        int port = Integer.parseInt(matcher.group("port"));
-                        String login = matcher.group("user");
-                        String password = matcher.group("pass");
-                        
-                        Proxy proxy = new Proxy.Builder()
-                            .address(address)
-                            .port(port)
-                            .name("Proxy " + (proxies.getCount() + 1))
-                            .username(login != null ? login : "")
-                            .password(password != null ? password : "")
-                            .build();
-                        
-                        if (proxies.add(proxy)) {
-                            list.add(new WLabel("Imported proxy: " + proxy.name.get()).color(Color.GREEN));
-                            success++;
-                        } else {
-                            list.add(new WLabel("Proxy already exists: " + proxy.name.get()).color(Color.ORANGE));
-                            fail++;
-                        }
-                    } else {
+                    line = line.trim();
+                    if (line.isEmpty()) {
+                        continue;
+                    }
+
+                    Proxy proxy = Proxy.parse(line);
+
+                    if (proxy == null) {
                         list.add(new WLabel("Invalid proxy: " + line).color(Color.RED));
+                        fail++;
+                    } else if (proxies.add(proxy)) {
+                        list.add(new WLabel("Imported proxy: " + proxy).color(Color.GREEN));
+                        success++;
+                    } else {
+                        list.add(new WLabel("Proxy already exists: " + proxy).color(Color.ORANGE));
                         fail++;
                     }
                 }
-                add(new WLabel("Successfully imported " + success + "/" + (fail + success) + " proxies.")
-                    .color(Utils.lerp(Color.RED, Color.GREEN, (float) success / (success + fail)))
+
+                int total = success + fail;
+                add(new WLabel("Successfully imported " + success + "/" + total + " proxies.")
+                    .color(total == 0 ? Color.ORANGE : Utils.lerp(Color.RED, Color.GREEN, (float) success / total))
                 );
             } catch (IOException e) {
                 MeteorClient.LOGGER.error("An error occurred while importing the proxy file", e);
@@ -82,10 +75,10 @@ public class ProxiesImportScreen extends WindowScreen {
         } else {
             add(new WLabel("Invalid File!"));
         }
-        
+
         add(new WHorizontalSeparator()).expandX();
         WButton btnBack = add(new WButton("Back")).expandX().widget();
         btnBack.action = this::close;
     }
-    
+
 }

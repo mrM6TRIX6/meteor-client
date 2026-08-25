@@ -10,6 +10,7 @@ import meteordevelopment.meteorclient.gui.widgets.WAccount;
 import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
+import meteordevelopment.meteorclient.gui.widgets.containers.WListView;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.systems.accounts.Account;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
@@ -25,12 +26,14 @@ public class AccountsScreen extends WindowScreen {
     
     @Override
     public void initWidgets() {
-        // Accounts
+        // Accounts, in a view of their own so the buttons below stay reachable with a long list
+        WListView listView = add(new WListView()).expandX().minWidth(400).widget();
+
         for (Account<?> account : Accounts.get()) {
-            WAccount wAccount = add(new WAccount(this, account)).expandX().minWidth(400).widget();
+            WAccount wAccount = listView.add(new WAccount(this, account)).expandX().widget();
             wAccount.refreshScreenAction = this::reload;
         }
-        
+
         add(new WHorizontalSeparator()).expandX();
         
         // Add account

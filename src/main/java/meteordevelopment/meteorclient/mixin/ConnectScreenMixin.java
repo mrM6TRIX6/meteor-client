@@ -94,7 +94,7 @@ public abstract class ConnectScreenMixin extends Screen {
         MutableText spacer = Text.literal(" ⟺ ").formatted(Formatting.DARK_GRAY);
         
         MutableText socket = Text.literal(socketAddr);
-        if (Proxies.get().getEnabled() != null) {
+        if (Proxies.get().getCurrent() != null) {
             socket.formatted(Formatting.GOLD); // Proxy good
         } else {
             socket.formatted(Formatting.RED); // No proxy - shows server address
