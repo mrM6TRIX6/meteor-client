@@ -40,6 +40,7 @@ import meteordevelopment.meteorclient.systems.modules.world.*;
 import meteordevelopment.meteorclient.systems.modules.world.Timer;
 import meteordevelopment.meteorclient.systems.modules.world.litematica.LitematicaPrinter;
 import meteordevelopment.meteorclient.systems.modules.world.litematica.LitematicaShredder;
+import meteordevelopment.meteorclient.systems.modules.world.litematica.LitematicaWalker;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.ValueComparableMap;
@@ -557,6 +558,7 @@ public class Modules extends System<Modules> {
         if (MixinPlugin.isLitematicaPresent()) {
             add(new LitematicaPrinter());
             add(new LitematicaShredder());
+            add(new LitematicaWalker());
         }
     }
     

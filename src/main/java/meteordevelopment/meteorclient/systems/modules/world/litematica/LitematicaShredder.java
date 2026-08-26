@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.modules.world.litematica;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import fi.dy.masa.litematica.data.DataManager;
 import fi.dy.masa.litematica.schematic.placement.SchematicPlacement;
 import fi.dy.masa.litematica.world.SchematicWorldHandler;
@@ -25,8 +27,13 @@ import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.block.AbstractSkullBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SkullBlock;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.SkullBlockEntity;
+import net.minecraft.component.type.ProfileComponent;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.hit.HitResult;
@@ -35,7 +42,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class LitematicaShredder extends Module {
@@ -80,6 +89,13 @@ public class LitematicaShredder extends Module {
         .name("mode")
         .description("Which blocks to break.")
         .defaultValue(Mode.ALL)
+        .build());
+
+    private final Setting<Boolean> headTextures = sgGeneral.add(new BoolSetting.Builder()
+        .name("head-textures")
+        .description("Also break player heads whose skin doesn't match the head in the schematic.")
+        .defaultValue(false)
+        .visible(() -> mode.get() == Mode.WRONG_STATE || mode.get() == Mode.ALL)
         .build());
 
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
@@ -196,7 +212,7 @@ public class LitematicaShredder extends Module {
                 return;
             }
 
-            if (!shouldBreak(m, schematicState, worldState)) {
+            if (!shouldBreak(m, schematic, pos, schematicState, worldState)) {
                 return;
             }
 
@@ -276,11 +292,7 @@ public class LitematicaShredder extends Module {
             }
         }
     }
-
-    /**
-     * Blocks the schematic wants to be air are only extra when they sit inside a placement, otherwise the whole world
-     * would count as "extra".
-     */
+    
     private boolean isInsideAnyPlacement(BlockPos pos) {
         for (SchematicPlacement placement : DataManager.getSchematicPlacementManager().getAllSchematicsPlacements()) {
             if (!placement.isEnabled()) {
@@ -301,7 +313,7 @@ public class LitematicaShredder extends Module {
         return false;
     }
 
-    private boolean shouldBreak(Mode m, BlockState schematic, BlockState world) {
+    private boolean shouldBreak(Mode m, WorldSchematic schematicWorld, BlockPos pos, BlockState schematic, BlockState world) {
         if (schematic.isAir()) {
             return m == Mode.EXTRA || m == Mode.ALL;
         }
@@ -323,7 +335,74 @@ public class LitematicaShredder extends Module {
             }
         }
 
-        return false;
+        return hasWrongHeadTexture(schematicWorld, pos, world);
+    }
+    
+    private boolean hasWrongHeadTexture(WorldSchematic schematicWorld, BlockPos pos, BlockState state) {
+        if (!headTextures.get()
+            || !(state.getBlock() instanceof AbstractSkullBlock skull)
+            || skull.getSkullType() != SkullBlock.Type.PLAYER) {
+            return false;
+        }
+
+        // The iterated position is reused for every block, and looking a head up can hand it to a block entity we
+        // create along the way.
+        BlockPos headPos = pos.toImmutable();
+
+        return !sameSkin(owner(schematicWorld.getBlockEntity(headPos)), owner(mc.world.getBlockEntity(headPos)));
+    }
+
+    private ProfileComponent owner(BlockEntity blockEntity) {
+        return blockEntity instanceof SkullBlockEntity skull ? skull.getOwner() : null;
+    }
+    
+    private boolean sameSkin(ProfileComponent schematic, ProfileComponent world) {
+        if (schematic == null || world == null) {
+            return schematic == world;
+        }
+
+        if (!schematic.getOverride().equals(world.getOverride())) {
+            return false;
+        }
+
+        String schematicTextures = textures(schematic);
+        String worldTextures = textures(world);
+
+        if (schematicTextures != null && worldTextures != null) {
+            if (schematicTextures.equals(worldTextures)) {
+                return true;
+            }
+
+            // The property is a signed blob with the time it was signed inside it, so the same skin looked up twice
+            // does not come out as the same string. Only the url it lives at is worth comparing.
+            String url = skinUrl(schematicTextures);
+            return url != null && url.equals(skinUrl(worldTextures));
+        }
+
+        // Heads carrying only a name or an id have their skin looked up when they are rendered, so that is all there is
+        // to go by.
+        String schematicName = schematic.getName().filter(name -> !name.isBlank()).orElse(null);
+        String worldName = world.getName().filter(name -> !name.isBlank()).orElse(null);
+
+        if (schematicName != null && worldName != null) {
+            return schematicName.equalsIgnoreCase(worldName);
+        }
+
+        return schematic.getGameProfile().id().equals(world.getGameProfile().id());
+    }
+
+    private String textures(ProfileComponent profile) {
+        var properties = profile.getGameProfile().properties().get("textures");
+        return properties.isEmpty() ? null : properties.iterator().next().value();
+    }
+
+    private String skinUrl(String textures) {
+        try {
+            JsonObject json = JsonParser.parseString(new String(Base64.getDecoder().decode(textures), StandardCharsets.UTF_8)).getAsJsonObject();
+            return json.getAsJsonObject("textures").getAsJsonObject("SKIN").get("url").getAsString();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public enum Mode implements IDisplayName {
