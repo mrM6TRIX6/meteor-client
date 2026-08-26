@@ -12,8 +12,14 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(HandledScreen.class)
 public interface HandledScreenAccessor {
-    
+
     @Accessor("focusedSlot")
     Slot meteor$getFocusedSlot();
-    
+
+    @Accessor("x")
+    int meteor$getX();
+
+    @Accessor("y")
+    int meteor$getY();
+
 }

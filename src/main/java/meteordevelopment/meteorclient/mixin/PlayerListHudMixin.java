@@ -9,12 +9,18 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
+import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.events.render.ChangeTabVisibleEvent;
+import meteordevelopment.meteorclient.events.render.RenderTabEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.BetterTab;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.PlayerListHud;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.network.ClientConnection;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardObjective;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -28,16 +34,38 @@ public abstract class PlayerListHudMixin {
     
     @Unique
     private BetterTab betterTab;
-    
+
+    @Shadow
+    private boolean visible;
+
     @Shadow
     protected abstract List<PlayerListEntry> collectPlayerEntries();
-    
+
     @Unique
     private BetterTab getBetterTab() {
         if (betterTab == null) {
             betterTab = Modules.get().get(BetterTab.class);
         }
         return betterTab;
+    }
+
+    @Inject(method = "render", at = @At("HEAD"))
+    private void onRender(DrawContext context, int scaledWindowWidth, Scoreboard scoreboard, @Nullable ScoreboardObjective objective, CallbackInfo ci) {
+        context.getMatrices().pushMatrix();
+
+        MeteorClient.EVENT_BUS.post(RenderTabEvent.get(context, scaledWindowWidth));
+    }
+
+    @Inject(method = "render", at = @At("TAIL"))
+    private void onRenderTail(DrawContext context, int scaledWindowWidth, Scoreboard scoreboard, @Nullable ScoreboardObjective objective, CallbackInfo ci) {
+        context.getMatrices().popMatrix();
+    }
+
+    @Inject(method = "setVisible", at = @At("HEAD"))
+    private void onChangeVisible(boolean visible, CallbackInfo ci) {
+        if (this.visible != visible) {
+            MeteorClient.EVENT_BUS.post(ChangeTabVisibleEvent.get(visible));
+        }
     }
     
     @ModifyConstant(constant = @Constant(longValue = 80L), method = "collectPlayerEntries")

@@ -6,18 +6,23 @@
 package meteordevelopment.meteorclient.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.BetterChat;
+import meteordevelopment.meteorclient.systems.modules.render.Animations;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.gui.hud.PlayerListHud;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.entity.Entity;
+import net.minecraft.scoreboard.Scoreboard;
+import net.minecraft.scoreboard.ScoreboardDisplaySlot;
 import net.minecraft.scoreboard.ScoreboardObjective;
 import net.minecraft.util.profiler.Profilers;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,10 +34,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(InGameHud.class)
-public abstract class InGameHudMixin {
+public abstract class InGameHudMixin implements IMinecraft {
     
     @Shadow
     public abstract void clear();
+    
+    @Shadow
+    public abstract PlayerListHud getPlayerListHud();
     
     @Inject(method = "render", at = @At("HEAD"))
     private void onRender(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
@@ -146,4 +154,28 @@ public abstract class InGameHudMixin {
         }
     }
     
+    // Vanilla stops drawing the player list the frame it gets hidden, so a closing animation would
+    // never be visible. Keep drawing it ourselves until the animation is done.
+    @Inject(method = "renderPlayerList", at = @At("TAIL"))
+    private void onRenderPlayerListTail(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        if (mc.world == null || mc.player == null) {
+            return;
+        }
+        if (!Modules.get().get(Animations.class).isClosingTab()) {
+            return;
+        }
+        
+        Scoreboard scoreboard = mc.world.getScoreboard();
+        
+        context.createNewRootLayer();
+        getPlayerListHud().render(context, context.getScaledWindowWidth(), scoreboard, scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.LIST));
+    }
+
+    // Same deal for containers - the screen is gone the moment it closes, so the module hands the last
+    // one back to us for as long as its closing animation runs.
+    @Inject(method = "render", at = @At("TAIL"))
+    private void onRenderTail(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
+        Modules.get().get(Animations.class).renderClosingInventory(context, tickCounter.getDynamicDeltaTicks());
+    }
+
 }

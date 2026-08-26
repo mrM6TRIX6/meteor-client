@@ -10,6 +10,7 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.GUIMove;
+import meteordevelopment.meteorclient.systems.modules.render.Animations;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.text.MeteorClickEvent;
@@ -50,7 +51,16 @@ public abstract class ScreenMixin {
     
     @Inject(method = "renderInGameBackground", at = @At("HEAD"), cancellable = true)
     private void onRenderInGameBackground(CallbackInfo ci) {
-        if (Utils.canUpdate() && Modules.get().get(NoRender.class).noGuiBackground()) {
+        if (!Utils.canUpdate()) {
+            return;
+        }
+
+        boolean condition = Modules.get().get(NoRender.class).noGuiBackground()
+            // The world is already back by the time a container plays its closing animation, dimming
+            // it again for those few frames would only make the world flash.
+            || Modules.get().get(Animations.class).isRenderingClosingInventory();
+
+        if (condition) {
             ci.cancel();
         }
     }

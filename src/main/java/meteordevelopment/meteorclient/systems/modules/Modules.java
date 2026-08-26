@@ -493,6 +493,7 @@ public class Modules extends System<Modules> {
     
     private void initRender() {
         add(new Ambience());
+        add(new Animations());
         add(new BetterTooltips());
         add(new BlockSelection());
         add(new BossStack());

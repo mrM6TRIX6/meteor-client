@@ -10,6 +10,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.authlib.minecraft.UserApiService;
 import com.mojang.authlib.yggdrasil.ServicesKeyType;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.mixin.FileCacheAccessor;
 import meteordevelopment.meteorclient.mixin.MinecraftClientAccessor;
 import meteordevelopment.meteorclient.mixin.PlayerSkinProviderAccessor;
@@ -28,9 +29,7 @@ import net.minecraft.util.Util;
 import java.nio.file.Path;
 import java.util.concurrent.CompletableFuture;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public abstract class Account<T extends Account<?>> implements ISerializable<T> {
+public abstract class Account<T extends Account<?>> implements ISerializable<T>, IMinecraft {
     
     protected AccountType type;
     protected String name;

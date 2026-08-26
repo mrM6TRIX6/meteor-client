@@ -6,8 +6,11 @@
 package meteordevelopment.meteorclient.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.events.render.RenderInventoryEvent;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.InventoryTweaks;
+import meteordevelopment.meteorclient.systems.modules.render.Animations;
 import meteordevelopment.meteorclient.systems.modules.render.BetterTooltips;
 import meteordevelopment.meteorclient.systems.modules.render.ItemHighlight;
 import net.minecraft.client.gui.Click;
@@ -26,12 +29,12 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 
 @Mixin(HandledScreen.class)
@@ -114,7 +117,7 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
         }
         
         Slot slot = getSlotAt(click.x(), click.y());
-        if (slot != null && slot.hasStack() && mc.isShiftPressed()) {
+        if (slot != null && slot.hasStack() && client.isShiftPressed()) {
             onMouseClick(slot, slot.id, click.button(), SlotActionType.QUICK_MOVE);
         }
     }
@@ -161,6 +164,65 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
         int color = Modules.get().get(ItemHighlight.class).getColor(slot.getStack());
         if (color != -1) {
             context.fill(slot.x, slot.y, slot.x + 16, slot.y + 16, color);
+        }
+    }
+
+    // Animations
+
+    // Vanilla draws a container in two passes, the background texture and then everything on top of
+    // it, with the fullscreen gradient in between. Both passes get the transform, the gradient must
+    // not, so they are hooked separately instead of wrapping the whole render.
+
+    @Inject(method = "renderBackground", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawBackground(Lnet/minecraft/client/gui/DrawContext;FII)V", shift = At.Shift.BEFORE))
+    private void onDrawBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
+        pushInventory(context);
+    }
+
+    @Inject(method = "renderBackground", at = @At("TAIL"))
+    private void onDrawBackgroundTail(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
+        context.getMatrices().popMatrix();
+    }
+
+    @Inject(method = "renderMain", at = @At("HEAD"))
+    private void onRenderMain(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
+        pushInventory(context);
+    }
+
+    @Inject(method = "renderMain", at = @At("TAIL"))
+    private void onRenderMainTail(DrawContext context, int mouseX, int mouseY, float deltaTicks, CallbackInfo ci) {
+        context.getMatrices().popMatrix();
+    }
+
+    @Unique
+    private void pushInventory(DrawContext context) {
+        // Popped once the pass is done so handlers cannot leak into the rest of the screen.
+        context.getMatrices().pushMatrix();
+
+        MeteorClient.EVENT_BUS.post(RenderInventoryEvent.get(context, x, y, backgroundWidth, backgroundHeight));
+    }
+
+    // The container is only mid animation or on screen because of its closing animation, so a tooltip on top of it
+    // would just be in the way - and it is drawn outside the transformed passes anyway.
+    @Inject(method = "drawMouseoverTooltip", at = @At("HEAD"), cancellable = true)
+    private void onDrawMouseoverTooltip(DrawContext context, int x, int y, CallbackInfo ci) {
+        if (Modules.get().get(Animations.class).skipInventoryOverlays()) {
+            ci.cancel();
+        }
+    }
+
+    // Both are drawn after the container, outside of its transform, and neither has anything to show while it animates
+    // - a closing container has already handed the cursor stack back to the player.
+    @Inject(method = "renderCursorStack", at = @At("HEAD"), cancellable = true)
+    private void onRenderCursorStack(DrawContext context, int mouseX, int mouseY, CallbackInfo ci) {
+        if (Modules.get().get(Animations.class).skipInventoryOverlays()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "renderLetGoTouchStack", at = @At("HEAD"), cancellable = true)
+    private void onRenderLetGoTouchStack(DrawContext context, CallbackInfo ci) {
+        if (Modules.get().get(Animations.class).skipInventoryOverlays()) {
+            ci.cancel();
         }
     }
     
