@@ -10,6 +10,8 @@ import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
 import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.systems.modules.render.hud.elements.TextHUD;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import net.minecraft.client.gui.DrawContext;
 import org.meteordev.starscript.utils.SemanticToken;
 import org.meteordev.starscript.utils.SemanticTokenProvider;
@@ -39,8 +41,8 @@ public class StarscriptTextBoxRenderer implements WTextBox.Renderer {
 
         // Render
         for (Section section : sections) {
-            GuiConstants.text(section.text, x, y, section.color);
-            x += GuiConstants.textWidth(section.text);
+            Render2D.msdf(MsdfFont.JETBRAINS_MONO_REGULAR, section.text, (int) x, (int) y, (int) GuiConstants.textSize(), section.color.getPacked());
+            x += MsdfFont.JETBRAINS_MONO_REGULAR.width(section.text, (float) GuiConstants.textSize());
         }
     }
 

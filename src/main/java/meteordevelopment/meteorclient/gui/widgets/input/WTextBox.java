@@ -18,6 +18,7 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.input.CharInput;
@@ -29,12 +30,11 @@ import org.apache.commons.lang3.SystemUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class WTextBox extends WWidget {
 
-    private static final Renderer DEFAULT_RENDERER = (context, x, y, text, color) -> GuiConstants.text(text, x, y, color);
+    private static final Renderer DEFAULT_RENDERER = (context, x, y, text, color) -> Render2D.msdf(MsdfFont.JETBRAINS_MONO_REGULAR, text, (int) x, (int) y, (int) GuiConstants.textSize(), color.getPacked());
 
     public Runnable action;
     public Runnable actionOnUnfocused;
@@ -726,7 +726,7 @@ public class WTextBox extends WWidget {
         textWidths.clear();
 
         for (int i = 0; i <= text.length(); i++) {
-            textWidths.add(GuiConstants.textWidth(text, i, false));
+            textWidths.add(MsdfFont.JETBRAINS_MONO_REGULAR.width(text.substring(0, i), (float) GuiConstants.textSize()));
         }
     }
     

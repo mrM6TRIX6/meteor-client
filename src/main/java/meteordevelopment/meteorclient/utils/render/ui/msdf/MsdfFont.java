@@ -10,8 +10,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.TextureSetup;
 import net.minecraft.resource.Resource;
@@ -22,12 +22,13 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public enum MsdfFont {
+public enum MsdfFont implements IMinecraft {
     
     MONTSERRAT_REGULAR("montserrat_regular"),
     MONTSERRAT_MEDIUM("montserrat_medium"),
     MONTSERRAT_SEMIBOLD("montserrat_semibold"),
-    MONTSERRAT_BOLD("montserrat_bold");
+    MONTSERRAT_BOLD("montserrat_bold"),
+    JETBRAINS_MONO_REGULAR("jetbrains_mono_regular");
     
     private static final int MAX_WIDTH_CACHE = 512;
     private final Map<MsdfWidthKey, Float> widthCache = new LinkedHashMap<>(128, 0.75f, true) {
@@ -57,16 +58,21 @@ public enum MsdfFont {
         if (text == null || text.isEmpty()) {
             return false;
         }
+        
         if (!atlas.ready()) {
             return false;
         }
+        
         int index = 0;
+        
         while (index < text.length()) {
             int codePoint = text.codePointAt(index);
             index += Character.charCount(codePoint);
+            
             if (Character.isISOControl(codePoint)) {
                 return false;
             }
+            
             if (glyph(codePoint) == null) {
                 return false;
             }
@@ -78,21 +84,27 @@ public enum MsdfFont {
         if (text == null || text.isEmpty() || size <= 0.0f) {
             return 0.0f;
         }
+        
         if (!atlas.ready()) {
             return 0.0f;
         }
+        
         if (text.codePointCount(0, text.length()) == 1) {
             MsdfGlyph glyph = glyph(text.codePointAt(0));
             return glyph == null ? 0.0f : glyph.advance() * (size / atlas.fontSize());
         }
+        
         MsdfWidthKey key = new MsdfWidthKey(fontName(), text, normalizeSize(size));
         Float cached = widthCache.get(key);
+        
         if (cached != null) {
             return cached;
         }
+        
         float scale = size / atlas.fontSize();
         float width = 0.0f;
         int index = 0;
+        
         while (index < text.length()) {
             int codePoint = text.codePointAt(index);
             index += Character.charCount(codePoint);
@@ -101,6 +113,7 @@ public enum MsdfFont {
                 width += glyph.advance() * scale;
             }
         }
+        
         widthCache.put(key, width);
         return width;
     }
@@ -108,18 +121,21 @@ public enum MsdfFont {
     private MsdfAtlas load() {
         Map<Integer, MsdfGlyph> glyphs = new HashMap<>();
         MsdfGlyph[] asciiGlyphs = new MsdfGlyph[128];
-        MinecraftClient minecraft = MinecraftClient.getInstance();
-        if (minecraft == null || minecraft.getResourceManager() == null) {
+        
+        if (mc.getResourceManager() == null) {
             return new MsdfAtlas(glyphs, asciiGlyphs, null, 96.0f, 8.0f);
         }
+        
         Identifier jsonId = MeteorClient.identifier("fonts/" + fontName + ".json");
-        Optional<Resource> resource = minecraft.getResourceManager().getResource(jsonId);
+        Optional<Resource> resource = mc.getResourceManager().getResource(jsonId);
         
         if (resource.isEmpty()) {
             return new MsdfAtlas(glyphs, asciiGlyphs, null, 96.0f, 8.0f);
         }
+        
         float fontSize = 96.0f;
         float distanceRange = 8.0f;
+        
         try (InputStream stream = resource.get().getInputStream();
             InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
             JsonObject root = JsonParser.parseReader(reader).getAsJsonObject();
@@ -135,8 +151,10 @@ public enum MsdfFont {
                 if (!glyph.has("unicode")) {
                     continue;
                 }
+                
                 int unicode = glyph.get("unicode").getAsInt();
                 MsdfGlyph msdfGlyph;
+                
                 if (glyph.has("atlasBounds") && glyph.has("planeBounds")) {
                     JsonObject atlasBounds = glyph.getAsJsonObject("atlasBounds");
                     JsonObject planeBounds = glyph.getAsJsonObject("planeBounds");
@@ -176,6 +194,7 @@ public enum MsdfFont {
                     asciiGlyphs[unicode] = msdfGlyph;
                 }
             }
+            MeteorClient.LOGGER.info("[MsdfFont] Font '{}' loaded", fontName);
         } catch (Exception ignored) {
             glyphs.clear();
             Arrays.fill(asciiGlyphs, null);
@@ -187,12 +206,13 @@ public enum MsdfFont {
         if (atlas.textureSetup() != null) {
             return atlas.textureSetup();
         }
-        MinecraftClient minecraft = MinecraftClient.getInstance();
-        if (minecraft == null || minecraft.getTextureManager() == null) {
+        
+        if (mc.getTextureManager() == null) {
             return null;
         }
+        
         Identifier textureId = MeteorClient.identifier("fonts/" + fontName + ".png");
-        AbstractTexture texture = minecraft.getTextureManager().getTexture(textureId);
+        AbstractTexture texture = mc.getTextureManager().getTexture(textureId);
         
         if (texture == null || texture.getGlTextureView() == null) {
             return null;

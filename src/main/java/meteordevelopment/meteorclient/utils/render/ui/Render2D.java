@@ -23,6 +23,7 @@ import meteordevelopment.meteorclient.utils.render.ui.glow.GlowShapeOptions;
 import meteordevelopment.meteorclient.utils.render.ui.image.BuiltImage;
 import meteordevelopment.meteorclient.utils.render.ui.image.ImageRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfRenderer;
 import meteordevelopment.meteorclient.utils.render.ui.outline.outline360.BuiltOutline360;
 import meteordevelopment.meteorclient.utils.render.ui.outline.outline360.Outline360Range;
@@ -1380,6 +1381,19 @@ public final class Render2D implements IMinecraft {
         if (effect != null && effect.shouldShowIcon()) {
             effectIcon().enqueue(new BuiltEffectIcon(effect, x, y, size, color));
         }
+    }
+    
+    public static void msdf(MsdfFont font, String text, int x, int y, int size, int color) {
+        msdf(
+            new BuiltMsdf(
+                font,
+                text,
+                x,
+                y,
+                size,
+                color
+            )
+        );
     }
     
     public static void msdf(BuiltMsdf built) {
