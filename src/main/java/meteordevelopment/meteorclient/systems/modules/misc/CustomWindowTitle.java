@@ -24,13 +24,23 @@ public class CustomWindowTitle extends Module {
             .description("The text it displays in the window title. Starscript supported.")
             .defaultValue("Minecraft {mc_version} - {player}")
             .renderer(StarscriptTextBoxRenderer.class)
-            .onModuleActivated(setting -> mc.updateWindowTitle())
             .onChanged(value -> mc.updateWindowTitle())
+            .wide()
             .build()
     );
     
     public CustomWindowTitle() {
         super(Category.MISC, "CustomWindowTitle", "Show custom text in the window title.");
+    }
+    
+    @Override
+    public void onActivate() {
+        mc.updateWindowTitle();
+    }
+    
+    @Override
+    public void onDeactivate() {
+        mc.updateWindowTitle();
     }
     
     public String title(String original) {

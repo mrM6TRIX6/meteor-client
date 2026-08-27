@@ -19,12 +19,12 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPlus;
-import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.DrawContext;
 import org.apache.commons.lang3.Strings;
 
@@ -231,7 +231,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implemen
         CharFilter filter = setting.filter == null ? (text, c) -> true : setting.filter;
         Cell<WTextBox> cell = table.add(new WTextBox(setting.get(), setting.placeholder, filter, setting.renderer));
         if (setting.wide) {
-            cell.minWidth(RenderUtils.getWindowWidth() - RenderUtils.getWindowWidth() / 4.0);
+            cell.minWidth(Render2D.width() - Render2D.width() / 2.0);
         }
 
         WTextBox textBox = cell.expandX().widget();
@@ -242,7 +242,59 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implemen
 
     private void stringListW(WTable table, StringListSetting setting) {
         WTable wtable = table.add(new WTable()).expandX().widget();
-        StringListSetting.fillTable(wtable, setting);
+        fillStringListTable(wtable, setting);
+    }
+    
+    private void fillStringListTable(WTable table, StringListSetting setting) {
+        table.clear();
+        
+        ArrayList<String> strings = new ArrayList<>(setting.get());
+        CharFilter filter = setting.filter == null ? (text, c) -> true : setting.filter;
+        
+        for (int i = 0; i < setting.get().size(); i++) {
+            int msgI = i;
+            String message = setting.get().get(i);
+            
+            Cell<WTextBox> cell = table.add(new WTextBox(message, filter, setting.renderer));
+            if (setting.wide) {
+                cell.minWidth(Render2D.width() - Render2D.width() / 2.0);
+            }
+            
+            WTextBox textBox = cell.expandX().widget();
+            textBox.action = () -> strings.set(msgI, textBox.get());
+            textBox.actionOnUnfocused = () -> setting.set(strings);
+            
+            WMinus delete = table.add(new WMinus()).widget();
+            delete.action = () -> {
+                strings.remove(msgI);
+                setting.set(strings);
+                
+                fillStringListTable(table, setting);
+            };
+            
+            table.row();
+        }
+        
+        if (!setting.get().isEmpty()) {
+            table.add(new WHorizontalSeparator()).expandX();
+            table.row();
+        }
+        
+        WButton add = table.add(new WButton("Add")).expandX().widget();
+        add.action = () -> {
+            strings.add("");
+            setting.set(strings);
+            
+            fillStringListTable(table, setting);
+        };
+        
+        WButton reset = table.add(new WButton(GuiConstants.RESET)).widget();
+        reset.action = () -> {
+            setting.reset();
+            
+            fillStringListTable(table, setting);
+        };
+        reset.tooltip = "Reset";
     }
 
     private <T extends Enum<T>> void enumW(WTable table, EnumChoiceSetting<T> setting) {

@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 
 public class KeybindSetting extends Setting<Keybind> {
     
-    private final Runnable action;
+    public final Runnable action;
     public WKeybind widget;
     
     public KeybindSetting(String name, String description, Keybind defaultValue, Consumer<Keybind> onChanged, Consumer<Setting<Keybind>> onModuleActivated, IVisible visible, Runnable action) {

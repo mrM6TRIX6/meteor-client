@@ -15,7 +15,6 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.IActivable;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.name.NameFormat;
@@ -26,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public abstract class Module implements ISerializable<Module>, Comparable<Module>, IActivable, IMinecraft {
+public abstract class Module implements ISerializable<Module>, Comparable<Module>, IMinecraft {
     
     public final Category category;
     public final String name;
@@ -42,9 +41,9 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     public boolean runInMainMenu = false;
     
     public final Keybind keybind = Keybind.none();
-    public boolean toggleOnBindRelease = false;
-    public boolean chatFeedback = true;
-    public boolean favorite = false;
+    public boolean toggleOnBindRelease;
+    public boolean hidden;
+    public boolean favorite;
     
     public Module(Category category, String name, String description) {
         this.category = category;
@@ -106,7 +105,7 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
     }
     
     public void sendToggledMsg() {
-        if (chatFeedback) {
+        if (!hidden) {
             ChatUtils.forceNextPrefixClass(getClass());
             ChatUtils.sendMsg(this.hashCode(), Formatting.GRAY, "Toggled (highlight)%s(default) %s(default).", name, isActive() ? Formatting.GREEN + "on" : Formatting.RED + "off");
         }
@@ -132,18 +131,12 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         ChatUtils.errorPrefix(name, message, args);
     }
     
-    @Override
     public boolean isActive() {
         return active;
     }
     
     public String getInfoString() {
         return null;
-    }
-    
-    @Override
-    public boolean getRunInMainMenu() {
-        return runInMainMenu;
     }
     
     @Override
@@ -156,7 +149,7 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         jsonObject.addProperty("name", name);
         jsonObject.add("keybind", keybind.toJson());
         jsonObject.addProperty("toggleOnKeyRelease", toggleOnBindRelease);
-        jsonObject.addProperty("chatFeedback", chatFeedback);
+        jsonObject.addProperty("hidden", hidden);
         jsonObject.addProperty("favorite", favorite);
         jsonObject.add("settings", settings.toJson());
         jsonObject.addProperty("active", active);
@@ -169,7 +162,7 @@ public abstract class Module implements ISerializable<Module>, Comparable<Module
         // General
         keybind.fromJson(jsonObject.get("keybind").getAsJsonObject());
         toggleOnBindRelease = jsonObject.get("toggleOnKeyRelease").getAsBoolean();
-        chatFeedback = !jsonObject.has("chatFeedback") || jsonObject.get("chatFeedback").getAsBoolean();
+        hidden = !jsonObject.has("hidden") || jsonObject.get("hidden").getAsBoolean();
         favorite = jsonObject.get("favorite").getAsBoolean();
         
         // Settings

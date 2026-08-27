@@ -572,6 +572,7 @@ public class Modules extends System<Modules> {
         add(new BetterChat());
         add(new BookBot());
         add(new CommandAura());
+        add(new CustomWindowTitle());
         add(new DiscordPresence());
         add(new InventoryTweaks());
         add(new MessageAura());

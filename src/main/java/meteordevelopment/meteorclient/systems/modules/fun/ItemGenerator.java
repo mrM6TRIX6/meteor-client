@@ -53,8 +53,8 @@ public class ItemGenerator extends Module {
         .name("Power")
         .description("How many slots filled and packets sent on tick.")
         .defaultValue(2)
-        .min(1)
-        .max(35)
+        .range(1, 35)
+        .sliderRange(1, 35)
         .build()
     );
     
@@ -88,6 +88,7 @@ public class ItemGenerator extends Module {
         .description("List of strings of components. Example: [minecraft:item_name=\"Test\"]")
         .defaultValue(List.of("[minecraft:item_name=\"Test\",minecraft:enchantment_glint_override=1b]"))
         .visible(customNBT::get)
+        .wide()
         .build()
     );
     

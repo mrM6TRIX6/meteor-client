@@ -8,13 +8,8 @@ package meteordevelopment.meteorclient.settings.impl;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.utils.CharFilter;
-import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
-import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
-import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.settings.IVisible;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.utils.Utils;
@@ -28,12 +23,14 @@ public class StringListSetting extends Setting<List<String>> {
     
     public final Class<? extends WTextBox.Renderer> renderer;
     public final CharFilter filter;
+    public final boolean wide;
     
-    public StringListSetting(String name, String description, List<String> defaultValue, Consumer<List<String>> onChanged, Consumer<Setting<List<String>>> onModuleActivated, IVisible visible, Class<? extends WTextBox.Renderer> renderer, CharFilter filter) {
+    public StringListSetting(String name, String description, List<String> defaultValue, Consumer<List<String>> onChanged, Consumer<Setting<List<String>>> onModuleActivated, IVisible visible, Class<? extends WTextBox.Renderer> renderer, CharFilter filter, boolean wide) {
         super(name, description, defaultValue, onChanged, onModuleActivated, visible);
         
         this.renderer = renderer;
         this.filter = filter;
+        this.wide = wide;
     }
     
     @Override
@@ -76,57 +73,11 @@ public class StringListSetting extends Setting<List<String>> {
         value = new ArrayList<>(defaultValue);
     }
     
-    public static void fillTable(WTable table, StringListSetting setting) {
-        table.clear();
-        
-        ArrayList<String> strings = new ArrayList<>(setting.get());
-        CharFilter filter = setting.filter == null ? (text, c) -> true : setting.filter;
-        
-        for (int i = 0; i < setting.get().size(); i++) {
-            int msgI = i;
-            String message = setting.get().get(i);
-            
-            WTextBox textBox = table.add(new WTextBox(message, filter, setting.renderer)).expandX().widget();
-            textBox.action = () -> strings.set(msgI, textBox.get());
-            textBox.actionOnUnfocused = () -> setting.set(strings);
-            
-            WMinus delete = table.add(new WMinus()).widget();
-            delete.action = () -> {
-                strings.remove(msgI);
-                setting.set(strings);
-                
-                fillTable(table, setting);
-            };
-            
-            table.row();
-        }
-        
-        if (!setting.get().isEmpty()) {
-            table.add(new WHorizontalSeparator()).expandX();
-            table.row();
-        }
-        
-        WButton add = table.add(new WButton("Add")).expandX().widget();
-        add.action = () -> {
-            strings.add("");
-            setting.set(strings);
-            
-            fillTable(table, setting);
-        };
-        
-        WButton reset = table.add(new WButton(GuiConstants.RESET)).widget();
-        reset.action = () -> {
-            setting.reset();
-            
-            fillTable(table, setting);
-        };
-        reset.tooltip = "Reset";
-    }
-    
     public static class Builder extends SettingBuilder<Builder, List<String>, StringListSetting> {
         
         private Class<? extends WTextBox.Renderer> renderer;
         private CharFilter filter;
+        private boolean wide;
         
         public Builder() {
             super(new ArrayList<>(0));
@@ -146,9 +97,14 @@ public class StringListSetting extends Setting<List<String>> {
             return this;
         }
         
+        public Builder wide() {
+            wide = true;
+            return this;
+        }
+        
         @Override
         public StringListSetting build() {
-            return new StringListSetting(name, description, defaultValue, onChanged, onModuleActivated, visible, renderer, filter);
+            return new StringListSetting(name, description, defaultValue, onChanged, onModuleActivated, visible, renderer, filter, wide);
         }
         
     }

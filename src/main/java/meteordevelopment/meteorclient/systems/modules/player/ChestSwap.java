@@ -150,7 +150,7 @@ public class ChestSwap extends Module {
     public void sendToggledMsg() {
         if (stayOn.get()) {
             super.sendToggledMsg();
-        } else if (chatFeedback) {
+        } else if (!hidden) {
             info("Triggered (highlight)%s(default).", name);
         }
     }
