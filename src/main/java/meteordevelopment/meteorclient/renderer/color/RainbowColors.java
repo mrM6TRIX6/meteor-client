@@ -8,7 +8,6 @@ package meteordevelopment.meteorclient.renderer.color;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.misc.UnorderedArrayList;
 import meteordevelopment.meteorclient.utils.reflect.PostInit;
 import meteordevelopment.orbit.EventHandler;
@@ -16,6 +15,8 @@ import meteordevelopment.orbit.EventHandler;
 import java.util.List;
 
 public class RainbowColors {
+    
+    private static final double RAINBOW_SPEED = 0.5;
     
     private static final List<Setting<SettingColor>> colorSettings = new UnorderedArrayList<>();
     private static final List<Setting<List<SettingColor>>> colorListSettings = new UnorderedArrayList<>();
@@ -58,7 +59,7 @@ public class RainbowColors {
     
     @EventHandler
     private static void onTick(TickEvent.Post event) {
-        GLOBAL.setSpeed(ClientSettings.get().rainbowSpeed.get() / 100);
+        GLOBAL.setSpeed(RAINBOW_SPEED / 100);
         GLOBAL.getNext();
         
         for (Setting<SettingColor> setting : colorSettings) {

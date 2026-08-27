@@ -15,7 +15,6 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPlus;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPressable;
 import meteordevelopment.meteorclient.settings.Setting;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 
 import java.util.Collection;
 import java.util.function.Consumer;
@@ -29,6 +28,8 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
     
     private WTable table;
     private String filterText = "";
+    
+    private boolean syncListSettingWidths = true; // todo
     
     public CollectionListSettingScreen(String title, Setting<?> setting, Collection<T> collection, Iterable<T> registry) {
         super(title);
@@ -66,7 +67,7 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
             }
         });
         
-        if (ClientSettings.get().syncListSettingWidths.get() || !left.cells.isEmpty()) {
+        if (syncListSettingWidths || !left.cells.isEmpty()) {
             table.add(new WVerticalSeparator()).expandWidgetY();
         }
         
@@ -87,7 +88,7 @@ public abstract class CollectionListSettingScreen<T> extends WindowScreen {
         // Create
         Cell<WTable> cell = this.table.add(new WTable()).top();
         
-        if (ClientSettings.get().syncListSettingWidths.get()) {
+        if (syncListSettingWidths) {
             cell.group("sync-width");
         }
         

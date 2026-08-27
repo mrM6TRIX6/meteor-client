@@ -14,7 +14,6 @@ import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
-import meteordevelopment.meteorclient.utils.player.HandWithDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.orbit.EventHandler;
@@ -52,10 +51,10 @@ public class AutoBreed extends Module {
         .build()
     );
     
-    private final Setting<HandWithDisplayName> hand = sgGeneral.add(new EnumChoiceSetting.Builder<HandWithDisplayName>()
+    private final Setting<Hand> hand = sgGeneral.add(new EnumChoiceSetting.Builder<Hand>()
         .name("HandForBreeding")
         .description("The hand to use for breeding.")
-        .defaultValue(HandWithDisplayName.MAIN_HAND)
+        .defaultValue(Hand.MAIN_HAND)
         .build()
     );
     
@@ -88,7 +87,7 @@ public class AutoBreed extends Module {
             boolean isRightAge = checkAgeRequirement(animal, mobAgeFilter.get());
             boolean isNotFedYet = !animalsFed.contains(animal);
             boolean isInRange = PlayerUtils.isWithin(animal, range.get());
-            boolean hasCorrectFood = checkHeldFood(animal, hand.get().get());
+            boolean hasCorrectFood = checkHeldFood(animal, hand.get());
             
             boolean shouldSkipAnimal = !isAllowedType
                 || !isRightAge
@@ -102,7 +101,7 @@ public class AutoBreed extends Module {
             
             Rotations.rotate(Rotations.getYaw(entity), Rotations.getPitch(entity), -100, () -> {
                 EntityHitResult location = new EntityHitResult(animal, animal.getBoundingBox().getCenter());
-                mc.interactionManager.interactEntityAtLocation(mc.player, animal, location, hand.get().get());
+                mc.interactionManager.interactEntityAtLocation(mc.player, animal, location, hand.get());
                 animalsFed.add(animal);
             });
             

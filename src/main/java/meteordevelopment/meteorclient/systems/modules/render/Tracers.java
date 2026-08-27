@@ -15,7 +15,6 @@ import meteordevelopment.meteorclient.renderer.engine.Renderer2D;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -231,7 +230,7 @@ public class Tracers extends Module {
         
         if (distance.get()) {
             if (friendOverride.get() && entity instanceof PlayerEntity && Friends.get().isFriend((PlayerEntity) entity)) {
-                color = ClientSettings.get().friendColor.get();
+                color = new Color(16, 89, 203);
             } else {
                 color = EntityUtils.getColorFromDistance(entity);
             }

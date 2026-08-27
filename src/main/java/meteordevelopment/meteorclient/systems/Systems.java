@@ -9,12 +9,12 @@ import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.systems.accounts.Accounts;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.macros.Macros;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.proxies.Proxies;
+import meteordevelopment.meteorclient.systems.themes.Themes;
 import meteordevelopment.orbit.EventHandler;
 
 import java.util.ArrayList;
@@ -32,20 +32,13 @@ public class Systems {
     }
     
     public static void init() {
-        ClientSettings clientSettings = new ClientSettings();
-        System<?> clientSettingsSystem = add(clientSettings);
-        clientSettingsSystem.init();
-        clientSettingsSystem.load();
-        
-        // Registers the colors from client settings tab. This allows rainbow colours to work for friends.
-        clientSettings.settings.registerColorSettings(null);
-        
         add(new Commands());
         add(new Modules());
         add(new Macros());
         add(new Friends());
         add(new Accounts());
         add(new Proxies());
+        add(new Themes());
         
         MeteorClient.EVENT_BUS.subscribe(Systems.class);
     }
@@ -67,18 +60,18 @@ public class Systems {
     
     public static void save() {
         long start = java.lang.System.currentTimeMillis();
-        MeteorClient.LOGGER.info("Saving");
+        MeteorClient.LOGGER.info("Saving systems...");
         
         for (System<?> system : systems.values()) {
             system.save();
         }
         
-        MeteorClient.LOGGER.info("Saved in {} milliseconds.", java.lang.System.currentTimeMillis() - start);
+        MeteorClient.LOGGER.info("Systems saved in {} milliseconds.", java.lang.System.currentTimeMillis() - start);
     }
     
     public static void load() {
         long start = java.lang.System.currentTimeMillis();
-        MeteorClient.LOGGER.info("Loading");
+        MeteorClient.LOGGER.info("Loading systems...");
         
         for (Runnable task : preLoadTasks) {
             task.run();
@@ -87,7 +80,7 @@ public class Systems {
             system.load();
         }
         
-        MeteorClient.LOGGER.info("Loaded in {} milliseconds", java.lang.System.currentTimeMillis() - start);
+        MeteorClient.LOGGER.info("Systems loaded in {} milliseconds", java.lang.System.currentTimeMillis() - start);
     }
     
     @SuppressWarnings("unchecked")

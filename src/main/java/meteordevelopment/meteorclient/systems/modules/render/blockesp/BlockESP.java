@@ -72,7 +72,7 @@ public class BlockESP extends Module {
     
     private final Setting<Map<Block, ESPBlockData>> blockConfigs = sgGeneral.add(new BlockDataSetting.Builder<ESPBlockData>()
         .name("BlockConfigs")
-        .description("ClientSettings for each block.")
+        .description("Settings for each block.")
         .defaultData(defaultBlockConfig)
         .build()
     );

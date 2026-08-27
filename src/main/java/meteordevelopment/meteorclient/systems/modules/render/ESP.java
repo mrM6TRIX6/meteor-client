@@ -16,7 +16,6 @@ import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
@@ -416,9 +415,8 @@ public class ESP extends Module {
             }
         }
         
-        if (friendOverride.get() && entity instanceof PlayerEntity player
-            && Friends.get().isFriend(player)) {
-            return ClientSettings.get().friendColor.get();
+        if (friendOverride.get() && entity instanceof PlayerEntity player && Friends.get().isFriend(player)) {
+            return new Color(16, 89, 203);
         }
         
         if (colorMode.get() == ESPColorMode.HEALTH) {

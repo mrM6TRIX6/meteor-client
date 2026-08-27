@@ -20,7 +20,6 @@ import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.EnchantmentListSetting;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
@@ -325,7 +324,7 @@ public class CombatHUD extends HUDElement {
             
             if (Friends.get().isFriend(playerEntity)) {
                 friendText = "Friend";
-                friendColor = ClientSettings.get().friendColor.get();
+                friendColor = new Color(16, 89, 203);
             } else {
                 boolean naked = true;
                 

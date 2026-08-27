@@ -17,7 +17,6 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WSection;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WWindow;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -33,6 +32,8 @@ import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowHeigh
 import static meteordevelopment.meteorclient.renderer.RenderUtils.getWindowWidth;
 
 public class ModulesScreen extends TabScreen {
+    
+    private static final int MODULE_SEARCH_COUNT = 8;
     
     private WCategoryController controller;
     
@@ -89,7 +90,7 @@ public class ModulesScreen extends TabScreen {
                 
                 int count = 0;
                 for (Pair<Module, String> p : modules) {
-                    if (count >= ClientSettings.get().moduleSearchCount.get() || count >= modules.size()) {
+                    if (count >= MODULE_SEARCH_COUNT || count >= modules.size()) {
                         break;
                     }
                     section.add(new WModule(p.getLeft(), p.getRight())).expandX();
@@ -106,7 +107,7 @@ public class ModulesScreen extends TabScreen {
                 
                 int count = 0;
                 for (Module module : settings) {
-                    if (count >= ClientSettings.get().moduleSearchCount.get() || count >= settings.size()) {
+                    if (count >= MODULE_SEARCH_COUNT || count >= settings.size()) {
                         break;
                     }
                     section.add(new WModule(module)).expandX();

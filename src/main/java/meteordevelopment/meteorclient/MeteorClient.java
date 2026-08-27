@@ -24,7 +24,6 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.Version;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.misc.input.KeyBinds;
-import meteordevelopment.meteorclient.utils.network.OnlinePlayers;
 import meteordevelopment.meteorclient.utils.reflect.PostInit;
 import meteordevelopment.meteorclient.utils.reflect.PreInit;
 import meteordevelopment.meteorclient.utils.reflect.ReflectInit;
@@ -143,10 +142,7 @@ public class MeteorClient implements ClientModInitializer {
         ReflectInit.init(PostInit.class);
         
         // Save on shutdown
-        ClientLifecycleEvents.CLIENT_STOPPING.register(mc -> {
-            OnlinePlayers.leave();
-            Systems.save();
-        });
+        ClientLifecycleEvents.CLIENT_STOPPING.register(mc -> Systems.save());
     }
     
     @EventHandler

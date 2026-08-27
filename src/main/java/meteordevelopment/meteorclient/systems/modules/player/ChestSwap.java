@@ -9,7 +9,6 @@ import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
@@ -151,7 +150,7 @@ public class ChestSwap extends Module {
     public void sendToggledMsg() {
         if (stayOn.get()) {
             super.sendToggledMsg();
-        } else if (ClientSettings.get().chatFeedback.get() && chatFeedback) {
+        } else if (chatFeedback) {
             info("Triggered (highlight)%s(default).", name);
         }
     }

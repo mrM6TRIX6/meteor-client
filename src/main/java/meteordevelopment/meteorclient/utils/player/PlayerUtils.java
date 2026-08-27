@@ -5,11 +5,11 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.mixin.MinecraftClientAccessor;
 import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.movement.NoFall;
@@ -38,9 +38,7 @@ import net.minecraft.world.GameMode;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public class PlayerUtils {
+public class PlayerUtils implements IMinecraft {
     
     public static boolean isReleasingTrident;
     
@@ -70,10 +68,10 @@ public class PlayerUtils {
     
     public static Color getPlayerColor(PlayerEntity entity, Color defaultColor) {
         if (Friends.get().isFriend(entity)) {
-            return color.set(ClientSettings.get().friendColor.get()).a(defaultColor.a);
+            return color.set(new Color(16, 89, 203)).a(defaultColor.a);
         }
         
-        if (ClientSettings.get().useTeamColor.get() && !color.set(TextUtils.getMostPopularColor(entity.getDisplayName())).equals(new Color())) {
+        if (!color.set(TextUtils.getMostPopularColor(entity.getDisplayName())).equals(new Color())) {
             return color.a(defaultColor.a);
         }
         

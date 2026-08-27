@@ -8,10 +8,10 @@ package meteordevelopment.meteorclient.utils.misc;
 import baritone.api.BaritoneAPI;
 import baritone.api.pathing.goals.Goal;
 import baritone.api.process.IBaritoneProcess;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.mixin.ClientPlayerInteractionManagerAccessor;
 import meteordevelopment.meteorclient.mixin.MinecraftClientAccessor;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
@@ -67,9 +67,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public class MeteorStarscript {
+public class MeteorStarscript implements IMinecraft {
     
     public static Starscript ss = new Starscript();
     
@@ -468,7 +466,7 @@ public class MeteorStarscript {
     }
     
     private static Value getMeteorPrefix() {
-        if (ClientSettings.get() == null) {
+        if (Commands.get() == null) {
             return Value.null_();
         }
         return Value.string(Commands.get().getPrefix());

@@ -1,21 +1,21 @@
 package meteordevelopment.meteorclient.gui.prompts;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.gui.WindowScreen;
 import meteordevelopment.meteorclient.gui.widgets.WHorizontalSeparator;
 import meteordevelopment.meteorclient.gui.widgets.WLabel;
 import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
+import meteordevelopment.meteorclient.systems.themes.Themes;
 import net.minecraft.client.gui.screen.Screen;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 @SuppressWarnings("unchecked") // Cant instantiate a Prompt directly so this is fine
-public abstract class Prompt<T> {
+public abstract class Prompt<T> implements IMinecraft {
+    
     protected final Screen parent;
     
     protected String title = "";
@@ -53,7 +53,7 @@ public abstract class Prompt<T> {
     }
     
     public boolean show() {
-        if (id != null && ClientSettings.get().dontShowAgainPrompts.contains(id)) {
+        if (id != null && Themes.get().getDontShowAgainPrompts().contains(id)) {
             return false;
         }
         
@@ -68,7 +68,7 @@ public abstract class Prompt<T> {
     
     protected void dontShowAgain(PromptScreen screen) {
         if (screen.dontShowAgainCheckbox != null && screen.dontShowAgainCheckbox.checked && id != null) {
-            ClientSettings.get().dontShowAgainPrompts.add(id);
+            Themes.get().getDontShowAgainPrompts().add(id);
         }
     }
     

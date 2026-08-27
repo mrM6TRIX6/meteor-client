@@ -5,10 +5,10 @@
 
 package meteordevelopment.meteorclient.utils.player;
 
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.entity.player.SendMovementPacketsEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.entity.Target;
 import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.reflect.PreInit;
@@ -22,9 +22,9 @@ import net.minecraft.util.math.Vec3d;
 import java.util.ArrayList;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public class Rotations {
+public class Rotations implements IMinecraft {
+    
+    private static final int ROTATION_HOLD_TICKS = 4;
     
     private static final Pool<Rotation> rotationPool = new Pool<>(Rotation::new);
     private static final List<Rotation> rotations = new ArrayList<>();
@@ -105,7 +105,7 @@ public class Rotations {
             
             i++;
         } else if (lastRotation != null) {
-            if (lastRotationTimer >= ClientSettings.get().rotationHoldTicks.get()) {
+            if (lastRotationTimer >= ROTATION_HOLD_TICKS) {
                 resetLastRotation();
                 rotating = false;
             } else {

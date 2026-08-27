@@ -6,9 +6,9 @@
 package meteordevelopment.meteorclient.utils.player;
 
 import com.mojang.brigadier.StringReader;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.mixininterface.IChatHud;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.utils.pathing.BaritoneUtils;
 import meteordevelopment.meteorclient.utils.reflect.PostInit;
 import meteordevelopment.meteorclient.utils.text.MeteorClickEvent;
@@ -22,9 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public class ChatUtils {
+public class ChatUtils implements IMinecraft {
     
     private static final List<Pair<String, Supplier<Text>>> CUSTOM_PREFIXES = new ArrayList<>();
     
@@ -171,10 +169,6 @@ public class ChatUtils {
             message.append(getCustomPrefix(prefixTitle, prefixColor));
         }
         message.append(msg);
-        
-        if (!ClientSettings.get().deleteChatFeedback.get()) {
-            id = 0;
-        }
         
         final int finalId = id; // Intellij copes about using non-final args in lambdas
         mc.execute(() -> ((IChatHud) mc.inGameHud.getChatHud()).meteor$add(message, finalId));

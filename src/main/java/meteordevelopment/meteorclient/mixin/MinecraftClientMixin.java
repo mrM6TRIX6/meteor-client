@@ -23,16 +23,14 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.mixininterface.IMinecraftClient;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.systems.clientsettings.ClientSettings;
 import meteordevelopment.meteorclient.systems.modules.Modules;
+import meteordevelopment.meteorclient.systems.modules.misc.CustomWindowTitle;
 import meteordevelopment.meteorclient.systems.modules.misc.InventoryTweaks;
 import meteordevelopment.meteorclient.systems.modules.movement.GUIMove;
 import meteordevelopment.meteorclient.systems.modules.player.FastUse;
 import meteordevelopment.meteorclient.systems.modules.player.MultiActions;
 import meteordevelopment.meteorclient.systems.modules.render.ESP;
 import meteordevelopment.meteorclient.utils.misc.CPSUtils;
-import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
-import meteordevelopment.meteorclient.utils.network.OnlinePlayers;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
@@ -48,7 +46,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.profiler.Profilers;
 import org.jetbrains.annotations.Nullable;
-import org.meteordev.starscript.Script;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -117,8 +114,6 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
     
     @Inject(at = @At("HEAD"), method = "tick")
     private void onTickPre(CallbackInfo ci) {
-        OnlinePlayers.update();
-        
         doItemUseCalled = false;
         
         Profilers.get().push(MeteorClient.MOD_ID + "_pre_update");
@@ -241,21 +236,19 @@ public abstract class MinecraftClientMixin implements IMinecraftClient {
     
     @ModifyArg(method = "updateWindowTitle", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/Window;setTitle(Ljava/lang/String;)V"))
     private String setTitle(String original) {
-        if (ClientSettings.get() == null || !ClientSettings.get().customWindowTitle.get()) {
+        Modules modules = Modules.get();
+        
+        if (modules == null) {
             return original;
         }
         
-        String customTitle = ClientSettings.get().customWindowTitleText.get();
-        Script script = MeteorStarscript.compile(customTitle);
+        CustomWindowTitle customWindowTitle = modules.get(CustomWindowTitle.class);
         
-        if (script != null) {
-            String title = MeteorStarscript.run(script);
-            if (title != null) {
-                customTitle = title;
-            }
+        if (customWindowTitle == null) {
+            return original;
         }
         
-        return customTitle;
+        return customWindowTitle.title(original);
     }
     
     @Inject(method = "onResolutionChanged", at = @At("TAIL"))
