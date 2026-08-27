@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.misc;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -20,7 +21,6 @@ import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -40,21 +40,21 @@ public class OnSightCommand extends Module {
     
     // General
     private final Setting<List<String>> messages = sgGeneral.add(new StringListSetting.Builder()
-        .name("message")
+        .name("Message")
         .description("The specified message sent to the server. You can use %target% and %me%.")
         .defaultValue("/msg %target% hi from %me%")
         .build()
     );
     
     private final Setting<Boolean> teleport = sgGeneral.add(new BoolSetting.Builder()
-        .name("silent-tp")
+        .name("SilentTp")
         .description("Silently teleports to the player.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> range = sgTargeting.add(new DoubleSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("The maximum range.")
         .defaultValue(20)
         .min(0)
@@ -63,7 +63,7 @@ public class OnSightCommand extends Module {
     );
     
     private final Setting<Double> wallsRange = sgTargeting.add(new DoubleSetting.Builder()
-        .name("walls-range")
+        .name("WallsRange")
         .description("The maximum range through walls.")
         .defaultValue(0)
         .min(0)
@@ -72,7 +72,7 @@ public class OnSightCommand extends Module {
     );
     
     private final Setting<Integer> maxTargets = sgTargeting.add(new IntSetting.Builder()
-        .name("max-targets")
+        .name("MaxTargets")
         .description("How many entities to target at once.")
         .defaultValue(1)
         .min(1)
@@ -81,14 +81,14 @@ public class OnSightCommand extends Module {
     );
     
     private final Setting<Boolean> render = sgRender.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Renders the radius.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> renderColor = sgRender.add(new ColorSetting.Builder()
-        .name("render-color")
+        .name("RenderColor")
         .description("Block render color.")
         .defaultValue(new SettingColor(255, 255, 255, 255))
         .visible(render::get)

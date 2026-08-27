@@ -24,14 +24,14 @@ public class Trail extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<List<ParticleType<?>>> particles = sgGeneral.add(new ParticleTypeListSetting.Builder()
-        .name("particles")
+        .name("Particles")
         .description("Particles to draw.")
         .defaultValue(ParticleTypes.DRIPPING_OBSIDIAN_TEAR, ParticleTypes.CAMPFIRE_COSY_SMOKE)
         .build()
     );
     
     private final Setting<Boolean> pause = sgGeneral.add(new BoolSetting.Builder()
-        .name("pause-when-stationary")
+        .name("PauseWhenStationary")
         .description("Whether or not to add particles when you are not moving.")
         .defaultValue(true)
         .build()

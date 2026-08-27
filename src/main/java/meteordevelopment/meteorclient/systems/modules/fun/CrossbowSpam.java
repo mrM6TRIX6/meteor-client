@@ -35,7 +35,7 @@ public class CrossbowSpam extends Module {
     
     // General
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("Delay in ticks.")
         .defaultValue(2)
         .min(0)
@@ -44,7 +44,7 @@ public class CrossbowSpam extends Module {
     );
     
     private final Setting<String> crossbowNBT = sgGeneral.add(new StringSetting.Builder()
-        .name("crossbow-nbt")
+        .name("CrossbowNbt")
         .description("NBT components applied to the crossbow.")
         .defaultValue("[minecraft:custom_name={bold:1b,color:\"#FF55FF\",italic:0b,text:\"§k\uD83C\uDDE8\uD83C\uDDF7\uD83C\uDDF4§r ᴄʀᴏꜱꜱʙᴏᴡ §k\uD83C\uDD32\uD83C\uDD41\uD83C\uDD3E§r\"}, minecraft:charged_projectiles=[{components:{\"minecraft:intangible_projectile\":{}},count:1,id:\"minecraft:arrow\"},{components:{\"minecraft:intangible_projectile\":{}},count:1,id:\"minecraft:arrow\"},{components:{\"minecraft:intangible_projectile\":{}},count:1,id:\"minecraft:arrow\"}], minecraft:enchantments={\"minecraft:mending\":1,\"minecraft:multishot\":1,\"minecraft:piercing\":4,\"minecraft:quick_charge\":3,\"minecraft:unbreaking\":3}]")
         .build()
@@ -52,14 +52,14 @@ public class CrossbowSpam extends Module {
     
     // Extra
     private final Setting<Boolean> toggleOnLog = sgExtra.add(new BoolSetting.Builder()
-        .name("toggle-on-log")
+        .name("ToggleOnLog")
         .description("Disables when you disconnect from a server.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> blockSound = sgExtra.add(new BoolSetting.Builder()
-        .name("block-sound")
+        .name("BlockSound")
         .description("Blocks crossbow shoot sound.")
         .defaultValue(true)
         .build()

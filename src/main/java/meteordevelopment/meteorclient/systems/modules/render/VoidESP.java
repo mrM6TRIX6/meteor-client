@@ -7,6 +7,7 @@ package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -17,7 +18,6 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Pool;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.utils.world.Dir;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
@@ -41,14 +41,14 @@ public class VoidESP extends Module {
     // General
     
     private final Setting<Boolean> airOnly = sgGeneral.add(new BoolSetting.Builder()
-        .name("air-only")
+        .name("AirOnly")
         .description("Checks bedrock only for air blocks.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> horizontalRadius = sgGeneral.add(new IntSetting.Builder()
-        .name("horizontal-radius")
+        .name("HorizontalRadius")
         .description("Horizontal radius in which to search for holes.")
         .defaultValue(64)
         .min(0)
@@ -57,7 +57,7 @@ public class VoidESP extends Module {
     );
     
     private final Setting<Integer> holeHeight = sgGeneral.add(new IntSetting.Builder()
-        .name("hole-height")
+        .name("HoleHeight")
         .description("The minimum hole height to be rendered.")
         .defaultValue(1)
         .min(1)
@@ -66,7 +66,7 @@ public class VoidESP extends Module {
     );
     
     private final Setting<Boolean> netherRoof = sgGeneral.add(new BoolSetting.Builder()
-        .name("nether-roof")
+        .name("NetherRoof")
         .description("Check for holes in nether roof.")
         .defaultValue(true)
         .build()
@@ -75,21 +75,21 @@ public class VoidESP extends Module {
     // Render
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("fill-color")
+        .name("FillColor")
         .description("The color that fills holes in the void.")
         .defaultValue(new SettingColor(225, 25, 25, 50))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The color to draw lines of holes to the void.")
         .defaultValue(new SettingColor(225, 25, 255))
         .build()

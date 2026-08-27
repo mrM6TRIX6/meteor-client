@@ -10,6 +10,8 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.AbstractBlockAccessor;
 import meteordevelopment.meteorclient.mixin.DirectionAccessor;
 import meteordevelopment.meteorclient.mixininterface.IBox;
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -20,8 +22,6 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.meteorclient.utils.world.Dir;
@@ -48,7 +48,7 @@ public class HoleFiller extends Module {
     private final SettingGroup sgRender = settings.createGroup("Render");
     
     private final Setting<List<Block>> blocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("blocks")
+        .name("Blocks")
         .description("Which blocks can be used to fill holes.")
         .defaultValue(
             Blocks.OBSIDIAN,
@@ -61,7 +61,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<Integer> searchRadius = sgGeneral.add(new IntSetting.Builder()
-        .name("search-radius")
+        .name("SearchRadius")
         .description("Horizontal radius in which to search for holes.")
         .defaultValue(5)
         .min(0)
@@ -70,7 +70,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<Double> placeRange = sgGeneral.add(new DoubleSetting.Builder()
-        .name("place-range")
+        .name("PlaceRange")
         .description("How far away from the player you can place a block.")
         .defaultValue(4.5)
         .min(0)
@@ -79,21 +79,21 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<Boolean> doubles = sgGeneral.add(new BoolSetting.Builder()
-        .name("doubles")
+        .name("Doubles")
         .description("Fills double holes.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Automatically rotates towards the holes being filled.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> placeDelay = sgGeneral.add(new IntSetting.Builder()
-        .name("place-delay")
+        .name("PlaceDelay")
         .description("The ticks delay between placement.")
         .defaultValue(1)
         .min(0)
@@ -101,7 +101,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<Integer> blocksPerTick = sgGeneral.add(new IntSetting.Builder()
-        .name("blocks-per-tick")
+        .name("BlocksPerTick")
         .description("How many blocks to place in one tick.")
         .defaultValue(3)
         .min(1)
@@ -111,14 +111,14 @@ public class HoleFiller extends Module {
     // Smart
     
     private final Setting<Boolean> smart = sgSmart.add(new BoolSetting.Builder()
-        .name("smart")
+        .name("Smart")
         .description("Take more factors into account before filling a hole.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Keybind> forceFill = sgSmart.add(new KeybindSetting.Builder()
-        .name("force-fill")
+        .name("ForceFill")
         .description("Fills all holes around you regardless of target checks.")
         .defaultValue(Keybind.none())
         .visible(smart::get)
@@ -126,7 +126,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<Boolean> predict = sgSmart.add(new BoolSetting.Builder()
-        .name("predict")
+        .name("Predict")
         .description("Predict target movement to account for ping.")
         .defaultValue(true)
         .visible(smart::get)
@@ -134,7 +134,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<Boolean> ignoreSafe = sgSmart.add(new BoolSetting.Builder()
-        .name("ignore-safe")
+        .name("IgnoreSafe")
         .description("Ignore players in safe holes.")
         .defaultValue(true)
         .visible(smart::get)
@@ -142,7 +142,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<Boolean> onlyMoving = sgSmart.add(new BoolSetting.Builder()
-        .name("only-moving")
+        .name("OnlyMoving")
         .description("Ignore players if they're standing still.")
         .defaultValue(true)
         .visible(smart::get)
@@ -150,7 +150,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<Double> targetRange = sgSmart.add(new DoubleSetting.Builder()
-        .name("target-range")
+        .name("TargetRange")
         .description("How far away to target players.")
         .defaultValue(7)
         .min(0)
@@ -161,7 +161,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<Double> feetRange = sgSmart.add(new DoubleSetting.Builder()
-        .name("feet-range")
+        .name("FeetRange")
         .description("How far from a hole a player's feet must be to fill it.")
         .defaultValue(1.5)
         .min(0)
@@ -173,21 +173,21 @@ public class HoleFiller extends Module {
     // Render
     
     private final Setting<Boolean> swing = sgRender.add(new BoolSetting.Builder()
-        .name("swing")
+        .name("Swing")
         .description("Swing the player's hand when placing.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> render = sgRender.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Renders an overlay where blocks will be placed.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .visible(render::get)
@@ -195,7 +195,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color of the target block rendering.")
         .defaultValue(new SettingColor(197, 137, 232, 10))
         .visible(() -> render.get() && shapeMode.get().sides())
@@ -203,7 +203,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color of the target block rendering.")
         .defaultValue(new SettingColor(197, 137, 232))
         .visible(() -> render.get() && shapeMode.get().lines())
@@ -211,7 +211,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<SettingColor> nextSideColor = sgRender.add(new ColorSetting.Builder()
-        .name("next-side-color")
+        .name("NextSideColor")
         .description("The side color of the next block to be placed.")
         .defaultValue(new SettingColor(227, 196, 245, 10))
         .visible(() -> render.get() && shapeMode.get().sides())
@@ -219,7 +219,7 @@ public class HoleFiller extends Module {
     );
     
     private final Setting<SettingColor> nextLineColor = sgRender.add(new ColorSetting.Builder()
-        .name("next-line-color")
+        .name("NextLineColor")
         .description("The line color of the next block to be placed.")
         .defaultValue(new SettingColor(227, 196, 245))
         .visible(() -> render.get() && shapeMode.get().lines())

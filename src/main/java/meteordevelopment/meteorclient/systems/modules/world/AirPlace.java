@@ -37,28 +37,28 @@ public class AirPlace extends Module {
     // General
     
     private final Setting<Boolean> render = sgGeneral.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Renders a block overlay where the obsidian will be placed.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The color of the sides of the blocks being rendered.")
         .defaultValue(new SettingColor(204, 0, 0, 10))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The color of the lines of the blocks being rendered.")
         .defaultValue(new SettingColor(204, 0, 0, 255))
         .build()
@@ -67,14 +67,14 @@ public class AirPlace extends Module {
     // Range
     
     private final Setting<Boolean> customRange = sgRange.add(new BoolSetting.Builder()
-        .name("custom-range")
+        .name("CustomRange")
         .description("Use custom range for air place.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> range = sgRange.add(new DoubleSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("Custom range to place at.")
         .visible(customRange::get)
         .defaultValue(5)

@@ -23,14 +23,14 @@ public class Rotation extends Module {
     // Yaw
     
     private final Setting<LockMode> yawLockMode = sgYaw.add(new EnumChoiceSetting.Builder<LockMode>()
-        .name("yaw-lock-mode")
+        .name("YawLockMode")
         .description("The way in which your yaw is locked.")
         .defaultValue(LockMode.SIMPLE)
         .build()
     );
     
     private final Setting<Double> yawAngle = sgYaw.add(new DoubleSetting.Builder()
-        .name("yaw-angle")
+        .name("YawAngle")
         .description("Yaw angle in degrees.")
         .defaultValue(0)
         .sliderMax(360)
@@ -42,14 +42,14 @@ public class Rotation extends Module {
     // Pitch
     
     private final Setting<LockMode> pitchLockMode = sgPitch.add(new EnumChoiceSetting.Builder<LockMode>()
-        .name("pitch-lock-mode")
+        .name("PitchLockMode")
         .description("The way in which your pitch is locked.")
         .defaultValue(LockMode.SIMPLE)
         .build()
     );
     
     private final Setting<Double> pitchAngle = sgPitch.add(new DoubleSetting.Builder()
-        .name("pitch-angle")
+        .name("PitchAngle")
         .description("Pitch angle in degrees.")
         .defaultValue(0)
         .range(-90, 90)

@@ -29,21 +29,21 @@ public class CityESP extends Module {
     // Render
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color of the rendering.")
         .defaultValue(new SettingColor(225, 0, 0, 75))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color of the rendering.")
         .defaultValue(new SettingColor(225, 0, 0, 255))
         .build()

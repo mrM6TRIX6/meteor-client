@@ -34,7 +34,7 @@ public class Step extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> height = sgGeneral.add(new DoubleSetting.Builder()
-        .name("height")
+        .name("Height")
         .description("Step height.")
         .defaultValue(1.25)
         .min(0)
@@ -42,21 +42,21 @@ public class Step extends Module {
     );
     
     private final Setting<ActiveWhen> activeWhen = sgGeneral.add(new EnumChoiceSetting.Builder<ActiveWhen>()
-        .name("active-when")
+        .name("ActiveWhen")
         .description("Step is active when you meet these requirements.")
         .defaultValue(ActiveWhen.ALWAYS)
         .build()
     );
     
     private final Setting<Boolean> safeStep = sgGeneral.add(new BoolSetting.Builder()
-        .name("safe-step")
+        .name("SafeStep")
         .description("Doesn't let you step out of a hole if you are low on health or there is a crystal nearby.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> stepHealth = sgGeneral.add(new IntSetting.Builder()
-        .name("step-health")
+        .name("StepHealth")
         .description("The health you stop being able to step at.")
         .defaultValue(5)
         .range(1, 36)

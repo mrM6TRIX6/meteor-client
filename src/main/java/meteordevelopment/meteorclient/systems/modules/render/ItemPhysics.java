@@ -35,7 +35,7 @@ public class ItemPhysics extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> randomRotation = sgGeneral.add(new BoolSetting.Builder()
-        .name("random-rotation")
+        .name("RandomRotation")
         .description("Adds a random rotation to every item.")
         .defaultValue(true)
         .build()

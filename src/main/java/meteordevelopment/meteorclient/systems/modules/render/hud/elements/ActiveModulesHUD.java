@@ -29,48 +29,48 @@ public class ActiveModulesHUD extends HUDElement {
     private final SettingGroup sgBackground = settings.createGroup("Background");
     
     private final Setting<Sort> sort = sgGeneral.add(new EnumChoiceSetting.Builder<Sort>()
-        .name("sort")
+        .name("Sort")
         .description("How to sort active modules.")
         .defaultValue(Sort.BIGGEST)
         .build()
     );
     
     private final Setting<List<Module>> hiddenModules = sgGeneral.add(new ModuleListSetting.Builder()
-        .name("hidden-modules")
+        .name("HiddenModules")
         .description("Which modules not to show in the list.")
         .build()
     );
     
     private final Setting<Boolean> activeInfo = sgGeneral.add(new BoolSetting.Builder()
-        .name("module-info")
+        .name("ModuleInfo")
         .description("Shows info from the module next to the name in the active modules list.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> showKeybind = sgGeneral.add(new BoolSetting.Builder()
-        .name("show-keybind")
+        .name("ShowKeybind")
         .description("Shows the module's keybind next to its name.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> shadow = sgGeneral.add(new BoolSetting.Builder()
-        .name("shadow")
+        .name("Shadow")
         .description("Renders shadow behind text.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> outlines = sgGeneral.add(new BoolSetting.Builder()
-        .name("outlines")
+        .name("Outlines")
         .description("Whether or not to render outlines")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> outlineWidth = sgGeneral.add(new IntSetting.Builder()
-        .name("outline-width")
+        .name("OutlineWidth")
         .description("Outline width")
         .defaultValue(2)
         .min(1)
@@ -80,7 +80,7 @@ public class ActiveModulesHUD extends HUDElement {
     );
     
     private final Setting<Alignment> alignment = sgGeneral.add(new EnumChoiceSetting.Builder<Alignment>()
-        .name("alignment")
+        .name("Alignment")
         .description("Horizontal alignment.")
         .defaultValue(Alignment.AUTO)
         .build()
@@ -89,14 +89,14 @@ public class ActiveModulesHUD extends HUDElement {
     // Color
     
     private final Setting<ColorMode> colorMode = sgColor.add(new EnumChoiceSetting.Builder<ColorMode>()
-        .name("color-mode")
+        .name("ColorMode")
         .description("What color to use for active modules.")
         .defaultValue(ColorMode.RAINBOW)
         .build()
     );
     
     private final Setting<SettingColor> flatColor = sgColor.add(new ColorSetting.Builder()
-        .name("flat-color")
+        .name("FlatColor")
         .description("Color for flat color mode.")
         .defaultValue(new SettingColor(225, 25, 25))
         .visible(() -> colorMode.get() == ColorMode.FLAT)
@@ -104,7 +104,7 @@ public class ActiveModulesHUD extends HUDElement {
     );
     
     private final Setting<Double> rainbowSpeed = sgColor.add(new DoubleSetting.Builder()
-        .name("rainbow-speed")
+        .name("RainbowSpeed")
         .description("Rainbow speed of rainbow color mode.")
         .defaultValue(0.05)
         .sliderMin(0.01)
@@ -115,7 +115,7 @@ public class ActiveModulesHUD extends HUDElement {
     );
     
     private final Setting<Double> rainbowSpread = sgColor.add(new DoubleSetting.Builder()
-        .name("rainbow-spread")
+        .name("RainbowSpread")
         .description("Rainbow spread of rainbow color mode.")
         .defaultValue(0.01)
         .sliderMin(0.001)
@@ -126,7 +126,7 @@ public class ActiveModulesHUD extends HUDElement {
     );
     
     private final Setting<Double> rainbowSaturation = sgColor.add(new DoubleSetting.Builder()
-        .name("rainbow-saturation")
+        .name("RainbowSaturation")
         .defaultValue(1.0d)
         .sliderRange(0.0d, 1.0d)
         .visible(() -> colorMode.get() == ColorMode.RAINBOW)
@@ -134,7 +134,7 @@ public class ActiveModulesHUD extends HUDElement {
     );
     
     private final Setting<Double> rainbowBrightness = sgColor.add(new DoubleSetting.Builder()
-        .name("rainbow-brightness")
+        .name("RainbowBrightness")
         .defaultValue(1.0d)
         .sliderRange(0.0d, 1.0d)
         .visible(() -> colorMode.get() == ColorMode.RAINBOW)
@@ -142,7 +142,7 @@ public class ActiveModulesHUD extends HUDElement {
     );
     
     private final Setting<SettingColor> moduleInfoColor = sgColor.add(new ColorSetting.Builder()
-        .name("module-info-color")
+        .name("ModuleInfoColor")
         .description("Color of module info text.")
         .defaultValue(new SettingColor(175, 175, 175))
         .visible(activeInfo::get)
@@ -152,14 +152,14 @@ public class ActiveModulesHUD extends HUDElement {
     // Scale
     
     private final Setting<Boolean> customScale = sgScale.add(new BoolSetting.Builder()
-        .name("custom-scale")
+        .name("CustomScale")
         .description("Applies a custom scale to this hud element.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> scale = sgScale.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("Custom scale.")
         .visible(customScale::get)
         .defaultValue(1)
@@ -171,14 +171,14 @@ public class ActiveModulesHUD extends HUDElement {
     // Background
     
     private final Setting<Boolean> background = sgBackground.add(new BoolSetting.Builder()
-        .name("background")
+        .name("Background")
         .description("Displays background.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> backgroundColor = sgBackground.add(new ColorSetting.Builder()
-        .name("background-color")
+        .name("BackgroundColor")
         .description("Color used for the background.")
         .visible(background::get)
         .defaultValue(new SettingColor(25, 25, 25, 50))

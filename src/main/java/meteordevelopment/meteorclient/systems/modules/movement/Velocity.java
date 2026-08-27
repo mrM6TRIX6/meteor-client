@@ -24,14 +24,14 @@ public class Velocity extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<Boolean> knockback = sgGeneral.add(new BoolSetting.Builder()
-        .name("knockback")
+        .name("Knockback")
         .description("Modifies the amount of knockback you take from attacks.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Double> knockbackHorizontal = sgGeneral.add(new DoubleSetting.Builder()
-        .name("knockback-horizontal")
+        .name("KnockbackHorizontal")
         .description("How much horizontal knockback you will take.")
         .defaultValue(0)
         .sliderMax(1)
@@ -40,7 +40,7 @@ public class Velocity extends Module {
     );
     
     public final Setting<Double> knockbackVertical = sgGeneral.add(new DoubleSetting.Builder()
-        .name("knockback-vertical")
+        .name("KnockbackVertical")
         .description("How much vertical knockback you will take.")
         .defaultValue(0)
         .sliderMax(1)
@@ -49,14 +49,14 @@ public class Velocity extends Module {
     );
     
     public final Setting<Boolean> explosions = sgGeneral.add(new BoolSetting.Builder()
-        .name("explosions")
+        .name("Explosions")
         .description("Modifies your knockback from explosions.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Double> explosionsHorizontal = sgGeneral.add(new DoubleSetting.Builder()
-        .name("explosions-horizontal")
+        .name("ExplosionsHorizontal")
         .description("How much velocity you will take from explosions horizontally.")
         .defaultValue(0)
         .sliderMax(1)
@@ -65,7 +65,7 @@ public class Velocity extends Module {
     );
     
     public final Setting<Double> explosionsVertical = sgGeneral.add(new DoubleSetting.Builder()
-        .name("explosions-vertical")
+        .name("ExplosionsVertical")
         .description("How much velocity you will take from explosions vertically.")
         .defaultValue(0)
         .sliderMax(1)
@@ -74,14 +74,14 @@ public class Velocity extends Module {
     );
     
     public final Setting<Boolean> liquids = sgGeneral.add(new BoolSetting.Builder()
-        .name("liquids")
+        .name("Liquids")
         .description("Modifies the amount you are pushed by flowing liquids.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Double> liquidsHorizontal = sgGeneral.add(new DoubleSetting.Builder()
-        .name("liquids-horizontal")
+        .name("LiquidsHorizontal")
         .description("How much velocity you will take from liquids horizontally.")
         .defaultValue(0)
         .sliderMax(1)
@@ -90,7 +90,7 @@ public class Velocity extends Module {
     );
     
     public final Setting<Double> liquidsVertical = sgGeneral.add(new DoubleSetting.Builder()
-        .name("liquids-vertical")
+        .name("LiquidsVertical")
         .description("How much velocity you will take from liquids vertically.")
         .defaultValue(0)
         .sliderMax(1)
@@ -99,14 +99,14 @@ public class Velocity extends Module {
     );
     
     public final Setting<Boolean> entityPush = sgGeneral.add(new BoolSetting.Builder()
-        .name("entity-push")
+        .name("EntityPush")
         .description("Modifies the amount you are pushed by entities.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Double> entityPushAmount = sgGeneral.add(new DoubleSetting.Builder()
-        .name("entity-push-amount")
+        .name("EntityPushAmount")
         .description("How much you will be pushed.")
         .defaultValue(0)
         .sliderMax(1)
@@ -115,21 +115,21 @@ public class Velocity extends Module {
     );
     
     public final Setting<Boolean> blocks = sgGeneral.add(new BoolSetting.Builder()
-        .name("blocks")
+        .name("Blocks")
         .description("Prevents you from being pushed out of blocks.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Boolean> sinking = sgGeneral.add(new BoolSetting.Builder()
-        .name("sinking")
+        .name("Sinking")
         .description("Prevents you from sinking in liquids.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> fishing = sgGeneral.add(new BoolSetting.Builder()
-        .name("fishing")
+        .name("Fishing")
         .description("Prevents you from being pulled by fishing rods.")
         .defaultValue(false)
         .build()

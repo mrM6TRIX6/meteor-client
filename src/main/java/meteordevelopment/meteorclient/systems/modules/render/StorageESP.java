@@ -49,35 +49,35 @@ public class StorageESP extends Module {
     private final Set<BlockPos> interactedBlocks = new HashSet<>();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Rendering mode.")
         .defaultValue(Mode.SHADER)
         .build()
     );
     
     private final Setting<List<BlockEntityType<?>>> storageBlocks = sgGeneral.add(new StorageBlockListSetting.Builder()
-        .name("storage-blocks")
+        .name("StorageBlocks")
         .description("Select the storage blocks to display.")
         .defaultValue(StorageBlockListSetting.STORAGE_BLOCKS)
         .build()
     );
     
     private final Setting<Boolean> tracers = sgGeneral.add(new BoolSetting.Builder()
-        .name("tracers")
+        .name("Tracers")
         .description("Draws tracers to storage blocks.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     public final Setting<Integer> fillOpacity = sgGeneral.add(new IntSetting.Builder()
-        .name("fill-opacity")
+        .name("FillOpacity")
         .description("The opacity of the shape fill.")
         .visible(() -> shapeMode.get() != ShapeMode.LINES)
         .defaultValue(50)
@@ -87,7 +87,7 @@ public class StorageESP extends Module {
     );
     
     public final Setting<Integer> outlineWidth = sgGeneral.add(new IntSetting.Builder()
-        .name("width")
+        .name("Width")
         .description("The width of the shader outline.")
         .visible(() -> mode.get() == Mode.SHADER)
         .defaultValue(1)
@@ -97,7 +97,7 @@ public class StorageESP extends Module {
     );
     
     public final Setting<Double> glowMultiplier = sgGeneral.add(new DoubleSetting.Builder()
-        .name("glow-multiplier")
+        .name("GlowMultiplier")
         .description("Multiplier for glow effect")
         .visible(() -> mode.get() == Mode.SHADER)
         .decimalPlaces(3)
@@ -108,49 +108,49 @@ public class StorageESP extends Module {
     );
     
     private final Setting<SettingColor> chest = sgGeneral.add(new ColorSetting.Builder()
-        .name("chest")
+        .name("Chest")
         .description("The color of chests.")
         .defaultValue(new SettingColor(255, 160, 0, 255))
         .build()
     );
     
     private final Setting<SettingColor> trappedChest = sgGeneral.add(new ColorSetting.Builder()
-        .name("trapped-chest")
+        .name("TrappedChest")
         .description("The color of trapped chests.")
         .defaultValue(new SettingColor(255, 0, 0, 255))
         .build()
     );
     
     private final Setting<SettingColor> barrel = sgGeneral.add(new ColorSetting.Builder()
-        .name("barrel")
+        .name("Barrel")
         .description("The color of barrels.")
         .defaultValue(new SettingColor(255, 160, 0, 255))
         .build()
     );
     
     private final Setting<SettingColor> shulker = sgGeneral.add(new ColorSetting.Builder()
-        .name("shulker")
+        .name("Shulker")
         .description("The color of Shulker Boxes.")
         .defaultValue(new SettingColor(255, 160, 0, 255))
         .build()
     );
     
     private final Setting<SettingColor> enderChest = sgGeneral.add(new ColorSetting.Builder()
-        .name("ender-chest")
+        .name("EnderChest")
         .description("The color of Ender Chests.")
         .defaultValue(new SettingColor(120, 0, 255, 255))
         .build()
     );
     
     private final Setting<SettingColor> other = sgGeneral.add(new ColorSetting.Builder()
-        .name("other")
+        .name("Other")
         .description("The color of furnaces, dispensers, droppers and hoppers.")
         .defaultValue(new SettingColor(140, 140, 140, 255))
         .build()
     );
     
     private final Setting<Double> fadeDistance = sgGeneral.add(new DoubleSetting.Builder()
-        .name("fade-distance")
+        .name("FadeDistance")
         .description("The distance at which the color will fade.")
         .defaultValue(6)
         .min(0)
@@ -159,14 +159,14 @@ public class StorageESP extends Module {
     );
     
     private final Setting<Boolean> hideOpened = sgOpened.add(new BoolSetting.Builder()
-        .name("hide-opened")
+        .name("HideOpened")
         .description("Hides opened containers.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> openedColor = sgOpened.add(new ColorSetting.Builder()
-        .name("opened-color")
+        .name("OpenedColor")
         .description("Optional setting to change colors of opened chests, as opposed to not rendering. Disabled at zero opacity.")
         .defaultValue(new SettingColor(203, 90, 203, 0)) // Transparent by default
         .build()

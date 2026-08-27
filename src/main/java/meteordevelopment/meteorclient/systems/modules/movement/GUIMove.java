@@ -39,14 +39,14 @@ public class GUIMove extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Screens> screens = sgGeneral.add(new EnumChoiceSetting.Builder<Screens>()
-        .name("guis")
+        .name("Guis")
         .description("Which GUIs to move in.")
         .defaultValue(Screens.INVENTORY)
         .build()
     );
     
     private final Setting<Boolean> jump = sgGeneral.add(new BoolSetting.Builder()
-        .name("jump")
+        .name("Jump")
         .description("Allows you to jump while in GUIs.")
         .defaultValue(true)
         .onChanged(aBoolean -> {
@@ -58,7 +58,7 @@ public class GUIMove extends Module {
     );
     
     private final Setting<Boolean> sneak = sgGeneral.add(new BoolSetting.Builder()
-        .name("sneak")
+        .name("Sneak")
         .description("Allows you to sneak while in GUIs.")
         .defaultValue(true)
         .onChanged(aBoolean -> {
@@ -70,7 +70,7 @@ public class GUIMove extends Module {
     );
     
     private final Setting<Boolean> sprint = sgGeneral.add(new BoolSetting.Builder()
-        .name("sprint")
+        .name("Sprint")
         .description("Allows you to sprint while in GUIs.")
         .defaultValue(true)
         .onChanged(aBoolean -> {
@@ -82,14 +82,14 @@ public class GUIMove extends Module {
     );
     
     private final Setting<Boolean> arrowsRotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("arrows-rotate")
+        .name("ArrowsRotate")
         .description("Allows you to use your arrow keys to rotate while in GUIs.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Double> rotateSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("rotate-speed")
+        .name("RotateSpeed")
         .description("Rotation speed while in GUIs.")
         .defaultValue(4)
         .min(0)

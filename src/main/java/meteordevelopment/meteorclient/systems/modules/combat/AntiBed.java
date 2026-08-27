@@ -29,28 +29,28 @@ public class AntiBed extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> placeStringTop = sgGeneral.add(new BoolSetting.Builder()
-        .name("place-string-top")
+        .name("PlaceStringTop")
         .description("Places string above you.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> placeStringMiddle = sgGeneral.add(new BoolSetting.Builder()
-        .name("place-string-middle")
+        .name("PlaceStringMiddle")
         .description("Places string in your upper hitbox.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> placeStringBottom = sgGeneral.add(new BoolSetting.Builder()
-        .name("place-string-bottom")
+        .name("PlaceStringBottom")
         .description("Places string at your feet.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> onlyInHole = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-in-hole")
+        .name("OnlyInHole")
         .description("Only functions when you are standing in a hole.")
         .defaultValue(true)
         .build()

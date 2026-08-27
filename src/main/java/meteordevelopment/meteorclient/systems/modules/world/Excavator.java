@@ -11,6 +11,7 @@ import baritone.api.utils.BetterBlockPos;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -22,7 +23,6 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.hit.BlockHitResult;
 import org.lwjgl.glfw.GLFW;
@@ -34,7 +34,7 @@ public class Excavator extends Module {
     
     // Keybindings
     private final Setting<Keybind> selectionBind = sgGeneral.add(new KeybindSetting.Builder()
-        .name("selection-bind")
+        .name("SelectionBind")
         .description("Bind to draw selection.")
         .defaultValue(Keybind.fromButton(GLFW.GLFW_MOUSE_BUTTON_RIGHT))
         .build()
@@ -42,14 +42,14 @@ public class Excavator extends Module {
     
     // Logging
     private final Setting<Boolean> logSelection = sgGeneral.add(new BoolSetting.Builder()
-        .name("log-selection")
+        .name("LogSelection")
         .description("Logs the selection coordinates to the chat.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> keepActive = sgGeneral.add(new BoolSetting.Builder()
-        .name("keep-active")
+        .name("KeepActive")
         .description("Keep the module active after finishing the excavation.")
         .defaultValue(false)
         .build()
@@ -57,21 +57,21 @@ public class Excavator extends Module {
     
     // Rendering
     private final Setting<ShapeMode> shapeMode = sgRendering.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgRendering.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color.")
         .defaultValue(new SettingColor(255, 255, 255, 50))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgRendering.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color.")
         .defaultValue(new SettingColor(255, 255, 255, 255))
         .build()

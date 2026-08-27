@@ -34,7 +34,7 @@ public class AutoBreed extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Set<EntityType<?>>> entities = sgGeneral.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Entities to breed.")
         .defaultValue(EntityType.HORSE, EntityType.DONKEY, EntityType.COW,
             EntityType.MOOSHROOM, EntityType.SHEEP, EntityType.PIG, EntityType.CHICKEN, EntityType.WOLF,
@@ -45,7 +45,7 @@ public class AutoBreed extends Module {
     );
     
     private final Setting<Double> range = sgGeneral.add(new DoubleSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("How far away the animals can be to be bred.")
         .min(0)
         .defaultValue(4.5)
@@ -53,14 +53,14 @@ public class AutoBreed extends Module {
     );
     
     private final Setting<HandWithDisplayName> hand = sgGeneral.add(new EnumChoiceSetting.Builder<HandWithDisplayName>()
-        .name("hand-for-breeding")
+        .name("HandForBreeding")
         .description("The hand to use for breeding.")
         .defaultValue(HandWithDisplayName.MAIN_HAND)
         .build()
     );
     
     private final Setting<EntityAge> mobAgeFilter = sgGeneral.add(new EnumChoiceSetting.Builder<EntityAge>()
-        .name("mob-age-filter")
+        .name("MobAgeFilter")
         .description("Determines the age of the mobs to target (baby, adult, or both).")
         .defaultValue(EntityAge.ADULT)
         .build()

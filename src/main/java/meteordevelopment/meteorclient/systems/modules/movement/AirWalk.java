@@ -20,14 +20,14 @@ public class AirWalk extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> allowJumping = sgGeneral.add(new BoolSetting.Builder()
-        .name("allow-jumping")
+        .name("AllowJumping")
         .description("Makes getting up easier (Buggy).")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> allowSneaking = sgGeneral.add(new BoolSetting.Builder()
-        .name("allow-sneaking")
+        .name("AllowSneaking")
         .description("Allows sneaking while in the air.")
         .defaultValue(false)
         .build()

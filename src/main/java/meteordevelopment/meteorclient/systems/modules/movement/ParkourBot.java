@@ -39,7 +39,7 @@ public class ParkourBot extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("Delay between moving to the next block.")
         .defaultValue(2)
         .min(0)
@@ -48,7 +48,7 @@ public class ParkourBot extends Module {
     );
     
     private final Setting<Boolean> sendStartCommand = sgGeneral.add(new BoolSetting.Builder()
-        .name("send-start-command")
+        .name("SendStartCommand")
         .description("Send /startp command to start parkour on MineBlaze.")
         .defaultValue(true)
         .build()

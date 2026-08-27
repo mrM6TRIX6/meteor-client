@@ -41,14 +41,14 @@ public class ESP extends Module {
     // General
     
     public final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Rendering mode.")
         .defaultValue(Mode.SHADER)
         .build()
     );
     
     public final Setting<Integer> outlineWidth = sgGeneral.add(new IntSetting.Builder()
-        .name("outline-width")
+        .name("OutlineWidth")
         .description("The width of the shader outline.")
         .visible(() -> mode.get() == Mode.SHADER)
         .defaultValue(2)
@@ -57,7 +57,7 @@ public class ESP extends Module {
     );
     
     public final Setting<Double> glowMultiplier = sgGeneral.add(new DoubleSetting.Builder()
-        .name("glow-multiplier")
+        .name("GlowMultiplier")
         .description("Multiplier for glow effect")
         .visible(() -> mode.get() == Mode.SHADER)
         .decimalPlaces(3)
@@ -66,14 +66,14 @@ public class ESP extends Module {
     );
     
     public final Setting<Boolean> ignoreSelf = sgGeneral.add(new BoolSetting.Builder()
-        .name("ignore-self")
+        .name("IgnoreSelf")
         .description("Ignores yourself drawing the shader.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .visible(() -> mode.get() != Mode.GLOW)
         .defaultValue(ShapeMode.BOTH)
@@ -81,7 +81,7 @@ public class ESP extends Module {
     );
     
     public final Setting<Double> fillOpacity = sgGeneral.add(new DoubleSetting.Builder()
-        .name("fill-opacity")
+        .name("FillOpacity")
         .description("The opacity of the shape fill.")
         .visible(() -> shapeMode.get() != ShapeMode.LINES && mode.get() != Mode.GLOW)
         .defaultValue(0.3)
@@ -91,7 +91,7 @@ public class ESP extends Module {
     );
     
     private final Setting<Double> fadeDistance = sgGeneral.add(new DoubleSetting.Builder()
-        .name("fade-distance")
+        .name("FadeDistance")
         .description("The distance from an entity where the color begins to fade.")
         .defaultValue(3)
         .min(0)
@@ -100,7 +100,7 @@ public class ESP extends Module {
     );
     
     private final Setting<Set<EntityType<?>>> entities = sgGeneral.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Select specific entities.")
         .defaultValue(EntityType.PLAYER)
         .build()
@@ -109,14 +109,14 @@ public class ESP extends Module {
     // Colors
     
     public final Setting<ESPColorMode> colorMode = sgColors.add(new EnumChoiceSetting.Builder<ESPColorMode>()
-        .name("color-mode")
+        .name("ColorMode")
         .description("Determines the colors used for entities.")
         .defaultValue(ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
     public final Setting<Boolean> friendOverride = sgColors.add(new BoolSetting.Builder()
-        .name("show-friend-colors")
+        .name("ShowFriendColors")
         .description("Whether or not to override the distance/health color of friends with the friend color.")
         .defaultValue(true)
         .visible(() -> colorMode.get() == ESPColorMode.DISTANCE || colorMode.get() == ESPColorMode.HEALTH)
@@ -124,7 +124,7 @@ public class ESP extends Module {
     );
     
     private final Setting<SettingColor> nonLivingEntityColor = sgColors.add(new ColorSetting.Builder()
-        .name("non-living-entity-color")
+        .name("NonLivingEntityColor")
         .description("The color used for non living entities such as dropped items.")
         .defaultValue(new SettingColor(25, 25, 25))
         .visible(() -> colorMode.get() == ESPColorMode.HEALTH)
@@ -132,7 +132,7 @@ public class ESP extends Module {
     );
     
     private final Setting<SettingColor> playersColor = sgColors.add(new ColorSetting.Builder()
-        .name("players-color")
+        .name("PlayersColor")
         .description("The other player's color.")
         .defaultValue(new SettingColor(255, 255, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
@@ -140,7 +140,7 @@ public class ESP extends Module {
     );
     
     private final Setting<SettingColor> animalsColor = sgColors.add(new ColorSetting.Builder()
-        .name("animals-color")
+        .name("AnimalsColor")
         .description("The animal's color.")
         .defaultValue(new SettingColor(25, 255, 25, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
@@ -148,7 +148,7 @@ public class ESP extends Module {
     );
     
     private final Setting<SettingColor> waterAnimalsColor = sgColors.add(new ColorSetting.Builder()
-        .name("water-animals-color")
+        .name("WaterAnimalsColor")
         .description("The water animal's color.")
         .defaultValue(new SettingColor(25, 25, 255, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
@@ -156,7 +156,7 @@ public class ESP extends Module {
     );
     
     private final Setting<SettingColor> monstersColor = sgColors.add(new ColorSetting.Builder()
-        .name("monsters-color")
+        .name("MonstersColor")
         .description("The monster's color.")
         .defaultValue(new SettingColor(255, 25, 25, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
@@ -164,7 +164,7 @@ public class ESP extends Module {
     );
     
     private final Setting<SettingColor> ambientColor = sgColors.add(new ColorSetting.Builder()
-        .name("ambient-color")
+        .name("AmbientColor")
         .description("The ambient's color.")
         .defaultValue(new SettingColor(25, 25, 25, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
@@ -172,7 +172,7 @@ public class ESP extends Module {
     );
     
     private final Setting<SettingColor> miscColor = sgColors.add(new ColorSetting.Builder()
-        .name("misc-color")
+        .name("MiscColor")
         .description("The misc color.")
         .defaultValue(new SettingColor(175, 175, 175, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)

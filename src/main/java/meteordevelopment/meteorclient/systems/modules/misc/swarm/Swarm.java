@@ -28,14 +28,14 @@ public class Swarm extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("What type of client to run.")
         .defaultValue(Mode.HOST)
         .build()
     );
     
     private final Setting<String> ipAddress = sgGeneral.add(new StringSetting.Builder()
-        .name("ip")
+        .name("Ip")
         .description("The IP address of the host server.")
         .defaultValue("localhost")
         .visible(() -> mode.get() == Mode.WORKER)
@@ -43,7 +43,7 @@ public class Swarm extends Module {
     );
     
     private final Setting<Integer> serverPort = sgGeneral.add(new IntSetting.Builder()
-        .name("port")
+        .name("Port")
         .description("The port used for connections.")
         .defaultValue(6969)
         .range(1, 65535)

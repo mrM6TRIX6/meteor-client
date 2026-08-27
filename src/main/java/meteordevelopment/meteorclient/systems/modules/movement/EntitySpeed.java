@@ -25,7 +25,7 @@ public class EntitySpeed extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> speed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("speed")
+        .name("Speed")
         .description("Movement speed in blocks per second.")
         .defaultValue(10)
         .min(0)
@@ -34,14 +34,14 @@ public class EntitySpeed extends Module {
     );
     
     private final Setting<Boolean> onlyOnGround = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-on-ground")
+        .name("OnlyOnGround")
         .description("Use speed only when standing on a block.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> inWater = sgGeneral.add(new BoolSetting.Builder()
-        .name("in-water")
+        .name("InWater")
         .description("Use speed when in water.")
         .defaultValue(false)
         .build()

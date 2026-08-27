@@ -37,7 +37,7 @@ public class Flamethrower extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> distance = sgGeneral.add(new DoubleSetting.Builder()
-        .name("distance")
+        .name("Distance")
         .description("The maximum distance the animal has to be to be roasted.")
         .min(0.0)
         .defaultValue(5.0)
@@ -45,41 +45,41 @@ public class Flamethrower extends Module {
     );
     
     private final Setting<Boolean> antiBreak = sgGeneral.add(new BoolSetting.Builder()
-        .name("anti-break")
+        .name("AntiBreak")
         .description("Prevents flint and steel from being broken.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> putOutFire = sgGeneral.add(new BoolSetting.Builder()
-        .name("put-out-fire")
+        .name("PutOutFire")
         .description("Tries to put out the fire when animal is low health, so the items don't burn.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> targetBabies = sgGeneral.add(new BoolSetting.Builder()
-        .name("target-babies")
+        .name("TargetBabies")
         .description("If checked babies will also be killed.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> tickInterval = sgGeneral.add(new IntSetting.Builder()
-        .name("tick-interval")
+        .name("TickInterval")
         .defaultValue(5)
         .build()
     );
     
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Automatically faces towards the animal roasted.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Set<EntityType<?>>> entities = sgGeneral.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Entities to cook.")
         .defaultValue(
             EntityType.PIG,

@@ -21,21 +21,21 @@ public class AutoJump extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("The method of jumping.")
         .defaultValue(Mode.JUMP)
         .build()
     );
     
     private final Setting<JumpWhen> jumpIf = sgGeneral.add(new EnumChoiceSetting.Builder<JumpWhen>()
-        .name("jump-if")
+        .name("JumpIf")
         .description("Jump if.")
         .defaultValue(JumpWhen.ALWAYS)
         .build()
     );
     
     private final Setting<Double> velocityHeight = sgGeneral.add(new DoubleSetting.Builder()
-        .name("velocity-height")
+        .name("VelocityHeight")
         .description("The distance that velocity mode moves you.")
         .defaultValue(0.25)
         .min(0)

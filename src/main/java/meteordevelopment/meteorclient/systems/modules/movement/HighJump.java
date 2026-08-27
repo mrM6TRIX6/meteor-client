@@ -18,7 +18,7 @@ public class HighJump extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> multiplier = sgGeneral.add(new DoubleSetting.Builder()
-        .name("jump-multiplier")
+        .name("JumpMultiplier")
         .description("Jump height multiplier.")
         .defaultValue(1)
         .min(0)

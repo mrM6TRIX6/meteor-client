@@ -21,7 +21,7 @@ public class BreakDelay extends Module {
     SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Integer> cooldown = sgGeneral.add(new IntSetting.Builder()
-        .name("cooldown")
+        .name("Cooldown")
         .description("Block break cooldown in ticks.")
         .defaultValue(0)
         .min(0)
@@ -30,7 +30,7 @@ public class BreakDelay extends Module {
     );
     
     private final Setting<Boolean> noInstaBreak = sgGeneral.add(new BoolSetting.Builder()
-        .name("no-insta-break")
+        .name("NoInstaBreak")
         .description("Prevents you from misbreaking blocks if you can instantly break them.")
         .defaultValue(false)
         .build()

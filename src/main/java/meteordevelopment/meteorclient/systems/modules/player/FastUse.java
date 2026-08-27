@@ -25,21 +25,21 @@ public class FastUse extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Which items to fast use.")
         .defaultValue(Mode.ALL)
         .build()
     );
     
     private final Setting<List<Item>> items = sgGeneral.add(new ItemListSetting.Builder()
-        .name("items")
+        .name("Items")
         .description("Which items should fast place work on in \"Some\" mode.")
         .visible(() -> mode.get() == Mode.SOME)
         .build()
     );
     
     private final Setting<Boolean> blocks = sgGeneral.add(new BoolSetting.Builder()
-        .name("blocks")
+        .name("Blocks")
         .description("Fast-places blocks if the mode is \"Some\" mode.")
         .visible(() -> mode.get() == Mode.SOME)
         .defaultValue(false)
@@ -47,7 +47,7 @@ public class FastUse extends Module {
     );
     
     private final Setting<Integer> cooldown = sgGeneral.add(new IntSetting.Builder()
-        .name("cooldown")
+        .name("Cooldown")
         .description("Fast-use cooldown in ticks.")
         .defaultValue(0)
         .min(0)

@@ -23,14 +23,14 @@ public class AntiAnchor extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Makes you rotate when placing.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> swing = sgGeneral.add(new BoolSetting.Builder()
-        .name("swing")
+        .name("Swing")
         .description("Swings your hand when placing.")
         .defaultValue(true)
         .build()

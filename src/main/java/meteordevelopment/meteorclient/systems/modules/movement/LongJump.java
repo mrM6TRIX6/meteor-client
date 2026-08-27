@@ -30,14 +30,14 @@ public class LongJump extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<JumpMode> jumpMode = sgGeneral.add(new EnumChoiceSetting.Builder<JumpMode>()
-        .name("mode")
+        .name("Mode")
         .description("The method of jumping.")
         .defaultValue(JumpMode.VANILLA)
         .build()
     );
     
     private final Setting<Double> vanillaBoostFactor = sgGeneral.add(new DoubleSetting.Builder()
-        .name("vanilla-boost-factor")
+        .name("VanillaBoostFactor")
         .description("The amount by which to boost the jump.")
         .visible(() -> jumpMode.get() == JumpMode.VANILLA)
         .defaultValue(1.261)
@@ -47,7 +47,7 @@ public class LongJump extends Module {
     );
     
     private final Setting<Double> burstInitialSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("burst-initial-speed")
+        .name("BurstInitialSpeed")
         .description("The initial speed of the runup.")
         .visible(() -> jumpMode.get() == JumpMode.BURST)
         .defaultValue(6)
@@ -57,7 +57,7 @@ public class LongJump extends Module {
     );
     
     private final Setting<Double> burstBoostFactor = sgGeneral.add(new DoubleSetting.Builder()
-        .name("burst-boost-factor")
+        .name("BurstBoostFactor")
         .description("The amount by which to boost the jump.")
         .visible(() -> jumpMode.get() == JumpMode.BURST)
         .defaultValue(2.149)
@@ -67,7 +67,7 @@ public class LongJump extends Module {
     );
     
     private final Setting<Boolean> onlyOnGround = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-on-ground")
+        .name("OnlyOnGround")
         .description("Only performs the jump if you are on the ground.")
         .visible(() -> jumpMode.get() == JumpMode.BURST)
         .defaultValue(true)
@@ -75,7 +75,7 @@ public class LongJump extends Module {
     );
     
     private final Setting<Boolean> onJump = sgGeneral.add(new BoolSetting.Builder()
-        .name("on-jump")
+        .name("OnJump")
         .description("Whether the player needs to jump first or not.")
         .visible(() -> jumpMode.get() == JumpMode.BURST)
         .defaultValue(false)
@@ -83,7 +83,7 @@ public class LongJump extends Module {
     );
     
     private final Setting<Double> glideMultiplier = sgGeneral.add(new DoubleSetting.Builder()
-        .name("glide-multiplier")
+        .name("GlideMultiplier")
         .description("The amount by to multiply the glide velocity.")
         .visible(() -> jumpMode.get() == JumpMode.GLIDE)
         .defaultValue(1)
@@ -93,7 +93,7 @@ public class LongJump extends Module {
     );
     
     public final Setting<Double> timer = sgGeneral.add(new DoubleSetting.Builder()
-        .name("timer")
+        .name("Timer")
         .description("Timer override.")
         .defaultValue(1)
         .min(0.01)
@@ -102,7 +102,7 @@ public class LongJump extends Module {
     );
     
     private final Setting<Boolean> autoDisable = sgGeneral.add(new BoolSetting.Builder()
-        .name("auto-disable")
+        .name("AutoDisable")
         .description("Automatically disabled the module after jumping.")
         .visible(() -> jumpMode.get() != JumpMode.VANILLA)
         .defaultValue(true)
@@ -110,7 +110,7 @@ public class LongJump extends Module {
     );
     
     private final Setting<Boolean> disableOnRubberband = sgGeneral.add(new BoolSetting.Builder()
-        .name("disable-on-rubberband")
+        .name("DisableOnRubberband")
         .description("Disables the module when you get lagged back.")
         .defaultValue(true)
         .build()

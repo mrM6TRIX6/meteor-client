@@ -38,14 +38,14 @@ public class MapHUD extends HUDElement {
     // General
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("How to determine which map to render.")
         .defaultValue(Mode.SIMPLE)
         .build()
     );
     
     private final Setting<Integer> slotIndex = sgGeneral.add(new IntSetting.Builder()
-        .name("slot-index")
+        .name("SlotIndex")
         .description("Which slot to grab the map from.")
         .visible(() -> mode.get() == Mode.SLOT_INDEX)
         .defaultValue(0)
@@ -54,7 +54,7 @@ public class MapHUD extends HUDElement {
     );
     
     private final Setting<Integer> mapId = sgGeneral.add(new IntSetting.Builder()
-        .name("map-id")
+        .name("MapId")
         .description("Which map id to render from. Must be in your inventory!")
         .visible(() -> mode.get() == Mode.MAP_ID)
         .defaultValue(0)
@@ -65,7 +65,7 @@ public class MapHUD extends HUDElement {
     // Visual
     
     private final Setting<Double> scale = sgVisual.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("How big to render the map.")
         .defaultValue(1)
         .min(0.5)
@@ -74,14 +74,14 @@ public class MapHUD extends HUDElement {
     );
     
     private final Setting<Boolean> background = sgVisual.add(new BoolSetting.Builder()
-        .name("background")
+        .name("Background")
         .description("Displays background.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> backgroundColor = sgVisual.add(new ColorSetting.Builder()
-        .name("background-color")
+        .name("BackgroundColor")
         .description("Color used for the background.")
         .visible(background::get)
         .defaultValue(new SettingColor(25, 25, 25, 50))

@@ -39,14 +39,14 @@ public class Confuse extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .defaultValue(Mode.RANDOM_TP)
         .description("Mode")
         .build()
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("Delay")
         .defaultValue(3)
         .min(0)
@@ -55,7 +55,7 @@ public class Confuse extends Module {
     );
     
     private final Setting<Integer> range = sgGeneral.add(new IntSetting.Builder()
-        .name("radius")
+        .name("Radius")
         .description("Range to confuse opponents")
         .defaultValue(6)
         .min(0).sliderMax(10)
@@ -63,14 +63,14 @@ public class Confuse extends Module {
     );
     
     private final Setting<SortPriority> priority = sgGeneral.add(new EnumChoiceSetting.Builder<SortPriority>()
-        .name("priority")
+        .name("Priority")
         .description("Targetting priority")
         .defaultValue(SortPriority.LOWEST_HEALTH)
         .build()
     );
     
     private final Setting<Integer> circleSpeed = sgGeneral.add(new IntSetting.Builder()
-        .name("circle-speed")
+        .name("CircleSpeed")
         .description("Circle mode speed")
         .defaultValue(10)
         .min(1)
@@ -79,19 +79,19 @@ public class Confuse extends Module {
     );
     
     private final Setting<Boolean> moveThroughBlocks = sgGeneral.add(new BoolSetting.Builder()
-        .name("move-through-blocks")
+        .name("MoveThroughBlocks")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> budgetGraphics = sgGeneral.add(new BoolSetting.Builder()
-        .name("budget-graphics")
+        .name("BudgetGraphics")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> circleColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("circle-color")
+        .name("CircleColor")
         .description("Color for circle rendering")
         .defaultValue(new SettingColor(0, 255, 0))
         .visible(budgetGraphics::get)

@@ -27,14 +27,14 @@ public class Breadcrumbs extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<SettingColor> color = sgGeneral.add(new ColorSetting.Builder()
-        .name("color")
+        .name("Color")
         .description("The color of the Breadcrumbs trail.")
         .defaultValue(new SettingColor(225, 25, 25))
         .build()
     );
     
     private final Setting<Integer> maxSections = sgGeneral.add(new IntSetting.Builder()
-        .name("max-sections")
+        .name("MaxSections")
         .description("The maximum number of sections.")
         .defaultValue(1000)
         .min(1)
@@ -43,7 +43,7 @@ public class Breadcrumbs extends Module {
     );
     
     private final Setting<Double> sectionLength = sgGeneral.add(new DoubleSetting.Builder()
-        .name("section-length")
+        .name("SectionLength")
         .description("The section length in blocks.")
         .defaultValue(0.5)
         .min(0)

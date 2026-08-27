@@ -31,14 +31,14 @@ public class ItemHUD extends HUDElement {
     // General
     
     private final Setting<Item> item = sgGeneral.add(new ItemSetting.Builder()
-        .name("item")
+        .name("Item")
         .description("Item to display")
         .defaultValue(Items.TOTEM_OF_UNDYING)
         .build()
     );
     
     private final Setting<NoneMode> noneMode = sgGeneral.add(new EnumChoiceSetting.Builder<NoneMode>()
-        .name("none-mode")
+        .name("NoneMode")
         .description("How to render the item when you don't have the specified item in your inventory.")
         .defaultValue(NoneMode.HIDE_COUNT)
         .build()
@@ -47,7 +47,7 @@ public class ItemHUD extends HUDElement {
     // Scale
     
     private final Setting<Boolean> customScale = sgScale.add(new BoolSetting.Builder()
-        .name("custom-scale")
+        .name("CustomScale")
         .description("Applies a custom scale to this hud element.")
         .defaultValue(false)
         .onChanged(aBoolean -> calculateSize())
@@ -55,7 +55,7 @@ public class ItemHUD extends HUDElement {
     );
     
     private final Setting<Double> scale = sgScale.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("Custom scale.")
         .visible(customScale::get)
         .defaultValue(2)
@@ -68,14 +68,14 @@ public class ItemHUD extends HUDElement {
     // Background
     
     private final Setting<Boolean> background = sgBackground.add(new BoolSetting.Builder()
-        .name("background")
+        .name("Background")
         .description("Displays background.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> backgroundColor = sgBackground.add(new ColorSetting.Builder()
-        .name("background-color")
+        .name("BackgroundColor")
         .description("Color used for the background.")
         .visible(background::get)
         .defaultValue(new SettingColor(25, 25, 25, 50))

@@ -32,7 +32,7 @@ public class AutoWalk extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Walking mode.")
         .defaultValue(Mode.SMART)
         .onChanged(mode1 -> {
@@ -50,7 +50,7 @@ public class AutoWalk extends Module {
     );
     
     private final Setting<Direction> direction = sgGeneral.add(new EnumChoiceSetting.Builder<Direction>()
-        .name("simple-direction")
+        .name("SimpleDirection")
         .description("The direction to walk in simple mode.")
         .defaultValue(Direction.FORWARDS)
         .onChanged(direction1 -> {
@@ -62,21 +62,21 @@ public class AutoWalk extends Module {
         .build()
     );
     private final Setting<Boolean> disableOnY = sgGeneral.add(new BoolSetting.Builder()
-        .name("disable-on-y-change")
+        .name("DisableOnYChange")
         .description("Disable module if player moves vertically")
         .defaultValue(false)
         .visible(() -> mode.get() == Mode.SIMPLE)
         .build()
     );
     private final Setting<Boolean> waitForChunks = sgGeneral.add(new BoolSetting.Builder()
-        .name("no-unloaded-chunks")
+        .name("NoUnloadedChunks")
         .description("Do not allow movement into unloaded chunks")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SIMPLE)
         .build()
     );
     private final Setting<Boolean> disableOnInput = sgGeneral.add(new BoolSetting.Builder()
-        .name("disable-on-input")
+        .name("DisableOnInput")
         .description("Disable module on manual movement input")
         .defaultValue(false)
         .build()

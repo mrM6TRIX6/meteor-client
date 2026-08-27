@@ -44,14 +44,14 @@ public class Quiver extends Module {
     private final SettingGroup sgSafety = settings.createGroup("Safety");
     
     private final Setting<List<StatusEffect>> effects = sgGeneral.add(new StatusEffectListSetting.Builder()
-        .name("effects")
+        .name("Effects")
         .description("Which effects to shoot you with.")
         .defaultValue(StatusEffects.STRENGTH.value())
         .build()
     );
     
     private final Setting<Integer> cooldown = sgGeneral.add(new IntSetting.Builder()
-        .name("cooldown")
+        .name("Cooldown")
         .description("How many ticks between shooting effects (19 minimum for NCP).")
         .defaultValue(10)
         .range(0, 40)
@@ -60,21 +60,21 @@ public class Quiver extends Module {
     );
     
     private final Setting<Boolean> checkEffects = sgGeneral.add(new BoolSetting.Builder()
-        .name("check-effects")
+        .name("CheckEffects")
         .description("Won't shoot you with effects you already have.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> silentBow = sgGeneral.add(new BoolSetting.Builder()
-        .name("silent-bow")
+        .name("SilentBow")
         .description("Takes a bow from your inventory to quiver.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> chatInfo = sgGeneral.add(new BoolSetting.Builder()
-        .name("chat-info")
+        .name("ChatInfo")
         .description("Sends info about quiver checks in chat.")
         .defaultValue(false)
         .build()
@@ -83,21 +83,21 @@ public class Quiver extends Module {
     // Safety
     
     private final Setting<Boolean> onlyInHoles = sgSafety.add(new BoolSetting.Builder()
-        .name("only-in-holes")
+        .name("OnlyInHoles")
         .description("Only quiver when you're in a hole.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> onlyOnGround = sgSafety.add(new BoolSetting.Builder()
-        .name("only-on-ground")
+        .name("OnlyOnGround")
         .description("Only quiver when you're on the ground.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Double> minHealth = sgSafety.add(new DoubleSetting.Builder()
-        .name("min-health")
+        .name("MinHealth")
         .description("How much health you must have to quiver.")
         .defaultValue(10)
         .range(0, 36)

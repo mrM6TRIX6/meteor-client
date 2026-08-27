@@ -21,7 +21,7 @@ public class Boost extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> strength = sgGeneral.add(new DoubleSetting.Builder()
-        .name("strength")
+        .name("Strength")
         .description("Strength to yeet you with.")
         .defaultValue(4.0)
         .sliderMax(10)
@@ -29,14 +29,14 @@ public class Boost extends Module {
     );
     
     private final Setting<Boolean> autoBoost = sgGeneral.add(new BoolSetting.Builder()
-        .name("auto-boost")
+        .name("AutoBoost")
         .description("Automatically boosts you.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> interval = sgGeneral.add(new IntSetting.Builder()
-        .name("interval")
+        .name("Interval")
         .description("Boost interval in ticks.")
         .visible(autoBoost::get)
         .defaultValue(20)

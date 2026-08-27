@@ -38,7 +38,7 @@ public class ArrowDodge extends Module {
     private final SettingGroup sgMovement = settings.createGroup("Movement");
     
     public final Setting<Integer> simulationSteps = sgGeneral.add(new IntSetting.Builder()
-        .name("simulation-steps")
+        .name("SimulationSteps")
         .description("How many steps to simulate projectiles. Zero for no limit.")
         .defaultValue(500)
         .sliderMax(5000)
@@ -46,14 +46,14 @@ public class ArrowDodge extends Module {
     );
     
     private final Setting<MoveType> moveType = sgMovement.add(new EnumChoiceSetting.Builder<MoveType>()
-        .name("move-type")
+        .name("MoveType")
         .description("The way you are moved by this module.")
         .defaultValue(MoveType.VELOCITY)
         .build()
     );
     
     private final Setting<Double> moveSpeed = sgMovement.add(new DoubleSetting.Builder()
-        .name("move-speed")
+        .name("MoveSpeed")
         .description("How fast should you be when dodging arrow.")
         .defaultValue(1)
         .min(0.01)
@@ -62,7 +62,7 @@ public class ArrowDodge extends Module {
     );
     
     private final Setting<Double> distanceCheck = sgMovement.add(new DoubleSetting.Builder()
-        .name("distance-check")
+        .name("DistanceCheck")
         .description("How far should an arrow be from the player to be considered not hitting.")
         .defaultValue(1)
         .min(0.01)
@@ -71,21 +71,21 @@ public class ArrowDodge extends Module {
     );
     
     private final Setting<Boolean> groundCheck = sgGeneral.add(new BoolSetting.Builder()
-        .name("ground-check")
+        .name("GroundCheck")
         .description("Tries to prevent you from falling to your death.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> allProjectiles = sgGeneral.add(new BoolSetting.Builder()
-        .name("all-projectiles")
+        .name("AllProjectiles")
         .description("Dodge all projectiles, not only arrows.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> ignoreOwn = sgGeneral.add(new BoolSetting.Builder()
-        .name("ignore-own")
+        .name("IgnoreOwn")
         .description("Ignore your own projectiles.")
         .defaultValue(true)
         .build()

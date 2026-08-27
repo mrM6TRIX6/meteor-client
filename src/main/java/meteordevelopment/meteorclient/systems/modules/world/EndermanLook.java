@@ -28,14 +28,14 @@ public class EndermanLook extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> lookMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("look-mode")
+        .name("LookMode")
         .description("How this module behaves.")
         .defaultValue(Mode.AWAY)
         .build()
     );
     
     private final Setting<Boolean> stun = sgGeneral.add(new BoolSetting.Builder()
-        .name("stun-hostiles")
+        .name("StunHostiles")
         .description("Automatically stares at hostile endermen to stun them in place.")
         .defaultValue(true)
         .visible(() -> lookMode.get() == Mode.AWAY)

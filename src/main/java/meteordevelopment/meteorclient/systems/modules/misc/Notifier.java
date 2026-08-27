@@ -57,14 +57,14 @@ public class Notifier extends Module {
     // Totem Pops
     
     private final Setting<Boolean> totemPops = sgTotemPops.add(new BoolSetting.Builder()
-        .name("totem-pops")
+        .name("TotemPops")
         .description("Notifies you when a player pops a totem.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> totemsDistanceCheck = sgTotemPops.add(new BoolSetting.Builder()
-        .name("distance-check")
+        .name("DistanceCheck")
         .description("Limits the distance in which the pops are recognized.")
         .defaultValue(false)
         .visible(totemPops::get)
@@ -72,7 +72,7 @@ public class Notifier extends Module {
     );
     
     private final Setting<Integer> totemsDistance = sgTotemPops.add(new IntSetting.Builder()
-        .name("player-radius")
+        .name("PlayerRadius")
         .description("The radius in which to log totem pops.")
         .defaultValue(30)
         .sliderRange(1, 50)
@@ -82,21 +82,21 @@ public class Notifier extends Module {
     );
     
     private final Setting<Boolean> totemsIgnoreOwn = sgTotemPops.add(new BoolSetting.Builder()
-        .name("totems-ignore-own")
+        .name("TotemsIgnoreOwn")
         .description("Ignores your own totem pops.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> totemsIgnoreFriends = sgTotemPops.add(new BoolSetting.Builder()
-        .name("totems-ignore-friends")
+        .name("TotemsIgnoreFriends")
         .description("Ignores friends totem pops.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> totemsIgnoreOthers = sgTotemPops.add(new BoolSetting.Builder()
-        .name("totems-ignore-others")
+        .name("TotemsIgnoreOthers")
         .description("Ignores other players totem pops.")
         .defaultValue(false)
         .build()
@@ -105,42 +105,42 @@ public class Notifier extends Module {
     // Visual Range
     
     private final Setting<Boolean> visualRange = sgVisualRange.add(new BoolSetting.Builder()
-        .name("visual-range")
+        .name("VisualRange")
         .description("Notifies you when an entity enters your render distance.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Event> event = sgVisualRange.add(new EnumChoiceSetting.Builder<Event>()
-        .name("event")
+        .name("Event")
         .description("When to log the entities.")
         .defaultValue(Event.BOTH)
         .build()
     );
     
     private final Setting<Set<EntityType<?>>> entities = sgVisualRange.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Which entities to notify about.")
         .defaultValue(EntityType.PLAYER)
         .build()
     );
     
     private final Setting<Boolean> visualRangeIgnoreFriends = sgVisualRange.add(new BoolSetting.Builder()
-        .name("vr-ignore-friends")
+        .name("VrIgnoreFriends")
         .description("Ignores friends.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> visualRangeIgnoreFakes = sgVisualRange.add(new BoolSetting.Builder()
-        .name("vr-ignore-fake-players")
+        .name("VrIgnoreFakePlayers")
         .description("Ignores fake players.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> visualMakeSound = sgVisualRange.add(new BoolSetting.Builder()
-        .name("sound")
+        .name("Sound")
         .description("Emits a sound effect on enter / leave")
         .defaultValue(true)
         .build()
@@ -149,21 +149,21 @@ public class Notifier extends Module {
     // Pearl
     
     private final Setting<Boolean> pearl = sgPearl.add(new BoolSetting.Builder()
-        .name("pearl")
+        .name("Pearl")
         .description("Notifies you when a player is teleported using an ender pearl.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> pearlIgnoreOwn = sgPearl.add(new BoolSetting.Builder()
-        .name("pearl-ignore-own")
+        .name("PearlIgnoreOwn")
         .description("Ignores your own pearls.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> pearlIgnoreFriends = sgPearl.add(new BoolSetting.Builder()
-        .name("pearl-ignore-friends")
+        .name("PearlIgnoreFriends")
         .description("Ignores friends pearls.")
         .defaultValue(false)
         .build()
@@ -172,14 +172,14 @@ public class Notifier extends Module {
     // Joins/Leaves
     
     private final Setting<JoinLeaveModes> joinsLeavesMode = sgJoinsLeaves.add(new EnumChoiceSetting.Builder<JoinLeaveModes>()
-        .name("player-joins-leaves")
+        .name("PlayerJoinsLeaves")
         .description("How to handle player join/leave notifications.")
         .defaultValue(JoinLeaveModes.NONE)
         .build()
     );
     
     private final Setting<Integer> notificationDelay = sgJoinsLeaves.add(new IntSetting.Builder()
-        .name("notification-delay")
+        .name("NotificationDelay")
         .description("How long to wait in ticks before posting the next join/leave notification in your chat.")
         .range(0, 1000)
         .sliderRange(0, 100)
@@ -188,7 +188,7 @@ public class Notifier extends Module {
     );
     
     private final Setting<Boolean> simpleNotifications = sgJoinsLeaves.add(new BoolSetting.Builder()
-        .name("simple-notifications")
+        .name("SimpleNotifications")
         .description("Display join/leave notifications without a prefix, to reduce chat clutter.")
         .defaultValue(true)
         .build()
@@ -197,14 +197,14 @@ public class Notifier extends Module {
     // Gamemode Changes
     
     private final Setting<Boolean> gamemodeChanges = sgGamemodeChanges.add(new BoolSetting.Builder()
-        .name("gamemode-changes")
+        .name("GamemodeChanges")
         .description("Notifies you when the players changes the gamemode.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<SequencedSet<GameMode>> gamemodes = sgGamemodeChanges.add(new MultiChoiceSetting.Builder<GameMode>()
-        .name("gamemodes")
+        .name("Gamemodes")
         .description("Which gamemodes to notify.")
         .choices(GameMode.values())
         .defaultValue(GameMode.values())
@@ -212,27 +212,27 @@ public class Notifier extends Module {
     );
     
     private final Setting<List<String>> gamemodesPlayers = sgGamemodeChanges.add(new StringListSetting.Builder()
-        .name("players")
+        .name("Players")
         .description("List of players usernames for filtering.")
         .build()
     );
     
     private final Setting<PlayersListMode> gamemodesPlayersListMode = sgGamemodeChanges.add(new EnumChoiceSetting.Builder<PlayersListMode>()
-        .name("players-list-mode")
+        .name("PlayersListMode")
         .description("Mode for filtering players.")
         .defaultValue(PlayersListMode.BLACKLIST)
         .build()
     );
     
     private final Setting<Boolean> gamemodesIgnoreOwn = sgGamemodeChanges.add(new BoolSetting.Builder()
-        .name("gms-ignore-own")
+        .name("GmsIgnoreOwn")
         .description("Ignores your own gamemode changes.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> gamemodesIgnoreFriends = sgGamemodeChanges.add(new BoolSetting.Builder()
-        .name("gms-ignore-friends")
+        .name("GmsIgnoreFriends")
         .description("Ignores friends gamemode changes.")
         .defaultValue(false)
         .build()

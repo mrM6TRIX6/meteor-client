@@ -17,14 +17,14 @@ public class NameProtect extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> nameProtect = sgGeneral.add(new BoolSetting.Builder()
-        .name("name-protect")
+        .name("NameProtect")
         .description("Hides your name client-side.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<String> name = sgGeneral.add(new StringSetting.Builder()
-        .name("name")
+        .name("Name")
         .description("Name to be replaced with.")
         .defaultValue("seasnail")
         .visible(nameProtect::get)
@@ -32,7 +32,7 @@ public class NameProtect extends Module {
     );
     
     private final Setting<Boolean> skinProtect = sgGeneral.add(new BoolSetting.Builder()
-        .name("skin-protect")
+        .name("SkinProtect")
         .description("Make players become Steves.")
         .defaultValue(true)
         .build()

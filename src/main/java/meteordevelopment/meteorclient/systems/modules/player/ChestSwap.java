@@ -26,21 +26,21 @@ public class ChestSwap extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Chestplate> chestplate = sgGeneral.add(new EnumChoiceSetting.Builder<Chestplate>()
-        .name("chestplate")
+        .name("Chestplate")
         .description("Which type of chestplate to swap to.")
         .defaultValue(Chestplate.PREFER_NETHERITE)
         .build()
     );
     
     private final Setting<Boolean> stayOn = sgGeneral.add(new BoolSetting.Builder()
-        .name("stay-on")
+        .name("StayOn")
         .description("Stays on and activates when you turn it off.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> closeInventory = sgGeneral.add(new BoolSetting.Builder()
-        .name("close-inventory")
+        .name("CloseInventory")
         .description("Sends inventory close after swap.")
         .defaultValue(false)
         .build()

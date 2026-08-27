@@ -13,6 +13,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.Renderer3D;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -25,7 +26,6 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.network.MeteorExecutor;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.utils.world.Dir;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
@@ -47,7 +47,7 @@ public class TunnelESP extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> height = sgGeneral.add(new DoubleSetting.Builder()
-        .name("height")
+        .name("Height")
         .description("Height of the rendered box.")
         .defaultValue(0.1)
         .sliderMax(2)
@@ -55,28 +55,28 @@ public class TunnelESP extends Module {
     );
     
     private final Setting<Boolean> connected = sgGeneral.add(new BoolSetting.Builder()
-        .name("connected")
+        .name("Connected")
         .description("If neighbouring holes should be connected.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color.")
         .defaultValue(new SettingColor(255, 175, 25, 50))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color.")
         .defaultValue(new SettingColor(255, 175, 25, 255))
         .build()

@@ -103,7 +103,7 @@ public class ItemGenerator extends Module {
     // Extra
     
     private final Setting<Boolean> toggleOnLog = sgExtra.add(new BoolSetting.Builder()
-        .name("toggle-on-log")
+        .name("ToggleOnLog")
         .description("Disables when you disconnect from a server.")
         .defaultValue(true)
         .build()

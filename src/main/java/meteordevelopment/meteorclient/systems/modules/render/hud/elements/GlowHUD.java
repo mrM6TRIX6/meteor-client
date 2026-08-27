@@ -28,7 +28,7 @@ public class GlowHUD extends HUDElement {
     // Size
 
     private final Setting<Integer> width = sgGeneral.add(new IntSetting.Builder()
-        .name("width")
+        .name("Width")
         .description("Custom width.")
         .defaultValue(200)
         .min(0)
@@ -37,7 +37,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Integer> height = sgGeneral.add(new IntSetting.Builder()
-        .name("height")
+        .name("Height")
         .description("Custom height.")
         .defaultValue(200)
         .min(0)
@@ -48,14 +48,14 @@ public class GlowHUD extends HUDElement {
     // Color
 
     private final Setting<Boolean> colorEachVertex = sgGeneral.add(new BoolSetting.Builder()
-        .name("color-each-vertex")
+        .name("ColorEachVertex")
         .description("Set custom color for each vertex.")
         .defaultValue(false)
         .build()
     );
 
     private final Setting<SettingColor> color = sgGeneral.add(new ColorSetting.Builder()
-        .name("color")
+        .name("Color")
         .description("Color used for the rectangle glow.")
         .defaultValue(SettingColor.CYAN)
         .visible(() -> !colorEachVertex.get())
@@ -63,7 +63,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<SettingColor> colorTopLeft = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-top-left")
+        .name("ColorTopLeft")
         .description("Color used for the top left vertex.")
         .defaultValue(SettingColor.CYAN)
         .visible(colorEachVertex::get)
@@ -71,7 +71,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<SettingColor> colorBottomLeft = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-bottom-left")
+        .name("ColorBottomLeft")
         .description("Color used for the bottom left vertex.")
         .defaultValue(SettingColor.BLUE)
         .visible(colorEachVertex::get)
@@ -79,7 +79,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<SettingColor> colorBottomRight = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-bottom-right")
+        .name("ColorBottomRight")
         .description("Color used for the bottom right vertex.")
         .defaultValue(SettingColor.MAGENTA)
         .visible(colorEachVertex::get)
@@ -87,7 +87,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<SettingColor> colorTopRight = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-top-right")
+        .name("ColorTopRight")
         .description("Color used for the top right vertex.")
         .defaultValue(SettingColor.BLUE)
         .visible(colorEachVertex::get)
@@ -97,14 +97,14 @@ public class GlowHUD extends HUDElement {
     // Radius
 
     private final Setting<Boolean> radiusEachVertex = sgGeneral.add(new BoolSetting.Builder()
-        .name("radius-each-vertex")
+        .name("RadiusEachVertex")
         .description("Set custom radius for each vertex.")
         .defaultValue(false)
         .build()
     );
 
     private final Setting<Double> radius = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius")
+        .name("Radius")
         .description("Corner radius used for the rectangle.")
         .defaultValue(10)
         .min(0)
@@ -114,7 +114,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Double> radiusTopLeft = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius-top-left")
+        .name("RadiusTopLeft")
         .description("Custom radius for the top left vertex.")
         .defaultValue(10)
         .min(0)
@@ -124,7 +124,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Double> radiusBottomLeft = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius-bottom-left")
+        .name("RadiusBottomLeft")
         .description("Custom radius for the bottom left vertex.")
         .defaultValue(10)
         .min(0)
@@ -134,7 +134,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Double> radiusBottomRight = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius-bottom-right")
+        .name("RadiusBottomRight")
         .description("Custom radius for the bottom right vertex.")
         .defaultValue(10)
         .min(0)
@@ -144,7 +144,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Double> radiusTopRight = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius-top-right")
+        .name("RadiusTopRight")
         .description("Custom radius for the top right vertex.")
         .defaultValue(10)
         .min(0)
@@ -156,7 +156,7 @@ public class GlowHUD extends HUDElement {
     // Glow properties
     
     private final Setting<Double> glowRadius = sgGeneral.add(new DoubleSetting.Builder()
-        .name("glow-radius")
+        .name("GlowRadius")
         .description("Radius of the glow effect.")
         .defaultValue(8)
         .min(0)
@@ -165,7 +165,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Double> intensity = sgGeneral.add(new DoubleSetting.Builder()
-        .name("intensity")
+        .name("Intensity")
         .description("Intensity of the glow effect.")
         .defaultValue(1)
         .min(0)
@@ -174,7 +174,7 @@ public class GlowHUD extends HUDElement {
     );
     
     private final Setting<Double> padding = sgGeneral.add(new DoubleSetting.Builder()
-        .name("padding")
+        .name("Padding")
         .description("Additional size for mask.")
         .defaultValue(0)
         .min(0)
@@ -183,7 +183,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Double> alpha = sgGeneral.add(new DoubleSetting.Builder()
-        .name("alpha")
+        .name("Alpha")
         .description("Alpha (opacity) of the glow effect.")
         .defaultValue(1)
         .min(0)
@@ -193,7 +193,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Boolean> cutout = sgGeneral.add(new BoolSetting.Builder()
-        .name("cutout")
+        .name("Cutout")
         .description("Cut the rectangle out of the glow, leaving only the halo. Disable to let the glow fill the rectangle too.")
         .defaultValue(true)
         .build()
@@ -202,14 +202,14 @@ public class GlowHUD extends HUDElement {
     // Advanced glow options
 
     private final Setting<Boolean> useBuilder = sgGeneral.add(new BoolSetting.Builder()
-        .name("use-builder")
+        .name("UseBuilder")
         .description("Use GlowBuilder for advanced glow settings.")
         .defaultValue(false)
         .build()
     );
 
     private final Setting<SettingColor> secondColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("second-color")
+        .name("SecondColor")
         .description("Second color for gradient glow (requires use-builder).")
         .defaultValue(SettingColor.MAGENTA)
         .visible(() -> useBuilder.get())
@@ -217,7 +217,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Double> colorOffset = sgGeneral.add(new DoubleSetting.Builder()
-        .name("color-offset")
+        .name("ColorOffset")
         .description("Offset between primary and secondary colors (requires use-builder).")
         .defaultValue(0)
         .sliderRange(-1, 1)
@@ -226,7 +226,7 @@ public class GlowHUD extends HUDElement {
     );
 
     private final Setting<Integer> splitIndex = sgGeneral.add(new IntSetting.Builder()
-        .name("split-index")
+        .name("SplitIndex")
         .description("Split index for advanced rendering (requires use-builder).")
         .defaultValue(0)
         .min(0)

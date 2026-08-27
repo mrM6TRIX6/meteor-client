@@ -35,21 +35,21 @@ public class CustomHead extends Module {
     private final SettingGroup sgExtra = settings.createGroup("Extra");
     
     private final Setting<List<Item>> items = sgGeneral.add(new ItemListSetting.Builder()
-        .name("items")
+        .name("Items")
         .description("Select items to be shown on head.")
         .defaultValue(List.of())
         .build()
     );
     
     private final Setting<Boolean> randomise = sgGeneral.add(new BoolSetting.Builder()
-        .name("randomise")
+        .name("Randomise")
         .description("Shuffle the items so that they don't go in order.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("Delay in ticks.")
         .defaultValue(2)
         .min(0)
@@ -58,14 +58,14 @@ public class CustomHead extends Module {
     );
     
     private final Setting<Boolean> customNBT = sgGeneral.add(new BoolSetting.Builder()
-        .name("custom-nbt")
+        .name("CustomNbt")
         .description("Apply custom NBT to the items.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<List<String>> NBTList = sgGeneral.add(new StringListSetting.Builder()
-        .name("components-list")
+        .name("ComponentsList")
         .description("List of strings of components. Example: [minecraft:item_name=\"Test\"]")
         .defaultValue(List.of("[minecraft:item_name=\"Test\",minecraft:enchantment_glint_override=1b]"))
         .visible(customNBT::get)
@@ -75,14 +75,14 @@ public class CustomHead extends Module {
     // Extra
     
     private final Setting<Boolean> toggleOnLog = sgExtra.add(new BoolSetting.Builder()
-        .name("toggle-on-log")
+        .name("ToggleOnLog")
         .description("Disables when you disconnect from a server.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> blockSound = sgExtra.add(new BoolSetting.Builder()
-        .name("block-sound")
+        .name("BlockSound")
         .description("Blocks armor equip sound.")
         .defaultValue(true)
         .build()

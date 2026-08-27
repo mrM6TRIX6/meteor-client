@@ -31,28 +31,28 @@ public class AntiAFK extends Module {
     // Actions
     
     private final Setting<Boolean> jump = sgActions.add(new BoolSetting.Builder()
-        .name("jump")
+        .name("Jump")
         .description("Jump randomly.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> swing = sgActions.add(new BoolSetting.Builder()
-        .name("swing")
+        .name("Swing")
         .description("Swings your hand.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> sneak = sgActions.add(new BoolSetting.Builder()
-        .name("sneak")
+        .name("Sneak")
         .description("Sneaks and unsneaks quickly.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> sneakTime = sgActions.add(new IntSetting.Builder()
-        .name("sneak-time")
+        .name("SneakTime")
         .description("How many ticks to stay sneaked.")
         .defaultValue(5)
         .min(1)
@@ -62,7 +62,7 @@ public class AntiAFK extends Module {
     );
     
     private final Setting<Boolean> strafe = sgActions.add(new BoolSetting.Builder()
-        .name("strafe")
+        .name("Strafe")
         .description("Strafe right and left.")
         .defaultValue(false)
         .onChanged(aBoolean -> {
@@ -78,14 +78,14 @@ public class AntiAFK extends Module {
     );
     
     private final Setting<Boolean> spin = sgActions.add(new BoolSetting.Builder()
-        .name("spin")
+        .name("Spin")
         .description("Spins the player in place.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<SpinMode> spinMode = sgActions.add(new EnumChoiceSetting.Builder<SpinMode>()
-        .name("spin-mode")
+        .name("SpinMode")
         .description("The method of rotating.")
         .defaultValue(SpinMode.SERVER)
         .visible(spin::get)
@@ -93,7 +93,7 @@ public class AntiAFK extends Module {
     );
     
     private final Setting<Integer> spinSpeed = sgActions.add(new IntSetting.Builder()
-        .name("speed")
+        .name("Speed")
         .description("The speed to spin you.")
         .defaultValue(7)
         .visible(spin::get)
@@ -101,7 +101,7 @@ public class AntiAFK extends Module {
     );
     
     private final Setting<Integer> pitch = sgActions.add(new IntSetting.Builder()
-        .name("pitch")
+        .name("Pitch")
         .description("The pitch to send to the server.")
         .defaultValue(0)
         .range(-90, 90)
@@ -114,14 +114,14 @@ public class AntiAFK extends Module {
     // Messages
     
     private final Setting<Boolean> sendMessages = sgMessages.add(new BoolSetting.Builder()
-        .name("send-messages")
+        .name("SendMessages")
         .description("Sends messages to prevent getting kicked for AFK.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> randomMessage = sgMessages.add(new BoolSetting.Builder()
-        .name("random")
+        .name("Random")
         .description("Selects a random message from your message list.")
         .defaultValue(false)
         .visible(sendMessages::get)
@@ -129,7 +129,7 @@ public class AntiAFK extends Module {
     );
     
     private final Setting<Integer> delay = sgMessages.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The delay between specified messages in seconds.")
         .defaultValue(15)
         .min(0)
@@ -139,7 +139,7 @@ public class AntiAFK extends Module {
     );
     
     private final Setting<List<String>> messages = sgMessages.add(new StringListSetting.Builder()
-        .name("messages")
+        .name("Messages")
         .description("The messages to choose from.")
         .defaultValue(
             "Meteor on top!",

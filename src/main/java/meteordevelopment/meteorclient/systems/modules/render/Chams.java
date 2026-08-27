@@ -29,21 +29,21 @@ public class Chams extends Module {
     // Through walls
     
     public final Setting<Set<EntityType<?>>> entities = sgThroughWalls.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Select entities to show through walls.")
         .onlyAttackable()
         .build()
     );
     
     public final Setting<Shader> shader = sgThroughWalls.add(new EnumChoiceSetting.Builder<Shader>()
-        .name("shader")
+        .name("Shader")
         .description("Renders a shader over of the entities.")
         .defaultValue(Shader.IMAGE)
         .build()
     );
     
     public final Setting<SettingColor> shaderColor = sgThroughWalls.add(new ColorSetting.Builder()
-        .name("shader-color")
+        .name("ShaderColor")
         .description("The color that the shader is drawn with.")
         .defaultValue(new SettingColor(255, 255, 255, 150))
         .visible(() -> shader.get() != Shader.NONE)
@@ -51,7 +51,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Boolean> ignoreSelfDepth = sgThroughWalls.add(new BoolSetting.Builder()
-        .name("ignore-self-depth")
+        .name("IgnoreSelfDepth")
         .description("Ignores yourself drawing the player.")
         .defaultValue(true)
         .build()
@@ -60,14 +60,14 @@ public class Chams extends Module {
     // Players
     
     public final Setting<Boolean> players = sgPlayers.add(new BoolSetting.Builder()
-        .name("players")
+        .name("Players")
         .description("Enables model tweaks for players.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> ignoreSelf = sgPlayers.add(new BoolSetting.Builder()
-        .name("ignore-self")
+        .name("IgnoreSelf")
         .description("Ignores yourself when tweaking player models.")
         .defaultValue(false)
         .visible(players::get)
@@ -75,7 +75,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Boolean> playersTexture = sgPlayers.add(new BoolSetting.Builder()
-        .name("players-texture")
+        .name("PlayersTexture")
         .description("Enables player model textures.")
         .defaultValue(false)
         .visible(players::get)
@@ -83,7 +83,7 @@ public class Chams extends Module {
     );
     
     public final Setting<SettingColor> playersColor = sgPlayers.add(new ColorSetting.Builder()
-        .name("players-color")
+        .name("PlayersColor")
         .description("The color of player models.")
         .defaultValue(new SettingColor(198, 135, 254, 150))
         .visible(players::get)
@@ -91,7 +91,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Double> playersScale = sgPlayers.add(new DoubleSetting.Builder()
-        .name("players-scale")
+        .name("PlayersScale")
         .description("Players scale.")
         .defaultValue(1.0)
         .min(0.0)
@@ -102,14 +102,14 @@ public class Chams extends Module {
     // Crystals
     
     public final Setting<Boolean> crystals = sgCrystals.add(new BoolSetting.Builder()
-        .name("crystals")
+        .name("Crystals")
         .description("Enables model tweaks for end crystals.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Double> crystalsScale = sgCrystals.add(new DoubleSetting.Builder()
-        .name("crystals-scale")
+        .name("CrystalsScale")
         .description("Crystal scale.")
         .defaultValue(0.6)
         .min(0)
@@ -118,7 +118,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Double> crystalsBounce = sgCrystals.add(new DoubleSetting.Builder()
-        .name("bounce")
+        .name("Bounce")
         .description("How high crystals bounce.")
         .defaultValue(0.6)
         .min(0.0)
@@ -127,7 +127,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Double> crystalsRotationSpeed = sgCrystals.add(new DoubleSetting.Builder()
-        .name("rotation-speed")
+        .name("RotationSpeed")
         .description("Multiplies the rotation speed of the crystal.")
         .defaultValue(0.3)
         .min(0)
@@ -136,7 +136,7 @@ public class Chams extends Module {
     );
     
     public final Setting<Boolean> crystalsTexture = sgCrystals.add(new BoolSetting.Builder()
-        .name("crystal-texture")
+        .name("CrystalTexture")
         .description("Whether to render crystal model textures.")
         .defaultValue(true)
         .visible(crystals::get)
@@ -144,7 +144,7 @@ public class Chams extends Module {
     );
     
     public final Setting<SettingColor> crystalsColor = sgCrystals.add(new ColorSetting.Builder()
-        .name("crystal-color")
+        .name("CrystalColor")
         .description("The color of the of the crystal.")
         .defaultValue(new SettingColor(198, 135, 254, 255))
         .visible(crystals::get)
@@ -154,14 +154,14 @@ public class Chams extends Module {
     // Hand
     
     public final Setting<Boolean> hand = sgHand.add(new BoolSetting.Builder()
-        .name("enabled")
+        .name("Enabled")
         .description("Enables tweaks of hand rendering.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> handTexture = sgHand.add(new BoolSetting.Builder()
-        .name("hand-texture")
+        .name("HandTexture")
         .description("Whether to render hand textures.")
         .defaultValue(false)
         .visible(hand::get)
@@ -169,7 +169,7 @@ public class Chams extends Module {
     );
     
     public final Setting<SettingColor> handColor = sgHand.add(new ColorSetting.Builder()
-        .name("hand-color")
+        .name("HandColor")
         .description("The color of your hand.")
         .defaultValue(new SettingColor(198, 135, 254, 150))
         .visible(hand::get)

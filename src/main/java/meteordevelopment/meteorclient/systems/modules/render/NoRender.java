@@ -36,91 +36,91 @@ public class NoRender extends Module {
     // Overlay
     
     private final Setting<Boolean> noPortalOverlay = sgOverlay.add(new BoolSetting.Builder()
-        .name("portal-overlay")
+        .name("PortalOverlay")
         .description("Disables rendering of the nether portal overlay.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noSpyglassOverlay = sgOverlay.add(new BoolSetting.Builder()
-        .name("spyglass-overlay")
+        .name("SpyglassOverlay")
         .description("Disables rendering of the spyglass overlay.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noNausea = sgOverlay.add(new BoolSetting.Builder()
-        .name("nausea")
+        .name("Nausea")
         .description("Disables rendering of the nausea overlay.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noPumpkinOverlay = sgOverlay.add(new BoolSetting.Builder()
-        .name("pumpkin-overlay")
+        .name("PumpkinOverlay")
         .description("Disables rendering of the pumpkin head overlay")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noPowderedSnowOverlay = sgOverlay.add(new BoolSetting.Builder()
-        .name("powdered-snow-overlay")
+        .name("PowderedSnowOverlay")
         .description("Disables rendering of the powdered snow overlay.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noFireOverlay = sgOverlay.add(new BoolSetting.Builder()
-        .name("fire-overlay")
+        .name("FireOverlay")
         .description("Disables rendering of the fire overlay.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noLiquidOverlay = sgOverlay.add(new BoolSetting.Builder()
-        .name("liquid-overlay")
+        .name("LiquidOverlay")
         .description("Disables rendering of the liquid overlay.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noInWallOverlay = sgOverlay.add(new BoolSetting.Builder()
-        .name("in-wall-overlay")
+        .name("InWallOverlay")
         .description("Disables rendering of the overlay when inside blocks.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noVignette = sgOverlay.add(new BoolSetting.Builder()
-        .name("vignette")
+        .name("Vignette")
         .description("Disables rendering of the vignette overlay.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noGuiBackground = sgOverlay.add(new BoolSetting.Builder()
-        .name("gui-background")
+        .name("GuiBackground")
         .description("Disables rendering of the GUI background overlay.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noTotemAnimation = sgOverlay.add(new BoolSetting.Builder()
-        .name("totem-animation")
+        .name("TotemAnimation")
         .description("Disables rendering of the totem animation when you pop a totem.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noEatParticles = sgOverlay.add(new BoolSetting.Builder()
-        .name("eating-particles")
+        .name("EatingParticles")
         .description("Disables rendering of eating particles.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noEnchantGlint = sgOverlay.add(new BoolSetting.Builder()
-        .name("enchantment-glint")
+        .name("EnchantmentGlint")
         .description("Disables rending of the enchantment glint.")
         .defaultValue(false)
         .build()
@@ -129,55 +129,55 @@ public class NoRender extends Module {
     // HUD
     
     private final Setting<Boolean> noBossBar = sgHUD.add(new BoolSetting.Builder()
-        .name("boss-bar")
+        .name("BossBar")
         .description("Disable rendering of boss bars.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noScoreboard = sgHUD.add(new BoolSetting.Builder()
-        .name("scoreboard")
+        .name("Scoreboard")
         .description("Disable rendering of the scoreboard.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noCrosshair = sgHUD.add(new BoolSetting.Builder()
-        .name("crosshair")
+        .name("Crosshair")
         .description("Disables rendering of the crosshair.")
         .defaultValue(false)
         .build()
     );
     private final Setting<Boolean> noTitle = sgHUD.add(new BoolSetting.Builder()
-        .name("title")
+        .name("Title")
         .description("Disables rendering of the title.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noHeldItemName = sgHUD.add(new BoolSetting.Builder()
-        .name("held-item-name")
+        .name("HeldItemName")
         .description("Disables rendering of the held item name.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noObfuscation = sgHUD.add(new BoolSetting.Builder()
-        .name("obfuscation")
+        .name("Obfuscation")
         .description("Disables obfuscation styling of characters.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noPotionIcons = sgHUD.add(new BoolSetting.Builder()
-        .name("potion-icons")
+        .name("PotionIcons")
         .description("Disables rendering of status effect icons.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noMessageSignatureIndicator = sgHUD.add(new BoolSetting.Builder()
-        .name("message-signature-indicator")
+        .name("MessageSignatureIndicator")
         .description("Disables chat message signature indicator on the left of the message.")
         .defaultValue(false)
         .build()
@@ -186,77 +186,77 @@ public class NoRender extends Module {
     // World
     
     private final Setting<Boolean> noWeather = sgWorld.add(new BoolSetting.Builder()
-        .name("weather")
+        .name("Weather")
         .description("Disables rendering of weather.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noBlindness = sgWorld.add(new BoolSetting.Builder()
-        .name("blindness")
+        .name("Blindness")
         .description("Disables rendering of blindness.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noDarkness = sgWorld.add(new BoolSetting.Builder()
-        .name("darkness")
+        .name("Darkness")
         .description("Disables rendering of darkness.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noFog = sgWorld.add(new BoolSetting.Builder()
-        .name("fog")
+        .name("Fog")
         .description("Disables rendering of fog.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noEnchTableBook = sgWorld.add(new BoolSetting.Builder()
-        .name("enchantment-table-book")
+        .name("EnchantmentTableBook")
         .description("Disables rendering of books above enchanting tables.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noSignText = sgWorld.add(new BoolSetting.Builder()
-        .name("sign-text")
+        .name("SignText")
         .description("Disables rendering of text on signs.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noBlockBreakParticles = sgWorld.add(new BoolSetting.Builder()
-        .name("block-break-particles")
+        .name("BlockBreakParticles")
         .description("Disables rendering of block-break particles.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noBlockBreakOverlay = sgWorld.add(new BoolSetting.Builder()
-        .name("block-break-overlay")
+        .name("BlockBreakOverlay")
         .description("Disables rendering of block-break overlay.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noBeaconBeams = sgWorld.add(new BoolSetting.Builder()
-        .name("beacon-beams")
+        .name("BeaconBeams")
         .description("Disables rendering of beacon beams.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noFallingBlocks = sgWorld.add(new BoolSetting.Builder()
-        .name("falling-blocks")
+        .name("FallingBlocks")
         .description("Disables rendering of falling blocks.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noCaveCulling = sgWorld.add(new BoolSetting.Builder()
-        .name("cave-culling")
+        .name("CaveCulling")
         .description("Disables Minecraft's cave culling algorithm.")
         .defaultValue(false)
         .onChanged(b -> mc.worldRenderer.reload())
@@ -264,48 +264,48 @@ public class NoRender extends Module {
     );
     
     private final Setting<Boolean> noMapMarkers = sgWorld.add(new BoolSetting.Builder()
-        .name("map-markers")
+        .name("MapMarkers")
         .description("Disables markers on maps.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noMapContents = sgWorld.add(new BoolSetting.Builder()
-        .name("map-contents")
+        .name("MapContents")
         .description("Disable rendering of maps.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<BannerRenderMode> bannerRender = sgWorld.add(new EnumChoiceSetting.Builder<BannerRenderMode>()
-        .name("banners")
+        .name("Banners")
         .description("Changes rendering of banners.")
         .defaultValue(BannerRenderMode.EVERYTHING)
         .build()
     );
     
     private final Setting<Boolean> noFireworkExplosions = sgWorld.add(new BoolSetting.Builder()
-        .name("firework-explosions")
+        .name("FireworkExplosions")
         .description("Disables rendering of firework explosions.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<List<ParticleType<?>>> particles = sgWorld.add(new ParticleTypeListSetting.Builder()
-        .name("particles")
+        .name("Particles")
         .description("Particles to not render.")
         .build()
     );
     
     private final Setting<Boolean> noBarrierInvis = sgWorld.add(new BoolSetting.Builder()
-        .name("barrier-invisibility")
+        .name("BarrierInvisibility")
         .description("Disables barriers being invisible when not holding one.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noTextureRotations = sgWorld.add(new BoolSetting.Builder()
-        .name("texture-rotations")
+        .name("TextureRotations")
         .description("Changes texture rotations and model offsets to use a constant value instead of the block position.")
         .defaultValue(false)
         .onChanged(b -> mc.worldRenderer.reload())
@@ -313,7 +313,7 @@ public class NoRender extends Module {
     );
     
     private final Setting<List<Block>> blockEntities = sgWorld.add(new BlockListSetting.Builder()
-        .name("block-entities")
+        .name("BlockEntities")
         .description("Block entities (chest, shulker block, etc.) to not render.")
         .filter(block -> block instanceof BlockEntityProvider && !(block instanceof AbstractBannerBlock))
         .build()
@@ -322,55 +322,55 @@ public class NoRender extends Module {
     // Entity
     
     private final Setting<Set<EntityType<?>>> entities = sgEntity.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Disables rendering of selected entities.")
         .build()
     );
     
     private final Setting<Boolean> dropSpawnPacket = sgEntity.add(new BoolSetting.Builder()
-        .name("drop-spawn-packets")
+        .name("DropSpawnPackets")
         .description("WARNING! Drops all spawn packets of entities selected in the above list.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noArmor = sgEntity.add(new BoolSetting.Builder()
-        .name("armor")
+        .name("Armor")
         .description("Disables rendering of armor on entities.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noInvisibility = sgEntity.add(new BoolSetting.Builder()
-        .name("invisibility")
+        .name("Invisibility")
         .description("Shows invisible entities.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noGlowing = sgEntity.add(new BoolSetting.Builder()
-        .name("glowing")
+        .name("Glowing")
         .description("Disables rendering of the glowing effect")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noMobInSpawner = sgEntity.add(new BoolSetting.Builder()
-        .name("spawner-entities")
+        .name("SpawnerEntities")
         .description("Disables rendering of spinning mobs inside of mob spawners")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noDeadEntities = sgEntity.add(new BoolSetting.Builder()
-        .name("dead-entities")
+        .name("DeadEntities")
         .description("Disables rendering of dead entities")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> noNametags = sgEntity.add(new BoolSetting.Builder()
-        .name("nametags")
+        .name("Nametags")
         .description("Disables rendering of entity nametags")
         .defaultValue(false)
         .build()

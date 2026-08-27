@@ -24,14 +24,14 @@ public class Spider extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Spider mode.")
         .defaultValue(Mode.VANILLA)
         .build()
     );
     
     private final Setting<Double> speed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("climb-speed")
+        .name("ClimbSpeed")
         .description("The speed you go up blocks.")
         .defaultValue(0.2)
         .min(0.0)
@@ -40,7 +40,7 @@ public class Spider extends Module {
     );
     
     private final Setting<Double> jumpHeight = sgGeneral.add(new DoubleSetting.Builder()
-        .name("jump-height")
+        .name("JumpHeight")
         .description("Jump height.")
         .defaultValue(0.55)
         .min(0.0)

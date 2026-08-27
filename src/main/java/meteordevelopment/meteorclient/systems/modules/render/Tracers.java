@@ -45,28 +45,28 @@ public class Tracers extends Module {
     // General
     
     private final Setting<Set<EntityType<?>>> entities = sgGeneral.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Select specific entities.")
         .defaultValue(EntityType.PLAYER)
         .build()
     );
     
     private final Setting<Boolean> ignoreSelf = sgGeneral.add(new BoolSetting.Builder()
-        .name("ignore-self")
+        .name("IgnoreSelf")
         .description("Doesn't draw tracers to yourself when in third person or freecam.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> ignoreFriends = sgGeneral.add(new BoolSetting.Builder()
-        .name("ignore-friends")
+        .name("IgnoreFriends")
         .description("Doesn't draw tracers to friends.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> showInvis = sgGeneral.add(new BoolSetting.Builder()
-        .name("show-invisible")
+        .name("ShowInvisible")
         .description("Shows invisible entities.")
         .defaultValue(true)
         .build()
@@ -75,14 +75,14 @@ public class Tracers extends Module {
     // Appearance
     
     private final Setting<TracerStyle> style = sgAppearance.add(new EnumChoiceSetting.Builder<TracerStyle>()
-        .name("style")
+        .name("Style")
         .description("What display mode should be used")
         .defaultValue(TracerStyle.LINES)
         .build()
     );
     
     private final Setting<Target> target = sgAppearance.add(new EnumChoiceSetting.Builder<Target>()
-        .name("target")
+        .name("Target")
         .description("What part of the entity to target.")
         .defaultValue(Target.BODY)
         .visible(() -> style.get() == TracerStyle.LINES)
@@ -90,7 +90,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<Boolean> stem = sgAppearance.add(new BoolSetting.Builder()
-        .name("stem")
+        .name("Stem")
         .description("Draw a line through the center of the tracer target.")
         .defaultValue(true)
         .visible(() -> style.get() == TracerStyle.LINES)
@@ -98,7 +98,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<Integer> maxDist = sgAppearance.add(new IntSetting.Builder()
-        .name("max-distance")
+        .name("MaxDistance")
         .description("Maximum distance for tracers to show.")
         .defaultValue(256)
         .min(0)
@@ -107,7 +107,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<Integer> distanceOffscreen = sgAppearance.add(new IntSetting.Builder()
-        .name("distance-offscreen")
+        .name("DistanceOffscreen")
         .description("Offscreen's distance from center.")
         .defaultValue(200)
         .min(0)
@@ -117,7 +117,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<Integer> sizeOffscreen = sgAppearance.add(new IntSetting.Builder()
-        .name("size-offscreen")
+        .name("SizeOffscreen")
         .description("Offscreen's size.")
         .defaultValue(10)
         .min(2)
@@ -127,7 +127,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<Boolean> blinkOffscreen = sgAppearance.add(new BoolSetting.Builder()
-        .name("blink-offscreen")
+        .name("BlinkOffscreen")
         .description("Make offscreen Blink.")
         .defaultValue(true)
         .visible(() -> style.get() == TracerStyle.OFFSCREEN)
@@ -135,7 +135,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<Double> blinkOffscreenSpeed = sgAppearance.add(new DoubleSetting.Builder()
-        .name("blink-offscreen-speed")
+        .name("BlinkOffscreenSpeed")
         .description("Offscreen's blink speed.")
         .defaultValue(4)
         .min(1)
@@ -147,14 +147,14 @@ public class Tracers extends Module {
     // Colors
     
     public final Setting<Boolean> distance = sgColors.add(new BoolSetting.Builder()
-        .name("distance-colors")
+        .name("DistanceColors")
         .description("Changes the color of tracers depending on distance.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> friendOverride = sgColors.add(new BoolSetting.Builder()
-        .name("show-friend-colors")
+        .name("ShowFriendColors")
         .description("Whether or not to override the distance color of friends with the friend color.")
         .defaultValue(true)
         .visible(() -> distance.get() && !ignoreFriends.get())
@@ -162,7 +162,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<SettingColor> playersColor = sgColors.add(new ColorSetting.Builder()
-        .name("players-colors")
+        .name("PlayersColors")
         .description("The player's color.")
         .defaultValue(new SettingColor(205, 205, 205, 127))
         .visible(() -> !distance.get())
@@ -170,7 +170,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<SettingColor> animalsColor = sgColors.add(new ColorSetting.Builder()
-        .name("animals-color")
+        .name("AnimalsColor")
         .description("The animal's color.")
         .defaultValue(new SettingColor(145, 255, 145, 127))
         .visible(() -> !distance.get())
@@ -178,7 +178,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<SettingColor> waterAnimalsColor = sgColors.add(new ColorSetting.Builder()
-        .name("water-animals-color")
+        .name("WaterAnimalsColor")
         .description("The water animal's color.")
         .defaultValue(new SettingColor(145, 145, 255, 127))
         .visible(() -> !distance.get())
@@ -186,7 +186,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<SettingColor> monstersColor = sgColors.add(new ColorSetting.Builder()
-        .name("monsters-color")
+        .name("MonstersColor")
         .description("The monster's color.")
         .defaultValue(new SettingColor(255, 145, 145, 127))
         .visible(() -> !distance.get())
@@ -194,7 +194,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<SettingColor> ambientColor = sgColors.add(new ColorSetting.Builder()
-        .name("ambient-color")
+        .name("AmbientColor")
         .description("The ambient color.")
         .defaultValue(new SettingColor(75, 75, 75, 127))
         .visible(() -> !distance.get())
@@ -202,7 +202,7 @@ public class Tracers extends Module {
     );
     
     private final Setting<SettingColor> miscColor = sgColors.add(new ColorSetting.Builder()
-        .name("misc-color")
+        .name("MiscColor")
         .description("The misc color.")
         .defaultValue(new SettingColor(145, 145, 145, 127))
         .visible(() -> !distance.get())

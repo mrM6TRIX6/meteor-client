@@ -29,35 +29,35 @@ public class Hitboxes extends Module {
     private final SettingGroup sgWeapon = settings.createGroup("Weapon Options");
     
     private final Setting<Set<EntityType<?>>> entities = sgGeneral.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Which entities to target.")
         .defaultValue(EntityType.PLAYER)
         .build()
     );
     
     private final Setting<Double> value = sgGeneral.add(new DoubleSetting.Builder()
-        .name("expand")
+        .name("Expand")
         .description("How much to expand the hitbox of the entity.")
         .defaultValue(0.5)
         .build()
     );
     
     private final Setting<Boolean> ignoreFriends = sgGeneral.add(new BoolSetting.Builder()
-        .name("ignore-friends")
+        .name("IgnoreFriends")
         .description("Doesn't expand the hitboxes of friends.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> onlyOnWeapon = sgWeapon.add(new BoolSetting.Builder()
-        .name("only-on-weapon")
+        .name("OnlyOnWeapon")
         .description("Only modifies hitbox when holding a weapon in hand.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> sword = sgWeapon.add(new BoolSetting.Builder()
-        .name("sword")
+        .name("Sword")
         .description("Enable when holding a sword.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -65,7 +65,7 @@ public class Hitboxes extends Module {
     );
     
     private final Setting<Boolean> axe = sgWeapon.add(new BoolSetting.Builder()
-        .name("axe")
+        .name("Axe")
         .description("Enable when holding an axe.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -73,7 +73,7 @@ public class Hitboxes extends Module {
     );
     
     private final Setting<Boolean> pickaxe = sgWeapon.add(new BoolSetting.Builder()
-        .name("pickaxe")
+        .name("Pickaxe")
         .description("Enable when holding a pickaxe.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -81,7 +81,7 @@ public class Hitboxes extends Module {
     );
     
     private final Setting<Boolean> shovel = sgWeapon.add(new BoolSetting.Builder()
-        .name("shovel")
+        .name("Shovel")
         .description("Enable when holding a shovel.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -89,7 +89,7 @@ public class Hitboxes extends Module {
     );
     
     private final Setting<Boolean> hoe = sgWeapon.add(new BoolSetting.Builder()
-        .name("hoe")
+        .name("Hoe")
         .description("Enable when holding a hoe.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -97,7 +97,7 @@ public class Hitboxes extends Module {
     );
     
     private final Setting<Boolean> mace = sgWeapon.add(new BoolSetting.Builder()
-        .name("mace")
+        .name("Mace")
         .description("Enable when holding a mace.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -105,7 +105,7 @@ public class Hitboxes extends Module {
     );
     
     private final Setting<Boolean> spear = sgWeapon.add(new BoolSetting.Builder()
-        .name("spear")
+        .name("Spear")
         .description("Enable when holding a spear.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -113,7 +113,7 @@ public class Hitboxes extends Module {
     );
     
     private final Setting<Boolean> trident = sgWeapon.add(new BoolSetting.Builder()
-        .name("trident")
+        .name("Trident")
         .description("Enable when holding a trident.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)

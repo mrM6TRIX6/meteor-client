@@ -20,21 +20,21 @@ public class SpectatorTeleport extends Module {
     private final SettingGroup sgCommands = settings.createGroup("Commands");
     
     public final Setting<Boolean> isDetectSpec = sgGeneral.add(new BoolSetting.Builder()
-        .name("detect-gamemode")
+        .name("DetectGamemode")
         .description("Detects if you're in spectator mode and sends the packet directly.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Boolean> enableBefore = sgCommands.add(new BoolSetting.Builder()
-        .name("enable-before")
+        .name("EnableBefore")
         .description("Enables the command to send before sending spectator teleport packet.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<String> beforeTp = sgCommands.add(new StringSetting.Builder()
-        .name("before-tp")
+        .name("BeforeTp")
         .visible(enableBefore::get)
         .description("The specified message sent to the server before sending Spectator Teleport packet.")
         .defaultValue("/gamemode spectator")
@@ -42,7 +42,7 @@ public class SpectatorTeleport extends Module {
     );
     
     public final Setting<Integer> delayTime = sgCommands.add(new IntSetting.Builder()
-        .name("delay-in-ms")
+        .name("DelayInMs")
         .description("Delay after sending the command.")
         .defaultValue(100)
         .sliderRange(1, 500)
@@ -50,14 +50,14 @@ public class SpectatorTeleport extends Module {
     );
     
     public final Setting<Boolean> enableAfter = sgCommands.add(new BoolSetting.Builder()
-        .name("enable-after")
+        .name("EnableAfter")
         .description("Enables the command to send after sending spectator teleport packet.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<String> afterTp = sgCommands.add(new StringSetting.Builder()
-        .name("after-tp")
+        .name("AfterTp")
         .visible(enableAfter::get)
         .description("The specified message sent to the server after sending Spectator Teleport packet.")
         .defaultValue("/gamemode creative")

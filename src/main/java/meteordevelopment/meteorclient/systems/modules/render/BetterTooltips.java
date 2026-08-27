@@ -72,7 +72,7 @@ public class BetterTooltips extends Module {
     // General
     
     private final Setting<DisplayWhen> displayWhen = sgGeneral.add(new EnumChoiceSetting.Builder<DisplayWhen>()
-        .name("display-when")
+        .name("DisplayWhen")
         .description("When to display previews.")
         .defaultValue(DisplayWhen.KEYBIND)
         .onChanged(value -> updateTooltips = true)
@@ -80,7 +80,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Keybind> keybind = sgGeneral.add(new KeybindSetting.Builder()
-        .name("keybind")
+        .name("Keybind")
         .description("The bind for keybind mode.")
         .defaultValue(Keybind.fromKey(GLFW_KEY_LEFT_ALT))
         .visible(() -> displayWhen.get() == DisplayWhen.KEYBIND)
@@ -89,14 +89,14 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> openContents = sgGeneral.add(new BoolSetting.Builder()
-        .name("open-contents")
+        .name("OpenContents")
         .description("Opens a GUI window with the inventory of the storage block or book when you click the item.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Keybind> openContentsKey = sgGeneral.add(new KeybindSetting.Builder()
-        .name("open-contents-keybind")
+        .name("OpenContentsKeybind")
         .description("Key to open contents (containers, books, etc.) when pressed on items.")
         .defaultValue(Keybind.fromButton(GLFW_MOUSE_BUTTON_MIDDLE))
         .visible(openContents::get)
@@ -104,7 +104,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> pauseInCreative = sgGeneral.add(new BoolSetting.Builder()
-        .name("pause-in-creative")
+        .name("PauseInCreative")
         .description("Pauses middle click open while the player is in creative mode.")
         .defaultValue(true)
         .visible(openContents::get)
@@ -114,7 +114,7 @@ public class BetterTooltips extends Module {
     // Previews
     
     private final Setting<Boolean> shulkers = sgPreviews.add(new BoolSetting.Builder()
-        .name("containers")
+        .name("Containers")
         .description("Shows a preview of a containers when hovering over it in an inventory.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -122,14 +122,14 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> shulkerCompactTooltip = sgPreviews.add(new BoolSetting.Builder()
-        .name("compact-shulker-tooltip")
+        .name("CompactShulkerTooltip")
         .description("Compacts the lines of the shulker tooltip.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> echest = sgPreviews.add(new BoolSetting.Builder()
-        .name("echests")
+        .name("Echests")
         .description("Shows a preview of your echest when hovering over it in an inventory.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -137,7 +137,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> maps = sgPreviews.add(new BoolSetting.Builder()
-        .name("maps")
+        .name("Maps")
         .description("Shows a preview of a map when hovering over it in an inventory.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -145,7 +145,7 @@ public class BetterTooltips extends Module {
     );
     
     public final Setting<Double> mapsScale = sgPreviews.add(new DoubleSetting.Builder()
-        .name("map-scale")
+        .name("MapScale")
         .description("The scale of the map preview.")
         .defaultValue(1)
         .min(0.001)
@@ -155,7 +155,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> books = sgPreviews.add(new BoolSetting.Builder()
-        .name("books")
+        .name("Books")
         .description("Shows contents of a book when hovering over it in an inventory.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -163,7 +163,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> banners = sgPreviews.add(new BoolSetting.Builder()
-        .name("banners")
+        .name("Banners")
         .description("Shows banners' patterns when hovering over it in an inventory. Also works with shields.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -171,7 +171,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> entitiesInBuckets = sgPreviews.add(new BoolSetting.Builder()
-        .name("entities-in-buckets")
+        .name("EntitiesInBuckets")
         .description("Shows entities in buckets when hovering over it in an inventory.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -179,7 +179,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> bundles = sgPreviews.add(new BoolSetting.Builder()
-        .name("bundles")
+        .name("Bundles")
         .description("Shows a preview of bundle contents when hovering over it in an inventory.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -187,7 +187,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> foodInfo = sgPreviews.add(new BoolSetting.Builder()
-        .name("food-info")
+        .name("FoodInfo")
         .description("Shows hunger and saturation values for food items.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -197,7 +197,7 @@ public class BetterTooltips extends Module {
     // Extras
     
     public final Setting<Boolean> byteSize = sgOther.add(new BoolSetting.Builder()
-        .name("byte-size")
+        .name("ByteSize")
         .description("Displays an item's size in bytes in the tooltip.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -205,7 +205,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<SortSize> sizeType = sgOther.add(new EnumChoiceSetting.Builder<SortSize>()
-        .name("byte-size-format")
+        .name("ByteSizeFormat")
         .description("The format by which to display the item's byte size.")
         .defaultValue(SortSize.AUTO)
         .visible(byteSize::get)
@@ -213,7 +213,7 @@ public class BetterTooltips extends Module {
     );
     
     private final Setting<Boolean> statusEffects = sgOther.add(new BoolSetting.Builder()
-        .name("status-effects")
+        .name("StatusEffects")
         .description("Adds list of status effects to tooltips of food items.")
         .defaultValue(true)
         .onChanged(value -> updateTooltips = true)
@@ -223,14 +223,14 @@ public class BetterTooltips extends Module {
     // Hide flags
     
     public final Setting<Boolean> tooltip = sgHideFlags.add(new BoolSetting.Builder()
-        .name("tooltip")
+        .name("Tooltip")
         .description("Show the tooltip when it's hidden.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> additional = sgHideFlags.add(new BoolSetting.Builder()
-        .name("tooltip-components")
+        .name("TooltipComponents")
         .description("Shows tooltip components when they're hidden - e.g. enchantments, attributes, lore, etc.")
         .defaultValue(false)
         .build()

@@ -24,14 +24,14 @@ public class ExtraElytra extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> instantFly = sgGeneral.add(new BoolSetting.Builder()
-        .name("instant-fly")
+        .name("InstantFly")
         .description("Jump to fly, no weird double-jump needed!")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> speedCtrl = sgGeneral.add(new BoolSetting.Builder()
-        .name("speed-ctrl")
+        .name("SpeedCtrl")
         .description("""
             Control your speed with the Forward and Back keys.
             (default: W and S)
@@ -41,7 +41,7 @@ public class ExtraElytra extends Module {
     );
     
     private final Setting<Boolean> heightCtrl = sgGeneral.add(new BoolSetting.Builder()
-        .name("height-ctrl")
+        .name("HeightCtrl")
         .description("""
             Control your height with the Jump and Sneak keys.
             (default: Spacebar and Shift)
@@ -51,7 +51,7 @@ public class ExtraElytra extends Module {
     );
     
     private final Setting<Boolean> stopInWater = sgGeneral.add(new BoolSetting.Builder()
-        .name("stop-in-water")
+        .name("StopInWater")
         .description("Stop flying in water")
         .defaultValue(true)
         .build()

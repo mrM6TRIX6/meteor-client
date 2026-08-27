@@ -22,14 +22,14 @@ public class AntiHunger extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> sprint = sgGeneral.add(new BoolSetting.Builder()
-        .name("sprint")
+        .name("Sprint")
         .description("Spoofs sprinting packets.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> onGround = sgGeneral.add(new BoolSetting.Builder()
-        .name("on-ground")
+        .name("OnGround")
         .description("Spoofs the onGround flag.")
         .defaultValue(true)
         .build()

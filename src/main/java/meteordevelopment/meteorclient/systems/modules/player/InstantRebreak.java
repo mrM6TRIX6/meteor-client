@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.player;
 import meteordevelopment.meteorclient.events.entity.player.StartBreakingBlockEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -18,7 +19,6 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.Rotations;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.network.packet.c2s.play.HandSwingC2SPacket;
@@ -34,7 +34,7 @@ public class InstantRebreak extends Module {
     private final SettingGroup sgRender = settings.createGroup("Render");
     
     private final Setting<Integer> tickDelay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The delay between break attempts.")
         .defaultValue(0)
         .min(0)
@@ -43,14 +43,14 @@ public class InstantRebreak extends Module {
     );
     
     private final Setting<Boolean> pick = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-pick")
+        .name("OnlyPick")
         .description("Only tries to mine the block if you are holding a pickaxe.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Faces the block being mined server side.")
         .defaultValue(true)
         .build()
@@ -59,28 +59,28 @@ public class InstantRebreak extends Module {
     // Render
     
     private final Setting<Boolean> render = sgRender.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Renders an overlay on the block being broken.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The color of the sides of the blocks being rendered.")
         .defaultValue(new SettingColor(204, 0, 0, 10))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The color of the lines of the blocks being rendered.")
         .defaultValue(new SettingColor(204, 0, 0, 255))
         .build()

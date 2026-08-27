@@ -24,21 +24,21 @@ public class NoSlow extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> items = sgGeneral.add(new BoolSetting.Builder()
-        .name("items")
+        .name("Items")
         .description("Whether or not using items will slow you.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<WebMode> web = sgGeneral.add(new EnumChoiceSetting.Builder<WebMode>()
-        .name("web")
+        .name("Web")
         .description("Whether or not cobwebs will not slow you down.")
         .defaultValue(WebMode.VANILLA)
         .build()
     );
     
     private final Setting<Double> webTimer = sgGeneral.add(new DoubleSetting.Builder()
-        .name("web-timer")
+        .name("WebTimer")
         .description("The timer value for WebMode Timer.")
         .defaultValue(10)
         .min(1)
@@ -48,63 +48,63 @@ public class NoSlow extends Module {
     );
     
     private final Setting<Boolean> honeyBlock = sgGeneral.add(new BoolSetting.Builder()
-        .name("honey-block")
+        .name("HoneyBlock")
         .description("Whether or not honey blocks will not slow you down.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> soulSand = sgGeneral.add(new BoolSetting.Builder()
-        .name("soul-sand")
+        .name("SoulSand")
         .description("Whether or not soul sand will not slow you down.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> slimeBlock = sgGeneral.add(new BoolSetting.Builder()
-        .name("slime-block")
+        .name("SlimeBlock")
         .description("Whether or not slime blocks will not slow you down.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> berryBush = sgGeneral.add(new BoolSetting.Builder()
-        .name("berry-bush")
+        .name("BerryBush")
         .description("Whether or not berry bushes will not slow you down.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> airStrict = sgGeneral.add(new BoolSetting.Builder()
-        .name("air-strict")
+        .name("AirStrict")
         .description("Will attempt to bypass anti-cheats like 2b2t's. Only works while in air.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> fluidDrag = sgGeneral.add(new BoolSetting.Builder()
-        .name("fluid-drag")
+        .name("FluidDrag")
         .description("Whether or not fluid drag will not slow you down.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> sneaking = sgGeneral.add(new BoolSetting.Builder()
-        .name("sneaking")
+        .name("Sneaking")
         .description("Whether or not sneaking will not slow you down.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> hunger = sgGeneral.add(new BoolSetting.Builder()
-        .name("hunger")
+        .name("Hunger")
         .description("Whether or not hunger will not slow you down.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> slowness = sgGeneral.add(new BoolSetting.Builder()
-        .name("slowness")
+        .name("Slowness")
         .description("Whether or not slowness will not slow you down.")
         .defaultValue(false)
         .build()

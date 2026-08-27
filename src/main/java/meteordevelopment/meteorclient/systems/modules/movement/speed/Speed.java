@@ -29,7 +29,7 @@ public class Speed extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<SpeedModes> speedMode = sgGeneral.add(new EnumChoiceSetting.Builder<SpeedModes>()
-        .name("mode")
+        .name("Mode")
         .description("The method of applying speed.")
         .defaultValue(SpeedModes.VANILLA)
         .onModuleActivated(speedModesSetting -> onSpeedModeChanged(speedModesSetting.get()))
@@ -38,7 +38,7 @@ public class Speed extends Module {
     );
     
     public final Setting<Double> vanillaSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("vanilla-speed")
+        .name("VanillaSpeed")
         .description("The speed in blocks per second.")
         .defaultValue(5.6)
         .min(0)
@@ -48,7 +48,7 @@ public class Speed extends Module {
     );
     
     public final Setting<Double> ncpSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("strafe-speed")
+        .name("StrafeSpeed")
         .description("The speed.")
         .visible(() -> speedMode.get() == SpeedModes.STRAFE)
         .defaultValue(1.6)
@@ -58,7 +58,7 @@ public class Speed extends Module {
     );
     
     public final Setting<Boolean> ncpSpeedLimit = sgGeneral.add(new BoolSetting.Builder()
-        .name("speed-limit")
+        .name("SpeedLimit")
         .description("Limits your speed on servers with very strict anticheats.")
         .visible(() -> speedMode.get() == SpeedModes.STRAFE)
         .defaultValue(false)
@@ -66,7 +66,7 @@ public class Speed extends Module {
     );
     
     public final Setting<Double> timer = sgGeneral.add(new DoubleSetting.Builder()
-        .name("timer")
+        .name("Timer")
         .description("Timer override.")
         .defaultValue(1)
         .min(0.01)
@@ -76,21 +76,21 @@ public class Speed extends Module {
     );
     
     public final Setting<Boolean> inLiquids = sgGeneral.add(new BoolSetting.Builder()
-        .name("in-liquids")
+        .name("InLiquids")
         .description("Uses speed when in lava or water.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> whenSneaking = sgGeneral.add(new BoolSetting.Builder()
-        .name("when-sneaking")
+        .name("WhenSneaking")
         .description("Uses speed when sneaking.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> vanillaOnGround = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-on-ground")
+        .name("OnlyOnGround")
         .description("Uses speed only when standing on a block.")
         .visible(() -> speedMode.get() == SpeedModes.VANILLA)
         .defaultValue(false)

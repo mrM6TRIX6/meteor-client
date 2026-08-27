@@ -41,7 +41,7 @@ public class TextHUD extends HUDElement {
     // General
     
     private final Setting<String> text = sgGeneral.add(new StringSetting.Builder()
-        .name("text")
+        .name("Text")
         .description("Text to display with Starscript.")
         .defaultValue(MeteorClient.NAME)
         .onChanged(s -> recompile())
@@ -51,7 +51,7 @@ public class TextHUD extends HUDElement {
     );
     
     private final Setting<Integer> updateDelay = sgGeneral.add(new IntSetting.Builder()
-        .name("update-delay")
+        .name("UpdateDelay")
         .description("Update delay in ticks")
         .defaultValue(4)
         .onChanged(integer -> {
@@ -64,7 +64,7 @@ public class TextHUD extends HUDElement {
     );
     
     private final Setting<Boolean> shadow = sgGeneral.add(new BoolSetting.Builder()
-        .name("shadow")
+        .name("Shadow")
         .description("Renders shadow behind text.")
         .defaultValue(true)
         .onChanged(aBoolean -> recalculateSize = true)
@@ -72,7 +72,7 @@ public class TextHUD extends HUDElement {
     );
     
     private final Setting<Integer> border = sgGeneral.add(new IntSetting.Builder()
-        .name("border")
+        .name("Border")
         .description("How much space to add around the text.")
         .defaultValue(0)
         .onChanged(integer -> super.setSize(originalWidth + integer * 2, originalHeight + integer * 2))
@@ -82,7 +82,7 @@ public class TextHUD extends HUDElement {
     // Shown
     
     private final Setting<Shown> shown = sgShown.add(new EnumChoiceSetting.Builder<Shown>()
-        .name("shown")
+        .name("Shown")
         .description("When this text element is shown.")
         .defaultValue(Shown.ALWAYS)
         .onChanged(s -> recompile())
@@ -90,7 +90,7 @@ public class TextHUD extends HUDElement {
     );
     
     private final Setting<String> condition = sgShown.add(new StringSetting.Builder()
-        .name("condition")
+        .name("Condition")
         .description("Condition to check when shown is not Always.")
         .visible(() -> shown.get() != Shown.ALWAYS)
         .onChanged(s -> recompile())
@@ -101,7 +101,7 @@ public class TextHUD extends HUDElement {
     // Scale
     
     private final Setting<Boolean> customScale = sgScale.add(new BoolSetting.Builder()
-        .name("custom-scale")
+        .name("CustomScale")
         .description("Applies a custom scale to this hud element.")
         .defaultValue(false)
         .onChanged(aBoolean -> recalculateSize = true)
@@ -109,7 +109,7 @@ public class TextHUD extends HUDElement {
     );
     
     private final Setting<Double> scale = sgScale.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("Custom scale.")
         .visible(customScale::get)
         .defaultValue(1)
@@ -122,14 +122,14 @@ public class TextHUD extends HUDElement {
     // Background
     
     private final Setting<Boolean> background = sgBackground.add(new BoolSetting.Builder()
-        .name("background")
+        .name("Background")
         .description("Displays background.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> backgroundColor = sgBackground.add(new ColorSetting.Builder()
-        .name("background-color")
+        .name("BackgroundColor")
         .description("Color used for the background.")
         .visible(background::get)
         .defaultValue(new SettingColor(25, 25, 25, 50))

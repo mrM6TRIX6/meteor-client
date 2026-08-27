@@ -28,28 +28,28 @@ public class AutoFish extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> autoSwitch = sgGeneral.add(new BoolSetting.Builder()
-        .name("auto-switch")
+        .name("AutoSwitch")
         .description("Automatically switch to a fishing rod.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> antiBreak = sgGeneral.add(new BoolSetting.Builder()
-        .name("anti-break")
+        .name("AntiBreak")
         .description("Avoid using rods that would break if they were cast.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> autoCast = sgGeneral.add(new BoolSetting.Builder()
-        .name("auto-cast")
+        .name("AutoCast")
         .description("Automatically cast the fishing rod.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> castDelay = sgGeneral.add(new IntSetting.Builder()
-        .name("cast-delay")
+        .name("CastDelay")
         .description("How long to wait between recasts if the bobber fails to land in water.")
         .defaultValue(14)
         .min(1)
@@ -58,7 +58,7 @@ public class AutoFish extends Module {
     );
     
     private final Setting<Integer> castDelayVariance = sgGeneral.add(new IntSetting.Builder()
-        .name("cast-delay-variance")
+        .name("CastDelayVariance")
         .description("Maximum amount of randomness added to cast delay.")
         .defaultValue(0)
         .min(0)
@@ -67,7 +67,7 @@ public class AutoFish extends Module {
     );
     
     private final Setting<Integer> catchDelay = sgGeneral.add(new IntSetting.Builder()
-        .name("catch-delay")
+        .name("CatchDelay")
         .description("How long to wait after hooking a fish to reel it in.")
         .defaultValue(6)
         .min(1)
@@ -76,7 +76,7 @@ public class AutoFish extends Module {
     );
     
     private final Setting<Integer> catchDelayVariance = sgGeneral.add(new IntSetting.Builder()
-        .name("catch-delay-variance")
+        .name("CatchDelayVariance")
         .description("Maximum amount of randomness added to catch delay.")
         .defaultValue(0)
         .min(0)

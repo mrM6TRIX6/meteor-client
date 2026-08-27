@@ -30,7 +30,7 @@ public class AutoReplenish extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Integer> threshold = sgGeneral.add(new IntSetting.Builder()
-        .name("threshold")
+        .name("Threshold")
         .description("The threshold of items left this actives at.")
         .defaultValue(8)
         .min(1)
@@ -39,7 +39,7 @@ public class AutoReplenish extends Module {
     );
     
     private final Setting<Integer> tickDelay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The tick delay to replenish your hotbar.")
         .defaultValue(1)
         .min(0)
@@ -47,28 +47,28 @@ public class AutoReplenish extends Module {
     );
     
     private final Setting<Boolean> offhand = sgGeneral.add(new BoolSetting.Builder()
-        .name("offhand")
+        .name("Offhand")
         .description("Whether or not to refill your offhand with items.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> unstackable = sgGeneral.add(new BoolSetting.Builder()
-        .name("unstackable")
+        .name("Unstackable")
         .description("Replenishes unstackable items.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> searchHotbar = sgGeneral.add(new BoolSetting.Builder()
-        .name("search-hotbar")
+        .name("SearchHotbar")
         .description("Uses items in your hotbar to replenish if they are the only ones left.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<List<Item>> excludedItems = sgGeneral.add(new ItemListSetting.Builder()
-        .name("excluded-items")
+        .name("ExcludedItems")
         .description("Items that WILL NOT replenish.")
         .build()
     );

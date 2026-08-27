@@ -47,7 +47,7 @@ public class InfinityMiner extends Module {
     // General
     
     public final Setting<List<Block>> targetBlocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("target-blocks")
+        .name("TargetBlocks")
         .description("The target blocks to mine.")
         .defaultValue(Blocks.DIAMOND_ORE, Blocks.DEEPSLATE_DIAMOND_ORE)
         .filter(this::filterBlocks)
@@ -55,14 +55,14 @@ public class InfinityMiner extends Module {
     );
     
     public final Setting<List<Item>> targetItems = sgGeneral.add(new ItemListSetting.Builder()
-        .name("target-items")
+        .name("TargetItems")
         .description("The target items to collect.")
         .defaultValue(Items.DIAMOND)
         .build()
     );
     
     public final Setting<List<Block>> repairBlocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("repair-blocks")
+        .name("RepairBlocks")
         .description("The repair blocks to mine.")
         .defaultValue(Blocks.COAL_ORE, Blocks.REDSTONE_ORE, Blocks.NETHER_QUARTZ_ORE)
         .filter(this::filterBlocks)
@@ -70,7 +70,7 @@ public class InfinityMiner extends Module {
     );
     
     public final Setting<Double> startRepairing = sgGeneral.add(new DoubleSetting.Builder()
-        .name("repair-threshold")
+        .name("RepairThreshold")
         .description("The durability percentage at which to start repairing.")
         .defaultValue(20)
         .range(1, 99)
@@ -79,7 +79,7 @@ public class InfinityMiner extends Module {
     );
     
     public final Setting<Double> startMining = sgGeneral.add(new DoubleSetting.Builder()
-        .name("mine-threshold")
+        .name("MineThreshold")
         .description("The durability percentage at which to start mining.")
         .defaultValue(70)
         .range(1, 99)
@@ -90,14 +90,14 @@ public class InfinityMiner extends Module {
     // When Full
     
     public final Setting<Boolean> walkHome = sgWhenFull.add(new BoolSetting.Builder()
-        .name("walk-home")
+        .name("WalkHome")
         .description("Will walk 'home' when your inventory is full.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> logOut = sgWhenFull.add(new BoolSetting.Builder()
-        .name("log-out")
+        .name("LogOut")
         .description("Logs out when your inventory is full. Will walk home FIRST if walk home is enabled.")
         .defaultValue(false)
         .build()

@@ -17,7 +17,7 @@ public class TridentBoost extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> multiplier = sgGeneral.add(new DoubleSetting.Builder()
-        .name("boost")
+        .name("Boost")
         .description("How much your velocity is multiplied by when using riptide.")
         .defaultValue(2)
         .min(0.1)
@@ -26,7 +26,7 @@ public class TridentBoost extends Module {
     );
     
     private final Setting<Boolean> allowOutOfWater = sgGeneral.add(new BoolSetting.Builder()
-        .name("out-of-water")
+        .name("OutOfWater")
         .description("Whether riptide should work out of water")
         .defaultValue(true)
         .build()

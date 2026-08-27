@@ -24,14 +24,14 @@ public class HandDerp extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("When the hand switches.")
         .defaultValue(Mode.DELAY)
         .build()
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("Delay in ticks.")
         .defaultValue(2)
         .min(0)
@@ -41,7 +41,7 @@ public class HandDerp extends Module {
     );
     
     private final Setting<Boolean> hideFirstPerson = sgGeneral.add(new BoolSetting.Builder()
-        .name("hide-first-person")
+        .name("HideFirstPerson")
         .description("Ignore arm switching changes for first person.")
         .defaultValue(false)
         .build()

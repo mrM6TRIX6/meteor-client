@@ -16,14 +16,14 @@ public class AntiPacketKick extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<Boolean> catchExceptions = sgGeneral.add(new BoolSetting.Builder()
-        .name("catch-exceptions")
+        .name("CatchExceptions")
         .description("Drops corrupted packets.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> logExceptions = sgGeneral.add(new BoolSetting.Builder()
-        .name("log-exceptions")
+        .name("LogExceptions")
         .description("Logs caught exceptions.")
         .defaultValue(true)
         .visible(catchExceptions::get)

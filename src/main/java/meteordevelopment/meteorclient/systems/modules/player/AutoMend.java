@@ -27,21 +27,21 @@ public class AutoMend extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<List<Item>> blacklist = sgGeneral.add(new ItemListSetting.Builder()
-        .name("blacklist")
+        .name("Blacklist")
         .description("Item blacklist.")
         .filter(item -> item.getComponents().get(DataComponentTypes.DAMAGE) != null)
         .build()
     );
     
     private final Setting<Boolean> force = sgGeneral.add(new BoolSetting.Builder()
-        .name("force")
+        .name("Force")
         .description("Replaces item in offhand even if there is some other non-repairable item.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> autoDisable = sgGeneral.add(new BoolSetting.Builder()
-        .name("auto-disable")
+        .name("AutoDisable")
         .description("Automatically disables when there are no more items to repair.")
         .defaultValue(true)
         .build()

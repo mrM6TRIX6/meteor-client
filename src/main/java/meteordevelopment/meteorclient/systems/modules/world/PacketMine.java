@@ -8,6 +8,7 @@ package meteordevelopment.meteorclient.systems.modules.world;
 import meteordevelopment.meteorclient.events.entity.player.StartBreakingBlockEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -24,7 +25,6 @@ import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
@@ -48,7 +48,7 @@ public class PacketMine extends Module {
     // General
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("Delay between mining blocks in ticks.")
         .defaultValue(1)
         .min(0)
@@ -56,21 +56,21 @@ public class PacketMine extends Module {
     );
     
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Sends rotation packets to the server when mining.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> autoSwitch = sgGeneral.add(new BoolSetting.Builder()
-        .name("auto-switch")
+        .name("AutoSwitch")
         .description("Automatically switches to the best tool when the block is ready to be mined instantly.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> notOnUse = sgGeneral.add(new BoolSetting.Builder()
-        .name("not-on-use")
+        .name("NotOnUse")
         .description("Won't auto switch if you're using an item.")
         .defaultValue(true)
         .visible(autoSwitch::get)
@@ -80,42 +80,42 @@ public class PacketMine extends Module {
     // Render
     
     private final Setting<Boolean> render = sgRender.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Whether or not to render the block being mined.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> readySideColor = sgRender.add(new ColorSetting.Builder()
-        .name("ready-side-color")
+        .name("ReadySideColor")
         .description("The color of the sides of the blocks that can be broken.")
         .defaultValue(new SettingColor(0, 204, 0, 10))
         .build()
     );
     
     private final Setting<SettingColor> readyLineColor = sgRender.add(new ColorSetting.Builder()
-        .name("ready-line-color")
+        .name("ReadyLineColor")
         .description("The color of the lines of the blocks that can be broken.")
         .defaultValue(new SettingColor(0, 204, 0, 255))
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The color of the sides of the blocks being rendered.")
         .defaultValue(new SettingColor(204, 0, 0, 10))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The color of the lines of the blocks being rendered.")
         .defaultValue(new SettingColor(204, 0, 0, 255))
         .build()

@@ -24,7 +24,7 @@ public class AutoReconnect extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<Double> time = sgGeneral.add(new DoubleSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The amount of seconds to wait before reconnecting to the server.")
         .defaultValue(3.5)
         .min(0)
@@ -33,7 +33,7 @@ public class AutoReconnect extends Module {
     );
     
     public final Setting<Boolean> button = sgGeneral.add(new BoolSetting.Builder()
-        .name("hide-buttons")
+        .name("HideButtons")
         .description("Will hide the buttons related to Auto Reconnect.")
         .defaultValue(false)
         .build()

@@ -41,14 +41,14 @@ public class RainbowArmor extends Module {
     private final SettingGroup sgExtra = settings.createGroup("Extra");
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("rainbow-mode")
+        .name("RainbowMode")
         .description("RGB Method.")
         .defaultValue(Mode.DEFAULT)
         .build()
     );
     
     private final Setting<List<SettingColor>> colors = sgGeneral.add(new ColorListSetting.Builder()
-        .name("colors")
+        .name("Colors")
         .description("The colors that will be used for interpolation.")
         .defaultValue(List.of(
             new SettingColor(255, 0, 0),
@@ -61,7 +61,7 @@ public class RainbowArmor extends Module {
     );
     
     private final Setting<Integer> speed = sgGeneral.add(new IntSetting.Builder()
-        .name("speed")
+        .name("Speed")
         .description("WARNING: High speeds might crash the game!")
         .defaultValue(5)
         .min(1)
@@ -70,7 +70,7 @@ public class RainbowArmor extends Module {
     );
     
     private final Setting<Boolean> glowing = sgGeneral.add(new BoolSetting.Builder()
-        .name("glowing")
+        .name("Glowing")
         .description("Add enchantment glow override component for armor to create a glowing effect.")
         .defaultValue(false)
         .build()
@@ -78,7 +78,7 @@ public class RainbowArmor extends Module {
     
     // Helmet
     private final Setting<Boolean> enableHelmet = sgSlots.add(new BoolSetting.Builder()
-        .name("helmet")
+        .name("Helmet")
         .description("Enable Helmet.")
         .defaultValue(true)
         .onChanged(v -> {
@@ -91,7 +91,7 @@ public class RainbowArmor extends Module {
     
     // Chestplate
     private final Setting<Boolean> enableChestplate = sgSlots.add(new BoolSetting.Builder()
-        .name("chestplate")
+        .name("Chestplate")
         .description("Enable Chestplate.")
         .defaultValue(true)
         .onChanged(v -> {
@@ -104,7 +104,7 @@ public class RainbowArmor extends Module {
     
     // Leggings
     private final Setting<Boolean> enableLeggings = sgSlots.add(new BoolSetting.Builder()
-        .name("leggings")
+        .name("Leggings")
         .description("Enable Leggings.")
         .defaultValue(true)
         .onChanged(v -> {
@@ -117,7 +117,7 @@ public class RainbowArmor extends Module {
     
     // Boots
     private final Setting<Boolean> enableBoots = sgSlots.add(new BoolSetting.Builder()
-        .name("boots")
+        .name("Boots")
         .description("Enable Boots.")
         .defaultValue(true)
         .onChanged(v -> {
@@ -130,14 +130,14 @@ public class RainbowArmor extends Module {
     
     // Extra
     private final Setting<Boolean> toggleOnLog = sgExtra.add(new BoolSetting.Builder()
-        .name("toggle-on-log")
+        .name("ToggleOnLog")
         .description("Disables when you disconnect from a server.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> blockSound = sgExtra.add(new BoolSetting.Builder()
-        .name("block-sound")
+        .name("BlockSound")
         .description("Blocks armor equip sound.")
         .defaultValue(true)
         .build()

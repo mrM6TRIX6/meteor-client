@@ -25,14 +25,14 @@ public class FastClimb extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> timerMode = sgGeneral.add(new BoolSetting.Builder()
-        .name("timer-mode")
+        .name("TimerMode")
         .description("Use timer.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> speed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("climb-speed")
+        .name("ClimbSpeed")
         .description("Your climb speed.")
         .defaultValue(0.2872)
         .min(0.0)
@@ -41,7 +41,7 @@ public class FastClimb extends Module {
     );
     
     private final Setting<Double> timer = sgGeneral.add(new DoubleSetting.Builder()
-        .name("timer")
+        .name("Timer")
         .description("The timer value for Timer.")
         .defaultValue(1.436)
         .min(1)

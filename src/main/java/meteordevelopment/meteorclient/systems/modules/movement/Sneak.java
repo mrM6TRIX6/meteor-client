@@ -17,7 +17,7 @@ public class Sneak extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Which method to sneak.")
         .defaultValue(Mode.VANILLA)
         .build()

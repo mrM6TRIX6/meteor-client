@@ -54,7 +54,7 @@ public class LitematicaShredder extends Module {
     private final SettingGroup sgRender = settings.createGroup("Render");
 
     private final Setting<Double> range = sgGeneral.add(new DoubleSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("How far away blocks can be broken.")
         .defaultValue(5.0)
         .min(1).sliderMin(1)
@@ -62,7 +62,7 @@ public class LitematicaShredder extends Module {
         .build());
 
     private final Setting<Double> wallsRange = sgGeneral.add(new DoubleSetting.Builder()
-        .name("walls-range")
+        .name("WallsRange")
         .description("How far away blocks you cannot see can be broken.")
         .defaultValue(6.0)
         .min(0).sliderMin(0)
@@ -70,7 +70,7 @@ public class LitematicaShredder extends Module {
         .build());
 
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("Delay between breaks in ticks.")
         .defaultValue(0)
         .min(0).sliderMin(0)
@@ -78,7 +78,7 @@ public class LitematicaShredder extends Module {
         .build());
 
     private final Setting<Integer> bpt = sgGeneral.add(new IntSetting.Builder()
-        .name("blocks-per-tick")
+        .name("BlocksPerTick")
         .description("Maximum amount of blocks to break per tick.")
         .defaultValue(100)
         .min(1).sliderMin(1)
@@ -86,70 +86,70 @@ public class LitematicaShredder extends Module {
         .build());
 
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Which blocks to break.")
         .defaultValue(Mode.ALL)
         .build());
 
     private final Setting<Boolean> headTextures = sgGeneral.add(new BoolSetting.Builder()
-        .name("head-textures")
+        .name("HeadTextures")
         .description("Also break player heads whose skin doesn't match the head in the schematic.")
         .defaultValue(false)
         .visible(() -> mode.get() == Mode.WRONG_STATE || mode.get() == Mode.ALL)
         .build());
 
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Rotate towards the block being broken.")
         .defaultValue(true)
         .build());
 
     private final Setting<Boolean> swing = sgGeneral.add(new BoolSetting.Builder()
-        .name("swing")
+        .name("Swing")
         .description("Swing hand when breaking.")
         .defaultValue(true)
         .build());
 
     private final Setting<Boolean> silkTouch = sgGeneral.add(new BoolSetting.Builder()
-        .name("silk-touch")
+        .name("SilkTouch")
         .description("Swap to a Silk Touch tool before breaking.")
         .defaultValue(false)
         .build());
 
     private final Setting<ListMode> listMode = sgWorkMode.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("list-mode")
+        .name("ListMode")
         .description("Block list mode.")
         .defaultValue(ListMode.NONE)
         .build());
 
     private final Setting<List<Block>> filterBlocks = sgWorkMode.add(new BlockListSetting.Builder()
-        .name("filter-blocks")
+        .name("FilterBlocks")
         .description("Blocks to whitelist or blacklist.")
         .visible(() -> listMode.get() != ListMode.NONE)
         .build());
 
     private final Setting<Boolean> showBroken = sgRender.add(new BoolSetting.Builder()
-        .name("broken-blocks")
+        .name("BrokenBlocks")
         .description("Renders recently broken blocks.")
         .defaultValue(true)
         .build());
 
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .visible(showBroken::get)
         .build());
 
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color of broken blocks.")
         .defaultValue(new SettingColor(255, 0, 0, 80))
         .visible(showBroken::get)
         .build());
 
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color of broken blocks.")
         .defaultValue(new SettingColor(255, 0, 0, 255))
         .visible(showBroken::get)

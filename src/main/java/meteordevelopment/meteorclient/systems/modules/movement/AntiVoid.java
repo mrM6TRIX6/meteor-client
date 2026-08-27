@@ -21,7 +21,7 @@ public class AntiVoid extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("The method to prevent you from falling into the void.")
         .defaultValue(Mode.JUMP)
         .onChanged(a -> onActivate())

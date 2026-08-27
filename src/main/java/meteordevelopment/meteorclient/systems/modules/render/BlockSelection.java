@@ -28,42 +28,42 @@ public class BlockSelection extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> advanced = sgGeneral.add(new BoolSetting.Builder()
-        .name("advanced")
+        .name("Advanced")
         .description("Shows a more advanced outline on different types of shape blocks.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> oneSide = sgGeneral.add(new BoolSetting.Builder()
-        .name("single-side")
+        .name("SingleSide")
         .description("Only renders the side you are looking at.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color.")
         .defaultValue(new SettingColor(255, 255, 255, 50))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color.")
         .defaultValue(new SettingColor(255, 255, 255, 255))
         .build()
     );
     
     private final Setting<Boolean> hideInside = sgGeneral.add(new BoolSetting.Builder()
-        .name("hide-when-inside-block")
+        .name("HideWhenInsideBlock")
         .description("Hide selection when inside target block.")
         .defaultValue(true)
         .build()

@@ -24,14 +24,14 @@ public class MaceKill extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> maxPower = sgGeneral.add(new BoolSetting.Builder()
-        .name("max-power")
+        .name("MaxPower")
         .description("Simulates a fall from the highest air gap within 170 blocks (Paper/Spigot servers only).")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> fallHeight = sgGeneral.add(new IntSetting.Builder()
-        .name("fall-height")
+        .name("FallHeight")
         .description("Simulates a fall from this distance.")
         .defaultValue(22)
         .sliderRange(1, 170)
@@ -42,14 +42,14 @@ public class MaceKill extends Module {
     );
     
     private final Setting<Boolean> preventDeath = sgGeneral.add(new BoolSetting.Builder()
-        .name("prevent-fall-damage")
+        .name("PreventFallDamage")
         .description("Attempts to prevent fall damage even on packet hiccups.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> packetDisable = sgGeneral.add(new BoolSetting.Builder()
-        .name("disable-when-blocked")
+        .name("DisableWhenBlocked")
         .description("Does not send movement packets if the attack was blocked. (prevents death)")
         .defaultValue(true)
         .build()

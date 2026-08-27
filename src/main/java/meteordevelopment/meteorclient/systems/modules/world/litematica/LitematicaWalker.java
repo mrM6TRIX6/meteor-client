@@ -41,35 +41,35 @@ public class LitematicaWalker extends Module {
     private final SettingGroup sgRender = settings.createGroup("Render");
     
     private final Setting<Area> area = sgGeneral.add(new EnumChoiceSetting.Builder<Area>()
-        .name("area")
+        .name("Area")
         .description("Where the walked area comes from.")
         .defaultValue(Area.MANUAL)
         .onChanged(value -> invalidate())
         .build());
     
     private final Setting<BlockPos> corner1 = sgGeneral.add(new BlockPosSetting.Builder()
-        .name("corner-1")
+        .name("Corner1")
         .description("The first corner of the area.")
         .visible(() -> area.get() == Area.MANUAL)
         .onChanged(value -> invalidate())
         .build());
     
     private final Setting<BlockPos> corner2 = sgGeneral.add(new BlockPosSetting.Builder()
-        .name("corner-2")
+        .name("Corner2")
         .description("The second corner of the area.")
         .visible(() -> area.get() == Area.MANUAL)
         .onChanged(value -> invalidate())
         .build());
     
     private final Setting<Axis> axis = sgPath.add(new EnumChoiceSetting.Builder<Axis>()
-        .name("axis")
+        .name("Axis")
         .description("The axis the lanes run along. Auto picks the longer side of the area.")
         .defaultValue(Axis.AUTO)
         .onChanged(value -> invalidate())
         .build());
     
     private final Setting<Integer> spacing = sgPath.add(new IntSetting.Builder()
-        .name("spacing")
+        .name("Spacing")
         .description("How many blocks to move sideways after turning around at the end of a lane.")
         .defaultValue(4)
         .min(1).sliderMin(1)
@@ -78,14 +78,14 @@ public class LitematicaWalker extends Module {
         .build());
     
     private final Setting<Vertical> vertical = sgPath.add(new EnumChoiceSetting.Builder<Vertical>()
-        .name("vertical")
+        .name("Vertical")
         .description("Whether to also walk the area layer by layer, which needs flight.")
         .defaultValue(Vertical.NONE)
         .onChanged(value -> invalidate())
         .build());
     
     private final Setting<Integer> layerSpacing = sgPath.add(new IntSetting.Builder()
-        .name("layer-spacing")
+        .name("LayerSpacing")
         .description("How many blocks to move up after a whole layer has been walked.")
         .defaultValue(3)
         .min(1).sliderMin(1)
@@ -95,7 +95,7 @@ public class LitematicaWalker extends Module {
         .build());
     
     private final Setting<Integer> heightOffset = sgPath.add(new IntSetting.Builder()
-        .name("height-offset")
+        .name("HeightOffset")
         .description("Blocks to add to the height of every layer, so you can fly above the layer you are printing.")
         .defaultValue(1)
         .min(-16).sliderMin(-8)
@@ -105,13 +105,13 @@ public class LitematicaWalker extends Module {
         .build());
     
     private final Setting<Boolean> loop = sgPath.add(new BoolSetting.Builder()
-        .name("loop")
+        .name("Loop")
         .description("Walk the path again backwards instead of disabling once the end is reached.")
         .defaultValue(false)
         .build());
     
     private final Setting<Double> speed = sgMovement.add(new DoubleSetting.Builder()
-        .name("speed")
+        .name("Speed")
         .description("Walking speed in blocks per second.")
         .defaultValue(4.3)
         .min(0.1).sliderMin(1)
@@ -119,19 +119,19 @@ public class LitematicaWalker extends Module {
         .build());
     
     private final Setting<Boolean> autoJump = sgMovement.add(new BoolSetting.Builder()
-        .name("auto-jump")
+        .name("AutoJump")
         .description("Jump when you walk into a block.")
         .defaultValue(true)
         .build());
     
     private final Setting<Boolean> pauseOnInput = sgMovement.add(new BoolSetting.Builder()
-        .name("pause-on-input")
+        .name("PauseOnInput")
         .description("Hand movement back to you while you press a movement key.")
         .defaultValue(true)
         .build());
     
     private final Setting<Integer> stuckTimeout = sgMovement.add(new IntSetting.Builder()
-        .name("stuck-timeout")
+        .name("StuckTimeout")
         .description("Skip to the next point after this many ticks without getting closer to the current one. 0 to never skip.")
         .defaultValue(60)
         .min(0).sliderMin(0)
@@ -139,13 +139,13 @@ public class LitematicaWalker extends Module {
         .build());
     
     private final Setting<Boolean> waitForPrinter = sgPrinter.add(new BoolSetting.Builder()
-        .name("wait-for-printer")
+        .name("WaitForPrinter")
         .description("Stand still while blocks around you are still missing, so LitematicaPrinter can catch up.")
         .defaultValue(true)
         .build());
     
     private final Setting<Integer> waitRange = sgPrinter.add(new IntSetting.Builder()
-        .name("wait-range")
+        .name("WaitRange")
         .description("How far to look for missing blocks. Keep this at or below the printing range.")
         .defaultValue(3)
         .min(1).sliderMin(1)
@@ -154,14 +154,14 @@ public class LitematicaWalker extends Module {
         .build());
     
     private final Setting<Boolean> waitInsideArea = sgPrinter.add(new BoolSetting.Builder()
-        .name("wait-inside-area")
+        .name("WaitInsideArea")
         .description("Only wait for blocks inside the area. Turn this off to also wait for blocks around it, like the higher parts of a wall.")
         .defaultValue(true)
         .visible(waitForPrinter::get)
         .build());
     
     private final Setting<Integer> maxWait = sgPrinter.add(new IntSetting.Builder()
-        .name("max-wait")
+        .name("MaxWait")
         .description("Move on after waiting this many ticks in one spot, so blocks the printer cannot place don't stop the walk. 0 to wait forever.")
         .defaultValue(200)
         .min(0).sliderMin(0)
@@ -176,25 +176,25 @@ public class LitematicaWalker extends Module {
         .build());
     
     private final Setting<Boolean> renderTarget = sgRender.add(new BoolSetting.Builder()
-        .name("target")
+        .name("Target")
         .description("Renders the point currently being walked to.")
         .defaultValue(true)
         .build());
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build());
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color.")
         .defaultValue(new SettingColor(0, 255, 180, 25))
         .build());
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color.")
         .defaultValue(new SettingColor(0, 255, 180, 255))
         .build());

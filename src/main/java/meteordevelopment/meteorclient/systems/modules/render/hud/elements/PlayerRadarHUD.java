@@ -5,14 +5,14 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud.elements;
 
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.render.hud.*;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -31,7 +31,7 @@ public class PlayerRadarHUD extends HUDElement {
     // General
     
     private final Setting<Integer> limit = sgGeneral.add(new IntSetting.Builder()
-        .name("limit")
+        .name("Limit")
         .description("The max number of players to show.")
         .defaultValue(10)
         .min(1)
@@ -40,49 +40,49 @@ public class PlayerRadarHUD extends HUDElement {
     );
     
     private final Setting<Boolean> distance = sgGeneral.add(new BoolSetting.Builder()
-        .name("distance")
+        .name("Distance")
         .description("Shows the distance to the player next to their name.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> friends = sgGeneral.add(new BoolSetting.Builder()
-        .name("display-friends")
+        .name("DisplayFriends")
         .description("Whether to show friends or not.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> shadow = sgGeneral.add(new BoolSetting.Builder()
-        .name("shadow")
+        .name("Shadow")
         .description("Renders shadow behind text.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<SettingColor> primaryColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("primary-color")
+        .name("PrimaryColor")
         .description("Primary color.")
         .defaultValue(new SettingColor())
         .build()
     );
     
     private final Setting<SettingColor> secondaryColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("secondary-color")
+        .name("SecondaryColor")
         .description("Secondary color.")
         .defaultValue(new SettingColor(175, 175, 175))
         .build()
     );
     
     private final Setting<Alignment> alignment = sgGeneral.add(new EnumChoiceSetting.Builder<Alignment>()
-        .name("alignment")
+        .name("Alignment")
         .description("Horizontal alignment.")
         .defaultValue(Alignment.AUTO)
         .build()
     );
     
     private final Setting<Integer> border = sgGeneral.add(new IntSetting.Builder()
-        .name("border")
+        .name("Border")
         .description("How much space to add around the element.")
         .defaultValue(0)
         .build()
@@ -91,14 +91,14 @@ public class PlayerRadarHUD extends HUDElement {
     // Scale
     
     private final Setting<Boolean> customScale = sgScale.add(new BoolSetting.Builder()
-        .name("custom-scale")
+        .name("CustomScale")
         .description("Applies a custom scale to this hud element.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> scale = sgScale.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("Custom scale.")
         .visible(customScale::get)
         .defaultValue(1)
@@ -110,14 +110,14 @@ public class PlayerRadarHUD extends HUDElement {
     // Background
     
     private final Setting<Boolean> background = sgBackground.add(new BoolSetting.Builder()
-        .name("background")
+        .name("Background")
         .description("Displays background.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> backgroundColor = sgBackground.add(new ColorSetting.Builder()
-        .name("background-color")
+        .name("BackgroundColor")
         .description("Color used for the background.")
         .visible(background::get)
         .defaultValue(new SettingColor(25, 25, 25, 50))

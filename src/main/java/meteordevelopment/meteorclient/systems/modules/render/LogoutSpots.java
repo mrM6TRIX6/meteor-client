@@ -9,6 +9,9 @@ import meteordevelopment.meteorclient.events.entity.EntityAddedEvent;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
+import meteordevelopment.meteorclient.renderer.NametagUtils;
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.Renderer2D;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
@@ -21,9 +24,6 @@ import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
-import meteordevelopment.meteorclient.renderer.NametagUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
@@ -47,7 +47,7 @@ public class LogoutSpots extends Module {
     // General
     
     private final Setting<Double> scale = sgGeneral.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("The scale.")
         .defaultValue(1)
         .min(0)
@@ -55,7 +55,7 @@ public class LogoutSpots extends Module {
     );
     
     private final Setting<Boolean> fullHeight = sgGeneral.add(new BoolSetting.Builder()
-        .name("full-height")
+        .name("FullHeight")
         .description("Displays the height as the player's full height.")
         .defaultValue(true)
         .build()
@@ -64,35 +64,35 @@ public class LogoutSpots extends Module {
     // Render
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color.")
         .defaultValue(new SettingColor(255, 0, 255, 55))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color.")
         .defaultValue(new SettingColor(255, 0, 255))
         .build()
     );
     
     private final Setting<SettingColor> nameColor = sgRender.add(new ColorSetting.Builder()
-        .name("name-color")
+        .name("NameColor")
         .description("The name color.")
         .defaultValue(new SettingColor(255, 255, 255))
         .build()
     );
     
     private final Setting<SettingColor> nameBackgroundColor = sgRender.add(new ColorSetting.Builder()
-        .name("name-background-color")
+        .name("NameBackgroundColor")
         .description("The name background color.")
         .defaultValue(new SettingColor(0, 0, 0, 75))
         .build()

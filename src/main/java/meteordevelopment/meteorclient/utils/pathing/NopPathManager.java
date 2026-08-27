@@ -67,7 +67,7 @@ public class NopPathManager implements IPathManager {
     private static class NopSettings implements ISettings {
         
         private final Settings settings = new Settings();
-        private final Setting<Boolean> setting = new BoolSetting.Builder().name("none").build();
+        private final Setting<Boolean> setting = new BoolSetting.Builder().name("None").build();
         
         @Override
         public Settings get() {

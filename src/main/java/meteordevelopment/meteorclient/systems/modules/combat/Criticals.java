@@ -35,14 +35,14 @@ public class Criticals extends Module {
     private final SettingGroup sgMace = settings.createGroup("Mace");
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("The mode on how Criticals will function.")
         .defaultValue(Mode.PACKET)
         .build()
     );
     
     private final Setting<Boolean> ka = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-killaura")
+        .name("OnlyKillaura")
         .description("Only performs crits when using killaura.")
         .defaultValue(false)
         .visible(() -> mode.get() != Mode.NONE)
@@ -50,14 +50,14 @@ public class Criticals extends Module {
     );
     
     private final Setting<Boolean> mace = sgMace.add(new BoolSetting.Builder()
-        .name("smash-attack")
+        .name("SmashAttack")
         .description("Will always perform smash attacks when using a mace.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Double> extraHeight = sgMace.add(new DoubleSetting.Builder()
-        .name("additional-height")
+        .name("AdditionalHeight")
         .description("The amount of additional height to spoof. More height means more damage.")
         .defaultValue(0.0)
         .min(0)

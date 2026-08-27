@@ -28,7 +28,7 @@ public class AutoChatGame extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Range> delay = sgGeneral.add(new RangeSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("Delay in ticks before send chat answer.")
         .defaultValue(Range.of(0, 10))
         .min(0)
@@ -37,7 +37,7 @@ public class AutoChatGame extends Module {
     );
     
     private final Setting<Boolean> globalChat = sgGeneral.add(new BoolSetting.Builder()
-        .name("global-chat")
+        .name("GlobalChat")
         .description("Send answers to the global chat using the prefix '!'.")
         .defaultValue(false)
         .build()

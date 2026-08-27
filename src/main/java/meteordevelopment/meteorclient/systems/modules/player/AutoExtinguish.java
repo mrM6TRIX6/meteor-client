@@ -37,14 +37,14 @@ public class AutoExtinguish extends Module {
     private final SettingGroup sgBucket = settings.createGroup("Extinguish yourself");
     
     private final Setting<Boolean> extinguish = sgGeneral.add(new BoolSetting.Builder()
-        .name("extinguish")
+        .name("Extinguish")
         .description("Automatically extinguishes fire around you.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> horizontalRadius = sgGeneral.add(new IntSetting.Builder()
-        .name("horizontal-radius")
+        .name("HorizontalRadius")
         .description("Horizontal radius in which to search for fire.")
         .defaultValue(4)
         .min(0)
@@ -53,7 +53,7 @@ public class AutoExtinguish extends Module {
     );
     
     private final Setting<Integer> verticalRadius = sgGeneral.add(new IntSetting.Builder()
-        .name("vertical-radius")
+        .name("VerticalRadius")
         .description("Vertical radius in which to search for fire.")
         .defaultValue(4)
         .min(0)
@@ -62,7 +62,7 @@ public class AutoExtinguish extends Module {
     );
     
     private final Setting<Integer> maxBlockPerTick = sgGeneral.add(new IntSetting.Builder()
-        .name("block-per-tick")
+        .name("BlockPerTick")
         .description("Maximum amount of Blocks to extinguish per tick.")
         .defaultValue(5)
         .min(1)
@@ -71,21 +71,21 @@ public class AutoExtinguish extends Module {
     );
     
     private final Setting<Boolean> waterBucket = sgBucket.add(new BoolSetting.Builder()
-        .name("water")
+        .name("Water")
         .description("Automatically places water when you are on fire (and don't have fire resistance).")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> center = sgBucket.add(new BoolSetting.Builder()
-        .name("center")
+        .name("Center")
         .description("Automatically centers you when placing water.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> onGround = sgBucket.add(new BoolSetting.Builder()
-        .name("on-ground")
+        .name("OnGround")
         .description("Only place when you are on ground.")
         .defaultValue(false)
         .build()

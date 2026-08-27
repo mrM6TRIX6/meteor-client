@@ -66,7 +66,7 @@ public class Blur extends Module {
     
     // General
     private final Setting<Integer> strength = sgGeneral.add(new IntSetting.Builder()
-        .name("strength")
+        .name("Strength")
         .description("How strong the blur should be.")
         .defaultValue(5)
         .min(1)
@@ -76,7 +76,7 @@ public class Blur extends Module {
     );
     
     private final Setting<Integer> fadeTime = sgGeneral.add(new IntSetting.Builder()
-        .name("fade-time")
+        .name("FadeTime")
         .description("How long the fade will last in milliseconds.")
         .defaultValue(100)
         .min(0)
@@ -87,28 +87,28 @@ public class Blur extends Module {
     // Screens
     
     private final Setting<Boolean> meteor = sgScreens.add(new BoolSetting.Builder()
-        .name("meteor")
+        .name("Meteor")
         .description("Applies blur to Meteor screens.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> inventories = sgScreens.add(new BoolSetting.Builder()
-        .name("inventories")
+        .name("Inventories")
         .description("Applies blur to inventory screens.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> chat = sgScreens.add(new BoolSetting.Builder()
-        .name("chat")
+        .name("Chat")
         .description("Applies blur when in chat.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> other = sgScreens.add(new BoolSetting.Builder()
-        .name("other")
+        .name("Other")
         .description("Applies blur to all other screen types.")
         .defaultValue(true)
         .build()

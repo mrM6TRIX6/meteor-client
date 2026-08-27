@@ -49,7 +49,7 @@ public class BedAura extends Module {
     // General
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The delay between placing beds in ticks.")
         .defaultValue(9)
         .min(0)
@@ -58,7 +58,7 @@ public class BedAura extends Module {
     );
     
     private final Setting<Boolean> strictDirection = sgGeneral.add(new BoolSetting.Builder()
-        .name("strict-direction")
+        .name("StrictDirection")
         .description("Only places beds in the direction you are facing.")
         .defaultValue(false)
         .build()
@@ -67,7 +67,7 @@ public class BedAura extends Module {
     // Targeting
     
     private final Setting<Double> targetRange = sgTargeting.add(new DoubleSetting.Builder()
-        .name("target-range")
+        .name("TargetRange")
         .description("The range at which players can be targeted.")
         .defaultValue(4)
         .min(0)
@@ -76,14 +76,14 @@ public class BedAura extends Module {
     );
     
     private final Setting<SortPriority> priority = sgTargeting.add(new EnumChoiceSetting.Builder<SortPriority>()
-        .name("target-priority")
+        .name("TargetPriority")
         .description("How to filter targets within range.")
         .defaultValue(SortPriority.LOWEST_HEALTH)
         .build()
     );
     
     private final Setting<Double> minDamage = sgTargeting.add(new DoubleSetting.Builder()
-        .name("min-damage")
+        .name("MinDamage")
         .description("The minimum damage to inflict on your target.")
         .defaultValue(7)
         .range(0, 36)
@@ -92,7 +92,7 @@ public class BedAura extends Module {
     );
     
     private final Setting<Double> maxSelfDamage = sgTargeting.add(new DoubleSetting.Builder()
-        .name("max-self-damage")
+        .name("MaxSelfDamage")
         .description("The maximum damage to inflict on yourself.")
         .defaultValue(7)
         .range(0, 36)
@@ -101,7 +101,7 @@ public class BedAura extends Module {
     );
     
     private final Setting<Boolean> antiSuicide = sgTargeting.add(new BoolSetting.Builder()
-        .name("anti-suicide")
+        .name("AntiSuicide")
         .description("Will not place and break beds if they will kill you.")
         .defaultValue(true)
         .build()
@@ -110,14 +110,14 @@ public class BedAura extends Module {
     // Auto move
     
     private final Setting<Boolean> autoMove = sgAutoMove.add(new BoolSetting.Builder()
-        .name("auto-move")
+        .name("AutoMove")
         .description("Moves beds into a selected hotbar slot.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> autoMoveSlot = sgAutoMove.add(new IntSetting.Builder()
-        .name("auto-move-slot")
+        .name("AutoMoveSlot")
         .description("The slot auto move moves beds to.")
         .defaultValue(9)
         .range(1, 9)
@@ -127,7 +127,7 @@ public class BedAura extends Module {
     );
     
     private final Setting<Boolean> autoSwitch = sgAutoMove.add(new BoolSetting.Builder()
-        .name("auto-switch")
+        .name("AutoSwitch")
         .description("Switches to and from beds automatically.")
         .defaultValue(true)
         .build()
@@ -136,21 +136,21 @@ public class BedAura extends Module {
     // Pause
     
     private final Setting<Boolean> pauseOnEat = sgPause.add(new BoolSetting.Builder()
-        .name("pause-on-eat")
+        .name("PauseOnEat")
         .description("Pauses while eating.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> pauseOnDrink = sgPause.add(new BoolSetting.Builder()
-        .name("pause-on-drink")
+        .name("PauseOnDrink")
         .description("Pauses while drinking.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> pauseOnMine = sgPause.add(new BoolSetting.Builder()
-        .name("pause-on-mine")
+        .name("PauseOnMine")
         .description("Pauses while mining.")
         .defaultValue(true)
         .build()
@@ -159,35 +159,35 @@ public class BedAura extends Module {
     // Render
     
     private final Setting<Boolean> swing = sgRender.add(new BoolSetting.Builder()
-        .name("swing")
+        .name("Swing")
         .description("Whether to swing hand client-side.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> render = sgRender.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Renders the block where it is placing a bed.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color for positions to be placed.")
         .defaultValue(new SettingColor(15, 255, 211, 75))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color for positions to be placed.")
         .defaultValue(new SettingColor(15, 255, 211))
         .build()

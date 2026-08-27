@@ -35,21 +35,21 @@ public class LiquidFiller extends Module {
     private final SettingGroup sgWhitelist = settings.createGroup("Whitelist");
     
     private final Setting<PlaceIn> placeInLiquids = sgGeneral.add(new EnumChoiceSetting.Builder<PlaceIn>()
-        .name("place-in")
+        .name("PlaceIn")
         .description("What type of liquids to place in.")
         .defaultValue(PlaceIn.BOTH)
         .build()
     );
     
     private final Setting<Shape> shape = sgGeneral.add(new EnumChoiceSetting.Builder<Shape>()
-        .name("shape")
+        .name("Shape")
         .description("The shape of placing algorithm.")
         .defaultValue(Shape.SPHERE)
         .build()
     );
     
     private final Setting<Double> range = sgGeneral.add(new DoubleSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("The place range.")
         .defaultValue(4)
         .min(0)
@@ -57,7 +57,7 @@ public class LiquidFiller extends Module {
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("Delay between actions in ticks.")
         .defaultValue(0)
         .min(0)
@@ -65,7 +65,7 @@ public class LiquidFiller extends Module {
     );
     
     private final Setting<Integer> maxBlocksPerTick = sgGeneral.add(new IntSetting.Builder()
-        .name("max-blocks-per-tick")
+        .name("MaxBlocksPerTick")
         .description("Maximum blocks to try to place per tick.")
         .defaultValue(1)
         .min(1)
@@ -74,14 +74,14 @@ public class LiquidFiller extends Module {
     );
     
     private final Setting<SortMode> sortMode = sgGeneral.add(new EnumChoiceSetting.Builder<SortMode>()
-        .name("sort-mode")
+        .name("SortMode")
         .description("The blocks you want to place first.")
         .defaultValue(SortMode.CLOSEST)
         .build()
     );
     
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Automatically rotates towards the space targeted for filling.")
         .defaultValue(true)
         .build()
@@ -90,14 +90,14 @@ public class LiquidFiller extends Module {
     // Whitelist and blacklist
     
     private final Setting<ListMode> listMode = sgWhitelist.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("list-mode")
+        .name("ListMode")
         .description("Selection mode.")
         .defaultValue(ListMode.WHITELIST)
         .build()
     );
     
     private final Setting<List<Block>> whitelist = sgWhitelist.add(new BlockListSetting.Builder()
-        .name("whitelist")
+        .name("Whitelist")
         .description("The allowed blocks that it will use to fill up the liquid.")
         .defaultValue(
             Blocks.DIRT,
@@ -113,7 +113,7 @@ public class LiquidFiller extends Module {
     );
     
     private final Setting<List<Block>> blacklist = sgWhitelist.add(new BlockListSetting.Builder()
-        .name("blacklist")
+        .name("Blacklist")
         .description("The denied blocks that it not will use to fill up the liquid.")
         .visible(() -> listMode.get() == ListMode.BLACKLIST)
         .build()

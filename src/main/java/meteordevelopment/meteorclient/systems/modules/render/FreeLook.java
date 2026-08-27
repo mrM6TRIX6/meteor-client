@@ -28,21 +28,21 @@ public class FreeLook extends Module {
     // General
     
     public final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Which entity to rotate.")
         .defaultValue(Mode.PLAYER)
         .build()
     );
     
     public final Setting<Boolean> togglePerspective = sgGeneral.add(new BoolSetting.Builder()
-        .name("toggle-perspective")
+        .name("TogglePerspective")
         .description("Changes your perspective on toggle.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Double> sensitivity = sgGeneral.add(new DoubleSetting.Builder()
-        .name("camera-sensitivity")
+        .name("CameraSensitivity")
         .description("How fast the camera moves in camera mode.")
         .defaultValue(8)
         .min(0)
@@ -53,14 +53,14 @@ public class FreeLook extends Module {
     // Arrows
     
     public final Setting<Boolean> arrows = sgArrows.add(new BoolSetting.Builder()
-        .name("arrows-control-opposite")
+        .name("ArrowsControlOpposite")
         .description("Allows you to control the other entities rotation with the arrow keys.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Double> arrowSpeed = sgArrows.add(new DoubleSetting.Builder()
-        .name("arrow-speed")
+        .name("ArrowSpeed")
         .description("Rotation speed with arrow keys.")
         .defaultValue(4)
         .min(0)

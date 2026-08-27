@@ -40,7 +40,7 @@ public class BowAimbot extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> range = sgGeneral.add(new DoubleSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("The maximum range the entity can be to aim at it.")
         .defaultValue(20)
         .range(0, 100)
@@ -49,28 +49,28 @@ public class BowAimbot extends Module {
     );
     
     private final Setting<Set<EntityType<?>>> entities = sgGeneral.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Entities to attack.")
         .onlyAttackable()
         .build()
     );
     
     private final Setting<SortPriority> priority = sgGeneral.add(new EnumChoiceSetting.Builder<SortPriority>()
-        .name("priority")
+        .name("Priority")
         .description("What type of entities to target.")
         .defaultValue(SortPriority.LOWEST_HEALTH)
         .build()
     );
     
     private final Setting<Boolean> babies = sgGeneral.add(new BoolSetting.Builder()
-        .name("babies")
+        .name("Babies")
         .description("Whether or not to attack baby variants of the entity.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> nametagged = sgGeneral.add(new BoolSetting.Builder()
-        .name("nametagged")
+        .name("Nametagged")
         .description("Whether or not to attack mobs with a name tag.")
         .defaultValue(false)
         .build()
@@ -78,7 +78,7 @@ public class BowAimbot extends Module {
     
     
     private final Setting<Boolean> pauseOnCombat = sgGeneral.add(new BoolSetting.Builder()
-        .name("pause-on-combat")
+        .name("PauseOnCombat")
         .description("Freezes Baritone temporarily until you released the bow.")
         .defaultValue(false)
         .build()

@@ -22,7 +22,7 @@ public class Glide extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<Double> fallSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("fall-speed")
+        .name("FallSpeed")
         .description("Fall speed.")
         .defaultValue(0.125)
         .min(0.005)
@@ -31,7 +31,7 @@ public class Glide extends Module {
     );
     
     public final Setting<Double> moveSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("move-speed")
+        .name("MoveSpeed")
         .description("Horizontal movement factor.")
         .defaultValue(1.2)
         .min(1)
@@ -40,7 +40,7 @@ public class Glide extends Module {
     );
     
     public final Setting<Double> minHeight = sgGeneral.add(new DoubleSetting.Builder()
-        .name("min-height")
+        .name("MinHeight")
         .description("Won't glide when you are too close to the ground.")
         .defaultValue(0)
         .min(0)

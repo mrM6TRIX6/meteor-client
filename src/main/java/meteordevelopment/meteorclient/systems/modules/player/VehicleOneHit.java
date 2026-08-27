@@ -22,7 +22,7 @@ public class VehicleOneHit extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Integer> amount = sgGeneral.add(new IntSetting.Builder()
-        .name("amount")
+        .name("Amount")
         .description("The number of packets to send.")
         .defaultValue(16)
         .range(1, 100)

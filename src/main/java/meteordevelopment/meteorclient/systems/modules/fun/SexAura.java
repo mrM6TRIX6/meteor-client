@@ -56,7 +56,7 @@ public class SexAura extends Module {
     // General
     
     private final Setting<Mode> targetMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("target-mode")
+        .name("TargetMode")
         .description("The mode at which to follow the player.")
         .defaultValue(Mode.AUTOMATIC)
         .onChanged(onChanged -> target = null)
@@ -64,7 +64,7 @@ public class SexAura extends Module {
     );
     
     private final Setting<Double> range = sgGeneral.add(new DoubleSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("The maximum range to set target.")
         .defaultValue(6)
         .min(0)
@@ -73,7 +73,7 @@ public class SexAura extends Module {
     );
     
     private final Setting<Boolean> randomCum = sgGeneral.add(new BoolSetting.Builder()
-        .name("random-cum")
+        .name("RandomCum")
         .description("Randomly drops cum.")
         .defaultValue(false)
         .build()
@@ -82,14 +82,14 @@ public class SexAura extends Module {
     // Sex position
     
     private final Setting<Boolean> sexPos = sgPos.add(new BoolSetting.Builder()
-        .name("sex-position")
+        .name("SexPosition")
         .description("Set a position to stick to player.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> sexDelay = sgPos.add(new IntSetting.Builder()
-        .name("sex-delay")
+        .name("SexDelay")
         .description("Delay for sex movements in ticks")
         .defaultValue(3)
         .sliderRange(0, 20)
@@ -98,7 +98,7 @@ public class SexAura extends Module {
     );
     
     private final Setting<Style> sexStyle = sgPos.add(new EnumChoiceSetting.Builder<Style>()
-        .name("style")
+        .name("Style")
         .description("The style for sticking to player.")
         .defaultValue(Style.GULP_GULP)
         .visible(sexPos::get)
@@ -108,14 +108,14 @@ public class SexAura extends Module {
     // Message
     
     private final Setting<Boolean> message = sgMessage.add(new BoolSetting.Builder()
-        .name("message")
+        .name("Message")
         .description("Sends dirty messages in chat.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> delay = sgMessage.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The delay between specified messages in ticks.")
         .defaultValue(80)
         .min(0)
@@ -125,7 +125,7 @@ public class SexAura extends Module {
     );
     
     private final Setting<Boolean> randomize = sgMessage.add(new BoolSetting.Builder()
-        .name("randomize")
+        .name("Randomize")
         .description("Selects a random message from your spam message list.")
         .defaultValue(true)
         .visible(message::get)
@@ -133,7 +133,7 @@ public class SexAura extends Module {
     );
     
     private final Setting<List<String>> messages = sgMessage.add(new StringListSetting.Builder()
-        .name("messages")
+        .name("Messages")
         .description("Messages to use for dirty talk.")
         .defaultValue(Arrays.asList(
             "I want you to make me your filthy slut~",
@@ -166,7 +166,7 @@ public class SexAura extends Module {
     );
     
     private final Setting<Boolean> isRender = sgRender.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Render the target.")
         .defaultValue(true)
         .build()

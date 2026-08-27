@@ -23,14 +23,14 @@ public class TimeChanger extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> systemSync = sgGeneral.add(new BoolSetting.Builder()
-        .name("system-sync")
+        .name("SystemSync")
         .description("Synchronize world time with your real time.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> time = sgGeneral.add(new DoubleSetting.Builder()
-        .name("time")
+        .name("Time")
         .description("The specified time to be set.")
         .defaultValue(0)
         .sliderRange(-20000, 20000)

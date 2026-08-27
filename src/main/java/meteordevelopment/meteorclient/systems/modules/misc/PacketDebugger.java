@@ -29,28 +29,28 @@ public class PacketDebugger extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Set<Class<? extends Packet<?>>>> nativeC2SPackets = sgGeneral.add(new PacketListSetting.Builder()
-        .name("native-C2S-packets")
+        .name("NativeC2SPackets")
         .description("The original client-to-server packets have not been hooked and modified.")
         .filter(p -> PacketUtils.getC2SPackets().contains(p))
         .build()
     );
     
     private final Setting<Set<Class<? extends Packet<?>>>> nativeS2CPackets = sgGeneral.add(new PacketListSetting.Builder()
-        .name("native-S2C-packets")
+        .name("NativeS2CPackets")
         .description("The original server-to-client packets have not been hooked and modified.")
         .filter(p -> PacketUtils.getS2CPackets().contains(p))
         .build()
     );
     
     private final Setting<Set<Class<? extends Packet<?>>>> finalC2SPackets = sgGeneral.add(new PacketListSetting.Builder()
-        .name("final-C2S-packets")
+        .name("FinalC2SPackets")
         .description("The final server-to-client packets, which can be hooked and modified.")
         .filter(p -> PacketUtils.getC2SPackets().contains(p))
         .build()
     );
     
     private final Setting<Set<Class<? extends Packet<?>>>> finalS2CPackets = sgGeneral.add(new PacketListSetting.Builder()
-        .name("final-S2C-packets")
+        .name("FinalS2CPackets")
         .description("The final server-to-client packets, which can be hooked and modified.")
         .filter(p -> PacketUtils.getS2CPackets().contains(p))
         .build()

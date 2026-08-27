@@ -39,14 +39,14 @@ public class Aimbot extends Module {
     // General
     
     private final Setting<Set<EntityType<?>>> entities = sgGeneral.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Entities to aim at.")
         .defaultValue(EntityType.PLAYER)
         .build()
     );
     
     private final Setting<Double> range = sgGeneral.add(new DoubleSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("The range at which an entity can be targeted.")
         .defaultValue(5)
         .min(0)
@@ -54,7 +54,7 @@ public class Aimbot extends Module {
     );
     
     private final Setting<Double> fov = sgGeneral.add(new DoubleSetting.Builder()
-        .name("fov")
+        .name("Fov")
         .description("Will only aim entities in the fov.")
         .defaultValue(360)
         .min(0)
@@ -63,21 +63,21 @@ public class Aimbot extends Module {
     );
     
     private final Setting<Boolean> ignoreWalls = sgGeneral.add(new BoolSetting.Builder()
-        .name("ignore-walls")
+        .name("IgnoreWalls")
         .description("Whether or not to ignore aiming through walls.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SortPriority> priority = sgGeneral.add(new EnumChoiceSetting.Builder<SortPriority>()
-        .name("priority")
+        .name("Priority")
         .description("How to filter targets within range.")
         .defaultValue(SortPriority.LOWEST_HEALTH)
         .build()
     );
     
     private final Setting<Target> bodyTarget = sgGeneral.add(new EnumChoiceSetting.Builder<Target>()
-        .name("aim-target")
+        .name("AimTarget")
         .description("Which part of the entities body to aim at.")
         .defaultValue(Target.BODY)
         .build()
@@ -86,14 +86,14 @@ public class Aimbot extends Module {
     // Aim Speed
     
     private final Setting<Boolean> instant = sgSpeed.add(new BoolSetting.Builder()
-        .name("instant-look")
+        .name("InstantLook")
         .description("Instantly looks at the entity.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> speed = sgSpeed.add(new DoubleSetting.Builder()
-        .name("speed")
+        .name("Speed")
         .description("How fast to aim at the entity.")
         .defaultValue(5)
         .min(0)

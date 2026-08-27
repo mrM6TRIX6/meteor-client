@@ -27,14 +27,14 @@ public class CameraTweaks extends Module {
     // General
     
     private final Setting<Boolean> clip = sgGeneral.add(new BoolSetting.Builder()
-        .name("clip")
+        .name("Clip")
         .description("Allows the camera to clip through blocks.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Double> cameraDistance = sgGeneral.add(new DoubleSetting.Builder()
-        .name("camera-distance")
+        .name("CameraDistance")
         .description("The distance the third person camera is from the player.")
         .defaultValue(4)
         .min(0)
@@ -45,14 +45,14 @@ public class CameraTweaks extends Module {
     // Scrolling
     
     private final Setting<Boolean> scrollingEnabled = sgScrolling.add(new BoolSetting.Builder()
-        .name("scrolling")
+        .name("Scrolling")
         .description("Allows you to scroll to change camera distance.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Keybind> scrollKeybind = sgScrolling.add(new KeybindSetting.Builder()
-        .name("bind")
+        .name("Bind")
         .description("Binds camera distance scrolling to a key.")
         .visible(scrollingEnabled::get)
         .defaultValue(Keybind.fromKey(GLFW.GLFW_KEY_LEFT_ALT))
@@ -60,7 +60,7 @@ public class CameraTweaks extends Module {
     );
     
     private final Setting<Double> scrollSensitivity = sgScrolling.add(new DoubleSetting.Builder()
-        .name("sensitivity")
+        .name("Sensitivity")
         .description("Sensitivity of the scroll wheel when changing the cameras distance.")
         .visible(scrollingEnabled::get)
         .defaultValue(1)

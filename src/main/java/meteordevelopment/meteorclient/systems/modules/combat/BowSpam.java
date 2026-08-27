@@ -22,7 +22,7 @@ public class BowSpam extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Integer> charge = sgGeneral.add(new IntSetting.Builder()
-        .name("charge")
+        .name("Charge")
         .description("How long to charge the bow before releasing in ticks.")
         .defaultValue(5)
         .range(5, 20)
@@ -31,14 +31,14 @@ public class BowSpam extends Module {
     );
     
     private final Setting<Boolean> onlyWhenHoldingRightClick = sgGeneral.add(new BoolSetting.Builder()
-        .name("when-holding-right-click")
+        .name("WhenHoldingRightClick")
         .description("Works only when holding right click.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> tridents = sgGeneral.add(new BoolSetting.Builder()
-        .name("tridents")
+        .name("Tridents")
         .description("Enable AutoBow functionality to tridents.")
         .defaultValue(false)
         .build()

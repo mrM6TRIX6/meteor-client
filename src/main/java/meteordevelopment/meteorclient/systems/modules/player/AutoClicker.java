@@ -22,21 +22,21 @@ public class AutoClicker extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> inScreens = sgGeneral.add(new BoolSetting.Builder()
-        .name("while-in-screens")
+        .name("WhileInScreens")
         .description("Whether to click while a screen is open.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Mode> leftClickMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode-left")
+        .name("ModeLeft")
         .description("The method of clicking for left clicks.")
         .defaultValue(Mode.PRESS)
         .build()
     );
     
     private final Setting<Integer> leftClickDelay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay-left")
+        .name("DelayLeft")
         .description("The amount of delay between left clicks in ticks.")
         .defaultValue(2)
         .min(0)
@@ -46,14 +46,14 @@ public class AutoClicker extends Module {
     );
     
     private final Setting<Mode> rightClickMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode-right")
+        .name("ModeRight")
         .description("The method of clicking for right clicks.")
         .defaultValue(Mode.PRESS)
         .build()
     );
     
     private final Setting<Integer> rightClickDelay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay-right")
+        .name("DelayRight")
         .description("The amount of delay between right clicks in ticks.")
         .defaultValue(2)
         .min(0)

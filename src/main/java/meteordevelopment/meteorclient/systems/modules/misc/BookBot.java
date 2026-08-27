@@ -55,14 +55,14 @@ public class BookBot extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("What kind of text to write.")
         .defaultValue(Mode.RANDOM)
         .build()
     );
     
     private final Setting<Integer> pages = sgGeneral.add(new IntSetting.Builder()
-        .name("pages")
+        .name("Pages")
         .description("The number of pages to write per book.")
         .defaultValue(50)
         .range(1, 100)
@@ -72,7 +72,7 @@ public class BookBot extends Module {
     );
     
     private final Setting<Boolean> onlyAscii = sgGeneral.add(new BoolSetting.Builder()
-        .name("ascii-only")
+        .name("AsciiOnly")
         .description("Only uses the characters in the ASCII charset.")
         .defaultValue(false)
         .visible(() -> mode.get() == Mode.RANDOM)
@@ -80,7 +80,7 @@ public class BookBot extends Module {
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The amount of delay between writing books.")
         .defaultValue(20)
         .min(1)
@@ -89,14 +89,14 @@ public class BookBot extends Module {
     );
     
     private final Setting<Boolean> sign = sgGeneral.add(new BoolSetting.Builder()
-        .name("sign")
+        .name("Sign")
         .description("Whether to sign the book.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<String> name = sgGeneral.add(new StringSetting.Builder()
-        .name("name")
+        .name("Name")
         .description("The name you want to give your books.")
         .defaultValue("Meteor on Crack!")
         .visible(sign::get)
@@ -104,7 +104,7 @@ public class BookBot extends Module {
     );
     
     private final Setting<Boolean> count = sgGeneral.add(new BoolSetting.Builder()
-        .name("append-count")
+        .name("AppendCount")
         .description("Whether to append the number of the book to the title.")
         .defaultValue(true)
         .visible(sign::get)

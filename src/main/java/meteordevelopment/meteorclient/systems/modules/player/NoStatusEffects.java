@@ -24,7 +24,7 @@ public class NoStatusEffects extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<List<StatusEffect>> blockedEffects = sgGeneral.add(new StatusEffectListSetting.Builder()
-        .name("blocked-effects")
+        .name("BlockedEffects")
         .description("Effects to block.")
         .defaultValue(
             LEVITATION.value(),

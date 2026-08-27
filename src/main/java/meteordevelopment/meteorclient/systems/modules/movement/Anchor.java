@@ -26,7 +26,7 @@ public class Anchor extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Integer> maxHeight = sgGeneral.add(new IntSetting.Builder()
-        .name("max-height")
+        .name("MaxHeight")
         .description("The maximum height Anchor will work at.")
         .defaultValue(10)
         .range(0, 255)
@@ -35,7 +35,7 @@ public class Anchor extends Module {
     );
     
     private final Setting<Integer> minPitch = sgGeneral.add(new IntSetting.Builder()
-        .name("min-pitch")
+        .name("MinPitch")
         .description("The minimum pitch at which anchor will work.")
         .defaultValue(0)
         .range(-90, 90)
@@ -44,21 +44,21 @@ public class Anchor extends Module {
     );
     
     private final Setting<Boolean> cancelMove = sgGeneral.add(new BoolSetting.Builder()
-        .name("cancel-jump-in-hole")
+        .name("CancelJumpInHole")
         .description("Prevents you from jumping when Anchor is active and Min Pitch is met.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> pull = sgGeneral.add(new BoolSetting.Builder()
-        .name("pull")
+        .name("Pull")
         .description("The pull strength of Anchor.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> pullSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("pull-speed")
+        .name("PullSpeed")
         .description("How fast to pull towards the hole in blocks per second.")
         .defaultValue(0.3)
         .min(0)

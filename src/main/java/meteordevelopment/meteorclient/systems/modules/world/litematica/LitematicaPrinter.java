@@ -55,7 +55,7 @@ public class LitematicaPrinter extends Module {
     private final SettingGroup sgRender = settings.createGroup("Render");
 
     private final Setting<Integer> range = sgGeneral.add(new IntSetting.Builder()
-        .name("printing-range")
+        .name("PrintingRange")
         .description("The block place range.")
         .defaultValue(2)
         .min(1).sliderMin(1)
@@ -63,7 +63,7 @@ public class LitematicaPrinter extends Module {
         .build());
 
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("printing-delay")
+        .name("PrintingDelay")
         .description("Delay between printing blocks in ticks.")
         .defaultValue(2)
         .min(0).sliderMin(0)
@@ -71,7 +71,7 @@ public class LitematicaPrinter extends Module {
         .build());
 
     private final Setting<Integer> bpt = sgGeneral.add(new IntSetting.Builder()
-        .name("blocks-per-tick")
+        .name("BlocksPerTick")
         .description("How many blocks to place per tick.")
         .defaultValue(1)
         .min(1).sliderMin(1)
@@ -79,111 +79,111 @@ public class LitematicaPrinter extends Module {
         .build());
 
     private final Setting<Boolean> advanced = sgGeneral.add(new BoolSetting.Builder()
-        .name("advanced")
+        .name("Advanced")
         .description("Respect block rotation (places blocks in weird places in singleplayer, multiplayer should work fine).")
         .defaultValue(false)
         .build());
 
     private final Setting<Boolean> creativeBlockStates = sgGeneral.add(new BoolSetting.Builder()
-        .name("creative-block-states")
+        .name("CreativeBlockStates")
         .description("Creative only. Gives yourself the block with a block state component so it is placed in the exact state the schematic wants, without having to aim at a specific face.")
         .defaultValue(false)
         .build());
 
     private final Setting<Boolean> headTextures = sgGeneral.add(new BoolSetting.Builder()
-        .name("head-textures")
+        .name("HeadTextures")
         .description("Creative only. Gives yourself player heads with the profile component of the head in the schematic, so they keep their skin.")
         .defaultValue(false)
         .build());
 
     private final Setting<Boolean> airPlace = sgGeneral.add(new BoolSetting.Builder()
-        .name("air-place")
+        .name("AirPlace")
         .description("Allow placing blocks without a neighbour to place against.")
         .defaultValue(true)
         .build());
 
     private final Setting<Boolean> placeThroughWall = sgGeneral.add(new BoolSetting.Builder()
-        .name("place-through-wall")
+        .name("PlaceThroughWall")
         .description("Allow placing blocks you cannot see.")
         .defaultValue(true)
         .build());
 
     private final Setting<Boolean> swing = sgGeneral.add(new BoolSetting.Builder()
-        .name("swing")
+        .name("Swing")
         .description("Swing hand when placing.")
         .defaultValue(false)
         .build());
 
     private final Setting<Boolean> returnHand = sgGeneral.add(new BoolSetting.Builder()
-        .name("return-slot")
+        .name("ReturnSlot")
         .description("Return to your old slot after placing.")
         .defaultValue(false)
         .build());
 
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Rotate to the blocks being placed.")
         .defaultValue(false)
         .build());
 
     private final Setting<Boolean> clientSide = sgGeneral.add(new BoolSetting.Builder()
-        .name("client-side-rotation")
+        .name("ClientSideRotation")
         .description("Only rotate on the client side.")
         .defaultValue(false)
         .visible(rotate::get)
         .build());
 
     private final Setting<Boolean> dirtAsGrass = sgGeneral.add(new BoolSetting.Builder()
-        .name("dirt-as-grass")
+        .name("DirtAsGrass")
         .description("Use dirt instead of grass blocks.")
         .defaultValue(true)
         .build());
 
     private final Setting<Boolean> useOffhand = sgGeneral.add(new BoolSetting.Builder()
-        .name("use-offhand")
+        .name("UseOffhand")
         .description("Automatically put block items in the offhand while printing.")
         .defaultValue(false)
         .build());
 
     private final Setting<Boolean> supportFallingBlocks = sgGeneral.add(new BoolSetting.Builder()
-        .name("support-falling-blocks")
+        .name("SupportFallingBlocks")
         .description("Wait for the block below to be placed before placing sand, gravel and other falling blocks.")
         .defaultValue(true)
         .build());
 
     private final Setting<SortAlgorithm> firstAlgorithm = sgGeneral.add(new EnumChoiceSetting.Builder<SortAlgorithm>()
-        .name("first-sorting-mode")
+        .name("FirstSortingMode")
         .description("The blocks you want to place first.")
         .defaultValue(SortAlgorithm.NONE)
         .build());
 
     private final Setting<SortingSecond> secondAlgorithm = sgGeneral.add(new EnumChoiceSetting.Builder<SortingSecond>()
-        .name("second-sorting-mode")
+        .name("SecondSortingMode")
         .description("Second pass of sorting, eg. place blocks higher up and closest to you first.")
         .defaultValue(SortingSecond.NONE)
         .visible(() -> firstAlgorithm.get().applySecondSorting)
         .build());
 
     private final Setting<ListMode> listMode = sgWorkMode.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("list-mode")
+        .name("ListMode")
         .description("Block list mode.")
         .defaultValue(ListMode.NONE)
         .build());
 
     private final Setting<List<Block>> filterBlocks = sgWorkMode.add(new BlockListSetting.Builder()
-        .name("filter-blocks")
+        .name("FilterBlocks")
         .description("Blocks to whitelist or blacklist.")
         .visible(() -> listMode.get() != ListMode.NONE)
         .build());
 
     private final Setting<Boolean> antiStuck = sgAntiStuck.add(new BoolSetting.Builder()
-        .name("anti-stuck")
+        .name("AntiStuck")
         .description("Escalate blocks that keep failing instead of retrying them the same way forever.")
         .defaultValue(true)
         .build());
 
     private final Setting<Integer> ignoreStateAttempts = sgAntiStuck.add(new IntSetting.Builder()
-        .name("attempts-before-ignoring-state")
+        .name("AttemptsBeforeIgnoringState")
         .description("Attempts on the same block before it is placed without matching the wanted block state.")
         .defaultValue(3)
         .min(1).sliderMin(1)
@@ -192,7 +192,7 @@ public class LitematicaPrinter extends Module {
         .build());
 
     private final Setting<Integer> delayAttempts = sgAntiStuck.add(new IntSetting.Builder()
-        .name("attempts-before-delay")
+        .name("AttemptsBeforeDelay")
         .description("Attempts on the same block before it gets a cooldown. Never lower than attempts-before-ignoring-state, so the stateless attempts come first.")
         .defaultValue(6)
         .min(1).sliderMin(1)
@@ -201,7 +201,7 @@ public class LitematicaPrinter extends Module {
         .build());
 
     private final Setting<Integer> stuckDelay = sgAntiStuck.add(new IntSetting.Builder()
-        .name("stuck-delay")
+        .name("StuckDelay")
         .description("Cooldown in ticks given to a stuck block, multiplied by every further attempt.")
         .defaultValue(5)
         .min(1).sliderMin(1)
@@ -210,7 +210,7 @@ public class LitematicaPrinter extends Module {
         .build());
 
     private final Setting<Integer> maxStuckDelay = sgAntiStuck.add(new IntSetting.Builder()
-        .name("max-stuck-delay")
+        .name("MaxStuckDelay")
         .description("Upper bound for the cooldown in ticks.")
         .defaultValue(100)
         .min(1).sliderMin(1)
@@ -219,20 +219,20 @@ public class LitematicaPrinter extends Module {
         .build());
 
     private final Setting<Boolean> cycleSlot = sgAntiStuck.add(new BoolSetting.Builder()
-        .name("cycle-hotbar-slot")
+        .name("CycleHotbarSlot")
         .description("Move to the next hotbar slot when a block keeps failing, to resync an inventory the server disagrees with.")
         .defaultValue(true)
         .visible(antiStuck::get)
         .build());
 
     private final Setting<Boolean> renderPlaced = sgRender.add(new BoolSetting.Builder()
-        .name("render-placed-blocks")
+        .name("RenderPlacedBlocks")
         .description("Renders block placements.")
         .defaultValue(true)
         .build());
 
     private final Setting<Integer> fadeTime = sgRender.add(new IntSetting.Builder()
-        .name("fade-time")
+        .name("FadeTime")
         .description("Time for the rendering to fade, in ticks.")
         .defaultValue(3)
         .min(1).sliderMin(1)
@@ -241,14 +241,14 @@ public class LitematicaPrinter extends Module {
         .build());
 
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.SIDES)
         .visible(renderPlaced::get)
         .build());
 
     private final Setting<SettingColor> color = sgRender.add(new ColorSetting.Builder()
-        .name("color")
+        .name("Color")
         .description("The cubes color.")
         .defaultValue(new SettingColor(95, 190, 255, 100))
         .visible(renderPlaced::get)

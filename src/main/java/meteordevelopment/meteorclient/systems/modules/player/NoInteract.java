@@ -40,33 +40,33 @@ public class NoInteract extends Module {
     // Blocks
     
     private final Setting<List<Block>> blockMine = sgBlocks.add(new BlockListSetting.Builder()
-        .name("block-mine")
+        .name("BlockMine")
         .description("Cancels block mining.")
         .build()
     );
     
     private final Setting<ListMode> blockMineMode = sgBlocks.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("block-mine-mode")
+        .name("BlockMineMode")
         .description("List mode to use for block mine.")
         .defaultValue(ListMode.BLACKLIST)
         .build()
     );
     
     private final Setting<List<Block>> blockInteract = sgBlocks.add(new BlockListSetting.Builder()
-        .name("block-interact")
+        .name("BlockInteract")
         .description("Cancels block interaction.")
         .build()
     );
     
     private final Setting<ListMode> blockInteractMode = sgBlocks.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("block-interact-mode")
+        .name("BlockInteractMode")
         .description("List mode to use for block interact.")
         .defaultValue(ListMode.BLACKLIST)
         .build()
     );
     
     private final Setting<HandMode> blockInteractHand = sgBlocks.add(new EnumChoiceSetting.Builder<HandMode>()
-        .name("block-interact-hand")
+        .name("BlockInteractHand")
         .description("Cancels block interaction if performed by this hand.")
         .defaultValue(HandMode.NONE)
         .build()
@@ -75,56 +75,56 @@ public class NoInteract extends Module {
     // Entities
     
     private final Setting<Set<EntityType<?>>> entityHit = sgEntities.add(new EntityTypeListSetting.Builder()
-        .name("entity-hit")
+        .name("EntityHit")
         .description("Cancel entity hitting.")
         .onlyAttackable()
         .build()
     );
     
     private final Setting<ListMode> entityHitMode = sgEntities.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("entity-hit-mode")
+        .name("EntityHitMode")
         .description("List mode to use for entity hit.")
         .defaultValue(ListMode.BLACKLIST)
         .build()
     );
     
     private final Setting<Set<EntityType<?>>> entityInteract = sgEntities.add(new EntityTypeListSetting.Builder()
-        .name("entity-interact")
+        .name("EntityInteract")
         .description("Cancel entity interaction.")
         .onlyAttackable()
         .build()
     );
     
     private final Setting<ListMode> entityInteractMode = sgEntities.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("entity-interact-mode")
+        .name("EntityInteractMode")
         .description("List mode to use for entity interact.")
         .defaultValue(ListMode.BLACKLIST)
         .build()
     );
     
     private final Setting<HandMode> entityInteractHand = sgEntities.add(new EnumChoiceSetting.Builder<HandMode>()
-        .name("entity-interact-hand")
+        .name("EntityInteractHand")
         .description("Cancels entity interaction if performed by this hand.")
         .defaultValue(HandMode.NONE)
         .build()
     );
     
     private final Setting<InteractMode> friends = sgEntities.add(new EnumChoiceSetting.Builder<InteractMode>()
-        .name("friends")
+        .name("Friends")
         .description("Friends cancel mode.")
         .defaultValue(InteractMode.NONE)
         .build()
     );
     
     private final Setting<InteractMode> babies = sgEntities.add(new EnumChoiceSetting.Builder<InteractMode>()
-        .name("babies")
+        .name("Babies")
         .description("Baby entity cancel mode.")
         .defaultValue(InteractMode.NONE)
         .build()
     );
     
     private final Setting<InteractMode> nametagged = sgEntities.add(new EnumChoiceSetting.Builder<InteractMode>()
-        .name("nametagged")
+        .name("Nametagged")
         .description("Nametagged entity cancel mode.")
         .defaultValue(InteractMode.NONE)
         .build()

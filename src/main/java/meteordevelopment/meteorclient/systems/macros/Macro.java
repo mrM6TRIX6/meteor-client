@@ -32,13 +32,13 @@ public class Macro implements ISerializable<Macro>, IMinecraft {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<String> name = sgGeneral.add(new StringSetting.Builder()
-        .name("name")
+        .name("Name")
         .description("The name of the macro.")
         .build()
     );
     
     public final Setting<List<String>> messages = sgGeneral.add(new StringListSetting.Builder()
-        .name("messages")
+        .name("Messages")
         .description("The messages for the macro to send.")
         .onChanged(v -> dirty = true)
         .renderer(StarscriptTextBoxRenderer.class)
@@ -46,7 +46,7 @@ public class Macro implements ISerializable<Macro>, IMinecraft {
     );
     
     public final Setting<Keybind> keybind = sgGeneral.add(new KeybindSetting.Builder()
-        .name("keybind")
+        .name("Keybind")
         .description("The bind to run the macro.")
         .build()
     );

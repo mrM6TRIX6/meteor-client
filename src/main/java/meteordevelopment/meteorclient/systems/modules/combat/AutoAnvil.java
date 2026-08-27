@@ -38,7 +38,7 @@ public class AutoAnvil extends Module {
     // General
     
     private final Setting<Double> range = sgGeneral.add(new DoubleSetting.Builder()
-        .name("target-range")
+        .name("TargetRange")
         .description("The radius in which players get targeted.")
         .defaultValue(4)
         .min(0)
@@ -47,14 +47,14 @@ public class AutoAnvil extends Module {
     );
     
     private final Setting<SortPriority> priority = sgGeneral.add(new EnumChoiceSetting.Builder<SortPriority>()
-        .name("target-priority")
+        .name("TargetPriority")
         .description("How to select the player to target.")
         .defaultValue(SortPriority.LOWEST_HEALTH)
         .build()
     );
     
     private final Setting<Integer> height = sgGeneral.add(new IntSetting.Builder()
-        .name("height")
+        .name("Height")
         .description("The height to place anvils at.")
         .defaultValue(2)
         .range(0, 5)
@@ -63,7 +63,7 @@ public class AutoAnvil extends Module {
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The delay in between anvil placements.")
         .defaultValue(10)
         .min(0)
@@ -72,28 +72,28 @@ public class AutoAnvil extends Module {
     );
     
     private final Setting<Boolean> placeButton = sgGeneral.add(new BoolSetting.Builder()
-        .name("place-at-feet")
+        .name("PlaceAtFeet")
         .description("Automatically places a button or pressure plate at the targets feet to break the anvils.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> multiPlace = sgGeneral.add(new BoolSetting.Builder()
-        .name("multi-place")
+        .name("MultiPlace")
         .description("Places multiple anvils at once..")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> toggleOnBreak = sgGeneral.add(new BoolSetting.Builder()
-        .name("toggle-on-break")
+        .name("ToggleOnBreak")
         .description("Toggles when the target's helmet slot is empty.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Automatically rotates towards the position anvils/pressure plates/buttons are placed.")
         .defaultValue(true)
         .build()

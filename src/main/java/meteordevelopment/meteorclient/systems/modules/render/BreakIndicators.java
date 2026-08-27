@@ -35,28 +35,28 @@ public class BreakIndicators extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     public final Setting<Boolean> packetMine = sgGeneral.add(new BoolSetting.Builder()
-        .name("packet-mine")
+        .name("PacketMine")
         .description("Whether or not to render blocks being packet mined.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<SettingColor> startColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("start-color")
+        .name("StartColor")
         .description("The color for the non-broken block.")
         .defaultValue(new SettingColor(25, 252, 25, 150))
         .build()
     );
     
     private final Setting<SettingColor> endColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("end-color")
+        .name("EndColor")
         .description("The color for the fully-broken block.")
         .defaultValue(new SettingColor(255, 25, 25, 150))
         .build()

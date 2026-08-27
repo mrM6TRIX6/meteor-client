@@ -27,21 +27,21 @@ public class AutoWeapon extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Weapon> weapon = sgGeneral.add(new EnumChoiceSetting.Builder<Weapon>()
-        .name("weapon")
+        .name("Weapon")
         .description("What type of weapon to use.")
         .defaultValue(Weapon.SWORD)
         .build()
     );
     
     private final Setting<Integer> threshold = sgGeneral.add(new IntSetting.Builder()
-        .name("threshold")
+        .name("Threshold")
         .description("If the non-preferred weapon produces this much damage this will favor it over your preferred weapon.")
         .defaultValue(4)
         .build()
     );
     
     private final Setting<Boolean> antiBreak = sgGeneral.add(new BoolSetting.Builder()
-        .name("anti-break")
+        .name("AntiBreak")
         .description("Prevents you from breaking your weapon.")
         .defaultValue(false)
         .build()

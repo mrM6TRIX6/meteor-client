@@ -30,42 +30,42 @@ public class HandView extends Module {
     // General
     
     private final Setting<Boolean> followRotations = sgGeneral.add(new BoolSetting.Builder()
-        .name("server-rotations")
+        .name("ServerRotations")
         .description("Makes your hands follow your serverside rotations.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> oldAnimations = sgGeneral.add(new BoolSetting.Builder()
-        .name("old-animations")
+        .name("OldAnimations")
         .description("Changes hit animations to those like 1.8")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Boolean> skipSwapping = sgGeneral.add(new BoolSetting.Builder()
-        .name("skip-swapping-animation")
+        .name("SkipSwappingAnimation")
         .description("Whether or not to skip the item swapping animation")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> disableFoodAnimation = sgGeneral.add(new BoolSetting.Builder()
-        .name("disable-eating-animation")
+        .name("DisableEatingAnimation")
         .description("Disables the eating animation. Potentially desirable if it goes offscreen.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<SwingMode> swingMode = sgGeneral.add(new EnumChoiceSetting.Builder<SwingMode>()
-        .name("swing-mode")
+        .name("SwingMode")
         .description("Modifies your client & server hand swinging.")
         .defaultValue(SwingMode.NONE)
         .build()
     );
     
     public final Setting<Integer> swingSpeed = sgGeneral.add(new IntSetting.Builder()
-        .name("swing-speed")
+        .name("SwingSpeed")
         .description("The swing speed of your hands.")
         .defaultValue(6)
         .range(0, 20)
@@ -74,7 +74,7 @@ public class HandView extends Module {
     );
     
     public final Setting<Double> mainSwing = sgGeneral.add(new DoubleSetting.Builder()
-        .name("main-hand-progress")
+        .name("MainHandProgress")
         .description("The swing progress of your main hand.")
         .defaultValue(0)
         .range(0, 1)
@@ -83,7 +83,7 @@ public class HandView extends Module {
     );
     
     public final Setting<Double> offSwing = sgGeneral.add(new DoubleSetting.Builder()
-        .name("off-hand-progress")
+        .name("OffHandProgress")
         .description("The swing progress of your off hand.")
         .defaultValue(0)
         .range(0, 1)
@@ -94,7 +94,7 @@ public class HandView extends Module {
     // Main Hand
     
     private final Setting<Vector3d> scaleMain = sgMainHand.add(new Vector3dSetting.Builder()
-        .name("scale-main")
+        .name("ScaleMain")
         .description("The scale of your main hand.")
         .defaultValue(1, 1, 1)
         .sliderMax(5)
@@ -103,7 +103,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> posMain = sgMainHand.add(new Vector3dSetting.Builder()
-        .name("position-main")
+        .name("PositionMain")
         .description("The position of your main hand.")
         .defaultValue(0, 0, 0)
         .sliderRange(-3, 3)
@@ -112,7 +112,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> rotMain = sgMainHand.add(new Vector3dSetting.Builder()
-        .name("rotation-main")
+        .name("RotationMain")
         .description("The rotation of your main hand.")
         .defaultValue(0, 0, 0)
         .sliderRange(-180, 180)
@@ -123,7 +123,7 @@ public class HandView extends Module {
     // Offhand
     
     private final Setting<Vector3d> scaleOff = sgOffHand.add(new Vector3dSetting.Builder()
-        .name("scale-off")
+        .name("ScaleOff")
         .description("The scale of your off hand.")
         .defaultValue(1, 1, 1)
         .sliderMax(5)
@@ -132,7 +132,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> posOff = sgOffHand.add(new Vector3dSetting.Builder()
-        .name("position-off")
+        .name("PositionOff")
         .description("The position of your off hand.")
         .defaultValue(0, 0, 0)
         .sliderRange(-3, 3)
@@ -141,7 +141,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> rotOff = sgOffHand.add(new Vector3dSetting.Builder()
-        .name("rotation-off")
+        .name("RotationOff")
         .description("The rotation of your off hand.")
         .defaultValue(0, 0, 0)
         .sliderRange(-180, 180)
@@ -152,7 +152,7 @@ public class HandView extends Module {
     // Arm
     
     private final Setting<Vector3d> scaleArm = sgArm.add(new Vector3dSetting.Builder()
-        .name("scale-arm")
+        .name("ScaleArm")
         .defaultValue(1, 1, 1)
         .sliderMax(5)
         .decimalPlaces(1)
@@ -160,7 +160,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> posArm = sgArm.add(new Vector3dSetting.Builder()
-        .name("position-arm")
+        .name("PositionArm")
         .defaultValue(0, 0, 0)
         .sliderRange(-3, 3)
         .decimalPlaces(1)
@@ -168,7 +168,7 @@ public class HandView extends Module {
     );
     
     private final Setting<Vector3d> rotArm = sgArm.add(new Vector3dSetting.Builder()
-        .name("rotation-arm")
+        .name("RotationArm")
         .defaultValue(0, 0, 0)
         .sliderRange(-180, 180)
         .decimalPlaces(0)

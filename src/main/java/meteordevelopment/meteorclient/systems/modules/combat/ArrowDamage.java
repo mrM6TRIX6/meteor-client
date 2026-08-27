@@ -23,7 +23,7 @@ public class ArrowDamage extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<Integer> packets = sgGeneral.add(new IntSetting.Builder()
-        .name("packets")
+        .name("Packets")
         .description("Amount of packets to send. More packets = higher damage.")
         .defaultValue(200)
         .min(2)
@@ -32,7 +32,7 @@ public class ArrowDamage extends Module {
     );
     
     public final Setting<Boolean> tridents = sgGeneral.add(new BoolSetting.Builder()
-        .name("tridents")
+        .name("Tridents")
         .description("When enabled, tridents fly much further. Doesn't seem to affect damage or Riptide. WARNING: You can easily lose your trident by enabling this option!")
         .defaultValue(false)
         .build()

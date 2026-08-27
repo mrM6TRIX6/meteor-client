@@ -40,7 +40,7 @@ public class AutoWeb extends Module {
     private final SettingGroup sgRender = settings.createGroup("Render");
     
     private final Setting<Double> placeRange = sgGeneral.add(new DoubleSetting.Builder()
-        .name("place-range")
+        .name("PlaceRange")
         .description("The range at which webs can be placed.")
         .defaultValue(4)
         .min(0)
@@ -49,7 +49,7 @@ public class AutoWeb extends Module {
     );
     
     private final Setting<Double> placeWallsRange = sgGeneral.add(new DoubleSetting.Builder()
-        .name("walls-range")
+        .name("WallsRange")
         .description("Range in which to place webs when behind blocks.")
         .defaultValue(4)
         .min(0)
@@ -58,14 +58,14 @@ public class AutoWeb extends Module {
     );
     
     private final Setting<SortPriority> priority = sgGeneral.add(new EnumChoiceSetting.Builder<SortPriority>()
-        .name("target-priority")
+        .name("TargetPriority")
         .description("How to filter targets within range.")
         .defaultValue(SortPriority.LOWEST_DISTANCE)
         .build()
     );
     
     private final Setting<Double> targetRange = sgGeneral.add(new DoubleSetting.Builder()
-        .name("target-range")
+        .name("TargetRange")
         .description("The maximum distance to target players.")
         .defaultValue(10)
         .min(0)
@@ -74,14 +74,14 @@ public class AutoWeb extends Module {
     );
     
     private final Setting<Boolean> predictMovement = sgGeneral.add(new BoolSetting.Builder()
-        .name("predict-movement")
+        .name("PredictMovement")
         .description("Predict target movement to account for ping.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Double> ticksToPredict = sgGeneral.add(new DoubleSetting.Builder()
-        .name("ticks-to-predict")
+        .name("TicksToPredict")
         .description("How many ticks ahead we should predict for.")
         .defaultValue(10)
         .min(1)
@@ -91,14 +91,14 @@ public class AutoWeb extends Module {
     );
     
     private final Setting<Boolean> doubles = sgGeneral.add(new BoolSetting.Builder()
-        .name("doubles")
+        .name("Doubles")
         .description("Places webs in the target's upper hitbox as well as the lower hitbox.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Rotates towards the webs when placing.")
         .defaultValue(true)
         .build()
@@ -107,14 +107,14 @@ public class AutoWeb extends Module {
     // Render
     
     private final Setting<Boolean> render = sgRender.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Renders an overlay where webs are placed.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .visible(render::get)
@@ -122,7 +122,7 @@ public class AutoWeb extends Module {
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color of the placed web rendering.")
         .defaultValue(new SettingColor(239, 231, 244, 31))
         .visible(() -> render.get() && shapeMode.get().sides())
@@ -130,7 +130,7 @@ public class AutoWeb extends Module {
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color of the placed web rendering.")
         .defaultValue(new SettingColor(255, 255, 255))
         .visible(() -> render.get() && shapeMode.get().lines())

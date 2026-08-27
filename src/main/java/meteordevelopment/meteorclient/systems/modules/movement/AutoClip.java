@@ -23,7 +23,7 @@ public class AutoClip extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Integer> horizontalRange = sgGeneral.add(new IntSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("Horizontal auto clip range.")
         .defaultValue(10)
         .sliderRange(2, 10)

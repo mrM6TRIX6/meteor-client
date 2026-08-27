@@ -48,14 +48,14 @@ public class NoFall extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("The way you are saved from fall damage.")
         .defaultValue(Mode.PACKET)
         .build()
     );
     
     private final Setting<PlacedItem> placedItem = sgGeneral.add(new EnumChoiceSetting.Builder<PlacedItem>()
-        .name("placed-item")
+        .name("PlacedItem")
         .description("Which block to place.")
         .defaultValue(PlacedItem.BUCKET)
         .visible(() -> mode.get() == Mode.PLACE)
@@ -63,7 +63,7 @@ public class NoFall extends Module {
     );
     
     private final Setting<PlaceMode> airPlaceMode = sgGeneral.add(new EnumChoiceSetting.Builder<PlaceMode>()
-        .name("air-place-mode")
+        .name("AirPlaceMode")
         .description("Whether place mode places before you die or before you take damage.")
         .defaultValue(PlaceMode.BEFORE_DEATH)
         .visible(() -> mode.get() == Mode.AIR_PLACE)
@@ -71,7 +71,7 @@ public class NoFall extends Module {
     );
     
     private final Setting<Boolean> anchor = sgGeneral.add(new BoolSetting.Builder()
-        .name("anchor")
+        .name("Anchor")
         .description("Centers the player and reduces movement when using bucket or air place mode.")
         .defaultValue(true)
         .visible(() -> mode.get() != Mode.PACKET)
@@ -79,14 +79,14 @@ public class NoFall extends Module {
     );
     
     private final Setting<Boolean> antiBounce = sgGeneral.add(new BoolSetting.Builder()
-        .name("anti-bounce")
+        .name("AntiBounce")
         .description("Disables bouncing on slime-block and bed upon landing.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> pauseOnMace = sgGeneral.add(new BoolSetting.Builder()
-        .name("pause-on-mace")
+        .name("PauseOnMace")
         .description("Pauses NoFall when using a mace.")
         .defaultValue(true)
         .build()

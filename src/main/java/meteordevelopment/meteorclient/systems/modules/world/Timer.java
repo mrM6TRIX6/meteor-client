@@ -16,7 +16,7 @@ public class Timer extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> multiplier = sgGeneral.add(new DoubleSetting.Builder()
-        .name("multiplier")
+        .name("Multiplier")
         .description("The timer multiplier amount.")
         .defaultValue(1)
         .min(0.1)

@@ -59,7 +59,7 @@ public class Xray extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<List<Block>> blocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("whitelist")
+        .name("Whitelist")
         .description("Which blocks to show x-rayed.")
         .defaultValue(ORES)
         .onChanged(v -> {
@@ -71,7 +71,7 @@ public class Xray extends Module {
     );
     
     public final Setting<Integer> opacity = sgGeneral.add(new IntSetting.Builder()
-        .name("opacity")
+        .name("Opacity")
         .description("The opacity for all other blocks.")
         .defaultValue(25)
         .range(0, 255)
@@ -85,7 +85,7 @@ public class Xray extends Module {
     );
     
     private final Setting<Boolean> exposedOnly = sgGeneral.add(new BoolSetting.Builder()
-        .name("exposed-only")
+        .name("ExposedOnly")
         .description("Show only exposed ores.")
         .defaultValue(false)
         .onChanged(onChanged -> {

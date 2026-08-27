@@ -29,14 +29,14 @@ public class SpeedMine extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .defaultValue(Mode.DAMAGE)
         .onChanged(mode -> removeHaste())
         .build()
     );
     
     private final Setting<List<Block>> blocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("blocks")
+        .name("Blocks")
         .description("Selected blocks.")
         .filter(block -> block.getHardness() > 0)
         .visible(() -> mode.get() != Mode.HASTE)
@@ -44,7 +44,7 @@ public class SpeedMine extends Module {
     );
     
     private final Setting<ListMode> blocksFilter = sgGeneral.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("blocks-filter")
+        .name("BlocksFilter")
         .description("How to use the blocks setting.")
         .defaultValue(ListMode.BLACKLIST)
         .visible(() -> mode.get() != Mode.HASTE)
@@ -52,7 +52,7 @@ public class SpeedMine extends Module {
     );
     
     public final Setting<Double> modifier = sgGeneral.add(new DoubleSetting.Builder()
-        .name("modifier")
+        .name("Modifier")
         .description("Mining speed modifier. An additional value of 0.2 is equivalent to one haste level (1.2 = haste 1).")
         .defaultValue(1.4)
         .visible(() -> mode.get() == Mode.NORMAL)
@@ -61,7 +61,7 @@ public class SpeedMine extends Module {
     );
     
     private final Setting<Integer> hasteAmplifier = sgGeneral.add(new IntSetting.Builder()
-        .name("haste-amplifier")
+        .name("HasteAmplifier")
         .description("What value of haste to give you. Above 2 not recommended.")
         .defaultValue(2)
         .min(1)
@@ -71,7 +71,7 @@ public class SpeedMine extends Module {
     );
     
     private final Setting<Boolean> instamine = sgGeneral.add(new BoolSetting.Builder()
-        .name("instamine")
+        .name("Instamine")
         .description("Whether or not to instantly mine blocks under certain conditions.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.DAMAGE)
@@ -79,7 +79,7 @@ public class SpeedMine extends Module {
     );
     
     private final Setting<Boolean> grimBypass = sgGeneral.add(new BoolSetting.Builder()
-        .name("grim-bypass")
+        .name("GrimBypass")
         .description("Bypasses Grim's fastbreak check, working as of 2.3.58")
         .defaultValue(false)
         .visible(() -> mode.get() == Mode.DAMAGE)

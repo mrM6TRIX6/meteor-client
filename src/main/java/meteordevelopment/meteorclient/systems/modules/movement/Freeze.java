@@ -27,26 +27,26 @@ public class Freeze extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> disableOnFlag = sgGeneral.add(new BoolSetting.Builder()
-        .name("disable-on-flag")
+        .name("DisableOnFlag")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> cancelC0B = sgGeneral.add(new BoolSetting.Builder()
-        .name("cancel-C0B")
+        .name("CancelC0B")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> notification = sgGeneral.add(new BoolSetting.Builder()
-        .name("notification")
+        .name("Notification")
         .defaultValue(false)
         .visible(disableOnFlag::get)
         .build()
     );
     
     private final Setting<Boolean> balance = sgGeneral.add(new BoolSetting.Builder()
-        .name("balance-warp")
+        .name("BalanceWarp")
         .defaultValue(false)
         .build()
     );

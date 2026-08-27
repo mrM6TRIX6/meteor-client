@@ -27,7 +27,7 @@ public class WallHack extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<Integer> opacity = sgGeneral.add(new IntSetting.Builder()
-        .name("opacity")
+        .name("Opacity")
         .description("The opacity for rendered blocks.")
         .defaultValue(0)
         .range(0, 255)
@@ -41,7 +41,7 @@ public class WallHack extends Module {
     );
     
     public final Setting<List<Block>> blocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("blocks")
+        .name("Blocks")
         .description("What blocks should be targeted for Wall Hack.")
         .defaultValue()
         .onChanged(onChanged -> {
@@ -53,7 +53,7 @@ public class WallHack extends Module {
     );
     
     public final Setting<Boolean> occludeChunks = sgGeneral.add(new BoolSetting.Builder()
-        .name("occlude-chunks")
+        .name("OccludeChunks")
         .description("Whether caves should occlude underground (may look wonky when on).")
         .defaultValue(false)
         .build()

@@ -41,35 +41,35 @@ public class Config implements ISerializable<Config> {
     private final SettingGroup sgSave = settings.createGroup("Save");
     
     public Setting<String> name = sgGeneral.add(new StringSetting.Builder()
-        .name("name")
+        .name("Name")
         .description("The name of the profile.")
         .filter(Utils::nameFilter)
         .build()
     );
     
     public Setting<List<String>> loadOnJoin = sgGeneral.add(new StringListSetting.Builder()
-        .name("load-on-join")
+        .name("LoadOnJoin")
         .description("Which servers to set this profile as active when joining.")
         .filter(Utils::ipFilter)
         .build()
     );
     
     public Setting<Boolean> hud = sgSave.add(new BoolSetting.Builder()
-        .name("hud")
+        .name("Hud")
         .description("Whether the profile should save hud.")
         .defaultValue(false)
         .build()
     );
     
     public Setting<Boolean> macros = sgSave.add(new BoolSetting.Builder()
-        .name("macros")
+        .name("Macros")
         .description("Whether the profile should save macros.")
         .defaultValue(false)
         .build()
     );
     
     public Setting<Boolean> modules = sgSave.add(new BoolSetting.Builder()
-        .name("modules")
+        .name("Modules")
         .description("Whether the profile should save modules.")
         .defaultValue(false)
         .build()

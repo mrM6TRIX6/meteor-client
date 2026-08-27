@@ -50,7 +50,7 @@ public class AnchorAura extends Module {
     // General
     
     private final Setting<Double> targetRange = sgGeneral.add(new DoubleSetting.Builder()
-        .name("target-range")
+        .name("TargetRange")
         .description("Range in which to target players.")
         .defaultValue(10)
         .min(0)
@@ -59,14 +59,14 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<SortPriority> targetPriority = sgGeneral.add(new EnumChoiceSetting.Builder<SortPriority>()
-        .name("target-priority")
+        .name("TargetPriority")
         .description("How to select the player to target.")
         .defaultValue(SortPriority.LOWEST_HEALTH)
         .build()
     );
     
     private final Setting<Double> minDamage = sgGeneral.add(new DoubleSetting.Builder()
-        .name("min-damage")
+        .name("MinDamage")
         .description("The minimum damage to inflict on your target.")
         .defaultValue(7)
         .min(0)
@@ -75,7 +75,7 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<Double> maxSelfDamage = sgGeneral.add(new DoubleSetting.Builder()
-        .name("max-self-damage")
+        .name("MaxSelfDamage")
         .description("The maximum damage to inflict on yourself.")
         .defaultValue(7)
         .min(0)
@@ -84,21 +84,21 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<Boolean> antiSuicide = sgGeneral.add(new BoolSetting.Builder()
-        .name("anti-suicide")
+        .name("AntiSuicide")
         .description("Will not place and break anchors if they will kill you.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> swapBack = sgGeneral.add(new BoolSetting.Builder()
-        .name("swap-back")
+        .name("SwapBack")
         .description("Switches to your previous slot after using anchors.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> rotate = sgGeneral.add(new BoolSetting.Builder()
-        .name("rotate")
+        .name("Rotate")
         .description("Rotates server-side towards the anchors being placed/broken.")
         .defaultValue(true)
         .build()
@@ -107,14 +107,14 @@ public class AnchorAura extends Module {
     // Place
     
     private final Setting<Boolean> place = sgPlace.add(new BoolSetting.Builder()
-        .name("place")
+        .name("Place")
         .description("Allows Anchor Aura to place anchors.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> placeDelay = sgPlace.add(new IntSetting.Builder()
-        .name("place-delay")
+        .name("PlaceDelay")
         .description("The tick delay between placing anchors.")
         .defaultValue(5)
         .range(0, 10)
@@ -123,7 +123,7 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<Double> placeRange = sgPlace.add(new DoubleSetting.Builder()
-        .name("place-range")
+        .name("PlaceRange")
         .description("The range at which anchors can be placed.")
         .defaultValue(4)
         .range(0, 6)
@@ -132,7 +132,7 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<Double> placeWallsRange = sgPlace.add(new DoubleSetting.Builder()
-        .name("place-walls-range")
+        .name("PlaceWallsRange")
         .description("Range in which to place anchors when behind blocks.")
         .defaultValue(4)
         .range(0, 6)
@@ -141,7 +141,7 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<Boolean> airPlace = sgPlace.add(new BoolSetting.Builder()
-        .name("air-place")
+        .name("AirPlace")
         .description("Allows Anchor Aura to place anchors in the air.")
         .defaultValue(true)
         .visible(place::get)
@@ -151,7 +151,7 @@ public class AnchorAura extends Module {
     // Break
     
     private final Setting<Integer> chargeDelay = sgBreak.add(new IntSetting.Builder()
-        .name("charge-delay")
+        .name("ChargeDelay")
         .description("The tick delay it takes to charge anchors.")
         .defaultValue(1)
         .range(0, 10)
@@ -159,7 +159,7 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<Integer> breakDelay = sgBreak.add(new IntSetting.Builder()
-        .name("break-delay")
+        .name("BreakDelay")
         .description("The tick delay it takes to break anchors.")
         .defaultValue(1)
         .range(0, 10)
@@ -167,7 +167,7 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<Double> breakRange = sgBreak.add(new DoubleSetting.Builder()
-        .name("break-range")
+        .name("BreakRange")
         .description("Range in which to break anchors.")
         .defaultValue(4.5)
         .min(0)
@@ -176,7 +176,7 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<Double> breakWallsRange = sgBreak.add(new DoubleSetting.Builder()
-        .name("break-walls-range")
+        .name("BreakWallsRange")
         .description("Range in which to break anchors when behind blocks.")
         .defaultValue(4.5)
         .min(0)
@@ -187,21 +187,21 @@ public class AnchorAura extends Module {
     // Pause
     
     private final Setting<Boolean> pauseOnUse = sgPause.add(new BoolSetting.Builder()
-        .name("pause-on-use")
+        .name("PauseOnUse")
         .description("Pauses while using an item.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> pauseOnMine = sgPause.add(new BoolSetting.Builder()
-        .name("pause-on-mine")
+        .name("PauseOnMine")
         .description("Pauses while mining blocks.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> pauseOnCA = sgPause.add(new BoolSetting.Builder()
-        .name("pause-on-ca")
+        .name("PauseOnCa")
         .description("Pauses while CrystalAura is placing.")
         .defaultValue(true)
         .build()
@@ -210,21 +210,21 @@ public class AnchorAura extends Module {
     // Render
     
     private final Setting<Boolean> swing = sgRender.add(new BoolSetting.Builder()
-        .name("swing")
+        .name("Swing")
         .description("Whether to swing your hand client-side.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> render = sgRender.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Renders the block where it is placing an anchor.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .visible(render::get)
@@ -232,7 +232,7 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color for positions to be placed.")
         .defaultValue(new SettingColor(15, 255, 211, 41))
         .visible(() -> render.get() && shapeMode.get().sides())
@@ -240,7 +240,7 @@ public class AnchorAura extends Module {
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color for positions to be placed.")
         .defaultValue(new SettingColor(15, 255, 211))
         .visible(() -> render.get() && shapeMode.get().lines())

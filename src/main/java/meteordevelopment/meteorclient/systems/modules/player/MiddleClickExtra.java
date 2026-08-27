@@ -40,14 +40,14 @@ public class MiddleClickExtra extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Which item to use when you middle click.")
         .defaultValue(Mode.PEARL)
         .build()
     );
     
     private final Setting<Boolean> message = sgGeneral.add(new BoolSetting.Builder()
-        .name("send-message")
+        .name("SendMessage")
         .description("Sends a message when you add a player as a friend.")
         .defaultValue(false)
         .visible(() -> mode.get() == Mode.ADD_FRIEND)
@@ -55,7 +55,7 @@ public class MiddleClickExtra extends Module {
     );
     
     private final Setting<String> friendMessage = sgGeneral.add(new StringSetting.Builder()
-        .name("message-to-send")
+        .name("MessageToSend")
         .description("Message to send when you add a player as a friend (use %player for the player's name)")
         .defaultValue("/msg %player I just friended you on Meteor.")
         .visible(() -> mode.get() == Mode.ADD_FRIEND)
@@ -63,7 +63,7 @@ public class MiddleClickExtra extends Module {
     );
     
     private final Setting<Boolean> quickSwap = sgGeneral.add(new BoolSetting.Builder()
-        .name("quick-swap")
+        .name("QuickSwap")
         .description("Allows you to use items in your inventory by simulating hotbar key presses. May get flagged by anticheats.")
         .defaultValue(false)
         .visible(() -> mode.get() != Mode.ADD_FRIEND)
@@ -71,7 +71,7 @@ public class MiddleClickExtra extends Module {
     );
     
     private final Setting<Boolean> swapBack = sgGeneral.add(new BoolSetting.Builder()
-        .name("swap-back")
+        .name("SwapBack")
         .description("Swap back to your original slot when you finish using an item.")
         .defaultValue(false)
         .visible(() -> mode.get() != Mode.ADD_FRIEND && !quickSwap.get())
@@ -79,7 +79,7 @@ public class MiddleClickExtra extends Module {
     );
     
     private final Setting<Boolean> notify = sgGeneral.add(new BoolSetting.Builder()
-        .name("notify")
+        .name("Notify")
         .description("Notifies you when you do not have the specified item in your hotbar.")
         .defaultValue(true)
         .visible(() -> mode.get() != Mode.ADD_FRIEND)
@@ -87,7 +87,7 @@ public class MiddleClickExtra extends Module {
     );
     
     private final Setting<Boolean> disableInCreative = sgGeneral.add(new BoolSetting.Builder()
-        .name("disable-in-creative")
+        .name("DisableInCreative")
         .description("Middle click action is disabled in Creative mode.")
         .defaultValue(true)
         .build()

@@ -31,14 +31,14 @@ public class AutoTotem extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Determines when to hold a totem, strict will always hold.")
         .defaultValue(Mode.SMART)
         .build()
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The ticks between slot movements.")
         .defaultValue(0)
         .min(0)
@@ -46,7 +46,7 @@ public class AutoTotem extends Module {
     );
     
     private final Setting<Integer> health = sgGeneral.add(new IntSetting.Builder()
-        .name("health")
+        .name("Health")
         .description("The health to hold a totem at.")
         .defaultValue(10)
         .range(0, 36)
@@ -56,7 +56,7 @@ public class AutoTotem extends Module {
     );
     
     private final Setting<Boolean> elytra = sgGeneral.add(new BoolSetting.Builder()
-        .name("elytra")
+        .name("Elytra")
         .description("Will always hold a totem when flying with elytra.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART)
@@ -64,7 +64,7 @@ public class AutoTotem extends Module {
     );
     
     private final Setting<Boolean> fall = sgGeneral.add(new BoolSetting.Builder()
-        .name("fall")
+        .name("Fall")
         .description("Will hold a totem when fall damage could kill you.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART)
@@ -72,7 +72,7 @@ public class AutoTotem extends Module {
     );
     
     private final Setting<Boolean> explosion = sgGeneral.add(new BoolSetting.Builder()
-        .name("explosion")
+        .name("Explosion")
         .description("Will hold a totem when explosion damage could kill you.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART)

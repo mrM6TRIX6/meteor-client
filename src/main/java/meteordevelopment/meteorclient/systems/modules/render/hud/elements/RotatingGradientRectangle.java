@@ -26,7 +26,7 @@ public class RotatingGradientRectangle extends HUDElement {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Integer> width = sgGeneral.add(new IntSetting.Builder()
-        .name("width")
+        .name("Width")
         .description("Custom width.")
         .defaultValue(200)
         .min(0)
@@ -35,7 +35,7 @@ public class RotatingGradientRectangle extends HUDElement {
     );
     
     private final Setting<Integer> height = sgGeneral.add(new IntSetting.Builder()
-        .name("height")
+        .name("Height")
         .description("Custom height.")
         .defaultValue(200)
         .min(0)
@@ -44,42 +44,42 @@ public class RotatingGradientRectangle extends HUDElement {
     );
     
     private final Setting<SettingColor> colorTopLeft = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-top-left")
+        .name("ColorTopLeft")
         .description("Color used for the top left vertex.")
         .defaultValue(SettingColor.CYAN)
         .build()
     );
     
     private final Setting<SettingColor> colorBottomLeft = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-bottom-left")
+        .name("ColorBottomLeft")
         .description("Color used for the bottom left vertex.")
         .defaultValue(SettingColor.BLUE)
         .build()
     );
     
     private final Setting<SettingColor> colorBottomRight = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-bottom-right")
+        .name("ColorBottomRight")
         .description("Color used for the bottom right vertex.")
         .defaultValue(SettingColor.MAGENTA)
         .build()
     );
     
     private final Setting<SettingColor> colorTopRight = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-top-right")
+        .name("ColorTopRight")
         .description("Color used for the top right vertex.")
         .defaultValue(SettingColor.BLUE)
         .build()
     );
     
     private final Setting<Boolean> radiusEachVertex = sgGeneral.add(new BoolSetting.Builder()
-        .name("radius-each-vertex")
+        .name("RadiusEachVertex")
         .description("Set custom radius for each vertex.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> radius = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius")
+        .name("Radius")
         .description("Radius used for the rectangle.")
         .defaultValue(10)
         .min(0)
@@ -89,7 +89,7 @@ public class RotatingGradientRectangle extends HUDElement {
     );
     
     private final Setting<Double> radiusTopLeft = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius-top-left")
+        .name("RadiusTopLeft")
         .description("Custom radius for the top left vertex.")
         .defaultValue(10)
         .min(0)
@@ -99,7 +99,7 @@ public class RotatingGradientRectangle extends HUDElement {
     );
     
     private final Setting<Double> radiusBottomLeft = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius-bottom-left")
+        .name("RadiusBottomLeft")
         .description("Custom radius for the bottom left vertex.")
         .defaultValue(10)
         .min(0)
@@ -109,7 +109,7 @@ public class RotatingGradientRectangle extends HUDElement {
     );
     
     private final Setting<Double> radiusBottomRight = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius-bottom-right")
+        .name("RadiusBottomRight")
         .description("Custom radius for the bottom right vertex.")
         .defaultValue(10)
         .min(0)
@@ -119,7 +119,7 @@ public class RotatingGradientRectangle extends HUDElement {
     );
     
     private final Setting<Double> radiusTopRight = sgGeneral.add(new DoubleSetting.Builder()
-        .name("radius-top-right")
+        .name("RadiusTopRight")
         .description("Custom radius for the top right vertex.")
         .defaultValue(10)
         .min(0)
@@ -129,7 +129,7 @@ public class RotatingGradientRectangle extends HUDElement {
     );
     
     private final Setting<Double> smoothness = sgGeneral.add(new DoubleSetting.Builder()
-        .name("smoothness")
+        .name("Smoothness")
         .description("Smoothing edges by alpha channel interpolation.")
         .defaultValue(1)
         .min(0)

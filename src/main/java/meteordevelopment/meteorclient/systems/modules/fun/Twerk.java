@@ -18,7 +18,7 @@ public class Twerk extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Integer> sneakTime = sgGeneral.add(new IntSetting.Builder()
-        .name("sneak-time")
+        .name("SneakTime")
         .description("How many ticks to stay sneaked.")
         .defaultValue(2)
         .min(0)
@@ -28,7 +28,7 @@ public class Twerk extends Module {
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("standing-time")
+        .name("StandingTime")
         .description("How many ticks to not stay sneaked.")
         .defaultValue(2)
         .min(0)

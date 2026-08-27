@@ -43,14 +43,14 @@ public class AutoArmor extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Protection> preferredProtection = sgGeneral.add(new EnumChoiceSetting.Builder<Protection>()
-        .name("preferred-protection")
+        .name("PreferredProtection")
         .description("Which type of protection to prefer.")
         .defaultValue(Protection.PROTECTION)
         .build()
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("swap-delay")
+        .name("SwapDelay")
         .description("The delay between equipping armor pieces.")
         .defaultValue(1)
         .min(0)
@@ -59,28 +59,28 @@ public class AutoArmor extends Module {
     );
     
     private final Setting<Set<RegistryKey<Enchantment>>> avoidedEnchantments = sgGeneral.add(new EnchantmentListSetting.Builder()
-        .name("avoided-enchantments")
+        .name("AvoidedEnchantments")
         .description("Enchantments that should be avoided.")
         .defaultValue(Enchantments.BINDING_CURSE, Enchantments.FROST_WALKER)
         .build()
     );
     
     private final Setting<Boolean> blastLeggings = sgGeneral.add(new BoolSetting.Builder()
-        .name("blast-prot-leggings")
+        .name("BlastProtLeggings")
         .description("Uses blast protection for leggings regardless of preferred protection.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> antiBreak = sgGeneral.add(new BoolSetting.Builder()
-        .name("anti-break")
+        .name("AntiBreak")
         .description("Takes off armor if it is about to break.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> ignoreElytra = sgGeneral.add(new BoolSetting.Builder()
-        .name("ignore-elytra")
+        .name("IgnoreElytra")
         .description("Will not replace your elytra if you have it equipped.")
         .defaultValue(true)
         .build()

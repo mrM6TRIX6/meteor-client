@@ -31,35 +31,35 @@ public class CommandAura extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<List<String>> messages = sgGeneral.add(new StringListSetting.Builder()
-        .name("message")
+        .name("Message")
         .description("The specified message sent to the server.")
         .defaultValue("/msg %target% hi from %me%")
         .build()
     );
     
     private final Setting<Target> targetMode = sgGeneral.add(new EnumChoiceSetting.Builder<Target>()
-        .name("target")
+        .name("Target")
         .description("Only targets selected target.")
         .defaultValue(Target.EVERYONE)
         .build()
     );
     
     private final Setting<Boolean> toggleOnDeath = sgGeneral.add(new BoolSetting.Builder()
-        .name("toggle-on-death")
+        .name("ToggleOnDeath")
         .description("Disables when you die.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> toggleOnLog = sgGeneral.add(new BoolSetting.Builder()
-        .name("toggle-on-log")
+        .name("ToggleOnLog")
         .description("Disables when you disconnect from a server.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> isLogs = sgGeneral.add(new BoolSetting.Builder()
-        .name("enable-logs")
+        .name("EnableLogs")
         .description("Show logs in chat.")
         .defaultValue(false)
         .build()

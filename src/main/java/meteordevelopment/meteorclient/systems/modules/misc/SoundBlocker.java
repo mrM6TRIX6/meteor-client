@@ -23,7 +23,7 @@ public class SoundBlocker extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<List<SoundEvent>> sounds = sgGeneral.add(new SoundEventListSetting.Builder()
-        .name("sounds")
+        .name("Sounds")
         .description("Sounds to block.")
         .build()
     );

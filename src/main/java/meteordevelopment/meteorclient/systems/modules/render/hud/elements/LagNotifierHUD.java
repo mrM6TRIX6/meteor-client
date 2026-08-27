@@ -5,6 +5,8 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud.elements;
 
+import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -15,8 +17,6 @@ import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElementInfo;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDRenderer;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.utils.world.TickRate;
 
 public class LagNotifierHUD extends HUDElement {
@@ -30,42 +30,42 @@ public class LagNotifierHUD extends HUDElement {
     // General
     
     private final Setting<Boolean> shadow = sgGeneral.add(new BoolSetting.Builder()
-        .name("shadow")
+        .name("Shadow")
         .description("Text shadow.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<SettingColor> textColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("text-color")
+        .name("TextColor")
         .description("A.")
         .defaultValue(new SettingColor())
         .build()
     );
     
     private final Setting<SettingColor> color1 = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-1")
+        .name("Color1")
         .description("First color.")
         .defaultValue(new SettingColor(255, 255, 5))
         .build()
     );
     
     private final Setting<SettingColor> color2 = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-2")
+        .name("Color2")
         .description("Second color.")
         .defaultValue(new SettingColor(235, 158, 52))
         .build()
     );
     
     private final Setting<SettingColor> color3 = sgGeneral.add(new ColorSetting.Builder()
-        .name("color-3")
+        .name("Color3")
         .description("Third color.")
         .defaultValue(new SettingColor(225, 45, 45))
         .build()
     );
     
     private final Setting<Integer> border = sgGeneral.add(new IntSetting.Builder()
-        .name("border")
+        .name("Border")
         .description("How much space to add around the element.")
         .defaultValue(0)
         .build()
@@ -74,14 +74,14 @@ public class LagNotifierHUD extends HUDElement {
     // Scale
     
     private final Setting<Boolean> customScale = sgScale.add(new BoolSetting.Builder()
-        .name("custom-scale")
+        .name("CustomScale")
         .description("Applies a custom scale to this hud element.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> scale = sgScale.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("Custom scale.")
         .visible(customScale::get)
         .defaultValue(1)
@@ -93,14 +93,14 @@ public class LagNotifierHUD extends HUDElement {
     // Background
     
     private final Setting<Boolean> background = sgBackground.add(new BoolSetting.Builder()
-        .name("background")
+        .name("Background")
         .description("Displays background.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> backgroundColor = sgBackground.add(new ColorSetting.Builder()
-        .name("background-color")
+        .name("BackgroundColor")
         .description("Color used for the background.")
         .visible(background::get)
         .defaultValue(new SettingColor(25, 25, 25, 50))

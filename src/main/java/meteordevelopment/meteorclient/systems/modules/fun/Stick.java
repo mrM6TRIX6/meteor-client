@@ -40,7 +40,7 @@ public class Stick extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> targetMode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("target-mode")
+        .name("TargetMode")
         .description("The mode at which to follow the player.")
         .defaultValue(Mode.AUTOMATIC)
         .onChanged(onChanged -> target = null)
@@ -48,14 +48,14 @@ public class Stick extends Module {
     );
     
     private final Setting<Follow> followMode = sgGeneral.add(new EnumChoiceSetting.Builder<Follow>()
-        .name("follow")
+        .name("Follow")
         .description("Which parts rotation to follow.")
         .defaultValue(Follow.HEAD)
         .build()
     );
     
     private final Setting<Double> range = sgGeneral.add(new DoubleSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("The maximum range to set target.")
         .defaultValue(6)
         .min(0)
@@ -64,7 +64,7 @@ public class Stick extends Module {
     );
     
     private final Setting<Vector3d> offset = sgGeneral.add(new Vector3dSetting.Builder()
-        .name("offset")
+        .name("Offset")
         .description("Offset from target.")
         .defaultValue(0, 0, 0)
         .sliderRange(-3, 3)

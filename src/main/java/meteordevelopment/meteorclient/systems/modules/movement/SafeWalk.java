@@ -2,6 +2,7 @@ package meteordevelopment.meteorclient.systems.modules.movement;
 
 import meteordevelopment.meteorclient.events.entity.player.ClipAtLedgeEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
+import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -10,7 +11,6 @@ import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
 import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
-import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.PlayerInput;
 import net.minecraft.util.hit.BlockHitResult;
@@ -26,7 +26,7 @@ public class SafeWalk extends Module {
     private final SettingGroup sgRender = settings.createGroup("Render");
     
     private final Setting<Integer> fallDistance = sgGeneral.add(new IntSetting.Builder()
-        .name("minimum-fall-distance")
+        .name("MinimumFallDistance")
         .description("The minimum number of blocks you are expected to fall before the module activates.")
         .defaultValue(1)
         .min(1)
@@ -34,14 +34,14 @@ public class SafeWalk extends Module {
     );
     
     private final Setting<Boolean> sneak = sgGeneral.add(new BoolSetting.Builder()
-        .name("sneak")
+        .name("Sneak")
         .description("Sneak when approaching edge of block.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> safeSneak = sgGeneral.add(new BoolSetting.Builder()
-        .name("safe-sneak")
+        .name("SafeSneak")
         .description("Prevent you from falling if sneak doesn't trigger correctly.")
         .defaultValue(true)
         .visible(sneak::get)
@@ -49,7 +49,7 @@ public class SafeWalk extends Module {
     );
     
     private final Setting<Boolean> sneakSprint = sgGeneral.add(new BoolSetting.Builder()
-        .name("sneak-on-sprint")
+        .name("SneakOnSprint")
         .description("Sneak even when sprinting at the block edge.")
         .defaultValue(true)
         .visible(sneak::get)
@@ -57,7 +57,7 @@ public class SafeWalk extends Module {
     );
     
     private final Setting<Double> edgeDistance = sgGeneral.add(new DoubleSetting.Builder()
-        .name("edge-distance")
+        .name("EdgeDistance")
         .description("Distance offset before reaching an edge.")
         .defaultValue(0.30)
         .sliderRange(0.00, 0.30)
@@ -67,7 +67,7 @@ public class SafeWalk extends Module {
     );
     
     private final Setting<Boolean> renderEdgeDistance = sgRender.add(new BoolSetting.Builder()
-        .name("render")
+        .name("Render")
         .description("Render edge distance helper.")
         .defaultValue(false)
         .visible(sneak::get)
@@ -75,7 +75,7 @@ public class SafeWalk extends Module {
     );
     
     private final Setting<Boolean> renderPlayerBox = sgRender.add(new BoolSetting.Builder()
-        .name("render-player-box")
+        .name("RenderPlayerBox")
         .description("Render player box helper.")
         .defaultValue(false)
         .visible(() -> sneak.get() && renderEdgeDistance.get())

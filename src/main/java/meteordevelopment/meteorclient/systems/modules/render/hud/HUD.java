@@ -49,7 +49,7 @@ public class HUD extends Module implements Iterable<HUDElement> {
     // General
     
     private final Setting<Boolean> customFont = sgGeneral.add(new BoolSetting.Builder()
-        .name("custom-font")
+        .name("CustomFont")
         .description("Text will use custom font.")
         .defaultValue(true)
         .onChanged(aBoolean -> {
@@ -61,14 +61,14 @@ public class HUD extends Module implements Iterable<HUDElement> {
     );
     
     private final Setting<Boolean> hideInMenus = sgGeneral.add(new BoolSetting.Builder()
-        .name("hide-in-menus")
+        .name("HideInMenus")
         .description("Hides the meteor HUD when in inventory screens or game menus.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> textScale = sgGeneral.add(new DoubleSetting.Builder()
-        .name("text-scale")
+        .name("TextScale")
         .description("Scale of text if not overridden by the element.")
         .defaultValue(1)
         .min(0.5)
@@ -77,7 +77,7 @@ public class HUD extends Module implements Iterable<HUDElement> {
     );
     
     public final Setting<List<SettingColor>> textColors = sgGeneral.add(new ColorListSetting.Builder()
-        .name("text-colors")
+        .name("TextColors")
         .description("Colors used for the Text element.")
         .defaultValue(List.of(new SettingColor(), new SettingColor(175, 175, 175), new SettingColor(25, 225, 25), new SettingColor(225, 25, 25)))
         .build()
@@ -86,7 +86,7 @@ public class HUD extends Module implements Iterable<HUDElement> {
     // Editor
     
     public final Setting<Integer> border = sgEditor.add(new IntSetting.Builder()
-        .name("border")
+        .name("Border")
         .description("Space around the edges of the screen.")
         .defaultValue(4)
         .sliderMax(20)
@@ -94,7 +94,7 @@ public class HUD extends Module implements Iterable<HUDElement> {
     );
     
     public final Setting<Integer> snappingRange = sgEditor.add(new IntSetting.Builder()
-        .name("snapping-range")
+        .name("SnappingRange")
         .description("Snapping range in editor.")
         .defaultValue(10)
         .sliderMax(20)

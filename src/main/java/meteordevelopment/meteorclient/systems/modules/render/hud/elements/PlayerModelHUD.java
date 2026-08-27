@@ -29,14 +29,14 @@ public class PlayerModelHUD extends HUDElement {
     // General
     
     private final Setting<Boolean> copyYaw = sgGeneral.add(new BoolSetting.Builder()
-        .name("copy-yaw")
+        .name("CopyYaw")
         .description("Makes the player model's yaw equal to yours.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> customYaw = sgGeneral.add(new IntSetting.Builder()
-        .name("custom-yaw")
+        .name("CustomYaw")
         .description("Custom yaw for when copy yaw is off.")
         .defaultValue(0)
         .range(-180, 180)
@@ -46,14 +46,14 @@ public class PlayerModelHUD extends HUDElement {
     );
     
     private final Setting<Boolean> copyPitch = sgGeneral.add(new BoolSetting.Builder()
-        .name("copy-pitch")
+        .name("CopyPitch")
         .description("Makes the player model's pitch equal to yours.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> customPitch = sgGeneral.add(new IntSetting.Builder()
-        .name("custom-pitch")
+        .name("CustomPitch")
         .description("Custom pitch for when copy pitch is off.")
         .defaultValue(0)
         .range(-90, 90)
@@ -63,7 +63,7 @@ public class PlayerModelHUD extends HUDElement {
     );
     
     private final Setting<CenterOrientation> centerOrientation = sgGeneral.add(new EnumChoiceSetting.Builder<CenterOrientation>()
-        .name("center-orientation")
+        .name("CenterOrientation")
         .description("Which direction the player faces when the HUD model faces directly forward.")
         .defaultValue(CenterOrientation.SOUTH)
         .build()
@@ -72,7 +72,7 @@ public class PlayerModelHUD extends HUDElement {
     // Scale
     
     public final Setting<Boolean> customScale = sgScale.add(new BoolSetting.Builder()
-        .name("custom-scale")
+        .name("CustomScale")
         .description("Applies a custom scale to this hud element.")
         .defaultValue(false)
         .onChanged(aBoolean -> calculateSize())
@@ -80,7 +80,7 @@ public class PlayerModelHUD extends HUDElement {
     );
     
     public final Setting<Double> scale = sgScale.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("Custom scale.")
         .visible(customScale::get)
         .defaultValue(2)
@@ -93,14 +93,14 @@ public class PlayerModelHUD extends HUDElement {
     // Background
     
     private final Setting<Boolean> background = sgBackground.add(new BoolSetting.Builder()
-        .name("background")
+        .name("Background")
         .description("Displays background.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> backgroundColor = sgBackground.add(new ColorSetting.Builder()
-        .name("background-color")
+        .name("BackgroundColor")
         .description("Color used for the background.")
         .visible(background::get)
         .defaultValue(new SettingColor(25, 25, 25, 50))

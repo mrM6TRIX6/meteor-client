@@ -48,14 +48,14 @@ public class AttributeSwap extends Module {
     private final SettingGroup sgWeapon = settings.createGroup("Weapon Options");
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("The mode to use.")
         .defaultValue(Mode.SIMPLE)
         .build()
     );
     
     private final Setting<Integer> targetSlot = sgGeneral.add(new IntSetting.Builder()
-        .name("target-slot")
+        .name("TargetSlot")
         .description("Hotbar slot to swap to (1-9).")
         .defaultValue(1)
         .range(1, 9)
@@ -64,7 +64,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> swapOnMiss = sgGeneral.add(new BoolSetting.Builder()
-        .name("swap-on-miss")
+        .name("SwapOnMiss")
         .description("Whether to swap on a missed attack. Useful for quickly lunging with spears.")
         .defaultValue(false)
         .visible(() -> mode.get() == Mode.SIMPLE)
@@ -72,14 +72,14 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> swapBack = sgGeneral.add(new BoolSetting.Builder()
-        .name("swap-back")
+        .name("SwapBack")
         .description("Swap back to the original slot after a delay.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> swapBackDelay = sgGeneral.add(new IntSetting.Builder()
-        .name("swap-back-delay")
+        .name("SwapBackDelay")
         .description("Delay in ticks before swapping back.")
         .defaultValue(2)
         .min(0)
@@ -90,7 +90,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> smartShieldBreak = sgSwappingOptions.add(new BoolSetting.Builder()
-        .name("shield-breaker")
+        .name("ShieldBreaker")
         .description("Automatically swaps to an axe if the target is blocking.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART)
@@ -98,7 +98,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> smartDurability = sgSwappingOptions.add(new BoolSetting.Builder()
-        .name("durability-saver")
+        .name("DurabilitySaver")
         .description("Swaps to a non-damageable item to save durability on the main weapon.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART)
@@ -106,7 +106,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> swordSwapping = sgSwappingOptions.add(new BoolSetting.Builder()
-        .name("sword-swapping")
+        .name("SwordSwapping")
         .description("Enables smart swapping for sword enchantments.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART)
@@ -114,7 +114,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> maceSwapping = sgSwappingOptions.add(new BoolSetting.Builder()
-        .name("mace-swapping")
+        .name("MaceSwapping")
         .description("Enables smart swapping for mace enchantments.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART)
@@ -122,7 +122,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> spearSwapping = sgSwappingOptions.add(new BoolSetting.Builder()
-        .name("spear-swapping")
+        .name("SpearSwapping")
         .description("Enables smart swapping for spear enchantments.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART)
@@ -130,7 +130,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> otherSwapping = sgSwappingOptions.add(new BoolSetting.Builder()
-        .name("other-swapping")
+        .name("OtherSwapping")
         .description("Enables smart swapping for other enchantments like Impaling.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART)
@@ -138,7 +138,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantFireAspect = sgSwordEnchants.add(new BoolSetting.Builder()
-        .name("fire-aspect")
+        .name("FireAspect")
         .description("Swaps to an item with Fire Aspect to set the target on fire, if target isn't already on fire")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && swordSwapping.get())
@@ -146,7 +146,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantLooting = sgSwordEnchants.add(new BoolSetting.Builder()
-        .name("looting")
+        .name("Looting")
         .description("Swaps to an item with Looting for better drops or more experience. Only prefers for mobs (but fire aspect is priority)")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && swordSwapping.get())
@@ -154,7 +154,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantSharpness = sgSwordEnchants.add(new BoolSetting.Builder()
-        .name("sharpness")
+        .name("Sharpness")
         .description("Swaps to an item with Sharpness for increased damage against all entities.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && swordSwapping.get())
@@ -162,7 +162,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantSmite = sgSwordEnchants.add(new BoolSetting.Builder()
-        .name("smite")
+        .name("Smite")
         .description("Swaps to an item with Smite for increased damage against undead mobs.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && swordSwapping.get())
@@ -170,7 +170,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantBaneOfArthropods = sgSwordEnchants.add(new BoolSetting.Builder()
-        .name("bane-of-arthropods")
+        .name("BaneOfArthropods")
         .description("Swaps to an item with Bane of Arthropods for increased damage against arthropods.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && swordSwapping.get())
@@ -178,7 +178,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantSweepingEdge = sgSwordEnchants.add(new BoolSetting.Builder()
-        .name("sweeping-edge")
+        .name("SweepingEdge")
         .description("Swaps to an item with Sweeping Edge for increased sweeping attack damage.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && swordSwapping.get())
@@ -186,7 +186,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> regularMace = sgMaceEnchants.add(new BoolSetting.Builder()
-        .name("regular-mace")
+        .name("RegularMace")
         .description("Swaps to a regular Mace when falling if no better option is available.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && maceSwapping.get())
@@ -194,7 +194,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantDensity = sgMaceEnchants.add(new BoolSetting.Builder()
-        .name("density")
+        .name("Density")
         .description("Swaps to a Mace with Density to deal increased damage when falling.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && maceSwapping.get())
@@ -202,7 +202,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantBreach = sgMaceEnchants.add(new BoolSetting.Builder()
-        .name("breach")
+        .name("Breach")
         .description("Swaps to a Mace with Breach to reduce the target's armor effectiveness.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && maceSwapping.get())
@@ -210,7 +210,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantWindBurst = sgMaceEnchants.add(new BoolSetting.Builder()
-        .name("wind-burst")
+        .name("WindBurst")
         .description("Swaps to a Mace with Wind Burst to launch up when hitting while falling.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && maceSwapping.get())
@@ -218,7 +218,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantImpaling = sgOtherEnchants.add(new BoolSetting.Builder()
-        .name("impaling")
+        .name("Impaling")
         .description("Swaps to an item with Impaling for increased damage against aquatic mobs.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && otherSwapping.get())
@@ -226,7 +226,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> enchantLunge = sgSpearEnchants.add(new BoolSetting.Builder()
-        .name("lunge")
+        .name("Lunge")
         .description("Swaps to a spear with Lunge for traveling.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && spearSwapping.get())
@@ -234,7 +234,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> spearHitbox = sgSpearEnchants.add(new BoolSetting.Builder()
-        .name("hitbox")
+        .name("Hitbox")
         .description("Swaps to a spear for extended reach when target is far.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && spearSwapping.get())
@@ -242,7 +242,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> excludeLungeFromHitbox = sgSpearEnchants.add(new BoolSetting.Builder()
-        .name("exclude-lunge-from-hitbox")
+        .name("ExcludeLungeFromHitbox")
         .description("Don't use lunge-enchanted spears for hitbox extension.")
         .defaultValue(true)
         .visible(() -> mode.get() == Mode.SMART && spearSwapping.get() && spearHitbox.get())
@@ -250,14 +250,14 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> onlyOnWeapon = sgWeapon.add(new BoolSetting.Builder()
-        .name("only-on-weapon")
+        .name("OnlyOnWeapon")
         .description("Only swaps when holding a selected weapon in hand.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> sword = sgWeapon.add(new BoolSetting.Builder()
-        .name("sword")
+        .name("Sword")
         .description("Works while holding a sword.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -265,7 +265,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> axe = sgWeapon.add(new BoolSetting.Builder()
-        .name("axe")
+        .name("Axe")
         .description("Works while holding an axe.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -273,7 +273,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> pickaxe = sgWeapon.add(new BoolSetting.Builder()
-        .name("pickaxe")
+        .name("Pickaxe")
         .description("Works while holding a pickaxe.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -281,7 +281,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> shovel = sgWeapon.add(new BoolSetting.Builder()
-        .name("shovel")
+        .name("Shovel")
         .description("Works while holding a shovel.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -289,7 +289,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> hoe = sgWeapon.add(new BoolSetting.Builder()
-        .name("hoe")
+        .name("Hoe")
         .description("Works while holding a hoe.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -297,7 +297,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> mace = sgWeapon.add(new BoolSetting.Builder()
-        .name("mace")
+        .name("Mace")
         .description("Works while holding a mace.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)
@@ -305,7 +305,7 @@ public class AttributeSwap extends Module {
     );
     
     private final Setting<Boolean> trident = sgWeapon.add(new BoolSetting.Builder()
-        .name("trident")
+        .name("Trident")
         .description("Works while holding a trident.")
         .defaultValue(true)
         .visible(onlyOnWeapon::get)

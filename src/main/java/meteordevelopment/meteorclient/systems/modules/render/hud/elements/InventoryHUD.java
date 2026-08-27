@@ -36,7 +36,7 @@ public class InventoryHUD extends HUDElement {
     private final SettingGroup sgBackground = settings.createGroup("Background");
     
     private final Setting<Boolean> containers = sgGeneral.add(new BoolSetting.Builder()
-        .name("containers")
+        .name("Containers")
         .description("Shows the contents of a container when holding them.")
         .defaultValue(false)
         .build()
@@ -45,7 +45,7 @@ public class InventoryHUD extends HUDElement {
     // Scale
     
     private final Setting<Boolean> customScale = sgScale.add(new BoolSetting.Builder()
-        .name("custom-scale")
+        .name("CustomScale")
         .description("Applies a custom scale to this hud element.")
         .defaultValue(false)
         .onChanged(aBoolean -> calculateSize())
@@ -53,7 +53,7 @@ public class InventoryHUD extends HUDElement {
     );
     
     private final Setting<Double> scale = sgScale.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("Custom scale.")
         .visible(customScale::get)
         .defaultValue(2)
@@ -66,7 +66,7 @@ public class InventoryHUD extends HUDElement {
     // Background
     
     private final Setting<Background> background = sgBackground.add(new EnumChoiceSetting.Builder<Background>()
-        .name("background")
+        .name("Background")
         .description("Background of inventory viewer.")
         .defaultValue(Background.TEXTURE)
         .onChanged(bg -> calculateSize())
@@ -74,7 +74,7 @@ public class InventoryHUD extends HUDElement {
     );
     
     private final Setting<SettingColor> backgroundColor = sgBackground.add(new ColorSetting.Builder()
-        .name("background-color")
+        .name("BackgroundColor")
         .description("Color of the background.")
         .defaultValue(new SettingColor(255, 255, 255))
         .visible(() -> background.get() != Background.NONE)

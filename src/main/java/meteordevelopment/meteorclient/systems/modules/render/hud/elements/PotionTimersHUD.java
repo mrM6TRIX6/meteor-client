@@ -33,27 +33,27 @@ public class PotionTimersHUD extends HUDElement {
     // General
     
     private final Setting<List<StatusEffect>> hiddenEffects = sgGeneral.add(new StatusEffectListSetting.Builder()
-        .name("hidden-effects")
+        .name("HiddenEffects")
         .description("Which effects not to show in the list.")
         .build()
     );
     
     private final Setting<Boolean> showAmbient = sgGeneral.add(new BoolSetting.Builder()
-        .name("show-ambient")
+        .name("ShowAmbient")
         .description("Whether to show ambient effects like from beacons and conduits.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ColorMode> colorMode = sgGeneral.add(new EnumChoiceSetting.Builder<ColorMode>()
-        .name("color-mode")
+        .name("ColorMode")
         .description("What color to use for effects.")
         .defaultValue(ColorMode.EFFECT)
         .build()
     );
     
     private final Setting<SettingColor> flatColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("flat-color")
+        .name("FlatColor")
         .description("Color for flat color mode.")
         .defaultValue(new SettingColor(225, 25, 25))
         .visible(() -> colorMode.get() == ColorMode.FLAT)
@@ -61,7 +61,7 @@ public class PotionTimersHUD extends HUDElement {
     );
     
     private final Setting<Double> rainbowSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("rainbow-speed")
+        .name("RainbowSpeed")
         .description("Rainbow speed of rainbow color mode.")
         .defaultValue(0.05)
         .sliderMin(0.01)
@@ -72,7 +72,7 @@ public class PotionTimersHUD extends HUDElement {
     );
     
     private final Setting<Double> rainbowSpread = sgGeneral.add(new DoubleSetting.Builder()
-        .name("rainbow-spread")
+        .name("RainbowSpread")
         .description("Rainbow spread of rainbow color mode.")
         .defaultValue(0.01)
         .sliderMin(0.001)
@@ -83,7 +83,7 @@ public class PotionTimersHUD extends HUDElement {
     );
     
     private final Setting<Double> rainbowSaturation = sgGeneral.add(new DoubleSetting.Builder()
-        .name("rainbow-saturation")
+        .name("RainbowSaturation")
         .description("Saturation of rainbow color mode.")
         .defaultValue(1.0d)
         .sliderRange(0.0d, 1.0d)
@@ -92,7 +92,7 @@ public class PotionTimersHUD extends HUDElement {
     );
     
     private final Setting<Double> rainbowBrightness = sgGeneral.add(new DoubleSetting.Builder()
-        .name("rainbow-brightness")
+        .name("RainbowBrightness")
         .description("Brightness of rainbow color mode.")
         .defaultValue(1.0d)
         .sliderRange(0.0d, 1.0d)
@@ -101,21 +101,21 @@ public class PotionTimersHUD extends HUDElement {
     );
     
     private final Setting<Boolean> shadow = sgGeneral.add(new BoolSetting.Builder()
-        .name("shadow")
+        .name("Shadow")
         .description("Renders shadow behind text.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Alignment> alignment = sgGeneral.add(new EnumChoiceSetting.Builder<Alignment>()
-        .name("alignment")
+        .name("Alignment")
         .description("Horizontal alignment.")
         .defaultValue(Alignment.AUTO)
         .build()
     );
     
     private final Setting<Integer> border = sgGeneral.add(new IntSetting.Builder()
-        .name("border")
+        .name("Border")
         .description("How much space to add around the element.")
         .defaultValue(0)
         .build()
@@ -124,14 +124,14 @@ public class PotionTimersHUD extends HUDElement {
     // Scale
     
     private final Setting<Boolean> customScale = sgScale.add(new BoolSetting.Builder()
-        .name("custom-scale")
+        .name("CustomScale")
         .description("Applies a custom scale to this hud element.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> scale = sgScale.add(new DoubleSetting.Builder()
-        .name("scale")
+        .name("Scale")
         .description("Custom scale.")
         .visible(customScale::get)
         .defaultValue(1)
@@ -143,14 +143,14 @@ public class PotionTimersHUD extends HUDElement {
     // Background
     
     private final Setting<Boolean> background = sgBackground.add(new BoolSetting.Builder()
-        .name("background")
+        .name("Background")
         .description("Displays background.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<SettingColor> backgroundColor = sgBackground.add(new ColorSetting.Builder()
-        .name("background-color")
+        .name("BackgroundColor")
         .description("Color used for the background.")
         .visible(background::get)
         .defaultValue(new SettingColor(25, 25, 25, 50))

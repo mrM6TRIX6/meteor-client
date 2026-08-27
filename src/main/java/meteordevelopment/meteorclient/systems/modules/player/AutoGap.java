@@ -46,28 +46,28 @@ public class AutoGap extends Module {
     // General
     
     private final Setting<Boolean> allowEgap = sgGeneral.add(new BoolSetting.Builder()
-        .name("allow-egap")
+        .name("AllowEgap")
         .description("Allow eating E-Gaps over Gaps if found.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> always = sgGeneral.add(new BoolSetting.Builder()
-        .name("always")
+        .name("Always")
         .description("If it should always eat.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> pauseAuras = sgGeneral.add(new BoolSetting.Builder()
-        .name("pause-auras")
+        .name("PauseAuras")
         .description("Pauses all auras when eating.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> pauseBaritone = sgGeneral.add(new BoolSetting.Builder()
-        .name("pause-baritone")
+        .name("PauseBaritone")
         .description("Pause baritone when eating.")
         .defaultValue(true)
         .build()
@@ -76,14 +76,14 @@ public class AutoGap extends Module {
     // Potions
     
     private final Setting<Boolean> beforeExpiry = sgPotions.add(new BoolSetting.Builder()
-        .name("before-expiry")
+        .name("BeforeExpiry")
         .description("If it should eat before potion effects expire.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> expiryThreshold = sgPotions.add(new IntSetting.Builder()
-        .name("expiry-threshold")
+        .name("ExpiryThreshold")
         .description("Time in ticks before the potion effect expires to start eating.")
         .defaultValue(60)
         .min(0)
@@ -93,14 +93,14 @@ public class AutoGap extends Module {
     );
     
     private final Setting<Boolean> potionsRegeneration = sgPotions.add(new BoolSetting.Builder()
-        .name("potions-regeneration")
+        .name("PotionsRegeneration")
         .description("If it should eat when Regeneration runs out.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> potionsFireResistance = sgPotions.add(new BoolSetting.Builder()
-        .name("potions-fire-resistance")
+        .name("PotionsFireResistance")
         .description("If it should eat when Fire Resistance runs out. Requires E-Gaps.")
         .defaultValue(true)
         .visible(allowEgap::get)
@@ -108,7 +108,7 @@ public class AutoGap extends Module {
     );
     
     private final Setting<Boolean> potionsAbsorption = sgPotions.add(new BoolSetting.Builder()
-        .name("potions-absorption")
+        .name("PotionsAbsorption")
         .description("If it should eat when Resistance runs out. Requires E-Gaps.")
         .defaultValue(false)
         .visible(allowEgap::get)
@@ -118,14 +118,14 @@ public class AutoGap extends Module {
     // Health
     
     private final Setting<Boolean> healthEnabled = sgHealth.add(new BoolSetting.Builder()
-        .name("health-enabled")
+        .name("HealthEnabled")
         .description("If it should eat when health drops below threshold.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> healthThreshold = sgHealth.add(new IntSetting.Builder()
-        .name("health-threshold")
+        .name("HealthThreshold")
         .description("Health threshold to eat at. Includes absorption.")
         .defaultValue(20)
         .min(0)

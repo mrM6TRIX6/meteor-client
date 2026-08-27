@@ -28,35 +28,35 @@ public class AutoAccept extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> tp = sgGeneral.add(new BoolSetting.Builder()
-        .name("tp")
+        .name("Tp")
         .description("Auto accepts for teleport requests (/tpa).")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> tphere = sgGeneral.add(new BoolSetting.Builder()
-        .name("tphere")
+        .name("Tphere")
         .description("Auto accepts for teleport here requests (/tpahere).")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> clan = sgGeneral.add(new BoolSetting.Builder()
-        .name("clan")
+        .name("Clan")
         .description("Auto accepts for clan requests.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> sitplayer = sgGeneral.add(new BoolSetting.Builder()
-        .name("sitplayer")
+        .name("Sitplayer")
         .description("Auto accepts for sitplayer request.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> onlyFriends = sgGeneral.add(new BoolSetting.Builder()
-        .name("friends-only")
+        .name("FriendsOnly")
         .description("Automatically accepts requests from friends only.")
         .defaultValue(true)
         .build()

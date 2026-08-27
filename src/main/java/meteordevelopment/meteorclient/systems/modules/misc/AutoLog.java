@@ -42,7 +42,7 @@ public class AutoLog extends Module {
     private final SettingGroup sgEntities = settings.createGroup("Entities");
     
     private final Setting<Integer> health = sgGeneral.add(new IntSetting.Builder()
-        .name("health")
+        .name("Health")
         .description("Automatically disconnects when health is lower or equal to this value. Set to 0 to disable.")
         .defaultValue(6)
         .range(0, 19)
@@ -51,14 +51,14 @@ public class AutoLog extends Module {
     );
     
     private final Setting<Boolean> smart = sgGeneral.add(new BoolSetting.Builder()
-        .name("predict-incoming-damage")
+        .name("PredictIncomingDamage")
         .description("Disconnects when it detects you're about to take enough damage to set you under the 'health' setting.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> totemPops = sgGeneral.add(new IntSetting.Builder()
-        .name("totem-pops")
+        .name("TotemPops")
         .description("Disconnects when you have popped this many totems. Set to 0 to disable.")
         .defaultValue(0)
         .min(0)
@@ -66,7 +66,7 @@ public class AutoLog extends Module {
     );
     
     private final Setting<Boolean> onlyTrusted = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-trusted")
+        .name("OnlyTrusted")
         .description("Disconnects when a player not on your friends list appears in render distance.")
         .defaultValue(false)
         .build()
@@ -80,21 +80,21 @@ public class AutoLog extends Module {
     );
     
     private final Setting<Boolean> smartToggle = sgGeneral.add(new BoolSetting.Builder()
-        .name("smart-toggle")
+        .name("SmartToggle")
         .description("Disables Auto Log after a low-health logout. WILL re-enable once you heal.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> toggleOff = sgGeneral.add(new BoolSetting.Builder()
-        .name("toggle-off")
+        .name("ToggleOff")
         .description("Disables Auto Log after usage.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> toggleAutoReconnect = sgGeneral.add(new BoolSetting.Builder()
-        .name("toggle-auto-reconnect")
+        .name("ToggleAutoReconnect")
         .description("Whether to disable Auto Reconnect after a logout.")
         .defaultValue(true)
         .build()
@@ -103,21 +103,21 @@ public class AutoLog extends Module {
     // Entities
     
     private final Setting<Set<EntityType<?>>> entities = sgEntities.add(new EntityTypeListSetting.Builder()
-        .name("entities")
+        .name("Entities")
         .description("Disconnects when a specified entity is present within a specified range.")
         .defaultValue(EntityType.END_CRYSTAL)
         .build()
     );
     
     private final Setting<Boolean> useTotalCount = sgEntities.add(new BoolSetting.Builder()
-        .name("use-total-count")
+        .name("UseTotalCount")
         .description("Toggle between counting the total number of all selected entities or each entity individually.")
         .defaultValue(true)
         .visible(() -> !entities.get().isEmpty())
         .build());
     
     private final Setting<Integer> combinedEntityThreshold = sgEntities.add(new IntSetting.Builder()
-        .name("combined-entity-threshold")
+        .name("CombinedEntityThreshold")
         .description("The minimum total number of selected entities that must be near you before disconnection occurs.")
         .defaultValue(10)
         .min(1)
@@ -127,7 +127,7 @@ public class AutoLog extends Module {
     );
     
     private final Setting<Integer> individualEntityThreshold = sgEntities.add(new IntSetting.Builder()
-        .name("individual-entity-threshold")
+        .name("IndividualEntityThreshold")
         .description("The minimum number of entities individually that must be near you before disconnection occurs.")
         .defaultValue(2)
         .min(1)
@@ -137,7 +137,7 @@ public class AutoLog extends Module {
     );
     
     private final Setting<Integer> range = sgEntities.add(new IntSetting.Builder()
-        .name("range")
+        .name("Range")
         .description("How close an entity has to be to you before you disconnect.")
         .defaultValue(5)
         .min(1)

@@ -22,7 +22,7 @@ public class Slippy extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     public final Setting<Double> friction = sgGeneral.add(new DoubleSetting.Builder()
-        .name("friction")
+        .name("Friction")
         .description("The base friction level.")
         .range(0.01, 1.10)
         .sliderRange(0.01, 1.10)
@@ -31,21 +31,21 @@ public class Slippy extends Module {
     );
     
     public final Setting<ListMode> listMode = sgGeneral.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("list-mode")
+        .name("ListMode")
         .description("The mode to select blocks.")
         .defaultValue(ListMode.BLACKLIST)
         .build()
     );
     
     public final Setting<List<Block>> ignoredBlocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("ignored-blocks")
+        .name("IgnoredBlocks")
         .description("Decide which blocks not to slip on")
         .visible(() -> listMode.get() == ListMode.BLACKLIST)
         .build()
     );
     
     public final Setting<List<Block>> allowedBlocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("allowed-blocks")
+        .name("AllowedBlocks")
         .description("Decide which blocks to slip on")
         .visible(() -> listMode.get() == ListMode.WHITELIST)
         .build()

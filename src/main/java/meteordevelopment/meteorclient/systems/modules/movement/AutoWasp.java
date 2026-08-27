@@ -40,49 +40,49 @@ public class AutoWasp extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Double> horizontalSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("horizontal-speed")
+        .name("HorizontalSpeed")
         .description("Horizontal elytra speed.")
         .defaultValue(2.0)
         .build()
     );
     
     private final Setting<Double> verticalSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("vertical-speed")
+        .name("VerticalSpeed")
         .description("Vertical elytra speed.")
         .defaultValue(3.0)
         .build()
     );
     
     private final Setting<Boolean> avoidLanding = sgGeneral.add(new BoolSetting.Builder()
-        .name("avoid-landing")
+        .name("AvoidLanding")
         .description("Will try to avoid landing if your target is on the ground.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> predictMovement = sgGeneral.add(new BoolSetting.Builder()
-        .name("predict-movement")
+        .name("PredictMovement")
         .description("Tries to predict the targets position according to their movement.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> onlyFriends = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-friends")
+        .name("OnlyFriends")
         .description("Will only follow friends.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Action> action = sgGeneral.add(new EnumChoiceSetting.Builder<Action>()
-        .name("action-on-target-loss")
+        .name("ActionOnTargetLoss")
         .description("What to do if you lose the target.")
         .defaultValue(Action.TOGGLE)
         .build()
     );
     
     private final Setting<Vector3d> offset = sgGeneral.add(new Vector3dSetting.Builder()
-        .name("offset")
+        .name("Offset")
         .description("How many blocks offset to wasp at from the target.")
         .defaultValue(0, 0, 0)
         .build()

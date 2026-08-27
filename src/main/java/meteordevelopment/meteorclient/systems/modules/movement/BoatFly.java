@@ -31,7 +31,7 @@ public class BoatFly extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Mode> mode = sgGeneral.add(new EnumChoiceSetting.Builder<Mode>()
-        .name("mode")
+        .name("Mode")
         .description("Boat movement mode.")
         .defaultValue(Mode.VANILLA)
         .onChanged(v -> {
@@ -44,7 +44,7 @@ public class BoatFly extends Module {
     );
     
     private final Setting<Double> horizontalSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("horizontal-speed")
+        .name("HorizontalSpeed")
         .description("Horizontal speed in blocks per second.")
         .defaultValue(10)
         .min(0)
@@ -53,7 +53,7 @@ public class BoatFly extends Module {
     );
     
     private final Setting<Double> verticalSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("vertical-speed")
+        .name("VerticalSpeed")
         .description("Vertical speed in blocks per second.")
         .defaultValue(6)
         .min(0)
@@ -62,7 +62,7 @@ public class BoatFly extends Module {
     );
     
     private final Setting<Double> fallSpeed = sgGeneral.add(new DoubleSetting.Builder()
-        .name("fall-speed")
+        .name("FallSpeed")
         .description("How fast you fall in blocks per second.")
         .defaultValue(0.1)
         .min(0)
@@ -71,7 +71,7 @@ public class BoatFly extends Module {
     );
     
     private final Setting<Boolean> cancelServerPackets = sgGeneral.add(new BoolSetting.Builder()
-        .name("cancel-server-packets")
+        .name("CancelServerPackets")
         .description("Cancels incoming boat move packets.")
         .defaultValue(false)
         .visible(() -> mode.get() == Mode.VANILLA)

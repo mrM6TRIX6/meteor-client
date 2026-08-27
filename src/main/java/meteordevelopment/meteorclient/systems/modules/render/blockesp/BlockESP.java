@@ -45,7 +45,7 @@ public class BlockESP extends Module {
     // General
     
     private final Setting<List<Block>> blocks = sgGeneral.add(new BlockListSetting.Builder()
-        .name("blocks")
+        .name("Blocks")
         .description("Blocks to search for.")
         .onChanged(blocks1 -> {
             if (isActive() && Utils.canUpdate()) {
@@ -56,7 +56,7 @@ public class BlockESP extends Module {
     );
     
     private final Setting<ESPBlockData> defaultBlockConfig = sgGeneral.add(new GenericSetting.Builder<ESPBlockData>()
-        .name("default-block-config")
+        .name("DefaultBlockConfig")
         .description("Default block config.")
         .defaultValue(
             new ESPBlockData(
@@ -71,14 +71,14 @@ public class BlockESP extends Module {
     );
     
     private final Setting<Map<Block, ESPBlockData>> blockConfigs = sgGeneral.add(new BlockDataSetting.Builder<ESPBlockData>()
-        .name("block-configs")
+        .name("BlockConfigs")
         .description("ClientSettings for each block.")
         .defaultData(defaultBlockConfig)
         .build()
     );
     
     private final Setting<Boolean> tracers = sgGeneral.add(new BoolSetting.Builder()
-        .name("tracers")
+        .name("Tracers")
         .description("Render tracer lines.")
         .defaultValue(false)
         .build()

@@ -6,6 +6,7 @@
 package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -16,7 +17,6 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator;
 import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator.SimulationStep;
 import meteordevelopment.meteorclient.utils.misc.Pool;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -47,7 +47,7 @@ public class Trajectories extends Module {
     // General
     
     private final Setting<List<Item>> items = sgGeneral.add(new ItemListSetting.Builder()
-        .name("items")
+        .name("Items")
         .description("Items to display trajectories for.")
         .defaultValue(getDefaultItems())
         .filter(this::itemFilter)
@@ -55,21 +55,21 @@ public class Trajectories extends Module {
     );
     
     private final Setting<Boolean> otherPlayers = sgGeneral.add(new BoolSetting.Builder()
-        .name("other-players")
+        .name("OtherPlayers")
         .description("Calculates trajectories for other players.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> firedProjectiles = sgGeneral.add(new BoolSetting.Builder()
-        .name("fired-projectiles")
+        .name("FiredProjectiles")
         .description("Calculates trajectories for already fired projectiles.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> ignoreWitherSkulls = sgGeneral.add(new BoolSetting.Builder()
-        .name("ignore-wither-skulls")
+        .name("IgnoreWitherSkulls")
         .description("Whether to ignore fired wither skulls.")
         .defaultValue(false)
         .visible(firedProjectiles::get)
@@ -77,14 +77,14 @@ public class Trajectories extends Module {
     );
     
     private final Setting<Boolean> accurate = sgGeneral.add(new BoolSetting.Builder()
-        .name("accurate")
+        .name("Accurate")
         .description("Whether or not to calculate more accurate.")
         .defaultValue(false)
         .build()
     );
     
     public final Setting<Integer> simulationSteps = sgGeneral.add(new IntSetting.Builder()
-        .name("simulation-steps")
+        .name("SimulationSteps")
         .description("How many steps to simulate projectiles. Zero for no limit")
         .defaultValue(500)
         .sliderMax(5000)
@@ -94,7 +94,7 @@ public class Trajectories extends Module {
     // Render
     
     private final Setting<Integer> ignoreFirstTicks = sgRender.add(new IntSetting.Builder()
-        .name("ignore-rendering-first-ticks")
+        .name("IgnoreRenderingFirstTicks")
         .description("Ignores rendering the first given ticks, to make the rest of the path more visible.")
         .defaultValue(3)
         .min(0)
@@ -102,35 +102,35 @@ public class Trajectories extends Module {
     );
     
     private final Setting<ShapeMode> shapeMode = sgRender.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color.")
         .defaultValue(new SettingColor(255, 150, 0, 35))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color.")
         .defaultValue(new SettingColor(255, 150, 0))
         .build()
     );
     
     private final Setting<Boolean> renderPositionBox = sgRender.add(new BoolSetting.Builder()
-        .name("render-position-boxes")
+        .name("RenderPositionBoxes")
         .description("Renders the actual position the projectile will be at each tick along it's trajectory.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> positionBoxSize = sgRender.add(new DoubleSetting.Builder()
-        .name("position-box-size")
+        .name("PositionBoxSize")
         .description("The size of the box drawn at the simulated positions.")
         .defaultValue(0.02)
         .sliderRange(0.01, 0.1)
@@ -139,7 +139,7 @@ public class Trajectories extends Module {
     );
     
     private final Setting<SettingColor> positionSideColor = sgRender.add(new ColorSetting.Builder()
-        .name("position-side-color")
+        .name("PositionSideColor")
         .description("The side color.")
         .defaultValue(new SettingColor(255, 150, 0, 35))
         .visible(renderPositionBox::get)
@@ -147,7 +147,7 @@ public class Trajectories extends Module {
     );
     
     private final Setting<SettingColor> positionLineColor = sgRender.add(new ColorSetting.Builder()
-        .name("position-line-color")
+        .name("PositionLineColor")
         .description("The line color.")
         .defaultValue(new SettingColor(255, 150, 0))
         .visible(renderPositionBox::get)

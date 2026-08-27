@@ -27,14 +27,14 @@ public class Blink extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> renderOriginal = sgGeneral.add(new BoolSetting.Builder()
-        .name("render-original")
+        .name("RenderOriginal")
         .description("Renders your player model at the original position.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Integer> delay = sgGeneral.add(new IntSetting.Builder()
-        .name("pulse-delay")
+        .name("PulseDelay")
         .description("After the duration in ticks has elapsed, send all packets and start blinking again.")
         .defaultValue(15)
         .min(0)

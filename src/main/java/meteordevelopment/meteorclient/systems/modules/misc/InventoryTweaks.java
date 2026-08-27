@@ -61,14 +61,14 @@ public class InventoryTweaks extends Module {
     // General
     
     private final Setting<Boolean> mouseDragItemMove = sgGeneral.add(new BoolSetting.Builder()
-        .name("mouse-drag-item-move")
+        .name("MouseDragItemMove")
         .description("Moving mouse over items while holding shift will transfer it to the other container.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> xCarry = sgGeneral.add(new BoolSetting.Builder()
-        .name("xcarry")
+        .name("Xcarry")
         .description("Allows you to store four extra item stacks in your crafting grid.")
         .defaultValue(true)
         .onChanged(v -> {
@@ -82,7 +82,7 @@ public class InventoryTweaks extends Module {
     );
     
     private final Setting<Boolean> fakeCloseButton = sgGeneral.add(new BoolSetting.Builder()
-        .name("fake-close-button")
+        .name("FakeCloseButton")
         .description("Adds a button that closes the inventory only on the client side (somewhat similar to XCarry).")
         .defaultValue(false)
         .build()
@@ -96,21 +96,21 @@ public class InventoryTweaks extends Module {
     );
     
     private final Setting<Boolean> operatorTab = sgGeneral.add(new BoolSetting.Builder()
-        .name("operator-tab")
+        .name("OperatorTab")
         .description("Shows the operator utilities item-group even if user don't have op, but only if it is enabled in the minecraft config.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> uncapBundleScrolling = sgGeneral.add(new BoolSetting.Builder()
-        .name("uncap-bundle-scrolling")
+        .name("UncapBundleScrolling")
         .description("Whether to uncap the bundle scrolling feature to let you select any item.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> frameInput = sgGeneral.add(new BoolSetting.Builder()
-        .name("frame-input-handling")
+        .name("FrameInputHandling")
         .description("Changes input handling to work every frame instead of every tick. A very minor effect but may\n" +
             "make inputs feel smoother, especially in laggy environments. Will flag anticheats that check packet order (Grim).")
         .defaultValue(false)
@@ -120,14 +120,14 @@ public class InventoryTweaks extends Module {
     // Sorting
     
     private final Setting<Boolean> sortingEnabled = sgSorting.add(new BoolSetting.Builder()
-        .name("sorting-enabled")
+        .name("SortingEnabled")
         .description("Automatically sorts stacks in inventory.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Keybind> sortingKey = sgSorting.add(new KeybindSetting.Builder()
-        .name("sorting-key")
+        .name("SortingKey")
         .description("Key to trigger the sort.")
         .visible(sortingEnabled::get)
         .defaultValue(Keybind.fromButton(GLFW.GLFW_MOUSE_BUTTON_MIDDLE))
@@ -135,7 +135,7 @@ public class InventoryTweaks extends Module {
     );
     
     private final Setting<Integer> sortingDelay = sgSorting.add(new IntSetting.Builder()
-        .name("sorting-delay")
+        .name("SortingDelay")
         .description("Delay in ticks between moving items when sorting.")
         .visible(sortingEnabled::get)
         .defaultValue(1)
@@ -144,7 +144,7 @@ public class InventoryTweaks extends Module {
     );
     
     private final Setting<Boolean> disableInCreative = sgSorting.add(new BoolSetting.Builder()
-        .name("disable-in-creative")
+        .name("DisableInCreative")
         .description("Disables the inventory sorter when in creative mode.")
         .defaultValue(true)
         .visible(sortingEnabled::get)
@@ -154,20 +154,20 @@ public class InventoryTweaks extends Module {
     // Anti drop
     
     private final Setting<List<Item>> antiDropItems = sgAntiDrop.add(new ItemListSetting.Builder()
-        .name("anti-drop-items")
+        .name("AntiDropItems")
         .description("Items to prevent dropping. Doesn't work in creative inventory screen.")
         .build()
     );
     
     private final Setting<Boolean> antiItemFrame = sgAntiDrop.add(new BoolSetting.Builder()
-        .name("item-frames")
+        .name("ItemFrames")
         .description("Prevent anti-drop items from being placed in item frames or pots")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Keybind> antiDropOverrideBind = sgAntiDrop.add(new KeybindSetting.Builder()
-        .name("override-bind")
+        .name("OverrideBind")
         .description("Hold this bind to temporarily bypass anti-drop")
         .build()
     );
@@ -175,27 +175,27 @@ public class InventoryTweaks extends Module {
     // Auto Drop
     
     private final Setting<List<Item>> autoDropItems = sgAutoDrop.add(new ItemListSetting.Builder()
-        .name("auto-drop-items")
+        .name("AutoDropItems")
         .description("Items to drop.")
         .build()
     );
     
     private final Setting<Boolean> autoDropExcludeEquipped = sgAutoDrop.add(new BoolSetting.Builder()
-        .name("exclude-equipped")
+        .name("ExcludeEquipped")
         .description("Whether or not to drop items equipped in armor slots.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> autoDropExcludeHotbar = sgAutoDrop.add(new BoolSetting.Builder()
-        .name("exclude-hotbar")
+        .name("ExcludeHotbar")
         .description("Whether or not to drop items from your hotbar.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> autoDropOnlyFullStacks = sgAutoDrop.add(new BoolSetting.Builder()
-        .name("only-full-stacks")
+        .name("OnlyFullStacks")
         .description("Only drops the items if the stack is full.")
         .defaultValue(false)
         .build()
@@ -204,28 +204,28 @@ public class InventoryTweaks extends Module {
     // Steal & Dump
     
     public final Setting<List<ScreenHandlerType<?>>> stealScreens = sgStealDump.add(new ScreenHandlerListSetting.Builder()
-        .name("steal-screens")
+        .name("StealScreens")
         .description("Select the screens to display buttons and auto steal.")
         .defaultValue(List.of(ScreenHandlerType.GENERIC_9X3, ScreenHandlerType.GENERIC_9X6))
         .build()
     );
     
     private final Setting<Boolean> buttons = sgStealDump.add(new BoolSetting.Builder()
-        .name("inventory-buttons")
+        .name("InventoryButtons")
         .description("Shows steal and dump buttons in container guis.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<Boolean> stealDrop = sgStealDump.add(new BoolSetting.Builder()
-        .name("steal-drop")
+        .name("StealDrop")
         .description("Drop items to the ground instead of stealing them.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Boolean> dropBackwards = sgStealDump.add(new BoolSetting.Builder()
-        .name("drop-backwards")
+        .name("DropBackwards")
         .description("Drop items behind you.")
         .defaultValue(false)
         .visible(stealDrop::get)
@@ -233,27 +233,27 @@ public class InventoryTweaks extends Module {
     );
     
     private final Setting<ListMode> dumpFilter = sgStealDump.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("dump-filter")
+        .name("DumpFilter")
         .description("Dump mode.")
         .defaultValue(ListMode.NONE)
         .build()
     );
     
     private final Setting<List<Item>> dumpItems = sgStealDump.add(new ItemListSetting.Builder()
-        .name("dump-items")
+        .name("DumpItems")
         .description("Items to dump.")
         .build()
     );
     
     private final Setting<ListMode> stealFilter = sgStealDump.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("steal-filter")
+        .name("StealFilter")
         .description("Steal mode.")
         .defaultValue(ListMode.NONE)
         .build()
     );
     
     private final Setting<List<Item>> stealItems = sgStealDump.add(new ItemListSetting.Builder()
-        .name("steal-items")
+        .name("StealItems")
         .description("Items to steal.")
         .build()
     );
@@ -261,14 +261,14 @@ public class InventoryTweaks extends Module {
     // Auto
     
     private final Setting<Boolean> enableAuto = sgAuto.add(new BoolSetting.Builder()
-        .name("enable-auto")
+        .name("EnableAuto")
         .description("Steals / dumps items automatically.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Action> autoAction = sgAuto.add(new EnumChoiceSetting.Builder<Action>()
-        .name("action")
+        .name("Action")
         .description("Automatic action.")
         .defaultValue(Action.STEAL)
         .visible(enableAuto::get)
@@ -276,7 +276,7 @@ public class InventoryTweaks extends Module {
     );
     
     private final Setting<Integer> autoDelay = sgAuto.add(new IntSetting.Builder()
-        .name("delay")
+        .name("Delay")
         .description("The minimum delay between stealing the next stack in milliseconds.")
         .defaultValue(20)
         .sliderMax(1000)
@@ -285,7 +285,7 @@ public class InventoryTweaks extends Module {
     );
     
     private final Setting<Integer> autoInitDelay = sgAuto.add(new IntSetting.Builder()
-        .name("initial-delay")
+        .name("InitialDelay")
         .description("The initial delay before stealing in milliseconds. 0 to use normal delay instead.")
         .defaultValue(50)
         .sliderMax(1000)
@@ -294,7 +294,7 @@ public class InventoryTweaks extends Module {
     );
     
     private final Setting<Integer> autoRandomDelay = sgAuto.add(new IntSetting.Builder()
-        .name("random")
+        .name("Random")
         .description("Randomly adds a delay of up to the specified time in milliseconds.")
         .min(0)
         .sliderMax(1000)

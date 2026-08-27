@@ -44,7 +44,7 @@ public class AutoTool extends Module {
     // General
     
     private final Setting<EnchantPreference> prefer = sgGeneral.add(new EnumChoiceSetting.Builder<EnchantPreference>()
-        .name("prefer")
+        .name("Prefer")
         .description("Either to prefer Silk Touch, Fortune, or none.")
         .defaultValue(EnchantPreference.FORTUNE)
         .build()
@@ -65,14 +65,14 @@ public class AutoTool extends Module {
     );
     
     private final Setting<Boolean> antiBreak = sgGeneral.add(new BoolSetting.Builder()
-        .name("anti-break")
+        .name("AntiBreak")
         .description("Stops you from breaking your tool.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> breakDurability = sgGeneral.add(new IntSetting.Builder()
-        .name("anti-break-percentage")
+        .name("AntiBreakPercentage")
         .description("The durability percentage to stop using a tool.")
         .defaultValue(10)
         .range(1, 100)
@@ -82,14 +82,14 @@ public class AutoTool extends Module {
     );
     
     private final Setting<Boolean> switchBack = sgGeneral.add(new BoolSetting.Builder()
-        .name("switch-back")
+        .name("SwitchBack")
         .description("Switches your hand to whatever was selected when releasing your attack key.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Integer> switchDelay = sgGeneral.add((new IntSetting.Builder()
-        .name("switch-delay")
+        .name("SwitchDelay")
         .description("Delay in ticks before switching tools.")
         .defaultValue(0)
         .build()
@@ -98,14 +98,14 @@ public class AutoTool extends Module {
     // Whitelist and blacklist
     
     private final Setting<ListMode> listMode = sgWhitelist.add(new EnumChoiceSetting.Builder<ListMode>()
-        .name("list-mode")
+        .name("ListMode")
         .description("Selection mode.")
         .defaultValue(ListMode.BLACKLIST)
         .build()
     );
     
     private final Setting<List<Item>> whitelist = sgWhitelist.add(new ItemListSetting.Builder()
-        .name("whitelist")
+        .name("Whitelist")
         .description("The tools you want to use.")
         .visible(() -> listMode.get() == ListMode.WHITELIST)
         .filter(AutoTool::isTool)
@@ -113,7 +113,7 @@ public class AutoTool extends Module {
     );
     
     private final Setting<List<Item>> blacklist = sgWhitelist.add(new ItemListSetting.Builder()
-        .name("blacklist")
+        .name("Blacklist")
         .description("The tools you don't want to use.")
         .visible(() -> listMode.get() == ListMode.BLACKLIST)
         .filter(AutoTool::isTool)

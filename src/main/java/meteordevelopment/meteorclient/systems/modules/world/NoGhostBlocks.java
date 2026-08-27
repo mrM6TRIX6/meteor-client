@@ -20,14 +20,14 @@ public class NoGhostBlocks extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> breaking = sgGeneral.add(new BoolSetting.Builder()
-        .name("breaking")
+        .name("Breaking")
         .description("Whether to apply for block breaking actions.")
         .defaultValue(true)
         .build()
     );
     
     public final Setting<Boolean> placing = sgGeneral.add(new BoolSetting.Builder()
-        .name("placing")
+        .name("Placing")
         .description("Whether to apply for block placement actions.")
         .defaultValue(true)
         .build()

@@ -8,6 +8,8 @@ package meteordevelopment.meteorclient.systems.modules.render;
 import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
+import meteordevelopment.meteorclient.renderer.WireframeEntityRenderer;
+import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -18,8 +20,6 @@ import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
-import meteordevelopment.meteorclient.renderer.WireframeEntityRenderer;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;
@@ -35,14 +35,14 @@ public class PopChams extends Module {
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
     private final Setting<Boolean> onlyOne = sgGeneral.add(new BoolSetting.Builder()
-        .name("only-one")
+        .name("OnlyOne")
         .description("Only allow one ghost per player.")
         .defaultValue(false)
         .build()
     );
     
     private final Setting<Double> renderTime = sgGeneral.add(new DoubleSetting.Builder()
-        .name("render-time")
+        .name("RenderTime")
         .description("How long the ghost is rendered in seconds.")
         .defaultValue(1)
         .min(0.1)
@@ -51,7 +51,7 @@ public class PopChams extends Module {
     );
     
     private final Setting<Double> yModifier = sgGeneral.add(new DoubleSetting.Builder()
-        .name("y-modifier")
+        .name("YModifier")
         .description("How much should the Y position of the ghost change per second.")
         .defaultValue(0.75)
         .sliderRange(-4, 4)
@@ -59,7 +59,7 @@ public class PopChams extends Module {
     );
     
     private final Setting<Double> scaleModifier = sgGeneral.add(new DoubleSetting.Builder()
-        .name("scale-modifier")
+        .name("ScaleModifier")
         .description("How much should the scale of the ghost change per second.")
         .defaultValue(-0.25)
         .sliderRange(-4, 4)
@@ -67,28 +67,28 @@ public class PopChams extends Module {
     );
     
     private final Setting<Boolean> fadeOut = sgGeneral.add(new BoolSetting.Builder()
-        .name("fade-out")
+        .name("FadeOut")
         .description("Fades out the color.")
         .defaultValue(true)
         .build()
     );
     
     private final Setting<ShapeMode> shapeMode = sgGeneral.add(new EnumChoiceSetting.Builder<ShapeMode>()
-        .name("shape-mode")
+        .name("ShapeMode")
         .description("How the shapes are rendered.")
         .defaultValue(ShapeMode.BOTH)
         .build()
     );
     
     private final Setting<SettingColor> sideColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("side-color")
+        .name("SideColor")
         .description("The side color.")
         .defaultValue(new SettingColor(255, 255, 255, 25))
         .build()
     );
     
     private final Setting<SettingColor> lineColor = sgGeneral.add(new ColorSetting.Builder()
-        .name("line-color")
+        .name("LineColor")
         .description("The line color.")
         .defaultValue(new SettingColor(255, 255, 255, 127))
         .build()
