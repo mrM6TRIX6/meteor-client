@@ -590,6 +590,7 @@ public class Modules extends System<Modules> {
         add(new BungeeCordSpoof());
         add(new ChatBypass());
         add(new GodMode());
+        add(new NameCollector());
         add(new NoPitchLimit());
         add(new NoSignLimit());
         add(new OffhandCrash());
