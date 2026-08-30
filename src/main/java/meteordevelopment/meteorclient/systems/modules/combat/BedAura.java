@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.systems.modules.combat;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -23,6 +22,7 @@ import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.meteorclient.utils.world.CardinalDirection;
 import meteordevelopment.orbit.EventHandler;
@@ -179,17 +179,17 @@ public class BedAura extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgRender.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The side color for positions to be placed.")
-        .defaultValue(new SettingColor(15, 255, 211, 75))
+        .defaultValue(new Color(15, 255, 211, 75))
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgRender.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The line color for positions to be placed.")
-        .defaultValue(new SettingColor(15, 255, 211))
+        .defaultValue(new Color(15, 255, 211))
         .build()
     );
     

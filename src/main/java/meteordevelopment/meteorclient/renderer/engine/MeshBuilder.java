@@ -9,7 +9,7 @@ import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.BufferUtils;

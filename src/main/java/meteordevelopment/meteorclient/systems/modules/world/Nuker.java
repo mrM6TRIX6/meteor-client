@@ -12,7 +12,6 @@ import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -26,6 +25,7 @@ import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.name.Names;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -245,17 +245,17 @@ public class Nuker extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColorBox = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColorBox = sgRender.add(new ColorSetting.Builder()
         .name("SideColorBox")
         .description("The side color of the bounding box.")
-        .defaultValue(new SettingColor(16, 106, 144, 100))
+        .defaultValue(new Color(16, 106, 144, 100))
         .build()
     );
     
-    private final Setting<SettingColor> lineColorBox = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColorBox = sgRender.add(new ColorSetting.Builder()
         .name("LineColorBox")
         .description("The line color of the bounding box.")
-        .defaultValue(new SettingColor(16, 106, 144, 255))
+        .defaultValue(new Color(16, 106, 144, 255))
         .build()
     );
     
@@ -274,18 +274,18 @@ public class Nuker extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgRender.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The side color of the target block rendering.")
-        .defaultValue(new SettingColor(255, 0, 0, 80))
+        .defaultValue(new Color(255, 0, 0, 80))
         .visible(enableRenderBreaking::get)
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgRender.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The line color of the target block rendering.")
-        .defaultValue(new SettingColor(255, 0, 0, 255))
+        .defaultValue(new Color(255, 0, 0, 255))
         .visible(enableRenderBreaking::get)
         .build()
     );

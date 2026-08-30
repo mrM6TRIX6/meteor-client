@@ -7,7 +7,7 @@ package meteordevelopment.meteorclient.utils.text;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.text.*;
 
 import java.util.*;

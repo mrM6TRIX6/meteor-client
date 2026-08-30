@@ -10,11 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.DefaultSettingsWidgetFactory;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
-import meteordevelopment.meteorclient.renderer.color.RainbowColors;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
-import meteordevelopment.meteorclient.settings.impl.ColorListSetting;
-import meteordevelopment.meteorclient.settings.impl.ColorSetting;
-import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.ISerializable;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
 import org.jetbrains.annotations.NotNull;
@@ -112,32 +107,6 @@ public class Settings implements ISerializable<Settings>, Iterable<SettingGroup>
     
     public SettingGroup createGroup(String name) {
         return createGroup(name, true);
-    }
-    
-    public void registerColorSettings(Module module) {
-        for (SettingGroup group : this) {
-            for (Setting<?> setting : group) {
-                setting.module = module;
-                
-                if (setting instanceof ColorSetting) {
-                    RainbowColors.addSetting((Setting<SettingColor>) setting);
-                } else if (setting instanceof ColorListSetting) {
-                    RainbowColors.addSettingList((Setting<List<SettingColor>>) setting);
-                }
-            }
-        }
-    }
-    
-    public void unregisterColorSettings() {
-        for (SettingGroup group : this) {
-            for (Setting<?> setting : group) {
-                if (setting instanceof ColorSetting) {
-                    RainbowColors.removeSetting((Setting<SettingColor>) setting);
-                } else if (setting instanceof ColorListSetting) {
-                    RainbowColors.removeSettingList((Setting<List<SettingColor>>) setting);
-                }
-            }
-        }
     }
     
     public void tick(WContainer settings) {

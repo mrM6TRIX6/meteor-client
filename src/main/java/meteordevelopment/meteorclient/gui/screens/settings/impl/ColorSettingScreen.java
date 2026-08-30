@@ -15,9 +15,8 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.input.WIntEdit;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
@@ -37,7 +36,7 @@ public class ColorSettingScreen extends WindowScreen {
     
     public Runnable action;
     
-    private final Setting<SettingColor> setting;
+    private final Setting<Color> setting;
     
     private WQuad displayQuad;
     
@@ -47,7 +46,7 @@ public class ColorSettingScreen extends WindowScreen {
     private WIntEdit rItb, gItb, bItb, aItb;
     private WCheckbox rainbow;
     
-    public ColorSettingScreen(Setting<SettingColor> setting) {
+    public ColorSettingScreen(Setting<Color> setting) {
         super("Select Color");
         
         this.setting = setting;
@@ -63,7 +62,7 @@ public class ColorSettingScreen extends WindowScreen {
     @Override
     public boolean fromClipboard() {
         String clipboard = mc.keyboard.getClipboard().trim();
-        SettingColor parsed;
+        Color parsed;
         
         if ((parsed = parseRGBA(clipboard)) != null) {
             setting.set(parsed);
@@ -80,15 +79,15 @@ public class ColorSettingScreen extends WindowScreen {
         return false;
     }
     
-    private SettingColor parseRGBA(String string) {
+    private Color parseRGBA(String string) {
         String[] rgba = string.replaceAll("[^0-9|,]", "").split(",");
         if (rgba.length < 3 || rgba.length > 4) {
             return null;
         }
         
-        SettingColor color;
+        Color color;
         try {
-            color = new SettingColor(Integer.parseInt(rgba[0]), Integer.parseInt(rgba[1]), Integer.parseInt(rgba[2]));
+            color = new Color(Integer.parseInt(rgba[0]), Integer.parseInt(rgba[1]), Integer.parseInt(rgba[2]));
             if (rgba.length == 4) {
                 color.a = Integer.parseInt(rgba[3]);
             }
@@ -99,7 +98,7 @@ public class ColorSettingScreen extends WindowScreen {
         return color;
     }
     
-    private SettingColor parseHex(String string) {
+    private Color parseHex(String string) {
         if (!string.startsWith("#")) {
             return null;
         }
@@ -108,9 +107,9 @@ public class ColorSettingScreen extends WindowScreen {
             return null;
         }
         
-        SettingColor color;
+        Color color;
         try {
-            color = new SettingColor(
+            color = new Color(
                 Integer.parseInt(hex.substring(0, 2), 16),
                 Integer.parseInt(hex.substring(2, 4), 16),
                 Integer.parseInt(hex.substring(4, 6), 16)
@@ -156,16 +155,6 @@ public class ColorSettingScreen extends WindowScreen {
         aItb = rgbaTable.add(new WIntEdit(setting.get().a, 0, 255, 0, 255, false)).expandX().widget();
         aItb.action = this::rgbaChanged;
         
-        // Rainbow
-        WHorizontalList rainbowList = add(new WHorizontalList()).expandX().widget();
-        rainbowList.add(new WLabel("Rainbow: "));
-        rainbow = new WCheckbox(setting.get().rainbow);
-        rainbow.action = () -> {
-            setting.get().rainbow = rainbow.checked;
-            setting.onChanged();
-        };
-        rainbowList.add(rainbow).expandCellX().right();
-        
         // Bottom
         WHorizontalList bottomList = add(new WHorizontalList()).expandX().widget();
         
@@ -185,7 +174,7 @@ public class ColorSettingScreen extends WindowScreen {
     }
     
     private void setFromSetting() {
-        SettingColor c = setting.get();
+        Color c = setting.get();
         
         if (c.r != rItb.get()) {
             rItb.set(c.r);
@@ -199,7 +188,6 @@ public class ColorSettingScreen extends WindowScreen {
         if (c.a != aItb.get()) {
             aItb.set(c.a);
         }
-        rainbow.checked = c.rainbow;
         
         displayQuad.color.set(setting.get());
         hueQuad.calculateFromSetting(true);
@@ -209,14 +197,6 @@ public class ColorSettingScreen extends WindowScreen {
     private void callAction() {
         if (action != null) {
             action.run();
-        }
-    }
-    
-    @Override
-    public void tick() {
-        super.tick();
-        if (setting.get().rainbow) {
-            setFromSetting();
         }
     }
     

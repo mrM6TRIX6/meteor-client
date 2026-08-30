@@ -5,7 +5,6 @@
 
 package meteordevelopment.meteorclient.systems.modules.render;
 
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -13,6 +12,7 @@ import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 
 /**
  * @author Walaryne
@@ -38,26 +38,26 @@ public class Ambience extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> overworldSkyColor = sgSky.add(new ColorSetting.Builder()
+    public final Setting<Color> overworldSkyColor = sgSky.add(new ColorSetting.Builder()
         .name("OverworldSkyColor")
         .description("The color of the overworld sky.")
-        .defaultValue(new SettingColor(0, 125, 255))
+        .defaultValue(new Color(0, 125, 255))
         .visible(customSkyColor::get)
         .build()
     );
     
-    public final Setting<SettingColor> netherSkyColor = sgSky.add(new ColorSetting.Builder()
+    public final Setting<Color> netherSkyColor = sgSky.add(new ColorSetting.Builder()
         .name("NetherSkyColor")
         .description("The color of the nether sky.")
-        .defaultValue(new SettingColor(102, 0, 0))
+        .defaultValue(new Color(102, 0, 0))
         .visible(customSkyColor::get)
         .build()
     );
     
-    public final Setting<SettingColor> endSkyColor = sgSky.add(new ColorSetting.Builder()
+    public final Setting<Color> endSkyColor = sgSky.add(new ColorSetting.Builder()
         .name("EndSkyColor")
         .description("The color of the end sky.")
-        .defaultValue(new SettingColor(65, 30, 90))
+        .defaultValue(new Color(65, 30, 90))
         .visible(customSkyColor::get)
         .build()
     );
@@ -69,10 +69,10 @@ public class Ambience extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> cloudColor = sgSky.add(new ColorSetting.Builder()
+    public final Setting<Color> cloudColor = sgSky.add(new ColorSetting.Builder()
         .name("CloudColor")
         .description("The color of the clouds.")
-        .defaultValue(new SettingColor(102, 0, 0))
+        .defaultValue(new Color(102, 0, 0))
         .visible(customCloudColor::get)
         .build()
     );
@@ -84,10 +84,10 @@ public class Ambience extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> lightningColor = sgSky.add(new ColorSetting.Builder()
+    public final Setting<Color> lightningColor = sgSky.add(new ColorSetting.Builder()
         .name("LightningColor")
         .description("The color of the lightning.")
-        .defaultValue(new SettingColor(102, 0, 0))
+        .defaultValue(new Color(102, 0, 0))
         .visible(changeLightningColor::get)
         .build()
     );
@@ -102,10 +102,10 @@ public class Ambience extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> grassColor = sgWorld.add(new ColorSetting.Builder()
+    public final Setting<Color> grassColor = sgWorld.add(new ColorSetting.Builder()
         .name("GrassColor")
         .description("The color of the grass.")
-        .defaultValue(new SettingColor(102, 0, 0))
+        .defaultValue(new Color(102, 0, 0))
         .visible(customGrassColor::get)
         .onChanged(val -> reload())
         .build()
@@ -119,10 +119,10 @@ public class Ambience extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> foliageColor = sgWorld.add(new ColorSetting.Builder()
+    public final Setting<Color> foliageColor = sgWorld.add(new ColorSetting.Builder()
         .name("FoliageColor")
         .description("The color of the foliage.")
-        .defaultValue(new SettingColor(102, 0, 0))
+        .defaultValue(new Color(102, 0, 0))
         .visible(customFoliageColor::get)
         .onChanged(val -> reload())
         .build()
@@ -136,10 +136,10 @@ public class Ambience extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> waterColor = sgWorld.add(new ColorSetting.Builder()
+    public final Setting<Color> waterColor = sgWorld.add(new ColorSetting.Builder()
         .name("WaterColor")
         .description("The color of the water.")
-        .defaultValue(new SettingColor(102, 0, 0))
+        .defaultValue(new Color(102, 0, 0))
         .visible(customWaterColor::get)
         .onChanged(val -> reload())
         .build()
@@ -153,10 +153,10 @@ public class Ambience extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> lavaColor = sgWorld.add(new ColorSetting.Builder()
+    public final Setting<Color> lavaColor = sgWorld.add(new ColorSetting.Builder()
         .name("LavaColor")
         .description("The color of the lava.")
-        .defaultValue(new SettingColor(102, 0, 0))
+        .defaultValue(new Color(102, 0, 0))
         .visible(customLavaColor::get)
         .onChanged(val -> reload())
         .build()
@@ -169,10 +169,10 @@ public class Ambience extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> fogColor = sgWorld.add(new ColorSetting.Builder()
+    public final Setting<Color> fogColor = sgWorld.add(new ColorSetting.Builder()
         .name("FogColor")
         .description("The color of the fog.")
-        .defaultValue(new SettingColor(102, 0, 0))
+        .defaultValue(new Color(102, 0, 0))
         .visible(customFogColor::get)
         .build()
     );
@@ -197,7 +197,7 @@ public class Ambience extends Module {
         }
     }
     
-    public SettingColor skyColor() {
+    public Color skyColor() {
         switch (PlayerUtils.getDimension()) {
             case OVERWORLD -> {
                 return overworldSkyColor.get();

@@ -373,7 +373,7 @@ public class Modules extends System<Modules> {
     
     public void add(Module module) {
         // Check if the module with that name not exists
-        moduleInstances.values().forEach(existing -> {
+        getAll().forEach(existing -> {
             if (existing.name.equalsIgnoreCase(module.name)) {
                 throw new IllegalArgumentException("Module with name '%s' already exists".formatted(module.name));
             }
@@ -382,9 +382,6 @@ public class Modules extends System<Modules> {
         // Add the module
         moduleInstances.put(module.getClass(), module);
         getGroup(module.category).add(module);
-        
-        // Register color settings for the module
-        module.settings.registerColorSettings(module);
     }
     
     private void initCombat() {

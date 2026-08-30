@@ -17,8 +17,6 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -33,6 +31,7 @@ import meteordevelopment.meteorclient.systems.modules.fun.notebot.song.Note;
 import meteordevelopment.meteorclient.systems.modules.fun.notebot.song.Song;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.Rotations;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -162,59 +161,59 @@ public class Notebot extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> untunedSideColor = sgRender.add(new ColorSetting.Builder()
+    public final Setting<Color> untunedSideColor = sgRender.add(new ColorSetting.Builder()
         .name("UntunedSideColor")
         .description("The color of the sides of the untuned blocks being rendered.")
-        .defaultValue(new SettingColor(204, 0, 0, 10))
+        .defaultValue(new Color(204, 0, 0, 10))
         .build()
     );
     
-    public final Setting<SettingColor> untunedLineColor = sgRender.add(new ColorSetting.Builder()
+    public final Setting<Color> untunedLineColor = sgRender.add(new ColorSetting.Builder()
         .name("UntunedLineColor")
         .description("The color of the lines of the untuned blocks being rendered.")
-        .defaultValue(new SettingColor(204, 0, 0, 255))
+        .defaultValue(new Color(204, 0, 0, 255))
         .build()
     );
     
-    public final Setting<SettingColor> tunedSideColor = sgRender.add(new ColorSetting.Builder()
+    public final Setting<Color> tunedSideColor = sgRender.add(new ColorSetting.Builder()
         .name("TunedSideColor")
         .description("The color of the sides of the tuned blocks being rendered.")
-        .defaultValue(new SettingColor(0, 204, 0, 10))
+        .defaultValue(new Color(0, 204, 0, 10))
         .build()
     );
     
-    public final Setting<SettingColor> tunedLineColor = sgRender.add(new ColorSetting.Builder()
+    public final Setting<Color> tunedLineColor = sgRender.add(new ColorSetting.Builder()
         .name("TunedLineColor")
         .description("The color of the lines of the tuned blocks being rendered.")
-        .defaultValue(new SettingColor(0, 204, 0, 255))
+        .defaultValue(new Color(0, 204, 0, 255))
         .build()
     );
     
-    public final Setting<SettingColor> tuneHitSideColor = sgRender.add(new ColorSetting.Builder()
+    public final Setting<Color> tuneHitSideColor = sgRender.add(new ColorSetting.Builder()
         .name("HitSideColor")
         .description("The color of the sides being rendered on noteblock tune hit.")
-        .defaultValue(new SettingColor(255, 153, 0, 10))
+        .defaultValue(new Color(255, 153, 0, 10))
         .build()
     );
     
-    private final Setting<SettingColor> tuneHitLineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> tuneHitLineColor = sgRender.add(new ColorSetting.Builder()
         .name("HitLineColor")
         .description("The color of the lines being rendered on noteblock tune hit.")
-        .defaultValue(new SettingColor(255, 153, 0, 255))
+        .defaultValue(new Color(255, 153, 0, 255))
         .build()
     );
     
-    public final Setting<SettingColor> scannedNoteblockSideColor = sgRender.add(new ColorSetting.Builder()
+    public final Setting<Color> scannedNoteblockSideColor = sgRender.add(new ColorSetting.Builder()
         .name("ScannedNoteblockSideColor")
         .description("The color of the sides of the scanned noteblocks being rendered.")
-        .defaultValue(new SettingColor(255, 255, 0, 30))
+        .defaultValue(new Color(255, 255, 0, 30))
         .build()
     );
     
-    private final Setting<SettingColor> scannedNoteblockLineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> scannedNoteblockLineColor = sgRender.add(new ColorSetting.Builder()
         .name("ScannedNoteblockLineColor")
         .description("The color of the lines of the scanned noteblocks being rendered.")
-        .defaultValue(new SettingColor(255, 255, 0, 255))
+        .defaultValue(new Color(255, 255, 0, 255))
         .build()
     );
     

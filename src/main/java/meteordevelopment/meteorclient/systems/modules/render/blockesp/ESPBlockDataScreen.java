@@ -7,12 +7,12 @@ package meteordevelopment.meteorclient.systems.modules.render.blockesp;
 
 import meteordevelopment.meteorclient.gui.DefaultSettingsWidgetFactory;
 import meteordevelopment.meteorclient.gui.WindowScreen;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.block.Block;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,7 +61,7 @@ public class ESPBlockDataScreen extends WindowScreen {
         sgGeneral.add(new ColorSetting.Builder()
             .name("LineColor")
             .description("Color of lines.")
-            .defaultValue(new SettingColor(0, 255, 200))
+            .defaultValue(new Color(0, 255, 200))
             .onModuleActivated(settingColorSetting -> settingColorSetting.get().set(blockData.lineColor))
             .onChanged(settingColor -> {
                 if (!blockData.lineColor.equals(settingColor)) {
@@ -75,7 +75,7 @@ public class ESPBlockDataScreen extends WindowScreen {
         sgGeneral.add(new ColorSetting.Builder()
             .name("SideColor")
             .description("Color of sides.")
-            .defaultValue(new SettingColor(0, 255, 200, 25))
+            .defaultValue(new Color(0, 255, 200, 25))
             .onModuleActivated(settingColorSetting -> settingColorSetting.get().set(blockData.sideColor))
             .onChanged(settingColor -> {
                 if (!blockData.sideColor.equals(settingColor)) {
@@ -103,7 +103,7 @@ public class ESPBlockDataScreen extends WindowScreen {
         sgTracer.add(new ColorSetting.Builder()
             .name("TracerColor")
             .description("Color of tracer line.")
-            .defaultValue(new SettingColor(0, 255, 200, 125))
+            .defaultValue(new Color(0, 255, 200, 125))
             .onModuleActivated(settingColorSetting -> settingColorSetting.get().set(blockData.tracerColor))
             .onChanged(settingColor -> {
                 if (!blockData.tracerColor.equals(settingColor)) {

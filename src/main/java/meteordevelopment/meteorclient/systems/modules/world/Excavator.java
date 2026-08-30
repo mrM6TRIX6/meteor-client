@@ -11,7 +11,6 @@ import baritone.api.utils.BetterBlockPos;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -23,6 +22,7 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.hit.BlockHitResult;
 import org.lwjgl.glfw.GLFW;
@@ -63,17 +63,17 @@ public class Excavator extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgRendering.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgRendering.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The side color.")
-        .defaultValue(new SettingColor(255, 255, 255, 50))
+        .defaultValue(new Color(255, 255, 255, 50))
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgRendering.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgRendering.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The line color.")
-        .defaultValue(new SettingColor(255, 255, 255, 255))
+        .defaultValue(new Color(255, 255, 255, 255))
         .build()
     );
     

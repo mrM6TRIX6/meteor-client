@@ -5,23 +5,10 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
-import meteordevelopment.meteorclient.utils.name.IDisplayName;
-
-public enum YAnchor implements IDisplayName {
+public enum YAnchor {
     
-    TOP("Top"),
-    CENTER("Center"),
-    BOTTOM("Bottom");
-    
-    private final String displayName;
-    
-    YAnchor(String displayName) {
-        this.displayName = displayName;
-    }
-    
-    @Override
-    public String getDisplayName() {
-        return displayName;
-    }
+    TOP,
+    CENTER,
+    BOTTOM
     
 }

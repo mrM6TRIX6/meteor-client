@@ -11,7 +11,6 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUD;
 import meteordevelopment.meteorclient.systems.modules.render.hud.HUDElement;
-import meteordevelopment.meteorclient.systems.modules.render.hud.elements.TextHUD;
 import net.minecraft.util.crash.CrashReport;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -62,29 +61,12 @@ public abstract class CrashReportMixin {
             HUD hud = HUD.get();
             if (hud != null && hud.isActive()) {
                 boolean hudActive = false;
-                for (HUDElement element : hud) {
-                    if (element == null || !element.isActive()) {
-                        continue;
-                    }
-                    
+                for (HUDElement element : hud.getEnabled()) {
                     if (!hudActive) {
                         hudActive = true;
                         sb.append("\n[[ Active HUD Elements ]]\n");
                     }
-                    
-                    if (!(element instanceof TextHUD textHud)) {
-                        sb.append(element.info.name).append("\n");
-                    } else {
-                        sb.append("Text\n{")
-                            .append(textHud.getText())
-                            .append("}\n");
-                        if (textHud.getShown() != TextHUD.Shown.ALWAYS) {
-                            sb.append("(")
-                                .append(textHud.getShown())
-                                .append(textHud.getCondition())
-                                .append(")\n");
-                        }
-                    }
+                    sb.append(element.getName()).append("\n");
                 }
             }
         }

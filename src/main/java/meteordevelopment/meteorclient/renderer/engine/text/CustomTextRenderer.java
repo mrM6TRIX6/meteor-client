@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.renderer.engine.MeshBuilder;
 import meteordevelopment.meteorclient.renderer.engine.MeshRenderer;
 import meteordevelopment.meteorclient.renderer.engine.MeteorRenderPipelines;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import org.lwjgl.BufferUtils;
 
 import java.nio.ByteBuffer;

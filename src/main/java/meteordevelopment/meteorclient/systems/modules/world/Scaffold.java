@@ -8,7 +8,6 @@ package meteordevelopment.meteorclient.systems.modules.world;
 import com.google.common.collect.Streams;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -19,6 +18,7 @@ import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
@@ -167,18 +167,18 @@ public class Scaffold extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgRender.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The side color of the target block rendering.")
-        .defaultValue(new SettingColor(197, 137, 232, 10))
+        .defaultValue(new Color(197, 137, 232, 10))
         .visible(render::get)
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgRender.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The line color of the target block rendering.")
-        .defaultValue(new SettingColor(197, 137, 232))
+        .defaultValue(new Color(197, 137, 232))
         .visible(render::get)
         .build()
     );

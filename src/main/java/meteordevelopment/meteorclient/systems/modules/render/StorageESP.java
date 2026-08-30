@@ -13,8 +13,6 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.renderer.MeshBuilderVertexConsumerProvider;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.renderer.SimpleBlockRenderer;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.MeshBuilder;
 import meteordevelopment.meteorclient.renderer.engine.MeshRenderer;
 import meteordevelopment.meteorclient.renderer.engine.MeteorRenderPipelines;
@@ -28,6 +26,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.Dir;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
@@ -107,45 +106,45 @@ public class StorageESP extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> chest = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> chest = sgGeneral.add(new ColorSetting.Builder()
         .name("Chest")
         .description("The color of chests.")
-        .defaultValue(new SettingColor(255, 160, 0, 255))
+        .defaultValue(new Color(255, 160, 0, 255))
         .build()
     );
     
-    private final Setting<SettingColor> trappedChest = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> trappedChest = sgGeneral.add(new ColorSetting.Builder()
         .name("TrappedChest")
         .description("The color of trapped chests.")
-        .defaultValue(new SettingColor(255, 0, 0, 255))
+        .defaultValue(new Color(255, 0, 0, 255))
         .build()
     );
     
-    private final Setting<SettingColor> barrel = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> barrel = sgGeneral.add(new ColorSetting.Builder()
         .name("Barrel")
         .description("The color of barrels.")
-        .defaultValue(new SettingColor(255, 160, 0, 255))
+        .defaultValue(new Color(255, 160, 0, 255))
         .build()
     );
     
-    private final Setting<SettingColor> shulker = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> shulker = sgGeneral.add(new ColorSetting.Builder()
         .name("Shulker")
         .description("The color of Shulker Boxes.")
-        .defaultValue(new SettingColor(255, 160, 0, 255))
+        .defaultValue(new Color(255, 160, 0, 255))
         .build()
     );
     
-    private final Setting<SettingColor> enderChest = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> enderChest = sgGeneral.add(new ColorSetting.Builder()
         .name("EnderChest")
         .description("The color of Ender Chests.")
-        .defaultValue(new SettingColor(120, 0, 255, 255))
+        .defaultValue(new Color(120, 0, 255, 255))
         .build()
     );
     
-    private final Setting<SettingColor> other = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> other = sgGeneral.add(new ColorSetting.Builder()
         .name("Other")
         .description("The color of furnaces, dispensers, droppers and hoppers.")
-        .defaultValue(new SettingColor(140, 140, 140, 255))
+        .defaultValue(new Color(140, 140, 140, 255))
         .build()
     );
     
@@ -165,10 +164,10 @@ public class StorageESP extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> openedColor = sgOpened.add(new ColorSetting.Builder()
+    private final Setting<Color> openedColor = sgOpened.add(new ColorSetting.Builder()
         .name("OpenedColor")
         .description("Optional setting to change colors of opened chests, as opposed to not rendering. Disabled at zero opacity.")
-        .defaultValue(new SettingColor(203, 90, 203, 0)) // Transparent by default
+        .defaultValue(new Color(203, 90, 203, 0)) // Transparent by default
         .build()
     );
     

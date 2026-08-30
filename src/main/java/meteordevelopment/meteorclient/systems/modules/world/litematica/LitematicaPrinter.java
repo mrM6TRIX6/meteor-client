@@ -10,8 +10,6 @@ import fi.dy.masa.litematica.world.SchematicWorldHandler;
 import fi.dy.masa.litematica.world.WorldSchematic;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -23,6 +21,7 @@ import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.SlotUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
@@ -247,10 +246,10 @@ public class LitematicaPrinter extends Module {
         .visible(renderPlaced::get)
         .build());
 
-    private final Setting<SettingColor> color = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> color = sgRender.add(new ColorSetting.Builder()
         .name("Color")
         .description("The cubes color.")
-        .defaultValue(new SettingColor(95, 190, 255, 100))
+        .defaultValue(new Color(95, 190, 255, 100))
         .visible(renderPlaced::get)
         .build());
 

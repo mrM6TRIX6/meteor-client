@@ -10,8 +10,6 @@ import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.mixin.AbstractBlockAccessor;
 import meteordevelopment.meteorclient.mixin.DirectionAccessor;
 import meteordevelopment.meteorclient.mixininterface.IBox;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -22,6 +20,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Keybind;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.meteorclient.utils.world.Dir;
@@ -194,34 +193,34 @@ public class HoleFiller extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgRender.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The side color of the target block rendering.")
-        .defaultValue(new SettingColor(197, 137, 232, 10))
+        .defaultValue(new Color(197, 137, 232, 10))
         .visible(() -> render.get() && shapeMode.get().sides())
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgRender.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The line color of the target block rendering.")
-        .defaultValue(new SettingColor(197, 137, 232))
+        .defaultValue(new Color(197, 137, 232))
         .visible(() -> render.get() && shapeMode.get().lines())
         .build()
     );
     
-    private final Setting<SettingColor> nextSideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> nextSideColor = sgRender.add(new ColorSetting.Builder()
         .name("NextSideColor")
         .description("The side color of the next block to be placed.")
-        .defaultValue(new SettingColor(227, 196, 245, 10))
+        .defaultValue(new Color(227, 196, 245, 10))
         .visible(() -> render.get() && shapeMode.get().sides())
         .build()
     );
     
-    private final Setting<SettingColor> nextLineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> nextLineColor = sgRender.add(new ColorSetting.Builder()
         .name("NextLineColor")
         .description("The line color of the next block to be placed.")
-        .defaultValue(new SettingColor(227, 196, 245))
+        .defaultValue(new Color(227, 196, 245))
         .visible(() -> render.get() && shapeMode.get().lines())
         .build()
     );

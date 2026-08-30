@@ -12,8 +12,6 @@ import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.BlockUpdateEvent;
 import meteordevelopment.meteorclient.events.world.ChunkDataEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.renderer.color.RainbowColors;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -24,6 +22,7 @@ import meteordevelopment.meteorclient.settings.impl.GenericSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
@@ -61,10 +60,10 @@ public class BlockESP extends Module {
         .defaultValue(
             new ESPBlockData(
                 ShapeMode.LINES,
-                new SettingColor(0, 255, 200),
-                new SettingColor(0, 255, 200, 25),
+                new Color(0, 255, 200),
+                new Color(0, 255, 200, 25),
                 true,
-                new SettingColor(0, 255, 200, 125)
+                new Color(0, 255, 200, 125)
             )
         )
         .build()
@@ -94,8 +93,6 @@ public class BlockESP extends Module {
     
     public BlockESP() {
         super(Category.RENDER, "BlockESP", "Renders specified blocks through walls.");
-        
-        RainbowColors.register(this::onTickRainbow);
     }
     
     @Override
@@ -117,17 +114,6 @@ public class BlockESP extends Module {
         synchronized (chunks) {
             chunks.clear();
             groups.clear();
-        }
-    }
-    
-    private void onTickRainbow() {
-        if (!isActive()) {
-            return;
-        }
-        
-        defaultBlockConfig.get().tickRainbow();
-        for (ESPBlockData blockData : blockConfigs.get().values()) {
-            blockData.tickRainbow();
         }
     }
     

@@ -9,8 +9,6 @@ import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
 import meteordevelopment.meteorclient.renderer.WireframeEntityRenderer;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.Renderer2D;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -22,6 +20,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -122,58 +121,58 @@ public class ESP extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> nonLivingEntityColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> nonLivingEntityColor = sgColors.add(new ColorSetting.Builder()
         .name("NonLivingEntityColor")
         .description("The color used for non living entities such as dropped items.")
-        .defaultValue(new SettingColor(25, 25, 25))
+        .defaultValue(new Color(25, 25, 25))
         .visible(() -> colorMode.get() == ESPColorMode.HEALTH)
         .build()
     );
     
-    private final Setting<SettingColor> playersColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> playersColor = sgColors.add(new ColorSetting.Builder()
         .name("PlayersColor")
         .description("The other player's color.")
-        .defaultValue(new SettingColor(255, 255, 255))
+        .defaultValue(new Color(255, 255, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
-    private final Setting<SettingColor> animalsColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> animalsColor = sgColors.add(new ColorSetting.Builder()
         .name("AnimalsColor")
         .description("The animal's color.")
-        .defaultValue(new SettingColor(25, 255, 25, 255))
+        .defaultValue(new Color(25, 255, 25, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
-    private final Setting<SettingColor> waterAnimalsColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> waterAnimalsColor = sgColors.add(new ColorSetting.Builder()
         .name("WaterAnimalsColor")
         .description("The water animal's color.")
-        .defaultValue(new SettingColor(25, 25, 255, 255))
+        .defaultValue(new Color(25, 25, 255, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
-    private final Setting<SettingColor> monstersColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> monstersColor = sgColors.add(new ColorSetting.Builder()
         .name("MonstersColor")
         .description("The monster's color.")
-        .defaultValue(new SettingColor(255, 25, 25, 255))
+        .defaultValue(new Color(255, 25, 25, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
-    private final Setting<SettingColor> ambientColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> ambientColor = sgColors.add(new ColorSetting.Builder()
         .name("AmbientColor")
         .description("The ambient's color.")
-        .defaultValue(new SettingColor(25, 25, 25, 255))
+        .defaultValue(new Color(25, 25, 25, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );
     
-    private final Setting<SettingColor> miscColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> miscColor = sgColors.add(new ColorSetting.Builder()
         .name("MiscColor")
         .description("The misc color.")
-        .defaultValue(new SettingColor(175, 175, 175, 255))
+        .defaultValue(new Color(175, 175, 175, 255))
         .visible(() -> colorMode.get() == ESPColorMode.ENTITY_TYPE)
         .build()
     );

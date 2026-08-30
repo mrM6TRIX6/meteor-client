@@ -10,7 +10,7 @@ import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.mixin.RenderLayerAccessor;
 import meteordevelopment.meteorclient.renderer.engine.Renderer3D;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.render.OutputTarget;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;

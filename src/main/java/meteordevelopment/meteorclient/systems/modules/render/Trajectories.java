@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -17,6 +16,7 @@ import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator;
 import meteordevelopment.meteorclient.utils.entity.ProjectileEntitySimulator.SimulationStep;
 import meteordevelopment.meteorclient.utils.misc.Pool;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
@@ -108,17 +108,17 @@ public class Trajectories extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgRender.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The side color.")
-        .defaultValue(new SettingColor(255, 150, 0, 35))
+        .defaultValue(new Color(255, 150, 0, 35))
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgRender.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The line color.")
-        .defaultValue(new SettingColor(255, 150, 0))
+        .defaultValue(new Color(255, 150, 0))
         .build()
     );
     
@@ -138,18 +138,18 @@ public class Trajectories extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> positionSideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> positionSideColor = sgRender.add(new ColorSetting.Builder()
         .name("PositionSideColor")
         .description("The side color.")
-        .defaultValue(new SettingColor(255, 150, 0, 35))
+        .defaultValue(new Color(255, 150, 0, 35))
         .visible(renderPositionBox::get)
         .build()
     );
     
-    private final Setting<SettingColor> positionLineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> positionLineColor = sgRender.add(new ColorSetting.Builder()
         .name("PositionLineColor")
         .description("The line color.")
-        .defaultValue(new SettingColor(255, 150, 0))
+        .defaultValue(new Color(255, 150, 0))
         .visible(renderPositionBox::get)
         .build()
     );

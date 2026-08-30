@@ -7,27 +7,27 @@ package meteordevelopment.meteorclient.systems.modules.render.blockesp;
 
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.gui.WidgetScreen;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.IBlockData;
 import meteordevelopment.meteorclient.settings.IGeneric;
 import meteordevelopment.meteorclient.settings.impl.BlockDataSetting;
 import meteordevelopment.meteorclient.settings.impl.GenericSetting;
 import meteordevelopment.meteorclient.utils.misc.IChangeable;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.block.Block;
 
 public class ESPBlockData implements IGeneric<ESPBlockData>, IChangeable, IBlockData<ESPBlockData> {
     
     public ShapeMode shapeMode;
-    public SettingColor lineColor;
-    public SettingColor sideColor;
+    public Color lineColor;
+    public Color sideColor;
     
     public boolean tracer;
-    public SettingColor tracerColor;
+    public Color tracerColor;
     
     private boolean changed;
     
-    public ESPBlockData(ShapeMode shapeMode, SettingColor lineColor, SettingColor sideColor, boolean tracer, SettingColor tracerColor) {
+    public ESPBlockData(ShapeMode shapeMode, Color lineColor, Color sideColor, boolean tracer, Color tracerColor) {
         this.shapeMode = shapeMode;
         this.lineColor = lineColor;
         this.sideColor = sideColor;
@@ -55,12 +55,6 @@ public class ESPBlockData implements IGeneric<ESPBlockData>, IChangeable, IBlock
         changed = true;
     }
     
-    public void tickRainbow() {
-        lineColor.update();
-        sideColor.update();
-        tracerColor.update();
-    }
-    
     @Override
     public ESPBlockData set(ESPBlockData value) {
         shapeMode = value.shapeMode;
@@ -77,7 +71,7 @@ public class ESPBlockData implements IGeneric<ESPBlockData>, IChangeable, IBlock
     
     @Override
     public ESPBlockData copy() {
-        return new ESPBlockData(shapeMode, new SettingColor(lineColor), new SettingColor(sideColor), tracer, new SettingColor(tracerColor));
+        return new ESPBlockData(shapeMode, new Color(lineColor), new Color(sideColor), tracer, new Color(tracerColor));
     }
     
     @Override

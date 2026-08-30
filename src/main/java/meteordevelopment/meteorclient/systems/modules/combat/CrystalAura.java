@@ -18,8 +18,6 @@ import meteordevelopment.meteorclient.mixininterface.IRaycastContext;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -37,6 +35,7 @@ import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.meteorclient.utils.world.TickRate;
@@ -516,18 +515,18 @@ public class CrystalAura extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgRender.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The side color of the block overlay.")
-        .defaultValue(new SettingColor(255, 255, 255, 45))
+        .defaultValue(new Color(255, 255, 255, 45))
         .visible(() -> shapeMode.get().sides() && renderMode.get() != RenderMode.NONE)
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgRender.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The line color of the block overlay.")
-        .defaultValue(new SettingColor(255, 255, 255))
+        .defaultValue(new Color(255, 255, 255))
         .visible(() -> shapeMode.get().lines() && renderMode.get() != RenderMode.NONE)
         .build()
     );
@@ -540,10 +539,10 @@ public class CrystalAura extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> damageColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> damageColor = sgRender.add(new ColorSetting.Builder()
         .name("DamageColor")
         .description("The color of the damage text.")
-        .defaultValue(new SettingColor(255, 255, 255))
+        .defaultValue(new Color(255, 255, 255))
         .visible(() -> renderMode.get() != RenderMode.NONE && renderDamageText.get())
         .build()
     );

@@ -8,7 +8,6 @@ package meteordevelopment.meteorclient.systems.modules.misc;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -21,6 +20,7 @@ import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
 import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -87,10 +87,10 @@ public class OnSightCommand extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> renderColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> renderColor = sgRender.add(new ColorSetting.Builder()
         .name("RenderColor")
         .description("Block render color.")
-        .defaultValue(new SettingColor(255, 255, 255, 255))
+        .defaultValue(new Color(255, 255, 255, 255))
         .visible(render::get)
         .build()
     );

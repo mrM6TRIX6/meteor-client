@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.renderer.state;
 
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 
 public record QuadColorState(Color colorTopLeft, Color colorBottomLeft, Color colorBottomRight, Color colorTopRight) {
     

@@ -9,7 +9,6 @@ import meteordevelopment.meteorclient.events.packets.PacketEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.renderer.WireframeEntityRenderer;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -20,6 +19,7 @@ import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.fakeplayer.FakePlayerEntity;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityStatuses;
@@ -80,17 +80,17 @@ public class PopChams extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgGeneral.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The side color.")
-        .defaultValue(new SettingColor(255, 255, 255, 25))
+        .defaultValue(new Color(255, 255, 255, 25))
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgGeneral.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The line color.")
-        .defaultValue(new SettingColor(255, 255, 255, 127))
+        .defaultValue(new Color(255, 255, 255, 127))
         .build()
     );
     

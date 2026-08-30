@@ -8,7 +8,6 @@ package meteordevelopment.meteorclient.systems.modules.world;
 import meteordevelopment.meteorclient.events.entity.player.StartBreakingBlockEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -25,6 +24,7 @@ import meteordevelopment.meteorclient.utils.misc.Pool;
 import meteordevelopment.meteorclient.utils.player.FindItemResult;
 import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
@@ -93,31 +93,31 @@ public class PacketMine extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> readySideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> readySideColor = sgRender.add(new ColorSetting.Builder()
         .name("ReadySideColor")
         .description("The color of the sides of the blocks that can be broken.")
-        .defaultValue(new SettingColor(0, 204, 0, 10))
+        .defaultValue(new Color(0, 204, 0, 10))
         .build()
     );
     
-    private final Setting<SettingColor> readyLineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> readyLineColor = sgRender.add(new ColorSetting.Builder()
         .name("ReadyLineColor")
         .description("The color of the lines of the blocks that can be broken.")
-        .defaultValue(new SettingColor(0, 204, 0, 255))
+        .defaultValue(new Color(0, 204, 0, 255))
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgRender.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The color of the sides of the blocks being rendered.")
-        .defaultValue(new SettingColor(204, 0, 0, 10))
+        .defaultValue(new Color(204, 0, 0, 10))
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgRender.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The color of the lines of the blocks being rendered.")
-        .defaultValue(new SettingColor(204, 0, 0, 255))
+        .defaultValue(new Color(204, 0, 0, 255))
         .build()
     );
     

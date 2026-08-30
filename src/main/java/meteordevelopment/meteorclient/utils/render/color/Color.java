@@ -3,7 +3,7 @@
  * Copyright (c) Meteor Development.
  */
 
-package meteordevelopment.meteorclient.renderer.color;
+package meteordevelopment.meteorclient.utils.render.color;
 
 import com.google.gson.JsonObject;
 import meteordevelopment.meteorclient.utils.misc.ICopyable;
@@ -277,8 +277,8 @@ public class Color implements ICopyable<Color>, ISerializable<Color> {
         return new Color(r, g, b, a);
     }
     
-    public SettingColor toSetting() {
-        return new SettingColor(r, g, b, a);
+    public Color toSetting() {
+        return new Color(r, g, b, a);
     }
     
     public TextColor toTextColor() {

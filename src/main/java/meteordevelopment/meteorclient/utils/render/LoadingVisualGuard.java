@@ -1,18 +1,15 @@
 package meteordevelopment.meteorclient.utils.render;
 
-import net.minecraft.client.MinecraftClient;
+import meteordevelopment.meteorclient.IMinecraft;
 
 import java.util.Locale;
 
-public final class LoadingVisualGuard {
+public final class LoadingVisualGuard implements IMinecraft {
     
     private LoadingVisualGuard() {}
     
-    public static boolean shouldSuppressHud(MinecraftClient client) {
-        if (client == null) {
-            return true;
-        }
-        return isLoadingVisual(client.currentScreen) || isLoadingVisual(client.getOverlay());
+    public static boolean shouldSuppressHud() {
+        return isLoadingVisual(mc.currentScreen) || isLoadingVisual(mc.getOverlay());
     }
     
     private static boolean isLoadingVisual(Object visual) {

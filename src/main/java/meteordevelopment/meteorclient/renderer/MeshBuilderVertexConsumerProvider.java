@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.renderer;
 
 import meteordevelopment.meteorclient.renderer.engine.MeshBuilder;
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 

@@ -6,7 +6,7 @@
 package meteordevelopment.meteorclient.renderer.engine.text;
 
 import meteordevelopment.meteorclient.renderer.engine.Fonts;
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 
 public interface TextRenderer {
     

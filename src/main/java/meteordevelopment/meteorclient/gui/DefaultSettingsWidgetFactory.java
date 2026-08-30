@@ -19,11 +19,11 @@ import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WCheckbox;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WMinus;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WPlus;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.DrawContext;
 import org.apache.commons.lang3.Strings;
@@ -36,7 +36,7 @@ import java.util.function.Consumer;
 
 public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implements IMinecraft {
 
-    private static final SettingColor WHITE = new SettingColor();
+    private static final Color WHITE = new Color();
 
     private static final DefaultSettingsWidgetFactory INSTANCE = new DefaultSettingsWidgetFactory();
 
@@ -476,7 +476,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implemen
 
         WPlus add = tab.add(new WPlus()).expandCellX().widget();
         add.action = () -> {
-            setting.get().add(new SettingColor());
+            setting.get().add(new Color());
             setting.onChanged();
 
             t.clear();
@@ -491,7 +491,7 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implemen
 
     private void colorListWFill(WTable t, ColorListSetting setting) {
         int i = 0;
-        for (SettingColor color : setting.get()) {
+        for (Color color : setting.get()) {
             int _i = i;
 
             t.add(new WLabel(i + ":"));
@@ -500,13 +500,13 @@ public class DefaultSettingsWidgetFactory extends SettingsWidgetFactory implemen
 
             WButton edit = t.add(new WButton(GuiConstants.EDIT)).widget();
             edit.action = () -> {
-                SettingColor defaultValue = WHITE;
+                Color defaultValue = WHITE;
                 if (_i < setting.getDefaultValue().size()) {
                     defaultValue = setting.getDefaultValue().get(_i);
                 }
 
-                ColorSetting set = new ColorSetting(setting.name, setting.description, defaultValue, settingColor -> {
-                    setting.get().get(_i).set(settingColor);
+                ColorSetting set = new ColorSetting(setting.name, setting.description, defaultValue, Color -> {
+                    setting.get().get(_i).set(Color);
                     setting.onChanged();
                 }, null, null);
                 set.set(setting.get().get(_i));

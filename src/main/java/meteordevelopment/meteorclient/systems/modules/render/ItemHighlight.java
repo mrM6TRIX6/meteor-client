@@ -5,13 +5,13 @@
 
 package meteordevelopment.meteorclient.systems.modules.render;
 
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.ItemListSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -27,10 +27,10 @@ public class ItemHighlight extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> color = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> color = sgGeneral.add(new ColorSetting.Builder()
         .name("Color")
         .description("The color to highlight the items with.")
-        .defaultValue(new SettingColor(225, 25, 255, 50))
+        .defaultValue(new Color(225, 25, 255, 50))
         .build()
     );
     

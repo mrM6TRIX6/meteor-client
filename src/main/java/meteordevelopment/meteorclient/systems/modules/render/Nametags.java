@@ -12,8 +12,6 @@ import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.Renderer2D;
 import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
@@ -28,6 +26,7 @@ import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.name.Names;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
@@ -242,32 +241,32 @@ public class Nametags extends Module {
     
     // Render
     
-    private final Setting<SettingColor> background = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> background = sgRender.add(new ColorSetting.Builder()
         .name("BackgroundColor")
         .description("The color of the nametag background.")
-        .defaultValue(new SettingColor(0, 0, 0, 75))
+        .defaultValue(new Color(0, 0, 0, 75))
         .build()
     );
     
-    private final Setting<SettingColor> nameColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> nameColor = sgRender.add(new ColorSetting.Builder()
         .name("NameColor")
         .description("The color of the nametag names.")
-        .defaultValue(new SettingColor())
+        .defaultValue(new Color())
         .build()
     );
     
-    private final Setting<SettingColor> pingColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> pingColor = sgRender.add(new ColorSetting.Builder()
         .name("PingColor")
         .description("The color of the nametag ping.")
-        .defaultValue(new SettingColor(20, 170, 170))
+        .defaultValue(new Color(20, 170, 170))
         .visible(displayPing::get)
         .build()
     );
     
-    private final Setting<SettingColor> gamemodeColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> gamemodeColor = sgRender.add(new ColorSetting.Builder()
         .name("GamemodeColor")
         .description("The color of the nametag gamemode.")
-        .defaultValue(new SettingColor(232, 185, 35))
+        .defaultValue(new Color(232, 185, 35))
         .visible(displayGameMode::get)
         .build()
     );
@@ -280,10 +279,10 @@ public class Nametags extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> distanceColor = sgRender.add(new ColorSetting.Builder()
+    private final Setting<Color> distanceColor = sgRender.add(new ColorSetting.Builder()
         .name("DistanceColor")
         .description("The color of the nametag distance.")
-        .defaultValue(new SettingColor(150, 150, 150))
+        .defaultValue(new Color(150, 150, 150))
         .visible(() -> displayDistance.get() && distanceColorMode.get() == DistanceColorMode.MODE)
         .build()
     );

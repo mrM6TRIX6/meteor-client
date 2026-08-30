@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.systems.modules.render;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -16,6 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.friends.Friends;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
@@ -64,10 +64,10 @@ public class BetterTab extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> selfColor = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> selfColor = sgGeneral.add(new ColorSetting.Builder()
         .name("SelfColor")
         .description("The color to highlight your name with.")
-        .defaultValue(new SettingColor(50, 193, 50, 100))
+        .defaultValue(new Color(50, 193, 50, 100))
         .visible(highlightSelf::get)
         .build()
     );
@@ -79,10 +79,10 @@ public class BetterTab extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> friendsColor = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> friendsColor = sgGeneral.add(new ColorSetting.Builder()
         .name("FriendsColor")
         .description("The color to highlight friends with.")
-        .defaultValue(new SettingColor(16, 89, 203, 100))
+        .defaultValue(new Color(16, 89, 203, 100))
         .visible(highlightFriends::get)
         .build()
     );

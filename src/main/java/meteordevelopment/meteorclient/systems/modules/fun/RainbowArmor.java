@@ -8,8 +8,6 @@ package meteordevelopment.meteorclient.systems.modules.fun;
 import meteordevelopment.meteorclient.events.game.GameLeftEvent;
 import meteordevelopment.meteorclient.events.world.PlaySoundEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -20,6 +18,7 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.DyedColorComponent;
@@ -47,16 +46,16 @@ public class RainbowArmor extends Module {
         .build()
     );
     
-    private final Setting<List<SettingColor>> colors = sgGeneral.add(new ColorListSetting.Builder()
+    private final Setting<List<Color>> colors = sgGeneral.add(new ColorListSetting.Builder()
         .name("Colors")
         .description("The colors that will be used for interpolation.")
         .defaultValue(List.of(
-            new SettingColor(255, 0, 0),
-            new SettingColor(255, 255, 0),
-            new SettingColor(0, 255, 0),
-            new SettingColor(0, 255, 255),
-            new SettingColor(0, 0, 255),
-            new SettingColor(255, 0, 255)))
+            new Color(255, 0, 0),
+            new Color(255, 255, 0),
+            new Color(0, 255, 0),
+            new Color(0, 255, 255),
+            new Color(0, 0, 255),
+            new Color(255, 0, 255)))
         .build()
     );
     

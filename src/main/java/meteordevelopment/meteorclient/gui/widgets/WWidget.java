@@ -9,7 +9,7 @@ import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.GuiTooltips;
 import meteordevelopment.meteorclient.gui.widgets.containers.WView;
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import meteordevelopment.meteorclient.utils.render.ui.image.BuiltImage;
 import net.minecraft.client.gui.Click;

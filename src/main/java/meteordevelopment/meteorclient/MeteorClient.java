@@ -7,19 +7,15 @@ package meteordevelopment.meteorclient;
 
 import meteordevelopment.meteorclient.addons.AddonManager;
 import meteordevelopment.meteorclient.addons.MeteorAddon;
-import meteordevelopment.meteorclient.events.game.ScreenOpenEvent;
 import meteordevelopment.meteorclient.events.meteor.KeyEvent;
 import meteordevelopment.meteorclient.events.meteor.MouseClickEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.GuiConstants;
-import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.gui.tabs.Tabs;
 import meteordevelopment.meteorclient.gui.tabs.impl.ModulesTab;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.commands.Commands;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.DiscordPresence;
-import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.misc.Version;
 import meteordevelopment.meteorclient.utils.misc.input.KeyAction;
@@ -29,7 +25,6 @@ import meteordevelopment.meteorclient.utils.reflect.PreInit;
 import meteordevelopment.meteorclient.utils.reflect.ReflectInit;
 import meteordevelopment.orbit.EventBus;
 import meteordevelopment.orbit.EventHandler;
-import meteordevelopment.orbit.EventPriority;
 import meteordevelopment.orbit.IEventBus;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
@@ -145,6 +140,10 @@ public class MeteorClient implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STOPPING.register(mc -> Systems.save());
     }
     
+    public static Identifier identifier(String path) {
+        return Identifier.of(MeteorClient.MOD_ID, path);
+    }
+    
     @EventHandler
     private void onTick(TickEvent.Post event) {
         if (mc.currentScreen == null && mc.getOverlay() == null && KeyBinds.OPEN_COMMANDS.wasPressed()) {
@@ -172,34 +171,6 @@ public class MeteorClient implements ClientModInitializer {
         } else if (Utils.canOpenGui()) {
             Tabs.get(ModulesTab.class).openScreen();
         }
-    }
-    
-    // Hide HUD
-    
-    private boolean wasWidgetScreen, wasHudHiddenRoot;
-    
-    @EventHandler(priority = EventPriority.LOWEST)
-    private void onOpenScreen(ScreenOpenEvent event) {
-        if (event.screen instanceof WidgetScreen) {
-            if (!wasWidgetScreen) {
-                wasHudHiddenRoot = mc.options.hudHidden;
-            }
-            if (GuiConstants.HIDE_HUD || wasHudHiddenRoot) {
-                // Always show the MC HUD in the HUD editor screen since people like
-                // to align some items with the hotbar or chat
-                mc.options.hudHidden = !(event.screen instanceof HUDEditorScreen);
-            }
-        } else {
-            if (wasWidgetScreen) {
-                mc.options.hudHidden = wasHudHiddenRoot;
-            }
-            wasHudHiddenRoot = mc.options.hudHidden;
-        }
-        wasWidgetScreen = event.screen instanceof WidgetScreen;
-    }
-    
-    public static Identifier identifier(String path) {
-        return Identifier.of(MeteorClient.MOD_ID, path);
     }
     
 }

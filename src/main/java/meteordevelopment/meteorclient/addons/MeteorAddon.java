@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.addons;
 
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 
 public abstract class MeteorAddon {
     

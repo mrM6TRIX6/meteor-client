@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -15,6 +14,7 @@ import meteordevelopment.meteorclient.settings.impl.ColorSetting;
 import meteordevelopment.meteorclient.settings.impl.EnumChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -48,17 +48,17 @@ public class BlockSelection extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> sideColor = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> sideColor = sgGeneral.add(new ColorSetting.Builder()
         .name("SideColor")
         .description("The side color.")
-        .defaultValue(new SettingColor(255, 255, 255, 50))
+        .defaultValue(new Color(255, 255, 255, 50))
         .build()
     );
     
-    private final Setting<SettingColor> lineColor = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> lineColor = sgGeneral.add(new ColorSetting.Builder()
         .name("LineColor")
         .description("The line color.")
-        .defaultValue(new SettingColor(255, 255, 255, 255))
+        .defaultValue(new Color(255, 255, 255, 255))
         .build()
     );
     

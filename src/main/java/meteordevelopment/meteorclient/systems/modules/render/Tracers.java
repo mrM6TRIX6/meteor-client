@@ -9,8 +9,6 @@ import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.Renderer2D;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -23,6 +21,7 @@ import meteordevelopment.meteorclient.utils.entity.EntityUtils;
 import meteordevelopment.meteorclient.utils.entity.Target;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -160,50 +159,50 @@ public class Tracers extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> playersColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> playersColor = sgColors.add(new ColorSetting.Builder()
         .name("PlayersColors")
         .description("The player's color.")
-        .defaultValue(new SettingColor(205, 205, 205, 127))
+        .defaultValue(new Color(205, 205, 205, 127))
         .visible(() -> !distance.get())
         .build()
     );
     
-    private final Setting<SettingColor> animalsColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> animalsColor = sgColors.add(new ColorSetting.Builder()
         .name("AnimalsColor")
         .description("The animal's color.")
-        .defaultValue(new SettingColor(145, 255, 145, 127))
+        .defaultValue(new Color(145, 255, 145, 127))
         .visible(() -> !distance.get())
         .build()
     );
     
-    private final Setting<SettingColor> waterAnimalsColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> waterAnimalsColor = sgColors.add(new ColorSetting.Builder()
         .name("WaterAnimalsColor")
         .description("The water animal's color.")
-        .defaultValue(new SettingColor(145, 145, 255, 127))
+        .defaultValue(new Color(145, 145, 255, 127))
         .visible(() -> !distance.get())
         .build()
     );
     
-    private final Setting<SettingColor> monstersColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> monstersColor = sgColors.add(new ColorSetting.Builder()
         .name("MonstersColor")
         .description("The monster's color.")
-        .defaultValue(new SettingColor(255, 145, 145, 127))
+        .defaultValue(new Color(255, 145, 145, 127))
         .visible(() -> !distance.get())
         .build()
     );
     
-    private final Setting<SettingColor> ambientColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> ambientColor = sgColors.add(new ColorSetting.Builder()
         .name("AmbientColor")
         .description("The ambient color.")
-        .defaultValue(new SettingColor(75, 75, 75, 127))
+        .defaultValue(new Color(75, 75, 75, 127))
         .visible(() -> !distance.get())
         .build()
     );
     
-    private final Setting<SettingColor> miscColor = sgColors.add(new ColorSetting.Builder()
+    private final Setting<Color> miscColor = sgColors.add(new ColorSetting.Builder()
         .name("MiscColor")
         .description("The misc color.")
-        .defaultValue(new SettingColor(145, 145, 145, 127))
+        .defaultValue(new Color(145, 145, 145, 127))
         .visible(() -> !distance.get())
         .build()
     );

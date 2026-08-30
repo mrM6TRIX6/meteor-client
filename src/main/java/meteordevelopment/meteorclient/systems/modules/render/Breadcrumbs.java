@@ -7,7 +7,6 @@ package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.ColorSetting;
@@ -16,6 +15,7 @@ import meteordevelopment.meteorclient.settings.impl.IntSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.misc.Pool;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.world.dimension.DimensionType;
 
@@ -26,10 +26,10 @@ public class Breadcrumbs extends Module {
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     
-    private final Setting<SettingColor> color = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> color = sgGeneral.add(new ColorSetting.Builder()
         .name("Color")
         .description("The color of the Breadcrumbs trail.")
-        .defaultValue(new SettingColor(225, 25, 25))
+        .defaultValue(new Color(225, 25, 25))
         .build()
     );
     

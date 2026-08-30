@@ -5,23 +5,10 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
-import meteordevelopment.meteorclient.utils.name.IDisplayName;
-
-public enum XAnchor implements IDisplayName {
+public enum XAnchor {
     
-    LEFT("Left"),
-    CENTER("Center"),
-    RIGHT("Right");
-    
-    private final String displayName;
-    
-    XAnchor(String displayName) {
-        this.displayName = displayName;
-    }
-    
-    @Override
-    public String getDisplayName() {
-        return displayName;
-    }
+    LEFT,
+    CENTER,
+    RIGHT
     
 }

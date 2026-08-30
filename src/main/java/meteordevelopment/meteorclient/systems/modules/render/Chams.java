@@ -6,13 +6,13 @@
 package meteordevelopment.meteorclient.systems.modules.render;
 
 import meteordevelopment.meteorclient.MeteorClient;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.Identifier;
@@ -42,10 +42,10 @@ public class Chams extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> shaderColor = sgThroughWalls.add(new ColorSetting.Builder()
+    public final Setting<Color> shaderColor = sgThroughWalls.add(new ColorSetting.Builder()
         .name("ShaderColor")
         .description("The color that the shader is drawn with.")
-        .defaultValue(new SettingColor(255, 255, 255, 150))
+        .defaultValue(new Color(255, 255, 255, 150))
         .visible(() -> shader.get() != Shader.NONE)
         .build()
     );
@@ -82,10 +82,10 @@ public class Chams extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> playersColor = sgPlayers.add(new ColorSetting.Builder()
+    public final Setting<Color> playersColor = sgPlayers.add(new ColorSetting.Builder()
         .name("PlayersColor")
         .description("The color of player models.")
-        .defaultValue(new SettingColor(198, 135, 254, 150))
+        .defaultValue(new Color(198, 135, 254, 150))
         .visible(players::get)
         .build()
     );
@@ -143,10 +143,10 @@ public class Chams extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> crystalsColor = sgCrystals.add(new ColorSetting.Builder()
+    public final Setting<Color> crystalsColor = sgCrystals.add(new ColorSetting.Builder()
         .name("CrystalColor")
         .description("The color of the of the crystal.")
-        .defaultValue(new SettingColor(198, 135, 254, 255))
+        .defaultValue(new Color(198, 135, 254, 255))
         .visible(crystals::get)
         .build()
     );
@@ -168,10 +168,10 @@ public class Chams extends Module {
         .build()
     );
     
-    public final Setting<SettingColor> handColor = sgHand.add(new ColorSetting.Builder()
+    public final Setting<Color> handColor = sgHand.add(new ColorSetting.Builder()
         .name("HandColor")
         .description("The color of your hand.")
-        .defaultValue(new SettingColor(198, 135, 254, 150))
+        .defaultValue(new Color(198, 135, 254, 150))
         .visible(hand::get)
         .build()
     );

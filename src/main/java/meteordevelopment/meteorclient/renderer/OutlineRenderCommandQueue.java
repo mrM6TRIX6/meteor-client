@@ -5,7 +5,7 @@
 
 package meteordevelopment.meteorclient.renderer;
 
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.model.Model;

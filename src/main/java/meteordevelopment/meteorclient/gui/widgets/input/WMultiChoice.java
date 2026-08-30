@@ -7,8 +7,8 @@ package meteordevelopment.meteorclient.gui.widgets.input;
 
 import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import meteordevelopment.meteorclient.renderer.color.Color;
 import meteordevelopment.meteorclient.utils.name.Namer;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;

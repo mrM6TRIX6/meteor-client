@@ -7,15 +7,14 @@ package meteordevelopment.meteorclient.utils.pathing;
 
 import baritone.api.BaritoneAPI;
 import baritone.api.utils.SettingsUtil;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.Settings;
 import meteordevelopment.meteorclient.settings.impl.*;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 
-import java.awt.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -179,9 +178,9 @@ public class BaritoneSettings implements IPathManager.ISettings {
                     sgColor.add(new ColorSetting.Builder()
                         .name(setting.getName())
                         .description(getDescription(setting.getName()))
-                        .defaultValue(new SettingColor(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()))
+                        .defaultValue(new Color(c.r, c.g, c.b, c.a))
                         .onChanged(color -> setting.value = new Color(color.r, color.g, color.b, color.a))
-                        .onModuleActivated(colorSetting -> colorSetting.set(new SettingColor(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha())))
+                        .onModuleActivated(colorSetting -> colorSetting.set(new Color(c.r, c.g, c.b, c.a)))
                         .build()
                     );
                 } else if (value instanceof List) {

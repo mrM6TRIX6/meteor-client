@@ -8,7 +8,7 @@ package meteordevelopment.meteorclient.gui;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.gui.utils.AlignmentX;
 import meteordevelopment.meteorclient.gui.utils.WindowConfig;
-import meteordevelopment.meteorclient.renderer.color.Color;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;

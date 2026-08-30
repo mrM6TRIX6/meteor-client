@@ -7,8 +7,6 @@ package meteordevelopment.meteorclient.systems.modules.combat;
 
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -20,6 +18,7 @@ import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.entity.SortPriority;
 import meteordevelopment.meteorclient.utils.entity.TargetUtils;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -90,10 +89,10 @@ public class Confuse extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> circleColor = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> circleColor = sgGeneral.add(new ColorSetting.Builder()
         .name("CircleColor")
         .description("Color for circle rendering")
-        .defaultValue(new SettingColor(0, 255, 0))
+        .defaultValue(new Color(0, 255, 0))
         .visible(budgetGraphics::get)
         .build()
     );

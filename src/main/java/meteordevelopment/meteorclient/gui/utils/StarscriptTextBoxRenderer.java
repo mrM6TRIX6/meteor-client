@@ -7,9 +7,8 @@ package meteordevelopment.meteorclient.gui.utils;
 
 import meteordevelopment.meteorclient.gui.GuiConstants;
 import meteordevelopment.meteorclient.gui.widgets.input.WTextBox;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.systems.modules.render.hud.elements.TextHUD;
 import meteordevelopment.meteorclient.utils.misc.MeteorStarscript;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import net.minecraft.client.gui.DrawContext;
@@ -107,9 +106,9 @@ public class StarscriptTextBoxRenderer implements WTextBox.Renderer {
                     text = text.substring(1);
                 }
 
-                try {
-                    yield TextHUD.getSectionColor(Integer.parseInt(text));
-                } catch (NumberFormatException ignored) {}
+//                try {
+//                    yield TextHUD.getSectionColor(Integer.parseInt(text));
+//                } catch (NumberFormatException ignored) {}
 
                 yield GuiConstants.STARSCRIPT_TEXT;
             }

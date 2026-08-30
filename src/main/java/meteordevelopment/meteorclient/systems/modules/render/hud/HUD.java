@@ -5,316 +5,229 @@
 
 package meteordevelopment.meteorclient.systems.modules.render.hud;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import meteordevelopment.meteorclient.events.meteor.CustomFontChangedEvent;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
-import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.gui.widgets.WWidget;
-import meteordevelopment.meteorclient.gui.widgets.containers.WHorizontalList;
 import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
-import meteordevelopment.meteorclient.settings.impl.BoolSetting;
-import meteordevelopment.meteorclient.settings.impl.ColorListSetting;
-import meteordevelopment.meteorclient.settings.impl.DoubleSetting;
-import meteordevelopment.meteorclient.settings.impl.IntSetting;
+import meteordevelopment.meteorclient.settings.impl.MultiChoiceSetting;
 import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
-import meteordevelopment.meteorclient.systems.modules.render.hud.elements.*;
-import meteordevelopment.meteorclient.systems.modules.render.hud.screens.HUDEditorScreen;
+import meteordevelopment.meteorclient.systems.modules.render.hud.elements.Test;
 import meteordevelopment.meteorclient.utils.Utils;
-import meteordevelopment.meteorclient.utils.misc.JsonUtils;
+import meteordevelopment.meteorclient.utils.name.Namer;
 import meteordevelopment.meteorclient.utils.render.LoadingVisualGuard;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import meteordevelopment.orbit.EventHandler;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.client.gui.DrawContext;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Optional;
+import java.util.SequencedSet;
 
-public class HUD extends Module implements Iterable<HUDElement> {
-    
-    public static final HUDGroup GROUP = new HUDGroup("Meteor");
-    
-    public final Map<String, HUDElementInfo<?>> infos = new TreeMap<>();
-    private final List<HUDElement> elements = new ArrayList<>();
-    
+public class HUD extends Module {
+
+    private final Map<Class<? extends HUDElement>, HUDElement> elements = new Reference2ReferenceOpenHashMap<>();
+
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
-    private final SettingGroup sgEditor = settings.createGroup("Editor");
-    
-    // General
-    
-    private final Setting<Boolean> customFont = sgGeneral.add(new BoolSetting.Builder()
-        .name("CustomFont")
-        .description("Text will use custom font.")
-        .defaultValue(true)
-        .onChanged(aBoolean -> {
-            for (HUDElement element : elements) {
-                element.onFontChanged();
-            }
-        })
-        .build()
-    );
-    
-    private final Setting<Boolean> hideInMenus = sgGeneral.add(new BoolSetting.Builder()
-        .name("HideInMenus")
-        .description("Hides the meteor HUD when in inventory screens or game menus.")
-        .defaultValue(false)
-        .build()
-    );
-    
-    private final Setting<Double> textScale = sgGeneral.add(new DoubleSetting.Builder()
-        .name("TextScale")
-        .description("Scale of text if not overridden by the element.")
-        .defaultValue(1)
-        .min(0.5)
-        .sliderRange(0.5, 3)
-        .build()
-    );
-    
-    public final Setting<List<SettingColor>> textColors = sgGeneral.add(new ColorListSetting.Builder()
-        .name("TextColors")
-        .description("Colors used for the Text element.")
-        .defaultValue(List.of(new SettingColor(), new SettingColor(175, 175, 175), new SettingColor(25, 225, 25), new SettingColor(225, 25, 25)))
-        .build()
-    );
-    
-    // Editor
-    
-    public final Setting<Integer> border = sgEditor.add(new IntSetting.Builder()
-        .name("Border")
-        .description("Space around the edges of the screen.")
-        .defaultValue(4)
-        .sliderMax(20)
-        .build()
-    );
-    
-    public final Setting<Integer> snappingRange = sgEditor.add(new IntSetting.Builder()
-        .name("SnappingRange")
-        .description("Snapping range in editor.")
-        .defaultValue(10)
-        .sliderMax(20)
-        .build()
-    );
-    
+    private final Setting<SequencedSet<HUDElement>> enabledElements;
+
     public HUD() {
         super(Category.RENDER, "HUD", "The client in-game dashboard.");
-        
-        settings.registerColorSettings(null);
-        
-        register(MeteorTextHud.INFO);
-        register(ItemHUD.INFO);
-        register(InventoryHUD.INFO);
-        register(CompassHUD.INFO);
-        register(ArmorHUD.INFO);
-        register(HoleHUD.INFO);
-        register(PlayerModelHUD.INFO);
-        register(ActiveModulesHUD.INFO);
-        register(LagNotifierHUD.INFO);
-        register(PlayerRadarHUD.INFO);
-        register(ModuleInfosHUD.INFO);
-        register(PotionTimersHUD.INFO);
-        register(CombatHUD.INFO);
-        register(MapHUD.INFO);
-        register(TextureHUD.INFO);
-        register(BlurHUD.INFO);
-        register(Rectangle.INFO);
-        register(GradientRectangle.INFO);
-        register(Zippy.INFO);
-        register(RotatingGradientRectangle.INFO);
-        register(GlowHUD.INFO);
+
+        runInMainMenu = true;
+
+        init();
+
+        enabledElements = sgGeneral.add(
+            new MultiChoiceSetting.Builder<HUDElement>()
+                .name("Elements")
+                .description("Enabled HUD elements.")
+                .namer(Namer.of(HUDElement::getName))
+                .choices(elements.values())
+                .build()
+        );
     }
-    
+
     public static HUD get() {
         return Modules.get().get(HUD.class);
     }
     
-    @Override
-    public WWidget getWidget() {
-        WTable table = new WTable();
-        
-        WHorizontalList buttons = table.add(new WHorizontalList()).expandX().widget();
-        
-        // Edit
-        WButton openEditor = buttons.add(new WButton("Edit")).expandX().widget();
-        openEditor.action = () -> mc.setScreen(new HUDEditorScreen());
-        
-        // Clear
-        WButton clearBtn = buttons.add(new WButton("Clear")).expandX().widget();
-        clearBtn.action = this::clear;
-        
-        return table;
+    private void init() {
+        add(new Test());
     }
-    
-    public void register(HUDElementInfo<?> info) {
-        infos.put(info.name, info);
-    }
-    
-    private void add(HUDElement element, int x, int y, XAnchor xAnchor, YAnchor yAnchor) {
-        element.box.setPos(x, y);
-        
-        if (xAnchor == null || yAnchor == null) {
-            element.box.updateAnchors();
-        } else {
-            element.box.xAnchor = xAnchor;
-            element.box.yAnchor = yAnchor;
+
+    private void add(HUDElement element) {
+        HUDElement existing = get(element.getName());
+        if (existing != null) {
+            throw new IllegalArgumentException("HUD element with name '%s' already exists".formatted(element.getName()));
         }
-        
-        element.settings.registerColorSettings(null);
-        
-        elements.add(element);
+
+        elements.put(element.getClass(), element);
     }
-    
-    public void add(HUDElementInfo<?> info, int x, int y, XAnchor xAnchor, YAnchor yAnchor) {
-        add(info.create(), x, y, xAnchor, yAnchor);
+
+    // Access
+
+    @SuppressWarnings("unchecked")
+    @Nullable
+    public <T extends HUDElement> T get(Class<T> clazz) {
+        return (T) elements.get(clazz);
     }
-    
-    public void add(HUDElementInfo<?> info, int x, int y) {
-        add(info, x, y, null, null);
+
+    public <T extends HUDElement> Optional<T> getOptional(Class<T> clazz) {
+        return Optional.ofNullable(get(clazz));
     }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void add(@NotNull HUDElementInfo.Preset preset, int x, int y, XAnchor xAnchor, YAnchor yAnchor) {
-        HUDElement element = preset.info.create();
-        preset.callback.accept(element);
-        add(element, x, y, xAnchor, yAnchor);
+
+    @Nullable
+    public HUDElement get(String name) {
+        for (HUDElement element : elements.values()) {
+            if (element.getName().equalsIgnoreCase(name)) {
+                return element;
+            }
+        }
+        return null;
     }
-    
-    public void add(@NotNull HUDElementInfo<?>.Preset preset, int x, int y) {
-        add(preset, x, y, null, null);
+
+    public Collection<HUDElement> getAll() {
+        return elements.values();
     }
-    
-    void remove(HUDElement element) {
-        element.settings.unregisterColorSettings();
-        elements.remove(element);
+
+    public Collection<HUDElement> getEnabled() {
+        return enabledElements.get();
     }
-    
+
+    public boolean isElementEnabled(HUDElement element) {
+        return enabledElements.get().contains(element);
+    }
+
     public int getCount() {
         return elements.size();
     }
-    
-    public void clear() {
-        elements.clear();
+
+    @Override
+    public WWidget getWidget() {
+        WTable table = new WTable();
+        WButton editBtn = table.add(new WButton("Open Editor")).expandX().widget();
+        editBtn.action = () -> mc.setScreen(new HUDEditorScreen());
+        return table;
     }
-    
+
+    // Lifecycle
+
     @EventHandler
     private void onTick(TickEvent.Post event) {
         if (Utils.isLoading()) {
             return;
         }
-        
-        if (!(isActive() || HUDEditorScreen.isOpen())) {
+        if (!isActive() && !HUDEditorScreen.isOpen()) {
             return;
         }
-        
-        for (HUDElement element : elements) {
-            if (element.isActive() || element.isInEditor()) {
-                element.tick(HUDRenderer.INSTANCE);
-            }
+
+        for (HUDElement element : getEnabled()) {
+            element.tick();
         }
     }
     
     @EventHandler
     private void onRender2D(Render2DEvent event) {
-        if (Utils.isLoading()) {
+        if (Utils.isLoading() || LoadingVisualGuard.shouldSuppressHud()) {
             return;
         }
-        
-        if (LoadingVisualGuard.shouldSuppressHud(mc)) {
+
+        // The editor previews the elements even when the module is off or the hud is hidden, otherwise there would be
+        // nothing to arrange. Drawing them from here instead of from the screen keeps them at the same point in the
+        // pipeline as in game, so the editor shows the real draw order.
+        if (HUDEditorScreen.isOpen()) {
+            render(event.drawContext);
             return;
         }
-        
-        if (!isActive() || shouldHideHud()) {
+
+        if (!isActive()) {
             return;
         }
-        if ((mc.options.hudHidden || mc.debugHudEntryList.isF3Enabled()) && !HUDEditorScreen.isOpen()) {
+        if (mc.options.hudHidden || mc.debugHudEntryList.isF3Enabled()) {
             return;
         }
-        
-        HUDRenderer.INSTANCE.begin(event.drawContext);
-        Render2D.beginFrame(event.drawContext);
-        
+
+        render(event.drawContext);
+    }
+    
+    public void renderPreview(DrawContext context) {
+        if (mc.world != null) {
+            return;
+        }
+
+        render(context);
+    }
+
+    public void render(DrawContext context) {
+        Render2D.beginFrame(context);
         try {
-            for (HUDElement element : elements) {
-                element.updatePos();
-                
-                if (element.isActive() || element.isInEditor()) {
-                    element.render(HUDRenderer.INSTANCE);
-                }
+            for (HUDElement element : getEnabled()) {
+                element.resolve();
+                element.render();
             }
-            
-            HUDRenderer.INSTANCE.end();
             Render2D.flush();
         } finally {
             Render2D.endFrame();
         }
     }
-    
-    private boolean shouldHideHud() {
-        return hideInMenus.get() && mc.currentScreen != null && !(mc.currentScreen instanceof WidgetScreen);
-    }
-    
-    @EventHandler
-    private void onCustomFontChanged(CustomFontChangedEvent event) {
-        if (customFont.get()) {
-            for (HUDElement element : elements) {
-                element.onFontChanged();
-            }
-        }
-    }
-    
-    public boolean hasCustomFont() {
-        return customFont.get();
-    }
-    
-    public double getTextScale() {
-        return textScale.get();
-    }
-    
-    @NotNull
-    @Override
-    public Iterator<HUDElement> iterator() {
-        return elements.iterator();
-    }
-    
+
     // Serialization
-    
+
     @Override
     public JsonObject toJson() {
-        JsonObject jsonObject = super.toJson();
-        
-        jsonObject.add("settings", settings.toJson());
-        jsonObject.add("elements", JsonUtils.listToJson(elements));
-        
-        return jsonObject;
-    }
-    
-    @Override
-    public HUD fromJson(JsonObject jsonObject) {
-        super.fromJson(jsonObject);
-        
-        // Elements
-        elements.clear();
-        
-        for (JsonElement element : jsonObject.get("elements").getAsJsonArray()) {
-            JsonObject jsonObject1 = (JsonObject) element;
-            if (jsonObject1.get("name").getAsString().isEmpty()) {
-                continue;
-            }
-            
-            HUDElementInfo<?> info = infos.get(jsonObject1.get("name").getAsString());
-            if (info != null) {
-                HUDElement hudElement = info.create();
-                hudElement.fromJson(jsonObject1);
-                elements.add(hudElement);
+        JsonObject json = super.toJson();
+        if (json == null) {
+            return null;
+        }
+
+        JsonArray elementsArray = new JsonArray();
+        for (HUDElement element : getAll()) {
+            JsonObject elementJson = element.toJson();
+            if (elementJson != null) {
+                elementsArray.add(elementJson);
             }
         }
-        
+        json.add("elements", elementsArray);
+
+        return json;
+    }
+
+    @Override
+    public HUD fromJson(JsonObject json) {
+        super.fromJson(json);
+
+        if (!json.has("elements") || !json.get("elements").isJsonArray()) {
+            return this;
+        }
+
+        for (JsonElement entry : json.getAsJsonArray("elements")) {
+            if (!entry.isJsonObject()) {
+                continue;
+            }
+
+            JsonObject elementJson = entry.getAsJsonObject();
+            if (!elementJson.has("name")) {
+                continue;
+            }
+
+            HUDElement element = get(elementJson.get("name").getAsString());
+            if (element != null) {
+                element.fromJson(elementJson);
+            }
+        }
+
         return this;
     }
-    
+
 }

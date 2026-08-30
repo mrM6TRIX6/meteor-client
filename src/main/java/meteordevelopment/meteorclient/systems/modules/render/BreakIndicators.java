@@ -8,8 +8,6 @@ package meteordevelopment.meteorclient.systems.modules.render;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.mixin.ClientPlayerInteractionManagerAccessor;
 import meteordevelopment.meteorclient.mixin.WorldRendererAccessor;
-import meteordevelopment.meteorclient.renderer.color.Color;
-import meteordevelopment.meteorclient.renderer.color.SettingColor;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
@@ -20,6 +18,7 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.world.PacketMine;
+import meteordevelopment.meteorclient.utils.render.color.Color;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.BlockBreakingInfo;
@@ -48,17 +47,17 @@ public class BreakIndicators extends Module {
         .build()
     );
     
-    private final Setting<SettingColor> startColor = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> startColor = sgGeneral.add(new ColorSetting.Builder()
         .name("StartColor")
         .description("The color for the non-broken block.")
-        .defaultValue(new SettingColor(25, 252, 25, 150))
+        .defaultValue(new Color(25, 252, 25, 150))
         .build()
     );
     
-    private final Setting<SettingColor> endColor = sgGeneral.add(new ColorSetting.Builder()
+    private final Setting<Color> endColor = sgGeneral.add(new ColorSetting.Builder()
         .name("EndColor")
         .description("The color for the fully-broken block.")
-        .defaultValue(new SettingColor(255, 25, 25, 150))
+        .defaultValue(new Color(255, 25, 25, 150))
         .build()
     );
     
