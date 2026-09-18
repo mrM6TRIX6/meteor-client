@@ -244,12 +244,12 @@ public abstract class WidgetScreen extends Screen implements IMinecraft {
         return root.charTyped(input);
     }
     
-    @Override
-    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
-        if (this.client.world == null) {
-            this.renderPanoramaBackground(context, deltaTicks);
-        }
-    }
+//    @Override
+//    public void renderBackground(DrawContext context, int mouseX, int mouseY, float deltaTicks) {
+//        if (this.client.world == null) {
+//            this.renderPanoramaBackground(context, deltaTicks);
+//        }
+//    }
     
     public void renderCustom(DrawContext context, int mouseX, int mouseY, float delta) {
         double independentMouseX = Render2D.toIndependent(mouseX);
