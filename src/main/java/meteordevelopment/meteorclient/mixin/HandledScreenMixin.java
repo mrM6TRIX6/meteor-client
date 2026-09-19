@@ -8,11 +8,13 @@ package meteordevelopment.meteorclient.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.RenderInventoryEvent;
+import meteordevelopment.meteorclient.mixininterface.IChatLineScreen;
 import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.misc.InventoryTweaks;
 import meteordevelopment.meteorclient.systems.modules.render.Animations;
 import meteordevelopment.meteorclient.systems.modules.render.BetterTooltips;
 import meteordevelopment.meteorclient.systems.modules.render.ItemHighlight;
+import meteordevelopment.meteorclient.utils.player.ChatUtils;
 import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
@@ -20,12 +22,14 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.input.KeyInput;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.screen.slot.SlotActionType;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,7 +42,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 
 @Mixin(HandledScreen.class)
-public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen implements ScreenHandlerProvider<T> {
+public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen implements ScreenHandlerProvider<T>, IChatLineScreen {
     
     @Shadow
     protected Slot focusedSlot;
@@ -57,7 +61,23 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
     
     @Shadow
     private boolean doubleClicking;
-    
+
+    @Unique
+    private static final int CHAT_LINE_FIELD_WIDTH = 150;
+
+    @Unique
+    private static final int FAKE_CLOSE_WIDTH = 80;
+
+    @Unique
+    private static final int BOTTOM_WIDGET_HEIGHT = 20;
+
+    @Unique
+    private static final int BOTTOM_WIDGET_MARGIN = 8;
+
+    @Unique
+    @Nullable
+    private TextFieldWidget meteor$chatLineField;
+
     public HandledScreenMixin(Text title) {
         super(title);
     }
@@ -94,14 +114,78 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
                     .build()
             );
         }
-        if (invTweaks.fakeCloseButton(getScreenHandler())) {
+        
+        int rowY = y + backgroundHeight + meteor$chatLineBottomInset() + BOTTOM_WIDGET_MARGIN;
+
+        if (invTweaks.fakeCloseButton()) {
             addDrawableChild(
                 new ButtonWidget.Builder(Text.literal("Fake close"), button -> invTweaks.fakeClose())
-                    .position(x + backgroundWidth - 80, y - 22)
-                    .size(80, 20)
+                    .position(x + (backgroundWidth - FAKE_CLOSE_WIDTH) / 2, rowY)
+                    .size(FAKE_CLOSE_WIDTH, BOTTOM_WIDGET_HEIGHT)
                     .build()
             );
+
+            rowY += BOTTOM_WIDGET_HEIGHT + BOTTOM_WIDGET_MARGIN;
         }
+
+        if (invTweaks.chatLine()) {
+            TextFieldWidget field = new TextFieldWidget(
+                client.textRenderer,
+                x + (backgroundWidth - CHAT_LINE_FIELD_WIDTH) / 2,
+                rowY,
+                CHAT_LINE_FIELD_WIDTH,
+                BOTTOM_WIDGET_HEIGHT,
+                Text.literal("Message")
+            );
+            
+            field.setMaxLength(Integer.MAX_VALUE);
+            field.setPlaceholder(Text.literal("Message").formatted(Formatting.DARK_GRAY));
+
+            meteor$chatLineField = field;
+
+            addDrawableChild(field);
+        } else {
+            meteor$chatLineField = null;
+        }
+    }
+
+    @Override
+    public @Nullable TextFieldWidget meteor$getChatLineField() {
+        return meteor$chatLineField;
+    }
+
+    @Unique
+    private void meteor$sendChatLine() {
+        if (meteor$chatLineField == null) {
+            return;
+        }
+
+        String message = meteor$chatLineField.getText().trim();
+        meteor$chatLineField.setText("");
+
+        if (!message.isEmpty()) {
+            ChatUtils.sendPlayerMsg(message, true);
+        }
+    }
+    
+    @Override
+    public boolean meteor$handleChatLineKey(KeyInput input) {
+        TextFieldWidget field = meteor$chatLineField;
+        if (field == null || !field.isFocused() || !field.isVisible()) {
+            return false;
+        }
+        
+        if (input.isEscape() || input.isTab()) {
+            return false;
+        }
+
+        if (input.isEnter()) {
+            meteor$sendChatLine();
+            return true;
+        }
+
+        field.keyPressed(input);
+        return true;
     }
     
     // Inventory Tweaks
@@ -143,6 +227,11 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
     
     @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
     private void keyPressed(KeyInput input, CallbackInfoReturnable<Boolean> cir) {
+        if (meteor$handleChatLineKey(input)) {
+            cir.setReturnValue(true);
+            return;
+        }
+
         BetterTooltips tooltips = Modules.get().get(BetterTooltips.class);
         boolean condition = tooltips.shouldOpenContents(input)
             && focusedSlot != null

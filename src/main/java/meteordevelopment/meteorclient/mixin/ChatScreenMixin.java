@@ -15,7 +15,9 @@ import net.minecraft.client.gui.Click;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.Text;
 import net.minecraft.util.collection.ArrayListDeque;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,13 +31,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Deque;
 import java.util.List;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
 @Mixin(value = ChatScreen.class, priority = 1001)
-public abstract class ChatScreenMixin {
+public abstract class ChatScreenMixin extends Screen {
     
     @Shadow
     protected TextFieldWidget chatField;
+    
+    public ChatScreenMixin(Text title) {
+        super(title);
+    }
     
     @Inject(method = "init", at = @At(value = "RETURN"))
     private void onInit(CallbackInfo ci) {
@@ -65,7 +69,7 @@ public abstract class ChatScreenMixin {
             return;
         }
         
-        ChatHudAccessor accessor = (ChatHudAccessor) mc.inGameHud.getChatHud();
+        ChatHudAccessor accessor = (ChatHudAccessor) client.inGameHud.getChatHud();
         
         List<ChatHudLine.Visible> visibleMessages = accessor.meteor$getVisibleMessages();
         Range messageBounds = resolveMessageBounds(visibleMessages, activeMessage);
@@ -134,7 +138,7 @@ public abstract class ChatScreenMixin {
     
     @Unique
     private @Nullable Integer getActiveMessage(Click click) {
-        ChatHud chatHud = mc.inGameHud.getChatHud();
+        ChatHud chatHud = client.inGameHud.getChatHud();
         ChatHudAccessor accessor = (ChatHudAccessor) chatHud;
         List<ChatHudLine.Visible> visibleMessages = accessor.meteor$getVisibleMessages();
         
@@ -161,7 +165,7 @@ public abstract class ChatScreenMixin {
             return null;
         }
         
-        int guiHeight = mc.getWindow().getScaledHeight();
+        int guiHeight = client.getWindow().getScaledHeight();
         int chatBottom = (int) Math.floor((guiHeight - 40) / chatScale);
         double localMouseY = chatBottom - click.y() / chatScale;
         

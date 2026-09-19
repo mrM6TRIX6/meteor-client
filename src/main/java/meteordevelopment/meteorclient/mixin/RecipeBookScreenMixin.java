@@ -9,15 +9,40 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.events.render.RenderInventoryEvent;
+import meteordevelopment.meteorclient.mixininterface.IChatLineScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.RecipeBookScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.input.CharInput;
+import net.minecraft.client.input.KeyInput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(RecipeBookScreen.class)
 public abstract class RecipeBookScreenMixin {
+
+    // An open recipe book feeds typing to its own search field before the container sees it, so a focused chat line is
+    // served first - same as in the creative screen.
+
+    @Inject(method = "charTyped", at = @At("HEAD"), cancellable = true)
+    private void onCharTyped(CharInput input, CallbackInfoReturnable<Boolean> cir) {
+        TextFieldWidget field = ((IChatLineScreen) this).meteor$getChatLineField();
+
+        if (field != null && field.isFocused() && field.isVisible()) {
+            cir.setReturnValue(field.charTyped(input));
+        }
+    }
+
+    @Inject(method = "keyPressed", at = @At("HEAD"), cancellable = true)
+    private void onKeyPressed(KeyInput input, CallbackInfoReturnable<Boolean> cir) {
+        if (((IChatLineScreen) this).meteor$handleChatLineKey(input)) {
+            cir.setReturnValue(true);
+        }
+    }
 
     // Animations
 

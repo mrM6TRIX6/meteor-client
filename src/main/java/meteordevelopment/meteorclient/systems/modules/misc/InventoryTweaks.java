@@ -34,7 +34,6 @@ import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.DecoratedPotBlock;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.item.Item;
@@ -68,7 +67,7 @@ public class InventoryTweaks extends Module {
     );
     
     private final Setting<Boolean> xCarry = sgGeneral.add(new BoolSetting.Builder()
-        .name("Xcarry")
+        .name("XCarry")
         .description("Allows you to store four extra item stacks in your crafting grid.")
         .defaultValue(true)
         .onChanged(v -> {
@@ -84,6 +83,13 @@ public class InventoryTweaks extends Module {
     private final Setting<Boolean> fakeCloseButton = sgGeneral.add(new BoolSetting.Builder()
         .name("FakeCloseButton")
         .description("Adds a button that closes the inventory only on the client side (somewhat similar to XCarry).")
+        .defaultValue(false)
+        .build()
+    );
+    
+    private final Setting<Boolean> chatLine = sgGeneral.add(new BoolSetting.Builder()
+        .name("ChatLine")
+        .description("Adds a chat line to the inventory.")
         .defaultValue(false)
         .build()
     );
@@ -557,8 +563,12 @@ public class InventoryTweaks extends Module {
         return isActive() && buttons.get();
     }
     
-    public boolean fakeCloseButton(ScreenHandler handler) {
-        return isActive() && fakeCloseButton.get() && !(handler instanceof CreativeInventoryScreen.CreativeScreenHandler);
+    public boolean fakeCloseButton() {
+        return isActive() && fakeCloseButton.get();
+    }
+    
+    public boolean chatLine() {
+        return isActive() && chatLine.get();
     }
     
     public boolean operatorTab() {
@@ -590,7 +600,7 @@ public class InventoryTweaks extends Module {
             Render2D.withVanilla(() -> {
                 Render2D.beginFrame(context, Render2D.Space.VANILLA);
                 try {
-                    int color = 0xFF00FFFF;
+                    int color = 0xFF0000FF;
                     int size = 6;
                     String text = String.valueOf(slot.getIndex());
 
@@ -602,9 +612,6 @@ public class InventoryTweaks extends Module {
                             slot.y,
                             size,
                             color
-                        ).withOutline(
-                            0.05f,
-                            0xFF000000
                         )
                     );
                     Render2D.flush();
