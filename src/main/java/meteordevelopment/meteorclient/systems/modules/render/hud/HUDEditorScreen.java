@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 public class HUDEditorScreen extends WidgetScreen {
-
+    
     private static final Color HOVER_OUTLINE = new Color(200, 200, 200, 200);
     private static final Color SELECTION_FILL = new Color(225, 225, 225, 25);
     private static final Color SELECTION_OUTLINE = new Color(225, 225, 225, 255);
@@ -143,15 +143,18 @@ public class HUDEditorScreen extends WidgetScreen {
 
     @Override
     protected void onRenderBefore(DrawContext context, float delta) {
-        // Only draws the elements when there is no world. With one, HUD.onRender2D has already drawn them from the
-        // same place it does in game, and drawing them again here would put them above the vanilla hud instead of
-        // below it - exactly the difference the editor is meant to hide.
-        hud.renderPreview(context);
+        Render2D.beginFrame(context);
+        try {
+            hud.renderElements();
+            Render2D.flush();
+        } finally {
+            Render2D.endFrame();
+        }
     }
 
     @Override
-    public void renderCustom(DrawContext context, int mouseX, int mouseY, float delta) {
-        super.renderCustom(context, mouseX, mouseY, delta);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        super.render(context, mouseX, mouseY, delta);
 
         int x = (int) Math.round(Render2D.toIndependent(mouseX));
         int y = (int) Math.round(Render2D.toIndependent(mouseY));
@@ -166,7 +169,6 @@ public class HUDEditorScreen extends WidgetScreen {
             if (selected != null) {
                 Render2D.rect(selected.getX(), selected.getY(), selected.getWidth(), selected.getHeight(), SELECTION_FILL.getPacked());
                 outline(selected, SELECTION_OUTLINE);
-                renderAnchorMarkers(selected);
             }
 
             Render2D.flush();
@@ -176,33 +178,7 @@ public class HUDEditorScreen extends WidgetScreen {
     }
 
     private void outline(HUDElement element, Color color) {
-        Render2D.outline(element.getX(), element.getY(), element.getWidth(), element.getHeight(), 0, 1, color.getPacked());
-    }
-
-    /**
-     * Marks the screen edges the selected element is pinned to, so it is obvious which way it will move when the
-     * resolution changes.
-     */
-    private void renderAnchorMarkers(HUDElement element) {
-        int screenWidth = Render2D.independentWidth();
-        int screenHeight = Render2D.independentHeight();
-        int color = ANCHOR_MARKER.getPacked();
-        int thickness = 2;
-        int length = 24;
-
-        int centerY = element.getY() + element.getHeight() / 2;
-        switch (element.getAnchorX()) {
-            case LEFT -> Render2D.rect(0, centerY - length / 2f, thickness, length, color);
-            case RIGHT -> Render2D.rect(screenWidth - thickness, centerY - length / 2f, thickness, length, color);
-            case CENTER -> Render2D.rect(screenWidth / 2f - thickness / 2f, centerY - length / 2f, thickness, length, color);
-        }
-
-        int centerX = element.getX() + element.getWidth() / 2;
-        switch (element.getAnchorY()) {
-            case TOP -> Render2D.rect(centerX - length / 2f, 0, length, thickness, color);
-            case BOTTOM -> Render2D.rect(centerX - length / 2f, screenHeight - thickness, length, thickness, color);
-            case CENTER -> Render2D.rect(centerX - length / 2f, screenHeight / 2f - thickness / 2f, length, thickness, color);
-        }
+        Render2D.outline(element.getX(), element.getY(), element.getWidth(), element.getHeight(), 0, 0.5f, color.getPacked());
     }
 
     public static boolean isOpen() {

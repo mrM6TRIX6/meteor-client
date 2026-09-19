@@ -47,7 +47,8 @@ public class HUD extends Module {
         runInMainMenu = true;
 
         init();
-
+        
+        // Init setting after elements
         enabledElements = sgGeneral.add(
             new MultiChoiceSetting.Builder<HUDElement>()
                 .name("Elements")
@@ -136,18 +137,16 @@ public class HUD extends Module {
             element.tick();
         }
     }
-    
+
     @EventHandler
     private void onRender2D(Render2DEvent event) {
         if (Utils.isLoading() || LoadingVisualGuard.shouldSuppressHud()) {
             return;
         }
 
-        // The editor previews the elements even when the module is off or the hud is hidden, otherwise there would be
-        // nothing to arrange. Drawing them from here instead of from the screen keeps them at the same point in the
-        // pipeline as in game, so the editor shows the real draw order.
+        // The editor draws the elements itself, on top of the vanilla hud. This event is below it, so drawing here as
+        // well would leave a copy of every element under the hotbar and chat.
         if (HUDEditorScreen.isOpen()) {
-            render(event.drawContext);
             return;
         }
 
@@ -160,25 +159,21 @@ public class HUD extends Module {
 
         render(event.drawContext);
     }
-    
-    public void renderPreview(DrawContext context) {
-        if (mc.world != null) {
-            return;
-        }
-
-        render(context);
-    }
 
     public void render(DrawContext context) {
         Render2D.beginFrame(context);
         try {
-            for (HUDElement element : getEnabled()) {
-                element.resolve();
-                element.render();
-            }
+            renderElements();
             Render2D.flush();
         } finally {
             Render2D.endFrame();
+        }
+    }
+    
+    public void renderElements() {
+        for (HUDElement element : getEnabled()) {
+            element.resolve();
+            element.render();
         }
     }
 

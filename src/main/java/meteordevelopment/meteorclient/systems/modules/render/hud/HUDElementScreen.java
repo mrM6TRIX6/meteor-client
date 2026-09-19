@@ -14,6 +14,7 @@ import meteordevelopment.meteorclient.gui.widgets.WWidget;
 import meteordevelopment.meteorclient.gui.widgets.containers.WContainer;
 import meteordevelopment.meteorclient.gui.widgets.containers.WVerticalList;
 import meteordevelopment.meteorclient.utils.misc.JsonUtils;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.DrawContext;
 
 public class HUDElementScreen extends WindowScreen {
@@ -52,11 +53,17 @@ public class HUDElementScreen extends WindowScreen {
         element.settings.tick(settingsContainer);
     }
 
+    // Keeps the elements on screen behind the settings window so changes are visible as they are made. Draws them the
+    // same way HUDEditorScreen does - above the vanilla hud, in this screen's own pass.
     @Override
     protected void onRenderBefore(DrawContext context, float delta) {
-        // Keeps the elements on screen behind the settings window so changes are visible as they are made. Only draws
-        // them without a world, for the same reason HUDEditorScreen does.
-        HUD.get().renderPreview(context);
+        Render2D.beginFrame(context);
+        try {
+            HUD.get().renderElements();
+            Render2D.flush();
+        } finally {
+            Render2D.endFrame();
+        }
     }
 
     @Override

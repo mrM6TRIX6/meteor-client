@@ -36,12 +36,15 @@ public abstract class HUDElement implements ISerializable<HUDElement>, IMinecraf
     }
 
     // Layout
-    
-    protected void updateSize() {}
-    
-    public void resolve() {
-        updateSize();
 
+    protected abstract int updateWidth();
+    
+    protected abstract int updateHeight();
+
+    public void resolve() {
+        width = updateWidth();
+        height = updateHeight();
+        
         int screenWidth = Render2D.independentWidth();
         int screenHeight = Render2D.independentHeight();
 
@@ -132,7 +135,7 @@ public abstract class HUDElement implements ISerializable<HUDElement>, IMinecraf
     public boolean isHovered(int mouseX, int mouseY) {
         return mouseX >= x && mouseX < x + width && mouseY >= y && mouseY < y + height;
     }
-    
+
     protected int alignX(int contentWidth) {
         return switch (anchorX) {
             case LEFT -> x;
@@ -142,14 +145,14 @@ public abstract class HUDElement implements ISerializable<HUDElement>, IMinecraf
     }
 
     // Lifecycle
-    
+
     protected boolean isInEditor() {
         return HUDEditorScreen.isOpen() || !Utils.canUpdate();
     }
 
     public void tick() {}
 
-    public void render() {};
+    public void render() {}
 
     public WWidget getWidget() {
         return null;

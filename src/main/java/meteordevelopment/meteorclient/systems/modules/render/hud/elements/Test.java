@@ -26,11 +26,23 @@ public class Test extends HUDElement {
     public Test() {
         super("Test");
     }
-
+    
+    @Override
+    protected int updateWidth() {
+        return 200;
+    }
+    
+    @Override
+    protected int updateHeight() {
+        return 200;
+    }
+    
     @Override
     public void render() {
         Render2D.glow(getX(), getY(), getWidth(), getHeight(), 10f, 20f, 1, color.get().getPacked());
         Render2D.rect(getX(), getY(), getWidth(), getHeight(), 10f, color.get().getPacked());
     }
-
+    
+    
+    
 }

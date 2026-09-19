@@ -12,7 +12,6 @@ import meteordevelopment.meteorclient.MeteorClient;
 import meteordevelopment.meteorclient.MixinPlugin;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.render.RenderAfterWorldEvent;
-import meteordevelopment.meteorclient.gui.WidgetScreen;
 import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.renderer.CustomBannerGuiElementRenderer;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
@@ -28,7 +27,6 @@ import meteordevelopment.meteorclient.utils.render.post.handsflame.HandsItemHitb
 import meteordevelopment.meteorclient.utils.render.post.handsflame.IrisShaderCompat;
 import meteordevelopment.meteorclient.utils.render.post.shaderhands.ShaderHandsRenderer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.render.GuiRenderer;
 import net.minecraft.client.gui.render.SpecialGuiElementRenderer;
 import net.minecraft.client.gui.render.state.GuiRenderState;
@@ -120,7 +118,7 @@ public abstract class GameRendererMixin {
             return;
         }
         
-        Profilers.get().push(MeteorClient.MOD_ID + "-render");
+        Profilers.get().push(MeteorClient.MOD_ID + "-render-3d");
         
         // Create renderer and event
         
@@ -183,23 +181,23 @@ public abstract class GameRendererMixin {
         MeteorClient.EVENT_BUS.post(RenderAfterWorldEvent.get());
     }
     
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/render/GuiRenderer;render(Lcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", shift = At.Shift.AFTER))
-    private void onRenderGui(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
-        if (client.currentScreen instanceof WidgetScreen widgetScreen) {
-            guiState.clear();
-            
-            int mouseX = (int) client.mouse.getScaledX(client.getWindow());
-            int mouseY = (int) client.mouse.getScaledY(client.getWindow());
-            
-            DrawContext context = new DrawContext(client, guiState, mouseX, mouseY);
-            
-            widgetScreen.renderCustom(context, mouseX, mouseY, tickCounter.getDynamicDeltaTicks());
-            
-            RenderSystem.getDevice().createCommandEncoder().clearDepthTexture(client.getFramebuffer().getDepthAttachment(), 1.0);
-            guiRenderer.render(fogRenderer.getFogBuffer(FogRenderer.FogType.NONE));
-            guiRenderer.incrementFrame();
-        }
-    }
+//    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/render/GuiRenderer;render(Lcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", shift = At.Shift.AFTER))
+//    private void onRenderGui(RenderTickCounter tickCounter, boolean tick, CallbackInfo ci) {
+//        if (client.currentScreen instanceof WidgetScreen widgetScreen) {
+//            guiState.clear();
+//
+//            int mouseX = (int) client.mouse.getScaledX(client.getWindow());
+//            int mouseY = (int) client.mouse.getScaledY(client.getWindow());
+//
+//            DrawContext context = new DrawContext(client, guiState, mouseX, mouseY);
+//
+//            widgetScreen.renderCustom(context, mouseX, mouseY, tickCounter.getDynamicDeltaTicks());
+//
+//            RenderSystem.getDevice().createCommandEncoder().clearDepthTexture(client.getFramebuffer().getDepthAttachment(), 1.0);
+//            guiRenderer.render(fogRenderer.getFogBuffer(FogRenderer.FogType.NONE));
+//            guiRenderer.incrementFrame();
+//        }
+//    }
     
     @Inject(method = "showFloatingItem", at = @At("HEAD"), cancellable = true)
     private void onShowFloatingItem(ItemStack floatingItem, CallbackInfo ci) {
