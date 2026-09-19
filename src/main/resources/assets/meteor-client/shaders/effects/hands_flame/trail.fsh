@@ -7,25 +7,69 @@ uniform sampler2D BeforeSampler;
 uniform sampler2D AfterSampler;
 uniform sampler2D PrevTrailSampler;
 uniform sampler2D DepthSampler;
+uniform sampler2D NoHandDepthSampler;
+uniform sampler2D BoundsTexL;
+uniform sampler2D BoundsTexR;
 
 layout(std140) uniform HandsFlameData {
     vec4 flameColor;
     vec4 params0;
     vec4 params1;
     vec4 screen;
+    vec4 gradColor1;
+    vec4 gradColor2;
+    vec4 gradColor3;
+    vec4 gradColor4;
+    vec4 flameExtra;
 };
 
-const vec2 dirs[8] = vec2[](
-    vec2( 1.000,  0.000), vec2( 0.707,  0.707),
-    vec2( 0.000,  1.000), vec2(-0.707,  0.707),
-    vec2(-1.000,  0.000), vec2(-0.707, -0.707),
-    vec2( 0.000, -1.000), vec2( 0.707, -0.707)
+vec2 handGradUV(vec2 p) {
+    vec4 l = texture(BoundsTexL, vec2(0.5));
+    vec4 r = texture(BoundsTexR, vec2(0.5));
+    bool lok = l.z > l.x + 0.001 && l.w > l.y + 0.001;
+    bool rok = r.z > r.x + 0.001 && r.w > r.y + 0.001;
+    vec4 b;
+    if (lok && rok) {
+        if (r.x - l.z > 0.04) {
+            float split = 0.5 * (l.z + r.x);
+            b = (p.x < split) ? l : r;
+        } else {
+            b = vec4(min(l.xy, r.xy), max(l.zw, r.zw));
+        }
+    } else if (lok) {
+        b = l;
+    } else if (rok) {
+        b = r;
+    } else {
+        return p;
+    }
+    return clamp((p - b.xy) / (b.zw - b.xy), vec2(0.0), vec2(1.0));
+}
+
+vec4 gradientColor(vec2 pos) {
+    float x = smoothstep(0.0, 1.0, pos.x);
+    float y = smoothstep(0.0, 1.0, pos.y);
+    vec4 c1 = gradColor1;
+    vec4 c2 = gradColor2;
+    vec4 c3 = gradColor3;
+    vec4 c4 = gradColor4;
+    if (flameExtra.y > 0.5) {
+        // no-op: c1..c4 already loaded from HandsFlameData
+    }
+    vec4 top = mix(c1, c2, x);
+    vec4 bottom = mix(c4, c3, x);
+    return mix(top, bottom, y);
+}
+
+const vec2 dirs[4] = vec2[](
+    vec2( 1.000,  0.000),
+    vec2( 0.000,  1.000),
+    vec2(-1.000,  0.000),
+    vec2( 0.000, -1.000)
 );
 
 float hash12(vec2 p) {
-    vec3 p3 = fract(vec3(p.xyx) * 0.1031);
-    p3 += dot(p3, p3.yzx + 33.33);
-    return fract((p3.x + p3.y) * p3.z);
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
 }
 
 float noise(vec2 p) {
@@ -39,10 +83,10 @@ float noise(vec2 p) {
     );
 }
 
-float fbm(vec2 p) {
+float fbm3(vec2 p) {
     float value = 0.0;
     float amplitude = 0.5;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         value += noise(p) * amplitude;
         p = p * 2.03 + vec2(17.13, 9.27);
         amplitude *= 0.5;
@@ -50,15 +94,58 @@ float fbm(vec2 p) {
     return value;
 }
 
-float rawHandMaskColor(vec2 uv, float itemOnly, out vec3 outColor) {
+float fbm2(vec2 p) {
+    float value = 0.0;
+    float amplitude = 0.5;
+    for (int i = 0; i < 2; i++) {
+        value += noise(p) * amplitude;
+        p = p * 2.03 + vec2(17.13, 9.27);
+        amplitude *= 0.5;
+    }
+    return value;
+}
+float handDepthMaskAt(vec2 uv, float irisDepthMode) {
+    float depth = texture(DepthSampler, uv).r;
+    if (irisDepthMode > 0.5) {
+        float noHandDepth = texture(NoHandDepthSampler, uv).r;
+        if (depth < 0.9999 && (noHandDepth >= 0.9999 || depth < noHandDepth - 0.00002)) {
+            return 1.0;
+        }
+    } else {
+        if (depth < 0.9999) {
+            return 1.0;
+        }
+    }
     vec4 beforeColor = texture(BeforeSampler, uv);
     vec4 afterColor = texture(AfterSampler, uv);
-    outColor = afterColor.rgb;
+    vec3 delta = abs(afterColor.rgb - beforeColor.rgb);
+    float peak = max(max(delta.r, delta.g), delta.b);
+    float luma = dot(delta, vec3(0.299, 0.587, 0.114));
+    float value = peak * 0.78 + luma * 0.88 + abs(afterColor.a - beforeColor.a);
+    return smoothstep(0.004, 0.060, value);
+}
 
-    // The depth buffer is cleared before the hand renders, so depth < 1.0 is the hand.
+float rawHandMaskColor(vec2 uv, float itemOnly, float irisDepthMode, out vec3 outColor) {
+    outColor = texture(AfterSampler, uv).rgb;
     float depth = texture(DepthSampler, uv).r;
-    float depthMask = depth < 0.9999 ? 1.0 : 0.0;
 
+    if (irisDepthMode > 0.5) {
+        float depthMask = handDepthMaskAt(uv, irisDepthMode);
+        if (depthMask > 0.5) {
+            return 1.0;
+        }
+        float noHandDepth = texture(NoHandDepthSampler, uv).r;
+        if (depth >= 0.9999 || noHandDepth < 0.0001 || depth >= noHandDepth - 0.00002) {
+            return 0.0;
+        }
+    } else {
+        if (depth < 0.9999) {
+            return 1.0;
+        }
+    }
+
+    vec4 beforeColor = texture(BeforeSampler, uv);
+    vec4 afterColor = texture(AfterSampler, uv);
     vec3 delta = abs(afterColor.rgb - beforeColor.rgb);
     float peak = max(max(delta.r, delta.g), delta.b);
     float luma = dot(delta, vec3(0.299, 0.587, 0.114));
@@ -66,32 +153,65 @@ float rawHandMaskColor(vec2 uv, float itemOnly, out vec3 outColor) {
     float colorMask = smoothstep(0.004, 0.060, value);
     float itemMask = smoothstep(0.035, 0.135, value);
 
-    return mix(max(depthMask, colorMask), itemMask, itemOnly);
-}
-
-float depthMaskAt(vec2 uv) {
-    return texture(DepthSampler, uv).r < 0.9999 ? 1.0 : 0.0;
-}
-
-float nearbyDepthMask(vec2 uv, vec2 px, float radiusPx) {
-    float mask = depthMaskAt(uv);
-    for (int i = 0; i < 8; i++) {
-        vec2 probeUv = clamp(uv + dirs[i] * radiusPx * 0.72 * px, vec2(0.0), vec2(1.0));
-        mask = max(mask, depthMaskAt(probeUv));
+    if (irisDepthMode > 0.5) {
+        float depthMask = handDepthMaskAt(uv, irisDepthMode);
+        return mix(max(depthMask, colorMask), max(itemMask, depthMask * irisDepthMode), itemOnly);
+    } else {
+        return mix(colorMask, itemMask, itemOnly);
     }
+}
+
+float nearbyDepthMaskFast(vec2 uv, vec2 px, float radiusPx, float irisDepthMode) {
+    float probe = radiusPx * 0.72;
+    float mask = handDepthMaskAt(uv, irisDepthMode);
+    mask = max(mask, handDepthMaskAt(clamp(uv + vec2(probe * px.x, 0.0), vec2(0.0), vec2(1.0)), irisDepthMode));
+    mask = max(mask, handDepthMaskAt(clamp(uv - vec2(probe * px.x, 0.0), vec2(0.0), vec2(1.0)), irisDepthMode));
+    mask = max(mask, handDepthMaskAt(clamp(uv + vec2(0.0, probe * px.y), vec2(0.0), vec2(1.0)), irisDepthMode));
+    mask = max(mask, handDepthMaskAt(clamp(uv - vec2(0.0, probe * px.y), vec2(0.0), vec2(1.0)), irisDepthMode));
     return mask;
 }
 
-void computeFlameField(vec2 uv, vec2 px, float radiusPx, float prevAlpha, vec3 prevColor, float itemOnly,
+float frameDt() {
+    return clamp(flameColor.a, 0.0005, 0.05);
+}
+
+float hintFade() {
+
+    return exp(-28.68 * frameDt());
+}
+
+float previousTrailHint(vec2 uv, vec2 histUv, vec2 px, float wobble) {
+    float probe = px.x * (6.0 + wobble * 6.0);
+    float alpha = texture(PrevTrailSampler, uv).a;
+    alpha = max(alpha, texture(PrevTrailSampler, histUv).a);
+    alpha = max(alpha, texture(PrevTrailSampler, clamp(histUv + vec2(probe, 0.0), vec2(0.0), vec2(1.0))).a);
+    alpha = max(alpha, texture(PrevTrailSampler, clamp(histUv - vec2(probe, 0.0), vec2(0.0), vec2(1.0))).a);
+    return alpha;
+}
+
+vec4 previousTrailColor(vec2 histUv, vec2 softPx) {
+    vec4 previous = texture(PrevTrailSampler, histUv) * 0.34;
+    previous += texture(PrevTrailSampler, clamp(histUv + vec2(softPx.x, 0.0), vec2(0.0), vec2(1.0))) * 0.105;
+    previous += texture(PrevTrailSampler, clamp(histUv - vec2(softPx.x, 0.0), vec2(0.0), vec2(1.0))) * 0.105;
+    previous += texture(PrevTrailSampler, clamp(histUv + vec2(0.0, softPx.y), vec2(0.0), vec2(1.0))) * 0.105;
+    previous += texture(PrevTrailSampler, clamp(histUv - vec2(0.0, softPx.y), vec2(0.0), vec2(1.0))) * 0.105;
+    previous += texture(PrevTrailSampler, clamp(histUv + softPx, vec2(0.0), vec2(1.0))) * 0.045;
+    previous += texture(PrevTrailSampler, clamp(histUv - softPx, vec2(0.0), vec2(1.0))) * 0.045;
+    previous += texture(PrevTrailSampler, clamp(histUv + vec2(softPx.x, -softPx.y), vec2(0.0), vec2(1.0))) * 0.045;
+    previous += texture(PrevTrailSampler, clamp(histUv + vec2(-softPx.x, softPx.y), vec2(0.0), vec2(1.0))) * 0.045;
+    return previous;
+}
+
+void computeFlameField(vec2 uv, vec2 px, float radiusPx, float prevAlpha, vec3 prevColor, float itemOnly, float irisDepthMode,
+                       float centerMask, vec3 centerColor,
                        out float envelope, out float currentMask, out vec3 itemColor) {
     float maskSum = 0.0;
     float maskWSum = 0.0;
     vec3 colorSum = vec3(0.0);
     float colorWSum = 0.0;
 
-    // Center
-    vec3 cc;
-    float cm = rawHandMaskColor(uv, itemOnly, cc);
+    vec3 cc = centerColor;
+    float cm = centerMask;
     maskSum += cm * 1.70;
     maskWSum += 1.70;
     float sat = max(max(cc.r, cc.g), cc.b) - min(min(cc.r, cc.g), cc.b);
@@ -100,12 +220,12 @@ void computeFlameField(vec2 uv, vec2 px, float radiusPx, float prevAlpha, vec3 p
     colorSum += cc * cw;
     colorWSum += cw;
 
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < 4; i++) {
         vec2 dir = dirs[i];
 
         vec2 nearUv = clamp(uv + dir * radiusPx * 0.45 * px, vec2(0.0), vec2(1.0));
         vec3 nearColor;
-        float nearMask = rawHandMaskColor(nearUv, itemOnly, nearColor);
+        float nearMask = rawHandMaskColor(nearUv, itemOnly, irisDepthMode, nearColor);
         maskSum += nearMask * 0.70;
         maskWSum += 0.70;
         float nearSat = max(max(nearColor.r, nearColor.g), nearColor.b) - min(min(nearColor.r, nearColor.g), nearColor.b);
@@ -116,7 +236,7 @@ void computeFlameField(vec2 uv, vec2 px, float radiusPx, float prevAlpha, vec3 p
 
         vec2 farUv = clamp(uv + dir * radiusPx * px, vec2(0.0), vec2(1.0));
         vec3 farColor;
-        float farMask = rawHandMaskColor(farUv, itemOnly, farColor);
+        float farMask = rawHandMaskColor(farUv, itemOnly, irisDepthMode, farColor);
         maskSum += farMask * 0.30;
         maskWSum += 0.30;
         float farSat = max(max(farColor.r, farColor.g), farColor.b) - min(min(farColor.r, farColor.g), farColor.b);
@@ -128,7 +248,7 @@ void computeFlameField(vec2 uv, vec2 px, float radiusPx, float prevAlpha, vec3 p
 
     float blurredMask = smoothstep(0.020, 0.68, maskSum / max(maskWSum, 0.001));
     currentMask = blurredMask;
-    envelope = max(blurredMask, prevAlpha * 0.62);
+    envelope = max(blurredMask, prevAlpha * hintFade());
     itemColor = colorWSum > 0.001 ? colorSum / colorWSum : (prevAlpha > 0.01 ? prevColor : flameColor.rgb);
 }
 
@@ -140,53 +260,63 @@ void main() {
     float brightness = params1.x;
     float time = params1.y;
     float packedColorMode = params1.z;
+    float irisDepthMode = step(20.0, packedColorMode);
+    packedColorMode -= irisDepthMode * 20.0;
     float itemOnly = step(10.0, packedColorMode);
     float colorMode = packedColorMode - itemOnly * 10.0;
     float colorAlpha = params1.w;
+    float sourceGate = step(0.5, flameExtra.z);
     vec2 px = screen.zw;
     float lengthCurve = clamp(flameLength / 2.5, 0.0, 1.0);
     float radiusPx = mix(22.0, 62.0, lengthCurve);
 
-    // Advect previous trail first; needed for envelope extension and early out
     float rise = 0.05 + smoothstep(0.0, 2.0, riseSpeed) * 0.80;
+
+    float stepScale = clamp(frameDt() * 60.0, 0.25, 3.0);
+    float nearCurrentHand = handDepthMaskAt(texCoord, irisDepthMode);
+
+    if (nearCurrentHand < 0.5) {
+        vec2 quickHistUv = clamp(texCoord + vec2(0.0, -px.y * rise * stepScale), vec2(0.0), vec2(1.0));
+        if (previousTrailHint(texCoord, quickHistUv, px, wobble) < 0.0015) {
+            fragColor = vec4(0.0);
+            return;
+        }
+    }
+
+    vec3 quickColor;
+    float quickMask = rawHandMaskColor(texCoord, itemOnly, irisDepthMode, quickColor);
+
     float curl = noise(texCoord * vec2(8.0, 6.0) + vec2(time * 0.20, time * 0.11)) - 0.5;
     vec2 drift = vec2(
         sin(texCoord.y * 18.0 + time * 2.35) * px.x * wobble * 2.6 + curl * px.x * (2.0 + wobble * 3.2),
         -px.y * rise
-    );
+    ) * stepScale;
     vec2 histUv = clamp(texCoord + drift, vec2(0.0), vec2(1.0));
 
     vec2 softPx = px * (2.1 + wobble * 0.65);
-    vec4 previous = texture(PrevTrailSampler, histUv) * 0.34;
-    previous += texture(PrevTrailSampler, clamp(histUv + vec2(softPx.x, 0.0), vec2(0.0), vec2(1.0))) * 0.105;
-    previous += texture(PrevTrailSampler, clamp(histUv - vec2(softPx.x, 0.0), vec2(0.0), vec2(1.0))) * 0.105;
-    previous += texture(PrevTrailSampler, clamp(histUv + vec2(0.0, softPx.y), vec2(0.0), vec2(1.0))) * 0.105;
-    previous += texture(PrevTrailSampler, clamp(histUv - vec2(0.0, softPx.y), vec2(0.0), vec2(1.0))) * 0.105;
-    previous += texture(PrevTrailSampler, clamp(histUv + softPx, vec2(0.0), vec2(1.0))) * 0.045;
-    previous += texture(PrevTrailSampler, clamp(histUv - softPx, vec2(0.0), vec2(1.0))) * 0.045;
-    previous += texture(PrevTrailSampler, clamp(histUv + vec2(softPx.x, -softPx.y), vec2(0.0), vec2(1.0))) * 0.045;
-    previous += texture(PrevTrailSampler, clamp(histUv + vec2(-softPx.x, softPx.y), vec2(0.0), vec2(1.0))) * 0.045;
+    vec4 previous = previousTrailColor(histUv, softPx);
 
-    vec3 quickColor;
-    float quickMask = rawHandMaskColor(texCoord, itemOnly, quickColor);
-    if (quickMask < 0.01 && previous.a < 0.0015 && nearbyDepthMask(texCoord, px, radiusPx) < 0.5) {
-        fragColor = vec4(0.0);
-        return;
-    }
-
-    // Smooth envelope + color from a compact radial mask.
     float envelope;
     float currentMask;
     vec3 itemColor;
-    computeFlameField(texCoord, px, radiusPx, previous.a, previous.rgb, itemOnly, envelope, currentMask, itemColor);
+    if (sourceGate < 0.5) {
+        currentMask = 0.0;
+        envelope = previous.a * hintFade();
+        itemColor = previous.a > 0.01 ? previous.rgb : flameColor.rgb;
+    } else if (quickMask < 0.01 && nearCurrentHand < 0.5) {
+        currentMask = 0.0;
+        envelope = previous.a * hintFade();
+        itemColor = previous.a > 0.01 ? previous.rgb : flameColor.rgb;
+    } else {
+        computeFlameField(texCoord, px, radiusPx, previous.a, previous.rgb, itemOnly, irisDepthMode, quickMask, quickColor, envelope, currentMask, itemColor);
+    }
 
-    // Fire turbulence
     float flow = time * (0.08 + riseSpeed * 0.50);
     float lateralWobble = sin(texCoord.y * 28.0 + time * (1.5 + wobble * 2.5)) * wobble * 0.22;
     vec2 flameUv = vec2(texCoord.x + lateralWobble, texCoord.y - flow);
 
-    float n1 = fbm(vec2(flameUv.x * 4.4, flameUv.y * (5.2 + flameLength * 2.7)));
-    float n2 = fbm(vec2(flameUv.x * 8.2 + 3.7, flameUv.y * 9.5 - time * 0.35));
+    float n1 = fbm3(vec2(flameUv.x * 4.4, flameUv.y * (5.2 + flameLength * 2.7)));
+    float n2 = fbm2(vec2(flameUv.x * 8.2 + 3.7, flameUv.y * 9.5 - time * 0.35));
     float fireNoise = n1 * 0.72 + n2 * 0.28;
 
     float solidZone = smoothstep(0.15, 0.55, envelope);
@@ -201,13 +331,18 @@ void main() {
     source *= strengthCurve * brightnessCurve * 1.22 * colorAlpha;
     source = clamp(source, 0.0, 0.92);
 
-    // Color
     vec3 baseColor;
     if (colorMode < 0.5) {
         baseColor = itemColor;
+        float maxVal = max(baseColor.r, max(baseColor.g, baseColor.b));
+        if (maxVal > 0.001) {
+            baseColor *= 0.65 / maxVal;
+        }
     } else {
-        baseColor = flameColor.rgb;
-        // Normalize luminance so client/custom colors don't glow brighter than item mode
+        baseColor = gradColor1.a > 0.5
+                ? gradientColor(handGradUV(texCoord)).rgb
+                : flameColor.rgb;
+
         float luma = dot(baseColor, vec3(0.299, 0.587, 0.114));
         if (luma > 0.45) {
             baseColor *= 0.45 / luma;
@@ -221,9 +356,10 @@ void main() {
     fireColor = mix(fireColor, tipColor, smoothstep(0.25, 0.9, distFromItem));
     fireColor *= 0.92 + 0.08 * sin(time * 7.3 + texCoord.x * 20.0 + texCoord.y * 15.0);
 
-    // Blend with history
-    float historyFade = mix(0.930, 0.950, lengthCurve);
-    float blendFactor = clamp(source * 0.56 + 0.10, 0.08, 0.66);
+    float dt = frameDt();
+    float historyFade = exp(dt * mix(-4.353, -3.078, lengthCurve));
+    float bfBase = clamp(source * 0.56 + 0.10, 0.08, 0.66);
+    float blendFactor = 1.0 - exp(60.0 * log(1.0 - bfBase) * dt);
     float alpha = clamp(mix(previous.a * historyFade, source, blendFactor), 0.0, 0.95);
     alpha = max(alpha, previous.a * historyFade);
 

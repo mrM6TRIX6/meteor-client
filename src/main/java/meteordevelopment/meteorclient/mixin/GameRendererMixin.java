@@ -23,6 +23,10 @@ import meteordevelopment.meteorclient.systems.modules.Modules;
 import meteordevelopment.meteorclient.systems.modules.render.Freecam;
 import meteordevelopment.meteorclient.systems.modules.render.NoRender;
 import meteordevelopment.meteorclient.utils.Utils;
+import meteordevelopment.meteorclient.utils.render.post.handsflame.HandsFlameRenderer;
+import meteordevelopment.meteorclient.utils.render.post.handsflame.HandsItemHitboxTracker;
+import meteordevelopment.meteorclient.utils.render.post.handsflame.IrisShaderCompat;
+import meteordevelopment.meteorclient.utils.render.post.shaderhands.ShaderHandsRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.render.GuiRenderer;
@@ -197,20 +201,6 @@ public abstract class GameRendererMixin {
         }
     }
     
-    @Unique
-    private DrawContext meteor$newGuiGraphics() {
-        int mouseX = client.mouse == null || client.getWindow() == null
-            ? 0
-            : (int) Math.round(client.mouse.getScaledX(client.getWindow()));
-        
-        int mouseY = client.mouse == null || client.getWindow() == null
-            ? 0
-            : (int) Math.round(client.mouse.getScaledY(client.getWindow()));
-        
-        return new DrawContext(client, guiState, mouseX, mouseY);
-    }
-    
-    
     @Inject(method = "showFloatingItem", at = @At("HEAD"), cancellable = true)
     private void onShowFloatingItem(ItemStack floatingItem, CallbackInfo ci) {
         if (floatingItem.getItem() == Items.TOTEM_OF_UNDYING && Modules.get().get(NoRender.class).noTotemAnimation()) {
@@ -272,7 +262,24 @@ public abstract class GameRendererMixin {
     private void renderHand(float tickProgress, boolean sleeping, Matrix4f positionMatrix, CallbackInfo ci) {
         if (!Modules.get().get(Freecam.class).renderHands()) {
             ci.cancel();
+            return;
         }
+
+        boolean irisActive = IrisShaderCompat.isShaderPackInUse();
+        ShaderHandsRenderer.beginHandFrame();
+        HandsItemHitboxTracker.captureProjection(positionMatrix);
+        if (!irisActive) {
+            HandsFlameRenderer.captureBeforeHandRender();
+        }
+    }
+
+    @Inject(method = "renderHand", at = @At("RETURN"))
+    private void meteor$captureHandsAfter(float tickProgress, boolean sleeping, Matrix4f positionMatrix, CallbackInfo ci) {
+        if (IrisShaderCompat.isShaderPackInUse()) {
+            return;
+        }
+        HandsFlameRenderer.captureAfterHandRender();
+        HandsFlameRenderer.renderCapturedHandsFlame();
     }
     
 }

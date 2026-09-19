@@ -93,6 +93,8 @@ public class MixinPlugin implements IMixinConfigPlugin {
             return isLithiumPresent;
         } else if (mixinClassName.startsWith(mixinPackage + ".viafabricplus")) {
             return isVFPPresent;
+        } else if (mixinClassName.startsWith(mixinPackage + ".iris")) {
+            return isIrisPresent;
         }
         return true;
     }
@@ -111,28 +113,28 @@ public class MixinPlugin implements IMixinConfigPlugin {
     @Override
     public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {}
     
-    public static boolean isLithiumPresent() {
-        return isLithiumPresent;
-    }
-    
-    public static boolean isVFPPresent() {
-        return isVFPPresent;
-    }
-    
-    public static boolean isIrisPresent() {
-        return isIrisPresent;
-    }
-    
-    public static boolean isSodiumPresent() {
-        return isSodiumPresent;
+    public static boolean isOriginsPresent() {
+        return isOriginsPresent;
     }
     
     public static boolean isIndigoPresent() {
         return isIndigoPresent;
     }
     
-    public static boolean isOriginsPresent() {
-        return isOriginsPresent;
+    public static boolean isSodiumPresent() {
+        return isSodiumPresent;
+    }
+    
+    public static boolean isLithiumPresent() {
+        return isLithiumPresent;
+    }
+    
+    public static boolean isIrisPresent() {
+        return isIrisPresent;
+    }
+    
+    public static boolean isVFPPresent() {
+        return isVFPPresent;
     }
     
     public static boolean isLitematicaPresent() {

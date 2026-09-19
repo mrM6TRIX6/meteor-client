@@ -516,6 +516,7 @@ public class Modules extends System<Modules> {
         add(new NoFOV());
         add(new NoRender());
         add(new BlockESP());
+        add(new ShaderHands());
         add(new StorageESP());
         add(new TimeChanger());
         add(new Tracers());
