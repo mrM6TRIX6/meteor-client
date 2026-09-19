@@ -40,8 +40,8 @@ public class StarscriptTextBoxRenderer implements WTextBox.Renderer {
 
         // Render
         for (Section section : sections) {
-            Render2D.msdf(MsdfFont.JETBRAINS_MONO_REGULAR, section.text, (int) x, (int) y, (int) GuiConstants.textSize(), section.color.getPacked());
-            x += MsdfFont.JETBRAINS_MONO_REGULAR.width(section.text, (float) GuiConstants.textSize());
+            Render2D.msdf(MsdfFont.SF_MONO, section.text, (int) x, (int) y, (int) GuiConstants.textSize(), section.color.getPacked());
+            x += MsdfFont.SF_MONO.width(section.text, (float) GuiConstants.textSize());
         }
     }
 

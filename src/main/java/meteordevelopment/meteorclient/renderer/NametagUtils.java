@@ -6,15 +6,14 @@
 package meteordevelopment.meteorclient.renderer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.utils.Utils;
 import meteordevelopment.meteorclient.utils.render.ui.Render2D;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.util.math.MathHelper;
 import org.joml.*;
 
-import static meteordevelopment.meteorclient.MeteorClient.mc;
-
-public class NametagUtils {
+public class NametagUtils implements IMinecraft {
     
     private static final Vector4f vec4 = new Vector4f();
     private static final Vector4f mmMat4 = new Vector4f();
@@ -113,6 +112,19 @@ public class NametagUtils {
     public static void end(DrawContext drawContext) {
         end();
         drawContext.getMatrices().popMatrix();
+    }
+    
+    public static void render(DrawContext drawContext, Vector3d pos, Runnable block) {
+        begin(pos, drawContext);
+        Render2D.beginFrame(drawContext, Render2D.Space.VANILLA);
+        
+        try {
+            block.run();
+            Render2D.flush();
+        } finally {
+            Render2D.endFrame();
+            end(drawContext);
+        }
     }
     
     private static double getScale(Vector3d pos) {

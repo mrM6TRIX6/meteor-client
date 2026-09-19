@@ -6,7 +6,6 @@
 package meteordevelopment.meteorclient.systems.commands.impl;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import meteordevelopment.meteorclient.renderer.engine.Fonts;
 import meteordevelopment.meteorclient.systems.Systems;
 import meteordevelopment.meteorclient.systems.commands.Command;
 import meteordevelopment.meteorclient.systems.friends.Friend;
@@ -26,7 +25,6 @@ public class ReloadCommand extends Command {
             warning("Reloading systems, this may take a while.");
             
             Systems.load();
-            Fonts.refresh();
             MeteorExecutor.execute(() -> Friends.get().forEach(Friend::updateInfo));
             
             return SINGLE_SUCCESS;

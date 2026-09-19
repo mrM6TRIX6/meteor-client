@@ -12,8 +12,6 @@ import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
-import meteordevelopment.meteorclient.renderer.engine.Renderer2D;
-import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
@@ -27,7 +25,11 @@ import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.name.Names;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -40,6 +42,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.EnchantmentTags;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
@@ -48,6 +52,12 @@ import org.joml.Vector3d;
 import java.util.*;
 
 public class Nametags extends Module {
+
+    private static final MsdfFont FONT = MsdfFont.MONTSERRAT_MEDIUM;
+    private static final float TEXT_SIZE = 8.0f;
+
+    /** Side of one rendered item, matching the scale of 2 passed to {@link RenderUtils#drawItem}. */
+    private static final float ITEM_SIZE = 32.0f;
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgPlayers = settings.createGroup("Players");
@@ -353,7 +363,6 @@ public class Nametags extends Module {
     @EventHandler
     private void onRender2D(Render2DEvent event) {
         int count = getRenderCount();
-        boolean shadow = true;
         
         for (int i = count - 1; i > -1; i--) {
             Entity entity = entityList.get(i);
@@ -363,22 +372,24 @@ public class Nametags extends Module {
             
             EntityType<?> type = entity.getType();
             
-            if (NametagUtils.to2D(pos, scale.get())) {
-                if (type == EntityType.PLAYER) {
-                    renderNametagPlayer(event, (PlayerEntity) entity, shadow);
-                } else if (type == EntityType.ITEM) {
-                    renderNametagItem(((ItemEntity) entity).getStack(), shadow);
-                } else if (type == EntityType.ITEM_FRAME || type == EntityType.GLOW_ITEM_FRAME) {
-                    renderNametagItem(((ItemFrameEntity) entity).getHeldItemStack(), shadow);
-                } else if (type == EntityType.TNT) {
-                    renderTntNametag(ticksToTime(((TntEntity) entity).getFuse()), shadow);
-                } else if (type == EntityType.TNT_MINECART && ((TntMinecartEntity) entity).isPrimed()) {
-                    renderTntNametag(ticksToTime(((TntMinecartEntity) entity).getFuseTicks()), shadow);
-                } else if (entity instanceof LivingEntity) {
-                    renderGenericLivingNametag((LivingEntity) entity, shadow);
-                } else {
-                    renderGenericNametag(entity, shadow);
-                }
+            if (!NametagUtils.to2D(pos, scale.get())) {
+                continue;
+            }
+            
+            if (type == EntityType.PLAYER) {
+                renderNametagPlayer(event, (PlayerEntity) entity);
+            } else if (type == EntityType.ITEM) {
+                renderNametagItem(event.drawContext, ((ItemEntity) entity).getStack());
+            } else if (type == EntityType.ITEM_FRAME || type == EntityType.GLOW_ITEM_FRAME) {
+                renderNametagItem(event.drawContext, ((ItemFrameEntity) entity).getHeldItemStack());
+            } else if (type == EntityType.TNT) {
+                renderTntNametag(event.drawContext, ticksToTime(((TntEntity) entity).getFuse()));
+            } else if (type == EntityType.TNT_MINECART && ((TntMinecartEntity) entity).isPrimed()) {
+                renderTntNametag(event.drawContext, ticksToTime(((TntMinecartEntity) entity).getFuseTicks()));
+            } else if (entity instanceof LivingEntity livingEntity) {
+                renderGenericLivingNametag(event.drawContext, livingEntity);
+            } else {
+                renderGenericNametag(event.drawContext, entity);
             }
         }
     }
@@ -407,10 +418,7 @@ public class Nametags extends Module {
         return height;
     }
     
-    private void renderNametagPlayer(Render2DEvent event, PlayerEntity player, boolean shadow) {
-        TextRenderer text = TextRenderer.get();
-        NametagUtils.begin(pos, event.drawContext);
-        
+    private void renderNametagPlayer(Render2DEvent event, PlayerEntity player) {
         // Gamemode
         GameMode gm = EntityUtils.getGameMode(player);
         String gmText = "BOT";
@@ -422,27 +430,25 @@ public class Nametags extends Module {
                 case ADVENTURE -> "A";
             };
         }
-        
+
         gmText = "[" + gmText + "] ";
-        
+
         // Name
         String name;
         Color nameColor = PlayerUtils.getPlayerColor(player, this.nameColor.get());
-        
+
         if (player == mc.player) {
             name = Modules.get().get(NameProtect.class).getName(player.getName().getString());
         } else {
             name = player.getName().getString();
         }
-        
+
         // Health
         float absorption = player.getAbsorptionAmount();
         int health = Math.round(player.getHealth() + absorption);
         double healthPercentage = health / (player.getMaxHealth() + absorption);
-        
-        String healthText = " " + health;
+
         Color healthColor;
-        
         if (healthPercentage <= 0.333) {
             healthColor = RED;
         } else if (healthPercentage <= 0.666) {
@@ -450,239 +456,184 @@ public class Nametags extends Module {
         } else {
             healthColor = GREEN;
         }
-        
-        // Ping
-        int ping = EntityUtils.getPing(player);
-        String pingText = " [" + ping + "ms]";
-        
-        // Distance
-        double dist = Math.round(PlayerUtils.distanceToCamera(player) * 10.0) / 10.0;
-        String distText = " " + dist + "m";
-        
-        // Calc widths
-        double gmWidth = text.getWidth(gmText, shadow);
-        double nameWidth = text.getWidth(name, shadow);
-        double healthWidth = text.getWidth(healthText, shadow);
-        double pingWidth = text.getWidth(pingText, shadow);
-        double distWidth = text.getWidth(distText, shadow);
-        
-        double width = nameWidth;
-        
+
         boolean renderPlayerDistance = player != mc.getCameraEntity() || Modules.get().isActive(Freecam.class);
-        
-        if (displayHealth.get()) {
-            width += healthWidth;
-        }
+
+        MutableText text = Text.empty();
+
         if (displayGameMode.get()) {
-            width += gmWidth;
+            text.append(Text.literal(gmText).styled(s -> gamemodeColor.get().styleWith(s)));
+        }
+        text.append(Text.literal(name).styled(s -> nameColor.styleWith(s)));
+
+        if (displayHealth.get()) {
+            text.append(Text.literal(" " + health).styled(s -> healthColor.styleWith(s)));
         }
         if (displayPing.get()) {
-            width += pingWidth;
+            text.append(Text.literal(" [" + EntityUtils.getPing(player) + "ms]").styled(s -> pingColor.get().styleWith(s)));
         }
         if (displayDistance.get() && renderPlayerDistance) {
-            width += distWidth;
+            double dist = Math.round(PlayerUtils.distanceToCamera(player) * 10.0) / 10.0;
+            Color color = switch (distanceColorMode.get()) {
+                case MODE -> distanceColor.get();
+                case GRADIENT -> EntityUtils.getColorFromDistance(player);
+            };
+            text.append(Text.literal(" " + dist + "m").styled(s -> color.styleWith(s)));
         }
-        
-        double widthHalf = width / 2;
-        double heightDown = text.getHeight(shadow);
-        
-        drawBg(-widthHalf, -heightDown, width, heightDown);
-        
-        // Render texts
-        text.beginBig();
-        double hX = -widthHalf;
-        double hY = -heightDown;
-        
-        if (displayGameMode.get()) {
-            hX = text.render(gmText, hX, hY, gamemodeColor.get(), shadow);
-        }
-        hX = text.render(name, hX, hY, nameColor, shadow);
-        
-        if (displayHealth.get()) {
-            hX = text.render(healthText, hX, hY, healthColor, shadow);
-        }
-        if (displayPing.get()) {
-            hX = text.render(pingText, hX, hY, pingColor.get(), shadow);
-        }
-        if (displayDistance.get() && renderPlayerDistance) {
-            switch (distanceColorMode.get()) {
-                case MODE -> text.render(distText, hX, hY, distanceColor.get(), shadow);
-                case GRADIENT -> text.render(distText, hX, hY, EntityUtils.getColorFromDistance(player), shadow);
+
+        float width = FONT.width(text, TEXT_SIZE);
+        float height = FONT.height(TEXT_SIZE);
+        float widthHalf = width / 2;
+
+        MutableText finalText = text;
+        NametagUtils.render(event.drawContext, pos, () -> {
+            drawBg(-widthHalf, -height, width, height);
+            Render2D.msdf(new BuiltMsdf(FONT, finalText, (int) (-widthHalf), (int) (-height), (int) TEXT_SIZE));
+
+            if (displayItems.get()) {
+                renderItems(event.drawContext, player, height);
+            } else if (displayEnchants.get()) {
+                displayEnchants.set(false);
             }
-        }
-        
-        text.end();
-        
-        if (displayItems.get()) {
-            // Item calc
-            Arrays.fill(itemWidths, 0);
-            boolean hasItems = false;
-            int maxEnchantCount = 0;
-            
-            for (int i = 0; i < 6; i++) {
-                ItemStack itemStack = getItem(player, i);
-                
-                // Setting up widths
-                if (itemWidths[i] == 0 && (!ignoreEmpty.get() || !itemStack.isEmpty())) {
-                    itemWidths[i] = 32 + itemSpacing.get();
-                }
-                
-                if (!itemStack.isEmpty()) {
-                    hasItems = true;
-                }
-                
-                if (displayEnchants.get()) {
-                    ItemEnchantmentsComponent enchantments = EnchantmentHelper.getEnchantments(itemStack);
-                    
-                    int size = 0;
-                    for (RegistryEntry<Enchantment> enchantment : enchantments.getEnchantments()) {
-                        if (enchantment.getKey().isPresent() && !shownEnchantments.get().contains(enchantment.getKey().get())) {
-                            continue;
-                        }
-                        String enchantName = Utils.getEnchantSimpleName(enchantment, enchantLength.get()) + " " + enchantments.getLevel(enchantment);
-                        itemWidths[i] = Math.max(itemWidths[i], (text.getWidth(enchantName, shadow) / 2));
-                        size++;
-                    }
-                    
-                    maxEnchantCount = Math.max(maxEnchantCount, size);
-                }
-            }
-            
-            double itemsHeight = (hasItems ? 32 : 0);
-            double itemWidthTotal = 0;
-            for (double w : itemWidths) {
-                itemWidthTotal += w;
-            }
-            double itemWidthHalf = itemWidthTotal / 2;
-            
-            double y = -heightDown - 7 - itemsHeight;
-            double x = -itemWidthHalf;
-            
-            // Rendering items and enchants
-            for (int i = 0; i < 6; i++) {
-                ItemStack stack = getItem(player, i);
-                
-                RenderUtils.drawItem(event.drawContext, stack, (int) x, (int) y, 2, true, null, false);
-                
-                if (stack.isDamageable() && itemDurability.get() != Durability.NONE) {
-                    text.begin(0.75, false, true);
-                    
-                    String damageText = switch (itemDurability.get()) {
-                        case PERCENTAGE ->
-                            String.format("%.0f%%", ((stack.getMaxDamage() - stack.getDamage()) * 100f) / (float) stack.getMaxDamage());
-                        case TOTAL -> Integer.toString(stack.getMaxDamage() - stack.getDamage());
-                        default -> "err";
-                    };
-                    Color damageColor = new Color(stack.getItemBarColor());
-                    
-                    text.render(damageText, (int) x, (int) y, damageColor.a(255), true);
-                    text.end();
-                }
-                
-                if (maxEnchantCount > 0 && displayEnchants.get()) {
-                    text.begin(0.5 * enchantTextScale.get(), false, true);
-                    
-                    ItemEnchantmentsComponent enchantments = EnchantmentHelper.getEnchantments(stack);
-                    Object2IntMap<RegistryEntry<Enchantment>> enchantmentsToShow = new Object2IntOpenHashMap<>();
-                    
-                    for (RegistryEntry<Enchantment> enchantment : enchantments.getEnchantments()) {
-                        if (enchantment.matches(shownEnchantments.get()::contains)) {
-                            enchantmentsToShow.put(enchantment, enchantments.getLevel(enchantment));
-                        }
-                    }
-                    
-                    double aW = itemWidths[i];
-                    double enchantY = 0;
-                    
-                    double addY = switch (enchantPos.get()) {
-                        case ABOVE -> -((enchantmentsToShow.size() + 1) * text.getHeight(shadow));
-                        case ON_TOP -> (itemsHeight - enchantmentsToShow.size() * text.getHeight(shadow)) / 2;
-                    };
-                    
-                    double enchantX;
-                    
-                    for (Object2IntMap.Entry<RegistryEntry<Enchantment>> entry : Object2IntMaps.fastIterable(enchantmentsToShow)) {
-                        String enchantName = Utils.getEnchantSimpleName(entry.getKey(), enchantLength.get()) + " " + entry.getIntValue();
-                        
-                        Color enchantColor = WHITE;
-                        if (entry.getKey().isIn(EnchantmentTags.CURSE)) {
-                            enchantColor = RED;
-                        }
-                        
-                        enchantX = switch (enchantPos.get()) {
-                            case ABOVE -> x + (aW / 2) - (text.getWidth(enchantName, shadow) / 2);
-                            case ON_TOP -> x + (aW - text.getWidth(enchantName, shadow)) / 2;
-                        };
-                        
-                        text.render(enchantName, enchantX, y + addY + enchantY, enchantColor, shadow);
-                        
-                        enchantY += text.getHeight(shadow);
-                    }
-                    
-                    text.end();
-                }
-                
-                x += itemWidths[i];
-            }
-        } else if (displayEnchants.get()) {
-            displayEnchants.set(false);
-        }
-        
-        NametagUtils.end(event.drawContext);
+        });
     }
-    
-    private void renderNametagItem(ItemStack stack, boolean shadow) {
+
+    /**
+     * Items and their enchantments sit above the name line, so this runs inside the same
+     * {@link NametagUtils#render} block and takes {@code nameHeight} to know where that line ended.
+     */
+    private void renderItems(DrawContext context, PlayerEntity player, float nameHeight) {
+        Arrays.fill(itemWidths, 0);
+        boolean hasItems = false;
+        int maxEnchantCount = 0;
+
+        float enchantSize = TEXT_SIZE * enchantTextScale.get().floatValue();
+        float enchantHeight = FONT.height(enchantSize);
+
+        for (int i = 0; i < 6; i++) {
+            ItemStack itemStack = getItem(player, i);
+
+            if (itemWidths[i] == 0 && (!ignoreEmpty.get() || !itemStack.isEmpty())) {
+                itemWidths[i] = ITEM_SIZE + itemSpacing.get();
+            }
+
+            if (!itemStack.isEmpty()) {
+                hasItems = true;
+            }
+
+            if (displayEnchants.get()) {
+                ItemEnchantmentsComponent enchantments = EnchantmentHelper.getEnchantments(itemStack);
+
+                int size = 0;
+                for (RegistryEntry<Enchantment> enchantment : enchantments.getEnchantments()) {
+                    if (enchantment.getKey().isEmpty() || !shownEnchantments.get().contains(enchantment.getKey().get())) {
+                        continue;
+                    }
+                    String enchantName = Utils.getEnchantSimpleName(enchantment, enchantLength.get()) + " " + enchantments.getLevel(enchantment);
+                    itemWidths[i] = Math.max(itemWidths[i], FONT.width(enchantName, enchantSize));
+                    size++;
+                }
+
+                maxEnchantCount = Math.max(maxEnchantCount, size);
+            }
+        }
+
+        double itemsHeight = hasItems ? ITEM_SIZE : 0;
+        double itemWidthTotal = 0;
+        for (double w : itemWidths) {
+            itemWidthTotal += w;
+        }
+
+        double y = -nameHeight - 7 - itemsHeight;
+        double x = -itemWidthTotal / 2;
+
+        for (int i = 0; i < 6; i++) {
+            ItemStack stack = getItem(player, i);
+
+            RenderUtils.drawItem(context, stack, (int) x, (int) y, 2, true, null, false);
+
+            if (stack.isDamageable() && itemDurability.get() != Durability.NONE) {
+                String damageText = switch (itemDurability.get()) {
+                    case PERCENTAGE ->
+                        String.format("%.0f%%", ((stack.getMaxDamage() - stack.getDamage()) * 100f) / (float) stack.getMaxDamage());
+                    case TOTAL -> Integer.toString(stack.getMaxDamage() - stack.getDamage());
+                    default -> "err";
+                };
+
+                Render2D.msdf(new BuiltMsdf(
+                    FONT,
+                    damageText,
+                    (int) x,
+                    (int) y,
+                    (int) (TEXT_SIZE * 0.75f),
+                    new Color(stack.getItemBarColor()).a(255).getPacked()
+                ));
+            }
+
+            if (maxEnchantCount > 0 && displayEnchants.get()) {
+                ItemEnchantmentsComponent enchantments = EnchantmentHelper.getEnchantments(stack);
+                Object2IntMap<RegistryEntry<Enchantment>> enchantmentsToShow = new Object2IntOpenHashMap<>();
+
+                for (RegistryEntry<Enchantment> enchantment : enchantments.getEnchantments()) {
+                    if (enchantment.matches(shownEnchantments.get()::contains)) {
+                        enchantmentsToShow.put(enchantment, enchantments.getLevel(enchantment));
+                    }
+                }
+
+                double aW = itemWidths[i];
+                double enchantY = 0;
+
+                double addY = switch (enchantPos.get()) {
+                    case ABOVE -> -((enchantmentsToShow.size() + 1) * enchantHeight);
+                    case ON_TOP -> (itemsHeight - enchantmentsToShow.size() * enchantHeight) / 2;
+                };
+
+                for (Object2IntMap.Entry<RegistryEntry<Enchantment>> entry : Object2IntMaps.fastIterable(enchantmentsToShow)) {
+                    String enchantName = Utils.getEnchantSimpleName(entry.getKey(), enchantLength.get()) + " " + entry.getIntValue();
+
+                    Color enchantColor = entry.getKey().isIn(EnchantmentTags.CURSE) ? RED : WHITE;
+                    double enchantX = x + (aW - FONT.width(enchantName, enchantSize)) / 2;
+
+                    Render2D.msdf(new BuiltMsdf(
+                        FONT,
+                        enchantName,
+                        (int) enchantX,
+                        (int) (y + addY + enchantY),
+                        (int) enchantSize,
+                        enchantColor.getPacked()
+                    ));
+
+                    enchantY += enchantHeight;
+                }
+            }
+
+            x += itemWidths[i];
+        }
+    }
+
+
+
+
+    private void renderNametagItem(DrawContext context, ItemStack stack) {
         if (stack.isEmpty()) {
             return;
         }
-        
-        TextRenderer text = TextRenderer.get();
-        NametagUtils.begin(pos);
-        
-        String name = Names.get(stack);
-        String count = " x" + stack.getCount();
-        
-        double nameWidth = text.getWidth(name, shadow);
-        double countWidth = text.getWidth(count, shadow);
-        double heightDown = text.getHeight(shadow);
-        
-        double width = nameWidth;
+
+        MutableText text = Text.literal(Names.get(stack)).styled(s -> nameColor.get().styleWith(s));
+
         if (itemCount.get()) {
-            width += countWidth;
+            text.append(Text.literal(" x" + stack.getCount()).styled(s -> GOLD.styleWith(s)));
         }
-        double widthHalf = width / 2;
-        
-        drawBg(-widthHalf, -heightDown, width, heightDown);
-        
-        text.beginBig();
-        double hX = -widthHalf;
-        double hY = -heightDown;
-        
-        hX = text.render(name, hX, hY, nameColor.get(), shadow);
-        if (itemCount.get()) {
-            text.render(count, hX, hY, GOLD, shadow);
-        }
-        text.end();
-        
-        NametagUtils.end();
+
+        renderLine(context, text);
     }
-    
-    private void renderGenericLivingNametag(LivingEntity entity, boolean shadow) {
-        TextRenderer text = TextRenderer.get();
-        NametagUtils.begin(pos);
-        
-        //Name
-        String nameText = entity.getType().getName().getString();
-        nameText += " ";
-        
-        //Health
+
+    private void renderGenericLivingNametag(DrawContext context, LivingEntity entity) {
         float absorption = entity.getAbsorptionAmount();
         int health = Math.round(entity.getHealth() + absorption);
         double healthPercentage = health / (entity.getMaxHealth() + absorption);
-        
-        String healthText = String.valueOf(health);
+
         Color healthColor;
-        
         if (healthPercentage <= 0.333) {
             healthColor = RED;
         } else if (healthPercentage <= 0.666) {
@@ -690,71 +641,37 @@ public class Nametags extends Module {
         } else {
             healthColor = GREEN;
         }
+
+        Text text = Text.empty()
+            .append(Text.literal(entity.getType().getName().getString() + " ").styled(s -> nameColor.get().styleWith(s)))
+            .append(Text.literal(String.valueOf(health)).styled(s -> healthColor.styleWith(s)));
         
-        double nameWidth = text.getWidth(nameText, shadow);
-        double healthWidth = text.getWidth(healthText, shadow);
-        double heightDown = text.getHeight(shadow);
-        
-        double width = nameWidth + healthWidth;
-        double widthHalf = width / 2;
-        
-        drawBg(-widthHalf, -heightDown, width, heightDown);
-        
-        text.beginBig();
-        double hX = -widthHalf;
-        double hY = -heightDown;
-        
-        hX = text.render(nameText, hX, hY, nameColor.get(), shadow);
-        text.render(healthText, hX, hY, healthColor, shadow);
-        text.end();
-        
-        NametagUtils.end();
+        renderLine(context, text);
     }
-    
-    private void renderGenericNametag(Entity entity, boolean shadow) {
-        TextRenderer text = TextRenderer.get();
-        NametagUtils.begin(pos);
-        
-        //Name
-        String nameText = entity.getType().getName().getString();
-        
-        double nameWidth = text.getWidth(nameText, shadow);
-        double heightDown = text.getHeight(shadow);
-        double widthHalf = nameWidth / 2;
-        
-        drawBg(-widthHalf, -heightDown, nameWidth, heightDown);
-        
-        text.beginBig();
-        double hX = -widthHalf;
-        double hY = -heightDown;
-        
-        text.render(nameText, hX, hY, nameColor.get(), shadow);
-        text.end();
-        
-        NametagUtils.end();
+
+    private void renderGenericNametag(DrawContext context, Entity entity) {
+        Text text = Text.literal(entity.getType().getName().getString())
+            .styled(s -> nameColor.get().styleWith(s));
+        renderLine(context, text);
     }
-    
-    private void renderTntNametag(String fuseText, boolean shadow) {
-        TextRenderer text = TextRenderer.get();
-        NametagUtils.begin(pos);
-        
-        double width = text.getWidth(fuseText, shadow);
-        double heightDown = text.getHeight(shadow);
-        
-        double widthHalf = width / 2;
-        
-        drawBg(-widthHalf, -heightDown, width, heightDown);
-        
-        text.beginBig();
-        double hX = -widthHalf;
-        double hY = -heightDown;
-        
-        text.render(fuseText, hX, hY, nameColor.get(), shadow);
-        text.end();
-        
-        NametagUtils.end();
+
+    private void renderTntNametag(DrawContext context, String fuseText) {
+        Text text = Text.literal(fuseText).styled(s -> nameColor.get().styleWith(s));
+        renderLine(context, text);
     }
-    
+
+    /** Draws a single-line nametag, centred above {@link #pos} and sitting on its background. */
+    private void renderLine(DrawContext context, Text text) {
+        float width = FONT.width(text, TEXT_SIZE);
+        float height = FONT.height(TEXT_SIZE);
+        float widthHalf = width / 2;
+
+        NametagUtils.render(context, pos, () -> {
+            drawBg(-widthHalf, -height, width, height);
+            Render2D.msdf(new BuiltMsdf(FONT, text, (int) (-widthHalf), (int) (-height), (int) TEXT_SIZE));
+        });
+    }
+
     private ItemStack getItem(PlayerEntity entity, int index) {
         return switch (index) {
             case 0 -> entity.getMainHandStack();
@@ -766,12 +683,11 @@ public class Nametags extends Module {
             default -> ItemStack.EMPTY;
         };
     }
-    
+
     private void drawBg(double x, double y, double width, double height) {
-        Renderer2D.COLOR.begin();
-        Renderer2D.COLOR.quad(x - 1, y - 1, width + 2, height + 2, background.get());
-        Renderer2D.COLOR.render();
+        Render2D.rect((float) x - 2, (float) y - 1, (float) width + 4, (float) height + 2, 1, background.get().getPacked());
     }
+
     
     public boolean excludeBots() {
         return ignoreBots.get();

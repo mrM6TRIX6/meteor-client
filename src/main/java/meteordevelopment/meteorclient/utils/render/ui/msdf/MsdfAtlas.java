@@ -14,15 +14,21 @@ public record MsdfAtlas(
     MsdfGlyph[] asciiGlyphs,
     TextureSetup textureSetup,
     float fontSize,
-    float distanceRange
+    float distanceRange,
+    float lineHeight,
+    float ascender,
+    float descender
 ) {
+    
+    public static final float DEFAULT_ASCENDER = 0.95f;
+    public static final float DEFAULT_DESCENDER = -0.25f;
     
     boolean ready() {
         return !glyphs.isEmpty();
     }
     
     MsdfAtlas withTextureSetup(TextureSetup setup) {
-        return new MsdfAtlas(glyphs, asciiGlyphs, setup, fontSize, distanceRange);
+        return new MsdfAtlas(glyphs, asciiGlyphs, setup, fontSize, distanceRange, lineHeight, ascender, descender);
     }
     
 }

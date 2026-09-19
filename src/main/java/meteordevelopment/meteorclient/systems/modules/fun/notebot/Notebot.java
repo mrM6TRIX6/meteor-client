@@ -18,7 +18,6 @@ import meteordevelopment.meteorclient.gui.widgets.containers.WTable;
 import meteordevelopment.meteorclient.gui.widgets.pressable.WButton;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
-import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
@@ -32,6 +31,9 @@ import meteordevelopment.meteorclient.systems.modules.fun.notebot.song.Song;
 import meteordevelopment.meteorclient.utils.name.IDisplayName;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import meteordevelopment.orbit.EventHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -40,6 +42,7 @@ import net.minecraft.block.enums.NoteBlockInstrument;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -59,6 +62,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Notebot extends Module {
+    
+    private static final MsdfFont FONT = MsdfFont.MONTSERRAT_SEMIBOLD;
+    private static final float TEXT_SIZE = 8.0f;
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgNoteMap = settings.createGroup("Note Map", false);
@@ -378,41 +384,24 @@ public class Notebot extends Module {
                 continue;
             }
             
-            double x = blockPos.getX() + 0.5;
-            double y = blockPos.getY() + 1;
-            double z = blockPos.getZ() + 0.5;
-            
-            pos.set(x, y, z);
-            
-            // Render level text logic
-            
-            String levelText = String.valueOf(state.get(NoteBlock.NOTE));
-            String tuneHitsText = null;
-            if (tuneHits.containsKey(blockPos)) {
-                tuneHitsText = " -" + tuneHits.get(blockPos);
-            }
+            pos.set(blockPos.getX() + 0.5, blockPos.getY() + 1, blockPos.getZ() + 0.5);
             
             if (!NametagUtils.to2D(pos, noteTextScale.get(), true)) {
                 continue;
             }
             
-            TextRenderer text = TextRenderer.get();
+            Text text = Text.literal(String.valueOf(state.get(NoteBlock.NOTE))).styled(Color.GREEN::styleWith);
             
-            NametagUtils.begin(pos);
-            text.beginBig();
-            
-            double xScreen = text.getWidth(levelText) / 2.0;
-            if (tuneHitsText != null) {
-                xScreen += text.getWidth(tuneHitsText) / 2.0;
+            if (tuneHits.containsKey(blockPos)) {
+                text = Text.empty()
+                    .append(text)
+                    .append(Text.literal(" -" + tuneHits.get(blockPos)).styled(Color.RED::styleWith));
             }
             
-            double hX = text.render(levelText, -xScreen, 0, Color.GREEN);
-            if (tuneHitsText != null) {
-                text.render(tuneHitsText, hX, 0, Color.RED);
-            }
-            text.end();
+            float width = FONT.width(text, TEXT_SIZE);
+            Text finalText = text;
             
-            NametagUtils.end();
+            NametagUtils.render(event.drawContext, pos, () -> Render2D.msdf(new BuiltMsdf(FONT, finalText, (int) (-width / 2), 0, (int) TEXT_SIZE)));
         }
     }
     

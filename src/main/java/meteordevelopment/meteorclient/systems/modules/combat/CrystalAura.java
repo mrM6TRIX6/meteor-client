@@ -19,7 +19,6 @@ import meteordevelopment.meteorclient.mixininterface.IVec3d;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
 import meteordevelopment.meteorclient.renderer.RenderUtils;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
-import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.*;
@@ -36,6 +35,9 @@ import meteordevelopment.meteorclient.utils.player.InventoryUtils;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.player.Rotations;
 import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import meteordevelopment.meteorclient.utils.world.BlockIterator;
 import meteordevelopment.meteorclient.utils.world.BlockUtils;
 import meteordevelopment.meteorclient.utils.world.TickRate;
@@ -55,6 +57,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.c2s.play.*;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -69,6 +72,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CrystalAura extends Module {
+    
+    private static final MsdfFont FONT = MsdfFont.MONTSERRAT_SEMIBOLD;
+    private static final float TEXT_SIZE = 8.0f;
     
     private final SettingGroup sgGeneral = settings.getDefaultGroup();
     private final SettingGroup sgSwitch = settings.createGroup("Switch");
@@ -1503,15 +1509,17 @@ public class CrystalAura extends Module {
         }
         
         if (NametagUtils.to2D(vec3, damageTextScale.get())) {
-            NametagUtils.begin(vec3);
-            TextRenderer.get().begin(1, false, true);
+            Text text = Text.literal(String.format("%.1f", renderDamage))
+                .styled(s -> damageColor.get().styleWith(s));
+            float width = FONT.width(text, TEXT_SIZE);
             
-            String text = String.format("%.1f", renderDamage);
-            double w = TextRenderer.get().getWidth(text) / 2;
-            TextRenderer.get().render(text, -w, 0, damageColor.get(), true);
-            
-            TextRenderer.get().end();
-            NametagUtils.end();
+            NametagUtils.render(event.drawContext, vec3, () -> Render2D.msdf(new BuiltMsdf(
+                FONT,
+                text,
+                (int) (-width / 2),
+                (int) (-FONT.height(TEXT_SIZE) / 2),
+                (int) TEXT_SIZE
+            )));
         }
     }
     

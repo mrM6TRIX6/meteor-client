@@ -12,9 +12,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.textures.FilterMode;
 import meteordevelopment.meteorclient.IMinecraft;
 import meteordevelopment.meteorclient.MeteorClient;
+import meteordevelopment.meteorclient.utils.reflect.PreInit;
 import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.TextureSetup;
 import net.minecraft.resource.Resource;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.io.InputStream;
@@ -28,8 +30,9 @@ public enum MsdfFont implements IMinecraft {
     MONTSERRAT_MEDIUM("montserrat_medium"),
     MONTSERRAT_SEMIBOLD("montserrat_semibold"),
     MONTSERRAT_BOLD("montserrat_bold"),
-    JETBRAINS_MONO_REGULAR("jetbrains_mono_regular");
+    SF_MONO("sf_mono");
     
+    private static final float DEFAULT_LINE_HEIGHT = 1.2f;
     private static final int MAX_WIDTH_CACHE = 512;
     private final Map<MsdfWidthKey, Float> widthCache = new LinkedHashMap<>(128, 0.75f, true) {
         @Override
@@ -44,6 +47,11 @@ public enum MsdfFont implements IMinecraft {
     MsdfFont(String fontName) {
         this.fontName = fontName;
         this.atlas = load();
+    }
+    
+    @PreInit
+    public static void init() {
+        MeteorClient.LOGGER.info("Msdf initialized");
     }
     
     public String fontName() {
@@ -78,6 +86,22 @@ public enum MsdfFont implements IMinecraft {
             }
         }
         return true;
+    }
+    
+    public float ascent(float size) {
+        return atlas.ascender() * size;
+    }
+    
+    public float descent(float size) {
+        return -atlas.descender() * size;
+    }
+    
+    public float height(float size) {
+        return (atlas.ascender() - atlas.descender()) * size;
+    }
+    
+    public float lineHeight(float size) {
+        return atlas.lineHeight() * size;
     }
     
     public float width(String text, float size) {
@@ -118,23 +142,49 @@ public enum MsdfFont implements IMinecraft {
         return width;
     }
     
+    public float width(Text text, float size) {
+        if (text == null || size <= 0.0f) {
+            return 0.0f;
+        }
+        
+        if (!atlas.ready()) {
+            return 0.0f;
+        }
+        
+        float scale = size / atlas.fontSize();
+        float[] width = new float[]{0.0f};
+        
+        text.asOrderedText().accept((index, style, codePoint) -> {
+            MsdfGlyph glyph = glyph(codePoint);
+            if (glyph != null) {
+                width[0] += glyph.advance() * scale;
+            }
+            return true;
+        });
+        
+        return width[0];
+    }
+    
     private MsdfAtlas load() {
         Map<Integer, MsdfGlyph> glyphs = new HashMap<>();
         MsdfGlyph[] asciiGlyphs = new MsdfGlyph[128];
         
         if (mc.getResourceManager() == null) {
-            return new MsdfAtlas(glyphs, asciiGlyphs, null, 96.0f, 8.0f);
+            return emptyAtlas(glyphs, asciiGlyphs);
         }
         
         Identifier jsonId = MeteorClient.identifier("fonts/" + fontName + ".json");
         Optional<Resource> resource = mc.getResourceManager().getResource(jsonId);
         
         if (resource.isEmpty()) {
-            return new MsdfAtlas(glyphs, asciiGlyphs, null, 96.0f, 8.0f);
+            return emptyAtlas(glyphs, asciiGlyphs);
         }
         
         float fontSize = 96.0f;
         float distanceRange = 8.0f;
+        float lineHeight = DEFAULT_LINE_HEIGHT;
+        float ascender = MsdfAtlas.DEFAULT_ASCENDER;
+        float descender = MsdfAtlas.DEFAULT_DESCENDER;
         
         try (InputStream stream = resource.get().getInputStream();
             InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8)) {
@@ -145,6 +195,11 @@ public enum MsdfFont implements IMinecraft {
             fontSize = getFloat(atlas, "size", 96.0f);
             distanceRange = Math.max(1.0f, getFloat(atlas, "distanceRange", 8.0f));
             boolean originBottom = atlas.has("yOrigin") && "bottom".equalsIgnoreCase(atlas.get("yOrigin").getAsString());
+            
+            JsonObject metrics = root.getAsJsonObject("metrics");
+            lineHeight = getFloat(metrics, "lineHeight", DEFAULT_LINE_HEIGHT);
+            ascender = getFloat(metrics, "ascender", MsdfAtlas.DEFAULT_ASCENDER);
+            descender = getFloat(metrics, "descender", MsdfAtlas.DEFAULT_DESCENDER);
             
             for (JsonElement element : root.getAsJsonArray("glyphs")) {
                 JsonObject glyph = element.getAsJsonObject();
@@ -169,7 +224,6 @@ public enum MsdfFont implements IMinecraft {
                     float planeBottom = getFloat(planeBounds, "bottom", 0.0f);
                     float planeRight = getFloat(planeBounds, "right", 0.0f);
                     float planeTop = getFloat(planeBounds, "top", 0.0f);
-                    float ascender = 0.95f;
                     
                     msdfGlyph = new MsdfGlyph(
                         planeLeft * fontSize,
@@ -194,12 +248,12 @@ public enum MsdfFont implements IMinecraft {
                     asciiGlyphs[unicode] = msdfGlyph;
                 }
             }
-            MeteorClient.LOGGER.info("[MsdfFont] Font '{}' loaded", fontName);
+            MeteorClient.LOGGER.info("Font '{}' loaded", fontName);
         } catch (Exception ignored) {
             glyphs.clear();
             Arrays.fill(asciiGlyphs, null);
         }
-        return new MsdfAtlas(glyphs, asciiGlyphs, null, fontSize, distanceRange);
+        return new MsdfAtlas(glyphs, asciiGlyphs, null, fontSize, distanceRange, lineHeight, ascender, descender);
     }
     
     TextureSetup textureSetup() {
@@ -228,6 +282,19 @@ public enum MsdfFont implements IMinecraft {
             return atlas.asciiGlyphs()[codePoint];
         }
         return atlas.glyphs().get(codePoint);
+    }
+    
+    private static MsdfAtlas emptyAtlas(Map<Integer, MsdfGlyph> glyphs, MsdfGlyph[] asciiGlyphs) {
+        return new MsdfAtlas(
+            glyphs,
+            asciiGlyphs,
+            null,
+            96.0f,
+            8.0f,
+            DEFAULT_LINE_HEIGHT,
+            MsdfAtlas.DEFAULT_ASCENDER,
+            MsdfAtlas.DEFAULT_DESCENDER
+        );
     }
     
     private static float normalizeSize(float size) {

@@ -34,7 +34,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class WTextBox extends WWidget {
 
-    private static final Renderer DEFAULT_RENDERER = (context, x, y, text, color) -> Render2D.msdf(MsdfFont.JETBRAINS_MONO_REGULAR, text, (int) x, (int) y, (int) GuiConstants.textSize(), color.getPacked());
+    private static final Renderer DEFAULT_RENDERER = (context, x, y, text, color) -> Render2D.msdf(MsdfFont.SF_MONO, text, (int) x, (int) y, (int) GuiConstants.textSize(), color.getPacked());
 
     public Runnable action;
     public Runnable actionOnUnfocused;
@@ -726,7 +726,7 @@ public class WTextBox extends WWidget {
         textWidths.clear();
 
         for (int i = 0; i <= text.length(); i++) {
-            textWidths.add(MsdfFont.JETBRAINS_MONO_REGULAR.width(text.substring(0, i), (float) GuiConstants.textSize()));
+            textWidths.add(MsdfFont.SF_MONO.width(text.substring(0, i), (float) GuiConstants.textSize()));
         }
     }
     

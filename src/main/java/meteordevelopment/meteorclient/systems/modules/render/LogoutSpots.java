@@ -10,9 +10,7 @@ import meteordevelopment.meteorclient.events.render.Render2DEvent;
 import meteordevelopment.meteorclient.events.render.Render3DEvent;
 import meteordevelopment.meteorclient.events.world.TickEvent;
 import meteordevelopment.meteorclient.renderer.NametagUtils;
-import meteordevelopment.meteorclient.renderer.engine.Renderer2D;
 import meteordevelopment.meteorclient.renderer.engine.ShapeMode;
-import meteordevelopment.meteorclient.renderer.engine.text.TextRenderer;
 import meteordevelopment.meteorclient.settings.Setting;
 import meteordevelopment.meteorclient.settings.SettingGroup;
 import meteordevelopment.meteorclient.settings.impl.BoolSetting;
@@ -23,10 +21,15 @@ import meteordevelopment.meteorclient.systems.modules.Category;
 import meteordevelopment.meteorclient.systems.modules.Module;
 import meteordevelopment.meteorclient.utils.player.PlayerUtils;
 import meteordevelopment.meteorclient.utils.render.color.Color;
+import meteordevelopment.meteorclient.utils.render.ui.Render2D;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.BuiltMsdf;
+import meteordevelopment.meteorclient.utils.render.ui.msdf.MsdfFont;
 import meteordevelopment.orbit.EventHandler;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.world.dimension.DimensionType;
 import org.joml.Vector3d;
 
@@ -35,6 +38,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class LogoutSpots extends Module {
+    
+    private static final MsdfFont FONT = MsdfFont.MONTSERRAT_MEDIUM;
+    private static final float TEXT_SIZE = 8.0f;
     
     private static final Color GREEN = new Color(25, 225, 25);
     private static final Color ORANGE = new Color(225, 105, 25);
@@ -201,7 +207,7 @@ public class LogoutSpots extends Module {
     @EventHandler
     private void onRender2D(Render2DEvent event) {
         for (Entry player : players) {
-            player.render2D();
+            player.render2D(event.drawContext);
         }
     }
     
@@ -248,47 +254,39 @@ public class LogoutSpots extends Module {
             }
         }
         
-        public void render2D() {
+        public void render2D(DrawContext context) {
             if (!PlayerUtils.isWithinCamera(x, y, z, mc.options.getViewDistance().getValue() * 16)) {
                 return;
             }
             
-            TextRenderer text = TextRenderer.get();
-            double scale = LogoutSpots.this.scale.get();
             pos.set(x + halfWidth, y + height + 0.5, z + halfWidth);
             
-            if (!NametagUtils.to2D(pos, scale)) {
+            if (!NametagUtils.to2D(pos, scale.get())) {
                 return;
             }
             
-            NametagUtils.begin(pos);
+            double healthPercentage = (double) health / maxHealth;
             
-            // Compute health things
-            double healthPercendisplayNamee = (double) health / maxHealth;
-            
-            // Get health color
             Color healthColor;
-            if (healthPercendisplayNamee <= 0.333) {
+            if (healthPercentage <= 0.333) {
                 healthColor = RED;
-            } else if (healthPercendisplayNamee <= 0.666) {
+            } else if (healthPercentage <= 0.666) {
                 healthColor = ORANGE;
             } else {
                 healthColor = GREEN;
             }
             
-            // Render background
-            double i = text.getWidth(name) / 2.0 + text.getWidth(healthText) / 2.0;
-            Renderer2D.COLOR.begin();
-            Renderer2D.COLOR.quad(-i, 0, i * 2, text.getHeight(), nameBackgroundColor.get());
-            Renderer2D.COLOR.render();
+            Text text = Text.empty()
+                .append(Text.literal(name).styled(s -> nameColor.get().styleWith(s)))
+                .append(Text.literal(healthText).styled(healthColor::styleWith));
             
-            // Render name and health texts
-            text.beginBig();
-            double hX = text.render(name, -i, 0, nameColor.get());
-            text.render(healthText, hX, 0, healthColor);
-            text.end();
+            float lineWidth = FONT.width(text, TEXT_SIZE);
+            float lineHeight = FONT.height(TEXT_SIZE);
             
-            NametagUtils.end();
+            NametagUtils.render(context, pos, () -> {
+                Render2D.rect(-lineWidth / 2 - 2, -1, lineWidth + 4, lineHeight + 2, 1, nameBackgroundColor.get().getPacked());
+                Render2D.msdf(new BuiltMsdf(FONT, text, (int) (-lineWidth / 2), 0, (int) TEXT_SIZE));
+            });
         }
         
     }
